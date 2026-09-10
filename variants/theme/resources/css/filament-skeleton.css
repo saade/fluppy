@@ -1,0 +1,13 @@
+/*
+ * The theme's layer on its own. An application imports this from its own
+ * Filament theme, after Filament's, so these rules win on source order.
+ * It is compiled there, so Tailwind's `@apply` and Filament's color variables
+ * are available.
+ */
+.fi-section {
+    @apply rounded-2xl;
+}
+
+.fi-btn {
+    @apply rounded-full;
+}

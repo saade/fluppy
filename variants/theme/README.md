@@ -1,0 +1,90 @@
+# Filament Skeleton
+
+[![Latest Version on Packagist](https://img.shields.io/packagist/v/saade/filament-skeleton.svg?style=flat-square)](https://packagist.org/packages/saade/filament-skeleton)
+[![Total Downloads](https://img.shields.io/packagist/dt/saade/filament-skeleton.svg?style=flat-square)](https://packagist.org/packages/saade/filament-skeleton)
+[![Tests](https://img.shields.io/github/actions/workflow/status/saade/filament-skeleton/run-tests.yml?branch=1.x&label=tests&style=flat-square)](https://github.com/saade/filament-skeleton/actions/workflows/run-tests.yml)
+
+This is my package filament-skeleton
+
+# Version compatibility
+
+| Plugin | Filament | Install                                            |
+| ------ | -------- | -------------------------------------------------- |
+| 1.x    | 4.x, 5.x | `composer require saade/filament-skeleton:"^1.0"` |
+
+# Table of contents
+
+- [Installation](#installation)
+- [Configuration](#configuration)
+- [Testing](#testing)
+- [Changelog](#changelog)
+- [Contributing](#contributing)
+- [Security Vulnerabilities](#security-vulnerabilities)
+- [Credits](#credits)
+- [License](#license)
+
+# Installation
+
+1. Install the package via composer:
+
+```bash
+composer require saade/filament-skeleton:"^1.0"
+```
+
+2. Import the theme into your panel's [custom theme](https://filamentphp.com/docs/5.x/styling/overview#creating-a-custom-theme), after Filament's own. If the panel does not have a custom theme yet, create one first by following the Filament docs.
+
+```css
+@import '../../../../vendor/filament/filament/resources/css/theme.css';
+@import '../../../../vendor/saade/filament-skeleton/resources/css/filament-skeleton.css';
+```
+
+Then rebuild your assets with `npm run build`.
+
+3. Register the plugin on the panel:
+
+```php
+use Filament\Panel;
+use Saade\FilamentSkeleton\FilamentSkeletonPlugin;
+
+public function panel(Panel $panel): Panel
+{
+    return $panel
+        // ...
+        ->plugin(FilamentSkeletonPlugin::make());
+}
+```
+
+# Configuration
+
+Each setting accepts a closure:
+
+| Method | Default | Description |
+| ------ | ------- | ----------- |
+| `primaryColor(array \| string \| Closure $color)` | `Color::Indigo` | The panel's primary color. The panel's other colors are left as they are. |
+
+# Testing
+
+```bash
+composer test
+```
+
+# Changelog
+
+Please see [CHANGELOG](CHANGELOG.md) for more information on what has changed recently.
+
+# Contributing
+
+Please see [CONTRIBUTING](.github/CONTRIBUTING.md) for details.
+
+# Security Vulnerabilities
+
+Please review [our security policy](../../security/policy) on how to report security vulnerabilities.
+
+# Credits
+
+- [Saade](https://github.com/saade)
+- [All Contributors](../../contributors)
+
+# License
+
+The MIT License (MIT). Please see [License File](LICENSE.md) for more information.

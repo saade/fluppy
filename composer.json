@@ -1,0 +1,76 @@
+{
+    "name": "saade/filament-skeleton",
+    "description": "This is my package filament-skeleton",
+    "keywords": [
+        "saade",
+        "laravel",
+        "filament",
+        "filament-plugin",
+        "filament-skeleton"
+    ],
+    "homepage": "https://github.com/saade/filament-skeleton",
+    "support": {
+        "issues": "https://github.com/saade/filament-skeleton/issues",
+        "source": "https://github.com/saade/filament-skeleton"
+    },
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Saade",
+            "email": "saade@outlook.com.br",
+            "role": "Developer"
+        }
+    ],
+    "require": {
+        "php": "^8.2",
+        "filament/filament": "^4.0|^5.0",
+        "spatie/laravel-package-tools": "^1.92.7"
+    },
+    "require-dev": {
+        "larastan/larastan": "^3.0",
+        "laravel/pint": "^1.0",
+        "laravel/prompts": "^0.3",
+        "nunomaduro/collision": "^8.0",
+        "orchestra/testbench": "^9.0|^10.0|^11.0",
+        "pestphp/pest": "^3.0|^4.0",
+        "pestphp/pest-plugin-arch": "^3.0|^4.0",
+        "phpstan/extension-installer": "^1.1",
+        "phpstan/phpstan-deprecation-rules": "^1.0|^2.0",
+        "phpstan/phpstan-phpunit": "^1.0|^2.0",
+        "spatie/laravel-ray": "^1.26"
+    },
+    "autoload": {
+        "psr-4": {
+            "Saade\\FilamentSkeleton\\": "src"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Saade\\FilamentSkeleton\\Tests\\": "tests"
+        }
+    },
+    "scripts": {
+        "post-autoload-dump": "@php ./vendor/bin/testbench package:discover --ansi",
+        "analyse": "phpstan analyse",
+        "lint": "pint",
+        "test": "pest",
+        "test:coverage": "pest --coverage",
+        "test:lint": "pint --test"
+    },
+    "config": {
+        "sort-packages": true,
+        "allow-plugins": {
+            "phpstan/extension-installer": true,
+            "pestphp/pest-plugin": true
+        }
+    },
+    "extra": {
+        "laravel": {
+            "providers": [
+                "Saade\\FilamentSkeleton\\FilamentSkeletonServiceProvider"
+            ]
+        }
+    },
+    "minimum-stability": "dev",
+    "prefer-stable": true
+}

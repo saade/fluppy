@@ -1,0 +1,15 @@
+parameters:
+    level: 4
+    paths:
+        - src
+    tmpDir: build/phpstan
+    checkOctaneCompatibility: true
+    checkModelProperties: true
+
+    ignoreErrors:
+        # A widget's `$view` names a view of the package's own namespace, which
+        # only exists once the service provider has run.
+        -
+            identifier: property.defaultValue
+            path: src/Widgets/*
+            reportUnmatched: false

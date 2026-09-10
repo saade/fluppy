@@ -1,0 +1,10 @@
+/*
+ * Imported into the application's Filament theme, which compiles it, so
+ * Tailwind's `@apply` and Filament's color variables are available here.
+ * Every class the package owns starts with `fi-sk`.
+ */
+.fi-sk {
+    & .fi-sk-greeting {
+        @apply text-sm font-medium text-gray-950 dark:text-white;
+    }
+}
