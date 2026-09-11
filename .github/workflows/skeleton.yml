@@ -1,0 +1,73 @@
+name: skeleton
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
+
+permissions:
+  contents: read
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.event.pull_request.number || github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  configure:
+    runs-on: ubuntu-latest
+
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - name: field
+            flags: --kind=field --no-plugin --build=esbuild
+          - name: field with a plugin
+            flags: --kind=field --plugin --build=vite --extras=lang,config,migrations
+          - name: widget, esbuild
+            flags: --kind=widget --build=esbuild
+          - name: widget, Vite
+            flags: --kind=widget --build=vite
+          - name: theme
+            flags: --kind=theme --no-script
+          - name: theme, esbuild
+            flags: --kind=theme --script --build=esbuild
+          - name: theme, Vite
+            flags: --kind=theme --script --build=vite
+
+    name: ${{ matrix.name }}
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+
+      - name: Setup PHP
+        uses: shivammathur/setup-php@f3e473d116dcccaddc5834248c87452386958240 # 2.37.2
+        with:
+          php-version: '8.4'
+          extensions: dom, curl, libxml, mbstring, zip, pcntl, pdo, sqlite, pdo_sqlite, bcmath, intl, fileinfo
+          coverage: none
+
+      - name: Configure, install, build and test
+        env:
+          FLAGS: ${{ matrix.flags }}
+        run: php configure.php --no-interaction --name=filament-example ${FLAGS}
+
+      - name: Run PHPStan
+        run: vendor/bin/phpstan --error-format=github
+
+      - name: Check the code style
+        run: vendor/bin/pint --test
+
+      - name: Check that nothing of the skeleton is left
+        run: |
+          test ! -e configure.php
+          test ! -e variants
+          test ! -e .github/workflows/skeleton.yml
+          ! grep -q 'laravel/prompts' composer.json
+          ! grep -rIil 'skeleton' . --exclude-dir=vendor --exclude-dir=node_modules --exclude-dir=.git --exclude=composer.lock --exclude=package-lock.json

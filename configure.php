@@ -212,6 +212,7 @@ if (! confirm('Configure the package with these?', default: true)) {
 // Later folders overwrite earlier ones, so an add-on can replace a file of
 // the kind it extends.
 $variants = array_filter([
+    'common',
     $kind,
     ($kind === 'field' && $hasPlugin) ? 'field-plugin' : null,
     ($kind === 'theme' && $hasScript) ? 'theme-js' : null,
@@ -224,6 +225,8 @@ foreach ($variants as $variant) {
 }
 
 removeDirectory("{$root}/variants");
+
+unlink("{$root}/.github/workflows/skeleton.yml");
 
 if (! $hasScript) {
     unlink("{$root}/.github/workflows/build-assets.yml");

@@ -48,7 +48,8 @@ php configure.php --no-interaction --kind=field --plugin --build=vite --extras=l
 
 ## What is where
 
-- The root holds what every package shares: Composer and tooling config, the GitHub workflows, the changelog, the upgrade guide template and `CLAUDE.md`.
+- The root holds what every package shares: Composer and tooling config, the changelog, the upgrade guide template and `CLAUDE.md`.
+- `variants/common` holds what every package gets but the skeleton itself cannot run: the package's GitHub workflows and Dependabot config.
 - `variants/field`, `variants/widget` and `variants/theme` each hold one kind's source, views, assets, tests and README.
 - `variants/field-plugin` and `variants/theme-js` are add-ons copied over their kind.
 - `variants/build-esbuild` and `variants/build-vite` hold the build setup.
@@ -56,7 +57,7 @@ php configure.php --no-interaction --kind=field --plugin --build=vite --extras=l
 
 ## Changing the skeleton
 
-The root cannot run by itself, because the source lives in `variants/`. To check a change, configure a copy and run its tests:
+The root cannot run by itself, because the source lives in `variants/`. The `skeleton` workflow does this for every kind on each push. To check a change locally, configure a copy and run its tests:
 
 ```bash
 cp -R saade-plugin-skeleton /tmp/filament-try && cd /tmp/filament-try
