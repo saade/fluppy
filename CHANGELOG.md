@@ -1,6 +1,6 @@
 # Changelog
 
-All notable changes to `filament-skeleton` will be documented in this file.
+All notable changes to `fluppy` will be documented in this file.
 
 ## 1.x
 

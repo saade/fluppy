@@ -1,17 +1,17 @@
 {
-    "name": "saade/filament-skeleton",
-    "description": "This is my package filament-skeleton",
+    "name": "saade/fluppy",
+    "description": "Fluppy for Filament",
     "keywords": [
         "saade",
         "laravel",
         "filament",
         "filament-plugin",
-        "filament-skeleton"
+        "fluppy"
     ],
-    "homepage": "https://github.com/saade/filament-skeleton",
+    "homepage": "https://github.com/saade/fluppy",
     "support": {
-        "issues": "https://github.com/saade/filament-skeleton/issues",
-        "source": "https://github.com/saade/filament-skeleton"
+        "issues": "https://github.com/saade/fluppy/issues",
+        "source": "https://github.com/saade/fluppy"
     },
     "license": "MIT",
     "authors": [
@@ -29,7 +29,6 @@
     "require-dev": {
         "larastan/larastan": "^3.0",
         "laravel/pint": "^1.0",
-        "laravel/prompts": "^0.3",
         "nunomaduro/collision": "^8.0",
         "orchestra/testbench": "^9.0|^10.0|^11.0",
         "pestphp/pest": "^3.0|^4.0",
@@ -41,12 +40,12 @@
     },
     "autoload": {
         "psr-4": {
-            "Saade\\FilamentSkeleton\\": "src"
+            "Saade\\Fluppy\\": "src"
         }
     },
     "autoload-dev": {
         "psr-4": {
-            "Saade\\FilamentSkeleton\\Tests\\": "tests"
+            "Saade\\Fluppy\\Tests\\": "tests"
         }
     },
     "scripts": {
@@ -67,7 +66,7 @@
     "extra": {
         "laravel": {
             "providers": [
-                "Saade\\FilamentSkeleton\\FilamentSkeletonServiceProvider"
+                "Saade\\Fluppy\\FluppyServiceProvider"
             ]
         }
     },

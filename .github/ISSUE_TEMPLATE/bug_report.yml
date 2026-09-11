@@ -5,12 +5,12 @@ body:
   - type: markdown
     attributes:
       value: |
-        Questions about how to use the package belong in [Discussions](https://github.com/saade/filament-skeleton/discussions/new?category=q-a).
+        Questions about how to use the package belong in [Discussions](https://github.com/saade/fluppy/discussions/new?category=q-a).
   - type: input
     id: package-version
     attributes:
       label: Package version
-      description: Run `composer show saade/filament-skeleton`.
+      description: Run `composer show saade/fluppy`.
       placeholder: v1.0.0
     validations:
       required: true

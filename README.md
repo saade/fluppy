@@ -1,65 +1,98 @@
-# Filament plugin skeleton
+# Fluppy
 
-The starting point for a new Filament plugin. Copy it, run the configure script, and you have a package that installs, builds and passes its tests on Filament 4 and 5.
+[![Latest Version on Packagist](https://img.shields.io/packagist/v/saade/fluppy.svg?style=flat-square)](https://packagist.org/packages/saade/fluppy)
+[![Total Downloads](https://img.shields.io/packagist/dt/saade/fluppy.svg?style=flat-square)](https://packagist.org/packages/saade/fluppy)
+[![Tests](https://img.shields.io/github/actions/workflow/status/saade/fluppy/run-tests.yml?branch=1.x&label=tests&style=flat-square)](https://github.com/saade/fluppy/actions/workflows/run-tests.yml)
 
-```bash
-cp -R saade-plugin-skeleton filament-my-thing
-cd filament-my-thing
-php configure.php
-```
+Fluppy for Filament
 
-The folder name becomes the default package name. The script asks what the package is and keeps only the files for that:
+# Version compatibility
 
-| Question | Choices |
-| --- | --- |
-| Kind | A form field, a widget or page, or a theme |
-| Panel plugin | For a form field: whether it has panel-wide defaults. Widgets and themes always have one. |
-| JavaScript | For a theme: whether it has any. Fields and widgets always do. |
-| Build tool | esbuild for one output file, or Vite when the script should be split into parts that load on demand |
-| Extras | Translations, a config file, a migration |
+| Plugin | Filament | Install                                            |
+| ------ | -------- | -------------------------------------------------- |
+| 1.x    | 4.x, 5.x | `composer require saade/fluppy:"^1.0"` |
 
-It then renames everything, replaces this file with the package's README, and offers to install the dependencies, build the assets and run the tests.
+# Table of contents
 
-The questions are asked with [Laravel Prompts](https://laravel.com/docs/prompts), which is a dev dependency of the skeleton only. The script runs `composer install` first when there is no `vendor/` yet, and once the package is configured it removes what was only there for it: `variants/`, `laravel/prompts` from `composer.json`, and itself.
+- [Installation](#installation)
+- [Usage](#usage)
+- [Options](#options)
+- [Styling](#styling)
+- [Testing](#testing)
+- [Changelog](#changelog)
+- [Contributing](#contributing)
+- [Security Vulnerabilities](#security-vulnerabilities)
+- [Credits](#credits)
+- [License](#license)
 
-### Without the questions
+# Installation
 
-Every answer can be passed as an option. `--no-interaction` takes the default for the rest.
-
-```bash
-php configure.php --no-interaction --kind=field --plugin --build=vite --extras=lang,config
-```
-
-| Option | Default |
-| --- | --- |
-| `--name=` | The folder name |
-| `--class=` | The name in StudlyCase |
-| `--short=` | The class prefix without `Filament` |
-| `--title=` | The name as a headline |
-| `--prefix=` | `fi-` and the first two letters of the short name |
-| `--description=` | `<title> for Filament` |
-| `--branch=` | `1.x` |
-| `--kind=field\|widget\|theme` | `field` |
-| `--plugin`, `--no-plugin` | No plugin, for a field |
-| `--script`, `--no-script` | No script, for a theme |
-| `--build=esbuild\|vite` | `esbuild` |
-| `--extras=lang,config,migrations` | `lang`, or none for a theme |
-| `--install`, `--no-install` | Install |
-
-## What is where
-
-- The root holds what every package shares: Composer and tooling config, the changelog, the upgrade guide template and `CLAUDE.md`.
-- `variants/common` holds what every package gets but the skeleton itself cannot run: the package's GitHub workflows and Dependabot config.
-- `variants/field`, `variants/widget` and `variants/theme` each hold one kind's source, views, assets, tests and README.
-- `variants/field-plugin` and `variants/theme-js` are add-ons copied over their kind.
-- `variants/build-esbuild` and `variants/build-vite` hold the build setup.
-- `variants/extra-*` hold the optional files. A line in a service provider that ends in `// @extra:lang` is kept or dropped with that extra.
-
-## Changing the skeleton
-
-The root cannot run by itself, because the source lives in `variants/`. The `skeleton` workflow does this for every kind on each push. To check a change locally, configure a copy and run its tests:
+1. Install the package via composer:
 
 ```bash
-cp -R saade-plugin-skeleton /tmp/filament-try && cd /tmp/filament-try
-php configure.php
+composer require saade/fluppy:"^1.0"
 ```
+
+2. Add the plugin's styles to your panel's [custom theme](https://filamentphp.com/docs/5.x/styling/overview#creating-a-custom-theme). If the panel does not have a custom theme yet, create one first by following the Filament docs.
+
+```css
+@import '../../../../vendor/saade/fluppy/resources/css/fluppy.css';
+
+@source '../../../../vendor/saade/fluppy/resources/views/**/*.blade.php';
+```
+
+Then rebuild your assets with `npm run build`.
+
+# Usage
+
+Add the field to a form:
+
+```php
+use Saade\Fluppy\Forms\Components\FluppyField;
+
+FluppyField::make('amount')
+```
+
+# Options
+
+Each option accepts a closure:
+
+| Method | Default | Description |
+| ------ | ------- | ----------- |
+| `step(int \| Closure $step)` | `1` | How much each press adds or takes away. |
+
+# Styling
+
+Everything the package draws has a class that starts with `fi-fluppy`, to style from your theme:
+
+| Class | Element |
+| ----- | ------- |
+| `.fi-fluppy` | The field. |
+| `.fi-fluppy-value` | The current value. |
+
+# Testing
+
+```bash
+composer test
+```
+
+# Changelog
+
+Please see [CHANGELOG](CHANGELOG.md) for more information on what has changed recently.
+
+# Contributing
+
+Please see [CONTRIBUTING](.github/CONTRIBUTING.md) for details.
+
+# Security Vulnerabilities
+
+Please review [our security policy](../../security/policy) on how to report security vulnerabilities.
+
+# Credits
+
+- [Saade](https://github.com/saade)
+- [All Contributors](../../contributors)
+
+# License
+
+The MIT License (MIT). Please see [License File](LICENSE.md) for more information.
