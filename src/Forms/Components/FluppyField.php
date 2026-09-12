@@ -2,24 +2,13 @@
 
 namespace Saade\Fluppy\Forms\Components;
 
-use Closure;
-use Filament\Forms\Components\Field;
+use Filament\Forms\Components\FileUpload;
 
-class FluppyField extends Field
+class FluppyField extends FileUpload
 {
+    /**
+     * `FileUpload` renders itself from PHP. Having a view makes Filament
+     * render that view in its place, so everything else is inherited.
+     */
     protected string $view = 'fluppy::field';
-
-    protected int | Closure $step = 1;
-
-    public function step(int | Closure $step): static
-    {
-        $this->step = $step;
-
-        return $this;
-    }
-
-    public function getStep(): int
-    {
-        return $this->evaluate($this->step);
-    }
 }

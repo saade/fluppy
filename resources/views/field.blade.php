@@ -1,28 +1,52 @@
-<x-dynamic-component :component="$getFieldWrapperView()" :field="$field">
-    @php
-        $isDisabled = $isDisabled();
-        $step = $getStep();
-    @endphp
+@php
+    use Filament\Support\Facades\FilamentAsset;
 
+    $key = $getKey();
+    $statePath = $getStatePath();
+    $isDisabled = $isDisabled();
+    $isMultiple = $isMultiple();
+    $maxSize = $getMaxSize();
+    $minSize = $getMinSize();
+@endphp
+
+<x-dynamic-component :component="$getFieldWrapperView()" :field="$field">
     <div
         wire:ignore
-        wire:key="{{ $getLivewireKey() }}.{{ md5(serialize([$isDisabled, $step])) }}"
+        wire:key="{{ $getLivewireKey() }}.{{ md5(serialize([$isDisabled, $isMultiple])) }}"
         x-load
-        x-load-src="{{ \Filament\Support\Facades\FilamentAsset::getAlpineComponentSrc('fluppy', 'saade/fluppy') }}"
+        x-load-src="{{ FilamentAsset::getAlpineComponentSrc('fluppy', 'saade/fluppy') }}"
         x-data="fluppy({
-            state: $wire.{{ $applyStateBindingModifiers("\$entangle('{$getStatePath()}')") }},
-            step: @js($step),
+            acceptedFileTypes: @js($getAcceptedFileTypes()),
+            cancelUploadUsing: (fileKey) => {
+                $wire.cancelUpload(`{{ $statePath }}.${fileKey}`)
+            },
+            getUploadedFilesUsing: async () => {
+                return await $wire.callSchemaComponentMethod(@js($key), 'getUploadedFiles')
+            },
+            isDeletable: @js($isDeletable()),
+            isDisabled: @js($isDisabled),
+            isMultiple: @js($isMultiple),
+            maxFiles: @js($getMaxFiles()),
+            maxParallelUploads: @js($getMaxParallelUploads()),
+            maxSize: @js($maxSize ? $maxSize * 1024 : null),
+            minSize: @js($minSize ? $minSize * 1024 : null),
+            removeUploadedFileUsing: async (fileKey) => {
+                return await $wire.callSchemaComponentMethod(@js($key), 'removeUploadedFile', { fileKey })
+            },
+            state: $wire.{{ $applyStateBindingModifiers("\$entangle('{$statePath}')") }},
+            uploadingMessage: @js($getUploadingMessage()),
+            uploadUsing: (fileKey, file, success, error, progress) => {
+                $wire.upload(
+                    `{{ $statePath }}.${fileKey}`,
+                    file,
+                    success,
+                    error,
+                    (progressEvent) => progress(progressEvent.detail.progress),
+                )
+            },
         })"
         class="fi-fluppy"
     >
-        <x-filament::button color="gray" :disabled="$isDisabled" x-on:click="decrement()">
-            −
-        </x-filament::button>
-
-        <span class="fi-fluppy-value" x-text="state ?? 0"></span>
-
-        <x-filament::button color="gray" :disabled="$isDisabled" x-on:click="increment()">
-            +
-        </x-filament::button>
+        <div x-ref="dashboard"></div>
     </div>
 </x-dynamic-component>

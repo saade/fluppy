@@ -7,11 +7,13 @@ use Filament\Schemas\Concerns\InteractsWithSchemas;
 use Filament\Schemas\Contracts\HasSchemas;
 use Filament\Schemas\Schema;
 use Livewire\Component;
+use Livewire\WithFileUploads;
 use Saade\Fluppy\Forms\Components\FluppyField;
 
 class FluppyForm extends Component implements HasSchemas
 {
     use InteractsWithSchemas;
+    use WithFileUploads;
 
     /**
      * Lets a test configure the field before the component is rendered.
@@ -30,7 +32,7 @@ class FluppyForm extends Component implements HasSchemas
 
     public function form(Schema $schema): Schema
     {
-        $field = FluppyField::make('amount');
+        $field = FluppyField::make('attachments')->disk('uploads');
 
         return $schema
             ->statePath('data')

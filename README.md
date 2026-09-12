@@ -45,30 +45,40 @@ Then rebuild your assets with `npm run build`.
 
 # Usage
 
-Add the field to a form:
+`FluppyField` is Filament's [file upload field](https://filamentphp.com/docs/5.x/forms/file-upload) with [Uppy](https://uppy.io) as its interface. Use it where you would use `FileUpload`:
 
 ```php
 use Saade\Fluppy\Forms\Components\FluppyField;
 
-FluppyField::make('amount')
+FluppyField::make('attachments')
+    ->disk('public')
+    ->directory('attachments')
+    ->multiple()
 ```
+
+Files are uploaded through Livewire, validated and stored the same way as with `FileUpload`.
 
 # Options
 
-Each option accepts a closure:
+`FluppyField` extends `FileUpload`, so its options are the same and each accepts a closure. These are the ones the field acts on so far:
 
-| Method | Default | Description |
-| ------ | ------- | ----------- |
-| `step(int \| Closure $step)` | `1` | How much each press adds or takes away. |
+| Method | Description |
+| ------ | ----------- |
+| `disk()`, `directory()`, `visibility()` and the other storage options | Where and how files are stored. |
+| `multiple()`, `maxFiles(int \| Closure $count)` | Whether several files can be chosen, and how many. |
+| `acceptedFileTypes(array \| Closure $types)`, `image()` | The types of file that can be chosen. |
+| `maxSize(int \| Closure $size)`, `minSize(int \| Closure $size)` | The size a file can have, in kilobytes. |
+| `maxParallelUploads(int \| Closure $count)` | How many files are uploaded at once. 2 by default. |
+| `deletable(bool \| Closure $condition)` | Whether a file can be removed. |
+| `disabled()` | Shows the files without letting them change. |
 
 # Styling
 
-Everything the package draws has a class that starts with `fi-fluppy`, to style from your theme:
+Everything the package draws has a class that starts with `fi-fluppy`, to style from your theme. Uppy's own elements keep their `uppy-` classes.
 
 | Class | Element |
 | ----- | ------- |
 | `.fi-fluppy` | The field. |
-| `.fi-fluppy-value` | The current value. |
 
 # Testing
 
