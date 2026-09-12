@@ -6,5 +6,9 @@
 @import './uppy.css';
 
 .fi-fluppy {
-    @apply w-full;
+    /*
+     * Uppy stacks its own parts with z-indexes above 1000. Isolating the
+     * field keeps them from showing through a modal opened over it.
+     */
+    @apply isolate w-full;
 }
