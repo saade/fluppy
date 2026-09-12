@@ -109,6 +109,28 @@ it('describes the files it already has, for the browser to show', function () {
         ->and($files['k1'])->toMatchArray(['name' => 'photo.png', 'size' => 8]);
 });
 
+it('describes a file that was uploaded but not saved yet', function () {
+    $component = fluppyForm()
+        ->set('data.attachments.a1b2', UploadedFile::fake()->create('report.pdf', 20, 'application/pdf'));
+
+    $files = fluppyField($component)->getUploadedFiles();
+
+    expect($files)->toHaveKey('a1b2')
+        ->and($files['a1b2'])->toMatchArray(['name' => 'report.pdf', 'size' => 20 * 1024, 'url' => null]);
+});
+
+it('lets the browser ask for its files', function () {
+    Storage::disk('uploads')->put('existing/photo.png', 'contents');
+
+    $component = fluppyForm();
+
+    $component
+        ->set('data.attachments', ['k1' => 'existing/photo.png'])
+        ->call('callSchemaComponentMethod', fluppyField($component)->getKey(), 'getUploadedFiles');
+
+    expect(data_get($component->effects, 'returns.0'))->toHaveKey('k1.name', 'photo.png');
+});
+
 it('forgets a file the browser removes', function () {
     Storage::disk('uploads')->put('existing/photo.png', 'contents');
 

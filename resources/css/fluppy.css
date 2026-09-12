@@ -56,9 +56,11 @@
     @apply border-gray-950/5 bg-gray-50 dark:border-white/10 dark:bg-white/5;
 }
 
-/* Uppy centers the title with a line as tall as the bar. */
 .fi-fluppy .uppy-DashboardContent-title {
-    @apply text-sm/10 font-medium text-gray-950 dark:text-white;
+    @apply font-medium text-gray-950 dark:text-white;
+
+    /* Not `text-sm`: Uppy centers the title with its line height. */
+    font-size: var(--text-sm);
 }
 
 .fi-fluppy .uppy-DashboardContent-addMore,
