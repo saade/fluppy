@@ -64,10 +64,12 @@ jobs:
       - name: Check the code style
         run: vendor/bin/pint --test
 
+      # `build` is left out because PHPStan's cache holds the path of the
+      # checkout, which is named after this repository.
       - name: Check that nothing of the skeleton is left
         run: |
           test ! -e configure.php
           test ! -e variants
           test ! -e .github/workflows/skeleton.yml
           ! grep -q 'laravel/prompts' composer.json
-          ! grep -rIil 'skeleton' . --exclude-dir=vendor --exclude-dir=node_modules --exclude-dir=.git --exclude=composer.lock --exclude=package-lock.json
+          ! grep -rIil 'skeleton' . --exclude-dir=vendor --exclude-dir=node_modules --exclude-dir=.git --exclude-dir=build --exclude=composer.lock --exclude=package-lock.json
