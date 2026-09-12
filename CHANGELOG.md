@@ -7,3 +7,4 @@ All notable changes to `fluppy` will be documented in this file.
 ### Added
 
 - The first release.
+- The upload field uses the panel's colors and follows its light and dark mode.

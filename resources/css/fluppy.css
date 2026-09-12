@@ -11,4 +11,55 @@
      * field keeps them from showing through a modal opened over it.
      */
     @apply isolate w-full;
+
+    & .uppy-Root {
+        font-family: inherit;
+    }
+
+    & .uppy-Dashboard-inner {
+        @apply overflow-hidden rounded-lg border-gray-950/10 bg-white shadow-xs dark:border-white/20 dark:bg-white/5;
+    }
+
+    & .uppy-Dashboard-innerWrap {
+        @apply rounded-none;
+    }
+
+    & .uppy-Dashboard-AddFiles {
+        @apply m-2 rounded-md border-gray-300 dark:border-white/20;
+    }
+
+    & .uppy-Dashboard-AddFiles-title {
+        @apply text-sm font-medium text-gray-950 dark:text-white;
+    }
+
+    & .uppy-DashboardContent-bar,
+    & .uppy-StatusBar {
+        @apply bg-gray-50 dark:bg-white/5;
+    }
+
+    & .uppy-StatusBar-actions {
+        @apply bg-transparent;
+    }
+
+    & .uppy-DashboardContent-bar {
+        @apply border-gray-950/5 dark:border-white/10;
+    }
+
+    /* Uppy centers the title with a line as tall as the bar. */
+    & .uppy-DashboardContent-title {
+        @apply text-sm/10 font-medium text-gray-950 dark:text-white;
+    }
+
+    & .uppy-Dashboard-Item-name,
+    & .uppy-StatusBar-statusPrimary {
+        @apply text-sm font-medium text-gray-950 dark:text-white;
+    }
+
+    & .uppy-Dashboard-Item {
+        @apply border-gray-950/5 dark:border-white/10;
+    }
+
+    & .uppy-Dashboard-files {
+        @apply bg-transparent;
+    }
 }

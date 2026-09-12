@@ -20,6 +20,9 @@
             cancelUploadUsing: (fileKey) => {
                 $wire.cancelUpload(`{{ $statePath }}.${fileKey}`)
             },
+            deleteUploadedFileUsing: async (fileKey) => {
+                return await $wire.callSchemaComponentMethod(@js($key), 'deleteUploadedFile', { fileKey })
+            },
             getUploadedFilesUsing: async () => {
                 return await $wire.callSchemaComponentMethod(@js($key), 'getUploadedFiles')
             },

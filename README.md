@@ -74,7 +74,15 @@ Files are uploaded through Livewire, validated and stored the same way as with `
 
 # Styling
 
-Everything the package draws has a class that starts with `fi-fluppy`, to style from your theme. Uppy's own elements keep their `uppy-` classes.
+The field uses your panel's colors: Uppy's grays, blues, reds, greens and oranges are replaced with Filament's `gray`, `primary`, `danger`, `success` and `warning`, and it follows the panel's light and dark mode.
+
+Everything the package draws has a class that starts with `fi-fluppy`, to style from your theme. Uppy's own elements keep their `uppy-` classes, which you can style inside `.fi-fluppy`:
+
+```css
+.fi-fluppy .uppy-Dashboard-inner {
+    @apply rounded-xl;
+}
+```
 
 | Class | Element |
 | ----- | ------- |

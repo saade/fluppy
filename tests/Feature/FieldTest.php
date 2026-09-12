@@ -51,6 +51,16 @@ it('passes its options to the browser', function () {
         ]);
 });
 
+it('gives the browser the methods of the field to call', function () {
+    fluppyForm()->assertSeeHtml([
+        "'getUploadedFiles'",
+        "'removeUploadedFile'",
+        "'deleteUploadedFile'",
+        '$wire.upload(',
+        '$wire.cancelUpload(',
+    ]);
+});
+
 it('tells the browser when it is disabled or its files cannot be removed', function () {
     fluppyForm(fn (FluppyField $field) => $field->disabled()->deletable(false))
         ->assertSeeHtml(['isDisabled: true', 'isDeletable: false']);

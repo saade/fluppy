@@ -16,6 +16,7 @@ function generateFileKey() {
 export default function fluppy({
     acceptedFileTypes,
     cancelUploadUsing,
+    deleteUploadedFileUsing,
     getUploadedFilesUsing,
     isDeletable,
     isDisabled,
@@ -61,6 +62,8 @@ export default function fluppy({
                     disabled: isDisabled,
                     hideUploadButton: true,
                     hideCancelButton: true,
+                    // "Done" would clear the field once its uploads finish.
+                    doneButtonHandler: null,
                     showRemoveButtonAfterComplete: isDeletable && !isDisabled,
                     proudlyDisplayPoweredByUppy: false,
                     theme: this.getTheme(),
@@ -77,11 +80,17 @@ export default function fluppy({
             })
 
             uppy.on('file-removed', (file) => {
+                if (!uppy.getFiles().some((shownFile) => shownFile.error)) {
+                    uppy.setState({ error: null })
+                }
+
                 if (this.isRemovingSilently || !file.meta.fileKey) {
                     return
                 }
 
-                removeUploadedFileUsing(file.meta.fileKey)
+                this.isStoredFile(file.meta.fileKey)
+                    ? deleteUploadedFileUsing(file.meta.fileKey)
+                    : removeUploadedFileUsing(file.meta.fileKey)
             })
 
             uppy.on('upload', () => {
@@ -125,6 +134,14 @@ export default function fluppy({
             return Object.keys(this.state ?? {})
         },
 
+        isStoredFile(fileKey) {
+            const value = this.state?.[fileKey]
+
+            return (
+                typeof value === 'string' && !value.startsWith('livewire-file:')
+            )
+        },
+
         // A file that is still uploading is not in the form's state yet, so
         // only finished ones are dropped for being missing from it.
         async syncFiles() {
@@ -157,6 +174,12 @@ export default function fluppy({
             Object.entries(uploadedFiles)
                 .filter(([fileKey, file]) => file && !shownFileKeys.includes(fileKey))
                 .forEach(([fileKey, file]) => this.showStoredFile(fileKey, file))
+
+            // Without this the Dashboard counts stored files as waiting to be
+            // uploaded and titles itself "0 files selected".
+            if (uppy.getFiles().every((file) => file.progress.uploadComplete)) {
+                uppy.setState({ totalProgress: 100 })
+            }
         },
 
         // Uppy has no way to add a file that is already uploaded, and adding
