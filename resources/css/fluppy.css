@@ -11,55 +11,149 @@
      * field keeps them from showing through a modal opened over it.
      */
     @apply isolate w-full;
+}
 
-    & .uppy-Root {
-        font-family: inherit;
-    }
+.fi-fluppy .uppy-Root {
+    font-family: inherit;
+}
 
-    & .uppy-Dashboard-inner {
-        @apply overflow-hidden rounded-lg border-gray-950/10 bg-white shadow-xs dark:border-white/20 dark:bg-white/5;
-    }
+/* The Dashboard is framed like a Filament input. */
+.fi-fluppy .uppy-Dashboard-inner {
+    @apply overflow-hidden rounded-lg border-gray-950/10 bg-white shadow-xs dark:border-white/20 dark:bg-white/5;
+}
 
-    & .uppy-Dashboard-innerWrap {
-        @apply rounded-none;
-    }
+.fi-fluppy .uppy-Dashboard-innerWrap {
+    @apply rounded-none;
+}
 
-    & .uppy-Dashboard-AddFiles {
-        @apply m-2 rounded-md border-gray-300 dark:border-white/20;
-    }
+.fi-fluppy .uppy-Dashboard-AddFiles {
+    @apply m-2 rounded-md border-gray-300 dark:border-white/20;
+}
 
-    & .uppy-Dashboard-AddFiles-title {
-        @apply text-sm font-medium text-gray-950 dark:text-white;
-    }
+.fi-fluppy .uppy-Dashboard-AddFiles-title {
+    @apply text-sm font-medium text-gray-950 dark:text-white;
+}
 
-    & .uppy-DashboardContent-bar,
-    & .uppy-StatusBar {
-        @apply bg-gray-50 dark:bg-white/5;
-    }
+.fi-fluppy .uppy-Dashboard-note {
+    @apply text-gray-500 dark:text-gray-400;
+}
 
-    & .uppy-StatusBar-actions {
-        @apply bg-transparent;
-    }
+.fi-fluppy .uppy-Dashboard-browse {
+    @apply text-primary-600 hover:border-primary-600 focus:border-primary-600 dark:text-primary-400 dark:hover:border-primary-400 dark:focus:border-primary-400;
+}
 
-    & .uppy-DashboardContent-bar {
-        @apply border-gray-950/5 dark:border-white/10;
-    }
+.fi-fluppy .uppy-Dashboard-dropFilesHereHint {
+    @apply border-primary-600 text-gray-500 dark:border-primary-400 dark:text-gray-400;
+}
 
-    /* Uppy centers the title with a line as tall as the bar. */
-    & .uppy-DashboardContent-title {
-        @apply text-sm/10 font-medium text-gray-950 dark:text-white;
-    }
+.fi-fluppy .uppy-Dashboard-AddFilesPanel {
+    @apply bg-gray-50 dark:bg-gray-900;
 
-    & .uppy-Dashboard-Item-name,
-    & .uppy-StatusBar-statusPrimary {
-        @apply text-sm font-medium text-gray-950 dark:text-white;
-    }
+    background-image: none;
+}
 
-    & .uppy-Dashboard-Item {
-        @apply border-gray-950/5 dark:border-white/10;
-    }
+.fi-fluppy .uppy-DashboardContent-bar {
+    @apply border-gray-950/5 bg-gray-50 dark:border-white/10 dark:bg-white/5;
+}
 
-    & .uppy-Dashboard-files {
-        @apply bg-transparent;
-    }
+/* Uppy centers the title with a line as tall as the bar. */
+.fi-fluppy .uppy-DashboardContent-title {
+    @apply text-sm/10 font-medium text-gray-950 dark:text-white;
+}
+
+.fi-fluppy .uppy-DashboardContent-addMore,
+.fi-fluppy .uppy-DashboardContent-back,
+.fi-fluppy .uppy-DashboardContent-save {
+    @apply text-primary-600 hover:text-primary-500 focus:bg-gray-950/5 dark:text-primary-400 dark:hover:text-primary-300 dark:focus:bg-white/5;
+}
+
+.fi-fluppy .uppy-Dashboard-Item {
+    @apply border-gray-950/5 dark:border-white/10;
+}
+
+.fi-fluppy .uppy-Dashboard-Item-name {
+    @apply text-sm font-medium text-gray-950 dark:text-white;
+}
+
+.fi-fluppy .uppy-Dashboard-Item-status {
+    @apply text-gray-500 dark:text-gray-400;
+}
+
+.fi-fluppy .uppy-Dashboard-Item-action,
+.fi-fluppy .uppy-Dashboard-Item-action--remove {
+    @apply text-gray-400 hover:text-gray-500 focus:ring-2 focus:ring-primary-600 dark:text-gray-500 dark:hover:text-gray-400 dark:focus:ring-primary-500;
+}
+
+.fi-fluppy .uppy-Dashboard-Item-previewLink:focus {
+    box-shadow: inset 0 0 0 3px var(--primary-500);
+}
+
+.fi-fluppy .uppy-Dashboard-Item-errorMessage,
+.fi-fluppy .uppy-Dashboard-Item-fileInfo .uppy-Dashboard-Item-errorMessage {
+    @apply border-danger-200 bg-danger-50 text-danger-700 dark:border-danger-400/30 dark:bg-danger-400/10 dark:text-danger-400;
+}
+
+.fi-fluppy .uppy-Dashboard-Item-errorMessageBtn {
+    @apply text-danger-700 dark:text-danger-400;
+}
+
+.fi-fluppy .uppy-Dashboard-Item-errorDetails,
+.fi-fluppy .uppy-StatusBar-details {
+    @apply bg-gray-400 text-white dark:bg-gray-500;
+}
+
+.fi-fluppy .uppy-StatusBar,
+.fi-fluppy .uppy-StatusBar:not([aria-hidden='true']).is-waiting {
+    @apply border-gray-950/5 bg-gray-50 dark:border-white/10 dark:bg-white/5;
+}
+
+.fi-fluppy .uppy-StatusBar::before {
+    @apply bg-gray-950/5 dark:bg-white/10;
+}
+
+.fi-fluppy .uppy-StatusBar-actions,
+.fi-fluppy .uppy-StatusBar.is-waiting .uppy-StatusBar-actions {
+    @apply bg-transparent;
+}
+
+.fi-fluppy .uppy-StatusBar-progress {
+    @apply bg-primary-600 dark:bg-primary-500;
+}
+
+.fi-fluppy .uppy-StatusBar.is-complete .uppy-StatusBar-progress {
+    @apply bg-success-600 dark:bg-success-500;
+}
+
+.fi-fluppy .uppy-StatusBar.is-error .uppy-StatusBar-progress {
+    @apply bg-danger-600 dark:bg-danger-500;
+}
+
+.fi-fluppy .uppy-StatusBar-content,
+.fi-fluppy .uppy-StatusBar-statusPrimary {
+    @apply text-sm font-medium text-gray-950 dark:text-white;
+}
+
+.fi-fluppy .uppy-StatusBar-statusSecondary,
+.fi-fluppy .uppy-StatusBar-statusIndicator {
+    @apply text-gray-500 dark:text-gray-400;
+}
+
+.fi-fluppy .uppy-StatusBar.is-complete .uppy-StatusBar-statusIndicator {
+    @apply text-success-600 dark:text-success-400;
+}
+
+.fi-fluppy .uppy-StatusBar.is-error .uppy-StatusBar-statusIndicator {
+    @apply text-danger-600 dark:text-danger-400;
+}
+
+.fi-fluppy .uppy-StatusBar-spinner {
+    @apply fill-primary-600 dark:fill-primary-500;
+}
+
+.fi-fluppy .uppy-StatusBar-actionBtn--retry {
+    @apply bg-danger-600 text-white hover:bg-danger-500 focus:ring-2 focus:ring-danger-600/50 dark:bg-danger-500 dark:hover:bg-danger-400;
+}
+
+.fi-fluppy .uppy-Informer p {
+    @apply bg-gray-800 text-white dark:bg-gray-700;
 }

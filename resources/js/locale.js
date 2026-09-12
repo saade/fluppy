@@ -1,5 +1,16 @@
-// The names of the locale packs in `@uppy/locales`, filled in by the build.
-const packs = __UPPY_LOCALES__
+// One chunk per locale pack in `@uppy/locales`, loaded when asked for.
+// English is built into Uppy, so its pack is left out.
+const packs = Object.fromEntries(
+    Object.entries(
+        import.meta.glob(
+            [
+                '../../node_modules/@uppy/locales/lib/*.js',
+                '!../../node_modules/@uppy/locales/lib/en_US.js',
+            ],
+            { import: 'default' },
+        ),
+    ).map(([path, load]) => [path.split('/').pop().slice(0, -3), load]),
+)
 
 /**
  * Laravel names a locale `pt_BR`, `pt-BR`, `pt` or `sr_Latn`; Uppy names its
@@ -12,7 +23,7 @@ export function getUppyLocaleName(locale) {
         .replace(/-/g, '_')
         .split('_')
 
-    const packsForLanguage = packs.filter((pack) =>
+    const packsForLanguage = Object.keys(packs).filter((pack) =>
         pack.toLowerCase().startsWith(`${language}_`),
     )
 
@@ -30,12 +41,5 @@ export function getUppyLocaleName(locale) {
 export async function loadUppyLocale(locale) {
     const name = getUppyLocaleName(locale)
 
-    // English is built into Uppy.
-    if (!name || name === 'en_US') {
-        return null
-    }
-
-    const pack = await import(`../../node_modules/@uppy/locales/lib/${name}.js`)
-
-    return pack.default
+    return name ? await packs[name]() : null
 }

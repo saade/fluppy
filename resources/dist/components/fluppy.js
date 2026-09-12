@@ -1,32 +1,8947 @@
-import{a as no,b as K,c as j,d as y,e as h,f as _,g as C,h as w,i as fe,j as u,k as b}from"../fluppy-chunk-DZSM63F4.js";var qo=K((fm,$o)=>{"use strict";u();function zo(i,e){this.text=i=i||"",this.hasWild=~i.indexOf("*"),this.separator=e,this.parts=i.split(e)}zo.prototype.match=function(i){var e=!0,t=this.parts,s,r=t.length,n;if(typeof i=="string"||i instanceof String)if(!this.hasWild&&this.text!=i)e=!1;else{for(n=(i||"").split(this.separator),s=0;e&&s<r;s++)t[s]!=="*"&&(s<n.length?e=t[s]===n[s]:e=!1);e=e&&n}else if(typeof i.splice=="function")for(e=[],s=i.length;s--;)this.match(i[s])&&(e[e.length]=i[s]);else if(typeof i=="object"){e={};for(var o in i)this.match(o)&&(e[o]=i[o])}return e};$o.exports=function(i,e,t){var s=new zo(i,t||/[\/\.]/);return typeof e<"u"?s.match(e):s}});var Vo=K((gm,Ho)=>{u();var gu=qo(),yu=/[\/\+\.]/;Ho.exports=function(i,e){function t(s){var r=gu(s,i,yu);return r&&r.length>=2}return e?t(e.split(";")[0]):t}});var ps=K((km,Ko)=>{u();function vu(i){var e=typeof i;return i!=null&&(e=="object"||e=="function")}Ko.exports=vu});var Yo=K((Im,Xo)=>{u();var wu=typeof global=="object"&&global&&global.Object===Object&&global;Xo.exports=wu});var kr=K((Nm,Qo)=>{u();var Fu=Yo(),_u=typeof self=="object"&&self&&self.Object===Object&&self,Su=Fu||_u||Function("return this")();Qo.exports=Su});var Zo=K((Bm,Jo)=>{u();var xu=kr(),Pu=function(){return xu.Date.now()};Jo.exports=Pu});var ta=K((Um,ea)=>{u();var Tu=/\s/;function Cu(i){for(var e=i.length;e--&&Tu.test(i.charAt(e)););return e}ea.exports=Cu});var sa=K((Mm,ia)=>{u();var ku=ta(),Eu=/^\s+/;function Iu(i){return i&&i.slice(0,ku(i)+1).replace(Eu,"")}ia.exports=Iu});var Er=K((jm,ra)=>{u();var Au=kr(),Nu=Au.Symbol;ra.exports=Nu});var la=K(($m,aa)=>{u();var na=Er(),oa=Object.prototype,Ou=oa.hasOwnProperty,Bu=oa.toString,di=na?na.toStringTag:void 0;function Du(i){var e=Ou.call(i,di),t=i[di];try{i[di]=void 0;var s=!0}catch{}var r=Bu.call(i);return s&&(e?i[di]=t:delete i[di]),r}aa.exports=Du});var ua=K((Hm,da)=>{u();var Uu=Object.prototype,Ru=Uu.toString;function Mu(i){return Ru.call(i)}da.exports=Mu});var fa=K((Wm,pa)=>{u();var ca=Er(),Lu=la(),ju=ua(),zu="[object Null]",$u="[object Undefined]",ha=ca?ca.toStringTag:void 0;function qu(i){return i==null?i===void 0?$u:zu:ha&&ha in Object(i)?Lu(i):ju(i)}pa.exports=qu});var ga=K((Km,ma)=>{u();function Hu(i){return i!=null&&typeof i=="object"}ma.exports=Hu});var ba=K((Ym,ya)=>{u();var Vu=fa(),Wu=ga(),Gu="[object Symbol]";function Ku(i){return typeof i=="symbol"||Wu(i)&&Vu(i)==Gu}ya.exports=Ku});var _a=K((Jm,Fa)=>{u();var Xu=sa(),va=ps(),Yu=ba(),wa=NaN,Qu=/^[-+]0x[0-9a-f]+$/i,Ju=/^0b[01]+$/i,Zu=/^0o[0-7]+$/i,ec=parseInt;function tc(i){if(typeof i=="number")return i;if(Yu(i))return wa;if(va(i)){var e=typeof i.valueOf=="function"?i.valueOf():i;i=va(e)?e+"":e}if(typeof i!="string")return i===0?i:+i;i=Xu(i);var t=Ju.test(i);return t||Zu.test(i)?ec(i.slice(2),t?2:8):Qu.test(i)?wa:+i}Fa.exports=tc});var fs=K((eg,xa)=>{u();var ic=ps(),Ir=Zo(),Sa=_a(),sc="Expected a function",rc=Math.max,nc=Math.min;function oc(i,e,t){var s,r,n,o,l,d,c=0,p=!1,m=!1,f=!0;if(typeof i!="function")throw new TypeError(sc);e=Sa(e)||0,ic(t)&&(p=!!t.leading,m="maxWait"in t,n=m?rc(Sa(t.maxWait)||0,e):n,f="trailing"in t?!!t.trailing:f);function v(x){var O=s,I=r;return s=r=void 0,c=x,o=i.apply(I,O),o}function g(x){return c=x,l=setTimeout(S,e),p?v(x):o}function F(x){var O=x-d,I=x-c,z=e-O;return m?nc(z,n-I):z}function T(x){var O=x-d,I=x-c;return d===void 0||O>=e||O<0||m&&I>=n}function S(){var x=Ir();if(T(x))return k(x);l=setTimeout(S,F(x))}function k(x){return l=void 0,f&&s?v(x):(s=r=void 0,o)}function P(){l!==void 0&&clearTimeout(l),c=0,s=d=r=l=void 0}function N(){return l===void 0?o:k(Ir())}function B(){var x=Ir(),O=T(x);if(s=arguments,r=this,d=x,O){if(l===void 0)return g(d);if(m)return clearTimeout(l),l=setTimeout(S,e),v(d)}return l===void 0&&(l=setTimeout(S,e)),o}return B.cancel=P,B.flush=N,B}xa.exports=oc});var Ta=K((ig,Pa)=>{u();var ac=fs(),lc=ps(),dc="Expected a function";function uc(i,e,t){var s=!0,r=!0;if(typeof i!="function")throw new TypeError(dc);return lc(t)&&(s="leading"in t?!!t.leading:s,r="trailing"in t?!!t.trailing:r),ac(i,e,{leading:s,maxWait:e,trailing:r})}Pa.exports=uc});var ka=K((rg,Ca)=>{u();Ca.exports=function(){var e={},t=e._fns={};e.emit=function(o,l,d,c,p,m,f){var v=s(o);v.length&&r(o,v,[l,d,c,p,m,f])},e.on=function(o,l){t[o]||(t[o]=[]),t[o].push(l)},e.once=function(o,l){function d(){l.apply(this,arguments),e.off(o,d)}this.on(o,d)},e.off=function(o,l){var d=[];if(o&&l){var c=this._fns[o],p=0,m=c?c.length:0;for(p;p<m;p++)c[p]!==l&&d.push(c[p])}d.length?this._fns[o]=d:delete this._fns[o]};function s(n){var o=t[n]?t[n]:[],l=n.indexOf(":"),d=l===-1?[n]:[n.substring(0,l),n.substring(l+1)],c=Object.keys(t),p=0,m=c.length;for(p;p<m;p++){var f=c[p];if(f==="*"&&(o=o.concat(t[f])),d.length===2&&d[0]===f){o=o.concat(t[f]);break}}return o}function r(n,o,l){var d=0,c=o.length;for(d;d<c&&o[d];d++)o[d].event=n,o[d].apply(o[d],l)}return e}});var Q=K((ey,Ss)=>{u();(function(){"use strict";var i={}.hasOwnProperty;function e(){for(var r="",n=0;n<arguments.length;n++){var o=arguments[n];o&&(r=s(r,t(o)))}return r}function t(r){if(typeof r=="string"||typeof r=="number")return r;if(typeof r!="object")return"";if(Array.isArray(r))return e.apply(null,r);if(r.toString!==Object.prototype.toString&&!r.toString.toString().includes("[native code]"))return r.toString();var n="";for(var o in r)i.call(r,o)&&r[o]&&(n=s(n,o));return n}function s(r,n){return n?r?r+" "+n:r+n:r}typeof Ss<"u"&&Ss.exports?(e.default=e,Ss.exports=e):typeof define=="function"&&typeof define.amd=="object"&&define.amd?define("classnames",[],function(){return e}):window.classNames=e})()});var ol=K((B1,sn)=>{"use strict";u();var kc=Object.prototype.hasOwnProperty,ne="~";function yi(){}Object.create&&(yi.prototype=Object.create(null),new yi().__proto__||(ne=!1));function Ec(i,e,t){this.fn=i,this.context=e,this.once=t||!1}function nl(i,e,t,s,r){if(typeof t!="function")throw new TypeError("The listener must be a function");var n=new Ec(t,s||i,r),o=ne?ne+e:e;return i._events[o]?i._events[o].fn?i._events[o]=[i._events[o],n]:i._events[o].push(n):(i._events[o]=n,i._eventsCount++),i}function Cs(i,e){--i._eventsCount===0?i._events=new yi:delete i._events[e]}function re(){this._events=new yi,this._eventsCount=0}re.prototype.eventNames=function(){var e=[],t,s;if(this._eventsCount===0)return e;for(s in t=this._events)kc.call(t,s)&&e.push(ne?s.slice(1):s);return Object.getOwnPropertySymbols?e.concat(Object.getOwnPropertySymbols(t)):e};re.prototype.listeners=function(e){var t=ne?ne+e:e,s=this._events[t];if(!s)return[];if(s.fn)return[s.fn];for(var r=0,n=s.length,o=new Array(n);r<n;r++)o[r]=s[r].fn;return o};re.prototype.listenerCount=function(e){var t=ne?ne+e:e,s=this._events[t];return s?s.fn?1:s.length:0};re.prototype.emit=function(e,t,s,r,n,o){var l=ne?ne+e:e;if(!this._events[l])return!1;var d=this._events[l],c=arguments.length,p,m;if(d.fn){switch(d.once&&this.removeListener(e,d.fn,void 0,!0),c){case 1:return d.fn.call(d.context),!0;case 2:return d.fn.call(d.context,t),!0;case 3:return d.fn.call(d.context,t,s),!0;case 4:return d.fn.call(d.context,t,s,r),!0;case 5:return d.fn.call(d.context,t,s,r,n),!0;case 6:return d.fn.call(d.context,t,s,r,n,o),!0}for(m=1,p=new Array(c-1);m<c;m++)p[m-1]=arguments[m];d.fn.apply(d.context,p)}else{var f=d.length,v;for(m=0;m<f;m++)switch(d[m].once&&this.removeListener(e,d[m].fn,void 0,!0),c){case 1:d[m].fn.call(d[m].context);break;case 2:d[m].fn.call(d[m].context,t);break;case 3:d[m].fn.call(d[m].context,t,s);break;case 4:d[m].fn.call(d[m].context,t,s,r);break;default:if(!p)for(v=1,p=new Array(c-1);v<c;v++)p[v-1]=arguments[v];d[m].fn.apply(d[m].context,p)}}return!0};re.prototype.on=function(e,t,s){return nl(this,e,t,s,!1)};re.prototype.once=function(e,t,s){return nl(this,e,t,s,!0)};re.prototype.removeListener=function(e,t,s,r){var n=ne?ne+e:e;if(!this._events[n])return this;if(!t)return Cs(this,n),this;var o=this._events[n];if(o.fn)o.fn===t&&(!r||o.once)&&(!s||o.context===s)&&Cs(this,n);else{for(var l=0,d=[],c=o.length;l<c;l++)(o[l].fn!==t||r&&!o[l].once||s&&o[l].context!==s)&&d.push(o[l]);d.length?this._events[n]=d.length===1?d[0]:d:Cs(this,n)}return this};re.prototype.removeAllListeners=function(e){var t;return e?(t=ne?ne+e:e,this._events[t]&&Cs(this,t)):(this._events=new yi,this._eventsCount=0),this};re.prototype.off=re.prototype.removeListener;re.prototype.addListener=re.prototype.on;re.prefixed=ne;re.EventEmitter=re;typeof sn<"u"&&(sn.exports=re)});u();u();u();u();u();var Gd=/^data:([^/]+\/[^,;]+(?:[^,]*?))(;base64)?,([\s\S]*)$/;function Kd(i,e,t){let s=Gd.exec(i),r=e.mimeType??s?.[1]??"plain/text",n;if(s?.[2]!=null){let o=atob(decodeURIComponent(s[3])),l=new Uint8Array(o.length);for(let d=0;d<o.length;d++)l[d]=o.charCodeAt(d);n=[l]}else s?.[3]!=null&&(n=[decodeURIComponent(s[3])]);return t?new File(n,e.name||"",{type:r}):new Blob(n,{type:r})}var sr=Kd;u();var rr=class extends Error{constructor(t,s){super(t);y(this,"isNetworkError");this.cause=s?.cause,this.cause&&Object.hasOwn(this.cause,"isNetworkError")?this.isNetworkError=this.cause.isNetworkError:this.isNetworkError=!1}},oo=rr;u();function Vt(i,e,t,s){return t===0||i===e?i:s===0?e:i+(e-i)*2**(-s/t)}u();var Wt=['a[href]:not([tabindex^="-"]):not([inert]):not([aria-hidden])','area[href]:not([tabindex^="-"]):not([inert]):not([aria-hidden])',"input:not([disabled]):not([inert]):not([aria-hidden])","select:not([disabled]):not([inert]):not([aria-hidden])","textarea:not([disabled]):not([inert]):not([aria-hidden])","button:not([disabled]):not([inert]):not([aria-hidden])",'iframe:not([tabindex^="-"]):not([inert]):not([aria-hidden])','object:not([tabindex^="-"]):not([inert]):not([aria-hidden])','embed:not([tabindex^="-"]):not([inert]):not([aria-hidden])','[contenteditable]:not([tabindex^="-"]):not([inert]):not([aria-hidden])','[tabindex]:not([tabindex^="-"]):not([inert]):not([aria-hidden])'];u();function nr(i){return i instanceof Error||typeof i=="object"&&i!=null&&"message"in i&&typeof i.message=="string"}function gt(i){return nr(i)?i:new Error(String(i))}u();u();function Gt(i){return typeof i!="object"||i===null||!("nodeType"in i)?!1:i.nodeType===Node.ELEMENT_NODE}function Xd(i){if(typeof i=="string"){let e=document.querySelectorAll(i);return e.length===0?null:Array.from(e)}return typeof i=="object"&&Gt(i)?[i]:null}var Yi=Xd;u();function Yd(i,e=document){return typeof i=="string"?e.querySelector(i):Gt(i)?i:null}var or=Yd;u();u();u();function Oe(i){let e=i.lastIndexOf(".");return e===-1||e===i.length-1?{name:i,extension:void 0}:{name:i.slice(0,e),extension:i.slice(e+1)}}u();var ar={__proto__:null,md:"text/markdown",markdown:"text/markdown",mp4:"video/mp4",mp3:"audio/mp3",svg:"image/svg+xml",jpg:"image/jpeg",png:"image/png",webp:"image/webp",gif:"image/gif",heic:"image/heic",heif:"image/heif",yaml:"text/yaml",yml:"text/yaml",csv:"text/csv",tsv:"text/tab-separated-values",tab:"text/tab-separated-values",avi:"video/x-msvideo",mks:"video/x-matroska",mkv:"video/x-matroska",mov:"video/quicktime",dicom:"application/dicom",doc:"application/msword",msg:"application/vnd.ms-outlook",docm:"application/vnd.ms-word.document.macroenabled.12",docx:"application/vnd.openxmlformats-officedocument.wordprocessingml.document",dot:"application/msword",dotm:"application/vnd.ms-word.template.macroenabled.12",dotx:"application/vnd.openxmlformats-officedocument.wordprocessingml.template",xla:"application/vnd.ms-excel",xlam:"application/vnd.ms-excel.addin.macroenabled.12",xlc:"application/vnd.ms-excel",xlf:"application/x-xliff+xml",xlm:"application/vnd.ms-excel",xls:"application/vnd.ms-excel",xlsb:"application/vnd.ms-excel.sheet.binary.macroenabled.12",xlsm:"application/vnd.ms-excel.sheet.macroenabled.12",xlsx:"application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",xlt:"application/vnd.ms-excel",xltm:"application/vnd.ms-excel.template.macroenabled.12",xltx:"application/vnd.openxmlformats-officedocument.spreadsheetml.template",xlw:"application/vnd.ms-excel",txt:"text/plain",text:"text/plain",conf:"text/plain",log:"text/plain",pdf:"application/pdf",zip:"application/zip","7z":"application/x-7z-compressed",rar:"application/x-rar-compressed",tar:"application/x-tar",gz:"application/gzip",dmg:"application/x-apple-diskimage"};function yt(i){if(i.type)return i.type;let e=i.name?Oe(i.name).extension?.toLowerCase():null;return e&&e in ar?ar[e]:"application/octet-stream"}function Qd(i){return i.charCodeAt(0).toString(32)}function ao(i){let e="";return i.replace(/[^A-Z0-9]/gi,t=>(e+=`-${Qd(t)}`,"/"))+e}function lr(i,e){let t=e||"uppy";return typeof i.name=="string"&&(t+=`-${ao(i.name.toLowerCase())}`),i.type!==void 0&&(t+=`-${i.type}`),i.meta&&typeof i.meta.relativePath=="string"&&(t+=`-${ao(i.meta.relativePath.toLowerCase())}`),i.data?.size!==void 0&&(t+=`-${i.data.size}`),i.data.lastModified!==void 0&&(t+=`-${i.data.lastModified}`),t}function Jd(i){return!i.isRemote||!i.remote?!1:new Set(["box","dropbox","drive","facebook","unsplash"]).has(i.remote.provider)}function Kt(i,e){if(Jd(i))return i.id;let t=yt(i);return lr({...i,type:t},e)}u();u();u();var Te=Array.from;function dr(i){let e=Te(i.files);return Promise.resolve(e)}u();u();function Qi(i,e,t,{onSuccess:s}){i.readEntries(r=>{let n=[...e,...r];r.length?queueMicrotask(()=>{Qi(i,n,t,{onSuccess:s})}):s(n)},r=>{t(r),s(e)})}function lo(i,e){return i==null?i:{kind:i.isFile?"file":i.isDirectory?"directory":void 0,name:i.name,getFile(){return new Promise((t,s)=>i.file(t,s))},async*values(){let t=i.createReader();yield*await new Promise(r=>{Qi(t,[],e,{onSuccess:n=>r(n.map(o=>lo(o,e)))})})},isSameEntry:void 0}}async function*uo(i,e,t=void 0){let s=()=>`${e}/${i.name}`;if(i.kind==="file"){let r=await i.getFile();r!=null?(r.relativePath=e?s():null,yield r):t!=null&&(yield t)}else if(i.kind==="directory")for await(let r of i.values())yield*uo(r,e?s():i.name);else t!=null&&(yield t)}async function*ur(i,e){let t=await Promise.all(Array.from(i.items,async s=>{let r;return r??(r=lo(typeof s.getAsEntry=="function"?s.getAsEntry():s.webkitGetAsEntry(),e)),{fileSystemHandle:r,lastResortFile:s.getAsFile()}}));for(let{lastResortFile:s,fileSystemHandle:r}of t)if(r!=null)try{yield*uo(r,"",s)}catch(n){s!=null?yield s:e(n)}else s!=null&&(yield s)}async function Ji(i,e){let t=e?.logDropError??Function.prototype;try{let s=[];for await(let r of ur(i,t))s.push(r);return s}catch{return dr(i)}}u();function Ge(i){return nr(i)?i.message:String(i)}u();function Zd(i){for(;i&&!i.dir;)i=i.parentNode;return i?.dir}var cr=Zd;u();function hr(i){return i<10?`0${i}`:i.toString()}function Ke(){let i=new Date,e=hr(i.getHours()),t=hr(i.getMinutes()),s=hr(i.getSeconds());return`${e}:${t}:${s}`}u();function bt(i){return typeof i=="object"&&i!=null&&"name"in i&&i.name==="AbortError"}u();function Zi(){if(typeof window>"u")return!1;let i=document.body;return!(i==null||window==null||!("draggable"in i)||!("ondragstart"in i)||!("ondrop"in i)||!("FormData"in window)||!("FileReader"in window))}u();function Xt(i){return i.startsWith("blob:")}u();function Yt(i){return i?/^[^/]+\/(jpe?g|gif|png|svg|svg\+xml|bmp|webp|avif)$/.test(i):!1}u();function es(i){return i instanceof Error&&"isRestriction"in i&&i.isRestriction===!0}u();u();function pr(i){let e=Math.floor(i/3600)%24,t=Math.floor(i/60)%60,s=Math.floor(i%60);return{hours:e,minutes:t,seconds:s}}function ts(i){let e=pr(i),t=e.hours===0?"":`${e.hours}h`,s=e.minutes===0?"":`${e.hours===0?e.minutes:` ${e.minutes.toString(10).padStart(2,"0")}`}m`,r=e.hours!==0?"":`${e.minutes===0?e.seconds:` ${e.seconds.toString(10).padStart(2,"0")}`}s`;return`${t}${s}${r}`}u();function is(i){return{...i,type:i.mimeType,extension:i.name?Oe(i.name).extension:null}}u();function eu(i,e,t){let s=[];return i.forEach(r=>{if(typeof r!="string"){s.push(r);return}e[Symbol.split](r).forEach((n,o,l)=>{n!==""&&s.push(n),o<l.length-1&&s.push(t)})}),s}function co(i,e){let t=/\$/g,s="$$$$",r=[i];if(e==null)return r;for(let n of Object.keys(e))if(n!=="_"){let o=e[n];typeof o=="string"&&(o=t[Symbol.replace](o,s)),r=eu(r,new RegExp(`%\\{${n}\\}`,"g"),o)}return r}var tu=i=>{throw new Error(`missing string: ${i}`)},Qt,Jt,fr,Be=class{constructor(e,{onMissingKey:t=tu}={}){_(this,Jt);y(this,"locale");_(this,Qt);this.locale={strings:{},pluralize(s){return s===1?0:1}},Array.isArray(e)?e.forEach(w(this,Jt,fr),this):w(this,Jt,fr).call(this,e),C(this,Qt,t)}translate(e,t){return this.translateArray(e,t).join("")}translateArray(e,t){let s=this.locale.strings[e];if(s==null&&(h(this,Qt).call(this,e),s=e),typeof s=="object"){if(t&&typeof t.smart_count<"u"){let n=this.locale.pluralize(t.smart_count);return co(s[n],t)}throw new Error("Attempted to use a string with plural forms, but no value was given for %{smart_count}")}if(typeof s!="string")throw new Error("string was not a string");return co(s,t)}};Qt=new WeakMap,Jt=new WeakSet,fr=function(e){if(!e?.strings)return;let t=this.locale;Object.assign(this.locale,{strings:{...t.strings,...e.strings},pluralize:e.pluralize||t.pluralize})};u();function Zt(i,e){if(e===0)return"";if(i.length<=e)return i;if(e<=4)return`${i.slice(0,e-1)}\u2026`;let t=e-3,s=Math.ceil(t/2),r=Math.floor(t/2);return i.slice(0,s)+"..."+i.slice(-r)}u();u();u();var ii,U,go,iu,De,ho,yo,bo,mr,rs,ei,vo,br,gr,yr,su,ns={},os=[],ru=/acit|ex(?:s|g|n|p|$)|rph|grid|ows|mnc|ntw|ine[ch]|zoo|^ord|itera/i,si=Array.isArray;function ve(i,e){for(var t in e)i[t]=e[t];return i}function vr(i){i&&i.parentNode&&i.parentNode.removeChild(i)}function ri(i,e,t){var s,r,n,o={};for(n in e)n=="key"?s=e[n]:n=="ref"?r=e[n]:o[n]=e[n];if(arguments.length>2&&(o.children=arguments.length>3?ii.call(arguments,2):t),typeof i=="function"&&i.defaultProps!=null)for(n in i.defaultProps)o[n]===void 0&&(o[n]=i.defaultProps[n]);return ti(i,o,s,r,null)}function ti(i,e,t,s,r){var n={type:i,props:e,key:t,ref:s,__k:null,__:null,__b:0,__e:null,__c:null,constructor:void 0,__v:r??++go,__i:-1,__u:0};return r==null&&U.vnode!=null&&U.vnode(n),n}function wo(){return{current:null}}function L(i){return i.children}function ie(i,e){this.props=i,this.context=e}function Xe(i,e){if(e==null)return i.__?Xe(i.__,i.__i+1):null;for(var t;e<i.__k.length;e++)if((t=i.__k[e])!=null&&t.__e!=null)return t.__e;return typeof i.type=="function"?Xe(i):null}function nu(i){if(i.__P&&i.__d){var e=i.__v,t=e.__e,s=[],r=[],n=ve({},e);n.__v=e.__v+1,U.vnode&&U.vnode(n),wr(i.__P,n,e,i.__n,i.__P.namespaceURI,32&e.__u?[t]:null,s,t??Xe(e),!!(32&e.__u),r),n.__v=e.__v,n.__.__k[n.__i]=n,Po(s,n,r),e.__e=e.__=null,n.__e!=t&&Fo(n)}}function Fo(i){if((i=i.__)!=null&&i.__c!=null)return i.__e=i.__c.base=null,i.__k.some(function(e){if(e!=null&&e.__e!=null)return i.__e=i.__c.base=e.__e}),Fo(i)}function po(i){(!i.__d&&(i.__d=!0)&&De.push(i)&&!as.__r++||ho!=U.debounceRendering)&&((ho=U.debounceRendering)||yo)(as)}function as(){try{for(var i,e=1;De.length;)De.length>e&&De.sort(bo),i=De.shift(),e=De.length,nu(i)}finally{De.length=as.__r=0}}function _o(i,e,t,s,r,n,o,l,d,c,p){var m,f,v,g,F,T,S=s&&s.__k||os,k=e.length;for(d=ou(t,e,S,d,k),m=0;m<k;m++)(v=t.__k[m])!=null&&(f=v.__i!=-1&&S[v.__i]||ns,v.__i=m,T=wr(i,v,f,r,n,o,l,d,c,p),g=v.__e,v.ref&&f.ref!=v.ref&&(f.ref&&Fr(f.ref,null,v),p.push(v.ref,v.__c||g,v)),F==null&&g!=null&&(F=g),4&v.__u?(d=So(v,d,i),f.__e&&(f.__e=null)):typeof v.type=="function"&&T!==void 0?d=T:g&&(d=g.nextSibling),v.__u&=-7);return t.__e=F,d}function ou(i,e,t,s,r){var n,o,l,d,c,p=t.length,m=p,f=0;for(i.__k=new Array(r),n=0;n<r;n++)(o=e[n])!=null&&typeof o!="boolean"&&typeof o!="function"?(typeof o=="string"||typeof o=="number"||typeof o=="bigint"||o.constructor==String?o=i.__k[n]=ti(null,o,null,null,null):si(o)?o=i.__k[n]=ti(L,{children:o},null,null,null):o.constructor===void 0&&o.__b>0?o=i.__k[n]=ti(o.type,o.props,o.key,o.ref?o.ref:null,o.__v):i.__k[n]=o,d=n+f,o.__=i,o.__b=i.__b+1,l=null,(c=o.__i=au(o,t,d,m))!=-1&&(m--,(l=t[c])&&(l.__u|=2)),l==null||l.__v==null?(c==-1&&(r>p?f--:r<p&&f++),typeof o.type!="function"&&(o.__u|=4)):c!=d&&(c==d-1?f--:c==d+1?f++:(c>d?f--:f++,o.__u|=4))):i.__k[n]=null;if(m)for(n=0;n<p;n++)(l=t[n])!=null&&(2&l.__u)==0&&(l.__e==s&&(s=Xe(l)),Co(l,l));return s}function So(i,e,t){var s,r;if(typeof i.type=="function"){for(s=i.__k,r=0;s&&r<s.length;r++)s[r]&&(s[r].__=i,e=So(s[r],e,t));return e}i.__e!=e&&(e&&i.type&&!e.parentNode&&(e=Xe(i)),e=t.insertBefore(i.__e,e||null));do e=e&&e.nextSibling;while(e!=null&&e.nodeType==8);return e}function we(i,e){return e=e||[],i==null||typeof i=="boolean"||(si(i)?i.some(function(t){we(t,e)}):e.push(i)),e}function au(i,e,t,s){var r,n,o,l=i.key,d=i.type,c=e[t],p=c!=null&&(2&c.__u)==0;if(c===null&&l==null||p&&l==c.key&&d==c.type)return t;if(s>(p?1:0)){for(r=t-1,n=t+1;r>=0||n<e.length;)if((c=e[o=r>=0?r--:n++])!=null&&(2&c.__u)==0&&l==c.key&&d==c.type)return o}return-1}function fo(i,e,t){e[0]=="-"?i.setProperty(e,t??""):i[e]=t==null?"":typeof t!="number"||ru.test(e)?t:t+"px"}function ss(i,e,t,s,r){var n,o;e:if(e=="style")if(typeof t=="string")i.style.cssText=t;else{if(typeof s=="string"&&(i.style.cssText=s=""),s)for(e in s)t&&e in t||fo(i.style,e,"");if(t)for(e in t)s&&t[e]==s[e]||fo(i.style,e,t[e])}else if(e[0]=="o"&&e[1]=="n")n=e!=(e=e.replace(vo,"$1")),o=e.toLowerCase(),e=o in i||e=="onFocusOut"||e=="onFocusIn"?o.slice(2):e.slice(2),i.l||(i.l={}),i.l[e+n]=t,t?s?t[ei]=s[ei]:(t[ei]=br,i.addEventListener(e,n?yr:gr,n)):i.removeEventListener(e,n?yr:gr,n);else{if(r=="http://www.w3.org/2000/svg")e=e.replace(/xlink(H|:h)/,"h").replace(/sName$/,"s");else if(e!="width"&&e!="height"&&e!="href"&&e!="list"&&e!="form"&&e!="tabIndex"&&e!="download"&&e!="rowSpan"&&e!="colSpan"&&e!="role"&&e!="popover"&&e in i)try{i[e]=t??"";break e}catch{}typeof t=="function"||(t==null||t===!1&&e[4]!="-"?i.removeAttribute(e):i.setAttribute(e,e=="popover"&&t==1?"":t))}}function mo(i){return function(e){if(this.l){var t=this.l[e.type+i];if(e[rs]==null)e[rs]=br++;else if(e[rs]<t[ei])return;return t(U.event?U.event(e):e)}}}function wr(i,e,t,s,r,n,o,l,d,c){var p,m,f,v,g,F,T,S,k,P,N,B,x,O,I,z,M=e.type;if(e.constructor!==void 0)return null;128&t.__u&&(d=!!(32&t.__u),n=[l=e.__e=t.__e]),(p=U.__b)&&p(e);e:if(typeof M=="function"){m=o.length;try{if(k=e.props,P=M.prototype&&M.prototype.render,N=(p=M.contextType)&&s[p.__c],B=p?N?N.props.value:p.__:s,t.__c?S=(f=e.__c=t.__c).__=f.__E:(P?e.__c=f=new M(k,B):(e.__c=f=new ie(k,B),f.constructor=M,f.render=du),N&&N.sub(f),f.state||(f.state={}),f.__n=s,v=f.__d=!0,f.__h=[],f._sb=[]),P&&f.__s==null&&(f.__s=f.state),P&&M.getDerivedStateFromProps!=null&&(f.__s==f.state&&(f.__s=ve({},f.__s)),ve(f.__s,M.getDerivedStateFromProps(k,f.__s))),g=f.props,F=f.state,f.__v=e,v)P&&M.getDerivedStateFromProps==null&&f.componentWillMount!=null&&f.componentWillMount(),P&&f.componentDidMount!=null&&f.__h.push(f.componentDidMount);else{if(P&&M.getDerivedStateFromProps==null&&k!==g&&f.componentWillReceiveProps!=null&&f.componentWillReceiveProps(k,B),e.__v==t.__v||!f.__e&&f.shouldComponentUpdate!=null&&f.shouldComponentUpdate(k,f.__s,B)===!1){e.__v!=t.__v&&(f.props=k,f.state=f.__s,f.__d=!1),e.__e=t.__e,e.__k=t.__k,e.__k.some(function(J){J&&(J.__=e)}),os.push.apply(f.__h,f._sb),f._sb=[],f.__h.length&&o.push(f),l=Xe(t);break e}f.componentWillUpdate!=null&&f.componentWillUpdate(k,f.__s,B),P&&f.componentDidUpdate!=null&&f.__h.push(function(){f.componentDidUpdate(g,F,T)})}if(f.context=B,f.props=k,f.__P=i,f.__e=!1,x=U.__r,O=0,P)f.state=f.__s,f.__d=!1,x&&x(e),p=f.render(f.props,f.state,f.context),os.push.apply(f.__h,f._sb),f._sb=[];else do f.__d=!1,x&&x(e),p=f.render(f.props,f.state,f.context),f.state=f.__s;while(f.__d&&++O<25);f.state=f.__s,f.getChildContext!=null&&(s=ve(ve({},s),f.getChildContext())),P&&!v&&f.getSnapshotBeforeUpdate!=null&&(T=f.getSnapshotBeforeUpdate(g,F)),I=p!=null&&p.type===L&&p.key==null?To(p.props.children):p,l=_o(i,si(I)?I:[I],e,t,s,r,n,o,l,d,c),f.base=e.__e,e.__u&=-161,f.__h.length&&o.push(f),S&&(f.__E=f.__=null)}catch(J){if(o.length=m,e.__v=null,d||n!=null){if(J.then){for(e.__u|=d?160:128;l&&l.nodeType==8&&l.nextSibling;)l=l.nextSibling;n!=null&&(n[n.indexOf(l)]=null),e.__e=l}else if(n!=null)for(z=n.length;z--;)vr(n[z])}else e.__e=t.__e;e.__k==null&&(e.__k=t.__k||[]),J.then||xo(e),U.__e(J,e,t)}}else n==null&&e.__v==t.__v?(e.__k=t.__k,e.__e=t.__e):l=e.__e=lu(t.__e,e,t,s,r,n,o,d,c);return(p=U.diffed)&&p(e),128&e.__u?void 0:l}function xo(i){i&&(i.__c&&(i.__c.__e=!0),i.__k&&i.__k.some(xo))}function Po(i,e,t){for(var s=0;s<t.length;s++)Fr(t[s],t[++s],t[++s]);U.__c&&U.__c(e,i),i.some(function(r){try{i=r.__h,r.__h=[],i.some(function(n){n.call(r)})}catch(n){U.__e(n,r.__v)}})}function To(i){return typeof i!="object"||i==null||i.__b>0?i:si(i)?i.map(To):i.constructor!==void 0?null:ve({},i)}function lu(i,e,t,s,r,n,o,l,d){var c,p,m,f,v,g,F,T=t.props||ns,S=e.props,k=e.type;if(k=="svg"?r="http://www.w3.org/2000/svg":k=="math"?r="http://www.w3.org/1998/Math/MathML":r||(r="http://www.w3.org/1999/xhtml"),n!=null){for(c=0;c<n.length;c++)if((v=n[c])&&"setAttribute"in v==!!k&&(k?v.localName==k:v.nodeType==3)){i=v,n[c]=null;break}}if(i==null){if(k==null)return document.createTextNode(S);i=document.createElementNS(r,k,S.is&&S),l&&(U.__m&&U.__m(e,n),l=!1),n=null}if(k==null)T===S||l&&i.data==S||(i.data=S);else{if(n=k=="textarea"&&S.defaultValue!=null?null:n&&ii.call(i.childNodes),!l&&n!=null)for(T={},c=0;c<i.attributes.length;c++)T[(v=i.attributes[c]).name]=v.value;for(c in T)v=T[c],c=="dangerouslySetInnerHTML"?m=v:c=="children"||c in S||c=="value"&&"defaultValue"in S||c=="checked"&&"defaultChecked"in S||ss(i,c,null,v,r);for(c in S)v=S[c],c=="children"?f=v:c=="dangerouslySetInnerHTML"?p=v:c=="value"?g=v:c=="checked"?F=v:l&&typeof v!="function"||T[c]===v||ss(i,c,v,T[c],r);if(p)l||m&&(p.__html==m.__html||p.__html==i.innerHTML)||(i.innerHTML=p.__html),e.__k=[];else if(m&&(i.innerHTML=""),_o(e.type=="template"?i.content:i,si(f)?f:[f],e,t,s,k=="foreignObject"?"http://www.w3.org/1999/xhtml":r,n,o,n?n[0]:t.__k&&Xe(t,0),l,d),n!=null)for(c=n.length;c--;)vr(n[c]);l&&k!="textarea"||(c="value",k=="progress"&&g==null?i.removeAttribute("value"):g!=null&&(g!==i[c]||k=="progress"&&!g||k=="option"&&g!=T[c])&&ss(i,c,g,T[c],r),c="checked",F!=null&&F!=i[c]&&ss(i,c,F,T[c],r))}return i}function Fr(i,e,t){try{if(typeof i=="function"){var s=typeof i.__u=="function";s&&i.__u(),s&&e==null||(i.__u=i(e))}else i.current=e}catch(r){U.__e(r,t)}}function Co(i,e,t){var s,r;if(U.unmount&&U.unmount(i),(s=i.ref)&&(s.current&&s.current!=i.__e||Fr(s,null,e)),(s=i.__c)!=null){if(s.componentWillUnmount)try{s.componentWillUnmount()}catch(n){U.__e(n,e)}s.base=s.__P=s.__n=null}if(s=i.__k)for(r=0;r<s.length;r++)s[r]&&Co(s[r],e,t||typeof i.type!="function");t||vr(i.__e),i.__c=i.__=i.__e=void 0}function du(i,e,t){return this.constructor(i,t)}function _r(i,e,t){var s,r,n,o;e==document&&(e=document.documentElement),U.__&&U.__(i,e),r=(s=typeof t=="function")?null:t&&t.__k||e.__k,n=[],o=[],wr(e,i=(!s&&t||e).__k=ri(L,null,[i]),r||ns,ns,e.namespaceURI,!s&&t?[t]:r?null:e.firstChild?ii.call(e.childNodes):null,n,!s&&t?t:r?r.__e:e.firstChild,s,o),Po(n,i,o),i.props.children=null}function ls(i,e,t){var s,r,n,o,l=ve({},i.props);for(n in i.type&&i.type.defaultProps&&(o=i.type.defaultProps),e)n=="key"?s=e[n]:n=="ref"?r=e[n]:l[n]=e[n]===void 0&&o!=null?o[n]:e[n];return arguments.length>2&&(l.children=arguments.length>3?ii.call(arguments,2):t),ti(i.type,l,s||i.key,r||i.ref,null)}ii=os.slice,U={__e:function(i,e,t,s){for(var r,n,o;e=e.__;)if((r=e.__c)&&!r.__)try{if((n=r.constructor)&&n.getDerivedStateFromError!=null&&(r.setState(n.getDerivedStateFromError(i)),o=r.__d),r.componentDidCatch!=null&&(r.componentDidCatch(i,s||{}),o=r.__d),o)return r.__E=r}catch(l){i=l}throw i}},go=0,iu=function(i){return i!=null&&i.constructor===void 0},ie.prototype.setState=function(i,e){var t;t=this.__s!=null&&this.__s!=this.state?this.__s:this.__s=ve({},this.state),typeof i=="function"&&(i=i(ve({},t),this.props)),i&&ve(t,i),i!=null&&this.__v&&(e&&this._sb.push(e),po(this))},ie.prototype.forceUpdate=function(i){this.__v&&(this.__e=!0,i&&this.__h.push(i),po(this))},ie.prototype.render=L,De=[],yo=typeof Promise=="function"?Promise.prototype.then.bind(Promise.resolve()):setTimeout,bo=function(i,e){return i.__v.__b-e.__v.__b},as.__r=0,mr=Math.random().toString(8),rs="__d"+mr,ei="__a"+mr,vo=/(PointerCapture)$|Capture$/i,br=0,gr=mo(!1),yr=mo(!0),su=0;var uu=0;function a(i,e,t,s,r,n){e||(e={});var o,l,d=e;if("ref"in d)for(l in d={},e)l=="ref"?o=e[l]:d[l]=e[l];var c={type:i,props:d,key:t,ref:o,__k:null,__:null,__b:0,__e:null,__c:null,constructor:void 0,__v:--uu,__i:-1,__u:0,__source:r,__self:n};if(typeof i=="function"&&(o=i.defaultProps))for(l in o)d[l]===void 0&&(d[l]=o[l]);return U.vnode&&U.vnode(c),c}u();var Ye,$,Sr,ko,ni=0,Uo=[],G=U,Eo=G.__b,Io=G.__r,Ao=G.diffed,No=G.__c,Oo=G.unmount,Bo=G.__;function oi(i,e){G.__h&&G.__h($,i,ni||e),ni=0;var t=$.__H||($.__H={__:[],__h:[]});return i>=t.__.length&&t.__.push({}),t.__[i]}function V(i){return ni=1,cu(Mo,i)}function cu(i,e,t){var s=oi(Ye++,2);if(s.t=i,!s.__c&&(s.__=[t?t(e):Mo(void 0,e),function(l){var d=s.__N?s.__N[0]:s.__[0],c=s.t(d,l);d!==c&&(s.__N=[c,s.__[1]],s.__c.setState({}))}],s.__c=$,!$.__f)){var r=function(l,d,c){if(!s.__c.__H)return!0;var p=!1,m=s.__c.props!==l;if(s.__c.__H.__.some(function(v){if(v.__N){p=!0;var g=v.__[0];v.__=v.__N,v.__N=void 0,g!==v.__[0]&&(m=!0)}}),n){var f=n.call(this,l,d,c);return p?f||m:f}return!p||m};$.__f=!0;var n=$.shouldComponentUpdate,o=$.componentWillUpdate;$.componentWillUpdate=function(l,d,c){if(this.__e){var p=n;n=void 0,r(l,d,c),n=p}o&&o.call(this,l,d,c)},$.shouldComponentUpdate=r}return s.__N||s.__}function X(i,e){var t=oi(Ye++,3);!G.__s&&Pr(t.__H,e)&&(t.__=i,t.u=e,$.__H.__h.push(t))}function Ro(i,e){var t=oi(Ye++,4);!G.__s&&Pr(t.__H,e)&&(t.__=i,t.u=e,$.__h.push(t))}function q(i){return ni=5,Qe(function(){return{current:i}},[])}function Qe(i,e){var t=oi(Ye++,7);return Pr(t.__H,e)&&(t.__=i(),t.__H=e,t.__h=i),t.__}function se(i,e){return ni=8,Qe(function(){return i},e)}function us(){var i=oi(Ye++,11);if(!i.__){for(var e=$.__v;e!==null&&!e.__m&&e.__!==null;)e=e.__;var t=e.__m||(e.__m=[0,0]);i.__="P"+t[0]+"-"+t[1]++}return i.__}function hu(){for(var i;i=Uo.shift();){var e=i.__H;if(i.__P&&e)try{e.__h.some(ds),e.__h.some(xr),e.__h=[]}catch(t){e.__h=[],G.__e(t,i.__v)}}}G.__b=function(i){$=null,Eo&&Eo(i)},G.__=function(i,e){i&&e.__k&&e.__k.__m&&(i.__m=e.__k.__m),Bo&&Bo(i,e)},G.__r=function(i){Io&&Io(i),Ye=0;var e=($=i.__c).__H;e&&(Sr===$?(e.__h=[],$.__h=[],e.__.some(function(t){t.__N&&(t.__=t.__N),t.u=t.__N=void 0})):(e.__h.some(ds),e.__h.some(xr),e.__h=[],Ye=0)),Sr=$},G.diffed=function(i){Ao&&Ao(i);var e=i.__c;e&&e.__H&&(e.__H.__h.length&&(Uo.push(e)!==1&&ko===G.requestAnimationFrame||((ko=G.requestAnimationFrame)||pu)(hu)),e.__H.__.some(function(t){t.u&&(t.__H=t.u,t.u=void 0)})),Sr=$=null},G.__c=function(i,e){e.some(function(t){try{t.__h.some(ds),t.__h=t.__h.filter(function(s){return!s.__||xr(s)})}catch(s){e.some(function(r){r.__h&&(r.__h=[])}),e=[],G.__e(s,t.__v)}}),No&&No(i,e)},G.unmount=function(i){Oo&&Oo(i);var e,t=i.__c;t&&t.__H&&(t.__H.__.some(function(s){try{ds(s)}catch(r){e=r}}),t.__H=void 0,e&&G.__e(e,t.__v))};var Do=typeof requestAnimationFrame=="function";function pu(i){var e,t=function(){clearTimeout(s),Do&&cancelAnimationFrame(e),setTimeout(i)},s=setTimeout(t,35);Do&&(e=requestAnimationFrame(t))}function ds(i){var e=$,t=i.__c;typeof t=="function"&&(i.__c=void 0,t()),$=e}function xr(i){var e=$;i.__c=i.__(),$=e}function Pr(i,e){return!i||i.length!==e.length||e.some(function(t,s){return t!==i[s]})}function Mo(i,e){return typeof e=="function"?e(i):e}var fu={position:"relative",width:"100%",minHeight:"100%"},mu={position:"absolute",top:0,left:0,width:"100%",overflow:"visible"};function vt({data:i,rowHeight:e,renderRow:t,overscanCount:s=10,padding:r=4,...n}){let o=q(null),[l,d]=V(0),[c,p]=V(0);X(()=>{function k(){o.current!=null&&c!==o.current.offsetHeight&&p(o.current.offsetHeight)}return k(),window.addEventListener("resize",k),()=>{window.removeEventListener("resize",k)}},[c]);let m=se(()=>{o.current&&d(o.current.scrollTop)},[]),f=Math.floor(l/e),v=Math.floor(c/e);s&&(f=Math.max(0,f-f%s),v+=s);let g=f+v+r,F=i.slice(f,g),T={...fu,height:i.length*e},S={...mu,top:f*e};return a("div",{onScroll:m,ref:o,...n,children:a("div",{role:"presentation",style:T,children:a("div",{role:"presentation",style:S,children:F.map(t)})})})}var Ue=class{constructor(e,t){y(this,"uppy");y(this,"opts");y(this,"id");y(this,"defaultLocale");y(this,"i18n");y(this,"i18nArray");y(this,"type");y(this,"VERSION");this.uppy=e,this.opts=t??{}}getPluginState(){let{plugins:e}=this.uppy.getState();return e?.[this.id]||{}}setPluginState(e){let{plugins:t}=this.uppy.getState();this.uppy.setState({plugins:{...t,[this.id]:{...t[this.id],...e}}})}setOptions(e){this.opts={...this.opts,...e},this.setPluginState(void 0),this.i18nInit()}i18nInit(){let e=new Be([this.defaultLocale,this.uppy.locale,this.opts.locale]);this.i18n=e.translate.bind(e),this.i18nArray=e.translateArray.bind(e),this.setPluginState(void 0)}addTarget(e){throw new Error("Extend the addTarget method to add your plugin to another plugin's target")}install(){}uninstall(){}update(e){}afterUpdate(){}};u();var Lo={debug:()=>{},warn:()=>{},error:(...i)=>console.error(`[Uppy] [${Ke()}]`,...i)},jo={debug:(...i)=>console.debug(`[Uppy] [${Ke()}]`,...i),warn:(...i)=>console.warn(`[Uppy] [${Ke()}]`,...i),error:(...i)=>console.error(`[Uppy] [${Ke()}]`,...i)};u();u();var Tr=["B","KB","MB","GB","TB","PB","EB","ZB","YB"];function he(i,e){if(typeof i!="number"||Number.isNaN(i))throw new TypeError(`Expected a number, got ${typeof i}`);let t=i<0,s=Math.abs(i);if(t&&(s=-s),s===0)return"0 B";let r=e?Tr.indexOf(e):Math.min(Math.floor(Math.log(s)/Math.log(1024)),Tr.length-1),n=Number(s/1024**r),o=Tr[r];return r>=3?n%1===0?`${Math.round(n)} ${o}`:`${n.toFixed(2)} ${o}`:`${n>=10||n%1===0?Math.round(n):n.toFixed(1)} ${o}`}var Wo=j(Vo(),1);var Go={maxFileSize:null,minFileSize:null,maxTotalFileSize:null,maxNumberOfFiles:null,minNumberOfFiles:null,allowedFileTypes:null,requiredMetaFields:[]},le=class extends Error{constructor(t,s){super(t);y(this,"isUserFacing");y(this,"file");y(this,"isRestriction",!0);this.isUserFacing=s?.isUserFacing??!0,s?.file&&(this.file=s.file)}},cs=class{constructor(e,t){y(this,"getI18n");y(this,"getOpts");this.getI18n=t,this.getOpts=()=>{let s=e();if(s.restrictions?.allowedFileTypes!=null&&!Array.isArray(s.restrictions.allowedFileTypes))throw new TypeError("`restrictions.allowedFileTypes` must be an array");return s}}validateAggregateRestrictions(e,t){let{maxTotalFileSize:s,maxNumberOfFiles:r}=this.getOpts().restrictions;if(r&&e.filter(o=>!o.isGhost).length+t.length>r)throw new le(`${this.getI18n()("youCanOnlyUploadX",{smart_count:r})}`);if(s){let n=[...e,...t].reduce((o,l)=>o+(l.size??0),0);if(n>s)throw new le(this.getI18n()("aggregateExceedsSize",{sizeAllowed:he(s),size:he(n)}))}}validateSingleFile(e){let{maxFileSize:t,minFileSize:s,allowedFileTypes:r}=this.getOpts().restrictions;if(r&&!r.some(o=>o.includes("/")?e.type?(0,Wo.default)(e.type.replace(/;.*?$/,""),o):!1:o[0]==="."&&e.extension?e.extension.toLowerCase()===o.slice(1).toLowerCase():!1)){let o=r.join(", ");throw new le(this.getI18n()("youCanOnlyUploadFileTypes",{types:o}),{file:e})}if(t&&e.size!=null&&e.size>t)throw new le(this.getI18n()("exceedsSize",{size:he(t),file:e.name??this.getI18n()("unnamed")}),{file:e});if(s&&e.size!=null&&e.size<s)throw new le(this.getI18n()("inferiorSize",{size:he(s)}),{file:e})}validate(e,t){t.forEach(s=>{this.validateSingleFile(s)}),this.validateAggregateRestrictions(e,t)}validateMinNumberOfFiles(e){let{minNumberOfFiles:t}=this.getOpts().restrictions;if(t&&Object.keys(e).length<t)throw new le(this.getI18n()("youHaveToAtLeastSelectX",{smart_count:t}))}getMissingRequiredMetaFields(e){let t=new le(this.getI18n()("missingRequiredMetaFieldOnFile",{fileName:e.name??this.getI18n()("unnamed")})),{requiredMetaFields:s}=this.getOpts().restrictions,r=[];for(let n of s)(!Object.hasOwn(e.meta,n)||e.meta[n]==="")&&r.push(n);return{missingFields:r,error:t}}};u();function bu(i){let e=null,t;return(...s)=>(t=s,e||(e=Promise.resolve().then(()=>(e=null,i(...t)))),e)}var ai,hs=class hs extends Ue{constructor(){super(...arguments);_(this,ai);y(this,"isTargetDOMEl");y(this,"el",null);y(this,"parent");y(this,"title")}getTargetPlugin(t){let s;if(typeof t?.addTarget=="function")s=t,s instanceof hs||console.warn(new Error("The provided plugin is not an instance of UIPlugin. This is an indication of a bug with the way Uppy is bundled.",{cause:{targetPlugin:s,UIPlugin:hs}}));else if(typeof t=="function"){let r=t;this.uppy.iteratePlugins(n=>{n instanceof r&&(s=n)})}return s}mount(t,s){let r=s.id,n=or(t);if(n){this.isTargetDOMEl=!0;let d=document.createElement("div");return d.classList.add("uppy-Root"),C(this,ai,bu(c=>{this.uppy.getPlugin(this.id)&&(_r(this.render(c,d),d),this.afterUpdate())})),this.uppy.log(`Installing ${r} to a DOM element '${t}'`),this.opts.replaceTargetContent&&(n.innerHTML=""),_r(this.render(this.uppy.getState(),d),d),this.el=d,n.appendChild(d),d.dir=this.opts.direction||cr(d)||"ltr",this.onMount(),this.el}let o=this.getTargetPlugin(t);if(o)return this.uppy.log(`Installing ${r} to ${o.id}`),this.parent=o,this.el=o.addTarget(s),this.onMount(),this.el;this.uppy.log(`Not installing ${r}`);let l=`Invalid target option given to ${r}.`;throw typeof t=="function"?l+=" The given target is not a Plugin class. Please check that you're not specifying a React Component instead of a plugin. If you are using @uppy/* packages directly, make sure you have only 1 version of @uppy/core installed: run `npm ls @uppy/core` on the command line and verify that all the versions match and are deduped correctly.":l+="If you meant to target an HTML element, please make sure that the element exists. Check that the <script> tag initializing Uppy is right before the closing </body> tag at the end of the page. (see https://github.com/transloadit/uppy/issues/1042)\n\nIf you meant to target a plugin, please confirm that your `import` statements or `require` calls are correct.",new Error(l)}render(t,s){throw new Error("Extend the render method to add your plugin to a DOM element")}update(t){var s;this.el!=null&&((s=h(this,ai))==null||s.call(this,t))}unmount(){this.isTargetDOMEl&&this.el?.remove(),this.onUnmount()}onMount(){}onUnmount(){}};ai=new WeakMap;var Cr=hs,li=Cr;u();var Oa=j(Ta(),1),Ba=j(ka(),1);u();u();var Ea="57X6y3wQZNzYjJB2L_10pxbackgroundhimselfUTF-8DEMOGRAPHICSVqvt4KW9";var ms=(i=21)=>{let e="",t=i|0;for(;t-- >0;)e+=Ea[Math.random()*64|0];return e};var wt={name:"@uppy/core",description:"Core module for the extensible JavaScript file upload widget with support for drag&drop, resumable uploads, previews, restrictions, file processing/encoding, remote providers like Dropbox, Google Drive, S3 and more :dog:",version:"6.2.0",license:"MIT",style:"dist/style.min.css",type:"module",sideEffects:["*.css"],scripts:{build:"tsc --build tsconfig.build.json","build:css":"sass --load-path=../../ src/style.scss dist/style.css && sass --load-path=../../ src/provider-views/style.scss dist/provider-views.css && postcss dist/style.css -u cssnano -o dist/style.min.css && postcss dist/provider-views.css -u cssnano -o dist/provider-views.min.css",typecheck:"tsc --build",test:"vitest run --silent='passed-only'"},keywords:["file uploader","uppy","uppy-plugin"],homepage:"https://uppy.io",bugs:{url:"https://github.com/transloadit/uppy/issues"},repository:{type:"git",url:"git+https://github.com/transloadit/uppy.git"},files:["src","lib","dist","CHANGELOG.md"],exports:{".":"./lib/index.js","./css/style.min.css":"./dist/style.min.css","./css/style.css":"./dist/style.css","./css/style.scss":"./src/style.scss","./store-default":"./lib/store/index.js","./utils":"./lib/utils/index.js","./utils/preact":"./lib/utils/preact/index.js","./utils/preact/hooks":"./lib/utils/preact/hooks.js","./companion-client":"./lib/companion-client/index.js","./provider-views":"./lib/provider-views/index.js","./provider-views/css/style.min.css":"./dist/provider-views.min.css","./provider-views/css/style.css":"./dist/provider-views.css","./provider-views/css/style.scss":"./src/provider-views/style.scss","./package.json":"./package.json"},dependencies:{"@transloadit/prettier-bytes":"^2.0.0",classnames:"^2.5.1",lodash:"^4.18.1","mime-match":"^1.0.2","namespace-emitter":"^2.0.1",nanoid:"^6.0.1","p-queue":"^9.3.3","p-retry":"^8.0.0",preact:"^10.29.2"},devDependencies:{"@types/deep-freeze":"^0","@types/gapi":"^0.0.47","@types/google.accounts":"^0.0.18","@types/google.picker":"^0.0.52","@types/lodash":"^4.17.25","@types/mime-match":"^1.0.0","@types/namespace-emitter":"^2.0.0","@types/node":"^22.20.1","@uppy-dev/tsconfig":"^0.0.0","@vitest/browser-playwright":"^4.1.11",cssnano:"^8.0.1","deep-freeze":"^0.0.1",playwright:"1.61.1",postcss:"^8.5.23","postcss-cli":"^11.0.1",sass:"^1.89.2",typescript:"^6.0.3",vite:"^8.2.2",vitest:"^4.1.11"}};u();function Ar(i,e){return e.name?e.name:i.split("/")[0]==="image"?`${i.split("/")[0]}.${i.split("/")[1]}`:"noname"}u();var Ia={strings:{addBulkFilesFailed:{0:"Failed to add %{smart_count} file due to an internal error",1:"Failed to add %{smart_count} files due to internal errors"},youCanOnlyUploadX:{0:"You can only upload %{smart_count} file",1:"You can only upload %{smart_count} files"},youHaveToAtLeastSelectX:{0:"You have to select at least %{smart_count} file",1:"You have to select at least %{smart_count} files"},aggregateExceedsSize:"You selected %{size} of files, but maximum allowed size is %{sizeAllowed}",exceedsSize:"%{file} exceeds maximum allowed size of %{size}",missingRequiredMetaField:"Missing required meta fields",missingRequiredMetaFieldOnFile:"Missing required meta fields in %{fileName}",inferiorSize:"This file is smaller than the allowed size of %{size}",youCanOnlyUploadFileTypes:"You can only upload: %{types}",noMoreFilesAllowed:"Cannot add more files",noDuplicates:"Cannot add the duplicate file '%{fileName}', it already exists",companionError:"Connection with Companion failed",actionFailed:"The action failed",authAborted:"Authentication aborted",companionUnauthorizeHint:"To unauthorize to your %{provider} account, please go to %{url}",failedToUpload:"Failed to upload %{file}",noInternetConnection:"No Internet connection",connectedToInternet:"Connected to the Internet",noFilesFound:"You have no files or folders here",noSearchResults:"Unfortunately, there are no results for this search",selectX:{0:"Select %{smart_count}",1:"Select %{smart_count}"},allFilesFromFolderNamed:"All files from folder %{name}",openFolderNamed:"Open folder %{name}",openFileNamed:"Open %{name}",itemActionsNamed:"Actions for %{name}",itemsSelected:{0:"%{smart_count} selected",1:"%{smart_count} selected"},selectMultiple:"Select multiple",cancelSelection:"Cancel selection",close:"Close",detailSize:"Size",detailType:"Type",detailModified:"Modified",cancel:"Cancel",stopOperation:"Stop",dialogConfirm:"OK",logOut:"Log out",logIn:"Log in",pickFiles:"Pick files",pickPhotos:"Pick photos",filter:"Filter",resetFilter:"Reset filter",loading:"Loading...",loadedXFiles:"Loaded %{numFiles} files",authenticateWithTitle:"Please authenticate with %{pluginName} to select files",authenticateWith:"Connect to %{pluginName}",signInWithGoogle:"Sign in with Google",searchImages:"Search for images",enterTextToSearch:"Enter text to search for images",search:"Search",resetSearch:"Reset search",emptyFolderAdded:"No files were added from empty folder",addedNumFiles:"Added %{numFiles} file(s)",folderAlreadyAdded:'The folder "%{folder}" was already added',folderAdded:{0:"Added %{smart_count} file from %{folder}",1:"Added %{smart_count} files from %{folder}"},additionalRestrictionsFailed:"%{count} additional restrictions were not fulfilled",unnamed:"Unnamed",pleaseWait:"Please wait",s3AlreadyExists:"A file or folder with that name already exists",s3Conflict:"The file changed while it was being moved. Refresh the folder and try again",s3DestinationMustBeFile:"The destination of a file must be a file path",s3FileTooLargeToMove:"Files larger than 5 GB cannot be moved or renamed here",s3FolderMoveNotSupported:"Folders have to be moved item by item",s3FolderIntoItself:"A folder cannot be moved into itself",s3FolderNotEmpty:"The folder is not empty",s3InvalidGrant:"Your access to this storage could not be verified",s3InvalidName:"That name is not allowed",s3NotConfigured:"This storage is not available",s3NotFound:"The file or folder no longer exists",s3OutsideAllowedFolder:"That path is outside the folder you have access to",s3ReadOnlySession:"Your session is read-only",s3RequestFailed:"The storage request failed",s3SelectedInOtherSession:"This file was selected in another storage session. Reconnect and select it again",webdavCannotConnect:"Cannot connect to server"}};u();var Ft,ys,Aa,gs=class{constructor(){_(this,ys);y(this,"state",{});_(this,Ft,new Set)}getState(){return this.state}setState(e){let t={...this.state},s={...this.state,...e};this.state=s,w(this,ys,Aa).call(this,t,s,e)}subscribe(e){return h(this,Ft).add(e),()=>{h(this,Ft).delete(e)}}};Ft=new WeakMap,ys=new WeakSet,Aa=function(...e){h(this,Ft).forEach(t=>{t(...e)})},y(gs,"VERSION",wt.version);var Na=gs;u();function Nr(i){if(i==null&&typeof navigator<"u"&&(i=navigator.userAgent),!i)return!0;let e=/Edge\/(\d+\.\d+)/.exec(i);if(!e)return!0;let s=e[1].split(".",2),r=parseInt(s[0],10),n=parseInt(s[1],10);return r<15||r===15&&n<15063||r>18||r===18&&n>=18218}var bs={totalProgress:0,allowNewUpload:!0,error:null,recoveredState:null},me,ge,hi,Ze,_t,St,et,A,Je,Br,Da,Ua,Ra,Dr,Ur,Rr,Mr,vs,Lr,tt,Ma,La,Re,pi,ui,ja,jr,ci,ws=class ws{constructor(e){_(this,A);_(this,me,Object.create(null));_(this,ge);_(this,hi);_(this,Ze,(0,Ba.default)());_(this,_t,new Set);_(this,St,new Set);_(this,et,new Set);y(this,"defaultLocale");y(this,"locale");y(this,"opts");y(this,"store");y(this,"i18n");y(this,"i18nArray");y(this,"scheduledAutoProceed",null);y(this,"wasOffline",!1);_(this,vs,(e,t)=>{let s=e?this.getFile(e.id):void 0;if(e==null||!s){this.log(`Not setting progress for a file that has been removed: ${e?.id}`);return}if(s.progress.percentage===100){this.log(`Not setting progress for a file that has been already uploaded: ${e.id}`);return}let r={bytesTotal:t.bytesTotal,percentage:t.bytesTotal!=null&&Number.isFinite(t.bytesTotal)&&t.bytesTotal>0?Math.round(t.bytesUploaded/t.bytesTotal*100):void 0};s.progress.uploadStarted!=null?this.setFileState(e.id,{progress:{...s.progress,...r,bytesUploaded:t.bytesUploaded}}):this.setFileState(e.id,{progress:{...s.progress,...r}}),h(this,tt).call(this)});_(this,tt,(0,Oa.default)(()=>w(this,A,Lr).call(this),500,{leading:!0,trailing:!0}));_(this,Re,this.updateOnlineStatus.bind(this));_(this,pi,new Map);this.defaultLocale=Ia;let t={id:"uppy",autoProceed:!1,allowMultipleUploadBatches:!0,debug:!1,restrictions:Go,meta:{},onBeforeFileAdded:(r,n)=>!Object.hasOwn(n,r.id),onBeforeUpload:r=>r,store:new Na,logger:Lo,infoTimeout:5e3},s={...t,...e};this.opts={...s,restrictions:{...t.restrictions,...e?.restrictions}},e?.logger&&e.debug?this.log("You are using a custom `logger`, but also set `debug: true`, which uses built-in logger to output logs to console. Ignoring `debug: true` and using your custom `logger`.","warning"):e?.debug&&(this.opts.logger=jo),this.log(`Using Core v${ws.VERSION}`),this.i18nInit(),this.store=this.opts.store,this.setState({...bs,plugins:{},files:{},currentUploads:{},capabilities:{uploadProgress:Nr(),individualCancellation:!0,resumableUploads:!1},meta:{...this.opts.meta},info:[]}),C(this,ge,new cs(()=>this.opts,()=>this.i18n)),C(this,hi,this.store.subscribe((r,n,o)=>{this.emit("state-update",r,n,o),this.updateAll(n)})),this.opts.debug&&typeof window<"u"&&(window[this.opts.id]=this),w(this,A,La).call(this)}emit(e,...t){h(this,Ze).emit(e,...t)}on(e,t){return h(this,Ze).on(e,t),this}once(e,t){return h(this,Ze).once(e,t),this}off(e,t){return h(this,Ze).off(e,t),this}updateAll(e){this.iteratePlugins(t=>{t.update(e)})}setState(e){this.store.setState(e)}getState(){return this.store.getState()}patchFilesState(e){let t=this.getState().files;this.setState({files:{...t,...Object.fromEntries(Object.entries(e).map(([s,r])=>[s,{...t[s],...r}]))}})}setFileState(e,t){if(!this.getState().files[e])throw new Error(`Can\u2019t set state for ${e} (the file could have been removed)`);this.patchFilesState({[e]:t})}i18nInit(){let e=s=>this.log(`Missing i18n string: ${s}`,"error"),t=new Be([this.defaultLocale,this.opts.locale],{onMissingKey:e});this.i18n=t.translate.bind(t),this.i18nArray=t.translateArray.bind(t),this.locale=t.locale}setOptions(e){this.opts={...this.opts,...e,restrictions:{...this.opts.restrictions,...e?.restrictions}},e.meta&&this.setMeta(e.meta),this.i18nInit(),e.locale&&this.iteratePlugins(t=>{t.setOptions(e)}),this.setState(void 0)}resetProgress(){let e={percentage:0,bytesUploaded:!1,uploadComplete:!1,uploadStarted:null},t={...this.getState().files},s=Object.create(null);Object.keys(t).forEach(r=>{s[r]={...t[r],progress:{...t[r].progress,...e},tus:void 0,transloadit:void 0,s3Multipart:void 0}}),this.setState({files:s,...bs})}clear(){let{capabilities:e,currentUploads:t}=this.getState();if(Object.keys(t).length>0&&!e.individualCancellation)throw new Error("The installed uploader plugin does not allow removing files during an upload.");this.setState({...bs,files:{}})}addPreProcessor(e){h(this,_t).add(e)}removePreProcessor(e){return h(this,_t).delete(e)}addPostProcessor(e){h(this,et).add(e)}removePostProcessor(e){return h(this,et).delete(e)}addUploader(e){h(this,St).add(e)}removeUploader(e){return h(this,St).delete(e)}setMeta(e){let t={...this.getState().meta,...e},s={...this.getState().files};Object.keys(s).forEach(r=>{s[r]={...s[r],meta:{...s[r].meta,...e}}}),this.log("Adding metadata:"),this.log(e),this.setState({meta:t,files:s})}setFileMeta(e,t){let s={...this.getState().files};if(!s[e]){this.log(`Was trying to set metadata for a file that has been removed: ${e}`);return}let r={...s[e].meta,...t};s[e]={...s[e],meta:r},this.setState({files:s})}getFile(e){return this.getState().files[e]}getFiles(){let{files:e}=this.getState();return Object.values(e)}getFilesByIds(e){return e.map(t=>this.getFile(t))}getObjectOfFilesPerState(){let{files:e,totalProgress:t,error:s}=this.getState(),r=Object.values(e),n=[],o=[],l=[],d=[],c=[],p=[],m=[],f=[],v=[];for(let g of r){let{progress:F}=g;!F.uploadComplete&&F.uploadStarted&&(n.push(g),g.isPaused||f.push(g)),F.uploadStarted||o.push(g),(F.uploadStarted||F.preprocess||F.postprocess)&&l.push(g),F.uploadStarted&&d.push(g),g.isPaused&&c.push(g),F.uploadComplete&&p.push(g),g.error&&m.push(g),(F.preprocess||F.postprocess)&&v.push(g)}return{newFiles:o,startedFiles:l,uploadStartedFiles:d,pausedFiles:c,completeFiles:p,erroredFiles:m,inProgressFiles:n,inProgressNotPausedFiles:f,processingFiles:v,isUploadStarted:d.length>0,isAllComplete:t===100&&p.length===r.length&&v.length===0,isAllErrored:!!s&&m.length===r.length,isAllPaused:n.length!==0&&c.length===n.length,isUploadInProgress:n.length>0,isSomeGhost:r.some(g=>g.isGhost)}}validateRestrictions(e,t=this.getFiles()){try{h(this,ge).validate(t,[e])}catch(s){return s}return null}validateSingleFile(e){try{h(this,ge).validateSingleFile(e)}catch(t){return Ge(t)}return null}validateAggregateRestrictions(e){let t=this.getFiles();try{h(this,ge).validateAggregateRestrictions(t,e)}catch(s){return Ge(s)}return null}checkIfFileAlreadyExists(e){let{files:t}=this.getState();return!!(t[e]&&!t[e].isGhost)}addFile(e){let{nextFilesState:t,validFilesToAdd:s,errors:r}=w(this,A,Ur).call(this,[e]),n=r.filter(l=>l.isRestriction);if(w(this,A,Je).call(this,n),r.length>0)throw r[0];this.setState({files:t});let[o]=s;return this.emit("file-added",o),this.emit("files-added",s),this.log(`Added file: ${o.name}, ${o.id}, mime type: ${o.type}`),w(this,A,Dr).call(this),o.id}addFiles(e){let{nextFilesState:t,validFilesToAdd:s,errors:r}=w(this,A,Ur).call(this,e),n=r.filter(l=>l.isRestriction);w(this,A,Je).call(this,n);let o=r.filter(l=>!l.isRestriction);if(o.length>0){let l=`Multiple errors occurred while adding files:
-`;if(o.forEach(d=>{l+=`
- * ${d.message}`}),this.info({message:this.i18n("addBulkFilesFailed",{smart_count:o.length}),details:l},"error",this.opts.infoTimeout),typeof AggregateError=="function")throw new AggregateError(o,l);{let d=new Error(l);throw d.errors=o,d}}this.setState({files:t}),s.forEach(l=>{this.emit("file-added",l)}),this.emit("files-added",s),s.length>5?this.log(`Added batch of ${s.length} files`):Object.values(s).forEach(l=>{this.log(`Added file: ${l.name}
- id: ${l.id}
- type: ${l.type}`)}),s.length>0&&w(this,A,Dr).call(this)}removeFiles(e){let{files:t,currentUploads:s}=this.getState(),r={...t},n={...s},o=Object.create(null);e.forEach(p=>{t[p]&&(o[p]=t[p],delete r[p])});function l(p){return o[p]===void 0}Object.keys(n).forEach(p=>{let m=s[p].fileIDs.filter(l);if(m.length===0){delete n[p];return}let{capabilities:f}=this.getState();if(m.length!==s[p].fileIDs.length&&!f.individualCancellation)throw new Error("The installed uploader plugin does not allow removing files during an upload.");n[p]={...s[p],fileIDs:m}});let d={currentUploads:n,files:r};Object.keys(r).length===0&&(d.allowNewUpload=!0,d.error=null,d.recoveredState=null),this.setState(d),h(this,tt).call(this);let c=Object.keys(o);c.forEach(p=>{this.emit("file-removed",o[p])}),c.length>5?this.log(`Removed ${c.length} files`):this.log(`Removed files: ${c.join(", ")}`)}removeFile(e){this.removeFiles([e])}pauseResume(e){if(!this.getState().capabilities.resumableUploads||this.getFile(e).progress.uploadComplete)return;let t=this.getFile(e),r=!(t.isPaused||!1);return this.setFileState(e,{isPaused:r}),this.emit("upload-pause",t,r),r}pauseAll(){let e={...this.getState().files};Object.keys(e).filter(s=>!e[s].progress.uploadComplete&&e[s].progress.uploadStarted).forEach(s=>{let r={...e[s],isPaused:!0};e[s]=r}),this.setState({files:e}),this.emit("pause-all")}resumeAll(){let e={...this.getState().files};Object.keys(e).filter(s=>!e[s].progress.uploadComplete&&e[s].progress.uploadStarted).forEach(s=>{let r={...e[s],isPaused:!1,error:null};e[s]=r}),this.setState({files:e}),this.emit("resume-all")}async retryAll(){let e=await w(this,A,Mr).call(this);return this.emit("complete",e),e}cancelAll(){this.emit("cancel-all");let{files:e}=this.getState(),t=Object.keys(e);t.length&&this.removeFiles(t),this.setState(bs)}retryUpload(e){this.setFileState(e,{error:null,isPaused:!1}),this.emit("upload-retry",this.getFile(e));let t=w(this,A,ui).call(this,[e],{forceAllowNewUpload:!0});return w(this,A,ci).call(this,t)}logout(){this.iteratePlugins(e=>{e.provider?.logout?.()})}[Symbol.for("uppy test: updateTotalProgress")](){return w(this,A,Lr).call(this)}updateOnlineStatus(){window.navigator.onLine??!0?(this.emit("is-online"),this.wasOffline&&(this.emit("back-online"),this.info(this.i18n("connectedToInternet"),"success",3e3),this.wasOffline=!1)):(this.emit("is-offline"),this.info(this.i18n("noInternetConnection"),"error",0),this.wasOffline=!0)}getID(){return this.opts.id}use(e,...t){if(typeof e!="function"){let o=`Expected a plugin class, but got ${e===null?"null":typeof e}. Please verify that the plugin was imported and spelled correctly.`;throw new TypeError(o)}let s=new e(this,...t),r=s.id;if(!r)throw new Error("Your plugin must have an id");if(!s.type)throw new Error("Your plugin must have a type");let n=this.getPlugin(r);if(n){let o=`Already found a plugin named '${n.id}'. Tried to use: '${r}'.
-Uppy plugins must have unique \`id\` options.`;throw new Error(o)}return e.VERSION&&this.log(`Using ${r} v${e.VERSION}`),s.type in h(this,me)?h(this,me)[s.type].push(s):h(this,me)[s.type]=[s],s.install(),this.emit("plugin-added",s),this}getPlugin(e){for(let t of Object.values(h(this,me))){let s=t.find(r=>r.id===e);if(s!=null)return s}}[Symbol.for("uppy test: getPlugins")](e){return h(this,me)[e]}iteratePlugins(e){Object.values(h(this,me)).flat(1).forEach(e)}removePlugin(e){this.log(`Removing plugin ${e.id}`),this.emit("plugin-remove",e),e.uninstall&&e.uninstall();let t=h(this,me)[e.type],s=t.findIndex(o=>o.id===e.id);s!==-1&&t.splice(s,1);let n={plugins:{...this.getState().plugins,[e.id]:void 0}};this.setState(n)}destroy(){this.log(`Closing Uppy instance ${this.opts.id}: removing all files and uninstalling plugins`),this.cancelAll(),h(this,hi).call(this),this.iteratePlugins(e=>{this.removePlugin(e)}),typeof window<"u"&&window.removeEventListener&&(window.removeEventListener("online",h(this,Re)),window.removeEventListener("offline",h(this,Re)))}hideInfo(){let{info:e}=this.getState();this.setState({info:e.slice(1)}),this.emit("info-hidden")}info(e,t="info",s=3e3){let r=typeof e=="object";this.setState({info:[...this.getState().info,{type:t,message:r?e.message:e,details:r?e.details:null}]}),setTimeout(()=>this.hideInfo(),s),this.emit("info-visible")}log(e,t){let{logger:s}=this.opts;switch(t){case"error":s.error(e);break;case"warning":s.warn(e);break;default:s.debug(e);break}}registerRequestClient(e,t){h(this,pi).set(e,t)}getRequestClientForFile(e){if(!("remote"in e&&e.remote))throw new Error(`Tried to get RequestClient for a non-remote file ${e.id}`);let t=h(this,pi).get(e.remote.requestClientId);if(t==null)throw new Error(`requestClientId "${e.remote.requestClientId}" not registered for file "${e.id}"`);return t}async restore(e){this.log(`Core: Running restored upload "${e}"`);let t=await w(this,A,ci).call(this,e);return this.emit("complete",t),t}[Symbol.for("uppy test: createUpload")](...e){return w(this,A,ui).call(this,...e)}addResultData(e,t){if(!w(this,A,ja).call(this,e)){this.log(`Not setting result for an upload that has been removed: ${e}`);return}let{currentUploads:s}=this.getState(),r={...s[e],result:{...s[e].result,...t}};this.setState({currentUploads:{...s,[e]:r}})}async upload(){h(this,me).uploader?.length||this.log("No uploader type plugins are used","warning");let{files:e}=this.getState();if(w(this,A,Rr).call(this).length>0){let r=await w(this,A,Mr).call(this);if(!(this.getFiles().filter(o=>o.progress.uploadStarted==null).length>0))return this.emit("complete",r),r;({files:e}=this.getState())}let s=this.opts.onBeforeUpload(e);if(s===!1)throw new Error("Not starting the upload because onBeforeUpload returned false");s&&typeof s=="object"&&(e=s,this.setState({files:e}));try{if(h(this,ge).validateMinNumberOfFiles(e),!w(this,A,Da).call(this,e))throw new le(this.i18n("missingRequiredMetaField"));let{currentUploads:r}=this.getState(),n=Object.values(r).flatMap(c=>c.fileIDs),o=Object.keys(e).filter(c=>{let p=this.getFile(c);return p&&!p.progress.uploadStarted&&!n.includes(c)}),l=w(this,A,ui).call(this,o),d=await w(this,A,ci).call(this,l);return this.emit("complete",d),d}catch(r){throw w(this,A,Je).call(this,[gt(r)]),r}}};me=new WeakMap,ge=new WeakMap,hi=new WeakMap,Ze=new WeakMap,_t=new WeakMap,St=new WeakMap,et=new WeakMap,A=new WeakSet,Je=function(e){for(let o of e)o.isRestriction?this.emit("restriction-failed",o.file,o):this.emit("error",o,o.file),this.log(o,"warning");let t=e.filter(o=>o.isUserFacing),s=4,r=t.slice(0,s),n=t.slice(s);r.forEach(({message:o,details:l=""})=>{this.info({message:o,details:l},"error",this.opts.infoTimeout)}),n.length>0&&this.info({message:this.i18n("additionalRestrictionsFailed",{count:n.length})})},Br=function(e){let{missingFields:t,error:s}=h(this,ge).getMissingRequiredMetaFields(e);return t.length>0?(this.setFileState(e.id,{missingRequiredMetaFields:t,error:s.message}),this.log(s.message),this.emit("restriction-failed",e,s),!1):(t.length===0&&e.missingRequiredMetaFields&&this.setFileState(e.id,{missingRequiredMetaFields:[]}),!0)},Da=function(e){let t=!0;for(let s of Object.values(e))w(this,A,Br).call(this,s)||(t=!1);return t},Ua=function(e){let{allowNewUpload:t}=this.getState();if(t===!1){let s=new le(this.i18n("noMoreFilesAllowed"),{file:e});throw w(this,A,Je).call(this,[s]),s}},Ra=function(e){let t=e instanceof File?{name:e.name,type:e.type,size:e.size,data:e,meta:{},isRemote:!1,source:void 0,preview:void 0}:e,s=yt(t),r=Ar(s,t),n=Oe(r).extension,o=Kt(t,this.getID()),l={...t.meta,name:r,type:s},d=Number.isFinite(t.data.size)?t.data.size:null;return{source:t.source||"",id:o,name:r,extension:n||"",meta:{...this.getState().meta,...l},type:s,progress:{percentage:0,bytesUploaded:!1,bytesTotal:d,uploadComplete:!1,uploadStarted:null},size:d,isGhost:!1,...t.isRemote?{isRemote:!0,remote:t.remote,data:t.data}:{isRemote:!1,data:t.data},preview:t.preview}},Dr=function(){this.opts.autoProceed&&!this.scheduledAutoProceed&&(this.scheduledAutoProceed=setTimeout(()=>{this.scheduledAutoProceed=null,this.upload().catch(e=>{es(e)||this.log(e.stack||e.message||e)})},4))},Ur=function(e){let{files:t}=this.getState(),s={...t},r=[],n=[];for(let o of e)try{let l=w(this,A,Ra).call(this,o);w(this,A,Ua).call(this,l);let d=t[l.id],c=d?.isGhost;if(c&&!l.isRemote){if(l.data==null)throw new Error("File data is missing");l={...d,isGhost:!1,data:l.data},this.log(`Replaced the blob in the restored ghost file: ${l.name}, ${l.id}`)}let p=this.opts.onBeforeFileAdded(l,s);if(t=this.getState().files,s={...t,...s},!p&&this.checkIfFileAlreadyExists(l.id))throw new le(this.i18n("noDuplicates",{fileName:l.name??this.i18n("unnamed")}),{file:l});if(p===!1&&!c)throw new le("Cannot add the file because onBeforeFileAdded returned false.",{isUserFacing:!1,file:l});typeof p=="object"&&p!==null&&(l=p),h(this,ge).validateSingleFile(l),s[l.id]=l,r.push(l)}catch(l){n.push(l)}try{h(this,ge).validateAggregateRestrictions(Object.values(t),r)}catch(o){return n.push(o),{nextFilesState:t,validFilesToAdd:[],errors:n}}return{nextFilesState:s,validFilesToAdd:r,errors:n}},Rr=function(){let{files:e}=this.getState();return Object.keys(e).filter(t=>{let s=e[t];return s.error&&(!s.missingRequiredMetaFields||s.missingRequiredMetaFields.length===0)})},Mr=async function(){let e=w(this,A,Rr).call(this),t={...this.getState().files};if(e.forEach(r=>{t[r]={...t[r],isPaused:!1,error:null}}),this.setState({files:t,error:null}),this.emit("retry-all",this.getFilesByIds(e)),e.length===0)return{successful:[],failed:[]};let s=w(this,A,ui).call(this,e,{forceAllowNewUpload:!0});return w(this,A,ci).call(this,s)},vs=new WeakMap,Lr=function(){let e=w(this,A,Ma).call(this),t=null;e!=null&&(t=Math.round(e*100),t>100?t=100:t<0&&(t=0)),this.emit("progress",t??0),this.setState({totalProgress:t??0})},tt=new WeakMap,Ma=function(){let t=this.getFiles().filter(d=>d.progress.uploadStarted||d.progress.preprocess||d.progress.postprocess);if(t.length===0)return 0;if(t.every(d=>d.progress.uploadComplete))return 1;let s=d=>d.progress.bytesTotal!=null&&d.progress.bytesTotal!==0,r=t.filter(s),n=t.filter(d=>!s(d));if(r.every(d=>d.progress.uploadComplete)&&n.length>0&&!n.every(d=>d.progress.uploadComplete))return null;let o=r.reduce((d,c)=>d+(c.progress.bytesTotal??0),0),l=r.reduce((d,c)=>d+(c.progress.bytesUploaded||0),0);return o===0?0:l/o},La=function(){let e=(r,n,o)=>{let l=r.message||"Unknown error";r.details&&(l+=` ${r.details}`),this.setState({error:l}),n!=null&&n.id in this.getState().files&&this.setFileState(n.id,{error:l,response:o})};this.on("error",e),this.on("upload-error",(r,n,o)=>{if(e(n,r,o),typeof n=="object"&&n.message){this.log(n.message,"error");let l=new Error(this.i18n("failedToUpload",{file:r?.name??""}));l.isUserFacing=!0,l.details=n.message,n.details&&(l.details+=` ${n.details}`),w(this,A,Je).call(this,[l])}else w(this,A,Je).call(this,[n])});let t=null;this.on("upload-stalled",(r,n)=>{let{message:o}=r,l=n.map(d=>d.meta.name).join(", ");t||(this.info({message:o,details:l},"warning",this.opts.infoTimeout),t=setTimeout(()=>{t=null},this.opts.infoTimeout)),this.log(`${o} ${l}`.trim(),"warning")}),this.on("upload",()=>{this.setState({error:null})});let s=r=>{let n=r.filter(l=>{let d=l!=null&&this.getFile(l.id);return d||this.log(`Not setting progress for a file that has been removed: ${l?.id}`),d}),o=Object.fromEntries(n.map(l=>[l.id,{progress:{uploadStarted:Date.now(),uploadComplete:!1,bytesUploaded:0,bytesTotal:l.size}}]));this.patchFilesState(o)};this.on("upload-start",s),this.on("upload-progress",h(this,vs)),this.on("upload-success",(r,n)=>{if(r==null||!this.getFile(r.id)){this.log(`Not setting progress for a file that has been removed: ${r?.id}`);return}let o=this.getFile(r.id).progress,l=h(this,et).size>0;this.setFileState(r.id,{progress:{...o,postprocess:l?{mode:"indeterminate"}:void 0,uploadComplete:!0,...!l&&{complete:!0},percentage:100,bytesUploaded:o.bytesTotal},response:n,uploadURL:n.uploadURL,isPaused:!1}),r.size==null&&this.setFileState(r.id,{size:n.bytesUploaded||o.bytesTotal}),h(this,tt).call(this)}),this.on("preprocess-progress",(r,n)=>{if(r==null||!this.getFile(r.id)){this.log(`Not setting progress for a file that has been removed: ${r?.id}`);return}this.setFileState(r.id,{progress:{...this.getFile(r.id).progress,preprocess:n}})}),this.on("preprocess-complete",r=>{if(r==null||!this.getFile(r.id)){this.log(`Not setting progress for a file that has been removed: ${r?.id}`);return}let n={...this.getState().files};n[r.id]={...n[r.id],progress:{...n[r.id].progress}},delete n[r.id].progress.preprocess,this.setState({files:n})}),this.on("postprocess-progress",(r,n)=>{if(r==null||!this.getFile(r.id)){this.log(`Not setting progress for a file that has been removed: ${r?.id}`);return}this.setFileState(r.id,{progress:{...this.getState().files[r.id].progress,postprocess:n}})}),this.on("postprocess-complete",r=>{let n=r&&this.getFile(r.id);if(n==null){this.log(`Not setting progress for a file that has been removed: ${r?.id}`);return}let{postprocess:o,...l}=n.progress;this.patchFilesState({[n.id]:{progress:{...l,complete:!0}}})}),this.on("restored",()=>{h(this,tt).call(this)}),this.on("dashboard:file-edit-complete",r=>{r&&w(this,A,Br).call(this,r)}),typeof window<"u"&&window.addEventListener&&(window.addEventListener("online",h(this,Re)),window.addEventListener("offline",h(this,Re)),setTimeout(h(this,Re),3e3))},Re=new WeakMap,pi=new WeakMap,ui=function(e,t={}){let{forceAllowNewUpload:s=!1}=t,{allowNewUpload:r,currentUploads:n}=this.getState();if(!r&&!s)throw new Error("Cannot create a new upload: already uploading.");let o=ms();return this.emit("upload",o,this.getFilesByIds(e)),this.setState({allowNewUpload:this.opts.allowMultipleUploadBatches!==!1&&this.opts.allowMultipleUploads!==!1,currentUploads:{...n,[o]:{fileIDs:e,step:0,result:{}}}}),o},ja=function(e){let{currentUploads:t}=this.getState();return t[e]},jr=function(e){let{[e]:t,...s}=this.getState().currentUploads;this.setState({currentUploads:s})},ci=async function(e){let t=()=>{let{currentUploads:o}=this.getState();return o[e]},s=t();if(!s)throw new Error("Nonexistent upload");let r=[...h(this,_t),...h(this,St),...h(this,et)];try{for(let o=s.step||0;o<r.length;o++){let l=r[o];this.setState({currentUploads:{...this.getState().currentUploads,[e]:{...s,step:o}}});let{fileIDs:d}=s;if(await l(d,e),s=t(),!s)break}}catch(o){throw w(this,A,jr).call(this,e),o}if(s){s.fileIDs.forEach(c=>{let p=this.getFile(c);p?.progress.postprocess&&this.emit("postprocess-complete",p)});let o=s.fileIDs.map(c=>this.getFile(c)),l=o.filter(c=>!c.error),d=o.filter(c=>c.error);this.addResultData(e,{successful:l,failed:d,uploadID:e}),s=t()}let n;return s&&(n=s.result,w(this,A,jr).call(this,e)),n==null&&(this.log(`Not setting result for an upload that has been removed: ${e}`),n={successful:[],failed:[],uploadID:e}),n},y(ws,"VERSION",wt.version);var Or=ws,Fs=Or;u();u();u();u();u();function za(i){let e=se(s=>{s.preventDefault(),i()},[i]),[t]=V(()=>{let s=document.createElement("form");return s.setAttribute("tabindex","-1"),s.id=ms(),s});return X(()=>(document.body.appendChild(t),t.addEventListener("submit",e),()=>{t.removeEventListener("submit",e),t.remove()}),[t,e]),{formId:t.id}}function hc({value:i,onChange:e,onSubmit:t,inputLabel:s,i18n:r,disabled:n=!1}){let{formId:o}=za(t);return a("section",{className:"uppy-ProviderBrowser-searchFilter",children:[a("input",{className:"uppy-u-reset uppy-ProviderBrowser-searchFilterInput",type:"search","aria-label":s,placeholder:s,value:i,onInput:l=>e(l.target.value),form:o,disabled:n,"data-uppy-super-focusable":!0}),a("svg",{"aria-hidden":"true",focusable:"false",className:"uppy-c-icon uppy-ProviderBrowser-searchFilterIcon",width:"12",height:"12",viewBox:"0 0 12 12",children:a("path",{d:"M8.638 7.99l3.172 3.172a.492.492 0 1 1-.697.697L7.91 8.656a4.977 4.977 0 0 1-2.983.983C2.206 9.639 0 7.481 0 4.819 0 2.158 2.206 0 4.927 0c2.721 0 4.927 2.158 4.927 4.82a4.74 4.74 0 0 1-1.216 3.17zm-3.71.685c2.176 0 3.94-1.726 3.94-3.856 0-2.129-1.764-3.855-3.94-3.855C2.75.964.984 2.69.984 4.819c0 2.13 1.765 3.856 3.942 3.856z"})}),i&&a("button",{className:"uppy-u-reset uppy-ProviderBrowser-searchFilterReset",type:"button","aria-label":r("resetFilter"),disabled:n,onClick:()=>e(""),children:a("svg",{"aria-hidden":"true",focusable:"false",className:"uppy-c-icon",viewBox:"0 0 19 19",children:a("path",{d:"M17.318 17.232L9.94 9.854 9.586 9.5l-.354.354-7.378 7.378h.707l-.62-.62v.706L9.318 9.94l.354-.354-.354-.354L1.94 1.854v.707l.62-.62h-.706l7.378 7.378.354.354.354-.354 7.378-7.378h-.707l.622.62v-.706L9.854 9.232l-.354.354.354.354 7.378 7.378.708-.707-7.38-7.378v.708l7.38-7.38.353-.353-.353-.353-.622-.622-.353-.353-.354.352-7.378 7.38h.708L2.56 1.23 2.208.88l-.353.353-.622.62-.353.355.352.353 7.38 7.38v-.708l-7.38 7.38-.353.353.352.353.622.622.353.353.354-.353 7.38-7.38h-.708l7.38 7.38z"})})})]})}var $a=hc;u();function _s(i){return i instanceof Error&&"isAuthError"in i&&i.isAuthError===!0}u();function pc(){return a("svg",{width:"26",height:"26",viewBox:"0 0 26 26",xmlns:"http://www.w3.org/2000/svg",children:a("g",{fill:"none","fill-rule":"evenodd",children:[a("circle",{fill:"#FFF",cx:"13",cy:"13",r:"13"}),a("path",{d:"M21.64 13.205c0-.639-.057-1.252-.164-1.841H13v3.481h4.844a4.14 4.14 0 01-1.796 2.716v2.259h2.908c1.702-1.567 2.684-3.875 2.684-6.615z",fill:"#4285F4","fill-rule":"nonzero"}),a("path",{d:"M13 22c2.43 0 4.467-.806 5.956-2.18l-2.908-2.259c-.806.54-1.837.86-3.048.86-2.344 0-4.328-1.584-5.036-3.711H4.957v2.332A8.997 8.997 0 0013 22z",fill:"#34A853","fill-rule":"nonzero"}),a("path",{d:"M7.964 14.71A5.41 5.41 0 017.682 13c0-.593.102-1.17.282-1.71V8.958H4.957A8.996 8.996 0 004 13c0 1.452.348 2.827.957 4.042l3.007-2.332z",fill:"#FBBC05","fill-rule":"nonzero"}),a("path",{d:"M13 7.58c1.321 0 2.508.454 3.44 1.345l2.582-2.58C17.463 4.891 15.426 4 13 4a8.997 8.997 0 00-8.043 4.958l3.007 2.332C8.672 9.163 10.656 7.58 13 7.58z",fill:"#EA4335","fill-rule":"nonzero"}),a("path",{d:"M4 4h18v18H4z"})]})})}function fc({pluginName:i,i18n:e,onAuth:t}){let s=i==="Google Drive",r=se(n=>{n.preventDefault(),t()},[t]);return a("form",{onSubmit:r,children:s?a("button",{type:"submit",className:"uppy-u-reset uppy-c-btn uppy-c-btn-primary uppy-Provider-authBtn uppy-Provider-btn-google","data-uppy-super-focusable":!0,children:[a(pc,{}),e("signInWithGoogle")]}):a("button",{type:"submit",className:"uppy-u-reset uppy-c-btn uppy-c-btn-primary uppy-Provider-authBtn","data-uppy-super-focusable":!0,children:e("authenticateWith",{pluginName:i})})})}var mc=({pluginName:i,i18n:e,onAuth:t})=>a(fc,{pluginName:i,i18n:e,onAuth:t});function zr({loading:i,pluginName:e,pluginIcon:t,i18n:s,handleAuth:r,renderForm:n=mc}){return a("div",{className:"uppy-Provider-auth",children:[a("div",{className:"uppy-Provider-authIcon",children:t()}),a("div",{className:"uppy-Provider-authTitle",children:s("authenticateWithTitle",{pluginName:e})}),n({pluginName:e,i18n:s,loading:i,onAuth:r})]})}u();u();var Al=j(Q(),1),Nl=j(fs(),1);u();var qa={S3_ALREADY_EXISTS:"s3AlreadyExists",S3_CONFLICT:"s3Conflict",S3_DESTINATION_MUST_BE_FILE:"s3DestinationMustBeFile",S3_FILE_TOO_LARGE_TO_MOVE:"s3FileTooLargeToMove",S3_FOLDER_INTO_ITSELF:"s3FolderIntoItself",S3_FOLDER_MOVE_NOT_SUPPORTED:"s3FolderMoveNotSupported",S3_FOLDER_NOT_EMPTY:"s3FolderNotEmpty",S3_INVALID_GRANT:"s3InvalidGrant",S3_INVALID_NAME:"s3InvalidName",S3_NOT_CONFIGURED:"s3NotConfigured",S3_NOT_FOUND:"s3NotFound",S3_OUTSIDE_ALLOWED_FOLDER:"s3OutsideAllowedFolder",S3_READ_ONLY_SESSION:"s3ReadOnlySession",S3_REQUEST_FAILED:"s3RequestFailed",S3_SELECTED_IN_OTHER_SESSION:"s3SelectedInOtherSession",WEBDAV_CANNOT_CONNECT:"webdavCannotConnect"};function xs(i,e){let{code:t}=e;return t&&Object.hasOwn(qa,t)?i(qa[t]):t&&e.message===t?i("companionError"):e.message}u();u();var Ha=({appliesTo:i="all"},e)=>i==="all"||i===(e.data.isFolder?"folder":"file");function Ps(i,e){return i.filter(t=>Ha(t,e))}function $r({file:i,actions:e,open:t,onToggle:s,i18n:r}){return e.some(n=>Ha(n,i))?a("div",{className:"uppy-ProviderBrowserItem-actions",children:a("button",{type:"button",className:"uppy-u-reset uppy-c-btn uppy-ProviderBrowserItem-actionsBtn","aria-label":r("itemActionsNamed",{name:i.data.name??r("unnamed")}),"aria-haspopup":"menu","aria-expanded":t,onClick:n=>{n.stopPropagation(),n.preventDefault(),s(n.currentTarget)},children:a("svg",{"aria-hidden":"true",width:"16",height:"16",viewBox:"0 0 16 16",focusable:"false",children:[a("circle",{cx:"3",cy:"8",r:"1.5",fill:"currentColor"}),a("circle",{cx:"8",cy:"8",r:"1.5",fill:"currentColor"}),a("circle",{cx:"13",cy:"8",r:"1.5",fill:"currentColor"})]})})}):null}u();var Ga=j(Q(),1);u();function Wa(i){i.key==="Escape"&&i.stopPropagation()}var Va=i=>{let e=i.currentTarget;if(i.target!==e)return!1;let t=e.getBoundingClientRect();return i.clientX<t.left||i.clientX>t.right||i.clientY<t.top||i.clientY>t.bottom};function fi({onDismiss:i,restoreFocus:e,children:t,...s}){let r=q(null),n=q(!1),o=q(e);return o.current=e,X(()=>{let l=r.current;if(!l)return;let d=document.activeElement instanceof HTMLElement?document.activeElement:null;return typeof l.showModal=="function"?l.showModal():(l.setAttribute("open",""),l.querySelector("button")?.focus()),()=>{l.open&&typeof l.close=="function"&&l.close();let{activeElement:c}=document;if(c!==document.body&&!l.contains(c))return;(d?.isConnected?d:o.current?.(l))?.focus()}},[]),a("dialog",{...s,ref:r,onCancel:l=>{l.preventDefault(),i()},onPointerDown:l=>{n.current=Va(l)},onClick:l=>{n.current&&Va(l)&&i(),n.current=!1},onKeyDown:l=>{l.key!=="Escape"||l.isComposing||(l.preventDefault(),l.stopPropagation(),i())},children:t})}var qr=4;function Hr({file:i,actions:e,anchor:t,containerRef:s,runAction:r,onClose:n,i18n:o}){let l=q(null),[d,c]=V(null),p=se(()=>{let v=l.current;if(!v)return;let g=t.getBoundingClientRect(),F=v.offsetHeight,S=g.bottom+qr+F<=window.innerHeight?g.bottom+qr:Math.max(0,g.top-qr-F);c(getComputedStyle(t).direction==="rtl"?{top:S,left:Math.max(0,g.left)}:{top:S,right:Math.max(0,window.innerWidth-g.right)})},[t]);Ro(p,[p]),X(()=>{let v=l.current,g=s.current;if(!v)return;let F=P=>{P.newState==="closed"&&n()},T=new AbortController,{signal:S}=T;v.addEventListener("toggle",F,{signal:S}),typeof v.showPopover=="function"&&v.showPopover(),p();let k=P=>{if(g&&P.target instanceof Node&&g.contains(P.target)){n();return}p()};return window.addEventListener("scroll",k,{capture:!0,signal:S}),window.addEventListener("resize",p,{signal:S}),v.querySelector('[role="menuitem"]')?.focus({preventScroll:!0}),()=>T.abort()},[s,n,p]);let m=()=>{n(),t.focus({preventScroll:!0})},f=v=>{let g=Array.from(l.current?.querySelectorAll('[role="menuitem"]')??[]),F=g.indexOf(document.activeElement),T=S=>{v.preventDefault(),g[(S+g.length)%g.length]?.focus({preventScroll:!0})};switch(v.key){case"Escape":Wa(v),typeof l.current?.hidePopover!="function"&&m();break;case"ArrowDown":T(F+1);break;case"ArrowUp":T(F-1);break;case"Home":T(0);break;case"End":T(g.length-1);break;case"Tab":n();break;default:}};return a("div",{ref:l,className:"uppy-ProviderBrowserItem-actionsMenu",popover:"auto",role:"menu","aria-label":o("itemActionsNamed",{name:i.data.name??o("unnamed")}),style:d?{top:`${d.top}px`,..."left"in d?{left:`${d.left}px`}:{right:`${d.right}px`}}:{visibility:"hidden"},onKeyDown:f,children:e.map(v=>a("button",{type:"button",role:"menuitem",className:(0,Ga.default)("uppy-u-reset uppy-c-btn uppy-ProviderBrowserItem-actionsMenuItem",v.danger&&"uppy-ProviderBrowserItem-actionsMenuItem--danger"),onClick:g=>{g.stopPropagation(),g.preventDefault(),m(),r(v,i)},children:v.label},v.id))})}u();function Vr(i){let[e,t]=V(null),s=e?i.find(({id:l})=>l===e.id):void 0,r=e&&s?{item:s,anchor:e.anchor}:null,n=se(()=>t(null),[]),o=se((l,d)=>t(c=>c?.id===l?null:{id:l,anchor:d}),[]);return{open:r,close:n,toggle:o}}u();var Ka=j(Q(),1);u();u();function gc(){return a("svg",{"aria-hidden":"true",focusable:"false",className:"uppy-c-icon",width:11,height:14.5,viewBox:"0 0 44 58",children:a("path",{d:"M27.437.517a1 1 0 0 0-.094.03H4.25C2.037.548.217 2.368.217 4.58v48.405c0 2.212 1.82 4.03 4.03 4.03H39.03c2.21 0 4.03-1.818 4.03-4.03V15.61a1 1 0 0 0-.03-.28 1 1 0 0 0 0-.093 1 1 0 0 0-.03-.032 1 1 0 0 0 0-.03 1 1 0 0 0-.032-.063 1 1 0 0 0-.03-.063 1 1 0 0 0-.032 0 1 1 0 0 0-.03-.063 1 1 0 0 0-.032-.03 1 1 0 0 0-.03-.063 1 1 0 0 0-.063-.062l-14.593-14a1 1 0 0 0-.062-.062A1 1 0 0 0 28 .708a1 1 0 0 0-.374-.157 1 1 0 0 0-.156 0 1 1 0 0 0-.03-.03l-.003-.003zM4.25 2.547h22.218v9.97c0 2.21 1.82 4.03 4.03 4.03h10.564v36.438a2.02 2.02 0 0 1-2.032 2.032H4.25c-1.13 0-2.032-.9-2.032-2.032V4.58c0-1.13.902-2.032 2.03-2.032zm24.218 1.345l10.375 9.937.75.718H30.5c-1.13 0-2.032-.9-2.032-2.03V3.89z"})})}function yc(){return a("svg",{"aria-hidden":"true",focusable:"false",className:"uppy-c-icon",style:{minWidth:16,marginRight:3},viewBox:"0 0 276.157 276.157",children:a("path",{d:"M273.08 101.378c-3.3-4.65-8.86-7.32-15.254-7.32h-24.34V67.59c0-10.2-8.3-18.5-18.5-18.5h-85.322c-3.63 0-9.295-2.875-11.436-5.805l-6.386-8.735c-4.982-6.814-15.104-11.954-23.546-11.954H58.73c-9.292 0-18.638 6.608-21.737 15.372l-2.033 5.752c-.958 2.71-4.72 5.37-7.596 5.37H18.5C8.3 49.09 0 57.39 0 67.59v167.07c0 .886.16 1.73.443 2.52.152 3.306 1.18 6.424 3.053 9.064 3.3 4.652 8.86 7.32 15.255 7.32h188.487c11.395 0 23.27-8.425 27.035-19.18l40.677-116.188c2.11-6.035 1.43-12.164-1.87-16.816zM18.5 64.088h8.864c9.295 0 18.64-6.607 21.738-15.37l2.032-5.75c.96-2.712 4.722-5.373 7.597-5.373h29.565c3.63 0 9.295 2.876 11.437 5.806l6.386 8.735c4.982 6.815 15.104 11.954 23.546 11.954h85.322c1.898 0 3.5 1.602 3.5 3.5v26.47H69.34c-11.395 0-23.27 8.423-27.035 19.178L15 191.23V67.59c0-1.898 1.603-3.5 3.5-3.5zm242.29 49.15l-40.676 116.188c-1.674 4.78-7.812 9.135-12.877 9.135H18.75c-1.447 0-2.576-.372-3.02-.997-.442-.625-.422-1.814.057-3.18l40.677-116.19c1.674-4.78 7.812-9.134 12.877-9.134h188.487c1.448 0 2.577.372 3.02.997.443.625.423 1.814-.056 3.18z"})})}function bc(){return a("svg",{"aria-hidden":"true",focusable:"false",style:{width:16,marginRight:4},viewBox:"0 0 58 58",children:[a("path",{d:"M36.537 28.156l-11-7a1.005 1.005 0 0 0-1.02-.033C24.2 21.3 24 21.635 24 22v14a1 1 0 0 0 1.537.844l11-7a1.002 1.002 0 0 0 0-1.688zM26 34.18V23.82L34.137 29 26 34.18z"}),a("path",{d:"M57 6H1a1 1 0 0 0-1 1v44a1 1 0 0 0 1 1h56a1 1 0 0 0 1-1V7a1 1 0 0 0-1-1zM10 28H2v-9h8v9zm-8 2h8v9H2v-9zm10 10V8h34v42H12V40zm44-12h-8v-9h8v9zm-8 2h8v9h-8v-9zm8-22v9h-8V8h8zM2 8h8v9H2V8zm0 42v-9h8v9H2zm54 0h-8v-9h8v9z"})]})}function Fe({itemIconString:i,alt:e=void 0}){if(i===null)return null;switch(i){case"file":return a(gc,{});case"folder":return a(yc,{});case"video":return a(bc,{});default:return a("img",{src:i,alt:e,referrerPolicy:"no-referrer",loading:"lazy",width:16,height:16})}}function vc({file:i,toggleCheckbox:e,className:t,isDisabled:s,restrictionError:r,showTitles:n,children:o=null,i18n:l,actionsMenu:d=null,selectable:c=!0,onFileClick:p}){let m=i.data.name??l("unnamed"),f=a(L,{children:[a(Fe,{itemIconString:i.data.thumbnail||i.data.icon}),n&&m,o]});return a("li",{className:t,title:s&&r?r:void 0,children:[c&&a("input",{type:"checkbox",className:"uppy-u-reset uppy-ProviderBrowserItem-checkbox uppy-ProviderBrowserItem-checkbox--grid",onChange:e,name:"listitem",id:i.id,checked:i.status==="checked",disabled:s,"data-uppy-super-focusable":!0}),!c&&p&&!i.data.isFolder?a("button",{type:"button","aria-label":l("openFileNamed",{name:m}),"data-uppy-item-id":i.id,className:"uppy-u-reset uppy-ProviderBrowserItem-inner",onClick:()=>p(i),children:f}):a("label",{htmlFor:c?i.id:void 0,"aria-label":m,className:"uppy-u-reset uppy-ProviderBrowserItem-inner",children:f}),d]})}var Wr=vc;u();function Gr({file:i,openFolder:e,className:t,isDisabled:s,restrictionError:r,toggleCheckbox:n,showTitles:o,i18n:l,actionsMenu:d=null,selectable:c=!0,onFileClick:p}){let m=a(L,{children:[a("div",{className:"uppy-ProviderBrowserItem-iconWrap",children:a(Fe,{itemIconString:i.data.icon})}),o&&a("span",{className:"uppy-truncate-text",children:i.data.name??l("unnamed")})]});return a("li",{className:t,title:i.status!=="checked"&&r?r:void 0,children:[c&&a("input",{type:"checkbox",className:"uppy-u-reset uppy-ProviderBrowserItem-checkbox",onChange:n,name:"listitem",id:i.id,checked:i.status==="checked","aria-label":i.data.isFolder?l("allFilesFromFolderNamed",{name:i.data.name??l("unnamed")}):null,disabled:s,"data-uppy-super-focusable":!0}),i.data.isFolder?a("button",{type:"button",className:"uppy-u-reset uppy-c-btn uppy-ProviderBrowserItem-inner",onClick:()=>e(i.id),"aria-label":l("openFolderNamed",{name:i.data.name??l("unnamed")}),children:[a("div",{className:"uppy-ProviderBrowserItem-iconWrap",children:a(Fe,{itemIconString:i.data.icon})}),o&&i.data.name?a("span",{className:"uppy-truncate-text",children:i.data.name}):l("unnamed")]}):c?a("label",{htmlFor:i.id,className:"uppy-u-reset uppy-ProviderBrowserItem-inner",children:m}):a("button",{type:"button",className:"uppy-u-reset uppy-c-btn uppy-ProviderBrowserItem-inner",onClick:()=>p?.(i),"data-uppy-item-id":i.id,"aria-label":l("openFileNamed",{name:i.data.name??l("unnamed")}),children:m}),d]})}function Kr(i){let{viewType:e,toggleCheckbox:t,showTitles:s,i18n:r,openFolder:n,file:o,utmSource:l,actions:d=[],menuOpen:c=!1,toggleMenu:p,selectable:m=!0,onFileClick:f}=i,v=d.length>0&&p?a($r,{file:o,actions:d,open:c,onToggle:p,i18n:r}):null,g=o.type==="folder"?null:o.restrictionError,F=!!g&&o.status!=="checked",T={file:o,openFolder:n,toggleCheckbox:t,utmSource:l,i18n:r,viewType:e,showTitles:s,className:(0,Ka.default)("uppy-ProviderBrowserItem",{"uppy-ProviderBrowserItem--disabled":F},{"uppy-ProviderBrowserItem--noPreview":o.data.icon==="video"},{"uppy-ProviderBrowserItem--is-checked":o.status==="checked"},{"uppy-ProviderBrowserItem--is-partial":o.status==="partial"}),isDisabled:F,restrictionError:g,actionsMenu:v,selectable:m,onFileClick:f};switch(e){case"grid":return a(Wr,{...T});case"list":return a(Gr,{...T});case"unsplash":return a(Wr,{...T,children:a("a",{href:`${o.data.author.url}?utm_source=${l}&utm_medium=referral`,target:"_blank",rel:"noopener noreferrer",className:"uppy-ProviderBrowserItem-author",tabIndex:-1,children:o.data.author.name})});default:throw new Error(`There is no such type ${e}`)}}function wc(i){let{displayedPartialTree:e,viewType:t,toggleCheckbox:s,handleScroll:r,showTitles:n,i18n:o,isLoading:l,onCancelLoading:d,openFolder:c,noResultsLabel:p,virtualList:m,utmSource:f,actions:v=[],runAction:g,selectable:F=!0,onFileClick:T}=i,[S,k]=V(!1),P=Vr(e),N=q(null);X(()=>{let z=J=>{J.key==="Shift"&&k(!1)},M=J=>{J.key==="Shift"&&k(!0)};return document.addEventListener("keyup",z),document.addEventListener("keydown",M),()=>{document.removeEventListener("keyup",z),document.removeEventListener("keydown",M)}},[]);let B=q(null),x=!!(l&&d);if(X(()=>{x&&B.current?.focus()},[x]),l)return a("div",{className:"uppy-Provider-loading",children:[a("span",{role:"status",children:typeof l=="string"?l:o("loading")}),d&&a("button",{ref:B,type:"button",className:"uppy-u-reset uppy-c-btn uppy-c-btn-link uppy-Provider-loadingCancel",onClick:d,children:o("stopOperation")})]});if(e.length===0)return a("div",{className:"uppy-Provider-empty",children:p});let O=z=>a(Kr,{viewType:t,toggleCheckbox:M=>{M.stopPropagation(),M.preventDefault(),document.getSelection()?.removeAllRanges(),s(z,S)},showTitles:n,i18n:o,openFolder:c,file:z,utmSource:f,actions:v,menuOpen:P.open?.item.id===z.id,toggleMenu:g?M=>P.toggle(z.id,M):void 0,selectable:F,onFileClick:T},z.id),I=P.open&&g?a(Hr,{file:P.open.item,actions:Ps(v,P.open.item),anchor:P.open.anchor,containerRef:N,runAction:g,onClose:P.close,i18n:o},P.open.item.id):null;return m?a("div",{className:"uppy-ProviderBrowser-body",ref:N,children:[a(vt,{className:"uppy-ProviderBrowser-list",data:e,renderRow:O,rowHeight:35.5}),I]}):a("div",{className:"uppy-ProviderBrowser-body",ref:N,children:[a("ul",{className:"uppy-ProviderBrowser-list",onScroll:r,tabIndex:-1,children:e.map(O)}),I]})}var Xa=wc;u();var Ya=j(Q(),1);function Xr({selectedCount:i,bulkActions:e,runBulkAction:t,i18n:s}){return i===0||e.length===0?null:a("div",{className:"uppy-ProviderBrowser-footer",children:a("div",{className:"uppy-ProviderBrowser-footer-buttons",children:[a("span",{className:"uppy-ProviderBrowser-footer-count",children:s("itemsSelected",{smart_count:i})}),e.map(r=>a("button",{type:"button",className:(0,Ya.default)("uppy-u-reset uppy-c-btn uppy-c-btn-primary",{"uppy-ProviderDialog-confirm--danger":r.danger}),onClick:()=>t(r),children:r.label},r.id))]})})}u();var Qa=j(Q(),1);u();var Fc=i=>i.filter(t=>t.type==="file"&&t.status==="checked"?!0:t.type==="folder"&&t.status==="checked"?!i.some(r=>r.type!=="root"&&r.parentId===t.id):!1).length,Ts=Fc;function Yr({cancelSelection:i,donePicking:e,i18n:t,partialTree:s,validateAggregateRestrictions:r}){let n=Qe(()=>r(s),[s,r]),o=Qe(()=>Ts(s),[s]);return o===0?null:a("div",{className:"uppy-ProviderBrowser-footer",children:[a("div",{className:"uppy-ProviderBrowser-footer-buttons",children:[a("button",{className:(0,Qa.default)("uppy-u-reset uppy-c-btn uppy-c-btn-primary",{"uppy-c-btn--disabled":n}),disabled:!!n,onClick:e,type:"button",children:t("selectX",{smart_count:o})}),a("button",{className:"uppy-u-reset uppy-c-btn uppy-c-btn-link",onClick:i,type:"button",children:t("cancel")})]}),n&&a("div",{className:"uppy-ProviderBrowser-footer-error",children:n})]})}u();var Ja=j(Q(),1);function Qr({item:i,actions:e,runAction:t,getPreviewUrl:s,onClose:r,i18n:n}){let[o,l]=V(null),d=us(),[c]=V(i);X(()=>{if(!s||c.data.isFolder)return;let T=!1;return Promise.resolve().then(()=>s(c)).then(S=>{T||l(S)}).catch(()=>{}),()=>{T=!0}},[s,c]);let p=i.data.name??n("unnamed"),m=Ps(e,i),f=i.type==="file"?i.data:void 0,v=f?.size,g=f?.mimeType,F=f?.modifiedDate;return a(fi,{className:"uppy-ProviderDialog uppy-ItemDetail","aria-labelledby":d,onDismiss:r,restoreFocus:T=>{let S=T.closest(".uppy-ProviderBrowser");return S?.querySelector(`[data-uppy-item-id="${CSS.escape(i.id)}"]`)??S?.querySelector(".uppy-ProviderBrowser-list")},children:[a("header",{className:"uppy-ItemDetail-header",children:[a("h3",{id:d,className:"uppy-ItemDetail-name",children:p}),a("button",{type:"button",className:"uppy-u-reset uppy-c-btn uppy-ItemDetail-close","aria-label":n("close"),onClick:r,children:a("svg",{"aria-hidden":"true",width:"14",height:"14",viewBox:"0 0 14 14",fill:"none",children:a("path",{d:"M2 2l10 10M12 2L2 12",stroke:"currentColor","stroke-width":"1.6","stroke-linecap":"round"})})})]}),a("div",{className:"uppy-ItemDetail-body",children:[a("div",{className:"uppy-ItemDetail-preview","data-testid":"file-detail-preview",children:o?a("img",{src:o,alt:"",className:"uppy-ItemDetail-previewImage"}):a("span",{className:"uppy-ItemDetail-previewIcon","aria-hidden":"true",children:a(Fe,{itemIconString:i.data.icon})})}),a("dl",{className:"uppy-ItemDetail-facts",children:[typeof v=="number"?a(L,{children:[a("dt",{children:n("detailSize")}),a("dd",{children:he(v)})]}):null,g?a(L,{children:[a("dt",{children:n("detailType")}),a("dd",{children:g})]}):null,F?a(L,{children:[a("dt",{children:n("detailModified")}),a("dd",{children:F})]}):null]})]}),a("footer",{className:"uppy-ItemDetail-actions",children:m.map(T=>a("button",{type:"button",className:(0,Ja.default)("uppy-u-reset uppy-c-btn uppy-ItemDetail-action",T.danger&&"uppy-ItemDetail-action--danger"),onClick:()=>{r(),t(T,i)},children:T.label},T.id))})]})}u();var Za=j(Q(),1);function Jr({dialog:i,i18n:e,onConfirm:t,onCancel:s}){let[r,n]=V(i.kind==="prompt"?i.defaultValue??"":""),o=q(null),l=q(null),d=q(null),c=us(),p=i.kind==="prompt",m=i.kind==="confirm"&&i.danger===!0;return X(()=>{(o.current??(m?d:l).current)?.focus(),o.current?.select()},[m]),a(fi,{className:"uppy-ProviderDialog","aria-labelledby":c,onDismiss:s,children:a("form",{className:"uppy-ProviderDialog-form",onSubmit:f=>{f.preventDefault(),t(p?r:void 0)},children:[a("h3",{id:c,className:"uppy-ProviderDialog-title",children:i.title}),i.kind==="prompt"?a("label",{className:"uppy-ProviderDialog-label",children:[i.label&&a("span",{className:"uppy-ProviderDialog-labelText",children:i.label}),a("input",{ref:o,type:"text",className:"uppy-u-reset uppy-c-textInput uppy-ProviderDialog-input",value:r,onInput:f=>n(f.target.value)})]}):i.message&&a("p",{className:"uppy-ProviderDialog-message",children:i.message}),a("div",{className:"uppy-ProviderDialog-actions",children:[a("button",{ref:d,type:"button",className:"uppy-u-reset uppy-c-btn uppy-c-btn-link",onClick:s,children:e("cancel")}),a("button",{ref:l,type:"submit",className:(0,Za.default)("uppy-u-reset uppy-c-btn uppy-c-btn-primary",m&&"uppy-ProviderDialog-confirm--danger"),children:i.confirmLabel??e("dialogConfirm")})]})]})})}u();var xt,Pt,gi,Me,Zr,en,mi=class{constructor(e){_(this,Me);_(this,xt);_(this,Pt,null);_(this,gi,0);y(this,"submit",e=>w(this,Me,en).call(this,!0,e));y(this,"cancel",()=>w(this,Me,en).call(this,!1));C(this,xt,e)}get revision(){return h(this,gi)}prompt(e){return new Promise(t=>{w(this,Me,Zr).call(this,{kind:"prompt",...e},(s,r)=>t(s?r??"":null))})}confirm(e){return new Promise(t=>{w(this,Me,Zr).call(this,{kind:"confirm",...e},t)})}};xt=new WeakMap,Pt=new WeakMap,gi=new WeakMap,Me=new WeakSet,Zr=function(e,t){this.cancel(),C(this,gi,h(this,gi)+1),C(this,Pt,t),h(this,xt).setPluginState({dialog:e})},en=function(e,t){let s=h(this,Pt);s&&(C(this,Pt,null),h(this,xt).setPluginState({dialog:void 0}),s(e,t))};u();u();var _c=(i,e,t)=>{let s=i.name||i.id;return{id:i.id,source:e.id,name:s,type:i.mimeType,isRemote:!0,data:i,preview:i.thumbnail||void 0,meta:{authorName:i.author?.name,authorUrl:i.author?.url,relativePath:i.relDirPath||null,absolutePath:i.absDirPath},body:{fileId:i.id},remote:{companionUrl:e.opts.companionUrl,url:`${t.fileUrl(i.requestPath)}`,body:{fileId:i.id},providerName:t.name,provider:t.provider,requestClientId:t.provider}}},el=_c;var Sc=(i,e,t)=>{let s=i.map(o=>el(o,e,t)),r=[],n=[];s.forEach(o=>{e.uppy.checkIfFileAlreadyExists(Kt(o,e.uppy.getID()))?n.push(o):r.push(o)}),r.length>0&&e.uppy.info(e.uppy.i18n("addedNumFiles",{numFiles:r.length})),n.length>0&&e.uppy.info(`Not adding ${n.length} files because they already exist`),e.uppy.addFiles(r)},tl=Sc;u();var xc=(i,e,t,s)=>{let r=e.findIndex(n=>n.id===s);if(r!==-1&&t){let n=e.findIndex(l=>l.id===i);return e.slice(Math.min(r,n),Math.max(r,n)+1).map(l=>l.id)}return[i]},il=xc;u();var Pc=i=>e=>{if(_s(e))return;let t=gt(e);if(bt(t)){i.log("Aborting request","warning");return}i.log(t,"error"),t.name==="UserFacingApiError"&&i.info({message:i.i18n("companionError"),details:xs(i.i18n,t)},"warning",5e3)},it=Pc;u();var Tc=(i,e)=>{let t=i.find(r=>r.id===e),s=[];for(;s=[t,...s],t.type!=="root";){let r=t.parentId;t=i.find(n=>n.id===r)}return s},tn=Tc;u();var sl=(i,e,t)=>{let s=e===null?"null":e;if(t[s])return t[s];let r=i.find(o=>o.id===e);if(r.type==="root")return[];let n=[...sl(i,r.parentId,t),r];return t[s]=n,n},Cc=i=>{let e=Object.create(null);return i.filter(r=>r.type==="file"&&r.status==="checked").map(r=>{let n=sl(i,r.id,e),o=n.findIndex(p=>p.type==="folder"&&p.status==="checked"),l=n.slice(o),d=`/${n.map(p=>p.data.name).join("/")}`,c=l.length===1?void 0:l.map(p=>p.data.name).join("/");return{...r.data,absDirPath:d,relDirPath:c}})},rl=Cc;u();u();u();u();var rn=j(ol(),1);u();var nn=class i extends Error{constructor(t,s){super(t,s);y(this,"name","TimeoutError");Error.captureStackTrace?.(this,i)}},al=i=>i.reason??new DOMException("This operation was aborted.","AbortError");function on(i,e){let{milliseconds:t,fallback:s,message:r,customTimers:n={setTimeout,clearTimeout},signal:o}=e,l,d,p=new Promise((m,f)=>{if(typeof t!="number"||Math.sign(t)!==1)throw new TypeError(`Expected \`milliseconds\` to be a positive number, got \`${t}\``);if(o?.aborted){f(al(o)),i.then(m,f);return}if(o&&(d=()=>{f(al(o))},o.addEventListener("abort",d,{once:!0})),i.then(m,f),t===Number.POSITIVE_INFINITY)return;let v=new nn;l=n.setTimeout.call(void 0,()=>{if(s){try{m(s())}catch(g){f(g)}return}typeof i.cancel=="function"&&i.cancel(),r===!1?m():r instanceof Error?f(r):(v.message=r??`Promise timed out after ${t} milliseconds`,f(v))},t)}).finally(()=>{p.clear(),d&&o&&o.removeEventListener("abort",d)});return p.clear=()=>{n.clearTimeout.call(void 0,l),l=void 0},p}u();u();function an(i,e,t){let s=0,r=i.length;for(;r>0;){let n=Math.trunc(r/2),o=s+n;t(i[o],e)<=0?(s=++o,r-=n+1):r=n}return s}var Ic=100,W,Z,bi,ln,Tt=class{constructor(){_(this,bi);_(this,W,[]);_(this,Z,0)}enqueue(e,t){let{priority:s=0,id:r}=t??{},{size:n}=this,o={priority:s,id:r,run:e};if(n===0){h(this,W).length=0,C(this,Z,0),h(this,W).push(o);return}if(h(this,W).at(-1).priority>=s){h(this,W).push(o);return}w(this,bi,ln).call(this);let l=an(h(this,W),o,(d,c)=>c.priority-d.priority);h(this,W).splice(l,0,o)}setPriority(e,t){let s=h(this,W).findIndex((n,o)=>o>=h(this,Z)&&n.id===e);if(s===-1)throw new ReferenceError(`No promise function with the id "${e}" exists in the queue.`);let[r]=h(this,W).splice(s,1);this.enqueue(r.run,{priority:t,id:e})}remove(e){let t=h(this,W).findIndex((s,r)=>r<h(this,Z)?!1:typeof e=="string"?s.id===e:s.run===e);t!==-1&&h(this,W).splice(t,1)}dequeue(){if(h(this,Z)===h(this,W).length)return;let e=h(this,W)[h(this,Z)];return fe(this,Z)._++,h(this,Z)===h(this,W).length?(h(this,W).length=0,C(this,Z,0)):h(this,Z)>Ic&&h(this,Z)>h(this,W).length/2&&w(this,bi,ln).call(this),e?.run}filter(e){let t=[];for(let s=h(this,Z);s<h(this,W).length;s++){let r=h(this,W)[s];r.priority===e.priority&&t.push(r.run)}return t}get size(){return h(this,W).length-h(this,Z)}};W=new WeakMap,Z=new WeakMap,bi=new WeakSet,ln=function(){h(this,Z)!==0&&(h(this,W).splice(0,h(this,Z)),C(this,Z,0))};var kt,ye,be,Le,rt,Et,Ce,It,_e,ke,pe,de,oe,H,Fi,te,nt,Ee,Ns,ot,At,E,ks,ll,dl,Es,ul,cl,hl,pl,fl,dn,Is,un,vi,cn,hn,As,st,ml,Ct,gl,pn,wi=class extends rn.default{constructor(t){super();_(this,E);_(this,kt);_(this,ye);_(this,be,0);_(this,Le);_(this,rt,!1);_(this,Et,!1);_(this,Ce);_(this,It,0);_(this,_e);_(this,ke);_(this,pe);_(this,de,[]);_(this,oe,0);_(this,H);_(this,Fi);_(this,te,0);_(this,nt);_(this,Ee);_(this,Ns,1n);_(this,ot,new Map);_(this,At,new Set);y(this,"timeout");if(t={carryoverIntervalCount:!1,intervalCap:Number.POSITIVE_INFINITY,interval:0,concurrency:Number.POSITIVE_INFINITY,autoStart:!0,queueClass:Tt,strict:!1,...t},!(typeof t.intervalCap=="number"&&t.intervalCap>=1))throw new TypeError(`Expected \`intervalCap\` to be a number from 1 and up, got \`${t.intervalCap?.toString()??""}\` (${typeof t.intervalCap})`);if(t.interval===void 0||!(Number.isFinite(t.interval)&&t.interval>=0))throw new TypeError(`Expected \`interval\` to be a finite number >= 0, got \`${t.interval?.toString()??""}\` (${typeof t.interval})`);if(t.strict&&t.interval===0)throw new TypeError("The `strict` option requires a non-zero `interval`");if(t.strict&&t.intervalCap===Number.POSITIVE_INFINITY)throw new TypeError("The `strict` option requires a finite `intervalCap`");if(C(this,kt,t.carryoverIntervalCount??t.carryoverConcurrencyCount??!1),C(this,ye,t.intervalCap===Number.POSITIVE_INFINITY||t.interval===0),C(this,Le,t.intervalCap),C(this,Ce,t.interval),C(this,pe,t.strict),C(this,H,new t.queueClass),C(this,Fi,t.queueClass),this.concurrency=t.concurrency,t.timeout!==void 0&&!(Number.isFinite(t.timeout)&&t.timeout>0))throw new TypeError(`Expected \`timeout\` to be a positive finite number, got \`${t.timeout}\` (${typeof t.timeout})`);this.timeout=t.timeout,C(this,Ee,t.autoStart===!1),w(this,E,ml).call(this)}get concurrency(){return h(this,nt)}set concurrency(t){if(!(typeof t=="number"&&t>=1))throw new TypeError(`Expected \`concurrency\` to be a number from 1 and up, got \`${t}\` (${typeof t})`);C(this,nt,t),w(this,E,As).call(this)}setPriority(t,s){if(typeof s!="number"||!Number.isFinite(s))throw new TypeError(`Expected \`priority\` to be a finite number, got \`${s}\` (${typeof s})`);h(this,H).setPriority(t,s)}async add(t,s={}){if(s={timeout:this.timeout,...s,id:s.id??(fe(this,Ns)._++).toString()},s.timeout!==void 0&&!(Number.isFinite(s.timeout)&&s.timeout>0))throw new TypeError(`Expected \`timeout\` to be a positive finite number, got \`${s.timeout}\` (${typeof s.timeout})`);return new Promise((r,n)=>{let o=Symbol(`task-${s.id}`),l=()=>{},d=async()=>{l(),fe(this,te)._++,h(this,ot).set(o,{id:s.id,priority:s.priority??0,startTime:Date.now(),timeout:s.timeout});let p;try{try{s.signal?.throwIfAborted()}catch(v){throw w(this,E,gl).call(this),h(this,ot).delete(o),v}let m=t({signal:s.signal});if(s.timeout!==void 0&&(m=on(Promise.resolve(m),{milliseconds:s.timeout,message:`Task timed out after ${s.timeout}ms (queue has ${h(this,te)} running, ${h(this,H).size} waiting)`})),s.signal){let{signal:v}=s;m=Promise.race([m,new Promise((g,F)=>{p=()=>{F(v.reason)},v.addEventListener("abort",p,{once:!0})})])}let f=await m;r(f),this.emit("completed",f)}catch(m){n(m),this.emit("error",m)}finally{p&&s.signal?.removeEventListener("abort",p),h(this,ot).delete(o),queueMicrotask(()=>{w(this,E,hl).call(this)})}};h(this,H).enqueue(d,s);let c=()=>{if(h(this,H)instanceof Tt){h(this,H).remove(d);return}h(this,H).remove?.(s.id)};if(s.signal){let{signal:p}=s,m=()=>{l(),c(),n(p.reason),w(this,E,vi).call(this),this.emit("next")};if(l=()=>{p.removeEventListener("abort",m),h(this,At).delete(l)},p.aborted){m();return}p.addEventListener("abort",m,{once:!0}),h(this,At).add(l)}this.emit("add"),w(this,E,vi).call(this)})}async addAll(t,s){return Promise.all(t.map(async r=>this.add(r,s)))}start(){return h(this,Ee)?(C(this,Ee,!1),w(this,E,As).call(this),this):this}pause(){C(this,Ee,!0)}clear(){for(let t of h(this,At))t();C(this,H,new(h(this,Fi))),w(this,E,Is).call(this),w(this,E,pn).call(this),this.emit("empty"),h(this,te)===0&&(w(this,E,un).call(this),this.emit("idle")),this.emit("next")}async onEmpty(){h(this,H).size!==0&&await w(this,E,st).call(this,"empty")}async onSizeLessThan(t){h(this,H).size<t||await w(this,E,st).call(this,["next","active"],()=>h(this,H).size<t)}async onIdle(){h(this,te)===0&&h(this,H).size===0||await w(this,E,st).call(this,"idle")}async onPendingZero(){h(this,te)!==0&&await w(this,E,st).call(this,"pendingZero")}async onRateLimit(){this.isRateLimited||await w(this,E,st).call(this,"rateLimit")}async onRateLimitCleared(){this.isRateLimited&&await w(this,E,st).call(this,"rateLimitCleared")}onError(){return new Promise((t,s)=>{let r=n=>{this.off("error",r),s(n)};this.on("error",r)})}get size(){return h(this,H).size}sizeBy(t){return h(this,H).filter(t).length}get pending(){return h(this,te)}get isPaused(){return h(this,Ee)}get isRateLimited(){return h(this,rt)}get isSaturated(){return h(this,te)===h(this,nt)&&h(this,H).size>0||this.isRateLimited&&h(this,H).size>0}get runningTasks(){return[...h(this,ot).values()].map(t=>({...t,timeoutRemaining:t.timeout?Math.max(0,t.startTime+t.timeout-Date.now()):void 0}))}};kt=new WeakMap,ye=new WeakMap,be=new WeakMap,Le=new WeakMap,rt=new WeakMap,Et=new WeakMap,Ce=new WeakMap,It=new WeakMap,_e=new WeakMap,ke=new WeakMap,pe=new WeakMap,de=new WeakMap,oe=new WeakMap,H=new WeakMap,Fi=new WeakMap,te=new WeakMap,nt=new WeakMap,Ee=new WeakMap,Ns=new WeakMap,ot=new WeakMap,At=new WeakMap,E=new WeakSet,ks=function(t){for(;h(this,oe)<h(this,de).length;){let r=h(this,de)[h(this,oe)];if(r!==void 0&&t-r>=h(this,Ce))fe(this,oe)._++;else break}(h(this,oe)>100&&h(this,oe)>h(this,de).length/2||h(this,oe)===h(this,de).length)&&(C(this,de,h(this,de).slice(h(this,oe))),C(this,oe,0))},ll=function(t){h(this,pe)?h(this,de).push(t):fe(this,be)._++},dl=function(){h(this,pe)?h(this,de).length>h(this,oe)&&h(this,de).pop():h(this,be)>0&&fe(this,be)._--},Es=function(){return h(this,de).length-h(this,oe)},ul=function(){return h(this,ye)?!0:h(this,pe)?w(this,E,Es).call(this)<h(this,Le):h(this,be)<h(this,Le)},cl=function(){return h(this,te)<h(this,nt)},hl=function(){fe(this,te)._--,h(this,te)===0&&this.emit("pendingZero"),w(this,E,vi).call(this),this.emit("next")},pl=function(){C(this,ke,void 0),w(this,E,hn).call(this),w(this,E,cn).call(this)},fl=function(t){if(h(this,pe)){if(w(this,E,ks).call(this,t),w(this,E,Es).call(this)>=h(this,Le)){let r=h(this,de)[h(this,oe)],n=h(this,Ce)-(t-r);return w(this,E,dn).call(this,n),!0}return!1}if(h(this,_e)===void 0){let s=h(this,It)-t;if(s<0)C(this,be,h(this,kt)?h(this,te):0);else return w(this,E,dn).call(this,s),!0}return!1},dn=function(t){h(this,ke)===void 0&&C(this,ke,setTimeout(()=>{w(this,E,pl).call(this)},t))},Is=function(){h(this,_e)&&(clearInterval(h(this,_e)),C(this,_e,void 0))},un=function(){h(this,ke)&&(clearTimeout(h(this,ke)),C(this,ke,void 0))},vi=function(){if(h(this,H).size===0){if(w(this,E,Is).call(this),this.emit("empty"),h(this,te)===0){if(w(this,E,un).call(this),h(this,pe)&&h(this,oe)>0){let s=Date.now();w(this,E,ks).call(this,s)}this.emit("idle")}return!1}let t=!1;if(!h(this,Ee)){let s=Date.now(),r=!w(this,E,fl).call(this,s);if(h(this,E,ul)&&h(this,E,cl)){let n=h(this,H).dequeue();h(this,ye)||(w(this,E,ll).call(this,s),w(this,E,Ct).call(this)),r&&w(this,E,cn).call(this),this.emit("active"),n(),t=!0}}return t},cn=function(){h(this,ye)||h(this,_e)!==void 0||h(this,pe)||(C(this,_e,setInterval(()=>{w(this,E,hn).call(this)},h(this,Ce))),C(this,It,Date.now()+h(this,Ce)))},hn=function(){h(this,pe)||(h(this,_e)!==void 0&&(h(this,be)===0&&h(this,te)===0?w(this,E,Is).call(this):C(this,It,Date.now()+h(this,Ce))),C(this,be,h(this,kt)?h(this,te):0)),w(this,E,As).call(this),w(this,E,Ct).call(this)},As=function(){for(;w(this,E,vi).call(this););},st=async function(t,s){let r=Array.isArray(t)?t:[t];return new Promise(n=>{let o=()=>{if(!(s&&!s())){for(let l of r)this.off(l,o);n()}};for(let l of r)this.on(l,o)})},ml=function(){h(this,ye)||(this.on("add",()=>{h(this,H).size>0&&w(this,E,Ct).call(this)}),this.on("next",()=>{w(this,E,Ct).call(this)}))},Ct=function(){h(this,ye)||h(this,Et)||(C(this,Et,!0),queueMicrotask(()=>{C(this,Et,!1),w(this,E,pn).call(this)}))},gl=function(){h(this,ye)||(w(this,E,dl).call(this),w(this,E,Ct).call(this))},pn=function(){let t=h(this,rt);if(h(this,ye)||h(this,H).size===0){t&&(C(this,rt,!1),this.emit("rateLimitCleared"));return}let s;if(h(this,pe)){let n=Date.now();w(this,E,ks).call(this,n),s=w(this,E,Es).call(this)}else s=h(this,be);let r=s>=h(this,Le);r!==t&&(C(this,rt,r),this.emit(r?"rateLimit":"rateLimitCleared"))};u();var Ac=i=>i.map(e=>({...e})),Os=Ac;var yl=async(i,e,t,s,r)=>{let n=[],o=t.cached?t.nextPagePath:t.id;for(;o;){let m=await s(o);n=n.concat(m.items),o=m.nextPagePath}let l=n.filter(m=>m.isFolder===!0),d=n.filter(m=>m.isFolder===!1),c=l.map(m=>({type:"folder",id:m.requestPath,cached:!1,nextPagePath:null,status:"checked",parentId:t.id,data:m})),p=d.map(m=>{let f=r(m);return{type:"file",id:m.requestPath,restrictionError:f,status:f?"unchecked":"checked",parentId:t.id,data:m}});t.cached=!0,t.nextPagePath=null,e.push(...p,...c),c.forEach(async m=>{i.add(()=>yl(i,e,m,s,r))})},Nc=async(i,e,t,s)=>{let r=new wi({concurrency:6}),n=Os(i);return n.filter(l=>l.type==="folder"&&l.status==="checked"&&(l.cached===!1||l.nextPagePath)).forEach(l=>{r.add(()=>yl(r,n,l,e,t))}),r.on("completed",()=>{let l=n.filter(d=>d.type==="file"&&d.status==="checked").length;s(l)}),await r.onIdle(),n},bl=Nc;u();var Oc=(i,e,t,s,r)=>{let n=e.filter(g=>!i.find(F=>F.id===g.requestPath)),o=n.filter(g=>g.isFolder===!0),l=n.filter(g=>g.isFolder===!1),d=t.type==="folder"&&t.status==="checked",c=o.map(g=>({type:"folder",id:g.requestPath,cached:!1,nextPagePath:null,status:d?"checked":"unchecked",parentId:t.id,data:g})),p=l.map(g=>{let F=r(g);return{type:"file",id:g.requestPath,restrictionError:F,status:d&&!F?"checked":"unchecked",parentId:t.id,data:g}}),m={...t,cached:!0,nextPagePath:s};return[...i.map(g=>g.id===m.id?m:g),...c,...p]},vl=Oc;u();var Bc=(i,e,t,s,r)=>{let n=i.find(g=>g.id===e),o=t.filter(g=>g.isFolder===!0),l=t.filter(g=>g.isFolder===!1),d={...n,nextPagePath:s},c=i.map(g=>g.id===d.id?d:g),p=d.type==="folder"&&d.status==="checked",m=o.map(g=>({type:"folder",id:g.requestPath,cached:!1,nextPagePath:null,status:p?"checked":"unchecked",parentId:d.id,data:g})),f=l.map(g=>{let F=r(g);return{type:"file",id:g.requestPath,restrictionError:F,status:p&&!F?"checked":"unchecked",parentId:d.id,data:g}});return[...c,...m,...f]},wl=Bc;u();var Fl=(i,e,t)=>{i.filter(r=>r.type!=="root"&&r.parentId===e).forEach(r=>{r.status=t&&!(r.type==="file"&&r.restrictionError)?"checked":"unchecked",Fl(i,r.id,t)})},_l=(i,e)=>{let t=i.find(o=>o.id===e);if(t.type==="root")return;let s=i.filter(o=>o.type!=="root"&&o.parentId===t.id&&!(o.type==="file"&&o.restrictionError)),r=s.every(o=>o.status==="checked"),n=s.every(o=>o.status==="unchecked");r&&t.cached?t.status="checked":n?t.status="unchecked":t.status="partial",_l(i,t.parentId)},Dc=(i,e)=>{let t=Os(i),s=t.filter(r=>r.type!=="root"&&e.includes(r.id));return s.forEach(r=>{let n=r.status==="checked"?"unchecked":"checked";r.type==="file"?r.status=r.restrictionError?"unchecked":n:r.status=n,Fl(t,r.id,r.status==="checked")}),_l(t,s[0].parentId),t},Sl=Dc;var Nt={afterOpenFolder:vl,afterScrollFolder:wl,afterToggleCheckbox:Sl,afterFill:bl};u();var Uc=i=>{let{scrollHeight:e,scrollTop:t,offsetHeight:s}=i.target;return e-(t+s)<50},xl=Uc;u();u();var Pl=j(Q(),1);var Rc=({i18n:i,item:e,toggleCheckbox:t,openFolder:s})=>{let r="restrictionError"in e&&e.restrictionError!=null&&e.status!=="checked";return a("li",{className:(0,Pl.default)("uppy-ProviderBrowserItem",{"uppy-ProviderBrowserItem--disabled":r},{"uppy-ProviderBrowserItem--noPreview":e.data.icon==="video"},{"uppy-ProviderBrowserItem--is-checked":e.status==="checked"},{"uppy-ProviderBrowserItem--is-partial":e.status==="partial"}),title:("restrictionError"in e?e.restrictionError:void 0)??void 0,children:[a("input",{type:"checkbox",className:"uppy-u-reset uppy-ProviderBrowserItem-checkbox",onChange:()=>t(e,!1),checked:e.status==="checked","aria-label":e.data.name??i("unnamed"),disabled:r,"data-uppy-super-focusable":!0}),a("button",{type:"button",className:"uppy-u-reset uppy-c-btn uppy-ProviderBrowserItem-inner",disabled:r,"aria-label":e.data.name,onClick:()=>{e.data.isFolder&&s(e.id)},children:[a("div",{className:"uppy-ProviderBrowserItem-iconWrap",children:a(Fe,{itemIconString:e.data.icon})}),e.data.name??i("unnamed")]})]})},Tl=Rc;var Mc=({searchResults:i,toggleCheckbox:e,openFolder:t,i18n:s})=>i.length===0?a("div",{className:"uppy-Provider-empty",children:s("noFilesFound")}):a("div",{className:"uppy-ProviderBrowser-body",children:a("ul",{className:"uppy-ProviderBrowser-list",children:i.map(r=>a(Tl,{i18n:s,item:r,toggleCheckbox:e,openFolder:t},r.id))})}),Cl=Mc;u();var kl=j(Q(),1);u();function fn(i){let{openFolder:e,title:t,breadcrumbsIcon:s,breadcrumbs:r,i18n:n,disabled:o=!1}=i;return a("div",{className:"uppy-Provider-breadcrumbs",children:[a("div",{className:"uppy-Provider-breadcrumbsIcon",children:s}),r.map((l,d)=>{let c=l.type==="root"?t:l.data.name??n("unnamed"),p=r.length===d+1;return a(L,{children:[a("button",{type:"button",className:"uppy-u-reset uppy-c-btn",onClick:p?void 0:()=>e(l.id),"aria-current":p?"page":void 0,disabled:!p&&o,title:c,children:c}),!p&&a("span",{"aria-hidden":"true",className:"uppy-Provider-breadcrumbsSeparator",children:"/"})]},l.id)})]})}u();function mn({i18n:i,logout:e,username:t,disabled:s=!1}){return a(L,{children:[t&&a("span",{className:"uppy-ProviderBrowser-user",children:t},"username"),a("button",{type:"button",onClick:e,disabled:s,className:"uppy-u-reset uppy-c-btn uppy-ProviderBrowser-userLogout",children:i("logOut")},"logout")]})}function gn(i){let e=i.toolbarActions??[],t=i.busy??!1;return a("div",{className:"uppy-ProviderBrowser-header",children:a("div",{className:(0,kl.default)("uppy-ProviderBrowser-headerBar",!i.showBreadcrumbs&&"uppy-ProviderBrowser-headerBar--simple"),children:[i.showBreadcrumbs&&a(fn,{openFolder:i.openFolder,breadcrumbs:i.breadcrumbs,breadcrumbsIcon:i.pluginIcon?.(),title:i.title,i18n:i.i18n,disabled:t}),(e.length>0||i.selectionToggle)&&a("div",{className:"uppy-ProviderBrowser-toolbar",children:[i.selectionToggle&&a("button",{type:"button",className:"uppy-u-reset uppy-c-btn uppy-ProviderBrowser-toolbarBtn",onClick:i.selectionToggle.onToggle,disabled:t,children:i.selectionToggle.active?i.i18n("cancelSelection"):i.i18n("selectMultiple")}),e.map(s=>a("button",{type:"button",className:"uppy-u-reset uppy-c-btn uppy-ProviderBrowser-toolbarBtn",onClick:()=>i.runToolbarAction?.(s),disabled:t,children:s.label},s.id))]}),!i.standalone&&a(mn,{logout:i.logout,username:i.username,i18n:i.i18n,disabled:t})]})})}function Ci(){return a("svg",{"aria-hidden":"true",focusable:"false",width:"30",height:"30",viewBox:"0 0 30 30",children:a("path",{d:"M15 30c8.284 0 15-6.716 15-15 0-8.284-6.716-15-15-15C6.716 0 0 6.716 0 15c0 8.284 6.716 15 15 15zm4.258-12.676v6.846h-8.426v-6.846H5.204l9.82-12.364 9.82 12.364H19.26z"})})}var El=i=>({authenticated:void 0,partialTree:[{type:"root",id:i,cached:!1,nextPagePath:null}],currentFolderId:i,searchString:"",didFirstRender:!1,username:null,loading:!1,selectionActive:!1,detailItemId:void 0});function yn(i,e){let t=[e],s=i.get(e.parentId);for(;s&&s.type!=="root";)t.push(s),s=i.get(s.parentId);return t}var Il,Pi,Ot,R,Bs,Ol,Ie,ze,Ti,Se,xe,Ae,je,_i,Bl,at,Dl,Ul;Il=Symbol.for("uppy test: searchDebounceMs");var Si=class Si{constructor(e,t){_(this,R);y(this,"plugin");y(this,"provider");y(this,"opts");y(this,"isHandlingScroll",!1);y(this,"previousCheckbox",null);_(this,Pi);y(this,"refreshCurrentFolder",async(e=!1)=>{let{partialTree:t,currentFolderId:s}=this.plugin.getPluginState();if(t==null||h(this,Ie))return;let r=++fe(this,Ti)._,n=t.flatMap(g=>g.type!=="root"&&g.parentId===s&&g.status==="checked"?[g.id]:[]),o=new Map(t.map(g=>[g.id,g])),l=g=>yn(o,g).some(({parentId:F})=>F===s),d=new Set(tn(t,s).map(g=>g.id)),c=t.filter(g=>g.type==="root"||!l(g)).filter(g=>!e||d.has(g.id)).map(g=>(e||g.id===s)&&g.type!=="file"?{...g,status:"unchecked",cached:!1,nextPagePath:null}:g);this.plugin.setPluginState({partialTree:c}),await this.openFolder(s);let{partialTree:p,detailItemId:m}=this.plugin.getPluginState();if(p==null)return;let f=p.some(g=>g.id===s&&g.type!=="file"&&g.cached);r===h(this,Ti)&&f&&m&&!p.some(({id:g})=>g===m)&&this.closeItemDetail();let v=n.filter(g=>p.some(F=>F.type!=="root"&&F.id===g&&F.status!=="checked"));v.length>0&&this.plugin.setPluginState({partialTree:Nt.afterToggleCheckbox(p,v)})});y(this,"runAction",(e,t)=>w(this,R,Bs).call(this,e,()=>e.run({item:t,...h(this,Ot).call(this)})));y(this,"runToolbarAction",e=>w(this,R,Bs).call(this,e,()=>e.run({currentFolderId:this.plugin.getPluginState().currentFolderId,...h(this,Ot).call(this)})));_(this,Ot,()=>{let{uppy:e}=this.plugin;return{view:this,uppy:e,i18n:e.i18n}});_(this,Ie);y(this,"toggleSelectionMode",()=>{let{selectionActive:e}=this.plugin.getPluginState();e&&this.cancelSelection(),this.plugin.setPluginState({selectionActive:!e})});_(this,ze);_(this,Ti,0);y(this,"openItemDetail",e=>{C(this,ze,e),this.plugin.setPluginState({detailItemId:e.id})});y(this,"closeItemDetail",()=>{this.plugin.setPluginState({detailItemId:void 0})});_(this,Se,new Set);y(this,"getBulkActionItems",()=>{let{partialTree:e}=this.plugin.getPluginState(),t=new Map(e.map(n=>[n.id,n])),s=e.filter(n=>n.type!=="root"&&n.status==="checked"&&(n.type==="file"||yn(t,n).some(({id:o})=>h(this,Se).has(o)))),r=new Set(s.map(n=>n.id));return s.filter(n=>!yn(t,n).slice(1).some(({id:o})=>r.has(o)))});y(this,"runBulkAction",e=>w(this,R,Bs).call(this,e,async()=>{let t=this.getBulkActionItems();if(t.length===0)return!1;let s=await e.run({items:t,...h(this,Ot).call(this)});return s!==!1&&this.cancelSelection(),s}));_(this,xe);_(this,Ae);y(this,"onSearchInput",e=>{this.plugin.setPluginState({searchString:e}),this.opts.supportsSearch&&h(this,Pi).call(this)});_(this,at);y(this,"validateSingleFile",e=>{let t=is(e);return this.plugin.uppy.validateSingleFile(t)});y(this,"getDisplayedPartialTree",()=>{let{partialTree:e,currentFolderId:t,searchString:s}=this.plugin.getPluginState(),r=e.filter(o=>o.type!=="root"&&o.parentId===t);return this.opts.supportsSearch||s.trim()===""?r:r.filter(o=>(o.data.name??this.plugin.uppy.i18n("unnamed")).toLowerCase().indexOf(s.trim().toLowerCase())!==-1)});y(this,"getBreadcrumbs",()=>{let{partialTree:e,currentFolderId:t}=this.plugin.getPluginState();return tn(e,t)});y(this,"getSelectedAmount",()=>{let{partialTree:e}=this.plugin.getPluginState();return Ts(e)});y(this,"validateAggregateRestrictions",e=>{let s=e.filter(r=>r.type==="file"&&r.status==="checked").map(r=>r.data);return this.plugin.uppy.validateAggregateRestrictions(s)});this.plugin=e,this.provider=t.provider,C(this,xe,new mi(e));let s={viewType:"list",showTitles:!0,showFilter:!0,showBreadcrumbs:!0,loadAllFiles:!1,virtualList:!1};this.opts={...s,...t},this.openFolder=this.openFolder.bind(this),this.logout=this.logout.bind(this),this.handleAuth=this.handleAuth.bind(this),this.handleScroll=this.handleScroll.bind(this),this.resetPluginState=this.resetPluginState.bind(this),this.donePicking=this.donePicking.bind(this),this.render=this.render.bind(this),this.cancelSelection=this.cancelSelection.bind(this),this.toggleCheckbox=this.toggleCheckbox.bind(this),this.openSearchResultFolder=this.openSearchResultFolder.bind(this),this.clearSearchState=this.clearSearchState.bind(this),this.resetPluginState(),this.plugin.uppy.on("dashboard:close-panel",this.resetPluginState),this.plugin.uppy.registerRequestClient(this.provider.provider,this.provider);let n=Si[Symbol.for("uppy test: searchDebounceMs")],o=n??500,l=n===0?{leading:!0,trailing:!0}:void 0;C(this,Pi,(0,Nl.default)(w(this,R,Bl),o,l))}resetPluginState(){h(this,Se).clear(),h(this,xe).cancel(),this.plugin.setPluginState(El(this.plugin.rootFolderId))}async runWithProgress(e){try{await w(this,R,je).call(this,async t=>{let s=h(this,Ae);C(this,Ie,()=>s?.abort()),this.setLoading(!0),await e({signal:t,setProgress:r=>this.setLoading(r)})})}finally{C(this,Ie,void 0),this.setLoading(!1)}}prompt(e){return h(this,xe).prompt(e)}confirm(e){return h(this,xe).confirm(e)}tearDown(){}setLoading(e){this.plugin.setPluginState({loading:e})}get isLoading(){return this.plugin.getPluginState().loading}cancelSelection(){h(this,Se).clear();let{partialTree:e}=this.plugin.getPluginState(),t=e.map(s=>s.type==="root"?s:{...s,status:"unchecked"});this.plugin.setPluginState({partialTree:t})}clearSearchState(){this.plugin.setPluginState({searchResults:void 0})}async openSearchResultFolder(e){this.plugin.setPluginState({searchString:""}),await this.openFolder(e)}async openFolder(e){this.clearSearchState(),this.previousCheckbox=null;let{partialTree:t}=this.plugin.getPluginState(),s=t.find(r=>r.id===e);if(s.cached){this.plugin.setPluginState({currentFolderId:e,searchString:""});return}this.setLoading(!0),await w(this,R,je).call(this,async r=>{let n=e,o=[];do{let{username:d,nextPagePath:c,items:p}=await this.provider.list(n,{signal:r});this.plugin.setPluginState({username:d}),n=c,o=o.concat(p),this.setLoading(this.plugin.uppy.i18n("loadedXFiles",{numFiles:o.length}))}while(this.opts.loadAllFiles&&n);let l=Nt.afterOpenFolder(t,o,s,n,this.validateSingleFile);this.plugin.setPluginState({partialTree:l,currentFolderId:e,searchString:""})}).catch(it(this.plugin.uppy)),w(this,R,_i).call(this)}async logout(){h(this,Se).clear(),await w(this,R,je).call(this,async e=>{let t=await this.provider.logout({signal:e});if(t.ok){if(!t.revoked){let s=this.plugin.uppy.i18n("companionUnauthorizeHint",{provider:this.plugin.title,url:t.manual_revoke_url});this.plugin.uppy.info(s,"info",7e3)}this.plugin.setPluginState({...El(this.plugin.rootFolderId),authenticated:!1})}}).catch(it(this.plugin.uppy))}async handleAuth(e){await w(this,R,je).call(this,async t=>{this.setLoading(!0),await this.provider.login({authFormData:e,signal:t}),this.plugin.setPluginState({authenticated:!0}),await Promise.all([this.provider.fetchPreAuthToken(),this.openFolder(this.plugin.rootFolderId)])}).catch(it(this.plugin.uppy)),w(this,R,_i).call(this)}async handleScroll(e){xl(e)&&await this.loadNextPage()}loadNextPage(){return h(this,at)||C(this,at,w(this,R,Dl).call(this).finally(()=>{C(this,at,void 0)})),h(this,at)}async donePicking(){let{partialTree:e}=this.plugin.getPluginState();this.isLoading||(this.setLoading(!0),await w(this,R,je).call(this,async t=>{let s=await Nt.afterFill(e,o=>this.provider.list(o,{signal:t}),this.validateSingleFile,o=>{this.setLoading(this.plugin.uppy.i18n("addedNumFiles",{numFiles:o}))});if(this.validateAggregateRestrictions(s)){this.plugin.setPluginState({partialTree:s});return}let n=rl(s);tl(n,this.plugin,this.provider),this.resetPluginState()}).catch(it(this.plugin.uppy)),w(this,R,_i).call(this))}toggleCheckbox(e,t){let{partialTree:s}=this.plugin.getPluginState(),r=il(e.id,this.getDisplayedPartialTree(),t,this.previousCheckbox),n=Nt.afterToggleCheckbox(s,r),o=new Map(n.map(l=>[l.id,l.type==="root"?void 0:l.status]));for(let l of r)o.get(l)==="checked"&&h(this,Se).add(l);for(let l of h(this,Se)){let d=o.get(l);(d===void 0||d==="unchecked")&&h(this,Se).delete(l)}this.plugin.setPluginState({partialTree:n}),this.previousCheckbox=e.id}render(e,t={}){let{didFirstRender:s}=this.plugin.getPluginState(),{i18n:r}=this.plugin.uppy;s||(this.plugin.setPluginState({didFirstRender:!0}),this.provider.fetchPreAuthToken(),this.openFolder(this.plugin.rootFolderId));let n={...this.opts,...t},{authenticated:o,loading:l}=this.plugin.getPluginState(),d=this.plugin.icon||Ci;if(o===!1)return a(zr,{pluginName:this.plugin.title,pluginIcon:d,handleAuth:this.handleAuth,i18n:this.plugin.uppy.i18n,renderForm:n.renderAuthForm,loading:l});let{partialTree:c,currentFolderId:p,username:m,searchString:f,searchResults:v,dialog:g,selectionActive:F=!1,detailItemId:T}=this.plugin.getPluginState(),S=this.getBreadcrumbs(),k=n.mode==="manager",P=!k||F,N=h(this,Ie)!==void 0,B=c.find(({id:I})=>I===p),x=B?.type!=="file"&&B?.cached===!0&&!c.some(I=>I.type!=="root"&&I.parentId===p);T&&C(this,ze,c.find(I=>I.type!=="root"&&I.id===T)??h(this,ze));let O=h(this,ze)?.id===T?h(this,ze):void 0;return a("div",{className:(0,Al.default)("uppy-ProviderBrowser",`uppy-ProviderBrowser-viewType--${n.viewType}`),children:[a(gn,{showBreadcrumbs:n.showBreadcrumbs,openFolder:this.openFolder,breadcrumbs:S,pluginIcon:d,title:this.plugin.title,logout:this.logout,username:m,i18n:r,toolbarActions:n.toolbarActions??[],runToolbarAction:this.runToolbarAction,standalone:n.standalone??!1,selectionToggle:k&&(n.bulkActions?.length??0)>0&&(F||!x)?{active:F,onToggle:this.toggleSelectionMode}:void 0,busy:N}),n.showFilter&&a($a,{value:f,onChange:I=>this.onSearchInput(I),onSubmit:()=>{},inputLabel:r("filter"),i18n:r,disabled:N}),v?w(this,R,Ul).call(this):a(Xa,{toggleCheckbox:this.toggleCheckbox,displayedPartialTree:this.getDisplayedPartialTree(),openFolder:this.openFolder,virtualList:n.virtualList,noResultsLabel:r("noFilesFound"),handleScroll:this.handleScroll,viewType:n.viewType,showTitles:n.showTitles,i18n:this.plugin.uppy.i18n,isLoading:l,onCancelLoading:h(this,Ie),utmSource:"Companion",actions:n.actions??[],runAction:this.runAction,selectable:P,onFileClick:k&&!F?this.openItemDetail:void 0}),N?null:k?F&&a(Xr,{selectedCount:this.getBulkActionItems().length,bulkActions:n.bulkActions??[],runBulkAction:this.runBulkAction,i18n:r}):a(Yr,{partialTree:c,donePicking:this.donePicking,cancelSelection:this.cancelSelection,i18n:r,validateAggregateRestrictions:this.validateAggregateRestrictions}),O&&a(Qr,{item:O,actions:n.actions??[],runAction:this.runAction,getPreviewUrl:n.getPreviewUrl,onClose:this.closeItemDetail,i18n:r},O.id),g&&a(Jr,{dialog:g,i18n:r,onConfirm:h(this,xe).submit,onCancel:h(this,xe).cancel},h(this,xe).revision)]})}};Pi=new WeakMap,Ot=new WeakMap,R=new WeakSet,Bs=async function({refresh:e},t){try{if(await t()===!1)return}catch(s){w(this,R,Ol).call(this,s)}e!==!1&&await this.refreshCurrentFolder(!0)},Ol=function(e){let{uppy:t}=this.plugin;if(bt(e)){t.log("[ProviderView] action cancelled","warning");return}t.log(`[ProviderView] action failed: ${Ge(e)}`,"error");let s=e instanceof Error&&e.name==="UserFacingApiError"?xs(t.i18n,e):e instanceof oo||_s(e)?t.i18n("companionError"):t.i18n("actionFailed");t.info(s,"error",5e3)},Ie=new WeakMap,ze=new WeakMap,Ti=new WeakMap,Se=new WeakMap,xe=new WeakMap,Ae=new WeakMap,je=async function(e){h(this,Ae)?.abort();let t=new AbortController;C(this,Ae,t);let s=()=>{t.abort()};try{this.plugin.uppy.on("dashboard:close-panel",s),this.plugin.uppy.on("cancel-all",s),await e(t.signal)}finally{h(this,Ae)===t&&C(this,Ae,void 0),this.plugin.uppy.off("dashboard:close-panel",s),this.plugin.uppy.off("cancel-all",s)}},_i=function(){h(this,Ie)===void 0&&this.setLoading(!1)},Bl=async function(){let{partialTree:e,currentFolderId:t,searchString:s}=this.plugin.getPluginState(),r=e.find(n=>n.id===t);if(s.trim()===""){h(this,Ae)?.abort(),this.clearSearchState();return}this.setLoading(!0),await w(this,R,je).call(this,async n=>{let o=r.type==="root"?void 0:t,{items:l}=await this.provider.search(s,{signal:n,path:o}),{partialTree:d}=this.plugin.getPluginState(),c=[...d];for(let p of l){let f=decodeURIComponent(p.requestPath).split("/").filter(F=>F.length>0),v=this.plugin.rootFolderId,g;f.forEach((F,T,S)=>{let k=f.slice(0,T+1),P=encodeURIComponent(`/${k.join("/")}`),N=c.find(I=>I.id===P&&I.type!=="root");if(N){v=P,g=N.status==="checked";return}let B=T===S.length-1,x,O=g?"checked":"unchecked";if(B)if(p.isFolder)x={type:"folder",id:P,cached:!1,nextPagePath:null,status:O,parentId:v,data:p};else{let I=this.validateSingleFile(p);x={type:"file",id:P,restrictionError:I,status:I?"unchecked":O,parentId:v,data:p}}else x={type:"folder",id:P,cached:!1,nextPagePath:null,status:O,parentId:v,data:{name:decodeURIComponent(F),icon:"folder",isFolder:!0}};c.push(x),v=P,g=O==="checked"})}this.plugin.setPluginState({partialTree:c,searchResults:l.map(p=>p.requestPath)})}).catch(it(this.plugin.uppy)),w(this,R,_i).call(this)},at=new WeakMap,Dl=async function(){let{partialTree:e,currentFolderId:t}=this.plugin.getPluginState(),s=e.find(r=>r.id===t);if(s&&s.type!=="file"&&s.nextPagePath){let r=s.nextPagePath,n=!1;return this.isHandlingScroll=!0,await w(this,R,je).call(this,async o=>{let{nextPagePath:l,items:d}=await this.provider.list(r,{signal:o}),c=this.plugin.getPluginState();if(o.aborted||c.currentFolderId!==t)return;let p=Nt.afterScrollFolder(c.partialTree,t,d,l,this.validateSingleFile);this.plugin.setPluginState({partialTree:p}),n=!0}).catch(it(this.plugin.uppy)),this.isHandlingScroll=!1,n}return!1},Ul=function(){let{i18n:e}=this.plugin.uppy,{searchResults:t,partialTree:s}=this.plugin.getPluginState(),r=new Map;s.forEach(o=>{o.type!=="root"&&r.set(o.id,o)});let n=t.map(o=>{let l=r.get(o);if(l==null)throw new Error("Partial tree not complete");return l});return a(Cl,{searchResults:n,openFolder:this.openSearchResultFolder,toggleCheckbox:this.toggleCheckbox,i18n:e})},y(Si,"VERSION",wt.version),y(Si,Il);var xi=Si;u();u();function D(i,e,t){return e in i?Object.defineProperty(i,e,{value:t,enumerable:!0,configurable:!0,writable:!0}):i[e]=t,i}var Vl=typeof self<"u"?self:global,Ai=typeof navigator<"u",Lc=Ai&&typeof HTMLImageElement>"u",Rl=!(typeof global>"u"||typeof process>"u"||!process.versions||!process.versions.node),Wl=Vl.Buffer,Gl=!!Wl,jc=i=>i!==void 0;function Kl(i){return i===void 0||(i instanceof Map?i.size===0:Object.values(i).filter(jc).length===0)}function ee(i){let e=new Error(i);throw delete e.stack,e}function Ml(i){let e=(function(t){let s=0;return t.ifd0.enabled&&(s+=1024),t.exif.enabled&&(s+=2048),t.makerNote&&(s+=2048),t.userComment&&(s+=1024),t.gps.enabled&&(s+=512),t.interop.enabled&&(s+=100),t.ifd1.enabled&&(s+=1024),s+2048})(i);return i.jfif.enabled&&(e+=50),i.xmp.enabled&&(e+=2e4),i.iptc.enabled&&(e+=14e3),i.icc.enabled&&(e+=6e3),e}var bn=i=>String.fromCharCode.apply(null,i),Ll=typeof TextDecoder<"u"?new TextDecoder("utf-8"):void 0,dt=class i{static from(e,t){return e instanceof this&&e.le===t?e:new i(e,void 0,void 0,t)}constructor(e,t=0,s,r){if(typeof r=="boolean"&&(this.le=r),Array.isArray(e)&&(e=new Uint8Array(e)),e===0)this.byteOffset=0,this.byteLength=0;else if(e instanceof ArrayBuffer){s===void 0&&(s=e.byteLength-t);let n=new DataView(e,t,s);this._swapDataView(n)}else if(e instanceof Uint8Array||e instanceof DataView||e instanceof i){s===void 0&&(s=e.byteLength-t),(t+=e.byteOffset)+s>e.byteOffset+e.byteLength&&ee("Creating view outside of available memory in ArrayBuffer");let n=new DataView(e.buffer,t,s);this._swapDataView(n)}else if(typeof e=="number"){let n=new DataView(new ArrayBuffer(e));this._swapDataView(n)}else ee("Invalid input argument for BufferView: "+e)}_swapArrayBuffer(e){this._swapDataView(new DataView(e))}_swapBuffer(e){this._swapDataView(new DataView(e.buffer,e.byteOffset,e.byteLength))}_swapDataView(e){this.dataView=e,this.buffer=e.buffer,this.byteOffset=e.byteOffset,this.byteLength=e.byteLength}_lengthToEnd(e){return this.byteLength-e}set(e,t,s=i){return e instanceof DataView||e instanceof i?e=new Uint8Array(e.buffer,e.byteOffset,e.byteLength):e instanceof ArrayBuffer&&(e=new Uint8Array(e)),e instanceof Uint8Array||ee("BufferView.set(): Invalid data argument."),this.toUint8().set(e,t),new s(this,t,e.byteLength)}subarray(e,t){return t=t||this._lengthToEnd(e),new i(this,e,t)}toUint8(){return new Uint8Array(this.buffer,this.byteOffset,this.byteLength)}getUint8Array(e,t){return new Uint8Array(this.buffer,this.byteOffset+e,t)}getString(e=0,t=this.byteLength){return r=this.getUint8Array(e,t),Ll?Ll.decode(r):Gl?Buffer.from(r).toString("utf8"):decodeURIComponent(escape(bn(r)));var r}getLatin1String(e=0,t=this.byteLength){let s=this.getUint8Array(e,t);return bn(s)}getUnicodeString(e=0,t=this.byteLength){let s=[];for(let r=0;r<t&&e+r<this.byteLength;r+=2)s.push(this.getUint16(e+r));return bn(s)}getInt8(e){return this.dataView.getInt8(e)}getUint8(e){return this.dataView.getUint8(e)}getInt16(e,t=this.le){return this.dataView.getInt16(e,t)}getInt32(e,t=this.le){return this.dataView.getInt32(e,t)}getUint16(e,t=this.le){return this.dataView.getUint16(e,t)}getUint32(e,t=this.le){return this.dataView.getUint32(e,t)}getFloat32(e,t=this.le){return this.dataView.getFloat32(e,t)}getFloat64(e,t=this.le){return this.dataView.getFloat64(e,t)}getFloat(e,t=this.le){return this.dataView.getFloat32(e,t)}getDouble(e,t=this.le){return this.dataView.getFloat64(e,t)}getUintBytes(e,t,s){switch(t){case 1:return this.getUint8(e,s);case 2:return this.getUint16(e,s);case 4:return this.getUint32(e,s);case 8:return this.getUint64&&this.getUint64(e,s)}}getUint(e,t,s){switch(t){case 8:return this.getUint8(e,s);case 16:return this.getUint16(e,s);case 32:return this.getUint32(e,s);case 64:return this.getUint64&&this.getUint64(e,s)}}toString(e){return this.dataView.toString(e,this.constructor.name)}ensureChunk(){}};function wn(i,e){ee(`${i} '${e}' was not loaded, try using full build of exifr.`)}var Ni=class extends Map{constructor(e){super(),this.kind=e}get(e,t){return this.has(e)||wn(this.kind,e),t&&(e in t||(function(s,r){ee(`Unknown ${s} '${r}'.`)})(this.kind,e),t[e].enabled||wn(this.kind,e)),super.get(e)}keyList(){return Array.from(this.keys())}},Ls=new Ni("file parser"),ue=new Ni("segment parser"),Di=new Ni("file reader"),zc=Vl.fetch;function jl(i,e){return(t=i).startsWith("data:")||t.length>1e4?_n(i,e,"base64"):Rl&&i.includes("://")?Fn(i,e,"url",Ds):Rl?_n(i,e,"fs"):Ai?Fn(i,e,"url",Ds):void ee("Invalid input argument");var t}async function Fn(i,e,t,s){return Di.has(t)?_n(i,e,t):s?(async function(r,n){let o=await n(r);return new dt(o)})(i,s):void ee(`Parser ${t} is not loaded`)}async function _n(i,e,t){let s=new(Di.get(t))(i,e);return await s.read(),s}var Ds=i=>zc(i).then((e=>e.arrayBuffer())),Oi=i=>new Promise(((e,t)=>{let s=new FileReader;s.onloadend=()=>e(s.result||new ArrayBuffer),s.onerror=t,s.readAsArrayBuffer(i)})),Sn=class extends Map{get tagKeys(){return this.allKeys||(this.allKeys=Array.from(this.keys())),this.allKeys}get tagValues(){return this.allValues||(this.allValues=Array.from(this.values())),this.allValues}};function Xl(i,e,t){let s=new Sn;for(let[r,n]of t)s.set(r,n);if(Array.isArray(e))for(let r of e)i.set(r,s);else i.set(e,s);return s}function Yl(i,e,t){let s,r=i.get(e);for(s of t)r.set(s[0],s[1])}var Ui=new Map,kn=new Map,En=new Map,Bt=["chunked","firstChunkSize","firstChunkSizeNode","firstChunkSizeBrowser","chunkSize","chunkLimit"],js=["jfif","xmp","icc","iptc","ihdr"],Bi=["tiff",...js],Y=["ifd0","ifd1","exif","gps","interop"],Dt=[...Bi,...Y],Ut=["makerNote","userComment"],zs=["translateKeys","translateValues","reviveValues","multiSegment"],Rt=[...zs,"sanitize","mergeOutput","silentErrors"],Us=class{get translate(){return this.translateKeys||this.translateValues||this.reviveValues}},lt=class extends Us{get needed(){return this.enabled||this.deps.size>0}constructor(e,t,s,r){if(super(),D(this,"enabled",!1),D(this,"skip",new Set),D(this,"pick",new Set),D(this,"deps",new Set),D(this,"translateKeys",!1),D(this,"translateValues",!1),D(this,"reviveValues",!1),this.key=e,this.enabled=t,this.parse=this.enabled,this.applyInheritables(r),this.canBeFiltered=Y.includes(e),this.canBeFiltered&&(this.dict=Ui.get(e)),s!==void 0)if(Array.isArray(s))this.parse=this.enabled=!0,this.canBeFiltered&&s.length>0&&this.translateTagSet(s,this.pick);else if(typeof s=="object"){if(this.enabled=!0,this.parse=s.parse!==!1,this.canBeFiltered){let{pick:n,skip:o}=s;n&&n.length>0&&this.translateTagSet(n,this.pick),o&&o.length>0&&this.translateTagSet(o,this.skip)}this.applyInheritables(s)}else s===!0||s===!1?this.parse=this.enabled=s:ee(`Invalid options argument: ${s}`)}applyInheritables(e){let t,s;for(t of zs)s=e[t],s!==void 0&&(this[t]=s)}translateTagSet(e,t){if(this.dict){let s,r,{tagKeys:n,tagValues:o}=this.dict;for(s of e)typeof s=="string"?(r=o.indexOf(s),r===-1&&(r=n.indexOf(Number(s))),r!==-1&&t.add(Number(n[r]))):t.add(s)}else for(let s of e)t.add(s)}finalizeFilters(){!this.enabled&&this.deps.size>0?(this.enabled=!0,Rs(this.pick,this.deps)):this.enabled&&this.pick.size>0&&Rs(this.pick,this.deps)}},ae={jfif:!1,tiff:!0,xmp:!1,icc:!1,iptc:!1,ifd0:!0,ifd1:!1,exif:!0,gps:!0,interop:!1,ihdr:void 0,makerNote:!1,userComment:!1,multiSegment:!1,skip:[],pick:[],translateKeys:!0,translateValues:!0,reviveValues:!0,sanitize:!0,mergeOutput:!0,silentErrors:!0,chunked:!0,firstChunkSize:void 0,firstChunkSizeNode:512,firstChunkSizeBrowser:65536,chunkSize:65536,chunkLimit:5},zl=new Map,ut=class extends Us{static useCached(e){let t=zl.get(e);return t!==void 0||(t=new this(e),zl.set(e,t)),t}constructor(e){super(),e===!0?this.setupFromTrue():e===void 0?this.setupFromUndefined():Array.isArray(e)?this.setupFromArray(e):typeof e=="object"?this.setupFromObject(e):ee(`Invalid options argument ${e}`),this.firstChunkSize===void 0&&(this.firstChunkSize=Ai?this.firstChunkSizeBrowser:this.firstChunkSizeNode),this.mergeOutput&&(this.ifd1.enabled=!1),this.filterNestedSegmentTags(),this.traverseTiffDependencyTree(),this.checkLoadedPlugins()}setupFromUndefined(){let e;for(e of Bt)this[e]=ae[e];for(e of Rt)this[e]=ae[e];for(e of Ut)this[e]=ae[e];for(e of Dt)this[e]=new lt(e,ae[e],void 0,this)}setupFromTrue(){let e;for(e of Bt)this[e]=ae[e];for(e of Rt)this[e]=ae[e];for(e of Ut)this[e]=!0;for(e of Dt)this[e]=new lt(e,!0,void 0,this)}setupFromArray(e){let t;for(t of Bt)this[t]=ae[t];for(t of Rt)this[t]=ae[t];for(t of Ut)this[t]=ae[t];for(t of Dt)this[t]=new lt(t,!1,void 0,this);this.setupGlobalFilters(e,void 0,Y)}setupFromObject(e){let t;for(t of(Y.ifd0=Y.ifd0||Y.image,Y.ifd1=Y.ifd1||Y.thumbnail,Object.assign(this,e),Bt))this[t]=vn(e[t],ae[t]);for(t of Rt)this[t]=vn(e[t],ae[t]);for(t of Ut)this[t]=vn(e[t],ae[t]);for(t of Bi)this[t]=new lt(t,ae[t],e[t],this);for(t of Y)this[t]=new lt(t,ae[t],e[t],this.tiff);this.setupGlobalFilters(e.pick,e.skip,Y,Dt),e.tiff===!0?this.batchEnableWithBool(Y,!0):e.tiff===!1?this.batchEnableWithUserValue(Y,e):Array.isArray(e.tiff)?this.setupGlobalFilters(e.tiff,void 0,Y):typeof e.tiff=="object"&&this.setupGlobalFilters(e.tiff.pick,e.tiff.skip,Y)}batchEnableWithBool(e,t){for(let s of e)this[s].enabled=t}batchEnableWithUserValue(e,t){for(let s of e){let r=t[s];this[s].enabled=r!==!1&&r!==void 0}}setupGlobalFilters(e,t,s,r=s){if(e&&e.length){for(let o of r)this[o].enabled=!1;let n=$l(e,s);for(let[o,l]of n)Rs(this[o].pick,l),this[o].enabled=!0}else if(t&&t.length){let n=$l(t,s);for(let[o,l]of n)Rs(this[o].skip,l)}}filterNestedSegmentTags(){let{ifd0:e,exif:t,xmp:s,iptc:r,icc:n}=this;this.makerNote?t.deps.add(37500):t.skip.add(37500),this.userComment?t.deps.add(37510):t.skip.add(37510),s.enabled||e.skip.add(700),r.enabled||e.skip.add(33723),n.enabled||e.skip.add(34675)}traverseTiffDependencyTree(){let{ifd0:e,exif:t,gps:s,interop:r}=this;r.needed&&(t.deps.add(40965),e.deps.add(40965)),t.needed&&e.deps.add(34665),s.needed&&e.deps.add(34853),this.tiff.enabled=Y.some((n=>this[n].enabled===!0))||this.makerNote||this.userComment;for(let n of Y)this[n].finalizeFilters()}get onlyTiff(){return!js.map((e=>this[e].enabled)).some((e=>e===!0))&&this.tiff.enabled}checkLoadedPlugins(){for(let e of Bi)this[e].enabled&&!ue.has(e)&&wn("segment parser",e)}};function $l(i,e){let t,s,r,n,o=[];for(r of e){for(n of(t=Ui.get(r),s=[],t))(i.includes(n[0])||i.includes(n[1]))&&s.push(n[0]);s.length&&o.push([r,s])}return o}function vn(i,e){return i!==void 0?i:e!==void 0?e:void 0}function Rs(i,e){for(let t of e)i.add(t)}D(ut,"default",ae);var Mt=class{constructor(e){D(this,"parsers",{}),D(this,"output",{}),D(this,"errors",[]),D(this,"pushToErrors",(t=>this.errors.push(t))),this.options=ut.useCached(e)}async read(e){this.file=await(function(t,s){return typeof t=="string"?jl(t,s):Ai&&!Lc&&t instanceof HTMLImageElement?jl(t.src,s):t instanceof Uint8Array||t instanceof ArrayBuffer||t instanceof DataView?new dt(t):Ai&&t instanceof Blob?Fn(t,s,"blob",Oi):void ee("Invalid input argument")})(e,this.options)}setup(){if(this.fileParser)return;let{file:e}=this,t=e.getUint16(0);for(let[s,r]of Ls)if(r.canHandle(e,t))return this.fileParser=new r(this.options,this.file,this.parsers),e[s]=!0;this.file.close&&this.file.close(),ee("Unknown file format")}async parse(){let{output:e,errors:t}=this;return this.setup(),this.options.silentErrors?(await this.executeParsers().catch(this.pushToErrors),t.push(...this.fileParser.errors)):await this.executeParsers(),this.file.close&&this.file.close(),this.options.silentErrors&&t.length>0&&(e.errors=t),Kl(s=e)?void 0:s;var s}async executeParsers(){let{output:e}=this;await this.fileParser.parse();let t=Object.values(this.parsers).map((async s=>{let r=await s.parse();s.assignToOutput(e,r)}));this.options.silentErrors&&(t=t.map((s=>s.catch(this.pushToErrors)))),await Promise.all(t)}async extractThumbnail(){this.setup();let{options:e,file:t}=this,s=ue.get("tiff",e);var r;if(t.tiff?r={start:0,type:"tiff"}:t.jpeg&&(r=await this.fileParser.getOrFindSegment("tiff")),r===void 0)return;let n=await this.fileParser.ensureSegmentChunk(r),o=this.parsers.tiff=new s(n,e,t),l=await o.extractThumbnail();return t.close&&t.close(),l}};async function Ql(i,e){let t=new Mt(e);return await t.read(i),t.parse()}var $c=Object.freeze({__proto__:null,parse:Ql,Exifr:Mt,fileParsers:Ls,segmentParsers:ue,fileReaders:Di,tagKeys:Ui,tagValues:kn,tagRevivers:En,createDictionary:Xl,extendDictionary:Yl,fetchUrlAsArrayBuffer:Ds,readBlobAsArrayBuffer:Oi,chunkedProps:Bt,otherSegments:js,segments:Bi,tiffBlocks:Y,segmentsAndBlocks:Dt,tiffExtractables:Ut,inheritables:zs,allFormatters:Rt,Options:ut}),$e=class{static findPosition(e,t){let s=e.getUint16(t+2)+2,r=typeof this.headerLength=="function"?this.headerLength(e,t,s):this.headerLength,n=t+r,o=s-r;return{offset:t,length:s,headerLength:r,start:n,size:o,end:n+o}}static parse(e,t={}){return new this(e,new ut({[this.type]:t}),e).parse()}normalizeInput(e){return e instanceof dt?e:new dt(e)}constructor(e,t={},s){D(this,"errors",[]),D(this,"raw",new Map),D(this,"handleError",(r=>{if(!this.options.silentErrors)throw r;this.errors.push(r.message)})),this.chunk=this.normalizeInput(e),this.file=s,this.type=this.constructor.type,this.globalOptions=this.options=t,this.localOptions=t[this.type],this.canTranslate=this.localOptions&&this.localOptions.translate}translate(){this.canTranslate&&(this.translated=this.translateBlock(this.raw,this.type))}get output(){return this.translated?this.translated:this.raw?Object.fromEntries(this.raw):void 0}translateBlock(e,t){let s=En.get(t),r=kn.get(t),n=Ui.get(t),o=this.options[t],l=o.reviveValues&&!!s,d=o.translateValues&&!!r,c=o.translateKeys&&!!n,p={};for(let[m,f]of e)l&&s.has(m)?f=s.get(m)(f):d&&r.has(m)&&(f=this.translateValue(f,r.get(m))),c&&n.has(m)&&(m=n.get(m)||m),p[m]=f;return p}translateValue(e,t){return t[e]||t.DEFAULT||e}assignToOutput(e,t){this.assignObjectToOutput(e,this.constructor.type,t)}assignObjectToOutput(e,t,s){if(this.globalOptions.mergeOutput)return Object.assign(e,s);e[t]?Object.assign(e[t],s):e[t]=s}};D($e,"headerLength",4),D($e,"type",void 0),D($e,"multiSegment",!1),D($e,"canHandle",(()=>!1));function qc(i){return i===192||i===194||i===196||i===219||i===221||i===218||i===254}function Hc(i){return i>=224&&i<=239}function Vc(i,e,t){for(let[s,r]of ue)if(r.canHandle(i,e,t))return s}var Ms=class extends class{constructor(e,t,s){D(this,"errors",[]),D(this,"ensureSegmentChunk",(async r=>{let n=r.start,o=r.size||65536;if(this.file.chunked)if(this.file.available(n,o))r.chunk=this.file.subarray(n,o);else try{r.chunk=await this.file.readChunk(n,o)}catch(l){ee(`Couldn't read segment: ${JSON.stringify(r)}. ${l.message}`)}else this.file.byteLength>n+o?r.chunk=this.file.subarray(n,o):r.size===void 0?r.chunk=this.file.subarray(n):ee("Segment unreachable: "+JSON.stringify(r));return r.chunk})),this.extendOptions&&this.extendOptions(e),this.options=e,this.file=t,this.parsers=s}injectSegment(e,t){this.options[e].enabled&&this.createParser(e,t)}createParser(e,t){let s=new(ue.get(e))(t,this.options,this.file);return this.parsers[e]=s}createParsers(e){for(let t of e){let{type:s,chunk:r}=t,n=this.options[s];if(n&&n.enabled){let o=this.parsers[s];o&&o.append||o||this.createParser(s,r)}}}async readSegments(e){let t=e.map(this.ensureSegmentChunk);await Promise.all(t)}}{constructor(...e){super(...e),D(this,"appSegments",[]),D(this,"jpegSegments",[]),D(this,"unknownSegments",[])}static canHandle(e,t){return t===65496}async parse(){await this.findAppSegments(),await this.readSegments(this.appSegments),this.mergeMultiSegments(),this.createParsers(this.mergedAppSegments||this.appSegments)}setupSegmentFinderArgs(e){e===!0?(this.findAll=!0,this.wanted=new Set(ue.keyList())):(e=e===void 0?ue.keyList().filter((t=>this.options[t].enabled)):e.filter((t=>this.options[t].enabled&&ue.has(t))),this.findAll=!1,this.remaining=new Set(e),this.wanted=new Set(e)),this.unfinishedMultiSegment=!1}async findAppSegments(e=0,t){this.setupSegmentFinderArgs(t);let{file:s,findAll:r,wanted:n,remaining:o}=this;if(!r&&this.file.chunked&&(r=Array.from(n).some((l=>{let d=ue.get(l),c=this.options[l];return d.multiSegment&&c.multiSegment})),r&&await this.file.readWhole()),e=this.findAppSegmentsInRange(e,s.byteLength),!this.options.onlyTiff&&s.chunked){let l=!1;for(;o.size>0&&!l&&(s.canReadNextChunk||this.unfinishedMultiSegment);){let{nextChunkOffset:d}=s,c=this.appSegments.some((p=>!this.file.available(p.offset||p.start,p.length||p.size)));if(l=e>d&&!c?!await s.readNextChunk(e):!await s.readNextChunk(d),(e=this.findAppSegmentsInRange(e,s.byteLength))===void 0)return}}}findAppSegmentsInRange(e,t){t-=2;let s,r,n,o,l,d,{file:c,findAll:p,wanted:m,remaining:f,options:v}=this;for(;e<t;e++)if(c.getUint8(e)===255){if(s=c.getUint8(e+1),Hc(s)){if(r=c.getUint16(e+2),n=Vc(c,e,r),n&&m.has(n)&&(o=ue.get(n),l=o.findPosition(c,e),d=v[n],l.type=n,this.appSegments.push(l),!p&&(o.multiSegment&&d.multiSegment?(this.unfinishedMultiSegment=l.chunkNumber<l.chunkCount,this.unfinishedMultiSegment||f.delete(n)):f.delete(n),f.size===0)))break;v.recordUnknownSegments&&(l=$e.findPosition(c,e),l.marker=s,this.unknownSegments.push(l)),e+=r+1}else if(qc(s)){if(r=c.getUint16(e+2),s===218&&v.stopAfterSos!==!1)return;v.recordJpegSegments&&this.jpegSegments.push({offset:e,length:r,marker:s}),e+=r+1}}return e}mergeMultiSegments(){if(!this.appSegments.some((t=>t.multiSegment)))return;let e=(function(t,s){let r,n,o,l=new Map;for(let d=0;d<t.length;d++)r=t[d],n=r[s],l.has(n)?o=l.get(n):l.set(n,o=[]),o.push(r);return Array.from(l)})(this.appSegments,"type");this.mergedAppSegments=e.map((([t,s])=>{let r=ue.get(t,this.options);return r.handleMultiSegments?{type:t,chunk:r.handleMultiSegments(s)}:s[0]}))}getSegment(e){return this.appSegments.find((t=>t.type===e))}async getOrFindSegment(e){let t=this.getSegment(e);return t===void 0&&(await this.findAppSegments(0,[e]),t=this.getSegment(e)),t}};D(Ms,"type","jpeg"),Ls.set("jpeg",Ms);var Wc=[void 0,1,1,2,4,8,1,1,2,4,8,4,8,4],xn=class extends $e{parseHeader(){var e=this.chunk.getUint16();e===18761?this.le=!0:e===19789&&(this.le=!1),this.chunk.le=this.le,this.headerParsed=!0}parseTags(e,t,s=new Map){let{pick:r,skip:n}=this.options[t];r=new Set(r);let o=r.size>0,l=n.size===0,d=this.chunk.getUint16(e);e+=2;for(let c=0;c<d;c++){let p=this.chunk.getUint16(e);if(o){if(r.has(p)&&(s.set(p,this.parseTag(e,p,t)),r.delete(p),r.size===0))break}else!l&&n.has(p)||s.set(p,this.parseTag(e,p,t));e+=12}return s}parseTag(e,t,s){let{chunk:r}=this,n=r.getUint16(e+2),o=r.getUint32(e+4),l=Wc[n];if(l*o<=4?e+=8:e=r.getUint32(e+8),(n<1||n>13)&&ee(`Invalid TIFF value type. block: ${s.toUpperCase()}, tag: ${t.toString(16)}, type: ${n}, offset ${e}`),e>r.byteLength&&ee(`Invalid TIFF value offset. block: ${s.toUpperCase()}, tag: ${t.toString(16)}, type: ${n}, offset ${e} is outside of chunk size ${r.byteLength}`),n===1)return r.getUint8Array(e,o);if(n===2)return(d=(function(c){for(;c.endsWith("\0");)c=c.slice(0,-1);return c})(d=r.getString(e,o)).trim())===""?void 0:d;var d;if(n===7)return r.getUint8Array(e,o);if(o===1)return this.parseTagValue(n,e);{let c=new((function(m){switch(m){case 1:return Uint8Array;case 3:return Uint16Array;case 4:return Uint32Array;case 5:return Array;case 6:return Int8Array;case 8:return Int16Array;case 9:return Int32Array;case 10:return Array;case 11:return Float32Array;case 12:return Float64Array;default:return Array}})(n))(o),p=l;for(let m=0;m<o;m++)c[m]=this.parseTagValue(n,e),e+=p;return c}}parseTagValue(e,t){let{chunk:s}=this;switch(e){case 1:return s.getUint8(t);case 3:return s.getUint16(t);case 4:return s.getUint32(t);case 5:return s.getUint32(t)/s.getUint32(t+4);case 6:return s.getInt8(t);case 8:return s.getInt16(t);case 9:return s.getInt32(t);case 10:return s.getInt32(t)/s.getInt32(t+4);case 11:return s.getFloat(t);case 12:return s.getDouble(t);case 13:return s.getUint32(t);default:ee(`Invalid tiff type ${e}`)}}},Ii=class extends xn{static canHandle(e,t){return e.getUint8(t+1)===225&&e.getUint32(t+4)===1165519206&&e.getUint16(t+8)===0}async parse(){this.parseHeader();let{options:e}=this;return e.ifd0.enabled&&await this.parseIfd0Block(),e.exif.enabled&&await this.safeParse("parseExifBlock"),e.gps.enabled&&await this.safeParse("parseGpsBlock"),e.interop.enabled&&await this.safeParse("parseInteropBlock"),e.ifd1.enabled&&await this.safeParse("parseThumbnailBlock"),this.createOutput()}safeParse(e){let t=this[e]();return t.catch!==void 0&&(t=t.catch(this.handleError)),t}findIfd0Offset(){this.ifd0Offset===void 0&&(this.ifd0Offset=this.chunk.getUint32(4))}findIfd1Offset(){if(this.ifd1Offset===void 0){this.findIfd0Offset();let e=this.chunk.getUint16(this.ifd0Offset),t=this.ifd0Offset+2+12*e;this.ifd1Offset=this.chunk.getUint32(t)}}parseBlock(e,t){let s=new Map;return this[t]=s,this.parseTags(e,t,s),s}async parseIfd0Block(){if(this.ifd0)return;let{file:e}=this;this.findIfd0Offset(),this.ifd0Offset<8&&ee("Malformed EXIF data"),!e.chunked&&this.ifd0Offset>e.byteLength&&ee(`IFD0 offset points to outside of file.
-this.ifd0Offset: ${this.ifd0Offset}, file.byteLength: ${e.byteLength}`),e.tiff&&await e.ensureChunk(this.ifd0Offset,Ml(this.options));let t=this.parseBlock(this.ifd0Offset,"ifd0");return t.size!==0?(this.exifOffset=t.get(34665),this.interopOffset=t.get(40965),this.gpsOffset=t.get(34853),this.xmp=t.get(700),this.iptc=t.get(33723),this.icc=t.get(34675),this.options.sanitize&&(t.delete(34665),t.delete(40965),t.delete(34853),t.delete(700),t.delete(33723),t.delete(34675)),t):void 0}async parseExifBlock(){if(this.exif||(this.ifd0||await this.parseIfd0Block(),this.exifOffset===void 0))return;this.file.tiff&&await this.file.ensureChunk(this.exifOffset,Ml(this.options));let e=this.parseBlock(this.exifOffset,"exif");return this.interopOffset||(this.interopOffset=e.get(40965)),this.makerNote=e.get(37500),this.userComment=e.get(37510),this.options.sanitize&&(e.delete(40965),e.delete(37500),e.delete(37510)),this.unpack(e,41728),this.unpack(e,41729),e}unpack(e,t){let s=e.get(t);s&&s.length===1&&e.set(t,s[0])}async parseGpsBlock(){if(this.gps||(this.ifd0||await this.parseIfd0Block(),this.gpsOffset===void 0))return;let e=this.parseBlock(this.gpsOffset,"gps");return e&&e.has(2)&&e.has(4)&&(e.set("latitude",ql(...e.get(2),e.get(1))),e.set("longitude",ql(...e.get(4),e.get(3)))),e}async parseInteropBlock(){if(!this.interop&&(this.ifd0||await this.parseIfd0Block(),this.interopOffset!==void 0||this.exif||await this.parseExifBlock(),this.interopOffset!==void 0))return this.parseBlock(this.interopOffset,"interop")}async parseThumbnailBlock(e=!1){if(!this.ifd1&&!this.ifd1Parsed&&(!this.options.mergeOutput||e))return this.findIfd1Offset(),this.ifd1Offset>0&&(this.parseBlock(this.ifd1Offset,"ifd1"),this.ifd1Parsed=!0),this.ifd1}async extractThumbnail(){if(this.headerParsed||this.parseHeader(),this.ifd1Parsed||await this.parseThumbnailBlock(!0),this.ifd1===void 0)return;let e=this.ifd1.get(513),t=this.ifd1.get(514);return this.chunk.getUint8Array(e,t)}get image(){return this.ifd0}get thumbnail(){return this.ifd1}createOutput(){let e,t,s,r={};for(t of Y)if(e=this[t],!Kl(e))if(s=this.canTranslate?this.translateBlock(e,t):Object.fromEntries(e),this.options.mergeOutput){if(t==="ifd1")continue;Object.assign(r,s)}else r[t]=s;return this.makerNote&&(r.makerNote=this.makerNote),this.userComment&&(r.userComment=this.userComment),r}assignToOutput(e,t){if(this.globalOptions.mergeOutput)Object.assign(e,t);else for(let[s,r]of Object.entries(t))this.assignObjectToOutput(e,s,r)}};function ql(i,e,t,s){var r=i+e/60+t/3600;return s!=="S"&&s!=="W"||(r*=-1),r}D(Ii,"type","tiff"),D(Ii,"headerLength",10),ue.set("tiff",Ii);var wb=Object.freeze({__proto__:null,default:$c,Exifr:Mt,fileParsers:Ls,segmentParsers:ue,fileReaders:Di,tagKeys:Ui,tagValues:kn,tagRevivers:En,createDictionary:Xl,extendDictionary:Yl,fetchUrlAsArrayBuffer:Ds,readBlobAsArrayBuffer:Oi,chunkedProps:Bt,otherSegments:js,segments:Bi,tiffBlocks:Y,segmentsAndBlocks:Dt,tiffExtractables:Ut,inheritables:zs,allFormatters:Rt,Options:ut,parse:Ql}),In={ifd0:!1,ifd1:!1,exif:!1,gps:!1,interop:!1,sanitize:!1,reviveValues:!0,translateKeys:!1,translateValues:!1,mergeOutput:!1},Fb=Object.assign({},In,{firstChunkSize:4e4,gps:[1,2,3,4]});var _b=Object.assign({},In,{tiff:!1,ifd1:!0,mergeOutput:!1});var Gc=Object.assign({},In,{firstChunkSize:4e4,ifd0:[274]});async function Kc(i){let e=new Mt(Gc);await e.read(i);let t=await e.parse();if(t&&t.ifd0)return t.ifd0[274]}var Xc=Object.freeze({1:{dimensionSwapped:!1,scaleX:1,scaleY:1,deg:0,rad:0},2:{dimensionSwapped:!1,scaleX:-1,scaleY:1,deg:0,rad:0},3:{dimensionSwapped:!1,scaleX:1,scaleY:1,deg:180,rad:180*Math.PI/180},4:{dimensionSwapped:!1,scaleX:-1,scaleY:1,deg:180,rad:180*Math.PI/180},5:{dimensionSwapped:!0,scaleX:1,scaleY:-1,deg:90,rad:90*Math.PI/180},6:{dimensionSwapped:!0,scaleX:1,scaleY:1,deg:90,rad:90*Math.PI/180},7:{dimensionSwapped:!0,scaleX:1,scaleY:-1,deg:270,rad:270*Math.PI/180},8:{dimensionSwapped:!0,scaleX:1,scaleY:1,deg:270,rad:270*Math.PI/180}}),ki=!0,Ei=!0;if(typeof navigator=="object"){let i=navigator.userAgent;if(i.includes("iPad")||i.includes("iPhone")){let e=i.match(/OS (\d+)_(\d+)/);if(e){let[,t,s]=e;ki=Number(t)+.1*Number(s)<13.4,Ei=!1}}else if(i.includes("OS X 10")){let[,e]=i.match(/OS X 10[_.](\d+)/);ki=Ei=Number(e)<15}if(i.includes("Chrome/")){let[,e]=i.match(/Chrome\/(\d+)/);ki=Ei=Number(e)<81}else if(i.includes("Firefox/")){let[,e]=i.match(/Firefox\/(\d+)/);ki=Ei=Number(e)<77}}async function Jl(i){let e=await Kc(i);return Object.assign({canvas:ki,css:Ei},Xc[e])}var Pn=class extends dt{constructor(...e){super(...e),D(this,"ranges",new Tn),this.byteLength!==0&&this.ranges.add(0,this.byteLength)}_tryExtend(e,t,s){if(e===0&&this.byteLength===0&&s){let r=new DataView(s.buffer||s,s.byteOffset,s.byteLength);this._swapDataView(r)}else{let r=e+t;if(r>this.byteLength){let{dataView:n}=this._extend(r);this._swapDataView(n)}}}_extend(e){let t;t=Gl?Wl.allocUnsafe(e):new Uint8Array(e);let s=new DataView(t.buffer,t.byteOffset,t.byteLength);return t.set(new Uint8Array(this.buffer,this.byteOffset,this.byteLength),0),{uintView:t,dataView:s}}subarray(e,t,s=!1){return t=t||this._lengthToEnd(e),s&&this._tryExtend(e,t),this.ranges.add(e,t),super.subarray(e,t)}set(e,t,s=!1){s&&this._tryExtend(t,e.byteLength,e);let r=super.set(e,t);return this.ranges.add(t,r.byteLength),r}async ensureChunk(e,t){this.chunked&&(this.ranges.available(e,t)||await this.readChunk(e,t))}available(e,t){return this.ranges.available(e,t)}},Tn=class{constructor(){D(this,"list",[])}get length(){return this.list.length}add(e,t,s=0){let r=e+t,n=this.list.filter((o=>Hl(e,o.offset,r)||Hl(e,o.end,r)));if(n.length>0){e=Math.min(e,...n.map((l=>l.offset))),r=Math.max(r,...n.map((l=>l.end))),t=r-e;let o=n.shift();o.offset=e,o.length=t,o.end=r,this.list=this.list.filter((l=>!n.includes(l)))}else this.list.push({offset:e,length:t,end:r})}available(e,t){let s=e+t;return this.list.some((r=>r.offset<=e&&s<=r.end))}};function Hl(i,e,t){return i<=e&&e<=t}var Cn=class extends Pn{constructor(e,t){super(0),D(this,"chunksRead",0),this.input=e,this.options=t}async readWhole(){this.chunked=!1,await this.readChunk(this.nextChunkOffset)}async readChunked(){this.chunked=!0,await this.readChunk(0,this.options.firstChunkSize)}async readNextChunk(e=this.nextChunkOffset){if(this.fullyRead)return this.chunksRead++,!1;let t=this.options.chunkSize,s=await this.readChunk(e,t);return!!s&&s.byteLength===t}async readChunk(e,t){if(this.chunksRead++,(t=this.safeWrapAddress(e,t))!==0)return this._readChunk(e,t)}safeWrapAddress(e,t){return this.size!==void 0&&e+t>this.size?Math.max(0,this.size-e):t}get nextChunkOffset(){if(this.ranges.list.length!==0)return this.ranges.list[0].length}get canReadNextChunk(){return this.chunksRead<this.options.chunkLimit}get fullyRead(){return this.size!==void 0&&this.nextChunkOffset===this.size}read(){return this.options.chunked?this.readChunked():this.readWhole()}close(){}};Di.set("blob",class extends Cn{async readWhole(){this.chunked=!1;let i=await Oi(this.input);this._swapArrayBuffer(i)}readChunked(){return this.chunked=!0,this.size=this.input.size,super.readChunked()}async _readChunk(i,e){let t=e?i+e:void 0,s=this.input.slice(i,t),r=await Oi(s);return this.set(r,i,!0)}});var Zl={name:"@uppy/thumbnail-generator",description:"Uppy plugin that generates small previews of images to show on your upload UI.",version:"6.0.1",license:"MIT",type:"module",sideEffects:!1,scripts:{build:"tsc --build tsconfig.build.json",typecheck:"tsc --build",test:"vitest run --silent='passed-only'"},keywords:["file uploader","uppy","uppy-plugin","thumbnail","preview","resize"],homepage:"https://uppy.io",bugs:{url:"https://github.com/transloadit/uppy/issues"},repository:{type:"git",url:"git+https://github.com/transloadit/uppy.git"},files:["src","lib","dist","CHANGELOG.md"],exports:{".":"./lib/index.js","./package.json":"./package.json"},dependencies:{exifr:"^7.1.3"},devDependencies:{"@uppy-dev/tsconfig":"^0.0.0","@vitest/browser-playwright":"^4.1.11","namespace-emitter":"2.0.1",playwright:"1.61.1",typescript:"^6.0.3",vitest:"^4.1.11"},peerDependencies:{"@uppy/core":"^6.2.0"}};u();var ed={strings:{generatingThumbnails:"Generating thumbnails..."}};function Qc(i,e,t){try{i.getContext("2d").getImageData(0,0,1,1)}catch(s){if(typeof s=="object"&&s!=null&&"code"in s&&s.code===18)return Promise.reject(new Error("cannot read image, probably an svg with external resources"))}return i.toBlob?new Promise(s=>{i.toBlob(s,e,t)}).then(s=>{if(s===null)throw new Error("cannot read image, probably an svg with external resources");return s}):Promise.resolve().then(()=>sr(i.toDataURL(e,t),{})).then(s=>{if(s===null)throw new Error("could not extract blob, probably an old browser");return s})}function Jc(i,e){let t=i.width,s=i.height;(e.deg===90||e.deg===270)&&(t=i.height,s=i.width);let r=document.createElement("canvas");r.width=t,r.height=s;let n=r.getContext("2d");return n.translate(t/2,s/2),e.canvas&&(n.rotate(e.rad),n.scale(e.scaleX,e.scaleY)),n.drawImage(i,-i.width/2,-i.height/2,i.width,i.height),r}function Zc(i){let e=i.width/i.height,t=5e6,s=4096,r=Math.floor(Math.sqrt(t*e)),n=Math.floor(t/Math.sqrt(t*e));if(r>s&&(r=s,n=Math.round(r/e)),n>s&&(n=s,r=Math.round(e*n)),i.width>r){let o=document.createElement("canvas");return o.width=r,o.height=n,o.getContext("2d").drawImage(i,0,0,r,n),o}return i}var eh={thumbnailWidth:null,thumbnailHeight:null,thumbnailType:"image/jpeg",waitForThumbnailsBeforeUpload:!1,lazy:!1},Lt=class extends li{constructor(t,s){super(t,{...eh,...s});y(this,"queue");y(this,"queueProcessing");y(this,"defaultThumbnailDimension");y(this,"thumbnailType");y(this,"onFileAdded",t=>{!t.preview&&t.data&&Yt(t.type)&&!t.isRemote&&this.addToQueue(t.id)});y(this,"onCancelRequest",t=>{let s=this.queue.indexOf(t.id);s!==-1&&this.queue.splice(s,1)});y(this,"onFileRemoved",t=>{let s=this.queue.indexOf(t.id);s!==-1&&this.queue.splice(s,1),t.preview&&Xt(t.preview)&&URL.revokeObjectURL(t.preview)});y(this,"onRestored",()=>{this.uppy.getFiles().filter(s=>s.isRestored).forEach(s=>{(!s.preview||Xt(s.preview))&&this.addToQueue(s.id)})});y(this,"onAllFilesRemoved",()=>{this.queue=[]});y(this,"waitUntilAllProcessed",t=>{t.forEach(r=>{let n=this.uppy.getFile(r);this.uppy.emit("preprocess-progress",n,{mode:"indeterminate",message:this.i18n("generatingThumbnails")})});let s=()=>{t.forEach(r=>{let n=this.uppy.getFile(r);this.uppy.emit("preprocess-complete",n)})};return new Promise(r=>{this.queueProcessing?this.uppy.once("thumbnail:all-generated",()=>{s(),r()}):(s(),r())})});if(this.type="modifier",this.id=this.opts.id||"ThumbnailGenerator",this.title="Thumbnail Generator",this.queue=[],this.queueProcessing=!1,this.defaultThumbnailDimension=200,this.thumbnailType=this.opts.thumbnailType,this.defaultLocale=ed,this.i18nInit(),this.opts.lazy&&this.opts.waitForThumbnailsBeforeUpload)throw new Error("ThumbnailGenerator: The `lazy` and `waitForThumbnailsBeforeUpload` options are mutually exclusive. Please ensure at most one of them is set to `true`.")}createThumbnail(t,s,r){if(t.data==null)throw new Error("File data is empty");let n=URL.createObjectURL(t.data),o=new Promise((d,c)=>{let p=new Image;p.src=n,p.addEventListener("load",()=>{URL.revokeObjectURL(n),d(p)}),p.addEventListener("error",m=>{URL.revokeObjectURL(n),c(m.error||new Error("Could not create thumbnail"))})}),l=Jl(t.data).catch(()=>1);return Promise.all([o,l]).then(([d,c])=>{let p=this.getProportionalDimensions(d,s,r,c.deg),m=Jc(d,c),f=this.resizeImage(m,p.width,p.height);return Qc(f,this.thumbnailType,80)}).then(d=>URL.createObjectURL(d))}getProportionalDimensions(t,s,r,n){let o=t.width/t.height;if((n===90||n===270)&&(o=t.height/t.width),s!=null){let l=s;return t.width<s&&(l=t.width),{width:l,height:Math.round(l/o)}}if(r!=null){let l=r;return t.height<r&&(l=t.height),{width:Math.round(l*o),height:l}}return{width:this.defaultThumbnailDimension,height:Math.round(this.defaultThumbnailDimension/o)}}resizeImage(t,s,r){let n=Zc(t),o=Math.ceil(Math.log2(n.width/s));o<1&&(o=1);let l=s*2**(o-1),d=r*2**(o-1),c=2;for(;o--;){let p=document.createElement("canvas");p.width=l,p.height=d,p.getContext("2d").drawImage(n,0,0,l,d),n=p,l=Math.round(l/c),d=Math.round(d/c)}return n}setPreviewURL(t,s){this.uppy.setFileState(t,{preview:s})}addToQueue(t){this.queue.push(t),this.queueProcessing===!1&&this.processQueue()}processQueue(){if(this.queueProcessing=!0,this.queue.length>0){let t=this.uppy.getFile(this.queue.shift());return t?this.requestThumbnail(t).catch(()=>{}).then(()=>this.processQueue()):(this.uppy.log("[ThumbnailGenerator] file was removed before a thumbnail could be generated, but not removed from the queue. This is probably a bug","error"),Promise.resolve())}return this.queueProcessing=!1,this.uppy.log("[ThumbnailGenerator] Emptied thumbnail queue"),this.uppy.emit("thumbnail:all-generated"),Promise.resolve()}requestThumbnail(t){return Yt(t.type)&&!t.isRemote?this.createThumbnail(t,this.opts.thumbnailWidth,this.opts.thumbnailHeight).then(s=>{this.setPreviewURL(t.id,s),this.uppy.log(`[ThumbnailGenerator] Generated thumbnail for ${t.id}`),this.uppy.emit("thumbnail:generated",this.uppy.getFile(t.id),s)}).catch(s=>{this.uppy.log(`[ThumbnailGenerator] Failed thumbnail for ${t.id}:`,"warning"),this.uppy.log(s,"warning"),this.uppy.emit("thumbnail:error",this.uppy.getFile(t.id),s)}):Promise.resolve()}install(){this.uppy.on("file-removed",this.onFileRemoved),this.uppy.on("cancel-all",this.onAllFilesRemoved),this.opts.lazy?(this.uppy.on("thumbnail:request",this.onFileAdded),this.uppy.on("thumbnail:cancel",this.onCancelRequest)):(this.uppy.on("thumbnail:request",this.onFileAdded),this.uppy.on("file-added",this.onFileAdded),this.uppy.on("restored",this.onRestored)),this.opts.waitForThumbnailsBeforeUpload&&this.uppy.addPreProcessor(this.waitUntilAllProcessed)}uninstall(){this.uppy.off("file-removed",this.onFileRemoved),this.uppy.off("cancel-all",this.onAllFilesRemoved),this.opts.lazy?(this.uppy.off("thumbnail:request",this.onFileAdded),this.uppy.off("thumbnail:cancel",this.onCancelRequest)):(this.uppy.off("thumbnail:request",this.onFileAdded),this.uppy.off("file-added",this.onFileAdded),this.uppy.off("restored",this.onRestored)),this.opts.waitForThumbnailsBeforeUpload&&this.uppy.removePreProcessor(this.waitUntilAllProcessed)}};y(Lt,"VERSION",Zl.version);u();u();var td="57X6y3wQZNzYjJB2L_10pxbackgroundhimselfUTF-8DEMOGRAPHICSVqvt4KW9";var $s=(i=21)=>{let e="",t=i|0;for(;t-- >0;)e+=td[Math.random()*64|0];return e};var id={name:"@uppy/dashboard",description:"Universal UI plugin for Uppy.",version:"6.0.1",license:"MIT",style:"dist/style.min.css",type:"module",sideEffects:["*.css"],scripts:{build:"tsc --build tsconfig.build.json","build:css":"sass --load-path=../../ src/style.scss dist/style.css && postcss dist/style.css -u cssnano -o dist/style.min.css",typecheck:"tsc --build",test:"vitest run --silent='passed-only'"},keywords:["file uploader","uppy","uppy-plugin","dashboard","ui"],homepage:"https://uppy.io",bugs:{url:"https://github.com/transloadit/uppy/issues"},repository:{type:"git",url:"git+https://github.com/transloadit/uppy.git"},files:["src","lib","dist","CHANGELOG.md"],exports:{".":"./lib/index.js","./css/style.css":"./dist/style.css","./css/style.min.css":"./dist/style.min.css","./css/style.scss":"./src/style.scss","./package.json":"./package.json"},dependencies:{"@transloadit/prettier-bytes":"^2.0.0","@uppy/thumbnail-generator":"^6.0.1",classnames:"^2.5.1",lodash:"^4.18.1",nanoid:"^6.0.1",preact:"^10.29.2","shallow-equal":"^3.1.0"},devDependencies:{"@uppy-dev/tsconfig":"^0.0.0","@uppy/core":"^6.2.0","@uppy/dropbox":"^6.0.0","@uppy/google-drive":"^6.0.0","@uppy/url":"^6.0.1","@uppy/webcam":"^6.0.1","@vitest/browser-playwright":"^4.1.11",cssnano:"^8.0.1",playwright:"1.61.1",postcss:"^8.5.23","postcss-cli":"^11.0.1",sass:"^1.89.2",typescript:"^6.0.3",vitest:"^4.1.11"},peerDependencies:{"@uppy/core":"^6.2.0"}};u();var Ud=j(Q(),1);u();var An=class extends ie{constructor(){super(...arguments);y(this,"fileInput",null);y(this,"folderInput",null);y(this,"mobilePhotoFileInput",null);y(this,"mobileVideoFileInput",null);y(this,"triggerFileInputClick",()=>{this.fileInput?.click()});y(this,"triggerFolderInputClick",()=>{this.folderInput?.click()});y(this,"triggerVideoCameraInputClick",()=>{this.mobileVideoFileInput?.click()});y(this,"triggerPhotoCameraInputClick",()=>{this.mobilePhotoFileInput?.click()});y(this,"onFileInputChange",t=>{this.props.handleInputChange(t),t.currentTarget.value=""});y(this,"renderHiddenInput",(t,s)=>a("input",{className:"uppy-Dashboard-input",hidden:!0,"aria-hidden":"true",tabIndex:-1,webkitdirectory:t,type:"file",name:"files[]",multiple:this.props.maxNumberOfFiles!==1,onChange:this.onFileInputChange,accept:this.props.allowedFileTypes?.join(", "),ref:s}));y(this,"renderHiddenCameraInput",(t,s,r)=>{let o={photo:"image/*",video:"video/*"}[t];return a("input",{className:"uppy-Dashboard-input",hidden:!0,"aria-hidden":"true",tabIndex:-1,type:"file",name:`camera-${t}`,onChange:this.onFileInputChange,capture:s===""?"environment":s,accept:o,ref:r})});y(this,"renderMyDeviceAcquirer",()=>{let t=this.props.fileManagerSelectionType==="folders"?this.triggerFolderInputClick:this.triggerFileInputClick;return a("div",{className:"uppy-DashboardTab",role:"presentation","data-uppy-acquirer-id":"MyDevice",children:a("button",{type:"button",className:"uppy-u-reset uppy-c-btn uppy-DashboardTab-btn",role:"tab",tabIndex:0,"data-uppy-super-focusable":!0,onClick:t,children:[a("div",{className:"uppy-DashboardTab-inner",children:a("svg",{className:"uppy-DashboardTab-iconMyDevice","aria-hidden":"true",focusable:"false",width:"32",height:"32",viewBox:"0 0 32 32",children:a("path",{d:"M8.45 22.087l-1.305-6.674h17.678l-1.572 6.674H8.45zm4.975-12.412l1.083 1.765a.823.823 0 00.715.386h7.951V13.5H8.587V9.675h4.838zM26.043 13.5h-1.195v-2.598c0-.463-.336-.75-.798-.75h-8.356l-1.082-1.766A.823.823 0 0013.897 8H7.728c-.462 0-.815.256-.815.718V13.5h-.956a.97.97 0 00-.746.37.972.972 0 00-.19.81l1.724 8.565c.095.44.484.755.933.755H24c.44 0 .824-.3.929-.727l2.043-8.568a.972.972 0 00-.176-.825.967.967 0 00-.753-.38z",fill:"currentcolor","fill-rule":"evenodd"})})}),a("div",{className:"uppy-DashboardTab-name",children:this.props.i18n("myDevice")})]})})});y(this,"renderPhotoCamera",()=>a("div",{className:"uppy-DashboardTab",role:"presentation","data-uppy-acquirer-id":"MobilePhotoCamera",children:a("button",{type:"button",className:"uppy-u-reset uppy-c-btn uppy-DashboardTab-btn",role:"tab",tabIndex:0,"data-uppy-super-focusable":!0,onClick:this.triggerPhotoCameraInputClick,children:[a("div",{className:"uppy-DashboardTab-inner",children:a("svg",{"aria-hidden":"true",focusable:"false",width:"32",height:"32",viewBox:"0 0 32 32",children:a("path",{d:"M23.5 9.5c1.417 0 2.5 1.083 2.5 2.5v9.167c0 1.416-1.083 2.5-2.5 2.5h-15c-1.417 0-2.5-1.084-2.5-2.5V12c0-1.417 1.083-2.5 2.5-2.5h2.917l1.416-2.167C13 7.167 13.25 7 13.5 7h5c.25 0 .5.167.667.333L20.583 9.5H23.5zM16 11.417a4.706 4.706 0 00-4.75 4.75 4.704 4.704 0 004.75 4.75 4.703 4.703 0 004.75-4.75c0-2.663-2.09-4.75-4.75-4.75zm0 7.825c-1.744 0-3.076-1.332-3.076-3.074 0-1.745 1.333-3.077 3.076-3.077 1.744 0 3.074 1.333 3.074 3.076s-1.33 3.075-3.074 3.075z",fill:"#02B383","fill-rule":"nonzero"})})}),a("div",{className:"uppy-DashboardTab-name",children:this.props.i18n("takePictureBtn")})]})}));y(this,"renderVideoCamera",()=>a("div",{className:"uppy-DashboardTab",role:"presentation","data-uppy-acquirer-id":"MobileVideoCamera",children:a("button",{type:"button",className:"uppy-u-reset uppy-c-btn uppy-DashboardTab-btn",role:"tab",tabIndex:0,"data-uppy-super-focusable":!0,onClick:this.triggerVideoCameraInputClick,children:[a("div",{className:"uppy-DashboardTab-inner",children:a("svg",{"aria-hidden":"true",width:"32",height:"32",viewBox:"0 0 32 32",children:a("path",{fill:"#FF675E",fillRule:"nonzero",d:"m21.254 14.277 2.941-2.588c.797-.313 1.243.818 1.09 1.554-.01 2.094.02 4.189-.017 6.282-.126.915-1.145 1.08-1.58.34l-2.434-2.142c-.192.287-.504 1.305-.738.468-.104-1.293-.028-2.596-.05-3.894.047-.312.381.823.426 1.069.063-.384.206-.744.362-1.09zm-12.939-3.73c3.858.013 7.717-.025 11.574.02.912.129 1.492 1.237 1.351 2.217-.019 2.412.04 4.83-.03 7.239-.17 1.025-1.166 1.59-2.029 1.429-3.705-.012-7.41.025-11.114-.019-.913-.129-1.492-1.237-1.352-2.217.018-2.404-.036-4.813.029-7.214.136-.82.83-1.473 1.571-1.454z "})})}),a("div",{className:"uppy-DashboardTab-name",children:this.props.i18n("recordVideoBtn")})]})}));y(this,"renderBrowseButton",(t,s)=>{let r=this.props.acquirers.length;return a("button",{type:"button",className:"uppy-u-reset uppy-c-btn uppy-Dashboard-browse",onClick:s,"data-uppy-super-focusable":r===0,children:t})});y(this,"renderDropPasteBrowseTagline",t=>{let s=this.renderBrowseButton(this.props.i18n("browseFiles"),this.triggerFileInputClick),r=this.renderBrowseButton(this.props.i18n("browseFolders"),this.triggerFolderInputClick),n=this.props.fileManagerSelectionType,o=n.charAt(0).toUpperCase()+n.slice(1);return a("div",{class:"uppy-Dashboard-AddFiles-title",children:this.props.disableLocalFiles?this.props.i18n("importFiles"):t>0?this.props.i18nArray(`dropPasteImport${o}`,{browseFiles:s,browseFolders:r,browse:s}):this.props.i18nArray(`dropPaste${o}`,{browseFiles:s,browseFolders:r,browse:s})})});y(this,"renderAcquirer",t=>a("div",{className:"uppy-DashboardTab",role:"presentation","data-uppy-acquirer-id":t.id,children:a("button",{type:"button",className:"uppy-u-reset uppy-c-btn uppy-DashboardTab-btn",role:"tab",tabIndex:0,"data-cy":t.id,"aria-controls":`uppy-DashboardContent-panel--${t.id}`,"aria-selected":this.props.activePickerPanel?.id===t.id,"data-uppy-super-focusable":!0,onClick:()=>this.props.showPanel(t.id),children:[a("div",{className:"uppy-DashboardTab-inner",children:t.icon()}),a("div",{className:"uppy-DashboardTab-name",children:t.name})]})}));y(this,"renderSourcesList",(t,s)=>{let{showNativePhotoCameraButton:r,showNativeVideoCameraButton:n}=this.props,o=[],l="myDevice";s||o.push({key:l,elements:this.renderMyDeviceAcquirer()}),r&&o.push({key:"nativePhotoCameraButton",elements:this.renderPhotoCamera()}),n&&o.push({key:"nativePhotoCameraButton",elements:this.renderVideoCamera()}),o.push(...t.map(m=>({key:m.id,elements:this.renderAcquirer(m)}))),o.length===1&&o[0].key===l&&(o=[]);let c=[...o],p=c.splice(o.length-2,o.length);return a(L,{children:[this.renderDropPasteBrowseTagline(o.length),a("div",{className:"uppy-Dashboard-AddFiles-list",role:"tablist",children:[c.map(({key:m,elements:f})=>a(L,{children:f},m)),a("span",{role:"presentation",style:{"white-space":"nowrap"},children:p.map(({key:m,elements:f})=>a(L,{children:f},m))})]})]})})}[Symbol.for("uppy test: disable unused locale key warning")](){this.props.i18nArray("dropPasteBoth"),this.props.i18nArray("dropPasteFiles"),this.props.i18nArray("dropPasteFolders"),this.props.i18nArray("dropPasteImportBoth"),this.props.i18nArray("dropPasteImportFiles"),this.props.i18nArray("dropPasteImportFolders")}renderPoweredByUppy(){let{i18nArray:t}=this.props,s=a("span",{children:[a("svg",{"aria-hidden":"true",focusable:"false",className:"uppy-c-icon uppy-Dashboard-poweredByIcon",width:"11",height:"11",viewBox:"0 0 11 11",children:a("path",{d:"M7.365 10.5l-.01-4.045h2.612L5.5.806l-4.467 5.65h2.604l.01 4.044h3.718z",fillRule:"evenodd"})}),a("span",{className:"uppy-Dashboard-poweredByUppy",children:"Uppy"})]}),r=t("poweredBy",{uppy:s});return a("a",{tabIndex:-1,href:"https://uppy.io",rel:"noreferrer noopener",target:"_blank",className:"uppy-Dashboard-poweredBy",children:r})}render(){let{showNativePhotoCameraButton:t,showNativeVideoCameraButton:s,nativeCameraFacingMode:r}=this.props;return a("div",{className:"uppy-Dashboard-AddFiles",children:[this.renderHiddenInput(!1,n=>{this.fileInput=n}),this.renderHiddenInput(!0,n=>{this.folderInput=n}),t&&this.renderHiddenCameraInput("photo",r,n=>{this.mobilePhotoFileInput=n}),s&&this.renderHiddenCameraInput("video",r,n=>{this.mobileVideoFileInput=n}),this.renderSourcesList(this.props.acquirers,this.props.disableLocalFiles),a("div",{className:"uppy-Dashboard-AddFiles-info",children:[this.props.note&&a("div",{className:"uppy-Dashboard-note",children:this.props.note}),this.props.proudlyDisplayPoweredByUppy&&this.renderPoweredByUppy()]})]})}},qs=An;u();var sd=j(Q(),1);var ih=i=>a("div",{className:(0,sd.default)("uppy-Dashboard-AddFilesPanel",i.className),"data-uppy-panelType":"AddFiles","aria-hidden":!i.showAddFilesPanel,children:[a("div",{className:"uppy-DashboardContent-bar",children:[a("div",{className:"uppy-DashboardContent-title",role:"heading","aria-level":1,children:i.i18n("addingMoreFiles")}),a("button",{className:"uppy-DashboardContent-back",type:"button",onClick:()=>i.toggleAddFilesPanel(!1),children:i.i18n("back")})]}),a(qs,{...i})]}),rd=ih;u();var nd=j(Q(),1);function sh(i){let e=i.fileCardFor?i.files[i.fileCardFor]:void 0;if(!e)return null;let t=()=>{i.uppy.emit("file-editor:cancel",e),i.closeFileEditor()};return a("div",{className:(0,nd.default)("uppy-DashboardContent-panel",i.className),role:"tabpanel","data-uppy-panelType":"FileEditor",id:"uppy-DashboardContent-panel--editor",children:[a("div",{className:"uppy-DashboardContent-bar",children:[a("div",{className:"uppy-DashboardContent-title",role:"heading","aria-level":1,children:i.i18nArray("editing",{file:a("span",{className:"uppy-DashboardContent-titleFile",children:e.meta?e.meta.name:e.name})})}),a("button",{className:"uppy-DashboardContent-back",type:"button",onClick:t,children:i.i18n("cancel")}),a("button",{className:"uppy-DashboardContent-save",type:"button",onClick:i.saveFileEditor,children:i.i18n("save")})]}),a("div",{className:"uppy-DashboardContent-panelBody",children:i.editors.map(s=>i.uppy.getPlugin(s.id).render(i.state))})]})}var od=sh;u();var ad=j(Q(),1);u();function rh(){return a("svg",{"aria-hidden":"true",focusable:"false",width:"25",height:"25",viewBox:"0 0 25 25",children:a("g",{fill:"#686DE0",fillRule:"evenodd",children:[a("path",{d:"M5 7v10h15V7H5zm0-1h15a1 1 0 0 1 1 1v10a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1V7a1 1 0 0 1 1-1z",fillRule:"nonzero"}),a("path",{d:"M6.35 17.172l4.994-5.026a.5.5 0 0 1 .707 0l2.16 2.16 3.505-3.505a.5.5 0 0 1 .707 0l2.336 2.31-.707.72-1.983-1.97-3.505 3.505a.5.5 0 0 1-.707 0l-2.16-2.159-3.938 3.939-1.409.026z",fillRule:"nonzero"}),a("circle",{cx:"7.5",cy:"9.5",r:"1.5"})]})})}function nh(){return a("svg",{"aria-hidden":"true",focusable:"false",className:"uppy-c-icon",width:"25",height:"25",viewBox:"0 0 25 25",children:a("path",{d:"M9.5 18.64c0 1.14-1.145 2-2.5 2s-2.5-.86-2.5-2c0-1.14 1.145-2 2.5-2 .557 0 1.079.145 1.5.396V7.25a.5.5 0 0 1 .379-.485l9-2.25A.5.5 0 0 1 18.5 5v11.64c0 1.14-1.145 2-2.5 2s-2.5-.86-2.5-2c0-1.14 1.145-2 2.5-2 .557 0 1.079.145 1.5.396V8.67l-8 2v7.97zm8-11v-2l-8 2v2l8-2zM7 19.64c.855 0 1.5-.484 1.5-1s-.645-1-1.5-1-1.5.484-1.5 1 .645 1 1.5 1zm9-2c.855 0 1.5-.484 1.5-1s-.645-1-1.5-1-1.5.484-1.5 1 .645 1 1.5 1z",fill:"#049BCF",fillRule:"nonzero"})})}function oh(){return a("svg",{"aria-hidden":"true",focusable:"false",className:"uppy-c-icon",width:"25",height:"25",viewBox:"0 0 25 25",children:a("path",{d:"M16 11.834l4.486-2.691A1 1 0 0 1 22 10v6a1 1 0 0 1-1.514.857L16 14.167V17a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1V9a1 1 0 0 1 1-1h10a1 1 0 0 1 1 1v2.834zM15 9H5v8h10V9zm1 4l5 3v-6l-5 3z",fill:"#19AF67",fillRule:"nonzero"})})}function ah(){return a("svg",{"aria-hidden":"true",focusable:"false",className:"uppy-c-icon",width:"25",height:"25",viewBox:"0 0 25 25",children:a("path",{d:"M9.766 8.295c-.691-1.843-.539-3.401.747-3.726 1.643-.414 2.505.938 2.39 3.299-.039.79-.194 1.662-.537 3.148.324.49.66.967 1.055 1.51.17.231.382.488.629.757 1.866-.128 3.653.114 4.918.655 1.487.635 2.192 1.685 1.614 2.84-.566 1.133-1.839 1.084-3.416.249-1.141-.604-2.457-1.634-3.51-2.707a13.467 13.467 0 0 0-2.238.426c-1.392 4.051-4.534 6.453-5.707 4.572-.986-1.58 1.38-4.206 4.914-5.375.097-.322.185-.656.264-1.001.08-.353.306-1.31.407-1.737-.678-1.059-1.2-2.031-1.53-2.91zm2.098 4.87c-.033.144-.068.287-.104.427l.033-.01-.012.038a14.065 14.065 0 0 1 1.02-.197l-.032-.033.052-.004a7.902 7.902 0 0 1-.208-.271c-.197-.27-.38-.526-.555-.775l-.006.028-.002-.003c-.076.323-.148.632-.186.8zm5.77 2.978c1.143.605 1.832.632 2.054.187.26-.519-.087-1.034-1.113-1.473-.911-.39-2.175-.608-3.55-.608.845.766 1.787 1.459 2.609 1.894zM6.559 18.789c.14.223.693.16 1.425-.413.827-.648 1.61-1.747 2.208-3.206-2.563 1.064-4.102 2.867-3.633 3.62zm5.345-10.97c.088-1.793-.351-2.48-1.146-2.28-.473.119-.564 1.05-.056 2.405.213.566.52 1.188.908 1.859.18-.858.268-1.453.294-1.984z",fill:"#E2514A",fillRule:"nonzero"})})}function lh(){return a("svg",{"aria-hidden":"true",focusable:"false",width:"25",height:"25",viewBox:"0 0 25 25",children:a("path",{d:"M10.45 2.05h1.05a.5.5 0 0 1 .5.5v.024a.5.5 0 0 1-.5.5h-1.05a.5.5 0 0 1-.5-.5V2.55a.5.5 0 0 1 .5-.5zm2.05 1.024h1.05a.5.5 0 0 1 .5.5V3.6a.5.5 0 0 1-.5.5H12.5a.5.5 0 0 1-.5-.5v-.025a.5.5 0 0 1 .5-.5v-.001zM10.45 0h1.05a.5.5 0 0 1 .5.5v.025a.5.5 0 0 1-.5.5h-1.05a.5.5 0 0 1-.5-.5V.5a.5.5 0 0 1 .5-.5zm2.05 1.025h1.05a.5.5 0 0 1 .5.5v.024a.5.5 0 0 1-.5.5H12.5a.5.5 0 0 1-.5-.5v-.024a.5.5 0 0 1 .5-.5zm-2.05 3.074h1.05a.5.5 0 0 1 .5.5v.025a.5.5 0 0 1-.5.5h-1.05a.5.5 0 0 1-.5-.5v-.025a.5.5 0 0 1 .5-.5zm2.05 1.025h1.05a.5.5 0 0 1 .5.5v.024a.5.5 0 0 1-.5.5H12.5a.5.5 0 0 1-.5-.5v-.024a.5.5 0 0 1 .5-.5zm-2.05 1.024h1.05a.5.5 0 0 1 .5.5v.025a.5.5 0 0 1-.5.5h-1.05a.5.5 0 0 1-.5-.5v-.025a.5.5 0 0 1 .5-.5zm2.05 1.025h1.05a.5.5 0 0 1 .5.5v.025a.5.5 0 0 1-.5.5H12.5a.5.5 0 0 1-.5-.5v-.025a.5.5 0 0 1 .5-.5zm-2.05 1.025h1.05a.5.5 0 0 1 .5.5v.025a.5.5 0 0 1-.5.5h-1.05a.5.5 0 0 1-.5-.5v-.025a.5.5 0 0 1 .5-.5zm2.05 1.025h1.05a.5.5 0 0 1 .5.5v.024a.5.5 0 0 1-.5.5H12.5a.5.5 0 0 1-.5-.5v-.024a.5.5 0 0 1 .5-.5zm-1.656 3.074l-.82 5.946c.52.302 1.174.458 1.976.458.803 0 1.455-.156 1.975-.458l-.82-5.946h-2.311zm0-1.025h2.312c.512 0 .946.378 1.015.885l.82 5.946c.056.412-.142.817-.501 1.026-.686.398-1.515.597-2.49.597-.974 0-1.804-.199-2.49-.597a1.025 1.025 0 0 1-.5-1.026l.819-5.946c.07-.507.503-.885 1.015-.885zm.545 6.6a.5.5 0 0 1-.397-.561l.143-.999a.5.5 0 0 1 .495-.429h.74a.5.5 0 0 1 .495.43l.143.998a.5.5 0 0 1-.397.561c-.404.08-.819.08-1.222 0z",fill:"#00C469",fillRule:"nonzero"})})}function dh(){return a("svg",{"aria-hidden":"true",focusable:"false",className:"uppy-c-icon",width:"25",height:"25",viewBox:"0 0 25 25",children:a("g",{fill:"#A7AFB7",fillRule:"nonzero",children:[a("path",{d:"M5.5 22a.5.5 0 0 1-.5-.5v-18a.5.5 0 0 1 .5-.5h10.719a.5.5 0 0 1 .367.16l3.281 3.556a.5.5 0 0 1 .133.339V21.5a.5.5 0 0 1-.5.5h-14zm.5-1h13V7.25L16 4H6v17z"}),a("path",{d:"M15 4v3a1 1 0 0 0 1 1h3V7h-3V4h-1z"})]})})}function uh(){return a("svg",{"aria-hidden":"true",focusable:"false",className:"uppy-c-icon",width:"25",height:"25",viewBox:"0 0 25 25",children:a("path",{d:"M4.5 7h13a.5.5 0 1 1 0 1h-13a.5.5 0 0 1 0-1zm0 3h15a.5.5 0 1 1 0 1h-15a.5.5 0 1 1 0-1zm0 3h15a.5.5 0 1 1 0 1h-15a.5.5 0 1 1 0-1zm0 3h10a.5.5 0 1 1 0 1h-10a.5.5 0 1 1 0-1z",fill:"#5A5E69",fillRule:"nonzero"})})}function ct(i){let e={color:"#838999",icon:dh()};if(!i)return e;let t=i.split("/")[0],s=i.split("/")[1];return t==="text"?{color:"#5a5e69",icon:uh()}:t==="image"?{color:"#686de0",icon:rh()}:t==="audio"?{color:"#068dbb",icon:nh()}:t==="video"?{color:"#19af67",icon:oh()}:t==="application"&&s==="pdf"?{color:"#e25149",icon:ah()}:t==="application"&&["zip","x-7z-compressed","x-zip-compressed","x-rar-compressed","x-tar","x-gzip","x-apple-diskimage"].indexOf(s)!==-1?{color:"#00C469",icon:lh()}:e}u();function ch(i){let{tagName:e}=i.target;if(e==="INPUT"||e==="TEXTAREA"){i.stopPropagation();return}i.preventDefault(),i.stopPropagation()}var qe=ch;u();function Ri(i){let{file:e}=i;if(e.preview)return a("img",{draggable:!1,className:"uppy-Dashboard-Item-previewImg",alt:e.name,src:e.preview});let{color:t,icon:s}=ct(e.type);return a("div",{className:"uppy-Dashboard-Item-previewIconWrap",children:[a("span",{className:"uppy-Dashboard-Item-previewIcon",style:{color:t},children:s}),a("svg",{"aria-hidden":"true",focusable:"false",className:"uppy-Dashboard-Item-previewIconBg",width:"58",height:"76",viewBox:"0 0 58 76",children:a("rect",{fill:"#FFF",width:"58",height:"76",rx:"3",fillRule:"evenodd"})})]})}u();function Nn(i){let{computedMetaFields:e,requiredMetaFields:t,updateMeta:s,form:r,formState:n}=i,o={text:"uppy-u-reset uppy-c-textInput uppy-Dashboard-FileCard-input"};return e.map(l=>{let d=`uppy-Dashboard-FileCard-input-${l.id}`,c=t.includes(l.id);return a("fieldset",{className:"uppy-Dashboard-FileCard-fieldset",children:[a("label",{className:"uppy-Dashboard-FileCard-label",htmlFor:d,children:l.name}),l.render!==void 0?l.render({value:n[l.id],onChange:p=>s(p,l.id),fieldCSSClasses:o,required:c,form:r.id},ri):a("input",{className:o.text,id:d,form:r.id,type:l.type||"text",required:c,value:n[l.id],placeholder:l.placeholder,onInput:p=>s(p.target.value,l.id),"data-uppy-super-focusable":!0})]},l.id)})}function On(i){let{files:e,fileCardFor:t,toggleFileCard:s,saveFileCard:r,metaFields:n,requiredMetaFields:o,openFileEditor:l,i18n:d,i18nArray:c,className:p,canEditFile:m}=i,f=()=>typeof n=="function"?n(e[t]):n,v=e[t],g=f()??[],F=m(v),T={};g.forEach(I=>{T[I.id]=v.meta[I.id]??""});let[S,k]=V(T),P=se(I=>{I.preventDefault(),r(S,t)},[r,S,t]),N=(I,z)=>{k({...S,[z]:I})},B=()=>{s(!1,t)},[x]=V(()=>{let I=document.createElement("form");return I.setAttribute("tabindex","-1"),I.id=$s(),I}),O=q(null);return X(()=>{let I=O.current?.getRootNode()??document;return I instanceof Document?I.body.appendChild(x):(I instanceof ShadowRoot,I.appendChild(x)),x.addEventListener("submit",P),()=>{x.removeEventListener("submit",P),x.parentNode&&x.parentNode.removeChild(x)}},[x,P]),a("div",{className:(0,ad.default)("uppy-Dashboard-FileCard",p),"data-uppy-panelType":"FileCard",onDragOver:qe,onDragLeave:qe,onDrop:qe,onPaste:qe,ref:O,children:[a("div",{className:"uppy-DashboardContent-bar",children:[a("div",{className:"uppy-DashboardContent-title",role:"heading","aria-level":1,children:c("editing",{file:a("span",{className:"uppy-DashboardContent-titleFile",children:v.meta?v.meta.name:v.name})})}),a("button",{className:"uppy-DashboardContent-back",type:"button",form:x.id,title:d("finishEditingFile"),onClick:B,children:d("cancel")})]}),a("div",{className:"uppy-Dashboard-FileCard-inner",children:[a("div",{className:"uppy-Dashboard-FileCard-preview",style:{backgroundColor:ct(v.type).color},children:[a(Ri,{file:v}),F&&a("button",{type:"button",className:"uppy-u-reset uppy-c-btn uppy-Dashboard-FileCard-edit",onClick:I=>{P(I),l(v)},children:d("editImage")})]}),a("div",{className:"uppy-Dashboard-FileCard-info",children:a(Nn,{computedMetaFields:g,requiredMetaFields:o,updateMeta:N,form:x,formState:S})}),a("div",{className:"uppy-Dashboard-FileCard-actions",children:[a("button",{className:"uppy-u-reset uppy-c-btn uppy-c-btn-primary uppy-Dashboard-FileCard-actionsBtn",type:"submit",form:x.id,children:d("saveChanges")}),a("button",{className:"uppy-u-reset uppy-c-btn uppy-c-btn-link uppy-Dashboard-FileCard-actionsBtn",type:"button",onClick:B,form:x.id,children:d("cancel")})]})]})]})}u();u();var ud=j(Q(),1);u();function ld(i,e){if(i===e)return!0;if(!i||!e)return!1;let t=Object.keys(i),s=Object.keys(e),r=t.length;if(s.length!==r)return!1;for(let n=0;n<r;n++){let o=t[n];if(i[o]!==e[o]||!Object.prototype.hasOwnProperty.call(e,o))return!1}return!0}u();u();function Bn(i,e="Copy the URL below"){return new Promise(t=>{let s=document.createElement("textarea");s.style.position="fixed",s.style.top="0",s.style.left="0",s.style.width="2em",s.style.height="2em",s.style.padding="0",s.style.border="none",s.style.outline="none",s.style.boxShadow="none",s.style.background="transparent",s.value=i,document.body.appendChild(s),s.select();let r=()=>{document.body.removeChild(s),window.prompt(e,i),t()};try{if(!document.execCommand("copy"))return r();document.body.removeChild(s),t()}catch{return document.body.removeChild(s),r()}})}function hh({file:i,uploadInProgressOrComplete:e,metaFields:t,canEditFile:s,i18n:r,onClick:n}){return!e&&t&&t.length>0||!e&&s(i)?a("button",{className:"uppy-u-reset uppy-c-btn uppy-Dashboard-Item-action uppy-Dashboard-Item-action--edit",type:"button","aria-label":r("editFileWithFilename",{file:i.meta.name}),title:r("editFileWithFilename",{file:i.meta.name}),onClick:()=>n(),children:a("svg",{"aria-hidden":"true",focusable:"false",className:"uppy-c-icon",width:"14",height:"14",viewBox:"0 0 14 14",children:a("g",{fillRule:"evenodd",children:[a("path",{d:"M1.5 10.793h2.793A1 1 0 0 0 5 10.5L11.5 4a1 1 0 0 0 0-1.414L9.707.793a1 1 0 0 0-1.414 0l-6.5 6.5A1 1 0 0 0 1.5 8v2.793zm1-1V8L9 1.5l1.793 1.793-6.5 6.5H2.5z",fillRule:"nonzero"}),a("rect",{x:"1",y:"12.293",width:"11",height:"1",rx:".5"}),a("path",{fillRule:"nonzero",d:"M6.793 2.5L9.5 5.207l.707-.707L7.5 1.793z"})]})})}):null}function ph({i18n:i,onClick:e,file:t}){return a("button",{className:"uppy-u-reset uppy-Dashboard-Item-action uppy-Dashboard-Item-action--remove",type:"button","aria-label":i("removeFile",{file:t.meta.name}),title:i("removeFile",{file:t.meta.name}),onClick:()=>e(),children:a("svg",{"aria-hidden":"true",focusable:"false",className:"uppy-c-icon",width:"18",height:"18",viewBox:"0 0 18 18",children:[a("path",{d:"M9 0C4.034 0 0 4.034 0 9s4.034 9 9 9 9-4.034 9-9-4.034-9-9-9z"}),a("path",{fill:"#FFF",d:"M13 12.222l-.778.778L9 9.778 5.778 13 5 12.222 8.222 9 5 5.778 5.778 5 9 8.222 12.222 5l.778.778L9.778 9z"})]})})}function fh({file:i,uppy:e,i18n:t}){let s=r=>{let{currentTarget:n}=r;Bn(i.uploadURL,t("copyLinkToClipboardFallback")).then(()=>{e.log("Link copied to clipboard."),e.info(t("copyLinkToClipboardSuccess"),"info",3e3)}).catch(e.log).then(()=>n.focus({preventScroll:!0}))};return a("button",{className:"uppy-u-reset uppy-Dashboard-Item-action uppy-Dashboard-Item-action--copyLink",type:"button","aria-label":t("copyLink"),title:t("copyLink"),onClick:r=>s(r),children:a("svg",{"aria-hidden":"true",focusable:"false",className:"uppy-c-icon",width:"14",height:"14",viewBox:"0 0 14 12",children:a("path",{d:"M7.94 7.703a2.613 2.613 0 0 1-.626 2.681l-.852.851a2.597 2.597 0 0 1-1.849.766A2.616 2.616 0 0 1 2.764 7.54l.852-.852a2.596 2.596 0 0 1 2.69-.625L5.267 7.099a1.44 1.44 0 0 0-.833.407l-.852.851a1.458 1.458 0 0 0 1.03 2.486c.39 0 .755-.152 1.03-.426l.852-.852c.231-.231.363-.522.406-.824l1.04-1.038zm4.295-5.937A2.596 2.596 0 0 0 10.387 1c-.698 0-1.355.272-1.849.766l-.852.851a2.614 2.614 0 0 0-.624 2.688l1.036-1.036c.041-.304.173-.6.407-.833l.852-.852c.275-.275.64-.426 1.03-.426a1.458 1.458 0 0 1 1.03 2.486l-.852.851a1.442 1.442 0 0 1-.824.406l-1.04 1.04a2.596 2.596 0 0 0 2.683-.628l.851-.85a2.616 2.616 0 0 0 0-3.697zm-6.88 6.883a.577.577 0 0 0 .82 0l3.474-3.474a.579.579 0 1 0-.819-.82L5.355 7.83a.579.579 0 0 0 0 .819z"})})})}function Dn(i){let{uppy:e,file:t,uploadInProgressOrComplete:s,canEditFile:r,metaFields:n,showLinkToFileUploadResult:o,showRemoveButton:l,i18n:d,toggleFileCard:c,openFileEditor:p}=i;return a("div",{className:"uppy-Dashboard-Item-actionWrapper",children:[a(hh,{i18n:d,file:t,uploadInProgressOrComplete:s,canEditFile:r,metaFields:n,onClick:()=>{n&&n.length>0?c(!0,t.id):p(t)}}),o&&t.uploadURL?a(fh,{file:t,uppy:e,i18n:d}):null,l?a(ph,{i18n:d,file:t,onClick:()=>e.removeFile(t.id)}):null]})}u();u();function mh(i,e,t){return(typeof e=="function"?e(t):e)?.find(n=>n.id===i)?.name??i}function Mi(i){let{file:e,toggleFileCard:t,i18n:s,metaFields:r}=i,{missingRequiredMetaFields:n}=e;if(!n?.length)return null;let o=n.map(l=>mh(l,r,e)).join(", ");return a("div",{className:"uppy-Dashboard-Item-errorMessage",children:[s("missingRequiredMetaFields",{smart_count:n.length,fields:o})," ",a("button",{type:"button",class:"uppy-u-reset uppy-Dashboard-Item-errorMessageBtn",onClick:()=>t(!0,e.id),children:s("editFile")})]})}var gh=i=>{let{author:e,name:t}=i.file.meta;function s(){return i.isSingleFile&&i.containerHeight>=350?90:i.containerWidth<=352?35:i.containerWidth<=576?60:e?20:30}return a("div",{className:"uppy-Dashboard-Item-name",title:t,children:Zt(t,s())})},yh=i=>{let{author:e}=i.file.meta,t="remote"in i.file?i.file.remote?.providerName:void 0,s="\xB7";return e?a("div",{className:"uppy-Dashboard-Item-author",children:[a("a",{href:`${e.url}?utm_source=Companion&utm_medium=referral`,target:"_blank",rel:"noopener noreferrer",children:Zt(e.name,13)}),t?a(L,{children:[` ${s} `,t,` ${s} `]}):null]}):null},bh=i=>i.file.size&&a("div",{className:"uppy-Dashboard-Item-statusSize",children:he(i.file.size)}),vh=i=>i.file.isGhost&&a("span",{children:[" \u2022 ",a("button",{className:"uppy-u-reset uppy-c-btn uppy-Dashboard-Item-reSelect",type:"button",onClick:()=>i.toggleAddFilesPanel(!0),children:i.i18n("reSelect")})]}),wh=({file:i,onClick:e})=>i.error?a("button",{className:"uppy-u-reset uppy-c-btn uppy-Dashboard-Item-errorDetails","aria-label":i.error,"data-microtip-position":"bottom","data-microtip-size":"medium",onClick:e,type:"button",children:"?"}):null;function Un(i){let{file:e,i18n:t,toggleFileCard:s,metaFields:r,toggleAddFilesPanel:n,isSingleFile:o,containerHeight:l,containerWidth:d}=i;return a("div",{className:"uppy-Dashboard-Item-fileInfo","data-uppy-file-source":e.source,children:[a("div",{className:"uppy-Dashboard-Item-fileName",children:[gh({file:e,isSingleFile:o,containerHeight:l,containerWidth:d}),a(wh,{file:e,onClick:()=>alert(e.error)})]}),a("div",{className:"uppy-Dashboard-Item-status",children:[yh({file:e}),bh({file:e}),vh({file:e,toggleAddFilesPanel:n,i18n:t})]}),a(Mi,{file:e,i18n:t,toggleFileCard:s,metaFields:r})]})}u();function Rn(i){let{file:e,i18n:t,toggleFileCard:s,metaFields:r,showLinkToFileUploadResult:n}=i,l=e.preview?"rgba(255, 255, 255, 0.5)":ct(e.type).color;return a("div",{className:"uppy-Dashboard-Item-previewInnerWrap",style:{backgroundColor:l},children:[n&&e.uploadURL&&a("a",{className:"uppy-Dashboard-Item-previewLink",href:e.uploadURL,rel:"noreferrer noopener",target:"_blank","aria-label":e.meta.name,children:a("span",{hidden:!0,children:e.meta.name})}),a(Ri,{file:e}),a(Mi,{file:e,i18n:t,toggleFileCard:s,metaFields:r})]})}u();function Fh(i){if(!i.isUploaded){if(i.error&&!i.hideRetryButton){i.uppy.retryUpload(i.file.id);return}i.resumableUploads&&!i.hidePauseResumeButton?i.uppy.pauseResume(i.file.id):i.individualCancellation&&!i.hideCancelButton&&i.uppy.removeFile(i.file.id)}}function dd(i){return i.isUploaded?i.i18n("uploadComplete"):i.error?i.i18n("retryUpload"):i.resumableUploads?i.file.isPaused?i.i18n("resumeUpload"):i.i18n("pauseUpload"):i.individualCancellation?i.i18n("cancelUpload"):""}function Mn(i){return a("div",{className:"uppy-Dashboard-Item-progress",children:a("button",{className:"uppy-u-reset uppy-c-btn uppy-Dashboard-Item-progressIndicator",type:"button","aria-label":dd(i),title:dd(i),onClick:()=>Fh(i),children:i.children})})}function Hs({children:i}){return a("svg",{"aria-hidden":"true",focusable:"false",width:"70",height:"70",viewBox:"0 0 36 36",className:"uppy-c-icon uppy-Dashboard-Item-progressIcon--circle",children:i})}function Ln({progress:i}){let e=2*Math.PI*15;return a("g",{children:[a("circle",{className:"uppy-Dashboard-Item-progressIcon--bg",r:"15",cx:"18",cy:"18","stroke-width":"2",fill:"none"}),a("circle",{className:"uppy-Dashboard-Item-progressIcon--progress",r:"15",cx:"18",cy:"18",transform:"rotate(-90, 18, 18)",fill:"none","stroke-width":"2","stroke-dasharray":e,"stroke-dashoffset":e-e/100*i})]})}function jn(i){return!i.file.progress.uploadStarted||i.file.progress.percentage===void 0?null:i.isUploaded?a("div",{className:"uppy-Dashboard-Item-progress",children:a("div",{className:"uppy-Dashboard-Item-progressIndicator",children:a(Hs,{children:[a("circle",{r:"15",cx:"18",cy:"18",fill:"#1bb240"}),a("polygon",{className:"uppy-Dashboard-Item-progressIcon--check",transform:"translate(2, 3)",points:"14 22.5 7 15.2457065 8.99985857 13.1732815 14 18.3547104 22.9729883 9 25 11.1005634"})]})})}):i.recoveredState?null:i.error&&!i.hideRetryButton?a(Mn,{...i,children:a("svg",{"aria-hidden":"true",focusable:"false",className:"uppy-c-icon uppy-Dashboard-Item-progressIcon--retry",width:"28",height:"31",viewBox:"0 0 16 19",children:[a("path",{d:"M16 11a8 8 0 1 1-8-8v2a6 6 0 1 0 6 6h2z"}),a("path",{d:"M7.9 3H10v2H7.9z"}),a("path",{d:"M8.536.5l3.535 3.536-1.414 1.414L7.12 1.914z"}),a("path",{d:"M10.657 2.621l1.414 1.415L8.536 7.57 7.12 6.157z"})]})}):i.resumableUploads&&!i.hidePauseResumeButton?a(Mn,{...i,children:a(Hs,{children:[a(Ln,{progress:i.file.progress.percentage}),i.file.isPaused?a("polygon",{className:"uppy-Dashboard-Item-progressIcon--play",transform:"translate(3, 3)",points:"12 20 12 10 20 15"}):a("g",{className:"uppy-Dashboard-Item-progressIcon--pause",transform:"translate(14.5, 13)",children:[a("rect",{x:"0",y:"0",width:"2",height:"10",rx:"0"}),a("rect",{x:"5",y:"0",width:"2",height:"10",rx:"0"})]})]})}):!i.resumableUploads&&i.individualCancellation&&!i.hideCancelButton?a(Mn,{...i,children:a(Hs,{children:[a(Ln,{progress:i.file.progress.percentage}),a("polygon",{className:"cancel",transform:"translate(2, 2)",points:"19.8856516 11.0625 16 14.9481516 12.1019737 11.0625 11.0625 12.1143484 14.9481516 16 11.0625 19.8980263 12.1019737 20.9375 16 17.0518484 19.8856516 20.9375 20.9375 19.8980263 17.0518484 16 20.9375 12"})]})}):a("div",{className:"uppy-Dashboard-Item-progress",children:a("div",{className:"uppy-Dashboard-Item-progressIndicator",children:a(Hs,{children:a(Ln,{progress:i.file.progress.percentage})})})})}var Li=class extends ie{componentDidMount(){let{file:e}=this.props;e.preview||this.props.handleRequestThumbnail(e)}shouldComponentUpdate(e){return!ld(this.props,e)}componentDidUpdate(){let{file:e}=this.props;e.preview||this.props.handleRequestThumbnail(e)}componentWillUnmount(){let{file:e}=this.props;e.preview||this.props.handleCancelThumbnail(e)}render(){let{file:e}=this.props,t=e.progress.preprocess||e.progress.postprocess,s=!!e.progress.uploadComplete&&!t&&!e.error,r=!!e.progress.uploadStarted||!!t,n=e.progress.uploadStarted&&!e.progress.uploadComplete||t,o=e.error||!1,{isGhost:l}=e,d=(this.props.individualCancellation||!n)&&!s;s&&this.props.showRemoveButtonAfterComplete&&(d=!0);let c=(0,ud.default)({"uppy-Dashboard-Item":!0,"is-inprogress":n&&!this.props.recoveredState,"is-processing":t,"is-complete":s,"is-error":!!o,"is-resumable":this.props.resumableUploads,"is-noIndividualCancellation":!this.props.individualCancellation,"is-ghost":l});return a("div",{className:c,id:`uppy_${e.id}`,role:this.props.role,children:[a("div",{className:"uppy-Dashboard-Item-preview",children:[a(Rn,{file:e,showLinkToFileUploadResult:this.props.showLinkToFileUploadResult,i18n:this.props.i18n,toggleFileCard:this.props.toggleFileCard,metaFields:this.props.metaFields}),a(jn,{uppy:this.props.uppy,file:e,error:o,isUploaded:s,hideRetryButton:this.props.hideRetryButton,hideCancelButton:this.props.hideCancelButton,hidePauseResumeButton:this.props.hidePauseResumeButton,recoveredState:this.props.recoveredState,resumableUploads:this.props.resumableUploads,individualCancellation:this.props.individualCancellation,i18n:this.props.i18n})]}),a("div",{className:"uppy-Dashboard-Item-fileInfoAndButtons",children:[a(Un,{file:e,containerWidth:this.props.containerWidth,containerHeight:this.props.containerHeight,i18n:this.props.i18n,toggleAddFilesPanel:this.props.toggleAddFilesPanel,toggleFileCard:this.props.toggleFileCard,metaFields:this.props.metaFields,isSingleFile:this.props.isSingleFile}),a(Dn,{file:e,metaFields:this.props.metaFields,showLinkToFileUploadResult:this.props.showLinkToFileUploadResult,showRemoveButton:d,canEditFile:this.props.canEditFile,uploadInProgressOrComplete:r,toggleFileCard:this.props.toggleFileCard,openFileEditor:this.props.openFileEditor,uppy:this.props.uppy,i18n:this.props.i18n})]})]})}};function _h(i,e){let t=[],s=[];return i.forEach(r=>{s.length<e?s.push(r):(t.push(s),s=[r])}),s.length&&t.push(s),t}function zn({id:i,i18n:e,uppy:t,files:s,resumableUploads:r,hideRetryButton:n,hidePauseResumeButton:o,hideCancelButton:l,showLinkToFileUploadResult:d,showRemoveButtonAfterComplete:c,metaFields:p,isSingleFile:m,toggleFileCard:f,handleRequestThumbnail:v,handleCancelThumbnail:g,recoveredState:F,individualCancellation:T,itemsPerRow:S,openFileEditor:k,canEditFile:P,toggleAddFilesPanel:N,containerWidth:B,containerHeight:x}){let O=S===1?71:200,I=Qe(()=>{let M=(er,tr)=>Number(s[tr].isGhost)-Number(s[er].isGhost),J=Object.keys(s);return F&&J.sort(M),_h(J,S)},[s,S,F]),z=M=>a("div",{class:"uppy-Dashboard-filesInner",role:"presentation",children:M.map(J=>a(Li,{uppy:t,id:i,i18n:e,resumableUploads:r,individualCancellation:T,hideRetryButton:n,hidePauseResumeButton:o,hideCancelButton:l,showLinkToFileUploadResult:d,showRemoveButtonAfterComplete:c,metaFields:p,recoveredState:F,isSingleFile:m,containerWidth:B,containerHeight:x,toggleFileCard:f,handleRequestThumbnail:v,handleCancelThumbnail:g,role:"listitem",openFileEditor:k,canEditFile:P,toggleAddFilesPanel:N,file:s[J]},J))},M[0]);return m?a("div",{class:"uppy-Dashboard-files",children:z(I[0])}):a(vt,{class:"uppy-Dashboard-files",role:"list",data:I,renderRow:z,rowHeight:O})}u();u();var cd=300,ji=class extends ie{constructor(){super(...arguments);y(this,"ref",wo())}componentWillEnter(t){this.ref.current.style.opacity="1",this.ref.current.style.transform="none",setTimeout(t,cd)}componentWillLeave(t){this.ref.current.style.opacity="0",this.ref.current.style.transform="translateY(350%)",setTimeout(t,cd)}render(){let{children:t}=this.props;return a("div",{className:"uppy-Informer-animated",ref:this.ref,children:t})}};u();function Sh(i,e){return Object.assign(i,e)}function xh(i,e){return i?.key??e}function Ph(i,e){let t=i._ptgLinkedRefs||(i._ptgLinkedRefs={});return t[e]||(t[e]=s=>{i.refs[e]=s})}function zi(i){let e={};for(let t=0;t<i.length;t++)if(i[t]!=null){let s=xh(i[t],t.toString(36));e[s]=i[t]}return e}function Th(i,e){i=i||{},e=e||{};let t=o=>Object.hasOwn(e,o)?e[o]:i[o],s={},r=[];for(let o in i)Object.hasOwn(e,o)?r.length&&(s[o]=r,r=[]):r.push(o);let n={};for(let o in e){if(Object.hasOwn(s,o))for(let l=0;l<s[o].length;l++){let d=s[o][l];n[s[o][l]]=t(d)}n[o]=t(o)}for(let o=0;o<r.length;o++)n[r[o]]=t(r[o]);return n}var Ch=i=>i,Vs=class extends ie{constructor(e,t){super(e,t),this.refs={},this.state={children:zi(we(we(this.props.children))||[])},this.performAppear=this.performAppear.bind(this),this.performEnter=this.performEnter.bind(this),this.performLeave=this.performLeave.bind(this)}componentWillMount(){this.currentlyTransitioningKeys={},this.keysToAbortLeave=[],this.keysToEnter=[],this.keysToLeave=[]}componentDidMount(){let e=this.state.children;for(let t in e)e[t]&&this.performAppear(t)}componentWillReceiveProps(e){let t=zi(we(e.children)||[]),s=this.state.children;this.setState(n=>({children:Th(n.children,t)}));let r;for(r in t)if(Object.hasOwn(t,r)){let n=s&&Object.hasOwn(s,r);t[r]&&n&&this.currentlyTransitioningKeys[r]?(this.keysToEnter.push(r),this.keysToAbortLeave.push(r)):t[r]&&!n&&!this.currentlyTransitioningKeys[r]&&this.keysToEnter.push(r)}for(r in s)if(Object.hasOwn(s,r)){let n=t&&Object.hasOwn(t,r);s[r]&&!n&&!this.currentlyTransitioningKeys[r]&&this.keysToLeave.push(r)}}componentDidUpdate(){let{keysToEnter:e}=this;this.keysToEnter=[],e.forEach(this.performEnter);let{keysToLeave:t}=this;this.keysToLeave=[],t.forEach(this.performLeave)}_finishAbort(e){let t=this.keysToAbortLeave.indexOf(e);t!==-1&&this.keysToAbortLeave.splice(t,1)}performAppear(e){this.currentlyTransitioningKeys[e]=!0;let t=this.refs[e];t?.componentWillAppear?t.componentWillAppear(this._handleDoneAppearing.bind(this,e)):this._handleDoneAppearing(e)}_handleDoneAppearing(e){let t=this.refs[e];t?.componentDidAppear&&t.componentDidAppear(),delete this.currentlyTransitioningKeys[e],this._finishAbort(e);let s=zi(we(this.props.children)||[]);(!s||!Object.hasOwn(s,e))&&this.performLeave(e)}performEnter(e){this.currentlyTransitioningKeys[e]=!0;let t=this.refs[e];t?.componentWillEnter?t.componentWillEnter(this._handleDoneEntering.bind(this,e)):this._handleDoneEntering(e)}_handleDoneEntering(e){let t=this.refs[e];t?.componentDidEnter&&t.componentDidEnter(),delete this.currentlyTransitioningKeys[e],this._finishAbort(e);let s=zi(we(this.props.children)||[]);(!s||!Object.hasOwn(s,e))&&this.performLeave(e)}performLeave(e){if(this.keysToAbortLeave.indexOf(e)!==-1)return;this.currentlyTransitioningKeys[e]=!0;let s=this.refs[e];s?.componentWillLeave?s.componentWillLeave(this._handleDoneLeaving.bind(this,e)):this._handleDoneLeaving(e)}_handleDoneLeaving(e){if(this.keysToAbortLeave.indexOf(e)!==-1)return;let s=this.refs[e];s?.componentDidLeave&&s.componentDidLeave(),delete this.currentlyTransitioningKeys[e];let r=zi(we(this.props.children)||[]);if(r&&Object.hasOwn(r,e))this.performEnter(e);else{let n=Sh({},this.state.children);delete n[e],this.setState({children:n})}}render({childFactory:e,transitionLeave:t,transitionName:s,transitionAppear:r,transitionEnter:n,transitionLeaveTimeout:o,transitionEnterTimeout:l,transitionAppearTimeout:d,component:c,...p},{children:m}){let f=Object.entries(m).map(([v,g])=>{if(!g)return;let F=Ph(this,v);return ls(e(g),{ref:F,key:v})}).filter(Boolean);return ri(c,p,f)}};Vs.defaultProps={component:"span",childFactory:Ch};var hd=Vs;var jt=class extends ie{render(){let{info:e}=this.props.uppy.getState();return a("div",{className:"uppy uppy-Informer",children:a(hd,{children:e.map(t=>a(ji,{children:a("p",{role:"alert",children:[t.message," ",t.details&&a("span",{"aria-label":t.details,"data-microtip-position":"top-left","data-microtip-size":"medium",role:"tooltip",onClick:()=>alert(`${t.message} 
-
- ${t.details}`),children:"?"})]})},t.message))})})}};u();var pd=j(Q(),1);function kh({activePickerPanel:i,className:e,hideAllPanels:t,i18n:s,state:r,uppy:n}){let o=q(null),l=n.getPlugin(i.id),d=!!l?.opts.standalone,c=m=>{let f=m.target;return!!l?.acceptsFileDrops&&!!m.dataTransfer?.types.includes("Files")&&f.closest("input, textarea, dialog")==null},p=m=>{c(m)||(qe(m),m.type==="dragover"&&m.defaultPrevented&&m.dataTransfer&&(m.dataTransfer.dropEffect="none"))};return a("div",{className:(0,pd.default)("uppy-DashboardContent-panel",e),role:"tabpanel","data-uppy-panelType":"PickerPanel",id:`uppy-DashboardContent-panel--${i.id}`,onDragOver:p,onDragLeave:p,onDrop:p,onPaste:qe,children:[!d&&a("div",{className:"uppy-DashboardContent-bar",children:[a("div",{className:"uppy-DashboardContent-title",role:"heading","aria-level":1,children:s("importFrom",{name:i.name})}),a("button",{className:"uppy-DashboardContent-back",type:"button",onClick:t,children:s("cancel")})]}),a("div",{ref:o,className:"uppy-DashboardContent-panelBody",children:l?.render(r,o.current)})]})}var fd=kh;u();var He={STATE_ERROR:"error",STATE_WAITING:"waiting",STATE_PREPROCESSING:"preprocessing",STATE_UPLOADING:"uploading",STATE_POSTPROCESSING:"postprocessing",STATE_COMPLETE:"complete",STATE_PAUSED:"paused"};function Eh(i,e,t,s={}){if(i)return He.STATE_ERROR;if(e)return He.STATE_COMPLETE;if(t)return He.STATE_PAUSED;let r=He.STATE_WAITING,n=Object.keys(s);for(let o=0;o<n.length;o++){let{progress:l}=s[n[o]];if(l.uploadStarted&&!l.uploadComplete)return He.STATE_UPLOADING;l.preprocess&&(r=He.STATE_PREPROCESSING),l.postprocess&&r!==He.STATE_PREPROCESSING&&(r=He.STATE_POSTPROCESSING)}return r}function Ih({files:i,i18n:e,isAllComplete:t,isAllErrored:s,isAllPaused:r,inProgressNotPausedFiles:n,newFiles:o,processingFiles:l}){switch(Eh(s,t,r,i)){case"uploading":return e("uploadingXFiles",{smart_count:n.length});case"preprocessing":case"postprocessing":return e("processingXFiles",{smart_count:l.length});case"paused":return e("uploadPaused");case"waiting":return e("xFilesSelected",{smart_count:o.length});case"complete":return e("uploadComplete");case"error":return e("error")}}function Ah(i){let{i18n:e,isAllComplete:t,hideCancelButton:s,maxNumberOfFiles:r,toggleAddFilesPanel:n,totalFileCount:o,uppy:l}=i,{allowNewUpload:d}=i;return d&&r&&(d=o<r),a("div",{className:"uppy-DashboardContent-bar",children:[!t&&!s?a("button",{className:"uppy-DashboardContent-back",type:"button",onClick:()=>l.cancelAll(),children:e("cancel")}):a("div",{}),a("div",{className:"uppy-DashboardContent-title",children:a(Ih,{...i})}),d?a("button",{className:"uppy-DashboardContent-addMore",type:"button","aria-label":e("addMoreFiles"),title:e("addMoreFiles"),onClick:()=>n(!0),children:[a("svg",{"aria-hidden":"true",focusable:"false",className:"uppy-c-icon",width:"15",height:"15",viewBox:"0 0 15 15",children:a("path",{d:"M8 6.5h6a.5.5 0 0 1 .5.5v.5a.5.5 0 0 1-.5.5H8v6a.5.5 0 0 1-.5.5H7a.5.5 0 0 1-.5-.5V8h-6a.5.5 0 0 1-.5-.5V7a.5.5 0 0 1 .5-.5h6v-6A.5.5 0 0 1 7 0h.5a.5.5 0 0 1 .5.5v6z"})}),a("span",{className:"uppy-DashboardContent-addMoreCaption",children:e("addMore")})]}):a("div",{})]})}var md=Ah;u();var yd=j(Q(),1),zt="uppy-transition-slideDownUp",gd=250;function Nh({children:i}){let[e,t]=V(null),[s,r]=V(""),n=q(),o=q(),l=q(),d=se(()=>{r(`${zt}-enter`),cancelAnimationFrame(l.current),clearTimeout(o.current),o.current=void 0,l.current=requestAnimationFrame(()=>{r(`${zt}-enter ${zt}-enter-active`),n.current=setTimeout(()=>{r("")},gd)})},[]),c=se(()=>{r(`${zt}-leave`),cancelAnimationFrame(l.current),clearTimeout(n.current),n.current=void 0,l.current=requestAnimationFrame(()=>{r(`${zt}-leave ${zt}-leave-active`),o.current=setTimeout(()=>{t(null),r("")},gd)})},[]);return X(()=>{let p=we(i)[0];e!==p&&(p&&!e?d():e&&!p&&!o.current&&c(),t(p))},[i,e,d,c]),X(()=>()=>{clearTimeout(n.current),clearTimeout(o.current),cancelAnimationFrame(l.current)},[]),e?ls(e,{className:(0,yd.default)(s,e.props.className)}):null}var $i=Nh;u();u();var ce={STATE_ERROR:"error",STATE_WAITING:"waiting",STATE_PREPROCESSING:"preprocessing",STATE_UPLOADING:"uploading",STATE_POSTPROCESSING:"postprocessing",STATE_COMPLETE:"complete"};u();var Vn=j(Q(),1);u();var $n=j(Q(),1);var Oh="\xB7",bd=()=>` ${Oh} `;function vd(i){let{newFiles:e,isUploadStarted:t,recoveredState:s,i18n:r,uploadState:n,isSomeGhost:o,startUpload:l}=i,d=(0,$n.default)("uppy-u-reset","uppy-c-btn","uppy-StatusBar-actionBtn","uppy-StatusBar-actionBtn--upload",{"uppy-c-btn-primary":n===ce.STATE_WAITING},{"uppy-StatusBar-actionBtn--disabled":o}),c=e&&t&&!s?r("uploadXNewFiles",{smart_count:e}):r("uploadXFiles",{smart_count:e});return a("button",{type:"button",className:d,"aria-label":r("uploadXFiles",{smart_count:e}),onClick:l,disabled:o,"data-uppy-super-focusable":!0,children:c})}function wd(i){let{i18n:e,uppy:t}=i;return a("button",{type:"button",className:"uppy-u-reset uppy-c-btn uppy-StatusBar-actionBtn uppy-StatusBar-actionBtn--retry","aria-label":e("retryUpload"),onClick:()=>t.retryAll().catch(()=>{}),"data-uppy-super-focusable":!0,"data-cy":"retry",children:[a("svg",{"aria-hidden":"true",focusable:"false",className:"uppy-c-icon",width:"8",height:"10",viewBox:"0 0 8 10",children:a("path",{d:"M4 2.408a2.75 2.75 0 1 0 2.75 2.75.626.626 0 0 1 1.25.018v.023a4 4 0 1 1-4-4.041V.25a.25.25 0 0 1 .389-.208l2.299 1.533a.25.25 0 0 1 0 .416l-2.3 1.533A.25.25 0 0 1 4 3.316v-.908z"})}),e("retry")]})}function Fd(i){let{i18n:e,uppy:t}=i;return a("button",{type:"button",className:"uppy-u-reset uppy-StatusBar-actionCircleBtn",title:e("cancel"),"aria-label":e("cancel"),onClick:()=>t.cancelAll(),"data-cy":"cancel","data-uppy-super-focusable":!0,children:a("svg",{"aria-hidden":"true",focusable:"false",className:"uppy-c-icon",width:"16",height:"16",viewBox:"0 0 16 16",children:a("g",{fill:"none",fillRule:"evenodd",children:[a("circle",{fill:"#888",cx:"8",cy:"8",r:"8"}),a("path",{fill:"#FFF",d:"M9.283 8l2.567 2.567-1.283 1.283L8 9.283 5.433 11.85 4.15 10.567 6.717 8 4.15 5.433 5.433 4.15 8 6.717l2.567-2.567 1.283 1.283z"})]})})})}function _d(i){let{isAllPaused:e,i18n:t,isAllComplete:s,resumableUploads:r,uppy:n}=i,o=t(e?"resume":"pause");function l(){if(!s){if(!r){n.cancelAll();return}if(e){n.resumeAll();return}n.pauseAll()}}return a("button",{title:o,"aria-label":o,className:"uppy-u-reset uppy-StatusBar-actionCircleBtn",type:"button",onClick:l,"data-cy":"togglePauseResume","data-uppy-super-focusable":!0,children:a("svg",{"aria-hidden":"true",focusable:"false",className:"uppy-c-icon",width:"16",height:"16",viewBox:"0 0 16 16",children:a("g",{fill:"none",fillRule:"evenodd",children:[a("circle",{fill:"#888",cx:"8",cy:"8",r:"8"}),a("path",{fill:"#FFF",d:e?"M6 4.25L11.5 8 6 11.75z":"M5 4.5h2v7H5v-7zm4 0h2v7H9v-7z"})]})})})}function Sd(i){let{i18n:e,doneButtonHandler:t}=i;return a("button",{type:"button",className:"uppy-u-reset uppy-c-btn uppy-StatusBar-actionBtn uppy-StatusBar-actionBtn--done",onClick:t,"data-uppy-super-focusable":!0,children:e("done")})}function xd(){return a("svg",{className:"uppy-StatusBar-spinner","aria-hidden":"true",focusable:"false",width:"14",height:"14",children:a("path",{d:"M13.983 6.547c-.12-2.509-1.64-4.893-3.939-5.936-2.48-1.127-5.488-.656-7.556 1.094C.524 3.367-.398 6.048.162 8.562c.556 2.495 2.46 4.52 4.94 5.183 2.932.784 5.61-.602 7.256-3.015-1.493 1.993-3.745 3.309-6.298 2.868-2.514-.434-4.578-2.349-5.153-4.84a6.226 6.226 0 0 1 2.98-6.778C6.34.586 9.74 1.1 11.373 3.493c.407.596.693 1.282.842 1.988.127.598.073 1.197.161 1.794.078.525.543 1.257 1.15.864.525-.341.49-1.05.456-1.592-.007-.15.02.3 0 0",fillRule:"evenodd"})})}function Pd(i){let{progress:e}=i,{value:t,mode:s,message:r}=e;return a("div",{className:"uppy-StatusBar-content",children:[a(xd,{}),s==="determinate"?`${Math.round(t*100)}% \xB7 `:"",r]})}function Bh(i){let{numUploads:e,complete:t,totalUploadedSize:s,totalSize:r,totalETA:n,i18n:o}=i,l=e>1,d=he(s);return a("div",{className:"uppy-StatusBar-statusSecondary",children:[l&&o("filesUploadedOfTotal",{complete:t,smart_count:e}),a("span",{className:"uppy-StatusBar-additionalInfo",children:[l&&bd(),r!=null?o("dataUploadedOfTotal",{complete:d,total:he(r)}):o("dataUploadedOfUnknown",{complete:d}),bd(),n!=null&&o("xTimeLeft",{time:ts(n)})]})]})}function Td(i){let{i18n:e,complete:t,numUploads:s}=i;return a("div",{className:"uppy-StatusBar-statusSecondary",children:e("filesUploadedOfTotal",{complete:t,smart_count:s})})}function Dh(i){let{i18n:e,newFiles:t,startUpload:s}=i,r=(0,$n.default)("uppy-u-reset","uppy-c-btn","uppy-StatusBar-actionBtn","uppy-StatusBar-actionBtn--uploadNewlyAdded");return a("div",{className:"uppy-StatusBar-statusSecondary",children:[a("div",{className:"uppy-StatusBar-statusSecondaryHint",children:e("xMoreFilesAdded",{smart_count:t})}),a("button",{type:"button",className:r,"aria-label":e("uploadXFiles",{smart_count:t}),onClick:s,children:e("upload")})]})}function Cd(i){let{i18n:e,supportsUploadProgress:t,totalProgress:s,hideProgressDetails:r,isUploadStarted:n,isAllComplete:o,isAllPaused:l,newFiles:d,numUploads:c,complete:p,totalUploadedSize:m,totalSize:f,totalETA:v,startUpload:g}=i,F=d&&n;if(!n||o)return null;let T=e(l?"paused":"uploading");function S(){return!l&&!F&&!r?t?a(Bh,{numUploads:c,complete:p,totalUploadedSize:m,totalSize:f,totalETA:v,i18n:e}):a(Td,{i18n:e,complete:p,numUploads:c}):null}return a("div",{className:"uppy-StatusBar-content",title:T,children:[l?null:a(xd,{}),a("div",{className:"uppy-StatusBar-status",children:[a("div",{className:"uppy-StatusBar-statusPrimary",children:t&&s!==0?`${T}: ${s}%`:T}),S(),F?a(Dh,{i18n:e,newFiles:d,startUpload:g}):null]})]})}function kd(i){let{i18n:e}=i;return a("div",{className:"uppy-StatusBar-content",role:"status",title:e("complete"),children:a("div",{className:"uppy-StatusBar-status",children:a("div",{className:"uppy-StatusBar-statusPrimary",children:[a("svg",{"aria-hidden":"true",focusable:"false",className:"uppy-StatusBar-statusIndicator uppy-c-icon",width:"15",height:"11",viewBox:"0 0 15 11",children:a("path",{d:"M.414 5.843L1.627 4.63l3.472 3.472L13.202 0l1.212 1.213L5.1 10.528z"})}),e("complete")]})})})}function Ed(i){let{error:e,i18n:t,complete:s,numUploads:r}=i;function n(){let o=`${t("uploadFailed")} 
-
- ${e}`;alert(o)}return a("div",{className:"uppy-StatusBar-content",title:t("uploadFailed"),children:[a("svg",{"aria-hidden":"true",focusable:"false",className:"uppy-StatusBar-statusIndicator uppy-c-icon",width:"11",height:"11",viewBox:"0 0 11 11",children:a("path",{d:"M4.278 5.5L0 1.222 1.222 0 5.5 4.278 9.778 0 11 1.222 6.722 5.5 11 9.778 9.778 11 5.5 6.722 1.222 11 0 9.778z"})}),a("div",{className:"uppy-StatusBar-status",children:[a("div",{className:"uppy-StatusBar-statusPrimary",children:[t("uploadFailed"),a("button",{className:"uppy-u-reset uppy-StatusBar-details","aria-label":t("showErrorDetails"),"data-microtip-position":"top-right","data-microtip-size":"medium",onClick:n,type:"button",children:"?"})]}),a(Td,{i18n:t,complete:s,numUploads:r})]})]})}u();function qi(i){let e=[],t="indeterminate",s;for(let{progress:n}of Object.values(i)){let{preprocess:o,postprocess:l}=n;s==null&&(o||l)&&({mode:t,message:s}=o||l),o?.mode==="determinate"&&e.push(o.value),l?.mode==="determinate"&&e.push(l.value)}let r=e.reduce((n,o)=>n+o/e.length,0);return{mode:t,message:s,value:r}}var{STATE_ERROR:Id,STATE_WAITING:Uh,STATE_PREPROCESSING:qn,STATE_UPLOADING:Ws,STATE_POSTPROCESSING:Hn,STATE_COMPLETE:Gs}=ce;function Wn({newFiles:i,allowNewUpload:e,isUploadInProgress:t,isAllPaused:s,resumableUploads:r,error:n,hideUploadButton:o=void 0,hidePauseResumeButton:l=!1,hideCancelButton:d=!1,hideRetryButton:c=!1,recoveredState:p,uploadState:m,totalProgress:f,files:v,supportsUploadProgress:g,hideAfterFinish:F=!1,isSomeGhost:T,doneButtonHandler:S=void 0,isUploadStarted:k,i18n:P,startUpload:N,uppy:B,isAllComplete:x,hideProgressDetails:O=void 0,numUploads:I,complete:z,totalSize:M,totalETA:J,totalUploadedSize:er}){function tr(){switch(m){case Hn:case qn:{let Xi=qi(v);return Xi.mode==="determinate"?Xi.value*100:f}case Id:return null;case Ws:return g?f:null;default:return f}}function Hd(){switch(m){case Hn:case qn:{let{mode:Xi}=qi(v);return Xi==="indeterminate"}case Ws:return!g;default:return!1}}let Jn=tr(),ir=Jn??100,Zn=!n&&i&&(!t&&!s||p)&&e&&!o,eo=!d&&m!==Uh&&m!==Gs,to=r&&!l&&m===Ws,io=n&&!x&&!c,so=S&&m===Gs,Vd=(0,Vn.default)("uppy-StatusBar-progress",{"is-indeterminate":Hd()}),Wd=(0,Vn.default)("uppy-StatusBar",`is-${m}`,{"has-ghosts":T}),ro=(()=>{switch(m){case qn:case Hn:return a(Pd,{progress:qi(v)});case Gs:return a(kd,{i18n:P});case Id:return a(Ed,{error:n,i18n:P,numUploads:I,complete:z});case Ws:return a(Cd,{i18n:P,supportsUploadProgress:g,totalProgress:f,hideProgressDetails:O,isUploadStarted:k,isAllComplete:x,isAllPaused:s,newFiles:i,numUploads:I,complete:z,totalUploadedSize:er,totalSize:M,totalETA:J,startUpload:N});default:return null}})();return!(Zn||io||to||eo||so)&&!ro||m===Gs&&F?null:a("div",{className:Wd,children:[a("div",{className:Vd,style:{width:`${ir}%`},role:"progressbar","aria-label":`${ir}%`,"aria-valuetext":`${ir}%`,"aria-valuemin":0,"aria-valuemax":100,"aria-valuenow":Jn}),ro,a("div",{className:"uppy-StatusBar-actions",children:[Zn?a(vd,{newFiles:i,isUploadStarted:k,recoveredState:p,i18n:P,isSomeGhost:T,startUpload:N,uploadState:m}):null,io?a(wd,{i18n:P,uppy:B}):null,to?a(_d,{isAllPaused:s,i18n:P,isAllComplete:x,resumableUploads:r,uppy:B}):null,eo?a(Fd,{i18n:P,uppy:B}):null,so?a(Sd,{i18n:P,doneButtonHandler:S}):null]})]})}var Rh=2e3,Mh=2e3;function Lh(i,e,t,s){if(i)return ce.STATE_ERROR;if(e)return ce.STATE_COMPLETE;if(t)return ce.STATE_WAITING;let r=ce.STATE_WAITING,n=Object.keys(s);for(let o=0;o<n.length;o++){let{progress:l}=s[n[o]];if(l.uploadStarted&&!l.uploadComplete)return ce.STATE_UPLOADING;l.preprocess&&(r=ce.STATE_PREPROCESSING),l.postprocess&&r!==ce.STATE_PREPROCESSING&&(r=ce.STATE_POSTPROCESSING)}return r}var Ve,Pe,ht,Ne,Vi,Ks,Ad,Hi=class extends ie{constructor(){super(...arguments);_(this,Ks);_(this,Ve);_(this,Pe);_(this,ht);_(this,Ne);_(this,Vi,()=>{let{recoveredState:t}=this.props.uppy.getState();if(C(this,ht,null),C(this,Ne,null),t){C(this,Pe,Object.values(t.files).reduce((s,{progress:r})=>s+(r.bytesUploaded||0),0));return}C(this,Ve,performance.now()),C(this,Pe,0)});y(this,"startUpload",()=>{let{recoveredState:t}=this.props.uppy.getState();t?this.props.uppy.emit("restore-confirmed"):this.props.uppy.upload().catch((()=>{}))})}componentDidMount(){C(this,Ve,performance.now()),C(this,Pe,this.props.uppy.getFiles().reduce((t,s)=>t+(s.progress.bytesUploaded||0),0)),this.props.uppy.on("upload",h(this,Vi))}componentWillUnmount(){this.props.uppy.off("upload",h(this,Vi))}render(){let{capabilities:t,files:s,allowNewUpload:r,totalProgress:n,error:o,recoveredState:l}=this.props.uppy.getState(),{newFiles:d,startedFiles:c,completeFiles:p,isUploadStarted:m,isAllComplete:f,isAllPaused:v,isUploadInProgress:g,isSomeGhost:F}=this.props.uppy.getObjectOfFilesPerState(),T=l?Object.values(s):d,S=!!t.resumableUploads,k=t.uploadProgress!==!1,P=null,N=0;c.every(x=>x.progress.bytesTotal!=null&&x.progress.bytesTotal!==0)?(P=0,c.forEach(x=>{P+=x.progress.bytesTotal||0,N+=x.progress.bytesUploaded||0})):c.forEach(x=>{N+=x.progress.bytesUploaded||0});let B=w(this,Ks,Ad).call(this,{uploaded:N,total:P});return a(Wn,{error:o,uploadState:Lh(o,f,l,s||{}),allowNewUpload:r,totalProgress:n,totalSize:P,totalUploadedSize:N,isAllComplete:f,isAllPaused:v,isUploadStarted:m,isUploadInProgress:g,isSomeGhost:F,recoveredState:l,complete:p.length,newFiles:T.length,numUploads:c.length,totalETA:B,files:s,i18n:this.props.i18n,uppy:this.props.uppy,startUpload:this.startUpload,doneButtonHandler:this.props.doneButtonHandler,resumableUploads:S,supportsUploadProgress:k,hideProgressDetails:this.props.hideProgressDetails,hideUploadButton:this.props.hideUploadButton,hideRetryButton:this.props.hideRetryButton,hidePauseResumeButton:this.props.hidePauseResumeButton,hideCancelButton:this.props.hideCancelButton,hideAfterFinish:this.props.hideAfterFinish})}};Ve=new WeakMap,Pe=new WeakMap,ht=new WeakMap,Ne=new WeakMap,Vi=new WeakMap,Ks=new WeakSet,Ad=function(t){if(t.total==null||t.total===0)return null;let s=t.total-t.uploaded;if(s<=0)return null;h(this,Ve)??C(this,Ve,performance.now());let r=performance.now()-h(this,Ve);if(r===0)return Math.round((h(this,Ne)??0)/100)/10;if(h(this,Pe)==null)return C(this,Pe,t.uploaded),null;let n=t.uploaded-h(this,Pe);if(C(this,Pe,t.uploaded),n<=0)return Math.round((h(this,Ne)??0)/100)/10;let o=n/r;if(!Number.isFinite(o)||o<=0)return null;let l=h(this,ht)==null?o:Vt(o,h(this,ht),Rh,r);if(!Number.isFinite(l)||l<=0)return null;C(this,ht,l);let d=s/l;if(!Number.isFinite(d)||d<0)return null;let c=Math.max((h(this,Ne)??0)-r,0),p=h(this,Ne)==null?d:Vt(d,c,Mh,r);return!Number.isFinite(p)||p<0?null:(C(this,Ne,p),C(this,Ve,performance.now()),Math.round(p/100)/10)};var Nd=900,Od=700,Bd=576,Dd=330;function Gn(i){let{activePickerPanel:e,fileCardFor:t}=i,s=i.totalFileCount===0,r=i.totalFileCount===1,n=i.containerHeight>Dd,o=(0,Ud.default)({"uppy-Dashboard":!0,"uppy-Dashboard--isDisabled":i.disabled,"uppy-Dashboard--animateOpenClose":i.animateOpenClose,"uppy-Dashboard--isClosing":i.isClosing,"uppy-Dashboard--isDraggingOver":i.isDraggingOver,"uppy-Dashboard--modal":!i.inline,"uppy-size--md":i.containerWidth>Bd,"uppy-size--lg":i.containerWidth>Od,"uppy-size--xl":i.containerWidth>Nd,"uppy-size--height-md":i.containerHeight>Dd,"uppy-Dashboard--isAddFilesPanelVisible":i.showAddFilesPanel,"uppy-Dashboard--isInnerWrapVisible":i.areInsidesReadyToBeVisible,"uppy-Dashboard--singleFile":i.singleFileFullScreen&&r&&n}),l=1;i.containerWidth>Nd?l=5:i.containerWidth>Od?l=4:i.containerWidth>Bd&&(l=3);let d=i.showSelectedFiles&&!s,c=i.recoveredState?Object.keys(i.recoveredState.files).length:null,p=i.files?Object.keys(i.files).filter(v=>i.files[v].isGhost).length:0,m=()=>p>0?i.i18n("recoveredXFiles",{smart_count:p}):i.i18n("recoveredAllFiles");return a("div",{className:o,"data-uppy-theme":i.theme,"data-uppy-num-acquirers":i.acquirers.length,"data-uppy-drag-drop-supported":!i.disableLocalFiles&&Zi(),"aria-hidden":i.inline?"false":i.isHidden,"aria-disabled":i.disabled,"aria-label":i.inline?i.i18n("dashboardTitle"):i.i18n("dashboardWindowTitle"),onPaste:i.handlePaste,onDragOver:i.handleDragOver,onDragLeave:i.handleDragLeave,onDrop:i.handleDrop,children:[a("div",{"aria-hidden":"true",className:"uppy-Dashboard-overlay",tabIndex:-1,onClick:i.handleClickOutside}),a("div",{className:"uppy-Dashboard-inner",role:i.inline?void 0:"dialog",style:{width:i.inline&&i.width?i.width:"",height:i.inline&&i.height?i.height:""},children:[i.inline?null:a("button",{className:"uppy-u-reset uppy-Dashboard-close",type:"button","aria-label":i.i18n("closeModal"),title:i.i18n("closeModal"),onClick:i.closeModal,children:a("span",{"aria-hidden":"true",children:"\xD7"})}),a("div",{className:"uppy-Dashboard-innerWrap",children:[a("div",{className:"uppy-Dashboard-dropFilesHereHint",children:i.i18n("dropHint")}),d&&a(md,{...i}),c!=null&&c>0&&a("div",{className:"uppy-Dashboard-serviceMsg",children:[a("svg",{className:"uppy-Dashboard-serviceMsg-icon","aria-hidden":"true",focusable:"false",width:"21",height:"16",viewBox:"0 0 24 19",children:a("g",{transform:"translate(0 -1)",fill:"none",fillRule:"evenodd",children:[a("path",{d:"M12.857 1.43l10.234 17.056A1 1 0 0122.234 20H1.766a1 1 0 01-.857-1.514L11.143 1.429a1 1 0 011.714 0z",fill:"#FFD300"}),a("path",{fill:"#000",d:"M11 6h2l-.3 8h-1.4z"}),a("circle",{fill:"#000",cx:"12",cy:"17",r:"1"})]})}),a("strong",{className:"uppy-Dashboard-serviceMsg-title",children:i.i18n("sessionRestored")}),a("div",{className:"uppy-Dashboard-serviceMsg-text",children:m()})]}),d?a(zn,{id:i.id,i18n:i.i18n,uppy:i.uppy,files:i.files,resumableUploads:i.resumableUploads,hideRetryButton:i.hideRetryButton,hidePauseResumeButton:i.hidePauseResumeButton,hideCancelButton:i.hideCancelButton,showLinkToFileUploadResult:i.showLinkToFileUploadResult,showRemoveButtonAfterComplete:i.showRemoveButtonAfterComplete,metaFields:i.metaFields,toggleFileCard:i.toggleFileCard,handleRequestThumbnail:i.handleRequestThumbnail,handleCancelThumbnail:i.handleCancelThumbnail,recoveredState:i.recoveredState,individualCancellation:i.individualCancellation,openFileEditor:i.openFileEditor,canEditFile:i.canEditFile,toggleAddFilesPanel:i.toggleAddFilesPanel,isSingleFile:r,itemsPerRow:l,containerWidth:i.containerWidth,containerHeight:i.containerHeight}):a(qs,{i18n:i.i18n,i18nArray:i.i18nArray,acquirers:i.acquirers,handleInputChange:i.handleInputChange,maxNumberOfFiles:i.maxNumberOfFiles,allowedFileTypes:i.allowedFileTypes,showNativePhotoCameraButton:i.showNativePhotoCameraButton,showNativeVideoCameraButton:i.showNativeVideoCameraButton,nativeCameraFacingMode:i.nativeCameraFacingMode,showPanel:i.showPanel,activePickerPanel:i.activePickerPanel,disableLocalFiles:i.disableLocalFiles,fileManagerSelectionType:i.fileManagerSelectionType,note:i.note,proudlyDisplayPoweredByUppy:i.proudlyDisplayPoweredByUppy}),a($i,{children:i.showAddFilesPanel?a(rd,{...i},"AddFiles"):null}),a($i,{children:t?a(On,{...i,fileCardFor:t},"FileCard"):null}),a($i,{children:e?a(fd,{...i,activePickerPanel:e},"Picker"):null}),a($i,{children:i.showFileEditor?a(od,{...i},"Editor"):null}),a("div",{className:"uppy-Dashboard-progressindicators",children:[!i.disableInformer&&a(jt,{uppy:i.uppy}),!i.disableStatusBar&&a(Hi,{uppy:i.uppy,i18n:i.i18n,hideProgressDetails:i.hideProgressDetails,hideUploadButton:i.hideUploadButton,hideRetryButton:i.hideRetryButton,hidePauseResumeButton:i.hidePauseResumeButton,hideCancelButton:i.hideCancelButton,hideAfterFinish:i.hideProgressAfterFinish,doneButtonHandler:i.doneButtonHandler}),!i.disableInformer&&a(jt,{uppy:i.uppy}),i.progressindicators.map(v=>i.uppy.getPlugin(v.id).render(i.state))]})]})]})]})}u();var Rd={strings:{closeModal:"Close Modal",addMoreFiles:"Add more files",addingMoreFiles:"Adding more files",importFrom:"Import from %{name}",dashboardWindowTitle:"Uppy Dashboard Window (Press escape to close)",dashboardTitle:"Uppy Dashboard",copyLinkToClipboardSuccess:"Link copied to clipboard.",copyLinkToClipboardFallback:"Copy the URL below",copyLink:"Copy link",back:"Back",removeFile:"Remove file",editFile:"Edit file",editImage:"Edit image",editing:"Editing %{file}",error:"Error",finishEditingFile:"Finish editing file",saveChanges:"Save changes",myDevice:"My Device",dropHint:"Drop your files here",uploadComplete:"Upload complete",uploadPaused:"Upload paused",resumeUpload:"Resume upload",pauseUpload:"Pause upload",retryUpload:"Retry upload",cancelUpload:"Cancel upload",xFilesSelected:{0:"%{smart_count} file selected",1:"%{smart_count} files selected"},uploadingXFiles:{0:"Uploading %{smart_count} file",1:"Uploading %{smart_count} files"},processingXFiles:{0:"Processing %{smart_count} file",1:"Processing %{smart_count} files"},poweredBy:"Powered by %{uppy}",addMore:"Add more",editFileWithFilename:"Edit file %{file}",save:"Save",cancel:"Cancel",dropPasteFiles:"Drop files here or %{browseFiles}",dropPasteFolders:"Drop files here or %{browseFolders}",dropPasteBoth:"Drop files here, %{browseFiles} or %{browseFolders}",dropPasteImportFiles:"Drop files here, %{browseFiles} or import from:",dropPasteImportFolders:"Drop files here, %{browseFolders} or import from:",dropPasteImportBoth:"Drop files here, %{browseFiles}, %{browseFolders} or import from:",importFiles:"Import files from:",browseFiles:"browse files",browseFolders:"browse folders",recoveredXFiles:{0:"We could not fully recover 1 file. Please re-select it and resume the upload.",1:"We could not fully recover %{smart_count} files. Please re-select them and resume the upload."},recoveredAllFiles:"We restored all files. You can now resume the upload.",sessionRestored:"Session restored",reSelect:"Re-select",missingRequiredMetaFields:{0:"Missing required meta field: %{fields}.",1:"Missing required meta fields: %{fields}."},takePictureBtn:"Take Picture",recordVideoBtn:"Record Video",uploading:"Uploading",complete:"Complete",uploadFailed:"Upload failed",paused:"Paused",retry:"Retry",pause:"Pause",resume:"Resume",done:"Done",filesUploadedOfTotal:{0:"%{complete} of %{smart_count} file uploaded",1:"%{complete} of %{smart_count} files uploaded"},dataUploadedOfTotal:"%{complete} of %{total}",dataUploadedOfUnknown:"%{complete} of unknown",xTimeLeft:"%{time} left",uploadXFiles:{0:"Upload %{smart_count} file",1:"Upload %{smart_count} files"},uploadXNewFiles:{0:"Upload +%{smart_count} file",1:"Upload +%{smart_count} files"},upload:"Upload",xMoreFilesAdded:{0:"%{smart_count} more file added",1:"%{smart_count} more files added"},showErrorDetails:"Show error details"}};u();var Md=j(fs(),1);u();function Wi(i,e){if(e){let t=i.querySelector(`[data-uppy-paneltype="${e}"]`);if(t)return t}return i}function Kn(){let i=!1;return(0,Md.default)((e,t)=>{let s=Wi(e,t),r=s.contains(document.activeElement);if(r&&i)return;let n=s.querySelector("[data-uppy-super-focusable]");r&&!n||(n?(n.focus({preventScroll:!0}),i=!0):(s.querySelector(Wt.join(","))?.focus({preventScroll:!0}),i=!1))},260)}u();function Ld(i,e){let t=e[0];t&&(t.focus(),i.preventDefault())}function jh(i,e){let t=e[e.length-1];t&&(t.focus(),i.preventDefault())}function zh(i){return i.contains(document.activeElement)}function Xn(i,e,t){let s=Wi(t,e),r=Te(s.querySelectorAll(Wt.join(","))),n=r.indexOf(document.activeElement);zh(s)?i.shiftKey&&n===0?jh(i,r):!i.shiftKey&&n===r.length-1&&Ld(i,r):Ld(i,r)}function jd(i,e,t){e===null||Xn(i,e,t)}var zd=9,qh=27;function $d(){let i={};return i.promise=new Promise((e,t)=>{i.resolve=e,i.reject=t}),i}var Hh={target:"body",metaFields:[],thumbnailWidth:280,thumbnailType:"image/jpeg",waitForThumbnailsBeforeUpload:!1,defaultPickerIcon:Ci,showLinkToFileUploadResult:!1,hideProgressDetails:!1,hideUploadButton:!1,hideCancelButton:!1,hideRetryButton:!1,hidePauseResumeButton:!1,hideProgressAfterFinish:!1,note:null,singleFileFullScreen:!0,disableStatusBar:!1,disableInformer:!1,disableThumbnailGenerator:!1,fileManagerSelectionType:"files",proudlyDisplayPoweredByUppy:!0,showSelectedFiles:!0,showRemoveButtonAfterComplete:!1,showNativePhotoCameraButton:!1,showNativeVideoCameraButton:!1,theme:"light",autoOpen:null,disabled:!1,disableLocalFiles:!1,nativeCameraFacingMode:"",onDragLeave:()=>{},onDragOver:()=>{},onDrop:()=>{},plugins:[],doneButtonHandler:void 0,onRequestCloseModal:null,inline:!1,animateOpenClose:!0,browserBackButtonClose:!1,closeAfterFinish:!1,closeModalOnClickOutside:!1,disablePageScrollWhenModalOpen:!0,trigger:null,width:750,height:550},$t,pt,Gi,qt,Xs,Ys,Qs,ft,Js,Zs,Ht,We,Yn,Qn,mt=class extends li{constructor(t,s){var n;let r=s?.autoOpen??null;super(t,{...Hh,...s,autoOpen:r});_(this,We);_(this,$t);y(this,"modalName",`uppy-Dashboard-${$s()}`);y(this,"superFocus",Kn());y(this,"ifFocusedOnUppyRecently",!1);y(this,"dashboardIsDisabled");y(this,"savedActiveElement");y(this,"resizeObserver");y(this,"darkModeMediaQuery");y(this,"makeDashboardInsidesVisibleAnywayTimeout");y(this,"removeTarget",t=>{let r=this.getPluginState().targets.filter(n=>n.id!==t.id);this.setPluginState({targets:r})});y(this,"addTarget",t=>{let s=t.id||t.constructor.name,r=t.title||s,n=t.type;if(n!=="acquirer"&&n!=="progressindicator"&&n!=="editor")return this.uppy.log("Dashboard: can only be targeted by plugins of types: acquirer, progressindicator, editor","error"),null;let o={id:s,name:r,type:n},d=this.getPluginState().targets.slice();return d.push(o),this.setPluginState({targets:d}),this.el});y(this,"hideAllPanels",()=>{let t=this.getPluginState(),s={activePickerPanel:void 0,showAddFilesPanel:!1,activeOverlayType:null,fileCardFor:null,showFileEditor:!1};t.activePickerPanel===s.activePickerPanel&&t.showAddFilesPanel===s.showAddFilesPanel&&t.showFileEditor===s.showFileEditor&&t.activeOverlayType===s.activeOverlayType||(this.setPluginState(s),this.uppy.emit("dashboard:close-panel",t.activePickerPanel?.id))});y(this,"showPanel",t=>{let{targets:s}=this.getPluginState(),r=s.find(n=>n.type==="acquirer"&&n.id===t);this.setPluginState({activePickerPanel:r,activeOverlayType:"PickerPanel"}),this.uppy.emit("dashboard:show-panel",t)});y(this,"canEditFile",t=>{let{targets:s}=this.getPluginState();return h(this,ft).call(this,s).some(n=>this.uppy.getPlugin(n.id).canEditFile(t))});y(this,"openFileEditor",t=>{let{targets:s}=this.getPluginState(),r=h(this,ft).call(this,s);this.setPluginState({showFileEditor:!0,fileCardFor:t.id||null,activeOverlayType:"FileEditor"}),r.forEach(n=>{this.uppy.getPlugin(n.id).selectFile(t)})});y(this,"closeFileEditor",()=>{let{metaFields:t}=this.getPluginState();t&&t.length>0?this.setPluginState({showFileEditor:!1,activeOverlayType:"FileCard"}):this.setPluginState({showFileEditor:!1,fileCardFor:null,activeOverlayType:"AddFiles"})});y(this,"saveFileEditor",()=>{let{targets:t}=this.getPluginState();h(this,ft).call(this,t).forEach(r=>{this.uppy.getPlugin(r.id).save()}),this.closeFileEditor()});y(this,"openModal",()=>{let{promise:t,resolve:s}=$d();if(this.savedActiveElement=document.activeElement,this.opts.disablePageScrollWhenModalOpen&&document.body.classList.add("uppy-Dashboard-isFixed"),this.opts.animateOpenClose&&this.getPluginState().isClosing){let r=()=>{this.setPluginState({isHidden:!1}),this.el.removeEventListener("animationend",r,!1),s()};this.el.addEventListener("animationend",r,!1)}else this.setPluginState({isHidden:!1}),s();return this.opts.browserBackButtonClose&&this.updateBrowserHistory(),document.addEventListener("keydown",this.handleKeyDownInModal),this.uppy.emit("dashboard:modal-open"),t});y(this,"closeModal",t=>{let s=t?.manualClose??!0,{isHidden:r,isClosing:n}=this.getPluginState();if(r||n)return;let{promise:o,resolve:l}=$d();if(this.opts.disablePageScrollWhenModalOpen&&document.body.classList.remove("uppy-Dashboard-isFixed"),this.opts.animateOpenClose){this.setPluginState({isClosing:!0});let d=()=>{this.setPluginState({isHidden:!0,isClosing:!1}),this.superFocus.cancel(),this.savedActiveElement.focus(),this.el.removeEventListener("animationend",d,!1),l()};this.el.addEventListener("animationend",d,!1)}else this.setPluginState({isHidden:!0}),this.superFocus.cancel(),this.savedActiveElement.focus(),l();return document.removeEventListener("keydown",this.handleKeyDownInModal),s&&this.opts.browserBackButtonClose&&history.state?.[this.modalName]&&history.back(),this.uppy.emit("dashboard:modal-closed"),o});y(this,"isModalOpen",()=>!this.getPluginState().isHidden||!1);y(this,"requestCloseModal",()=>this.opts.onRequestCloseModal?this.opts.onRequestCloseModal():this.closeModal());y(this,"setDarkModeCapability",t=>{let{capabilities:s}=this.uppy.getState();this.uppy.setState({capabilities:{...s,darkMode:t}})});y(this,"handleSystemDarkModeChange",t=>{let s=t.matches;this.uppy.log(`[Dashboard] Dark mode is ${s?"on":"off"}`),this.setDarkModeCapability(s)});y(this,"toggleFileCard",(t,s)=>{let r=this.uppy.getFile(s);t?this.uppy.emit("dashboard:file-edit-start",r):this.uppy.emit("dashboard:file-edit-complete",r),this.setPluginState({fileCardFor:t?s:null,activeOverlayType:t?"FileCard":null})});y(this,"toggleAddFilesPanel",t=>{this.setPluginState({showAddFilesPanel:t,activeOverlayType:t?"AddFiles":null})});y(this,"addFiles",t=>{let s=t.map(r=>({source:this.id,name:r.name,type:r.type,data:r,meta:{relativePath:r.relativePath||r.webkitRelativePath||null}}));try{this.uppy.addFiles(s)}catch(r){this.uppy.log(r)}});y(this,"startListeningToResize",()=>{this.resizeObserver=new ResizeObserver(t=>{let s=t[0],{width:r,height:n}=s.contentRect;this.setPluginState({containerWidth:r,containerHeight:n,areInsidesReadyToBeVisible:!0})}),this.resizeObserver.observe(this.el.querySelector(".uppy-Dashboard-inner")),this.makeDashboardInsidesVisibleAnywayTimeout=setTimeout(()=>{let t=this.getPluginState(),s=!this.opts.inline&&t.isHidden;!t.areInsidesReadyToBeVisible&&!s&&(this.uppy.log("[Dashboard] resize event didn\u2019t fire on time: defaulted to mobile layout","warning"),this.setPluginState({areInsidesReadyToBeVisible:!0}))},1e3)});y(this,"stopListeningToResize",()=>{this.resizeObserver.disconnect(),clearTimeout(this.makeDashboardInsidesVisibleAnywayTimeout)});y(this,"recordIfFocusedOnUppyRecently",t=>{this.el.contains(t.target)?this.ifFocusedOnUppyRecently=!0:(this.ifFocusedOnUppyRecently=!1,this.superFocus.cancel())});y(this,"disableInteractiveElements",t=>{let s=["a[href]","input:not([disabled])","select:not([disabled])","textarea:not([disabled])","button:not([disabled])",'[role="button"]:not([disabled])'],r=h(this,$t)??Te(this.el.querySelectorAll(s)).filter(n=>!n.classList.contains("uppy-Dashboard-close"));for(let n of r)n.tagName==="A"?n.setAttribute("aria-disabled",t):n.disabled=t;t?C(this,$t,r):C(this,$t,null),this.dashboardIsDisabled=t});y(this,"updateBrowserHistory",()=>{history.state?.[this.modalName]||history.pushState({...history.state,[this.modalName]:!0},""),window.addEventListener("popstate",this.handlePopState,!1)});y(this,"handlePopState",t=>{this.isModalOpen()&&!t.state?.[this.modalName]&&this.closeModal({manualClose:!1}),!this.isModalOpen()&&t.state?.[this.modalName]&&history.back()});y(this,"handleKeyDownInModal",t=>{t.keyCode===qh&&this.requestCloseModal(),t.keyCode===zd&&Xn(t,this.getPluginState().activeOverlayType,this.el)});y(this,"handleClickOutside",()=>{this.opts.closeModalOnClickOutside&&this.requestCloseModal()});y(this,"handlePaste",t=>{this.uppy.iteratePlugins(r=>{r.type==="acquirer"&&r.handleRootPaste?.(t)});let s=Te(t.clipboardData.files);s.length>0&&(this.uppy.log("[Dashboard] Files pasted"),this.addFiles(s))});y(this,"handleInputChange",t=>{t.preventDefault();let s=Te(t.currentTarget.files||[]);s.length>0&&(this.uppy.log("[Dashboard] Files selected through input"),this.addFiles(s))});y(this,"handleDragOver",t=>{t.preventDefault(),t.stopPropagation();let s=()=>{let l=!0;return this.uppy.iteratePlugins(d=>{d.canHandleRootDrop?.(t)&&(l=!0)}),l},r=()=>{let{types:l}=t.dataTransfer;return l.some(d=>d==="Files")},n=s(),o=r();if(!n&&!o||this.opts.disabled||this.opts.disableLocalFiles&&(o||!n)||!this.uppy.getState().allowNewUpload){t.dataTransfer.dropEffect="none";return}t.dataTransfer.dropEffect="copy",this.setPluginState({isDraggingOver:!0}),this.opts.onDragOver(t)});y(this,"handleDragLeave",t=>{t.preventDefault(),t.stopPropagation(),this.setPluginState({isDraggingOver:!1}),this.opts.onDragLeave(t)});y(this,"handleDrop",async t=>{t.preventDefault(),t.stopPropagation(),this.setPluginState({isDraggingOver:!1}),this.uppy.iteratePlugins(o=>{o.type==="acquirer"&&o.handleRootDrop?.(t)});let s=!1,r=o=>{this.uppy.log(o,"error"),s||(this.uppy.info(o.message,"error"),s=!0)};this.uppy.log("[Dashboard] Processing dropped files");let n=await Ji(t.dataTransfer,{logDropError:r});n.length>0&&(this.uppy.log("[Dashboard] Files dropped"),this.addFiles(n)),this.opts.onDrop(t)});y(this,"handleRequestThumbnail",t=>{this.opts.waitForThumbnailsBeforeUpload||this.uppy.emit("thumbnail:request",t)});y(this,"handleCancelThumbnail",t=>{this.opts.waitForThumbnailsBeforeUpload||this.uppy.emit("thumbnail:cancel",t)});y(this,"handleKeyDownInInline",t=>{t.keyCode===zd&&jd(t,this.getPluginState().activeOverlayType,this.el)});y(this,"handlePasteOnBody",t=>{this.el.contains(document.activeElement)&&this.handlePaste(t)});y(this,"handleComplete",({failed:t})=>{this.opts.closeAfterFinish&&!t?.length&&this.requestCloseModal()});_(this,pt,()=>{if(this.opts.disableThumbnailGenerator)return;let t=600,s=this.uppy.getFiles();if(s.length===1){let r=this.uppy.getPlugin(`${this.id}:ThumbnailGenerator`);r?.setOptions({thumbnailWidth:t});let n={...s[0],preview:void 0};r?.requestThumbnail(n).then(()=>{r?.setOptions({thumbnailWidth:this.opts.thumbnailWidth})})}});_(this,Gi,t=>{let s=t[0],{metaFields:r}=this.getPluginState(),n=r&&r.length>0,o=this.canEditFile(s);n&&this.opts.autoOpen==="metaEditor"?this.toggleFileCard(!0,s.id):o&&this.opts.autoOpen==="imageEditor"&&this.openFileEditor(s)});y(this,"initEvents",()=>{if(this.opts.trigger&&!this.opts.inline){let t=Yi(this.opts.trigger);t?t.forEach(s=>{s.addEventListener("click",this.openModal)}):this.uppy.log("Dashboard modal trigger not found. Make sure `trigger` is set in Dashboard options, unless you are planning to call `dashboard.openModal()` method yourself","warning")}this.startListeningToResize(),document.addEventListener("paste",this.handlePasteOnBody),this.uppy.on("plugin-added",h(this,Ht)),this.uppy.on("plugin-remove",this.removeTarget),this.uppy.on("file-added",this.hideAllPanels),this.uppy.on("dashboard:modal-closed",this.hideAllPanels),this.uppy.on("complete",this.handleComplete),this.uppy.on("files-added",h(this,pt)),this.uppy.on("file-removed",h(this,pt)),document.addEventListener("focus",this.recordIfFocusedOnUppyRecently,!0),document.addEventListener("click",this.recordIfFocusedOnUppyRecently,!0),this.opts.inline&&this.el.addEventListener("keydown",this.handleKeyDownInInline),this.opts.autoOpen&&this.uppy.on("files-added",h(this,Gi))});y(this,"removeEvents",()=>{let t=Yi(this.opts.trigger);!this.opts.inline&&t&&t.forEach(s=>{s.removeEventListener("click",this.openModal)}),this.stopListeningToResize(),document.removeEventListener("paste",this.handlePasteOnBody),window.removeEventListener("popstate",this.handlePopState,!1),this.uppy.off("plugin-added",h(this,Ht)),this.uppy.off("plugin-remove",this.removeTarget),this.uppy.off("file-added",this.hideAllPanels),this.uppy.off("dashboard:modal-closed",this.hideAllPanels),this.uppy.off("complete",this.handleComplete),this.uppy.off("files-added",h(this,pt)),this.uppy.off("file-removed",h(this,pt)),document.removeEventListener("focus",this.recordIfFocusedOnUppyRecently,!0),document.removeEventListener("click",this.recordIfFocusedOnUppyRecently,!0),this.opts.inline&&this.el.removeEventListener("keydown",this.handleKeyDownInInline),this.opts.autoOpen&&this.uppy.off("files-added",h(this,Gi))});y(this,"superFocusOnEachUpdate",()=>{let t=this.el.contains(document.activeElement),s=document.activeElement===document.body||document.activeElement===null,r=this.uppy.getState().info.length===0,n=!this.opts.inline;r&&(n||t||s&&this.ifFocusedOnUppyRecently)?this.superFocus(this.el,this.getPluginState().activeOverlayType):this.superFocus.cancel()});y(this,"afterUpdate",()=>{if(this.opts.disabled&&!this.dashboardIsDisabled){this.disableInteractiveElements(!0);return}!this.opts.disabled&&this.dashboardIsDisabled&&this.disableInteractiveElements(!1),this.superFocusOnEachUpdate()});y(this,"saveFileCard",(t,s)=>{this.uppy.setFileMeta(s,t),this.toggleFileCard(!1,s)});_(this,qt,t=>{let s=this.uppy.getPlugin(t.id);return{...t,icon:s.icon||this.opts.defaultPickerIcon,render:s.render}});_(this,Xs,t=>{let s=this.uppy.getPlugin(t.id);return typeof s.isSupported!="function"?!0:s.isSupported()});_(this,Ys,t=>t.filter(s=>s.type==="acquirer"&&h(this,Xs).call(this,s)).map(h(this,qt)));_(this,Qs,t=>t.filter(s=>s.type==="progressindicator").map(h(this,qt)));_(this,ft,t=>t.filter(s=>s.type==="editor").map(h(this,qt)));y(this,"render",t=>{let s=this.getPluginState(),{files:r,capabilities:n,allowNewUpload:o}=t,{newFiles:l,uploadStartedFiles:d,completeFiles:c,erroredFiles:p,inProgressFiles:m,inProgressNotPausedFiles:f,processingFiles:v,isUploadStarted:g,isAllComplete:F,isAllPaused:T}=this.uppy.getObjectOfFilesPerState(),S=h(this,Ys).call(this,s.targets),k=h(this,Qs).call(this,s.targets),P=h(this,ft).call(this,s.targets),N;return this.opts.theme==="auto"?N=n.darkMode?"dark":"light":N=this.opts.theme,["files","folders","both"].indexOf(this.opts.fileManagerSelectionType)<0&&(this.opts.fileManagerSelectionType="files",console.warn(`Unsupported option for "fileManagerSelectionType". Using default of "${this.opts.fileManagerSelectionType}".`)),Gn({state:t,isHidden:s.isHidden,files:r,newFiles:l,uploadStartedFiles:d,completeFiles:c,erroredFiles:p,inProgressFiles:m,inProgressNotPausedFiles:f,processingFiles:v,isUploadStarted:g,isAllComplete:F,isAllPaused:T,totalFileCount:Object.keys(r).length,totalProgress:t.totalProgress,allowNewUpload:o,acquirers:S,theme:N,disabled:this.opts.disabled,disableLocalFiles:this.opts.disableLocalFiles,direction:this.opts.direction,activePickerPanel:s.activePickerPanel,showFileEditor:s.showFileEditor,saveFileEditor:this.saveFileEditor,closeFileEditor:this.closeFileEditor,disableInteractiveElements:this.disableInteractiveElements,animateOpenClose:this.opts.animateOpenClose,isClosing:s.isClosing,progressindicators:k,editors:P,autoProceed:this.uppy.opts.autoProceed,id:this.id,closeModal:this.requestCloseModal,handleClickOutside:this.handleClickOutside,handleInputChange:this.handleInputChange,handlePaste:this.handlePaste,inline:this.opts.inline,showPanel:this.showPanel,hideAllPanels:this.hideAllPanels,i18n:this.i18n,i18nArray:this.i18nArray,uppy:this.uppy,note:this.opts.note,recoveredState:t.recoveredState,metaFields:s.metaFields,resumableUploads:n.resumableUploads||!1,individualCancellation:n.individualCancellation,isMobileDevice:n.isMobileDevice,fileCardFor:s.fileCardFor,toggleFileCard:this.toggleFileCard,toggleAddFilesPanel:this.toggleAddFilesPanel,showAddFilesPanel:s.showAddFilesPanel,saveFileCard:this.saveFileCard,openFileEditor:this.openFileEditor,canEditFile:this.canEditFile,width:this.opts.width,height:this.opts.height,showLinkToFileUploadResult:this.opts.showLinkToFileUploadResult,fileManagerSelectionType:this.opts.fileManagerSelectionType,proudlyDisplayPoweredByUppy:this.opts.proudlyDisplayPoweredByUppy,showRemoveButtonAfterComplete:this.opts.showRemoveButtonAfterComplete,containerWidth:s.containerWidth,containerHeight:s.containerHeight,areInsidesReadyToBeVisible:s.areInsidesReadyToBeVisible,parentElement:this.el,allowedFileTypes:this.uppy.opts.restrictions.allowedFileTypes,maxNumberOfFiles:this.uppy.opts.restrictions.maxNumberOfFiles,requiredMetaFields:this.uppy.opts.restrictions.requiredMetaFields,showSelectedFiles:this.opts.showSelectedFiles,showNativePhotoCameraButton:this.opts.showNativePhotoCameraButton,showNativeVideoCameraButton:this.opts.showNativeVideoCameraButton,nativeCameraFacingMode:this.opts.nativeCameraFacingMode,singleFileFullScreen:this.opts.singleFileFullScreen,handleRequestThumbnail:this.handleRequestThumbnail,handleCancelThumbnail:this.handleCancelThumbnail,isDraggingOver:s.isDraggingOver,handleDragOver:this.handleDragOver,handleDragLeave:this.handleDragLeave,handleDrop:this.handleDrop,disableInformer:this.opts.disableInformer,disableStatusBar:this.opts.disableStatusBar,hideProgressDetails:this.opts.hideProgressDetails,hideUploadButton:this.opts.hideUploadButton,hideRetryButton:this.opts.hideRetryButton,hidePauseResumeButton:this.opts.hidePauseResumeButton,hideCancelButton:this.opts.hideCancelButton,hideProgressAfterFinish:this.opts.hideProgressAfterFinish,doneButtonHandler:this.opts.doneButtonHandler})});_(this,Js,()=>{let{plugins:t}=this.opts;t.forEach(s=>{let r=this.uppy.getPlugin(s);r?r.mount(this,r):this.uppy.log(`[Uppy] Dashboard could not find plugin '${s}', make sure to uppy.use() the plugins you are specifying`,"warning")})});_(this,Zs,()=>{this.uppy.iteratePlugins(h(this,Ht))});_(this,Ht,t=>{let s=["acquirer","editor"];t&&!t.opts?.target&&s.includes(t.type)&&(this.getPluginState().targets.some(n=>t.id===n.id)||t.mount(this,t))});y(this,"install",()=>{this.setPluginState({isHidden:!0,fileCardFor:null,activeOverlayType:null,showAddFilesPanel:!1,activePickerPanel:void 0,showFileEditor:!1,metaFields:this.opts.metaFields,targets:[],areInsidesReadyToBeVisible:!1,isDraggingOver:!1});let{inline:t,closeAfterFinish:s}=this.opts;if(t&&s)throw new Error("[Dashboard] `closeAfterFinish: true` cannot be used on an inline Dashboard, because an inline Dashboard cannot be closed at all. Either set `inline: false`, or disable the `closeAfterFinish` option.");let{allowMultipleUploads:r,allowMultipleUploadBatches:n}=this.uppy.opts;(r||n)&&s&&this.uppy.log("[Dashboard] When using `closeAfterFinish`, we recommended setting the `allowMultipleUploadBatches` option to `false` in the Uppy constructor. See https://uppy.io/docs/uppy/#allowMultipleUploads-true","warning");let{target:o}=this.opts;o&&this.mount(o,this),this.opts.disableThumbnailGenerator||this.uppy.use(Lt,{id:w(this,We,Qn).call(this),...w(this,We,Yn).call(this)}),this.darkModeMediaQuery=typeof window<"u"&&window.matchMedia?window.matchMedia("(prefers-color-scheme: dark)"):null;let l=this.darkModeMediaQuery?this.darkModeMediaQuery.matches:!1;this.uppy.log(`[Dashboard] Dark mode is ${l?"on":"off"}`),this.setDarkModeCapability(l),this.opts.theme==="auto"&&this.darkModeMediaQuery?.addListener(this.handleSystemDarkModeChange),h(this,Js).call(this),h(this,Zs).call(this),this.initEvents()});y(this,"uninstall",()=>{if(!this.opts.disableThumbnailGenerator){let s=this.uppy.getPlugin(`${this.id}:ThumbnailGenerator`);s&&this.uppy.removePlugin(s)}let{plugins:t}=this.opts;t.forEach(s=>{let r=this.uppy.getPlugin(s);r&&r.unmount()}),this.opts.theme==="auto"&&this.darkModeMediaQuery?.removeListener(this.handleSystemDarkModeChange),this.opts.disablePageScrollWhenModalOpen&&document.body.classList.remove("uppy-Dashboard-isFixed"),this.unmount(),this.removeEvents()});this.id=this.opts.id||"Dashboard",this.title="Dashboard",this.type="orchestrator",this.defaultLocale=Rd,this.opts.doneButtonHandler===void 0&&(this.opts.doneButtonHandler=()=>{this.uppy.clear(),this.requestCloseModal()}),(n=this.opts).onRequestCloseModal??(n.onRequestCloseModal=()=>this.closeModal()),this.i18nInit()}setOptions(t){super.setOptions(t),this.uppy.getPlugin(w(this,We,Qn).call(this))?.setOptions(w(this,We,Yn).call(this))}};$t=new WeakMap,pt=new WeakMap,Gi=new WeakMap,qt=new WeakMap,Xs=new WeakMap,Ys=new WeakMap,Qs=new WeakMap,ft=new WeakMap,Js=new WeakMap,Zs=new WeakMap,Ht=new WeakMap,We=new WeakSet,Yn=function(){let{thumbnailWidth:t,thumbnailHeight:s,thumbnailType:r,waitForThumbnailsBeforeUpload:n}=this.opts;return{thumbnailWidth:t,thumbnailHeight:s,thumbnailType:r,waitForThumbnailsBeforeUpload:n,lazy:!n}},Qn=function(){return`${this.id}:ThumbnailGenerator`},y(mt,"VERSION",id.version);u();var Ki=class extends Ue{constructor(t,s){super(t,s);y(this,"upload",t=>{let s=this.uppy.getFilesByIds(t);this.uppy.emit("upload-start",s);let r=[...s],n=async()=>{for(;r.length;)await this.uploadFile(r.shift())};return Promise.all(Array.from({length:this.opts.maxParallelUploads},n))});y(this,"cancel",t=>{t.progress.uploadStarted&&!t.progress.uploadComplete&&this.opts.cancelUploadUsing(t.meta.fileKey)});this.id="LivewireUpload",this.type="uploader"}install(){this.uppy.addUploader(this.upload),this.uppy.on("file-removed",this.cancel)}uninstall(){this.uppy.removeUploader(this.upload),this.uppy.off("file-removed",this.cancel)}uploadFile(t){return new Promise(s=>{let r=Date.now();this.opts.uploadUsing(t.meta.fileKey,t.data,()=>{this.uppy.emit("upload-success",this.uppy.getFile(t.id),{status:200,body:{}}),s()},()=>{this.uppy.emit("upload-error",this.uppy.getFile(t.id),new Error(this.opts.uploadFailedMessage)),s()},n=>{this.uppy.getFile(t.id)&&this.uppy.emit("upload-progress",this.uppy.getFile(t.id),{uploadStarted:r,bytesUploaded:t.size*n/100,bytesTotal:t.size})})})}};u();var Vh=no({"../../node_modules/@uppy/locales/lib/ar_SA.js":()=>import("../fluppy-ar_SA-VJVGALDK.js"),"../../node_modules/@uppy/locales/lib/az_AZ.js":()=>import("../fluppy-az_AZ-C7WMQBE4.js"),"../../node_modules/@uppy/locales/lib/bg_BG.js":()=>import("../fluppy-bg_BG-XKKB54EQ.js"),"../../node_modules/@uppy/locales/lib/ca_ES.js":()=>import("../fluppy-ca_ES-TE74B2EG.js"),"../../node_modules/@uppy/locales/lib/cs_CZ.js":()=>import("../fluppy-cs_CZ-NQTJNHU6.js"),"../../node_modules/@uppy/locales/lib/da_DK.js":()=>import("../fluppy-da_DK-5PKH42SM.js"),"../../node_modules/@uppy/locales/lib/de_DE.js":()=>import("../fluppy-de_DE-IML3NRXD.js"),"../../node_modules/@uppy/locales/lib/el_GR.js":()=>import("../fluppy-el_GR-E72BIVLT.js"),"../../node_modules/@uppy/locales/lib/en_US.js":()=>import("../fluppy-en_US-XOIMTT23.js"),"../../node_modules/@uppy/locales/lib/es_ES.js":()=>import("../fluppy-es_ES-CEYJ5DBM.js"),"../../node_modules/@uppy/locales/lib/es_MX.js":()=>import("../fluppy-es_MX-75JI5CSF.js"),"../../node_modules/@uppy/locales/lib/fa_IR.js":()=>import("../fluppy-fa_IR-3WYW5RIN.js"),"../../node_modules/@uppy/locales/lib/fi_FI.js":()=>import("../fluppy-fi_FI-CNPP3XGN.js"),"../../node_modules/@uppy/locales/lib/fr_FR.js":()=>import("../fluppy-fr_FR-6R2Y5V2Q.js"),"../../node_modules/@uppy/locales/lib/gl_ES.js":()=>import("../fluppy-gl_ES-CBTIRC7Q.js"),"../../node_modules/@uppy/locales/lib/he_IL.js":()=>import("../fluppy-he_IL-PUAZJFAD.js"),"../../node_modules/@uppy/locales/lib/hi_IN.js":()=>import("../fluppy-hi_IN-WXZ2VHDU.js"),"../../node_modules/@uppy/locales/lib/hr_HR.js":()=>import("../fluppy-hr_HR-MBO36L4A.js"),"../../node_modules/@uppy/locales/lib/hu_HU.js":()=>import("../fluppy-hu_HU-XHUQYGW3.js"),"../../node_modules/@uppy/locales/lib/id_ID.js":()=>import("../fluppy-id_ID-SEOVBIMW.js"),"../../node_modules/@uppy/locales/lib/is_IS.js":()=>import("../fluppy-is_IS-675JW3UD.js"),"../../node_modules/@uppy/locales/lib/it_IT.js":()=>import("../fluppy-it_IT-7GUYKPQD.js"),"../../node_modules/@uppy/locales/lib/ja_JP.js":()=>import("../fluppy-ja_JP-R7336AGQ.js"),"../../node_modules/@uppy/locales/lib/ko_KR.js":()=>import("../fluppy-ko_KR-C6HSQ75T.js"),"../../node_modules/@uppy/locales/lib/mn_MN.js":()=>import("../fluppy-mn_MN-A7W53VB4.js"),"../../node_modules/@uppy/locales/lib/ms_MY.js":()=>import("../fluppy-ms_MY-37N2726I.js"),"../../node_modules/@uppy/locales/lib/nb_NO.js":()=>import("../fluppy-nb_NO-FUIPQA4P.js"),"../../node_modules/@uppy/locales/lib/nl_NL.js":()=>import("../fluppy-nl_NL-KSC42DXH.js"),"../../node_modules/@uppy/locales/lib/nn_NO.js":()=>import("../fluppy-nn_NO-PSRIFBWB.js"),"../../node_modules/@uppy/locales/lib/pl_PL.js":()=>import("../fluppy-pl_PL-QA7ZCATF.js"),"../../node_modules/@uppy/locales/lib/pt_BR.js":()=>import("../fluppy-pt_BR-PGTJSV76.js"),"../../node_modules/@uppy/locales/lib/pt_PT.js":()=>import("../fluppy-pt_PT-DNKJFWPT.js"),"../../node_modules/@uppy/locales/lib/ro_RO.js":()=>import("../fluppy-ro_RO-32QTOU76.js"),"../../node_modules/@uppy/locales/lib/ru_RU.js":()=>import("../fluppy-ru_RU-A3RMTCPY.js"),"../../node_modules/@uppy/locales/lib/sk_SK.js":()=>import("../fluppy-sk_SK-VPWWYCIZ.js"),"../../node_modules/@uppy/locales/lib/sr_RS_Cyrillic.js":()=>import("../fluppy-sr_RS_Cyrillic-ZO7TLAIG.js"),"../../node_modules/@uppy/locales/lib/sr_RS_Latin.js":()=>import("../fluppy-sr_RS_Latin-ZHYDGVTD.js"),"../../node_modules/@uppy/locales/lib/sv_SE.js":()=>import("../fluppy-sv_SE-4J2KJUWC.js"),"../../node_modules/@uppy/locales/lib/th_TH.js":()=>import("../fluppy-th_TH-ZIGLXG4K.js"),"../../node_modules/@uppy/locales/lib/tr_TR.js":()=>import("../fluppy-tr_TR-CD3MOY72.js"),"../../node_modules/@uppy/locales/lib/uk_UA.js":()=>import("../fluppy-uk_UA-AI66JUP2.js"),"../../node_modules/@uppy/locales/lib/uz_UZ.js":()=>import("../fluppy-uz_UZ-RYOYPCT7.js"),"../../node_modules/@uppy/locales/lib/vi_VN.js":()=>import("../fluppy-vi_VN-NF5D6AKF.js"),"../../node_modules/@uppy/locales/lib/zh_CN.js":()=>import("../fluppy-zh_CN-FG27WWDD.js"),"../../node_modules/@uppy/locales/lib/zh_TW.js":()=>import("../fluppy-zh_TW-M6PPN6YD.js")});var Wh=b;function Gh(i){let[e,...t]=String(i??"").toLowerCase().replace(/-/g,"_").split("_"),s=Wh.filter(r=>r.toLowerCase().startsWith(`${e}_`));return s.find(r=>t.some(n=>r.toLowerCase().includes(`_${n.slice(0,3)}`)))??s[0]??null}async function qd(i){let e=Gh(i);return!e||e==="en_US"?null:(await Vh(`../../node_modules/@uppy/locales/lib/${e}.js`)).default}function Kh(){return("10000000-1000-4000-8000"+-1e11).replace(/[018]/g,i=>(i^crypto.getRandomValues(new Uint8Array(1))[0]&15>>i/4).toString(16))}function Xh({acceptedFileTypes:i,cancelUploadUsing:e,deleteUploadedFileUsing:t,getUploadedFilesUsing:s,isDeletable:r,isDisabled:n,isMultiple:o,locale:l,maxFiles:d,maxParallelUploads:c,maxSize:p,minSize:m,removeUploadedFileUsing:f,state:v,uploadFailedMessage:g,uploadingMessage:F,uploadUsing:T}){let S=null;return{state:v,isRemovingSilently:!1,async init(){let k=await qd(l);S=new Fs({autoProceed:!0,...k?{locale:k}:{},restrictions:{allowedFileTypes:i?.length?i:null,maxFileSize:p,maxNumberOfFiles:o?d:1,minFileSize:m}}).use(mt,{target:this.$refs.dashboard,inline:!0,width:"100%",height:320,disabled:n,hideUploadButton:!0,hideCancelButton:!0,doneButtonHandler:null,showRemoveButtonAfterComplete:r&&!n,proudlyDisplayPoweredByUppy:!1,theme:this.getTheme()}).use(Ki,{cancelUploadUsing:e,maxParallelUploads:c??2,uploadFailedMessage:g,uploadUsing:T}),S.on("file-added",P=>{S.setFileMeta(P.id,{fileKey:Kh()})}),S.on("file-removed",P=>{S.getFiles().some(N=>N.error)||S.setState({error:null}),!(this.isRemovingSilently||!P.meta.fileKey)&&(this.isStoredFile(P.meta.fileKey)?t(P.meta.fileKey):f(P.meta.fileKey))}),S.on("upload",()=>{this.dispatchFormEvent("form-processing-started",{message:F})}),S.on("complete",()=>{this.dispatchFormEvent("form-processing-finished")}),this.themeListener=()=>S.getPlugin("Dashboard").setOptions({theme:this.getTheme()}),window.addEventListener("theme-changed",this.themeListener),await this.syncFiles(),this.$watch("state",()=>this.syncFiles())},destroy(){window.removeEventListener("theme-changed",this.themeListener),this.isRemovingSilently=!0,S?.destroy()},getUppy(){return S},getTheme(){return this.$store.theme==="dark"?"dark":"light"},getFileKeysInState(){return Object.keys(this.state??{})},isStoredFile(k){let P=this.state?.[k];return typeof P=="string"&&!P.startsWith("livewire-file:")},async syncFiles(){let k=this.getFileKeysInState(),P=S.getFiles();this.isRemovingSilently=!0,P.filter(x=>x.progress.uploadComplete&&!k.includes(x.meta.fileKey)).forEach(x=>S.removeFile(x.id)),this.isRemovingSilently=!1;let N=S.getFiles().map(x=>x.meta.fileKey);if(k.every(x=>N.includes(x)))return;let B=await s()??{};Object.entries(B).filter(([x,O])=>O&&!N.includes(x)).forEach(([x,O])=>this.showStoredFile(x,O)),S.getFiles().every(x=>x.progress.uploadComplete)&&S.setState({totalProgress:100})},showStoredFile(k,{name:P,size:N,type:B,url:x}){let O=`fluppy-${k}`;S.setState({files:{...S.getState().files,[O]:{id:O,name:P,extension:P.includes(".")?P.split(".").pop():"",type:B,size:N,data:{size:N},meta:{name:P,type:B,fileKey:k},source:"Fluppy",isRemote:!1,isGhost:!1,preview:B?.startsWith("image/")?x:void 0,uploadURL:x,progress:{percentage:100,bytesUploaded:N,bytesTotal:N,uploadComplete:!0,uploadStarted:Date.now()}}}})},dispatchFormEvent(k,P={}){this.$el.closest("form")?.dispatchEvent(new CustomEvent(k,{composed:!0,cancelable:!0,detail:P}))}}}export{Xh as default};
-/*! Bundled license information:
-
-classnames/index.js:
-  (*!
-  	Copyright (c) 2018 Jed Watson.
-  	Licensed under the MIT License (MIT), see
-  	http://jedwatson.github.io/classnames
-  *)
-
-@uppy/core/lib/utils/Translator.js:
-  (**
-   * Takes a string with placeholder variables like `%{smart_count} file selected`
-   * and replaces it with values from options `{smart_count: 5}`
-   *
-   * @license https://github.com/airbnb/polyglot.js/blob/master/LICENSE
-   * taken from https://github.com/airbnb/polyglot.js/blob/master/lib/polyglot.js#L299
-   *
-   * @param phrase that needs interpolation, with placeholders
-   * @param options with values that will be used to replace placeholders
-   *)
-*/
+//#region \0rolldown/runtime.js
+var e = Object.create, t = Object.defineProperty, n = Object.getOwnPropertyDescriptor, r = Object.getOwnPropertyNames, i = Object.getPrototypeOf, a = Object.prototype.hasOwnProperty, o = (e, t) => () => (t || (e((t = { exports: {} }).exports, t), e = null), t.exports), s = (e, i, o, s) => {
+	if (i && typeof i == "object" || typeof i == "function") for (var c = r(i), l = 0, u = c.length, d; l < u; l++) d = c[l], !a.call(e, d) && d !== o && t(e, d, {
+		get: ((e) => i[e]).bind(null, d),
+		enumerable: !(s = n(i, d)) || s.enumerable
+	});
+	return e;
+}, c = (n, r, o) => (o = n == null ? {} : e(i(n)), s(r || !n || !n.__esModule || !a.call(n, "default") ? t(o, "default", {
+	value: n,
+	enumerable: !0
+}) : o, n)), l = /^data:([^/]+\/[^,;]+(?:[^,]*?))(;base64)?,([\s\S]*)$/;
+function u(e, t, n) {
+	let r = l.exec(e), i = t.mimeType ?? r?.[1] ?? "plain/text", a;
+	if (r?.[2] != null) {
+		let e = atob(decodeURIComponent(r[3])), t = new Uint8Array(e.length);
+		for (let n = 0; n < e.length; n++) t[n] = e.charCodeAt(n);
+		a = [t];
+	} else r?.[3] != null && (a = [decodeURIComponent(r[3])]);
+	return n ? new File(a, t.name || "", { type: i }) : new Blob(a, { type: i });
+}
+//#endregion
+//#region node_modules/@uppy/core/lib/utils/ErrorWithCause.js
+var d = class extends Error {
+	isNetworkError;
+	constructor(e, t) {
+		super(e), this.cause = t?.cause, this.isNetworkError = this.cause && Object.hasOwn(this.cause, "isNetworkError") ? this.cause.isNetworkError : !1;
+	}
+};
+//#endregion
+//#region node_modules/@uppy/core/lib/utils/emaFilter.js
+function f(e, t, n, r) {
+	return n === 0 || e === t ? e : r === 0 ? t : e + (t - e) * 2 ** (-r / n);
+}
+//#endregion
+//#region node_modules/@uppy/core/lib/utils/FOCUSABLE_ELEMENTS.js
+var p = [
+	"a[href]:not([tabindex^=\"-\"]):not([inert]):not([aria-hidden])",
+	"area[href]:not([tabindex^=\"-\"]):not([inert]):not([aria-hidden])",
+	"input:not([disabled]):not([inert]):not([aria-hidden])",
+	"select:not([disabled]):not([inert]):not([aria-hidden])",
+	"textarea:not([disabled]):not([inert]):not([aria-hidden])",
+	"button:not([disabled]):not([inert]):not([aria-hidden])",
+	"iframe:not([tabindex^=\"-\"]):not([inert]):not([aria-hidden])",
+	"object:not([tabindex^=\"-\"]):not([inert]):not([aria-hidden])",
+	"embed:not([tabindex^=\"-\"]):not([inert]):not([aria-hidden])",
+	"[contenteditable]:not([tabindex^=\"-\"]):not([inert]):not([aria-hidden])",
+	"[tabindex]:not([tabindex^=\"-\"]):not([inert]):not([aria-hidden])"
+];
+//#endregion
+//#region node_modules/@uppy/core/lib/utils/toError.js
+function m(e) {
+	return e instanceof Error || typeof e == "object" && !!e && "message" in e && typeof e.message == "string";
+}
+function h(e) {
+	return m(e) ? e : Error(String(e));
+}
+//#endregion
+//#region node_modules/@uppy/core/lib/utils/isDOMElement.js
+function g(e) {
+	return typeof e != "object" || !e || !("nodeType" in e) ? !1 : e.nodeType === Node.ELEMENT_NODE;
+}
+//#endregion
+//#region node_modules/@uppy/core/lib/utils/findAllDOMElements.js
+function _(e) {
+	if (typeof e == "string") {
+		let t = document.querySelectorAll(e);
+		return t.length === 0 ? null : Array.from(t);
+	}
+	return typeof e == "object" && g(e) ? [e] : null;
+}
+//#endregion
+//#region node_modules/@uppy/core/lib/utils/findDOMElement.js
+function v(e, t = document) {
+	return typeof e == "string" ? t.querySelector(e) : g(e) ? e : null;
+}
+//#endregion
+//#region node_modules/@uppy/core/lib/utils/getFileNameAndExtension.js
+function y(e) {
+	let t = e.lastIndexOf(".");
+	return t === -1 || t === e.length - 1 ? {
+		name: e,
+		extension: void 0
+	} : {
+		name: e.slice(0, t),
+		extension: e.slice(t + 1)
+	};
+}
+//#endregion
+//#region node_modules/@uppy/core/lib/utils/mimeTypes.js
+var b = {
+	__proto__: null,
+	md: "text/markdown",
+	markdown: "text/markdown",
+	mp4: "video/mp4",
+	mp3: "audio/mp3",
+	svg: "image/svg+xml",
+	jpg: "image/jpeg",
+	png: "image/png",
+	webp: "image/webp",
+	gif: "image/gif",
+	heic: "image/heic",
+	heif: "image/heif",
+	yaml: "text/yaml",
+	yml: "text/yaml",
+	csv: "text/csv",
+	tsv: "text/tab-separated-values",
+	tab: "text/tab-separated-values",
+	avi: "video/x-msvideo",
+	mks: "video/x-matroska",
+	mkv: "video/x-matroska",
+	mov: "video/quicktime",
+	dicom: "application/dicom",
+	doc: "application/msword",
+	msg: "application/vnd.ms-outlook",
+	docm: "application/vnd.ms-word.document.macroenabled.12",
+	docx: "application/vnd.openxmlformats-officedocument.wordprocessingml.document",
+	dot: "application/msword",
+	dotm: "application/vnd.ms-word.template.macroenabled.12",
+	dotx: "application/vnd.openxmlformats-officedocument.wordprocessingml.template",
+	xla: "application/vnd.ms-excel",
+	xlam: "application/vnd.ms-excel.addin.macroenabled.12",
+	xlc: "application/vnd.ms-excel",
+	xlf: "application/x-xliff+xml",
+	xlm: "application/vnd.ms-excel",
+	xls: "application/vnd.ms-excel",
+	xlsb: "application/vnd.ms-excel.sheet.binary.macroenabled.12",
+	xlsm: "application/vnd.ms-excel.sheet.macroenabled.12",
+	xlsx: "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
+	xlt: "application/vnd.ms-excel",
+	xltm: "application/vnd.ms-excel.template.macroenabled.12",
+	xltx: "application/vnd.openxmlformats-officedocument.spreadsheetml.template",
+	xlw: "application/vnd.ms-excel",
+	txt: "text/plain",
+	text: "text/plain",
+	conf: "text/plain",
+	log: "text/plain",
+	pdf: "application/pdf",
+	zip: "application/zip",
+	"7z": "application/x-7z-compressed",
+	rar: "application/x-rar-compressed",
+	tar: "application/x-tar",
+	gz: "application/gzip",
+	dmg: "application/x-apple-diskimage"
+};
+//#endregion
+//#region node_modules/@uppy/core/lib/utils/getFileType.js
+function x(e) {
+	if (e.type) return e.type;
+	let t = e.name ? y(e.name).extension?.toLowerCase() : null;
+	return t && t in b ? b[t] : "application/octet-stream";
+}
+//#endregion
+//#region node_modules/@uppy/core/lib/utils/generateFileID.js
+function S(e) {
+	return e.charCodeAt(0).toString(32);
+}
+function C(e) {
+	let t = "";
+	return e.replace(/[^A-Z0-9]/gi, (e) => (t += `-${S(e)}`, "/")) + t;
+}
+function w(e, t) {
+	let n = t || "uppy";
+	return typeof e.name == "string" && (n += `-${C(e.name.toLowerCase())}`), e.type !== void 0 && (n += `-${e.type}`), e.meta && typeof e.meta.relativePath == "string" && (n += `-${C(e.meta.relativePath.toLowerCase())}`), e.data?.size !== void 0 && (n += `-${e.data.size}`), e.data.lastModified !== void 0 && (n += `-${e.data.lastModified}`), n;
+}
+function T(e) {
+	return !e.isRemote || !e.remote ? !1 : (/* @__PURE__ */ new Set([
+		"box",
+		"dropbox",
+		"drive",
+		"facebook",
+		"unsplash"
+	])).has(e.remote.provider);
+}
+function E(e, t) {
+	if (T(e)) return e.id;
+	let n = x(e);
+	return w({
+		...e,
+		type: n
+	}, t);
+}
+//#endregion
+//#region node_modules/@uppy/core/lib/utils/toArray.js
+var D = Array.from;
+//#endregion
+//#region node_modules/@uppy/core/lib/utils/getDroppedFiles/utils/fallbackApi.js
+function ee(e) {
+	let t = D(e.files);
+	return Promise.resolve(t);
+}
+//#endregion
+//#region node_modules/@uppy/core/lib/utils/getDroppedFiles/utils/webkitGetAsEntryApi/getFilesAndDirectoriesFromDirectory.js
+function te(e, t, n, { onSuccess: r }) {
+	e.readEntries((i) => {
+		let a = [...t, ...i];
+		i.length ? queueMicrotask(() => {
+			te(e, a, n, { onSuccess: r });
+		}) : r(a);
+	}, (e) => {
+		n(e), r(t);
+	});
+}
+//#endregion
+//#region node_modules/@uppy/core/lib/utils/getDroppedFiles/utils/webkitGetAsEntryApi/index.js
+function ne(e, t) {
+	return e == null ? e : {
+		kind: e.isFile ? "file" : e.isDirectory ? "directory" : void 0,
+		name: e.name,
+		getFile() {
+			return new Promise((t, n) => e.file(t, n));
+		},
+		async *values() {
+			let n = e.createReader();
+			yield* await new Promise((e) => {
+				te(n, [], t, { onSuccess: (n) => e(n.map((e) => ne(e, t))) });
+			});
+		},
+		isSameEntry: void 0
+	};
+}
+async function* re(e, t, n = void 0) {
+	let r = () => `${t}/${e.name}`;
+	if (e.kind === "file") {
+		let i = await e.getFile();
+		i == null ? n != null && (yield n) : (i.relativePath = t ? r() : null, yield i);
+	} else if (e.kind === "directory") for await (let n of e.values()) yield* re(n, t ? r() : e.name);
+	else n != null && (yield n);
+}
+async function* ie(e, t) {
+	let n = await Promise.all(Array.from(e.items, async (e) => {
+		let n;
+		return n ??= ne(typeof e.getAsEntry == "function" ? e.getAsEntry() : e.webkitGetAsEntry(), t), {
+			fileSystemHandle: n,
+			lastResortFile: e.getAsFile()
+		};
+	}));
+	for (let { lastResortFile: e, fileSystemHandle: r } of n) if (r != null) try {
+		yield* re(r, "", e);
+	} catch (n) {
+		e == null ? t(n) : yield e;
+	}
+	else e != null && (yield e);
+}
+//#endregion
+//#region node_modules/@uppy/core/lib/utils/getDroppedFiles/index.js
+async function ae(e, t) {
+	let n = t?.logDropError ?? Function.prototype;
+	try {
+		let t = [];
+		for await (let r of ie(e, n)) t.push(r);
+		return t;
+	} catch {
+		return ee(e);
+	}
+}
+//#endregion
+//#region node_modules/@uppy/core/lib/utils/getErrorMessage.js
+function oe(e) {
+	return m(e) ? e.message : String(e);
+}
+//#endregion
+//#region node_modules/@uppy/core/lib/utils/getTextDirection.js
+function se(e) {
+	for (; e && !e.dir;) e = e.parentNode;
+	return e?.dir;
+}
+//#endregion
+//#region node_modules/@uppy/core/lib/utils/getTimeStamp.js
+function ce(e) {
+	return e < 10 ? `0${e}` : e.toString();
+}
+function le() {
+	let e = /* @__PURE__ */ new Date();
+	return `${ce(e.getHours())}:${ce(e.getMinutes())}:${ce(e.getSeconds())}`;
+}
+//#endregion
+//#region node_modules/@uppy/core/lib/utils/isAbortError.js
+function ue(e) {
+	return typeof e == "object" && !!e && "name" in e && e.name === "AbortError";
+}
+//#endregion
+//#region node_modules/@uppy/core/lib/utils/isDragDropSupported.js
+function de() {
+	if (typeof window > "u") return !1;
+	let e = document.body;
+	return !(e == null || window == null || !("draggable" in e) || !("ondragstart" in e) || !("ondrop" in e) || !("FormData" in window) || !("FileReader" in window));
+}
+//#endregion
+//#region node_modules/@uppy/core/lib/utils/isObjectURL.js
+function fe(e) {
+	return e.startsWith("blob:");
+}
+//#endregion
+//#region node_modules/@uppy/core/lib/utils/isPreviewSupported.js
+function pe(e) {
+	return e ? /^[^/]+\/(jpe?g|gif|png|svg|svg\+xml|bmp|webp|avif)$/.test(e) : !1;
+}
+//#endregion
+//#region node_modules/@uppy/core/lib/utils/isRestrictionError.js
+function me(e) {
+	return e instanceof Error && "isRestriction" in e && e.isRestriction === !0;
+}
+//#endregion
+//#region node_modules/@uppy/core/lib/utils/secondsToTime.js
+function he(e) {
+	return {
+		hours: Math.floor(e / 3600) % 24,
+		minutes: Math.floor(e / 60) % 60,
+		seconds: Math.floor(e % 60)
+	};
+}
+//#endregion
+//#region node_modules/@uppy/core/lib/utils/prettyETA.js
+function ge(e) {
+	let t = he(e);
+	return `${t.hours === 0 ? "" : `${t.hours}h`}${t.minutes === 0 ? "" : `${t.hours === 0 ? t.minutes : ` ${t.minutes.toString(10).padStart(2, "0")}`}m`}${t.hours === 0 ? `${t.minutes === 0 ? t.seconds : ` ${t.seconds.toString(10).padStart(2, "0")}`}s` : ""}`;
+}
+//#endregion
+//#region node_modules/@uppy/core/lib/utils/remoteFileObjToLocal.js
+function _e(e) {
+	return {
+		...e,
+		type: e.mimeType,
+		extension: e.name ? y(e.name).extension : null
+	};
+}
+//#endregion
+//#region node_modules/@uppy/core/lib/utils/Translator.js
+function ve(e, t, n) {
+	let r = [];
+	return e.forEach((e) => {
+		if (typeof e != "string") {
+			r.push(e);
+			return;
+		}
+		t[Symbol.split](e).forEach((e, t, i) => {
+			e !== "" && r.push(e), t < i.length - 1 && r.push(n);
+		});
+	}), r;
+}
+function ye(e, t) {
+	let n = /\$/g, r = [e];
+	if (t == null) return r;
+	for (let e of Object.keys(t)) if (e !== "_") {
+		let i = t[e];
+		typeof i == "string" && (i = n[Symbol.replace](i, "$$$$")), r = ve(r, RegExp(`%\\{${e}\\}`, "g"), i);
+	}
+	return r;
+}
+var be = (e) => {
+	throw Error(`missing string: ${e}`);
+}, xe = class {
+	locale;
+	constructor(e, { onMissingKey: t = be } = {}) {
+		this.locale = {
+			strings: {},
+			pluralize(e) {
+				return e === 1 ? 0 : 1;
+			}
+		}, Array.isArray(e) ? e.forEach(this.#t, this) : this.#t(e), this.#e = t;
+	}
+	#e;
+	#t(e) {
+		if (!e?.strings) return;
+		let t = this.locale;
+		Object.assign(this.locale, {
+			strings: {
+				...t.strings,
+				...e.strings
+			},
+			pluralize: e.pluralize || t.pluralize
+		});
+	}
+	translate(e, t) {
+		return this.translateArray(e, t).join("");
+	}
+	translateArray(e, t) {
+		let n = this.locale.strings[e];
+		if (n ??= (this.#e(e), e), typeof n == "object") {
+			if (t && t.smart_count !== void 0) {
+				let e = this.locale.pluralize(t.smart_count);
+				return ye(n[e], t);
+			}
+			throw Error("Attempted to use a string with plural forms, but no value was given for %{smart_count}");
+		}
+		if (typeof n != "string") throw Error("string was not a string");
+		return ye(n, t);
+	}
+}, Se = "...";
+function Ce(e, t) {
+	if (t === 0) return "";
+	if (e.length <= t) return e;
+	if (t <= 4) return `${e.slice(0, t - 1)}…`;
+	let n = t - 3, r = Math.ceil(n / 2), i = Math.floor(n / 2);
+	return e.slice(0, r) + Se + e.slice(-i);
+}
+//#endregion
+//#region node_modules/preact/dist/preact.module.js
+var we, O, Te, k, Ee, De, Oe, ke, Ae, je, Me, Ne, Pe, Fe, Ie = {}, Le = [], Re = /acit|ex(?:s|g|n|p|$)|rph|grid|ows|mnc|ntw|ine[ch]|zoo|^ord|itera/i, ze = Array.isArray;
+function A(e, t) {
+	for (var n in t) e[n] = t[n];
+	return e;
+}
+function Be(e) {
+	e && e.parentNode && e.parentNode.removeChild(e);
+}
+function Ve(e, t, n) {
+	var r, i, a, o = {};
+	for (a in t) a == "key" ? r = t[a] : a == "ref" ? i = t[a] : o[a] = t[a];
+	if (arguments.length > 2 && (o.children = arguments.length > 3 ? we.call(arguments, 2) : n), typeof e == "function" && e.defaultProps != null) for (a in e.defaultProps) o[a] === void 0 && (o[a] = e.defaultProps[a]);
+	return He(e, o, r, i, null);
+}
+function He(e, t, n, r, i) {
+	var a = {
+		type: e,
+		props: t,
+		key: n,
+		ref: r,
+		__k: null,
+		__: null,
+		__b: 0,
+		__e: null,
+		__c: null,
+		constructor: void 0,
+		__v: i ?? ++Te,
+		__i: -1,
+		__u: 0
+	};
+	return i == null && O.vnode != null && O.vnode(a), a;
+}
+function Ue() {
+	return { current: null };
+}
+function j(e) {
+	return e.children;
+}
+function M(e, t) {
+	this.props = e, this.context = t;
+}
+function N(e, t) {
+	if (t == null) return e.__ ? N(e.__, e.__i + 1) : null;
+	for (var n; t < e.__k.length; t++) if ((n = e.__k[t]) != null && n.__e != null) return n.__e;
+	return typeof e.type == "function" ? N(e) : null;
+}
+function We(e) {
+	if (e.__P && e.__d) {
+		var t = e.__v, n = t.__e, r = [], i = [], a = A({}, t);
+		a.__v = t.__v + 1, O.vnode && O.vnode(a), tt(e.__P, a, t, e.__n, e.__P.namespaceURI, 32 & t.__u ? [n] : null, r, n ?? N(t), !!(32 & t.__u), i), a.__v = t.__v, a.__.__k[a.__i] = a, rt(r, a, i), t.__e = t.__ = null, a.__e != n && Ge(a);
+	}
+}
+function Ge(e) {
+	if ((e = e.__) != null && e.__c != null) return e.__e = e.__c.base = null, e.__k.some(function(t) {
+		if (t != null && t.__e != null) return e.__e = e.__c.base = t.__e;
+	}), Ge(e);
+}
+function Ke(e) {
+	(!e.__d && (e.__d = !0) && k.push(e) && !qe.__r++ || Ee != O.debounceRendering) && ((Ee = O.debounceRendering) || De)(qe);
+}
+function qe() {
+	try {
+		for (var e, t = 1; k.length;) k.length > t && k.sort(Oe), e = k.shift(), t = k.length, We(e);
+	} finally {
+		k.length = qe.__r = 0;
+	}
+}
+function Je(e, t, n, r, i, a, o, s, c, l, u) {
+	var d, f, p, m, h, g, _ = r && r.__k || Le, v = t.length;
+	for (c = Ye(n, t, _, c, v), d = 0; d < v; d++) (p = n.__k[d]) != null && (f = p.__i != -1 && _[p.__i] || Ie, p.__i = d, g = tt(e, p, f, i, a, o, s, c, l, u), m = p.__e, p.ref && f.ref != p.ref && (f.ref && ot(f.ref, null, p), u.push(p.ref, p.__c || m, p)), h == null && m != null && (h = m), 4 & p.__u ? (c = Xe(p, c, e), f.__e && (f.__e = null)) : typeof p.type == "function" && g !== void 0 ? c = g : m && (c = m.nextSibling), p.__u &= -7);
+	return n.__e = h, c;
+}
+function Ye(e, t, n, r, i) {
+	var a, o, s, c, l, u = n.length, d = u, f = 0;
+	for (e.__k = Array(i), a = 0; a < i; a++) (o = t[a]) != null && typeof o != "boolean" && typeof o != "function" ? (typeof o == "string" || typeof o == "number" || typeof o == "bigint" || o.constructor == String ? o = e.__k[a] = He(null, o, null, null, null) : ze(o) ? o = e.__k[a] = He(j, { children: o }, null, null, null) : o.constructor === void 0 && o.__b > 0 ? o = e.__k[a] = He(o.type, o.props, o.key, o.ref ? o.ref : null, o.__v) : e.__k[a] = o, c = a + f, o.__ = e, o.__b = e.__b + 1, s = null, (l = o.__i = Ze(o, n, c, d)) != -1 && (d--, (s = n[l]) && (s.__u |= 2)), s == null || s.__v == null ? (l == -1 && (i > u ? f-- : i < u && f++), typeof o.type != "function" && (o.__u |= 4)) : l != c && (l == c - 1 ? f-- : l == c + 1 ? f++ : (l > c ? f-- : f++, o.__u |= 4))) : e.__k[a] = null;
+	if (d) for (a = 0; a < u; a++) (s = n[a]) != null && !(2 & s.__u) && (s.__e == r && (r = N(s)), st(s, s));
+	return r;
+}
+function Xe(e, t, n) {
+	var r, i;
+	if (typeof e.type == "function") {
+		for (r = e.__k, i = 0; r && i < r.length; i++) r[i] && (r[i].__ = e, t = Xe(r[i], t, n));
+		return t;
+	}
+	e.__e != t && (t && e.type && !t.parentNode && (t = N(e)), t = n.insertBefore(e.__e, t || null));
+	do
+		t &&= t.nextSibling;
+	while (t != null && t.nodeType == 8);
+	return t;
+}
+function P(e, t) {
+	return t ||= [], e == null || typeof e == "boolean" || (ze(e) ? e.some(function(e) {
+		P(e, t);
+	}) : t.push(e)), t;
+}
+function Ze(e, t, n, r) {
+	var i, a, o, s = e.key, c = e.type, l = t[n], u = l != null && !(2 & l.__u);
+	if (l === null && s == null || u && s == l.key && c == l.type) return n;
+	if (r > +!!u) {
+		for (i = n - 1, a = n + 1; i >= 0 || a < t.length;) if ((l = t[o = i >= 0 ? i-- : a++]) != null && !(2 & l.__u) && s == l.key && c == l.type) return o;
+	}
+	return -1;
+}
+function Qe(e, t, n) {
+	t[0] == "-" ? e.setProperty(t, n ?? "") : e[t] = n == null ? "" : typeof n != "number" || Re.test(t) ? n : n + "px";
+}
+function $e(e, t, n, r, i) {
+	var a, o;
+	n: if (t == "style") {
+		if (typeof n == "string") e.style.cssText = n;
+		else {
+			if (typeof r == "string" && (e.style.cssText = r = ""), r) for (t in r) n && t in n || Qe(e.style, t, "");
+			if (n) for (t in n) r && n[t] == r[t] || Qe(e.style, t, n[t]);
+		}
+	} else if (t[0] == "o" && t[1] == "n") a = t != (t = t.replace(Me, "$1")), o = t.toLowerCase(), t = o in e || t == "onFocusOut" || t == "onFocusIn" ? o.slice(2) : t.slice(2), e.l ||= {}, e.l[t + a] = n, n ? r ? n[je] = r[je] : (n[je] = Ne, e.addEventListener(t, a ? Fe : Pe, a)) : e.removeEventListener(t, a ? Fe : Pe, a);
+	else {
+		if (i == "http://www.w3.org/2000/svg") t = t.replace(/xlink(H|:h)/, "h").replace(/sName$/, "s");
+		else if (t != "width" && t != "height" && t != "href" && t != "list" && t != "form" && t != "tabIndex" && t != "download" && t != "rowSpan" && t != "colSpan" && t != "role" && t != "popover" && t in e) try {
+			e[t] = n ?? "";
+			break n;
+		} catch {}
+		typeof n == "function" || (n == null || !1 === n && t[4] != "-" ? e.removeAttribute(t) : e.setAttribute(t, t == "popover" && n == 1 ? "" : n));
+	}
+}
+function et(e) {
+	return function(t) {
+		if (this.l) {
+			var n = this.l[t.type + e];
+			if (t[Ae] == null) t[Ae] = Ne++;
+			else if (t[Ae] < n[je]) return;
+			return n(O.event ? O.event(t) : t);
+		}
+	};
+}
+function tt(e, t, n, r, i, a, o, s, c, l) {
+	var u, d, f, p, m, h, g, _, v, y, b, x, S, C, w, T, E = t.type;
+	if (t.constructor !== void 0) return null;
+	128 & n.__u && (c = !!(32 & n.__u), a = [s = t.__e = n.__e]), (u = O.__b) && u(t);
+	n: if (typeof E == "function") {
+		d = o.length;
+		try {
+			if (v = t.props, y = E.prototype && E.prototype.render, b = (u = E.contextType) && r[u.__c], x = u ? b ? b.props.value : u.__ : r, n.__c ? _ = (f = t.__c = n.__c).__ = f.__E : (y ? t.__c = f = new E(v, x) : (t.__c = f = new M(v, x), f.constructor = E, f.render = ct), b && b.sub(f), f.state || (f.state = {}), f.__n = r, p = f.__d = !0, f.__h = [], f._sb = []), y && f.__s == null && (f.__s = f.state), y && E.getDerivedStateFromProps != null && (f.__s == f.state && (f.__s = A({}, f.__s)), A(f.__s, E.getDerivedStateFromProps(v, f.__s))), m = f.props, h = f.state, f.__v = t, p) y && E.getDerivedStateFromProps == null && f.componentWillMount != null && f.componentWillMount(), y && f.componentDidMount != null && f.__h.push(f.componentDidMount);
+			else {
+				if (y && E.getDerivedStateFromProps == null && v !== m && f.componentWillReceiveProps != null && f.componentWillReceiveProps(v, x), t.__v == n.__v || !f.__e && f.shouldComponentUpdate != null && !1 === f.shouldComponentUpdate(v, f.__s, x)) {
+					t.__v != n.__v && (f.props = v, f.state = f.__s, f.__d = !1), t.__e = n.__e, t.__k = n.__k, t.__k.some(function(e) {
+						e && (e.__ = t);
+					}), Le.push.apply(f.__h, f._sb), f._sb = [], f.__h.length && o.push(f), s = N(n);
+					break n;
+				}
+				f.componentWillUpdate != null && f.componentWillUpdate(v, f.__s, x), y && f.componentDidUpdate != null && f.__h.push(function() {
+					f.componentDidUpdate(m, h, g);
+				});
+			}
+			if (f.context = x, f.props = v, f.__P = e, f.__e = !1, S = O.__r, C = 0, y) f.state = f.__s, f.__d = !1, S && S(t), u = f.render(f.props, f.state, f.context), Le.push.apply(f.__h, f._sb), f._sb = [];
+			else do
+				f.__d = !1, S && S(t), u = f.render(f.props, f.state, f.context), f.state = f.__s;
+			while (f.__d && ++C < 25);
+			f.state = f.__s, f.getChildContext != null && (r = A(A({}, r), f.getChildContext())), y && !p && f.getSnapshotBeforeUpdate != null && (g = f.getSnapshotBeforeUpdate(m, h)), w = u != null && u.type === j && u.key == null ? it(u.props.children) : u, s = Je(e, ze(w) ? w : [w], t, n, r, i, a, o, s, c, l), f.base = t.__e, t.__u &= -161, f.__h.length && o.push(f), _ && (f.__E = f.__ = null);
+		} catch (e) {
+			if (o.length = d, t.__v = null, c || a != null) {
+				if (e.then) {
+					for (t.__u |= c ? 160 : 128; s && s.nodeType == 8 && s.nextSibling;) s = s.nextSibling;
+					a != null && (a[a.indexOf(s)] = null), t.__e = s;
+				} else if (a != null) for (T = a.length; T--;) Be(a[T]);
+			} else t.__e = n.__e;
+			t.__k ??= n.__k || [], e.then || nt(t), O.__e(e, t, n);
+		}
+	} else a == null && t.__v == n.__v ? (t.__k = n.__k, t.__e = n.__e) : s = t.__e = at(n.__e, t, n, r, i, a, o, c, l);
+	return (u = O.diffed) && u(t), 128 & t.__u ? void 0 : s;
+}
+function nt(e) {
+	e && (e.__c && (e.__c.__e = !0), e.__k && e.__k.some(nt));
+}
+function rt(e, t, n) {
+	for (var r = 0; r < n.length; r++) ot(n[r], n[++r], n[++r]);
+	O.__c && O.__c(t, e), e.some(function(t) {
+		try {
+			e = t.__h, t.__h = [], e.some(function(e) {
+				e.call(t);
+			});
+		} catch (e) {
+			O.__e(e, t.__v);
+		}
+	});
+}
+function it(e) {
+	return typeof e != "object" || !e || e.__b > 0 ? e : ze(e) ? e.map(it) : e.constructor === void 0 ? A({}, e) : null;
+}
+function at(e, t, n, r, i, a, o, s, c) {
+	var l, u, d, f, p, m, h, g = n.props || Ie, _ = t.props, v = t.type;
+	if (v == "svg" ? i = "http://www.w3.org/2000/svg" : v == "math" ? i = "http://www.w3.org/1998/Math/MathML" : i ||= "http://www.w3.org/1999/xhtml", a != null) {
+		for (l = 0; l < a.length; l++) if ((p = a[l]) && "setAttribute" in p == !!v && (v ? p.localName == v : p.nodeType == 3)) {
+			e = p, a[l] = null;
+			break;
+		}
+	}
+	if (e == null) {
+		if (v == null) return document.createTextNode(_);
+		e = document.createElementNS(i, v, _.is && _), s &&= (O.__m && O.__m(t, a), !1), a = null;
+	}
+	if (v == null) g === _ || s && e.data == _ || (e.data = _);
+	else {
+		if (a = v == "textarea" && _.defaultValue != null ? null : a && we.call(e.childNodes), !s && a != null) for (g = {}, l = 0; l < e.attributes.length; l++) g[(p = e.attributes[l]).name] = p.value;
+		for (l in g) p = g[l], l == "dangerouslySetInnerHTML" ? d = p : l == "children" || l in _ || l == "value" && "defaultValue" in _ || l == "checked" && "defaultChecked" in _ || $e(e, l, null, p, i);
+		for (l in _) p = _[l], l == "children" ? f = p : l == "dangerouslySetInnerHTML" ? u = p : l == "value" ? m = p : l == "checked" ? h = p : s && typeof p != "function" || g[l] === p || $e(e, l, p, g[l], i);
+		if (u) s || d && (u.__html == d.__html || u.__html == e.innerHTML) || (e.innerHTML = u.__html), t.__k = [];
+		else if (d && (e.innerHTML = ""), Je(t.type == "template" ? e.content : e, ze(f) ? f : [f], t, n, r, v == "foreignObject" ? "http://www.w3.org/1999/xhtml" : i, a, o, a ? a[0] : n.__k && N(n, 0), s, c), a != null) for (l = a.length; l--;) Be(a[l]);
+		s && v != "textarea" || (l = "value", v == "progress" && m == null ? e.removeAttribute("value") : m != null && (m !== e[l] || v == "progress" && !m || v == "option" && m != g[l]) && $e(e, l, m, g[l], i), l = "checked", h != null && h != e[l] && $e(e, l, h, g[l], i));
+	}
+	return e;
+}
+function ot(e, t, n) {
+	try {
+		if (typeof e == "function") {
+			var r = typeof e.__u == "function";
+			r && e.__u(), r && t == null || (e.__u = e(t));
+		} else e.current = t;
+	} catch (e) {
+		O.__e(e, n);
+	}
+}
+function st(e, t, n) {
+	var r, i;
+	if (O.unmount && O.unmount(e), (r = e.ref) && (r.current && r.current != e.__e || ot(r, null, t)), (r = e.__c) != null) {
+		if (r.componentWillUnmount) try {
+			r.componentWillUnmount();
+		} catch (e) {
+			O.__e(e, t);
+		}
+		r.base = r.__P = r.__n = null;
+	}
+	if (r = e.__k) for (i = 0; i < r.length; i++) r[i] && st(r[i], t, n || typeof e.type != "function");
+	n || Be(e.__e), e.__c = e.__ = e.__e = void 0;
+}
+function ct(e, t, n) {
+	return this.constructor(e, n);
+}
+function lt(e, t, n) {
+	var r, i, a, o;
+	t == document && (t = document.documentElement), O.__ && O.__(e, t), i = (r = typeof n == "function") ? null : n && n.__k || t.__k, a = [], o = [], tt(t, e = (!r && n || t).__k = Ve(j, null, [e]), i || Ie, Ie, t.namespaceURI, !r && n ? [n] : i ? null : t.firstChild ? we.call(t.childNodes) : null, a, !r && n ? n : i ? i.__e : t.firstChild, r, o), rt(a, e, o), e.props.children = null;
+}
+function ut(e, t, n) {
+	var r, i, a, o, s = A({}, e.props);
+	for (a in e.type && e.type.defaultProps && (o = e.type.defaultProps), t) a == "key" ? r = t[a] : a == "ref" ? i = t[a] : s[a] = t[a] === void 0 && o != null ? o[a] : t[a];
+	return arguments.length > 2 && (s.children = arguments.length > 3 ? we.call(arguments, 2) : n), He(e.type, s, r || e.key, i || e.ref, null);
+}
+we = Le.slice, O = { __e: function(e, t, n, r) {
+	for (var i, a, o; t = t.__;) if ((i = t.__c) && !i.__) try {
+		if ((a = i.constructor) && a.getDerivedStateFromError != null && (i.setState(a.getDerivedStateFromError(e)), o = i.__d), i.componentDidCatch != null && (i.componentDidCatch(e, r || {}), o = i.__d), o) return i.__E = i;
+	} catch (t) {
+		e = t;
+	}
+	throw e;
+} }, Te = 0, M.prototype.setState = function(e, t) {
+	var n = this.__s != null && this.__s != this.state ? this.__s : this.__s = A({}, this.state);
+	typeof e == "function" && (e = e(A({}, n), this.props)), e && A(n, e), e != null && this.__v && (t && this._sb.push(t), Ke(this));
+}, M.prototype.forceUpdate = function(e) {
+	this.__v && (this.__e = !0, e && this.__h.push(e), Ke(this));
+}, M.prototype.render = j, k = [], De = typeof Promise == "function" ? Promise.prototype.then.bind(Promise.resolve()) : setTimeout, Oe = function(e, t) {
+	return e.__v.__b - t.__v.__b;
+}, qe.__r = 0, ke = Math.random().toString(8), Ae = "__d" + ke, je = "__a" + ke, Me = /(PointerCapture)$|Capture$/i, Ne = 0, Pe = et(!1), Fe = et(!0);
+//#endregion
+//#region node_modules/preact/jsx-runtime/dist/jsxRuntime.module.js
+var dt = 0;
+Array.isArray;
+function F(e, t, n, r, i, a) {
+	t ||= {};
+	var o, s, c = t;
+	if ("ref" in c) for (s in c = {}, t) s == "ref" ? o = t[s] : c[s] = t[s];
+	var l = {
+		type: e,
+		props: c,
+		key: n,
+		ref: o,
+		__k: null,
+		__: null,
+		__b: 0,
+		__e: null,
+		__c: null,
+		constructor: void 0,
+		__v: --dt,
+		__i: -1,
+		__u: 0,
+		__source: i,
+		__self: a
+	};
+	if (typeof e == "function" && (o = e.defaultProps)) for (s in o) c[s] === void 0 && (c[s] = o[s]);
+	return O.vnode && O.vnode(l), l;
+}
+//#endregion
+//#region node_modules/preact/hooks/dist/hooks.module.js
+var I, L, ft, pt, mt = 0, ht = [], R = O, gt = R.__b, _t = R.__r, vt = R.diffed, yt = R.__c, bt = R.unmount, xt = R.__;
+function St(e, t) {
+	R.__h && R.__h(L, e, mt || t), mt = 0;
+	var n = L.__H || (L.__H = {
+		__: [],
+		__h: []
+	});
+	return e >= n.__.length && n.__.push({}), n.__[e];
+}
+function z(e) {
+	return mt = 1, Ct(Nt, e);
+}
+function Ct(e, t, n) {
+	var r = St(I++, 2);
+	if (r.t = e, !r.__c && (r.__ = [n ? n(t) : Nt(void 0, t), function(e) {
+		var t = r.__N ? r.__N[0] : r.__[0], n = r.t(t, e);
+		t !== n && (r.__N = [n, r.__[1]], r.__c.setState({}));
+	}], r.__c = L, !L.__f)) {
+		var i = function(e, t, n) {
+			if (!r.__c.__H) return !0;
+			var i = !1, o = r.__c.props !== e;
+			if (r.__c.__H.__.some(function(e) {
+				if (e.__N) {
+					i = !0;
+					var t = e.__[0];
+					e.__ = e.__N, e.__N = void 0, t !== e.__[0] && (o = !0);
+				}
+			}), a) {
+				var s = a.call(this, e, t, n);
+				return i ? s || o : s;
+			}
+			return !i || o;
+		};
+		L.__f = !0;
+		var a = L.shouldComponentUpdate, o = L.componentWillUpdate;
+		L.componentWillUpdate = function(e, t, n) {
+			if (this.__e) {
+				var r = a;
+				a = void 0, i(e, t, n), a = r;
+			}
+			o && o.call(this, e, t, n);
+		}, L.shouldComponentUpdate = i;
+	}
+	return r.__N || r.__;
+}
+function B(e, t) {
+	var n = St(I++, 3);
+	!R.__s && Mt(n.__H, t) && (n.__ = e, n.u = t, L.__H.__h.push(n));
+}
+function wt(e, t) {
+	var n = St(I++, 4);
+	!R.__s && Mt(n.__H, t) && (n.__ = e, n.u = t, L.__h.push(n));
+}
+function V(e) {
+	return mt = 5, Tt(function() {
+		return { current: e };
+	}, []);
+}
+function Tt(e, t) {
+	var n = St(I++, 7);
+	return Mt(n.__H, t) && (n.__ = e(), n.__H = t, n.__h = e), n.__;
+}
+function H(e, t) {
+	return mt = 8, Tt(function() {
+		return e;
+	}, t);
+}
+function Et() {
+	var e = St(I++, 11);
+	if (!e.__) {
+		for (var t = L.__v; t !== null && !t.__m && t.__ !== null;) t = t.__;
+		var n = t.__m || (t.__m = [0, 0]);
+		e.__ = "P" + n[0] + "-" + n[1]++;
+	}
+	return e.__;
+}
+function Dt() {
+	for (var e; e = ht.shift();) {
+		var t = e.__H;
+		if (e.__P && t) try {
+			t.__h.some(At), t.__h.some(jt), t.__h = [];
+		} catch (n) {
+			t.__h = [], R.__e(n, e.__v);
+		}
+	}
+}
+R.__b = function(e) {
+	L = null, gt && gt(e);
+}, R.__ = function(e, t) {
+	e && t.__k && t.__k.__m && (e.__m = t.__k.__m), xt && xt(e, t);
+}, R.__r = function(e) {
+	_t && _t(e), I = 0;
+	var t = (L = e.__c).__H;
+	t && (ft === L ? (t.__h = [], L.__h = [], t.__.some(function(e) {
+		e.__N && (e.__ = e.__N), e.u = e.__N = void 0;
+	})) : (t.__h.some(At), t.__h.some(jt), t.__h = [], I = 0)), ft = L;
+}, R.diffed = function(e) {
+	vt && vt(e);
+	var t = e.__c;
+	t && t.__H && (t.__H.__h.length && (ht.push(t) !== 1 && pt === R.requestAnimationFrame || ((pt = R.requestAnimationFrame) || kt)(Dt)), t.__H.__.some(function(e) {
+		e.u &&= (e.__H = e.u, void 0);
+	})), ft = L = null;
+}, R.__c = function(e, t) {
+	t.some(function(e) {
+		try {
+			e.__h.some(At), e.__h = e.__h.filter(function(e) {
+				return !e.__ || jt(e);
+			});
+		} catch (n) {
+			t.some(function(e) {
+				e.__h &&= [];
+			}), t = [], R.__e(n, e.__v);
+		}
+	}), yt && yt(e, t);
+}, R.unmount = function(e) {
+	bt && bt(e);
+	var t, n = e.__c;
+	n && n.__H && (n.__H.__.some(function(e) {
+		try {
+			At(e);
+		} catch (e) {
+			t = e;
+		}
+	}), n.__H = void 0, t && R.__e(t, n.__v));
+};
+var Ot = typeof requestAnimationFrame == "function";
+function kt(e) {
+	var t, n = function() {
+		clearTimeout(r), Ot && cancelAnimationFrame(t), setTimeout(e);
+	}, r = setTimeout(n, 35);
+	Ot && (t = requestAnimationFrame(n));
+}
+function At(e) {
+	var t = L, n = e.__c;
+	typeof n == "function" && (e.__c = void 0, n()), L = t;
+}
+function jt(e) {
+	var t = L;
+	e.__c = e.__(), L = t;
+}
+function Mt(e, t) {
+	return !e || e.length !== t.length || t.some(function(t, n) {
+		return t !== e[n];
+	});
+}
+function Nt(e, t) {
+	return typeof t == "function" ? t(e) : t;
+}
+//#endregion
+//#region node_modules/@uppy/core/lib/utils/VirtualList.js
+var Pt = {
+	position: "relative",
+	width: "100%",
+	minHeight: "100%"
+}, Ft = {
+	position: "absolute",
+	top: 0,
+	left: 0,
+	width: "100%",
+	overflow: "visible"
+};
+function It({ data: e, rowHeight: t, renderRow: n, overscanCount: r = 10, padding: i = 4, ...a }) {
+	let o = V(null), [s, c] = z(0), [l, u] = z(0);
+	B(() => {
+		function e() {
+			o.current != null && l !== o.current.offsetHeight && u(o.current.offsetHeight);
+		}
+		return e(), window.addEventListener("resize", e), () => {
+			window.removeEventListener("resize", e);
+		};
+	}, [l]);
+	let d = H(() => {
+		o.current && c(o.current.scrollTop);
+	}, []), f = Math.floor(s / t), p = Math.floor(l / t);
+	r && (f = Math.max(0, f - f % r), p += r);
+	let m = f + p + i, h = e.slice(f, m), g = {
+		...Pt,
+		height: e.length * t
+	}, _ = {
+		...Ft,
+		top: f * t
+	};
+	return F("div", {
+		onScroll: d,
+		ref: o,
+		...a,
+		children: F("div", {
+			role: "presentation",
+			style: g,
+			children: F("div", {
+				role: "presentation",
+				style: _,
+				children: h.map(n)
+			})
+		})
+	});
+}
+//#endregion
+//#region node_modules/@uppy/core/lib/BasePlugin.js
+var Lt = class {
+	uppy;
+	opts;
+	id;
+	defaultLocale;
+	i18n;
+	i18nArray;
+	type;
+	VERSION;
+	constructor(e, t) {
+		this.uppy = e, this.opts = t ?? {};
+	}
+	getPluginState() {
+		let { plugins: e } = this.uppy.getState();
+		return e?.[this.id] || {};
+	}
+	setPluginState(e) {
+		let { plugins: t } = this.uppy.getState();
+		this.uppy.setState({ plugins: {
+			...t,
+			[this.id]: {
+				...t[this.id],
+				...e
+			}
+		} });
+	}
+	setOptions(e) {
+		this.opts = {
+			...this.opts,
+			...e
+		}, this.setPluginState(void 0), this.i18nInit();
+	}
+	i18nInit() {
+		let e = new xe([
+			this.defaultLocale,
+			this.uppy.locale,
+			this.opts.locale
+		]);
+		this.i18n = e.translate.bind(e), this.i18nArray = e.translateArray.bind(e), this.setPluginState(void 0);
+	}
+	addTarget(e) {
+		throw Error("Extend the addTarget method to add your plugin to another plugin's target");
+	}
+	install() {}
+	uninstall() {}
+	update(e) {}
+	afterUpdate() {}
+}, Rt = {
+	debug: () => {},
+	warn: () => {},
+	error: (...e) => console.error(`[Uppy] [${le()}]`, ...e)
+}, zt = {
+	debug: (...e) => console.debug(`[Uppy] [${le()}]`, ...e),
+	warn: (...e) => console.warn(`[Uppy] [${le()}]`, ...e),
+	error: (...e) => console.error(`[Uppy] [${le()}]`, ...e)
+}, Bt = [
+	"B",
+	"KB",
+	"MB",
+	"GB",
+	"TB",
+	"PB",
+	"EB",
+	"ZB",
+	"YB"
+];
+function U(e, t) {
+	if (typeof e != "number" || Number.isNaN(e)) throw TypeError(`Expected a number, got ${typeof e}`);
+	let n = e < 0, r = Math.abs(e);
+	if (n && (r = -r), r === 0) return "0 B";
+	let i = t ? Bt.indexOf(t) : Math.min(Math.floor(Math.log(r) / Math.log(1024)), Bt.length - 1), a = Number(r / 1024 ** i), o = Bt[i];
+	return i >= 3 ? a % 1 == 0 ? `${Math.round(a)} ${o}` : `${a.toFixed(2)} ${o}` : `${a >= 10 || a % 1 == 0 ? Math.round(a) : a.toFixed(1)} ${o}`;
+}
+//#endregion
+//#region node_modules/wildcard/index.js
+var Vt = /* @__PURE__ */ o(((e, t) => {
+	function n(e, t) {
+		this.text = e ||= "", this.hasWild = ~e.indexOf("*"), this.separator = t, this.parts = e.split(t);
+	}
+	n.prototype.match = function(e) {
+		var t = !0, n = this.parts, r, i = n.length, a;
+		if (typeof e == "string" || e instanceof String) {
+			if (!this.hasWild && this.text != e) t = !1;
+			else {
+				for (a = (e || "").split(this.separator), r = 0; t && r < i; r++) if (n[r] === "*") continue;
+				else t = r < a.length && n[r] === a[r];
+				t &&= a;
+			}
+		} else if (typeof e.splice == "function") for (t = [], r = e.length; r--;) this.match(e[r]) && (t[t.length] = e[r]);
+		else if (typeof e == "object") for (var o in t = {}, e) this.match(o) && (t[o] = e[o]);
+		return t;
+	}, t.exports = function(e, t, r) {
+		var i = new n(e, r || /[\/\.]/);
+		return t === void 0 ? i : i.match(t);
+	};
+})), Ht = /* @__PURE__ */ c((/* @__PURE__ */ o(((e, t) => {
+	var n = Vt(), r = /[\/\+\.]/;
+	t.exports = function(e, t) {
+		function i(t) {
+			var i = n(t, e, r);
+			return i && i.length >= 2;
+		}
+		return t ? i(t.split(";")[0]) : i;
+	};
+})))(), 1), Ut = {
+	maxFileSize: null,
+	minFileSize: null,
+	maxTotalFileSize: null,
+	maxNumberOfFiles: null,
+	minNumberOfFiles: null,
+	allowedFileTypes: null,
+	requiredMetaFields: []
+}, W = class extends Error {
+	isUserFacing;
+	file;
+	constructor(e, t) {
+		super(e), this.isUserFacing = t?.isUserFacing ?? !0, t?.file && (this.file = t.file);
+	}
+	isRestriction = !0;
+}, Wt = class {
+	getI18n;
+	getOpts;
+	constructor(e, t) {
+		this.getI18n = t, this.getOpts = () => {
+			let t = e();
+			if (t.restrictions?.allowedFileTypes != null && !Array.isArray(t.restrictions.allowedFileTypes)) throw TypeError("`restrictions.allowedFileTypes` must be an array");
+			return t;
+		};
+	}
+	validateAggregateRestrictions(e, t) {
+		let { maxTotalFileSize: n, maxNumberOfFiles: r } = this.getOpts().restrictions;
+		if (r && e.filter((e) => !e.isGhost).length + t.length > r) throw new W(`${this.getI18n()("youCanOnlyUploadX", { smart_count: r })}`);
+		if (n) {
+			let r = [...e, ...t].reduce((e, t) => e + (t.size ?? 0), 0);
+			if (r > n) throw new W(this.getI18n()("aggregateExceedsSize", {
+				sizeAllowed: U(n),
+				size: U(r)
+			}));
+		}
+	}
+	validateSingleFile(e) {
+		let { maxFileSize: t, minFileSize: n, allowedFileTypes: r } = this.getOpts().restrictions;
+		if (r && !r.some((t) => t.includes("/") ? e.type ? (0, Ht.default)(e.type.replace(/;.*?$/, ""), t) : !1 : t[0] === "." && e.extension ? e.extension.toLowerCase() === t.slice(1).toLowerCase() : !1)) {
+			let t = r.join(", ");
+			throw new W(this.getI18n()("youCanOnlyUploadFileTypes", { types: t }), { file: e });
+		}
+		if (t && e.size != null && e.size > t) throw new W(this.getI18n()("exceedsSize", {
+			size: U(t),
+			file: e.name ?? this.getI18n()("unnamed")
+		}), { file: e });
+		if (n && e.size != null && e.size < n) throw new W(this.getI18n()("inferiorSize", { size: U(n) }), { file: e });
+	}
+	validate(e, t) {
+		t.forEach((e) => {
+			this.validateSingleFile(e);
+		}), this.validateAggregateRestrictions(e, t);
+	}
+	validateMinNumberOfFiles(e) {
+		let { minNumberOfFiles: t } = this.getOpts().restrictions;
+		if (t && Object.keys(e).length < t) throw new W(this.getI18n()("youHaveToAtLeastSelectX", { smart_count: t }));
+	}
+	getMissingRequiredMetaFields(e) {
+		let t = new W(this.getI18n()("missingRequiredMetaFieldOnFile", { fileName: e.name ?? this.getI18n()("unnamed") })), { requiredMetaFields: n } = this.getOpts().restrictions, r = [];
+		for (let t of n) (!Object.hasOwn(e.meta, t) || e.meta[t] === "") && r.push(t);
+		return {
+			missingFields: r,
+			error: t
+		};
+	}
+};
+//#endregion
+//#region node_modules/@uppy/core/lib/UIPlugin.js
+function Gt(e) {
+	let t = null, n;
+	return (...r) => (n = r, t ||= Promise.resolve().then(() => (t = null, e(...n))), t);
+}
+var Kt = class e extends Lt {
+	#e;
+	isTargetDOMEl;
+	el = null;
+	parent;
+	title;
+	getTargetPlugin(t) {
+		let n;
+		if (typeof t?.addTarget == "function") n = t, n instanceof e || console.warn(Error("The provided plugin is not an instance of UIPlugin. This is an indication of a bug with the way Uppy is bundled.", { cause: {
+			targetPlugin: n,
+			UIPlugin: e
+		} }));
+		else if (typeof t == "function") {
+			let e = t;
+			this.uppy.iteratePlugins((t) => {
+				t instanceof e && (n = t);
+			});
+		}
+		return n;
+	}
+	mount(e, t) {
+		let n = t.id, r = v(e);
+		if (r) {
+			this.isTargetDOMEl = !0;
+			let t = document.createElement("div");
+			return t.classList.add("uppy-Root"), this.#e = Gt((e) => {
+				this.uppy.getPlugin(this.id) && (lt(this.render(e, t), t), this.afterUpdate());
+			}), this.uppy.log(`Installing ${n} to a DOM element '${e}'`), this.opts.replaceTargetContent && (r.innerHTML = ""), lt(this.render(this.uppy.getState(), t), t), this.el = t, r.appendChild(t), t.dir = this.opts.direction || se(t) || "ltr", this.onMount(), this.el;
+		}
+		let i = this.getTargetPlugin(e);
+		if (i) return this.uppy.log(`Installing ${n} to ${i.id}`), this.parent = i, this.el = i.addTarget(t), this.onMount(), this.el;
+		this.uppy.log(`Not installing ${n}`);
+		let a = `Invalid target option given to ${n}.`;
+		throw a += typeof e == "function" ? " The given target is not a Plugin class. Please check that you're not specifying a React Component instead of a plugin. If you are using @uppy/* packages directly, make sure you have only 1 version of @uppy/core installed: run `npm ls @uppy/core` on the command line and verify that all the versions match and are deduped correctly." : "If you meant to target an HTML element, please make sure that the element exists. Check that the <script> tag initializing Uppy is right before the closing </body> tag at the end of the page. (see https://github.com/transloadit/uppy/issues/1042)\n\nIf you meant to target a plugin, please confirm that your `import` statements or `require` calls are correct.", Error(a);
+	}
+	render(e, t) {
+		throw Error("Extend the render method to add your plugin to a DOM element");
+	}
+	update(e) {
+		this.el != null && this.#e?.(e);
+	}
+	unmount() {
+		this.isTargetDOMEl && this.el?.remove(), this.onUnmount();
+	}
+	onMount() {}
+	onUnmount() {}
+}, qt = /* @__PURE__ */ o(((e, t) => {
+	function n(e) {
+		var t = typeof e;
+		return e != null && (t == "object" || t == "function");
+	}
+	t.exports = n;
+})), Jt = /* @__PURE__ */ o(((e, t) => {
+	t.exports = typeof global == "object" && global && global.Object === Object && global;
+})), Yt = /* @__PURE__ */ o(((e, t) => {
+	var n = Jt(), r = typeof self == "object" && self && self.Object === Object && self;
+	t.exports = n || r || Function("return this")();
+})), Xt = /* @__PURE__ */ o(((e, t) => {
+	var n = Yt();
+	t.exports = function() {
+		return n.Date.now();
+	};
+})), Zt = /* @__PURE__ */ o(((e, t) => {
+	var n = /\s/;
+	function r(e) {
+		for (var t = e.length; t-- && n.test(e.charAt(t)););
+		return t;
+	}
+	t.exports = r;
+})), Qt = /* @__PURE__ */ o(((e, t) => {
+	var n = Zt(), r = /^\s+/;
+	function i(e) {
+		return e && e.slice(0, n(e) + 1).replace(r, "");
+	}
+	t.exports = i;
+})), $t = /* @__PURE__ */ o(((e, t) => {
+	t.exports = Yt().Symbol;
+})), en = /* @__PURE__ */ o(((e, t) => {
+	var n = $t(), r = Object.prototype, i = r.hasOwnProperty, a = r.toString, o = n ? n.toStringTag : void 0;
+	function s(e) {
+		var t = i.call(e, o), n = e[o];
+		try {
+			e[o] = void 0;
+			var r = !0;
+		} catch {}
+		var s = a.call(e);
+		return r && (t ? e[o] = n : delete e[o]), s;
+	}
+	t.exports = s;
+})), tn = /* @__PURE__ */ o(((e, t) => {
+	var n = Object.prototype.toString;
+	function r(e) {
+		return n.call(e);
+	}
+	t.exports = r;
+})), nn = /* @__PURE__ */ o(((e, t) => {
+	var n = $t(), r = en(), i = tn(), a = "[object Null]", o = "[object Undefined]", s = n ? n.toStringTag : void 0;
+	function c(e) {
+		return e == null ? e === void 0 ? o : a : s && s in Object(e) ? r(e) : i(e);
+	}
+	t.exports = c;
+})), rn = /* @__PURE__ */ o(((e, t) => {
+	function n(e) {
+		return typeof e == "object" && !!e;
+	}
+	t.exports = n;
+})), an = /* @__PURE__ */ o(((e, t) => {
+	var n = nn(), r = rn(), i = "[object Symbol]";
+	function a(e) {
+		return typeof e == "symbol" || r(e) && n(e) == i;
+	}
+	t.exports = a;
+})), on = /* @__PURE__ */ o(((e, t) => {
+	var n = Qt(), r = qt(), i = an(), a = NaN, o = /^[-+]0x[0-9a-f]+$/i, s = /^0b[01]+$/i, c = /^0o[0-7]+$/i, l = parseInt;
+	function u(e) {
+		if (typeof e == "number") return e;
+		if (i(e)) return a;
+		if (r(e)) {
+			var t = typeof e.valueOf == "function" ? e.valueOf() : e;
+			e = r(t) ? t + "" : t;
+		}
+		if (typeof e != "string") return e === 0 ? e : +e;
+		e = n(e);
+		var u = s.test(e);
+		return u || c.test(e) ? l(e.slice(2), u ? 2 : 8) : o.test(e) ? a : +e;
+	}
+	t.exports = u;
+})), sn = /* @__PURE__ */ o(((e, t) => {
+	var n = qt(), r = Xt(), i = on(), a = "Expected a function", o = Math.max, s = Math.min;
+	function c(e, t, c) {
+		var l, u, d, f, p, m, h = 0, g = !1, _ = !1, v = !0;
+		if (typeof e != "function") throw TypeError(a);
+		t = i(t) || 0, n(c) && (g = !!c.leading, _ = "maxWait" in c, d = _ ? o(i(c.maxWait) || 0, t) : d, v = "trailing" in c ? !!c.trailing : v);
+		function y(t) {
+			var n = l, r = u;
+			return l = u = void 0, h = t, f = e.apply(r, n), f;
+		}
+		function b(e) {
+			return h = e, p = setTimeout(C, t), g ? y(e) : f;
+		}
+		function x(e) {
+			var n = e - m, r = e - h, i = t - n;
+			return _ ? s(i, d - r) : i;
+		}
+		function S(e) {
+			var n = e - m, r = e - h;
+			return m === void 0 || n >= t || n < 0 || _ && r >= d;
+		}
+		function C() {
+			var e = r();
+			if (S(e)) return w(e);
+			p = setTimeout(C, x(e));
+		}
+		function w(e) {
+			return p = void 0, v && l ? y(e) : (l = u = void 0, f);
+		}
+		function T() {
+			p !== void 0 && clearTimeout(p), h = 0, l = m = u = p = void 0;
+		}
+		function E() {
+			return p === void 0 ? f : w(r());
+		}
+		function D() {
+			var e = r(), n = S(e);
+			if (l = arguments, u = this, m = e, n) {
+				if (p === void 0) return b(m);
+				if (_) return clearTimeout(p), p = setTimeout(C, t), y(m);
+			}
+			return p === void 0 && (p = setTimeout(C, t)), f;
+		}
+		return D.cancel = T, D.flush = E, D;
+	}
+	t.exports = c;
+})), cn = /* @__PURE__ */ o(((e, t) => {
+	var n = sn(), r = qt(), i = "Expected a function";
+	function a(e, t, a) {
+		var o = !0, s = !0;
+		if (typeof e != "function") throw TypeError(i);
+		return r(a) && (o = "leading" in a ? !!a.leading : o, s = "trailing" in a ? !!a.trailing : s), n(e, t, {
+			leading: o,
+			maxWait: t,
+			trailing: s
+		});
+	}
+	t.exports = a;
+})), ln = /* @__PURE__ */ o(((e, t) => {
+	t.exports = function() {
+		var e = {}, t = e._fns = {};
+		e.emit = function(e, t, i, a, o, s, c) {
+			var l = n(e);
+			l.length && r(e, l, [
+				t,
+				i,
+				a,
+				o,
+				s,
+				c
+			]);
+		}, e.on = function(e, n) {
+			t[e] || (t[e] = []), t[e].push(n);
+		}, e.once = function(t, n) {
+			function r() {
+				n.apply(this, arguments), e.off(t, r);
+			}
+			this.on(t, r);
+		}, e.off = function(e, t) {
+			var n = [];
+			if (e && t) for (var r = this._fns[e], i = 0, a = r ? r.length : 0; i < a; i++) r[i] !== t && n.push(r[i]);
+			n.length ? this._fns[e] = n : delete this._fns[e];
+		};
+		function n(e) {
+			for (var n = t[e] ? t[e] : [], r = e.indexOf(":"), i = r === -1 ? [e] : [e.substring(0, r), e.substring(r + 1)], a = Object.keys(t), o = 0, s = a.length; o < s; o++) {
+				var c = a[o];
+				if (c === "*" && (n = n.concat(t[c])), i.length === 2 && i[0] === c) {
+					n = n.concat(t[c]);
+					break;
+				}
+			}
+			return n;
+		}
+		function r(e, t, n) {
+			for (var r = 0, i = t.length; r < i && t[r]; r++) t[r].event = e, t[r].apply(t[r], n);
+		}
+		return e;
+	};
+})), un = "57X6y3wQZNzYjJB2L_10pxbackgroundhimselfUTF-8DEMOGRAPHICSVqvt4KW9", dn = (e = 21) => {
+	let t = "", n = e | 0;
+	for (; n-- > 0;) t += un[Math.random() * 64 | 0];
+	return t;
+}, fn = {
+	name: "@uppy/core",
+	description: "Core module for the extensible JavaScript file upload widget with support for drag&drop, resumable uploads, previews, restrictions, file processing/encoding, remote providers like Dropbox, Google Drive, S3 and more :dog:",
+	version: "6.2.0",
+	license: "MIT",
+	style: "dist/style.min.css",
+	type: "module",
+	sideEffects: ["*.css"],
+	scripts: {
+		build: "tsc --build tsconfig.build.json",
+		"build:css": "sass --load-path=../../ src/style.scss dist/style.css && sass --load-path=../../ src/provider-views/style.scss dist/provider-views.css && postcss dist/style.css -u cssnano -o dist/style.min.css && postcss dist/provider-views.css -u cssnano -o dist/provider-views.min.css",
+		typecheck: "tsc --build",
+		test: "vitest run --silent='passed-only'"
+	},
+	keywords: [
+		"file uploader",
+		"uppy",
+		"uppy-plugin"
+	],
+	homepage: "https://uppy.io",
+	bugs: { url: "https://github.com/transloadit/uppy/issues" },
+	repository: {
+		type: "git",
+		url: "git+https://github.com/transloadit/uppy.git"
+	},
+	files: [
+		"src",
+		"lib",
+		"dist",
+		"CHANGELOG.md"
+	],
+	exports: {
+		".": "./lib/index.js",
+		"./css/style.min.css": "./dist/style.min.css",
+		"./css/style.css": "./dist/style.css",
+		"./css/style.scss": "./src/style.scss",
+		"./store-default": "./lib/store/index.js",
+		"./utils": "./lib/utils/index.js",
+		"./utils/preact": "./lib/utils/preact/index.js",
+		"./utils/preact/hooks": "./lib/utils/preact/hooks.js",
+		"./companion-client": "./lib/companion-client/index.js",
+		"./provider-views": "./lib/provider-views/index.js",
+		"./provider-views/css/style.min.css": "./dist/provider-views.min.css",
+		"./provider-views/css/style.css": "./dist/provider-views.css",
+		"./provider-views/css/style.scss": "./src/provider-views/style.scss",
+		"./package.json": "./package.json"
+	},
+	dependencies: {
+		"@transloadit/prettier-bytes": "^2.0.0",
+		classnames: "^2.5.1",
+		lodash: "^4.18.1",
+		"mime-match": "^1.0.2",
+		"namespace-emitter": "^2.0.1",
+		nanoid: "^6.0.1",
+		"p-queue": "^9.3.3",
+		"p-retry": "^8.0.0",
+		preact: "^10.29.2"
+	},
+	devDependencies: {
+		"@types/deep-freeze": "^0",
+		"@types/gapi": "^0.0.47",
+		"@types/google.accounts": "^0.0.18",
+		"@types/google.picker": "^0.0.52",
+		"@types/lodash": "^4.17.25",
+		"@types/mime-match": "^1.0.0",
+		"@types/namespace-emitter": "^2.0.0",
+		"@types/node": "^22.20.1",
+		"@uppy-dev/tsconfig": "^0.0.0",
+		"@vitest/browser-playwright": "^4.1.11",
+		cssnano: "^8.0.1",
+		"deep-freeze": "^0.0.1",
+		playwright: "1.61.1",
+		postcss: "^8.5.23",
+		"postcss-cli": "^11.0.1",
+		sass: "^1.89.2",
+		typescript: "^6.0.3",
+		vite: "^8.2.2",
+		vitest: "^4.1.11"
+	}
+};
+//#endregion
+//#region node_modules/@uppy/core/lib/getFileName.js
+function pn(e, t) {
+	return t.name ? t.name : e.split("/")[0] === "image" ? `${e.split("/")[0]}.${e.split("/")[1]}` : "noname";
+}
+//#endregion
+//#region node_modules/@uppy/core/lib/locale.js
+var mn = { strings: {
+	addBulkFilesFailed: {
+		0: "Failed to add %{smart_count} file due to an internal error",
+		1: "Failed to add %{smart_count} files due to internal errors"
+	},
+	youCanOnlyUploadX: {
+		0: "You can only upload %{smart_count} file",
+		1: "You can only upload %{smart_count} files"
+	},
+	youHaveToAtLeastSelectX: {
+		0: "You have to select at least %{smart_count} file",
+		1: "You have to select at least %{smart_count} files"
+	},
+	aggregateExceedsSize: "You selected %{size} of files, but maximum allowed size is %{sizeAllowed}",
+	exceedsSize: "%{file} exceeds maximum allowed size of %{size}",
+	missingRequiredMetaField: "Missing required meta fields",
+	missingRequiredMetaFieldOnFile: "Missing required meta fields in %{fileName}",
+	inferiorSize: "This file is smaller than the allowed size of %{size}",
+	youCanOnlyUploadFileTypes: "You can only upload: %{types}",
+	noMoreFilesAllowed: "Cannot add more files",
+	noDuplicates: "Cannot add the duplicate file '%{fileName}', it already exists",
+	companionError: "Connection with Companion failed",
+	actionFailed: "The action failed",
+	authAborted: "Authentication aborted",
+	companionUnauthorizeHint: "To unauthorize to your %{provider} account, please go to %{url}",
+	failedToUpload: "Failed to upload %{file}",
+	noInternetConnection: "No Internet connection",
+	connectedToInternet: "Connected to the Internet",
+	noFilesFound: "You have no files or folders here",
+	noSearchResults: "Unfortunately, there are no results for this search",
+	selectX: {
+		0: "Select %{smart_count}",
+		1: "Select %{smart_count}"
+	},
+	allFilesFromFolderNamed: "All files from folder %{name}",
+	openFolderNamed: "Open folder %{name}",
+	openFileNamed: "Open %{name}",
+	itemActionsNamed: "Actions for %{name}",
+	itemsSelected: {
+		0: "%{smart_count} selected",
+		1: "%{smart_count} selected"
+	},
+	selectMultiple: "Select multiple",
+	cancelSelection: "Cancel selection",
+	close: "Close",
+	detailSize: "Size",
+	detailType: "Type",
+	detailModified: "Modified",
+	cancel: "Cancel",
+	stopOperation: "Stop",
+	dialogConfirm: "OK",
+	logOut: "Log out",
+	logIn: "Log in",
+	pickFiles: "Pick files",
+	pickPhotos: "Pick photos",
+	filter: "Filter",
+	resetFilter: "Reset filter",
+	loading: "Loading...",
+	loadedXFiles: "Loaded %{numFiles} files",
+	authenticateWithTitle: "Please authenticate with %{pluginName} to select files",
+	authenticateWith: "Connect to %{pluginName}",
+	signInWithGoogle: "Sign in with Google",
+	searchImages: "Search for images",
+	enterTextToSearch: "Enter text to search for images",
+	search: "Search",
+	resetSearch: "Reset search",
+	emptyFolderAdded: "No files were added from empty folder",
+	addedNumFiles: "Added %{numFiles} file(s)",
+	folderAlreadyAdded: "The folder \"%{folder}\" was already added",
+	folderAdded: {
+		0: "Added %{smart_count} file from %{folder}",
+		1: "Added %{smart_count} files from %{folder}"
+	},
+	additionalRestrictionsFailed: "%{count} additional restrictions were not fulfilled",
+	unnamed: "Unnamed",
+	pleaseWait: "Please wait",
+	s3AlreadyExists: "A file or folder with that name already exists",
+	s3Conflict: "The file changed while it was being moved. Refresh the folder and try again",
+	s3DestinationMustBeFile: "The destination of a file must be a file path",
+	s3FileTooLargeToMove: "Files larger than 5 GB cannot be moved or renamed here",
+	s3FolderMoveNotSupported: "Folders have to be moved item by item",
+	s3FolderIntoItself: "A folder cannot be moved into itself",
+	s3FolderNotEmpty: "The folder is not empty",
+	s3InvalidGrant: "Your access to this storage could not be verified",
+	s3InvalidName: "That name is not allowed",
+	s3NotConfigured: "This storage is not available",
+	s3NotFound: "The file or folder no longer exists",
+	s3OutsideAllowedFolder: "That path is outside the folder you have access to",
+	s3ReadOnlySession: "Your session is read-only",
+	s3RequestFailed: "The storage request failed",
+	s3SelectedInOtherSession: "This file was selected in another storage session. Reconnect and select it again",
+	webdavCannotConnect: "Cannot connect to server"
+} }, hn = class {
+	static VERSION = fn.version;
+	state = {};
+	#e = /* @__PURE__ */ new Set();
+	getState() {
+		return this.state;
+	}
+	setState(e) {
+		let t = { ...this.state }, n = {
+			...this.state,
+			...e
+		};
+		this.state = n, this.#t(t, n, e);
+	}
+	subscribe(e) {
+		return this.#e.add(e), () => {
+			this.#e.delete(e);
+		};
+	}
+	#t(...e) {
+		this.#e.forEach((t) => {
+			t(...e);
+		});
+	}
+};
+//#endregion
+//#region node_modules/@uppy/core/lib/supportsUploadProgress.js
+function gn(e) {
+	if (e == null && typeof navigator < "u" && (e = navigator.userAgent), !e) return !0;
+	let t = /Edge\/(\d+\.\d+)/.exec(e);
+	if (!t) return !0;
+	let n = t[1].split(".", 2), r = parseInt(n[0], 10), i = parseInt(n[1], 10);
+	return r < 15 || r === 15 && i < 15063 || r > 18 || r === 18 && i >= 18218;
+}
+//#endregion
+//#region node_modules/@uppy/core/lib/Uppy.js
+var _n = /* @__PURE__ */ c(cn(), 1), vn = /* @__PURE__ */ c(ln(), 1), yn = {
+	totalProgress: 0,
+	allowNewUpload: !0,
+	error: null,
+	recoveredState: null
+}, bn = class e {
+	static VERSION = fn.version;
+	#e = Object.create(null);
+	#t;
+	#n;
+	#r = (0, vn.default)();
+	#i = /* @__PURE__ */ new Set();
+	#a = /* @__PURE__ */ new Set();
+	#o = /* @__PURE__ */ new Set();
+	defaultLocale;
+	locale;
+	opts;
+	store;
+	i18n;
+	i18nArray;
+	scheduledAutoProceed = null;
+	wasOffline = !1;
+	constructor(t) {
+		this.defaultLocale = mn;
+		let n = {
+			id: "uppy",
+			autoProceed: !1,
+			allowMultipleUploadBatches: !0,
+			debug: !1,
+			restrictions: Ut,
+			meta: {},
+			onBeforeFileAdded: (e, t) => !Object.hasOwn(t, e.id),
+			onBeforeUpload: (e) => e,
+			store: new hn(),
+			logger: Rt,
+			infoTimeout: 5e3
+		}, r = {
+			...n,
+			...t
+		};
+		this.opts = {
+			...r,
+			restrictions: {
+				...n.restrictions,
+				...t?.restrictions
+			}
+		}, t?.logger && t.debug ? this.log("You are using a custom `logger`, but also set `debug: true`, which uses built-in logger to output logs to console. Ignoring `debug: true` and using your custom `logger`.", "warning") : t?.debug && (this.opts.logger = zt), this.log(`Using Core v${e.VERSION}`), this.i18nInit(), this.store = this.opts.store, this.setState({
+			...yn,
+			plugins: {},
+			files: {},
+			currentUploads: {},
+			capabilities: {
+				uploadProgress: gn(),
+				individualCancellation: !0,
+				resumableUploads: !1
+			},
+			meta: { ...this.opts.meta },
+			info: []
+		}), this.#t = new Wt(() => this.opts, () => this.i18n), this.#n = this.store.subscribe((e, t, n) => {
+			this.emit("state-update", e, t, n), this.updateAll(t);
+		}), this.opts.debug && typeof window < "u" && (window[this.opts.id] = this), this.#b();
+	}
+	emit(e, ...t) {
+		this.#r.emit(e, ...t);
+	}
+	on(e, t) {
+		return this.#r.on(e, t), this;
+	}
+	once(e, t) {
+		return this.#r.once(e, t), this;
+	}
+	off(e, t) {
+		return this.#r.off(e, t), this;
+	}
+	updateAll(e) {
+		this.iteratePlugins((t) => {
+			t.update(e);
+		});
+	}
+	setState(e) {
+		this.store.setState(e);
+	}
+	getState() {
+		return this.store.getState();
+	}
+	patchFilesState(e) {
+		let t = this.getState().files;
+		this.setState({ files: {
+			...t,
+			...Object.fromEntries(Object.entries(e).map(([e, n]) => [e, {
+				...t[e],
+				...n
+			}]))
+		} });
+	}
+	setFileState(e, t) {
+		if (!this.getState().files[e]) throw Error(`Can’t set state for ${e} (the file could have been removed)`);
+		this.patchFilesState({ [e]: t });
+	}
+	i18nInit() {
+		let e = new xe([this.defaultLocale, this.opts.locale], { onMissingKey: (e) => this.log(`Missing i18n string: ${e}`, "error") });
+		this.i18n = e.translate.bind(e), this.i18nArray = e.translateArray.bind(e), this.locale = e.locale;
+	}
+	setOptions(e) {
+		this.opts = {
+			...this.opts,
+			...e,
+			restrictions: {
+				...this.opts.restrictions,
+				...e?.restrictions
+			}
+		}, e.meta && this.setMeta(e.meta), this.i18nInit(), e.locale && this.iteratePlugins((t) => {
+			t.setOptions(e);
+		}), this.setState(void 0);
+	}
+	resetProgress() {
+		let e = {
+			percentage: 0,
+			bytesUploaded: !1,
+			uploadComplete: !1,
+			uploadStarted: null
+		}, t = { ...this.getState().files }, n = Object.create(null);
+		Object.keys(t).forEach((r) => {
+			n[r] = {
+				...t[r],
+				progress: {
+					...t[r].progress,
+					...e
+				},
+				tus: void 0,
+				transloadit: void 0,
+				s3Multipart: void 0
+			};
+		}), this.setState({
+			files: n,
+			...yn
+		});
+	}
+	clear() {
+		let { capabilities: e, currentUploads: t } = this.getState();
+		if (Object.keys(t).length > 0 && !e.individualCancellation) throw Error("The installed uploader plugin does not allow removing files during an upload.");
+		this.setState({
+			...yn,
+			files: {}
+		});
+	}
+	addPreProcessor(e) {
+		this.#i.add(e);
+	}
+	removePreProcessor(e) {
+		return this.#i.delete(e);
+	}
+	addPostProcessor(e) {
+		this.#o.add(e);
+	}
+	removePostProcessor(e) {
+		return this.#o.delete(e);
+	}
+	addUploader(e) {
+		this.#a.add(e);
+	}
+	removeUploader(e) {
+		return this.#a.delete(e);
+	}
+	setMeta(e) {
+		let t = {
+			...this.getState().meta,
+			...e
+		}, n = { ...this.getState().files };
+		Object.keys(n).forEach((t) => {
+			n[t] = {
+				...n[t],
+				meta: {
+					...n[t].meta,
+					...e
+				}
+			};
+		}), this.log("Adding metadata:"), this.log(e), this.setState({
+			meta: t,
+			files: n
+		});
+	}
+	setFileMeta(e, t) {
+		let n = { ...this.getState().files };
+		if (!n[e]) {
+			this.log(`Was trying to set metadata for a file that has been removed: ${e}`);
+			return;
+		}
+		let r = {
+			...n[e].meta,
+			...t
+		};
+		n[e] = {
+			...n[e],
+			meta: r
+		}, this.setState({ files: n });
+	}
+	getFile(e) {
+		return this.getState().files[e];
+	}
+	getFiles() {
+		let { files: e } = this.getState();
+		return Object.values(e);
+	}
+	getFilesByIds(e) {
+		return e.map((e) => this.getFile(e));
+	}
+	getObjectOfFilesPerState() {
+		let { files: e, totalProgress: t, error: n } = this.getState(), r = Object.values(e), i = [], a = [], o = [], s = [], c = [], l = [], u = [], d = [], f = [];
+		for (let e of r) {
+			let { progress: t } = e;
+			!t.uploadComplete && t.uploadStarted && (i.push(e), e.isPaused || d.push(e)), t.uploadStarted || a.push(e), (t.uploadStarted || t.preprocess || t.postprocess) && o.push(e), t.uploadStarted && s.push(e), e.isPaused && c.push(e), t.uploadComplete && l.push(e), e.error && u.push(e), (t.preprocess || t.postprocess) && f.push(e);
+		}
+		return {
+			newFiles: a,
+			startedFiles: o,
+			uploadStartedFiles: s,
+			pausedFiles: c,
+			completeFiles: l,
+			erroredFiles: u,
+			inProgressFiles: i,
+			inProgressNotPausedFiles: d,
+			processingFiles: f,
+			isUploadStarted: s.length > 0,
+			isAllComplete: t === 100 && l.length === r.length && f.length === 0,
+			isAllErrored: !!n && u.length === r.length,
+			isAllPaused: i.length !== 0 && c.length === i.length,
+			isUploadInProgress: i.length > 0,
+			isSomeGhost: r.some((e) => e.isGhost)
+		};
+	}
+	#s(e) {
+		for (let t of e) t.isRestriction ? this.emit("restriction-failed", t.file, t) : this.emit("error", t, t.file), this.log(t, "warning");
+		let t = e.filter((e) => e.isUserFacing), n = t.slice(0, 4), r = t.slice(4);
+		n.forEach(({ message: e, details: t = "" }) => {
+			this.info({
+				message: e,
+				details: t
+			}, "error", this.opts.infoTimeout);
+		}), r.length > 0 && this.info({ message: this.i18n("additionalRestrictionsFailed", { count: r.length }) });
+	}
+	validateRestrictions(e, t = this.getFiles()) {
+		try {
+			this.#t.validate(t, [e]);
+		} catch (e) {
+			return e;
+		}
+		return null;
+	}
+	validateSingleFile(e) {
+		try {
+			this.#t.validateSingleFile(e);
+		} catch (e) {
+			return oe(e);
+		}
+		return null;
+	}
+	validateAggregateRestrictions(e) {
+		let t = this.getFiles();
+		try {
+			this.#t.validateAggregateRestrictions(t, e);
+		} catch (e) {
+			return oe(e);
+		}
+		return null;
+	}
+	#c(e) {
+		let { missingFields: t, error: n } = this.#t.getMissingRequiredMetaFields(e);
+		return t.length > 0 ? (this.setFileState(e.id, {
+			missingRequiredMetaFields: t,
+			error: n.message
+		}), this.log(n.message), this.emit("restriction-failed", e, n), !1) : (t.length === 0 && e.missingRequiredMetaFields && this.setFileState(e.id, { missingRequiredMetaFields: [] }), !0);
+	}
+	#l(e) {
+		let t = !0;
+		for (let n of Object.values(e)) this.#c(n) || (t = !1);
+		return t;
+	}
+	#u(e) {
+		let { allowNewUpload: t } = this.getState();
+		if (t === !1) {
+			let t = new W(this.i18n("noMoreFilesAllowed"), { file: e });
+			throw this.#s([t]), t;
+		}
+	}
+	checkIfFileAlreadyExists(e) {
+		let { files: t } = this.getState();
+		return !(!t[e] || t[e].isGhost);
+	}
+	#d(e) {
+		let t = e instanceof File ? {
+			name: e.name,
+			type: e.type,
+			size: e.size,
+			data: e,
+			meta: {},
+			isRemote: !1,
+			source: void 0,
+			preview: void 0
+		} : e, n = x(t), r = pn(n, t), i = y(r).extension, a = E(t, this.getID()), o = {
+			...t.meta,
+			name: r,
+			type: n
+		}, s = Number.isFinite(t.data.size) ? t.data.size : null;
+		return {
+			source: t.source || "",
+			id: a,
+			name: r,
+			extension: i || "",
+			meta: {
+				...this.getState().meta,
+				...o
+			},
+			type: n,
+			progress: {
+				percentage: 0,
+				bytesUploaded: !1,
+				bytesTotal: s,
+				uploadComplete: !1,
+				uploadStarted: null
+			},
+			size: s,
+			isGhost: !1,
+			...t.isRemote ? {
+				isRemote: !0,
+				remote: t.remote,
+				data: t.data
+			} : {
+				isRemote: !1,
+				data: t.data
+			},
+			preview: t.preview
+		};
+	}
+	#f() {
+		this.opts.autoProceed && !this.scheduledAutoProceed && (this.scheduledAutoProceed = setTimeout(() => {
+			this.scheduledAutoProceed = null, this.upload().catch((e) => {
+				me(e) || this.log(e.stack || e.message || e);
+			});
+		}, 4));
+	}
+	#p(e) {
+		let { files: t } = this.getState(), n = { ...t }, r = [], i = [];
+		for (let a of e) try {
+			let e = this.#d(a);
+			this.#u(e);
+			let i = t[e.id], o = i?.isGhost;
+			if (o && !e.isRemote) {
+				if (e.data == null) throw Error("File data is missing");
+				e = {
+					...i,
+					isGhost: !1,
+					data: e.data
+				}, this.log(`Replaced the blob in the restored ghost file: ${e.name}, ${e.id}`);
+			}
+			let s = this.opts.onBeforeFileAdded(e, n);
+			if (t = this.getState().files, n = {
+				...t,
+				...n
+			}, !s && this.checkIfFileAlreadyExists(e.id)) throw new W(this.i18n("noDuplicates", { fileName: e.name ?? this.i18n("unnamed") }), { file: e });
+			if (s === !1 && !o) throw new W("Cannot add the file because onBeforeFileAdded returned false.", {
+				isUserFacing: !1,
+				file: e
+			});
+			typeof s == "object" && s && (e = s), this.#t.validateSingleFile(e), n[e.id] = e, r.push(e);
+		} catch (e) {
+			i.push(e);
+		}
+		try {
+			this.#t.validateAggregateRestrictions(Object.values(t), r);
+		} catch (e) {
+			return i.push(e), {
+				nextFilesState: t,
+				validFilesToAdd: [],
+				errors: i
+			};
+		}
+		return {
+			nextFilesState: n,
+			validFilesToAdd: r,
+			errors: i
+		};
+	}
+	addFile(e) {
+		let { nextFilesState: t, validFilesToAdd: n, errors: r } = this.#p([e]), i = r.filter((e) => e.isRestriction);
+		if (this.#s(i), r.length > 0) throw r[0];
+		this.setState({ files: t });
+		let [a] = n;
+		return this.emit("file-added", a), this.emit("files-added", n), this.log(`Added file: ${a.name}, ${a.id}, mime type: ${a.type}`), this.#f(), a.id;
+	}
+	addFiles(e) {
+		let { nextFilesState: t, validFilesToAdd: n, errors: r } = this.#p(e), i = r.filter((e) => e.isRestriction);
+		this.#s(i);
+		let a = r.filter((e) => !e.isRestriction);
+		if (a.length > 0) {
+			let e = "Multiple errors occurred while adding files:\n";
+			if (a.forEach((t) => {
+				e += `\n * ${t.message}`;
+			}), this.info({
+				message: this.i18n("addBulkFilesFailed", { smart_count: a.length }),
+				details: e
+			}, "error", this.opts.infoTimeout), typeof AggregateError == "function") throw AggregateError(a, e);
+			{
+				let t = Error(e);
+				throw t.errors = a, t;
+			}
+		}
+		this.setState({ files: t }), n.forEach((e) => {
+			this.emit("file-added", e);
+		}), this.emit("files-added", n), n.length > 5 ? this.log(`Added batch of ${n.length} files`) : Object.values(n).forEach((e) => {
+			this.log(`Added file: ${e.name}\n id: ${e.id}\n type: ${e.type}`);
+		}), n.length > 0 && this.#f();
+	}
+	removeFiles(e) {
+		let { files: t, currentUploads: n } = this.getState(), r = { ...t }, i = { ...n }, a = Object.create(null);
+		e.forEach((e) => {
+			t[e] && (a[e] = t[e], delete r[e]);
+		});
+		function o(e) {
+			return a[e] === void 0;
+		}
+		Object.keys(i).forEach((e) => {
+			let t = n[e].fileIDs.filter(o);
+			if (t.length === 0) {
+				delete i[e];
+				return;
+			}
+			let { capabilities: r } = this.getState();
+			if (t.length !== n[e].fileIDs.length && !r.individualCancellation) throw Error("The installed uploader plugin does not allow removing files during an upload.");
+			i[e] = {
+				...n[e],
+				fileIDs: t
+			};
+		});
+		let s = {
+			currentUploads: i,
+			files: r
+		};
+		Object.keys(r).length === 0 && (s.allowNewUpload = !0, s.error = null, s.recoveredState = null), this.setState(s), this.#v();
+		let c = Object.keys(a);
+		c.forEach((e) => {
+			this.emit("file-removed", a[e]);
+		}), c.length > 5 ? this.log(`Removed ${c.length} files`) : this.log(`Removed files: ${c.join(", ")}`);
+	}
+	removeFile(e) {
+		this.removeFiles([e]);
+	}
+	pauseResume(e) {
+		if (!this.getState().capabilities.resumableUploads || this.getFile(e).progress.uploadComplete) return;
+		let t = this.getFile(e), n = !t.isPaused;
+		return this.setFileState(e, { isPaused: n }), this.emit("upload-pause", t, n), n;
+	}
+	pauseAll() {
+		let e = { ...this.getState().files };
+		Object.keys(e).filter((t) => !e[t].progress.uploadComplete && e[t].progress.uploadStarted).forEach((t) => {
+			let n = {
+				...e[t],
+				isPaused: !0
+			};
+			e[t] = n;
+		}), this.setState({ files: e }), this.emit("pause-all");
+	}
+	resumeAll() {
+		let e = { ...this.getState().files };
+		Object.keys(e).filter((t) => !e[t].progress.uploadComplete && e[t].progress.uploadStarted).forEach((t) => {
+			let n = {
+				...e[t],
+				isPaused: !1,
+				error: null
+			};
+			e[t] = n;
+		}), this.setState({ files: e }), this.emit("resume-all");
+	}
+	#m() {
+		let { files: e } = this.getState();
+		return Object.keys(e).filter((t) => {
+			let n = e[t];
+			return n.error && (!n.missingRequiredMetaFields || n.missingRequiredMetaFields.length === 0);
+		});
+	}
+	async #h() {
+		let e = this.#m(), t = { ...this.getState().files };
+		if (e.forEach((e) => {
+			t[e] = {
+				...t[e],
+				isPaused: !1,
+				error: null
+			};
+		}), this.setState({
+			files: t,
+			error: null
+		}), this.emit("retry-all", this.getFilesByIds(e)), e.length === 0) return {
+			successful: [],
+			failed: []
+		};
+		let n = this.#C(e, { forceAllowNewUpload: !0 });
+		return this.#E(n);
+	}
+	async retryAll() {
+		let e = await this.#h();
+		return this.emit("complete", e), e;
+	}
+	cancelAll() {
+		this.emit("cancel-all");
+		let { files: e } = this.getState(), t = Object.keys(e);
+		t.length && this.removeFiles(t), this.setState(yn);
+	}
+	retryUpload(e) {
+		this.setFileState(e, {
+			error: null,
+			isPaused: !1
+		}), this.emit("upload-retry", this.getFile(e));
+		let t = this.#C([e], { forceAllowNewUpload: !0 });
+		return this.#E(t);
+	}
+	logout() {
+		this.iteratePlugins((e) => {
+			e.provider?.logout?.();
+		});
+	}
+	#g = (e, t) => {
+		let n = e ? this.getFile(e.id) : void 0;
+		if (e == null || !n) {
+			this.log(`Not setting progress for a file that has been removed: ${e?.id}`);
+			return;
+		}
+		if (n.progress.percentage === 100) {
+			this.log(`Not setting progress for a file that has been already uploaded: ${e.id}`);
+			return;
+		}
+		let r = {
+			bytesTotal: t.bytesTotal,
+			percentage: t.bytesTotal != null && Number.isFinite(t.bytesTotal) && t.bytesTotal > 0 ? Math.round(t.bytesUploaded / t.bytesTotal * 100) : void 0
+		};
+		n.progress.uploadStarted == null ? this.setFileState(e.id, { progress: {
+			...n.progress,
+			...r
+		} }) : this.setFileState(e.id, { progress: {
+			...n.progress,
+			...r,
+			bytesUploaded: t.bytesUploaded
+		} }), this.#v();
+	};
+	#_() {
+		let e = this.#y(), t = null;
+		e != null && (t = Math.round(e * 100), t > 100 ? t = 100 : t < 0 && (t = 0)), this.emit("progress", t ?? 0), this.setState({ totalProgress: t ?? 0 });
+	}
+	#v = (0, _n.default)(() => this.#_(), 500, {
+		leading: !0,
+		trailing: !0
+	});
+	[Symbol.for("uppy test: updateTotalProgress")]() {
+		return this.#_();
+	}
+	#y() {
+		let e = this.getFiles().filter((e) => e.progress.uploadStarted || e.progress.preprocess || e.progress.postprocess);
+		if (e.length === 0) return 0;
+		if (e.every((e) => e.progress.uploadComplete)) return 1;
+		let t = (e) => e.progress.bytesTotal != null && e.progress.bytesTotal !== 0, n = e.filter(t), r = e.filter((e) => !t(e));
+		if (n.every((e) => e.progress.uploadComplete) && r.length > 0 && !r.every((e) => e.progress.uploadComplete)) return null;
+		let i = n.reduce((e, t) => e + (t.progress.bytesTotal ?? 0), 0), a = n.reduce((e, t) => e + (t.progress.bytesUploaded || 0), 0);
+		return i === 0 ? 0 : a / i;
+	}
+	#b() {
+		let e = (e, t, n) => {
+			let r = e.message || "Unknown error";
+			e.details && (r += ` ${e.details}`), this.setState({ error: r }), t != null && t.id in this.getState().files && this.setFileState(t.id, {
+				error: r,
+				response: n
+			});
+		};
+		this.on("error", e), this.on("upload-error", (t, n, r) => {
+			if (e(n, t, r), typeof n == "object" && n.message) {
+				this.log(n.message, "error");
+				let e = Error(this.i18n("failedToUpload", { file: t?.name ?? "" }));
+				e.isUserFacing = !0, e.details = n.message, n.details && (e.details += ` ${n.details}`), this.#s([e]);
+			} else this.#s([n]);
+		});
+		let t = null;
+		this.on("upload-stalled", (e, n) => {
+			let { message: r } = e, i = n.map((e) => e.meta.name).join(", ");
+			t ||= (this.info({
+				message: r,
+				details: i
+			}, "warning", this.opts.infoTimeout), setTimeout(() => {
+				t = null;
+			}, this.opts.infoTimeout)), this.log(`${r} ${i}`.trim(), "warning");
+		}), this.on("upload", () => {
+			this.setState({ error: null });
+		}), this.on("upload-start", (e) => {
+			let t = e.filter((e) => {
+				let t = e != null && this.getFile(e.id);
+				return t || this.log(`Not setting progress for a file that has been removed: ${e?.id}`), t;
+			}), n = Object.fromEntries(t.map((e) => [e.id, { progress: {
+				uploadStarted: Date.now(),
+				uploadComplete: !1,
+				bytesUploaded: 0,
+				bytesTotal: e.size
+			} }]));
+			this.patchFilesState(n);
+		}), this.on("upload-progress", this.#g), this.on("upload-success", (e, t) => {
+			if (e == null || !this.getFile(e.id)) {
+				this.log(`Not setting progress for a file that has been removed: ${e?.id}`);
+				return;
+			}
+			let n = this.getFile(e.id).progress, r = this.#o.size > 0;
+			this.setFileState(e.id, {
+				progress: {
+					...n,
+					postprocess: r ? { mode: "indeterminate" } : void 0,
+					uploadComplete: !0,
+					...!r && { complete: !0 },
+					percentage: 100,
+					bytesUploaded: n.bytesTotal
+				},
+				response: t,
+				uploadURL: t.uploadURL,
+				isPaused: !1
+			}), e.size ?? this.setFileState(e.id, { size: t.bytesUploaded || n.bytesTotal }), this.#v();
+		}), this.on("preprocess-progress", (e, t) => {
+			if (e == null || !this.getFile(e.id)) {
+				this.log(`Not setting progress for a file that has been removed: ${e?.id}`);
+				return;
+			}
+			this.setFileState(e.id, { progress: {
+				...this.getFile(e.id).progress,
+				preprocess: t
+			} });
+		}), this.on("preprocess-complete", (e) => {
+			if (e == null || !this.getFile(e.id)) {
+				this.log(`Not setting progress for a file that has been removed: ${e?.id}`);
+				return;
+			}
+			let t = { ...this.getState().files };
+			t[e.id] = {
+				...t[e.id],
+				progress: { ...t[e.id].progress }
+			}, delete t[e.id].progress.preprocess, this.setState({ files: t });
+		}), this.on("postprocess-progress", (e, t) => {
+			if (e == null || !this.getFile(e.id)) {
+				this.log(`Not setting progress for a file that has been removed: ${e?.id}`);
+				return;
+			}
+			this.setFileState(e.id, { progress: {
+				...this.getState().files[e.id].progress,
+				postprocess: t
+			} });
+		}), this.on("postprocess-complete", (e) => {
+			let t = e && this.getFile(e.id);
+			if (t == null) {
+				this.log(`Not setting progress for a file that has been removed: ${e?.id}`);
+				return;
+			}
+			let { postprocess: n, ...r } = t.progress;
+			this.patchFilesState({ [t.id]: { progress: {
+				...r,
+				complete: !0
+			} } });
+		}), this.on("restored", () => {
+			this.#v();
+		}), this.on("dashboard:file-edit-complete", (e) => {
+			e && this.#c(e);
+		}), typeof window < "u" && window.addEventListener && (window.addEventListener("online", this.#x), window.addEventListener("offline", this.#x), setTimeout(this.#x, 3e3));
+	}
+	updateOnlineStatus() {
+		window.navigator.onLine ?? !0 ? (this.emit("is-online"), this.wasOffline &&= (this.emit("back-online"), this.info(this.i18n("connectedToInternet"), "success", 3e3), !1)) : (this.emit("is-offline"), this.info(this.i18n("noInternetConnection"), "error", 0), this.wasOffline = !0);
+	}
+	#x = this.updateOnlineStatus.bind(this);
+	getID() {
+		return this.opts.id;
+	}
+	use(e, ...t) {
+		if (typeof e != "function") throw TypeError(`Expected a plugin class, but got ${e === null ? "null" : typeof e}. Please verify that the plugin was imported and spelled correctly.`);
+		let n = new e(this, ...t), r = n.id;
+		if (!r) throw Error("Your plugin must have an id");
+		if (!n.type) throw Error("Your plugin must have a type");
+		let i = this.getPlugin(r);
+		if (i) {
+			let e = `Already found a plugin named '${i.id}'. Tried to use: '${r}'.\nUppy plugins must have unique \`id\` options.`;
+			throw Error(e);
+		}
+		return e.VERSION && this.log(`Using ${r} v${e.VERSION}`), n.type in this.#e ? this.#e[n.type].push(n) : this.#e[n.type] = [n], n.install(), this.emit("plugin-added", n), this;
+	}
+	getPlugin(e) {
+		for (let t of Object.values(this.#e)) {
+			let n = t.find((t) => t.id === e);
+			if (n != null) return n;
+		}
+	}
+	[Symbol.for("uppy test: getPlugins")](e) {
+		return this.#e[e];
+	}
+	iteratePlugins(e) {
+		Object.values(this.#e).flat(1).forEach(e);
+	}
+	removePlugin(e) {
+		this.log(`Removing plugin ${e.id}`), this.emit("plugin-remove", e), e.uninstall && e.uninstall();
+		let t = this.#e[e.type], n = t.findIndex((t) => t.id === e.id);
+		n !== -1 && t.splice(n, 1);
+		let r = { plugins: {
+			...this.getState().plugins,
+			[e.id]: void 0
+		} };
+		this.setState(r);
+	}
+	destroy() {
+		this.log(`Closing Uppy instance ${this.opts.id}: removing all files and uninstalling plugins`), this.cancelAll(), this.#n(), this.iteratePlugins((e) => {
+			this.removePlugin(e);
+		}), typeof window < "u" && window.removeEventListener && (window.removeEventListener("online", this.#x), window.removeEventListener("offline", this.#x));
+	}
+	hideInfo() {
+		let { info: e } = this.getState();
+		this.setState({ info: e.slice(1) }), this.emit("info-hidden");
+	}
+	info(e, t = "info", n = 3e3) {
+		let r = typeof e == "object";
+		this.setState({ info: [...this.getState().info, {
+			type: t,
+			message: r ? e.message : e,
+			details: r ? e.details : null
+		}] }), setTimeout(() => this.hideInfo(), n), this.emit("info-visible");
+	}
+	log(e, t) {
+		let { logger: n } = this.opts;
+		switch (t) {
+			case "error":
+				n.error(e);
+				break;
+			case "warning":
+				n.warn(e);
+				break;
+			default: n.debug(e);
+		}
+	}
+	#S = /* @__PURE__ */ new Map();
+	registerRequestClient(e, t) {
+		this.#S.set(e, t);
+	}
+	getRequestClientForFile(e) {
+		if (!("remote" in e && e.remote)) throw Error(`Tried to get RequestClient for a non-remote file ${e.id}`);
+		let t = this.#S.get(e.remote.requestClientId);
+		if (t == null) throw Error(`requestClientId "${e.remote.requestClientId}" not registered for file "${e.id}"`);
+		return t;
+	}
+	async restore(e) {
+		this.log(`Core: Running restored upload "${e}"`);
+		let t = await this.#E(e);
+		return this.emit("complete", t), t;
+	}
+	#C(e, t = {}) {
+		let { forceAllowNewUpload: n = !1 } = t, { allowNewUpload: r, currentUploads: i } = this.getState();
+		if (!r && !n) throw Error("Cannot create a new upload: already uploading.");
+		let a = dn();
+		return this.emit("upload", a, this.getFilesByIds(e)), this.setState({
+			allowNewUpload: this.opts.allowMultipleUploadBatches !== !1 && this.opts.allowMultipleUploads !== !1,
+			currentUploads: {
+				...i,
+				[a]: {
+					fileIDs: e,
+					step: 0,
+					result: {}
+				}
+			}
+		}), a;
+	}
+	[Symbol.for("uppy test: createUpload")](...e) {
+		return this.#C(...e);
+	}
+	#w(e) {
+		let { currentUploads: t } = this.getState();
+		return t[e];
+	}
+	addResultData(e, t) {
+		if (!this.#w(e)) {
+			this.log(`Not setting result for an upload that has been removed: ${e}`);
+			return;
+		}
+		let { currentUploads: n } = this.getState(), r = {
+			...n[e],
+			result: {
+				...n[e].result,
+				...t
+			}
+		};
+		this.setState({ currentUploads: {
+			...n,
+			[e]: r
+		} });
+	}
+	#T(e) {
+		let { [e]: t, ...n } = this.getState().currentUploads;
+		this.setState({ currentUploads: n });
+	}
+	async #E(e) {
+		let t = () => {
+			let { currentUploads: t } = this.getState();
+			return t[e];
+		}, n = t();
+		if (!n) throw Error("Nonexistent upload");
+		let r = [
+			...this.#i,
+			...this.#a,
+			...this.#o
+		];
+		try {
+			for (let i = n.step || 0; i < r.length; i++) {
+				let a = r[i];
+				this.setState({ currentUploads: {
+					...this.getState().currentUploads,
+					[e]: {
+						...n,
+						step: i
+					}
+				} });
+				let { fileIDs: o } = n;
+				if (await a(o, e), n = t(), !n) break;
+			}
+		} catch (t) {
+			throw this.#T(e), t;
+		}
+		if (n) {
+			n.fileIDs.forEach((e) => {
+				let t = this.getFile(e);
+				t?.progress.postprocess && this.emit("postprocess-complete", t);
+			});
+			let r = n.fileIDs.map((e) => this.getFile(e)), i = r.filter((e) => !e.error), a = r.filter((e) => e.error);
+			this.addResultData(e, {
+				successful: i,
+				failed: a,
+				uploadID: e
+			}), n = t();
+		}
+		let i;
+		return n && (i = n.result, this.#T(e)), i ??= (this.log(`Not setting result for an upload that has been removed: ${e}`), {
+			successful: [],
+			failed: [],
+			uploadID: e
+		}), i;
+	}
+	async upload() {
+		this.#e.uploader?.length || this.log("No uploader type plugins are used", "warning");
+		let { files: e } = this.getState();
+		if (this.#m().length > 0) {
+			let t = await this.#h();
+			if (!(this.getFiles().filter((e) => e.progress.uploadStarted == null).length > 0)) return this.emit("complete", t), t;
+			({files: e} = this.getState());
+		}
+		let t = this.opts.onBeforeUpload(e);
+		if (t === !1) throw Error("Not starting the upload because onBeforeUpload returned false");
+		t && typeof t == "object" && (e = t, this.setState({ files: e }));
+		try {
+			if (this.#t.validateMinNumberOfFiles(e), !this.#l(e)) throw new W(this.i18n("missingRequiredMetaField"));
+			let { currentUploads: t } = this.getState(), n = Object.values(t).flatMap((e) => e.fileIDs), r = Object.keys(e).filter((e) => {
+				let t = this.getFile(e);
+				return t && !t.progress.uploadStarted && !n.includes(e);
+			}), i = this.#C(r), a = await this.#E(i);
+			return this.emit("complete", a), a;
+		} catch (e) {
+			throw this.#s([h(e)]), e;
+		}
+	}
+};
+//#endregion
+//#region node_modules/@uppy/core/lib/provider-views/useSearchForm.js
+function xn(e) {
+	let t = H((t) => {
+		t.preventDefault(), e();
+	}, [e]), [n] = z(() => {
+		let e = document.createElement("form");
+		return e.setAttribute("tabindex", "-1"), e.id = dn(), e;
+	});
+	return B(() => (document.body.appendChild(n), n.addEventListener("submit", t), () => {
+		n.removeEventListener("submit", t), n.remove();
+	}), [n, t]), { formId: n.id };
+}
+//#endregion
+//#region node_modules/@uppy/core/lib/provider-views/FilterInput.js
+function Sn({ value: e, onChange: t, onSubmit: n, inputLabel: r, i18n: i, disabled: a = !1 }) {
+	let { formId: o } = xn(n);
+	return F("section", {
+		className: "uppy-ProviderBrowser-searchFilter",
+		children: [
+			F("input", {
+				className: "uppy-u-reset uppy-ProviderBrowser-searchFilterInput",
+				type: "search",
+				"aria-label": r,
+				placeholder: r,
+				value: e,
+				onInput: (e) => t(e.target.value),
+				form: o,
+				disabled: a,
+				"data-uppy-super-focusable": !0
+			}),
+			F("svg", {
+				"aria-hidden": "true",
+				focusable: "false",
+				className: "uppy-c-icon uppy-ProviderBrowser-searchFilterIcon",
+				width: "12",
+				height: "12",
+				viewBox: "0 0 12 12",
+				children: F("path", { d: "M8.638 7.99l3.172 3.172a.492.492 0 1 1-.697.697L7.91 8.656a4.977 4.977 0 0 1-2.983.983C2.206 9.639 0 7.481 0 4.819 0 2.158 2.206 0 4.927 0c2.721 0 4.927 2.158 4.927 4.82a4.74 4.74 0 0 1-1.216 3.17zm-3.71.685c2.176 0 3.94-1.726 3.94-3.856 0-2.129-1.764-3.855-3.94-3.855C2.75.964.984 2.69.984 4.819c0 2.13 1.765 3.856 3.942 3.856z" })
+			}),
+			e && F("button", {
+				className: "uppy-u-reset uppy-ProviderBrowser-searchFilterReset",
+				type: "button",
+				"aria-label": i("resetFilter"),
+				disabled: a,
+				onClick: () => t(""),
+				children: F("svg", {
+					"aria-hidden": "true",
+					focusable: "false",
+					className: "uppy-c-icon",
+					viewBox: "0 0 19 19",
+					children: F("path", { d: "M17.318 17.232L9.94 9.854 9.586 9.5l-.354.354-7.378 7.378h.707l-.62-.62v.706L9.318 9.94l.354-.354-.354-.354L1.94 1.854v.707l.62-.62h-.706l7.378 7.378.354.354.354-.354 7.378-7.378h-.707l.622.62v-.706L9.854 9.232l-.354.354.354.354 7.378 7.378.708-.707-7.38-7.378v.708l7.38-7.38.353-.353-.353-.353-.622-.622-.353-.353-.354.352-7.378 7.38h.708L2.56 1.23 2.208.88l-.353.353-.622.62-.353.355.352.353 7.38 7.38v-.708l-7.38 7.38-.353.353.352.353.622.622.353.353.354-.353 7.38-7.38h-.708l7.38 7.38z" })
+				})
+			})
+		]
+	});
+}
+//#endregion
+//#region node_modules/@uppy/core/lib/companion-client/AuthError.js
+function Cn(e) {
+	return e instanceof Error && "isAuthError" in e && e.isAuthError === !0;
+}
+//#endregion
+//#region node_modules/@uppy/core/lib/provider-views/ProviderView/AuthView.js
+function wn() {
+	return F("svg", {
+		width: "26",
+		height: "26",
+		viewBox: "0 0 26 26",
+		xmlns: "http://www.w3.org/2000/svg",
+		children: F("g", {
+			fill: "none",
+			"fill-rule": "evenodd",
+			children: [
+				F("circle", {
+					fill: "#FFF",
+					cx: "13",
+					cy: "13",
+					r: "13"
+				}),
+				F("path", {
+					d: "M21.64 13.205c0-.639-.057-1.252-.164-1.841H13v3.481h4.844a4.14 4.14 0 01-1.796 2.716v2.259h2.908c1.702-1.567 2.684-3.875 2.684-6.615z",
+					fill: "#4285F4",
+					"fill-rule": "nonzero"
+				}),
+				F("path", {
+					d: "M13 22c2.43 0 4.467-.806 5.956-2.18l-2.908-2.259c-.806.54-1.837.86-3.048.86-2.344 0-4.328-1.584-5.036-3.711H4.957v2.332A8.997 8.997 0 0013 22z",
+					fill: "#34A853",
+					"fill-rule": "nonzero"
+				}),
+				F("path", {
+					d: "M7.964 14.71A5.41 5.41 0 017.682 13c0-.593.102-1.17.282-1.71V8.958H4.957A8.996 8.996 0 004 13c0 1.452.348 2.827.957 4.042l3.007-2.332z",
+					fill: "#FBBC05",
+					"fill-rule": "nonzero"
+				}),
+				F("path", {
+					d: "M13 7.58c1.321 0 2.508.454 3.44 1.345l2.582-2.58C17.463 4.891 15.426 4 13 4a8.997 8.997 0 00-8.043 4.958l3.007 2.332C8.672 9.163 10.656 7.58 13 7.58z",
+					fill: "#EA4335",
+					"fill-rule": "nonzero"
+				}),
+				F("path", { d: "M4 4h18v18H4z" })
+			]
+		})
+	});
+}
+function Tn({ pluginName: e, i18n: t, onAuth: n }) {
+	let r = e === "Google Drive";
+	return F("form", {
+		onSubmit: H((e) => {
+			e.preventDefault(), n();
+		}, [n]),
+		children: r ? F("button", {
+			type: "submit",
+			className: "uppy-u-reset uppy-c-btn uppy-c-btn-primary uppy-Provider-authBtn uppy-Provider-btn-google",
+			"data-uppy-super-focusable": !0,
+			children: [F(wn, {}), t("signInWithGoogle")]
+		}) : F("button", {
+			type: "submit",
+			className: "uppy-u-reset uppy-c-btn uppy-c-btn-primary uppy-Provider-authBtn",
+			"data-uppy-super-focusable": !0,
+			children: t("authenticateWith", { pluginName: e })
+		})
+	});
+}
+var En = ({ pluginName: e, i18n: t, onAuth: n }) => F(Tn, {
+	pluginName: e,
+	i18n: t,
+	onAuth: n
+});
+function Dn({ loading: e, pluginName: t, pluginIcon: n, i18n: r, handleAuth: i, renderForm: a = En }) {
+	return F("div", {
+		className: "uppy-Provider-auth",
+		children: [
+			F("div", {
+				className: "uppy-Provider-authIcon",
+				children: n()
+			}),
+			F("div", {
+				className: "uppy-Provider-authTitle",
+				children: r("authenticateWithTitle", { pluginName: t })
+			}),
+			a({
+				pluginName: t,
+				i18n: r,
+				loading: e,
+				onAuth: i
+			})
+		]
+	});
+}
+//#endregion
+//#region node_modules/classnames/index.js
+var On = /* @__PURE__ */ o(((e, t) => {
+	(function() {
+		var e = {}.hasOwnProperty;
+		function n() {
+			for (var e = "", t = 0; t < arguments.length; t++) {
+				var n = arguments[t];
+				n && (e = i(e, r(n)));
+			}
+			return e;
+		}
+		function r(t) {
+			if (typeof t == "string" || typeof t == "number") return t;
+			if (typeof t != "object") return "";
+			if (Array.isArray(t)) return n.apply(null, t);
+			if (t.toString !== Object.prototype.toString && !t.toString.toString().includes("[native code]")) return t.toString();
+			var r = "";
+			for (var a in t) e.call(t, a) && t[a] && (r = i(r, a));
+			return r;
+		}
+		function i(e, t) {
+			return t ? e ? e + " " + t : e + t : e;
+		}
+		t !== void 0 && t.exports ? (n.default = n, t.exports = n) : typeof define == "function" && typeof define.amd == "object" && define.amd ? define("classnames", [], function() {
+			return n;
+		}) : window.classNames = n;
+	})();
+})), kn = {
+	S3_ALREADY_EXISTS: "s3AlreadyExists",
+	S3_CONFLICT: "s3Conflict",
+	S3_DESTINATION_MUST_BE_FILE: "s3DestinationMustBeFile",
+	S3_FILE_TOO_LARGE_TO_MOVE: "s3FileTooLargeToMove",
+	S3_FOLDER_INTO_ITSELF: "s3FolderIntoItself",
+	S3_FOLDER_MOVE_NOT_SUPPORTED: "s3FolderMoveNotSupported",
+	S3_FOLDER_NOT_EMPTY: "s3FolderNotEmpty",
+	S3_INVALID_GRANT: "s3InvalidGrant",
+	S3_INVALID_NAME: "s3InvalidName",
+	S3_NOT_CONFIGURED: "s3NotConfigured",
+	S3_NOT_FOUND: "s3NotFound",
+	S3_OUTSIDE_ALLOWED_FOLDER: "s3OutsideAllowedFolder",
+	S3_READ_ONLY_SESSION: "s3ReadOnlySession",
+	S3_REQUEST_FAILED: "s3RequestFailed",
+	S3_SELECTED_IN_OTHER_SESSION: "s3SelectedInOtherSession",
+	WEBDAV_CANNOT_CONNECT: "webdavCannotConnect"
+};
+function An(e, t) {
+	let { code: n } = t;
+	return n && Object.hasOwn(kn, n) ? e(kn[n]) : n && t.message === n ? e("companionError") : t.message;
+}
+//#endregion
+//#region node_modules/@uppy/core/lib/provider-views/Item/components/ItemActionsMenu.js
+var jn = ({ appliesTo: e = "all" }, t) => e === "all" || e === (t.data.isFolder ? "folder" : "file");
+function Mn(e, t) {
+	return e.filter((e) => jn(e, t));
+}
+function Nn({ file: e, actions: t, open: n, onToggle: r, i18n: i }) {
+	return t.some((t) => jn(t, e)) ? F("div", {
+		className: "uppy-ProviderBrowserItem-actions",
+		children: F("button", {
+			type: "button",
+			className: "uppy-u-reset uppy-c-btn uppy-ProviderBrowserItem-actionsBtn",
+			"aria-label": i("itemActionsNamed", { name: e.data.name ?? i("unnamed") }),
+			"aria-haspopup": "menu",
+			"aria-expanded": n,
+			onClick: (e) => {
+				e.stopPropagation(), e.preventDefault(), r(e.currentTarget);
+			},
+			children: F("svg", {
+				"aria-hidden": "true",
+				width: "16",
+				height: "16",
+				viewBox: "0 0 16 16",
+				focusable: "false",
+				children: [
+					F("circle", {
+						cx: "3",
+						cy: "8",
+						r: "1.5",
+						fill: "currentColor"
+					}),
+					F("circle", {
+						cx: "8",
+						cy: "8",
+						r: "1.5",
+						fill: "currentColor"
+					}),
+					F("circle", {
+						cx: "13",
+						cy: "8",
+						r: "1.5",
+						fill: "currentColor"
+					})
+				]
+			})
+		})
+	}) : null;
+}
+//#endregion
+//#region node_modules/@uppy/core/lib/provider-views/ModalDialog.js
+function Pn(e) {
+	e.key === "Escape" && e.stopPropagation();
+}
+var Fn = (e) => {
+	let t = e.currentTarget;
+	if (e.target !== t) return !1;
+	let n = t.getBoundingClientRect();
+	return e.clientX < n.left || e.clientX > n.right || e.clientY < n.top || e.clientY > n.bottom;
+};
+function In({ onDismiss: e, restoreFocus: t, children: n, ...r }) {
+	let i = V(null), a = V(!1), o = V(t);
+	return o.current = t, B(() => {
+		let e = i.current;
+		if (!e) return;
+		let t = document.activeElement instanceof HTMLElement ? document.activeElement : null;
+		return typeof e.showModal == "function" ? e.showModal() : (e.setAttribute("open", ""), e.querySelector("button")?.focus()), () => {
+			e.open && typeof e.close == "function" && e.close();
+			let { activeElement: n } = document;
+			(n === document.body || e.contains(n)) && (t?.isConnected ? t : o.current?.(e))?.focus();
+		};
+	}, []), F("dialog", {
+		...r,
+		ref: i,
+		onCancel: (t) => {
+			t.preventDefault(), e();
+		},
+		onPointerDown: (e) => {
+			a.current = Fn(e);
+		},
+		onClick: (t) => {
+			a.current && Fn(t) && e(), a.current = !1;
+		},
+		onKeyDown: (t) => {
+			t.key !== "Escape" || t.isComposing || (t.preventDefault(), t.stopPropagation(), e());
+		},
+		children: n
+	});
+}
+//#endregion
+//#region node_modules/@uppy/core/lib/provider-views/Item/components/ItemActionsPopover.js
+var G = /* @__PURE__ */ c(On(), 1), Ln = 4;
+function Rn({ file: e, actions: t, anchor: n, containerRef: r, runAction: i, onClose: a, i18n: o }) {
+	let s = V(null), [c, l] = z(null), u = H(() => {
+		let e = s.current;
+		if (!e) return;
+		let t = n.getBoundingClientRect(), r = e.offsetHeight, i = t.bottom + Ln + r <= window.innerHeight ? t.bottom + Ln : Math.max(0, t.top - Ln - r);
+		l(getComputedStyle(n).direction === "rtl" ? {
+			top: i,
+			left: Math.max(0, t.left)
+		} : {
+			top: i,
+			right: Math.max(0, window.innerWidth - t.right)
+		});
+	}, [n]);
+	wt(u, [u]), B(() => {
+		let e = s.current, t = r.current;
+		if (!e) return;
+		let n = (e) => {
+			e.newState === "closed" && a();
+		}, i = new AbortController(), { signal: o } = i;
+		return e.addEventListener("toggle", n, { signal: o }), typeof e.showPopover == "function" && e.showPopover(), u(), window.addEventListener("scroll", (e) => {
+			if (t && e.target instanceof Node && t.contains(e.target)) {
+				a();
+				return;
+			}
+			u();
+		}, {
+			capture: !0,
+			signal: o
+		}), window.addEventListener("resize", u, { signal: o }), e.querySelector("[role=\"menuitem\"]")?.focus({ preventScroll: !0 }), () => i.abort();
+	}, [
+		r,
+		a,
+		u
+	]);
+	let d = () => {
+		a(), n.focus({ preventScroll: !0 });
+	}, f = (e) => {
+		let t = Array.from(s.current?.querySelectorAll("[role=\"menuitem\"]") ?? []), n = t.indexOf(document.activeElement), r = (n) => {
+			e.preventDefault(), t[(n + t.length) % t.length]?.focus({ preventScroll: !0 });
+		};
+		switch (e.key) {
+			case "Escape":
+				Pn(e), typeof s.current?.hidePopover != "function" && d();
+				break;
+			case "ArrowDown":
+				r(n + 1);
+				break;
+			case "ArrowUp":
+				r(n - 1);
+				break;
+			case "Home":
+				r(0);
+				break;
+			case "End":
+				r(t.length - 1);
+				break;
+			case "Tab": a();
+		}
+	};
+	return F("div", {
+		ref: s,
+		className: "uppy-ProviderBrowserItem-actionsMenu",
+		popover: "auto",
+		role: "menu",
+		"aria-label": o("itemActionsNamed", { name: e.data.name ?? o("unnamed") }),
+		style: c ? {
+			top: `${c.top}px`,
+			..."left" in c ? { left: `${c.left}px` } : { right: `${c.right}px` }
+		} : { visibility: "hidden" },
+		onKeyDown: f,
+		children: t.map((t) => F("button", {
+			type: "button",
+			role: "menuitem",
+			className: (0, G.default)("uppy-u-reset uppy-c-btn uppy-ProviderBrowserItem-actionsMenuItem", t.danger && "uppy-ProviderBrowserItem-actionsMenuItem--danger"),
+			onClick: (n) => {
+				n.stopPropagation(), n.preventDefault(), d(), i(t, e);
+			},
+			children: t.label
+		}, t.id))
+	});
+}
+//#endregion
+//#region node_modules/@uppy/core/lib/provider-views/Item/components/useItemMenu.js
+function zn(e) {
+	let [t, n] = z(null), r = t ? e.find(({ id: e }) => e === t.id) : void 0;
+	return {
+		open: t && r ? {
+			item: r,
+			anchor: t.anchor
+		} : null,
+		close: H(() => n(null), []),
+		toggle: H((e, t) => n((n) => n?.id === e ? null : {
+			id: e,
+			anchor: t
+		}), [])
+	};
+}
+//#endregion
+//#region node_modules/@uppy/core/lib/provider-views/Item/components/ItemIcon.js
+function Bn() {
+	return F("svg", {
+		"aria-hidden": "true",
+		focusable: "false",
+		className: "uppy-c-icon",
+		width: 11,
+		height: 14.5,
+		viewBox: "0 0 44 58",
+		children: F("path", { d: "M27.437.517a1 1 0 0 0-.094.03H4.25C2.037.548.217 2.368.217 4.58v48.405c0 2.212 1.82 4.03 4.03 4.03H39.03c2.21 0 4.03-1.818 4.03-4.03V15.61a1 1 0 0 0-.03-.28 1 1 0 0 0 0-.093 1 1 0 0 0-.03-.032 1 1 0 0 0 0-.03 1 1 0 0 0-.032-.063 1 1 0 0 0-.03-.063 1 1 0 0 0-.032 0 1 1 0 0 0-.03-.063 1 1 0 0 0-.032-.03 1 1 0 0 0-.03-.063 1 1 0 0 0-.063-.062l-14.593-14a1 1 0 0 0-.062-.062A1 1 0 0 0 28 .708a1 1 0 0 0-.374-.157 1 1 0 0 0-.156 0 1 1 0 0 0-.03-.03l-.003-.003zM4.25 2.547h22.218v9.97c0 2.21 1.82 4.03 4.03 4.03h10.564v36.438a2.02 2.02 0 0 1-2.032 2.032H4.25c-1.13 0-2.032-.9-2.032-2.032V4.58c0-1.13.902-2.032 2.03-2.032zm24.218 1.345l10.375 9.937.75.718H30.5c-1.13 0-2.032-.9-2.032-2.03V3.89z" })
+	});
+}
+function Vn() {
+	return F("svg", {
+		"aria-hidden": "true",
+		focusable: "false",
+		className: "uppy-c-icon",
+		style: {
+			minWidth: 16,
+			marginRight: 3
+		},
+		viewBox: "0 0 276.157 276.157",
+		children: F("path", { d: "M273.08 101.378c-3.3-4.65-8.86-7.32-15.254-7.32h-24.34V67.59c0-10.2-8.3-18.5-18.5-18.5h-85.322c-3.63 0-9.295-2.875-11.436-5.805l-6.386-8.735c-4.982-6.814-15.104-11.954-23.546-11.954H58.73c-9.292 0-18.638 6.608-21.737 15.372l-2.033 5.752c-.958 2.71-4.72 5.37-7.596 5.37H18.5C8.3 49.09 0 57.39 0 67.59v167.07c0 .886.16 1.73.443 2.52.152 3.306 1.18 6.424 3.053 9.064 3.3 4.652 8.86 7.32 15.255 7.32h188.487c11.395 0 23.27-8.425 27.035-19.18l40.677-116.188c2.11-6.035 1.43-12.164-1.87-16.816zM18.5 64.088h8.864c9.295 0 18.64-6.607 21.738-15.37l2.032-5.75c.96-2.712 4.722-5.373 7.597-5.373h29.565c3.63 0 9.295 2.876 11.437 5.806l6.386 8.735c4.982 6.815 15.104 11.954 23.546 11.954h85.322c1.898 0 3.5 1.602 3.5 3.5v26.47H69.34c-11.395 0-23.27 8.423-27.035 19.178L15 191.23V67.59c0-1.898 1.603-3.5 3.5-3.5zm242.29 49.15l-40.676 116.188c-1.674 4.78-7.812 9.135-12.877 9.135H18.75c-1.447 0-2.576-.372-3.02-.997-.442-.625-.422-1.814.057-3.18l40.677-116.19c1.674-4.78 7.812-9.134 12.877-9.134h188.487c1.448 0 2.577.372 3.02.997.443.625.423 1.814-.056 3.18z" })
+	});
+}
+function Hn() {
+	return F("svg", {
+		"aria-hidden": "true",
+		focusable: "false",
+		style: {
+			width: 16,
+			marginRight: 4
+		},
+		viewBox: "0 0 58 58",
+		children: [F("path", { d: "M36.537 28.156l-11-7a1.005 1.005 0 0 0-1.02-.033C24.2 21.3 24 21.635 24 22v14a1 1 0 0 0 1.537.844l11-7a1.002 1.002 0 0 0 0-1.688zM26 34.18V23.82L34.137 29 26 34.18z" }), F("path", { d: "M57 6H1a1 1 0 0 0-1 1v44a1 1 0 0 0 1 1h56a1 1 0 0 0 1-1V7a1 1 0 0 0-1-1zM10 28H2v-9h8v9zm-8 2h8v9H2v-9zm10 10V8h34v42H12V40zm44-12h-8v-9h8v9zm-8 2h8v9h-8v-9zm8-22v9h-8V8h8zM2 8h8v9H2V8zm0 42v-9h8v9H2zm54 0h-8v-9h8v9z" })]
+	});
+}
+function Un({ itemIconString: e, alt: t = void 0 }) {
+	if (e === null) return null;
+	switch (e) {
+		case "file": return F(Bn, {});
+		case "folder": return F(Vn, {});
+		case "video": return F(Hn, {});
+		default: return F("img", {
+			src: e,
+			alt: t,
+			referrerPolicy: "no-referrer",
+			loading: "lazy",
+			width: 16,
+			height: 16
+		});
+	}
+}
+//#endregion
+//#region node_modules/@uppy/core/lib/provider-views/Item/components/GridItem.js
+function Wn({ file: e, toggleCheckbox: t, className: n, isDisabled: r, restrictionError: i, showTitles: a, children: o = null, i18n: s, actionsMenu: c = null, selectable: l = !0, onFileClick: u }) {
+	let d = e.data.name ?? s("unnamed"), f = F(j, { children: [
+		F(Un, { itemIconString: e.data.thumbnail || e.data.icon }),
+		a && d,
+		o
+	] });
+	return F("li", {
+		className: n,
+		title: r && i ? i : void 0,
+		children: [
+			l && F("input", {
+				type: "checkbox",
+				className: "uppy-u-reset uppy-ProviderBrowserItem-checkbox uppy-ProviderBrowserItem-checkbox--grid",
+				onChange: t,
+				name: "listitem",
+				id: e.id,
+				checked: e.status === "checked",
+				disabled: r,
+				"data-uppy-super-focusable": !0
+			}),
+			!l && u && !e.data.isFolder ? F("button", {
+				type: "button",
+				"aria-label": s("openFileNamed", { name: d }),
+				"data-uppy-item-id": e.id,
+				className: "uppy-u-reset uppy-ProviderBrowserItem-inner",
+				onClick: () => u(e),
+				children: f
+			}) : F("label", {
+				htmlFor: l ? e.id : void 0,
+				"aria-label": d,
+				className: "uppy-u-reset uppy-ProviderBrowserItem-inner",
+				children: f
+			}),
+			c
+		]
+	});
+}
+//#endregion
+//#region node_modules/@uppy/core/lib/provider-views/Item/components/ListItem.js
+function Gn({ file: e, openFolder: t, className: n, isDisabled: r, restrictionError: i, toggleCheckbox: a, showTitles: o, i18n: s, actionsMenu: c = null, selectable: l = !0, onFileClick: u }) {
+	let d = F(j, { children: [F("div", {
+		className: "uppy-ProviderBrowserItem-iconWrap",
+		children: F(Un, { itemIconString: e.data.icon })
+	}), o && F("span", {
+		className: "uppy-truncate-text",
+		children: e.data.name ?? s("unnamed")
+	})] });
+	return F("li", {
+		className: n,
+		title: e.status !== "checked" && i ? i : void 0,
+		children: [
+			l && F("input", {
+				type: "checkbox",
+				className: "uppy-u-reset uppy-ProviderBrowserItem-checkbox",
+				onChange: a,
+				name: "listitem",
+				id: e.id,
+				checked: e.status === "checked",
+				"aria-label": e.data.isFolder ? s("allFilesFromFolderNamed", { name: e.data.name ?? s("unnamed") }) : null,
+				disabled: r,
+				"data-uppy-super-focusable": !0
+			}),
+			e.data.isFolder ? F("button", {
+				type: "button",
+				className: "uppy-u-reset uppy-c-btn uppy-ProviderBrowserItem-inner",
+				onClick: () => t(e.id),
+				"aria-label": s("openFolderNamed", { name: e.data.name ?? s("unnamed") }),
+				children: [F("div", {
+					className: "uppy-ProviderBrowserItem-iconWrap",
+					children: F(Un, { itemIconString: e.data.icon })
+				}), o && e.data.name ? F("span", {
+					className: "uppy-truncate-text",
+					children: e.data.name
+				}) : s("unnamed")]
+			}) : l ? F("label", {
+				htmlFor: e.id,
+				className: "uppy-u-reset uppy-ProviderBrowserItem-inner",
+				children: d
+			}) : F("button", {
+				type: "button",
+				className: "uppy-u-reset uppy-c-btn uppy-ProviderBrowserItem-inner",
+				onClick: () => u?.(e),
+				"data-uppy-item-id": e.id,
+				"aria-label": s("openFileNamed", { name: e.data.name ?? s("unnamed") }),
+				children: d
+			}),
+			c
+		]
+	});
+}
+//#endregion
+//#region node_modules/@uppy/core/lib/provider-views/Item/index.js
+function Kn(e) {
+	let { viewType: t, toggleCheckbox: n, showTitles: r, i18n: i, openFolder: a, file: o, utmSource: s, actions: c = [], menuOpen: l = !1, toggleMenu: u, selectable: d = !0, onFileClick: f } = e, p = c.length > 0 && u ? F(Nn, {
+		file: o,
+		actions: c,
+		open: l,
+		onToggle: u,
+		i18n: i
+	}) : null, m = o.type === "folder" ? null : o.restrictionError, h = !!m && o.status !== "checked", g = {
+		file: o,
+		openFolder: a,
+		toggleCheckbox: n,
+		utmSource: s,
+		i18n: i,
+		viewType: t,
+		showTitles: r,
+		className: (0, G.default)("uppy-ProviderBrowserItem", { "uppy-ProviderBrowserItem--disabled": h }, { "uppy-ProviderBrowserItem--noPreview": o.data.icon === "video" }, { "uppy-ProviderBrowserItem--is-checked": o.status === "checked" }, { "uppy-ProviderBrowserItem--is-partial": o.status === "partial" }),
+		isDisabled: h,
+		restrictionError: m,
+		actionsMenu: p,
+		selectable: d,
+		onFileClick: f
+	};
+	switch (t) {
+		case "grid": return F(Wn, { ...g });
+		case "list": return F(Gn, { ...g });
+		case "unsplash": return F(Wn, {
+			...g,
+			children: F("a", {
+				href: `${o.data.author.url}?utm_source=${s}&utm_medium=referral`,
+				target: "_blank",
+				rel: "noopener noreferrer",
+				className: "uppy-ProviderBrowserItem-author",
+				tabIndex: -1,
+				children: o.data.author.name
+			})
+		});
+		default: throw Error(`There is no such type ${t}`);
+	}
+}
+//#endregion
+//#region node_modules/@uppy/core/lib/provider-views/Browser.js
+function qn(e) {
+	let { displayedPartialTree: t, viewType: n, toggleCheckbox: r, handleScroll: i, showTitles: a, i18n: o, isLoading: s, onCancelLoading: c, openFolder: l, noResultsLabel: u, virtualList: d, utmSource: f, actions: p = [], runAction: m, selectable: h = !0, onFileClick: g } = e, [_, v] = z(!1), y = zn(t), b = V(null);
+	B(() => {
+		let e = (e) => {
+			e.key === "Shift" && v(!1);
+		}, t = (e) => {
+			e.key === "Shift" && v(!0);
+		};
+		return document.addEventListener("keyup", e), document.addEventListener("keydown", t), () => {
+			document.removeEventListener("keyup", e), document.removeEventListener("keydown", t);
+		};
+	}, []);
+	let x = V(null), S = !!(s && c);
+	if (B(() => {
+		S && x.current?.focus();
+	}, [S]), s) return F("div", {
+		className: "uppy-Provider-loading",
+		children: [F("span", {
+			role: "status",
+			children: typeof s == "string" ? s : o("loading")
+		}), c && F("button", {
+			ref: x,
+			type: "button",
+			className: "uppy-u-reset uppy-c-btn uppy-c-btn-link uppy-Provider-loadingCancel",
+			onClick: c,
+			children: o("stopOperation")
+		})]
+	});
+	if (t.length === 0) return F("div", {
+		className: "uppy-Provider-empty",
+		children: u
+	});
+	let C = (e) => F(Kn, {
+		viewType: n,
+		toggleCheckbox: (t) => {
+			t.stopPropagation(), t.preventDefault(), document.getSelection()?.removeAllRanges(), r(e, _);
+		},
+		showTitles: a,
+		i18n: o,
+		openFolder: l,
+		file: e,
+		utmSource: f,
+		actions: p,
+		menuOpen: y.open?.item.id === e.id,
+		toggleMenu: m ? (t) => y.toggle(e.id, t) : void 0,
+		selectable: h,
+		onFileClick: g
+	}, e.id), w = y.open && m ? F(Rn, {
+		file: y.open.item,
+		actions: Mn(p, y.open.item),
+		anchor: y.open.anchor,
+		containerRef: b,
+		runAction: m,
+		onClose: y.close,
+		i18n: o
+	}, y.open.item.id) : null;
+	return d ? F("div", {
+		className: "uppy-ProviderBrowser-body",
+		ref: b,
+		children: [F(It, {
+			className: "uppy-ProviderBrowser-list",
+			data: t,
+			renderRow: C,
+			rowHeight: 35.5
+		}), w]
+	}) : F("div", {
+		className: "uppy-ProviderBrowser-body",
+		ref: b,
+		children: [F("ul", {
+			className: "uppy-ProviderBrowser-list",
+			onScroll: i,
+			tabIndex: -1,
+			children: t.map(C)
+		}), w]
+	});
+}
+//#endregion
+//#region node_modules/@uppy/core/lib/provider-views/BulkActions.js
+function Jn({ selectedCount: e, bulkActions: t, runBulkAction: n, i18n: r }) {
+	return e === 0 || t.length === 0 ? null : F("div", {
+		className: "uppy-ProviderBrowser-footer",
+		children: F("div", {
+			className: "uppy-ProviderBrowser-footer-buttons",
+			children: [F("span", {
+				className: "uppy-ProviderBrowser-footer-count",
+				children: r("itemsSelected", { smart_count: e })
+			}), t.map((e) => F("button", {
+				type: "button",
+				className: (0, G.default)("uppy-u-reset uppy-c-btn uppy-c-btn-primary", { "uppy-ProviderDialog-confirm--danger": e.danger }),
+				onClick: () => n(e),
+				children: e.label
+			}, e.id))]
+		})
+	});
+}
+//#endregion
+//#region node_modules/@uppy/core/lib/provider-views/utils/PartialTreeUtils/getNumberOfSelectedFiles.js
+var Yn = (e) => e.filter((t) => t.type === "file" && t.status === "checked" || t.type === "folder" && t.status === "checked" && !e.some((e) => e.type !== "root" && e.parentId === t.id)).length;
+//#endregion
+//#region node_modules/@uppy/core/lib/provider-views/FooterActions.js
+function Xn({ cancelSelection: e, donePicking: t, i18n: n, partialTree: r, validateAggregateRestrictions: i }) {
+	let a = Tt(() => i(r), [r, i]), o = Tt(() => Yn(r), [r]);
+	return o === 0 ? null : F("div", {
+		className: "uppy-ProviderBrowser-footer",
+		children: [F("div", {
+			className: "uppy-ProviderBrowser-footer-buttons",
+			children: [F("button", {
+				className: (0, G.default)("uppy-u-reset uppy-c-btn uppy-c-btn-primary", { "uppy-c-btn--disabled": a }),
+				disabled: !!a,
+				onClick: t,
+				type: "button",
+				children: n("selectX", { smart_count: o })
+			}), F("button", {
+				className: "uppy-u-reset uppy-c-btn uppy-c-btn-link",
+				onClick: e,
+				type: "button",
+				children: n("cancel")
+			})]
+		}), a && F("div", {
+			className: "uppy-ProviderBrowser-footer-error",
+			children: a
+		})]
+	});
+}
+//#endregion
+//#region node_modules/@uppy/core/lib/provider-views/ItemDetailDialog.js
+function Zn({ item: e, actions: t, runAction: n, getPreviewUrl: r, onClose: i, i18n: a }) {
+	let [o, s] = z(null), c = Et(), [l] = z(e);
+	B(() => {
+		if (!r || l.data.isFolder) return;
+		let e = !1;
+		return Promise.resolve().then(() => r(l)).then((t) => {
+			e || s(t);
+		}).catch(() => {}), () => {
+			e = !0;
+		};
+	}, [r, l]);
+	let u = e.data.name ?? a("unnamed"), d = Mn(t, e), f = e.type === "file" ? e.data : void 0, p = f?.size, m = f?.mimeType, h = f?.modifiedDate;
+	return F(In, {
+		className: "uppy-ProviderDialog uppy-ItemDetail",
+		"aria-labelledby": c,
+		onDismiss: i,
+		restoreFocus: (t) => {
+			let n = t.closest(".uppy-ProviderBrowser");
+			return n?.querySelector(`[data-uppy-item-id="${CSS.escape(e.id)}"]`) ?? n?.querySelector(".uppy-ProviderBrowser-list");
+		},
+		children: [
+			F("header", {
+				className: "uppy-ItemDetail-header",
+				children: [F("h3", {
+					id: c,
+					className: "uppy-ItemDetail-name",
+					children: u
+				}), F("button", {
+					type: "button",
+					className: "uppy-u-reset uppy-c-btn uppy-ItemDetail-close",
+					"aria-label": a("close"),
+					onClick: i,
+					children: F("svg", {
+						"aria-hidden": "true",
+						width: "14",
+						height: "14",
+						viewBox: "0 0 14 14",
+						fill: "none",
+						children: F("path", {
+							d: "M2 2l10 10M12 2L2 12",
+							stroke: "currentColor",
+							"stroke-width": "1.6",
+							"stroke-linecap": "round"
+						})
+					})
+				})]
+			}),
+			F("div", {
+				className: "uppy-ItemDetail-body",
+				children: [F("div", {
+					className: "uppy-ItemDetail-preview",
+					"data-testid": "file-detail-preview",
+					children: o ? F("img", {
+						src: o,
+						alt: "",
+						className: "uppy-ItemDetail-previewImage"
+					}) : F("span", {
+						className: "uppy-ItemDetail-previewIcon",
+						"aria-hidden": "true",
+						children: F(Un, { itemIconString: e.data.icon })
+					})
+				}), F("dl", {
+					className: "uppy-ItemDetail-facts",
+					children: [
+						typeof p == "number" ? F(j, { children: [F("dt", { children: a("detailSize") }), F("dd", { children: U(p) })] }) : null,
+						m ? F(j, { children: [F("dt", { children: a("detailType") }), F("dd", { children: m })] }) : null,
+						h ? F(j, { children: [F("dt", { children: a("detailModified") }), F("dd", { children: h })] }) : null
+					]
+				})]
+			}),
+			F("footer", {
+				className: "uppy-ItemDetail-actions",
+				children: d.map((t) => F("button", {
+					type: "button",
+					className: (0, G.default)("uppy-u-reset uppy-c-btn uppy-ItemDetail-action", t.danger && "uppy-ItemDetail-action--danger"),
+					onClick: () => {
+						i(), n(t, e);
+					},
+					children: t.label
+				}, t.id))
+			})
+		]
+	});
+}
+//#endregion
+//#region node_modules/@uppy/core/lib/provider-views/ProviderDialog.js
+function Qn({ dialog: e, i18n: t, onConfirm: n, onCancel: r }) {
+	let [i, a] = z(e.kind === "prompt" ? e.defaultValue ?? "" : ""), o = V(null), s = V(null), c = V(null), l = Et(), u = e.kind === "prompt", d = e.kind === "confirm" && e.danger === !0;
+	return B(() => {
+		(o.current ?? (d ? c : s).current)?.focus(), o.current?.select();
+	}, [d]), F(In, {
+		className: "uppy-ProviderDialog",
+		"aria-labelledby": l,
+		onDismiss: r,
+		children: F("form", {
+			className: "uppy-ProviderDialog-form",
+			onSubmit: (e) => {
+				e.preventDefault(), n(u ? i : void 0);
+			},
+			children: [
+				F("h3", {
+					id: l,
+					className: "uppy-ProviderDialog-title",
+					children: e.title
+				}),
+				e.kind === "prompt" ? F("label", {
+					className: "uppy-ProviderDialog-label",
+					children: [e.label && F("span", {
+						className: "uppy-ProviderDialog-labelText",
+						children: e.label
+					}), F("input", {
+						ref: o,
+						type: "text",
+						className: "uppy-u-reset uppy-c-textInput uppy-ProviderDialog-input",
+						value: i,
+						onInput: (e) => a(e.target.value)
+					})]
+				}) : e.message && F("p", {
+					className: "uppy-ProviderDialog-message",
+					children: e.message
+				}),
+				F("div", {
+					className: "uppy-ProviderDialog-actions",
+					children: [F("button", {
+						ref: c,
+						type: "button",
+						className: "uppy-u-reset uppy-c-btn uppy-c-btn-link",
+						onClick: r,
+						children: t("cancel")
+					}), F("button", {
+						ref: s,
+						type: "submit",
+						className: (0, G.default)("uppy-u-reset uppy-c-btn uppy-c-btn-primary", d && "uppy-ProviderDialog-confirm--danger"),
+						children: e.confirmLabel ?? t("dialogConfirm")
+					})]
+				})
+			]
+		})
+	});
+}
+//#endregion
+//#region node_modules/@uppy/core/lib/provider-views/ProviderDialogController.js
+var $n = class {
+	#e;
+	#t = null;
+	#n = 0;
+	get revision() {
+		return this.#n;
+	}
+	constructor(e) {
+		this.#e = e;
+	}
+	prompt(e) {
+		return new Promise((t) => {
+			this.#r({
+				kind: "prompt",
+				...e
+			}, (e, n) => t(e ? n ?? "" : null));
+		});
+	}
+	confirm(e) {
+		return new Promise((t) => {
+			this.#r({
+				kind: "confirm",
+				...e
+			}, t);
+		});
+	}
+	submit = (e) => this.#i(!0, e);
+	cancel = () => this.#i(!1);
+	#r(e, t) {
+		this.cancel(), this.#n += 1, this.#t = t, this.#e.setPluginState({ dialog: e });
+	}
+	#i(e, t) {
+		let n = this.#t;
+		n && (this.#t = null, this.#e.setPluginState({ dialog: void 0 }), n(e, t));
+	}
+}, er = (e, t, n) => {
+	let r = e.name || e.id;
+	return {
+		id: e.id,
+		source: t.id,
+		name: r,
+		type: e.mimeType,
+		isRemote: !0,
+		data: e,
+		preview: e.thumbnail || void 0,
+		meta: {
+			authorName: e.author?.name,
+			authorUrl: e.author?.url,
+			relativePath: e.relDirPath || null,
+			absolutePath: e.absDirPath
+		},
+		body: { fileId: e.id },
+		remote: {
+			companionUrl: t.opts.companionUrl,
+			url: `${n.fileUrl(e.requestPath)}`,
+			body: { fileId: e.id },
+			providerName: n.name,
+			provider: n.provider,
+			requestClientId: n.provider
+		}
+	};
+}, tr = (e, t, n) => {
+	let r = e.map((e) => er(e, t, n)), i = [], a = [];
+	r.forEach((e) => {
+		t.uppy.checkIfFileAlreadyExists(E(e, t.uppy.getID())) ? a.push(e) : i.push(e);
+	}), i.length > 0 && t.uppy.info(t.uppy.i18n("addedNumFiles", { numFiles: i.length })), a.length > 0 && t.uppy.info(`Not adding ${a.length} files because they already exist`), t.uppy.addFiles(i);
+}, nr = (e, t, n, r) => {
+	let i = t.findIndex((e) => e.id === r);
+	if (i !== -1 && n) {
+		let n = t.findIndex((t) => t.id === e);
+		return t.slice(Math.min(i, n), Math.max(i, n) + 1).map((e) => e.id);
+	}
+	return [e];
+}, rr = (e) => (t) => {
+	if (Cn(t)) return;
+	let n = h(t);
+	if (ue(n)) {
+		e.log("Aborting request", "warning");
+		return;
+	}
+	e.log(n, "error"), n.name === "UserFacingApiError" && e.info({
+		message: e.i18n("companionError"),
+		details: An(e.i18n, n)
+	}, "warning", 5e3);
+}, ir = (e, t) => {
+	let n = e.find((e) => e.id === t), r = [];
+	for (; r = [n, ...r], n.type !== "root";) {
+		let t = n.parentId;
+		n = e.find((e) => e.id === t);
+	}
+	return r;
+}, ar = (e, t, n) => {
+	let r = t === null ? "null" : t;
+	if (n[r]) return n[r];
+	let i = e.find((e) => e.id === t);
+	if (i.type === "root") return [];
+	let a = [...ar(e, i.parentId, n), i];
+	return n[r] = a, a;
+}, or = (e) => {
+	let t = Object.create(null);
+	return e.filter((e) => e.type === "file" && e.status === "checked").map((n) => {
+		let r = ar(e, n.id, t), i = r.findIndex((e) => e.type === "folder" && e.status === "checked"), a = r.slice(i), o = `/${r.map((e) => e.data.name).join("/")}`, s = a.length === 1 ? void 0 : a.map((e) => e.data.name).join("/");
+		return {
+			...n.data,
+			absDirPath: o,
+			relDirPath: s
+		};
+	});
+}, sr = /* @__PURE__ */ c((/* @__PURE__ */ o(((e, t) => {
+	var n = Object.prototype.hasOwnProperty, r = "~";
+	function i() {}
+	Object.create && (i.prototype = Object.create(null), new i().__proto__ || (r = !1));
+	function a(e, t, n) {
+		this.fn = e, this.context = t, this.once = n || !1;
+	}
+	function o(e, t, n, i, o) {
+		if (typeof n != "function") throw TypeError("The listener must be a function");
+		var s = new a(n, i || e, o), c = r ? r + t : t;
+		return e._events[c] ? e._events[c].fn ? e._events[c] = [e._events[c], s] : e._events[c].push(s) : (e._events[c] = s, e._eventsCount++), e;
+	}
+	function s(e, t) {
+		--e._eventsCount === 0 ? e._events = new i() : delete e._events[t];
+	}
+	function c() {
+		this._events = new i(), this._eventsCount = 0;
+	}
+	c.prototype.eventNames = function() {
+		var e = [], t, i;
+		if (this._eventsCount === 0) return e;
+		for (i in t = this._events) n.call(t, i) && e.push(r ? i.slice(1) : i);
+		return Object.getOwnPropertySymbols ? e.concat(Object.getOwnPropertySymbols(t)) : e;
+	}, c.prototype.listeners = function(e) {
+		var t = r ? r + e : e, n = this._events[t];
+		if (!n) return [];
+		if (n.fn) return [n.fn];
+		for (var i = 0, a = n.length, o = Array(a); i < a; i++) o[i] = n[i].fn;
+		return o;
+	}, c.prototype.listenerCount = function(e) {
+		var t = r ? r + e : e, n = this._events[t];
+		return n ? n.fn ? 1 : n.length : 0;
+	}, c.prototype.emit = function(e, t, n, i, a, o) {
+		var s = r ? r + e : e;
+		if (!this._events[s]) return !1;
+		var c = this._events[s], l = arguments.length, u, d;
+		if (c.fn) {
+			switch (c.once && this.removeListener(e, c.fn, void 0, !0), l) {
+				case 1: return c.fn.call(c.context), !0;
+				case 2: return c.fn.call(c.context, t), !0;
+				case 3: return c.fn.call(c.context, t, n), !0;
+				case 4: return c.fn.call(c.context, t, n, i), !0;
+				case 5: return c.fn.call(c.context, t, n, i, a), !0;
+				case 6: return c.fn.call(c.context, t, n, i, a, o), !0;
+			}
+			for (d = 1, u = Array(l - 1); d < l; d++) u[d - 1] = arguments[d];
+			c.fn.apply(c.context, u);
+		} else {
+			var f = c.length, p;
+			for (d = 0; d < f; d++) switch (c[d].once && this.removeListener(e, c[d].fn, void 0, !0), l) {
+				case 1:
+					c[d].fn.call(c[d].context);
+					break;
+				case 2:
+					c[d].fn.call(c[d].context, t);
+					break;
+				case 3:
+					c[d].fn.call(c[d].context, t, n);
+					break;
+				case 4:
+					c[d].fn.call(c[d].context, t, n, i);
+					break;
+				default:
+					if (!u) for (p = 1, u = Array(l - 1); p < l; p++) u[p - 1] = arguments[p];
+					c[d].fn.apply(c[d].context, u);
+			}
+		}
+		return !0;
+	}, c.prototype.on = function(e, t, n) {
+		return o(this, e, t, n, !1);
+	}, c.prototype.once = function(e, t, n) {
+		return o(this, e, t, n, !0);
+	}, c.prototype.removeListener = function(e, t, n, i) {
+		var a = r ? r + e : e;
+		if (!this._events[a]) return this;
+		if (!t) return s(this, a), this;
+		var o = this._events[a];
+		if (o.fn) o.fn === t && (!i || o.once) && (!n || o.context === n) && s(this, a);
+		else {
+			for (var c = 0, l = [], u = o.length; c < u; c++) (o[c].fn !== t || i && !o[c].once || n && o[c].context !== n) && l.push(o[c]);
+			l.length ? this._events[a] = l.length === 1 ? l[0] : l : s(this, a);
+		}
+		return this;
+	}, c.prototype.removeAllListeners = function(e) {
+		var t;
+		return e ? (t = r ? r + e : e, this._events[t] && s(this, t)) : (this._events = new i(), this._eventsCount = 0), this;
+	}, c.prototype.off = c.prototype.removeListener, c.prototype.addListener = c.prototype.on, c.prefixed = r, c.EventEmitter = c, t !== void 0 && (t.exports = c);
+})))(), 1), cr = class e extends Error {
+	name = "TimeoutError";
+	constructor(t, n) {
+		super(t, n), Error.captureStackTrace?.(this, e);
+	}
+}, lr = (e) => e.reason ?? new DOMException("This operation was aborted.", "AbortError");
+function ur(e, t) {
+	let { milliseconds: n, fallback: r, message: i, customTimers: a = {
+		setTimeout,
+		clearTimeout
+	}, signal: o } = t, s, c, l = new Promise((t, l) => {
+		if (typeof n != "number" || Math.sign(n) !== 1) throw TypeError(`Expected \`milliseconds\` to be a positive number, got \`${n}\``);
+		if (o?.aborted) {
+			l(lr(o)), e.then(t, l);
+			return;
+		}
+		if (o && (c = () => {
+			l(lr(o));
+		}, o.addEventListener("abort", c, { once: !0 })), e.then(t, l), n === Infinity) return;
+		let u = new cr();
+		s = a.setTimeout.call(void 0, () => {
+			if (r) {
+				try {
+					t(r());
+				} catch (e) {
+					l(e);
+				}
+				return;
+			}
+			typeof e.cancel == "function" && e.cancel(), i === !1 ? t() : i instanceof Error ? l(i) : (u.message = i ?? `Promise timed out after ${n} milliseconds`, l(u));
+		}, n);
+	}).finally(() => {
+		l.clear(), c && o && o.removeEventListener("abort", c);
+	});
+	return l.clear = () => {
+		a.clearTimeout.call(void 0, s), s = void 0;
+	}, l;
+}
+//#endregion
+//#region node_modules/p-queue/dist/lower-bound.js
+function dr(e, t, n) {
+	let r = 0, i = e.length;
+	for (; i > 0;) {
+		let a = Math.trunc(i / 2), o = r + a;
+		n(e[o], t) <= 0 ? (r = ++o, i -= a + 1) : i = a;
+	}
+	return r;
+}
+//#endregion
+//#region node_modules/p-queue/dist/priority-queue.js
+var fr = 100, pr = class {
+	#e = [];
+	#t = 0;
+	enqueue(e, t) {
+		let { priority: n = 0, id: r } = t ?? {}, { size: i } = this, a = {
+			priority: n,
+			id: r,
+			run: e
+		};
+		if (i === 0) {
+			this.#e.length = 0, this.#t = 0, this.#e.push(a);
+			return;
+		}
+		if (this.#e.at(-1).priority >= n) {
+			this.#e.push(a);
+			return;
+		}
+		this.#n();
+		let o = dr(this.#e, a, (e, t) => t.priority - e.priority);
+		this.#e.splice(o, 0, a);
+	}
+	setPriority(e, t) {
+		let n = this.#e.findIndex((t, n) => n >= this.#t && t.id === e);
+		if (n === -1) throw ReferenceError(`No promise function with the id "${e}" exists in the queue.`);
+		let [r] = this.#e.splice(n, 1);
+		this.enqueue(r.run, {
+			priority: t,
+			id: e
+		});
+	}
+	remove(e) {
+		let t = this.#e.findIndex((t, n) => n < this.#t ? !1 : typeof e == "string" ? t.id === e : t.run === e);
+		t !== -1 && this.#e.splice(t, 1);
+	}
+	dequeue() {
+		if (this.#t === this.#e.length) return;
+		let e = this.#e[this.#t];
+		return this.#t++, this.#t === this.#e.length ? (this.#e.length = 0, this.#t = 0) : this.#t > fr && this.#t > this.#e.length / 2 && this.#n(), e?.run;
+	}
+	filter(e) {
+		let t = [];
+		for (let n = this.#t; n < this.#e.length; n++) {
+			let r = this.#e[n];
+			r.priority === e.priority && t.push(r.run);
+		}
+		return t;
+	}
+	get size() {
+		return this.#e.length - this.#t;
+	}
+	#n() {
+		this.#t !== 0 && (this.#e.splice(0, this.#t), this.#t = 0);
+	}
+}, mr = class extends sr.default {
+	#e;
+	#t;
+	#n = 0;
+	#r;
+	#i = !1;
+	#a = !1;
+	#o;
+	#s = 0;
+	#c;
+	#l;
+	#u;
+	#d = [];
+	#f = 0;
+	#p;
+	#m;
+	#h = 0;
+	#g;
+	#_;
+	#v = 1n;
+	#y = /* @__PURE__ */ new Map();
+	#b = /* @__PURE__ */ new Set();
+	timeout;
+	constructor(e) {
+		if (super(), e = {
+			carryoverIntervalCount: !1,
+			intervalCap: Infinity,
+			interval: 0,
+			concurrency: Infinity,
+			autoStart: !0,
+			queueClass: pr,
+			strict: !1,
+			...e
+		}, !(typeof e.intervalCap == "number" && e.intervalCap >= 1)) throw TypeError(`Expected \`intervalCap\` to be a number from 1 and up, got \`${e.intervalCap?.toString() ?? ""}\` (${typeof e.intervalCap})`);
+		if (e.interval === void 0 || !(Number.isFinite(e.interval) && e.interval >= 0)) throw TypeError(`Expected \`interval\` to be a finite number >= 0, got \`${e.interval?.toString() ?? ""}\` (${typeof e.interval})`);
+		if (e.strict && e.interval === 0) throw TypeError("The `strict` option requires a non-zero `interval`");
+		if (e.strict && e.intervalCap === Infinity) throw TypeError("The `strict` option requires a finite `intervalCap`");
+		if (this.#e = e.carryoverIntervalCount ?? e.carryoverConcurrencyCount ?? !1, this.#t = e.intervalCap === Infinity || e.interval === 0, this.#r = e.intervalCap, this.#o = e.interval, this.#u = e.strict, this.#p = new e.queueClass(), this.#m = e.queueClass, this.concurrency = e.concurrency, e.timeout !== void 0 && !(Number.isFinite(e.timeout) && e.timeout > 0)) throw TypeError(`Expected \`timeout\` to be a positive finite number, got \`${e.timeout}\` (${typeof e.timeout})`);
+		this.timeout = e.timeout, this.#_ = e.autoStart === !1, this.#R();
+	}
+	#x(e) {
+		for (; this.#f < this.#d.length;) {
+			let t = this.#d[this.#f];
+			if (t !== void 0 && e - t >= this.#o) this.#f++;
+			else break;
+		}
+		(this.#f > 100 && this.#f > this.#d.length / 2 || this.#f === this.#d.length) && (this.#d = this.#d.slice(this.#f), this.#f = 0);
+	}
+	#S(e) {
+		this.#u ? this.#d.push(e) : this.#n++;
+	}
+	#C() {
+		this.#u ? this.#d.length > this.#f && this.#d.pop() : this.#n > 0 && this.#n--;
+	}
+	#w() {
+		return this.#d.length - this.#f;
+	}
+	get #T() {
+		return this.#t ? !0 : this.#u ? this.#w() < this.#r : this.#n < this.#r;
+	}
+	get #E() {
+		return this.#h < this.#g;
+	}
+	#D() {
+		this.#h--, this.#h === 0 && this.emit("pendingZero"), this.#N(), this.emit("next");
+	}
+	#O() {
+		this.#l = void 0, this.#F(), this.#P();
+	}
+	#k(e) {
+		if (this.#u) {
+			if (this.#x(e), this.#w() >= this.#r) {
+				let t = this.#d[this.#f], n = this.#o - (e - t);
+				return this.#A(n), !0;
+			}
+			return !1;
+		}
+		if (this.#c === void 0) {
+			let t = this.#s - e;
+			if (t < 0) this.#n = this.#e ? this.#h : 0;
+			else return this.#A(t), !0;
+		}
+		return !1;
+	}
+	#A(e) {
+		this.#l === void 0 && (this.#l = setTimeout(() => {
+			this.#O();
+		}, e));
+	}
+	#j() {
+		this.#c &&= (clearInterval(this.#c), void 0);
+	}
+	#M() {
+		this.#l &&= (clearTimeout(this.#l), void 0);
+	}
+	#N() {
+		if (this.#p.size === 0) {
+			if (this.#j(), this.emit("empty"), this.#h === 0) {
+				if (this.#M(), this.#u && this.#f > 0) {
+					let e = Date.now();
+					this.#x(e);
+				}
+				this.emit("idle");
+			}
+			return !1;
+		}
+		let e = !1;
+		if (!this.#_) {
+			let t = Date.now(), n = !this.#k(t);
+			if (this.#T && this.#E) {
+				let r = this.#p.dequeue();
+				this.#t || (this.#S(t), this.#z()), n && this.#P(), this.emit("active"), r(), e = !0;
+			}
+		}
+		return e;
+	}
+	#P() {
+		this.#t || this.#c !== void 0 || this.#u || (this.#c = setInterval(() => {
+			this.#F();
+		}, this.#o), this.#s = Date.now() + this.#o);
+	}
+	#F() {
+		this.#u || (this.#c !== void 0 && (this.#n === 0 && this.#h === 0 ? this.#j() : this.#s = Date.now() + this.#o), this.#n = this.#e ? this.#h : 0), this.#I(), this.#z();
+	}
+	#I() {
+		for (; this.#N(););
+	}
+	get concurrency() {
+		return this.#g;
+	}
+	set concurrency(e) {
+		if (!(typeof e == "number" && e >= 1)) throw TypeError(`Expected \`concurrency\` to be a number from 1 and up, got \`${e}\` (${typeof e})`);
+		this.#g = e, this.#I();
+	}
+	setPriority(e, t) {
+		if (typeof t != "number" || !Number.isFinite(t)) throw TypeError(`Expected \`priority\` to be a finite number, got \`${t}\` (${typeof t})`);
+		this.#p.setPriority(e, t);
+	}
+	async add(e, t = {}) {
+		if (t = {
+			timeout: this.timeout,
+			...t,
+			id: t.id ?? (this.#v++).toString()
+		}, t.timeout !== void 0 && !(Number.isFinite(t.timeout) && t.timeout > 0)) throw TypeError(`Expected \`timeout\` to be a positive finite number, got \`${t.timeout}\` (${typeof t.timeout})`);
+		return new Promise((n, r) => {
+			let i = Symbol(`task-${t.id}`), a = () => void 0, o = async () => {
+				a(), this.#h++, this.#y.set(i, {
+					id: t.id,
+					priority: t.priority ?? 0,
+					startTime: Date.now(),
+					timeout: t.timeout
+				});
+				let o;
+				try {
+					try {
+						t.signal?.throwIfAborted();
+					} catch (e) {
+						throw this.#B(), this.#y.delete(i), e;
+					}
+					let r = e({ signal: t.signal });
+					if (t.timeout !== void 0 && (r = ur(Promise.resolve(r), {
+						milliseconds: t.timeout,
+						message: `Task timed out after ${t.timeout}ms (queue has ${this.#h} running, ${this.#p.size} waiting)`
+					})), t.signal) {
+						let { signal: e } = t;
+						r = Promise.race([r, new Promise((t, n) => {
+							o = () => {
+								n(e.reason);
+							}, e.addEventListener("abort", o, { once: !0 });
+						})]);
+					}
+					let a = await r;
+					n(a), this.emit("completed", a);
+				} catch (e) {
+					r(e), this.emit("error", e);
+				} finally {
+					o && t.signal?.removeEventListener("abort", o), this.#y.delete(i), queueMicrotask(() => {
+						this.#D();
+					});
+				}
+			};
+			this.#p.enqueue(o, t);
+			let s = () => {
+				if (this.#p instanceof pr) {
+					this.#p.remove(o);
+					return;
+				}
+				this.#p.remove?.(t.id);
+			};
+			if (t.signal) {
+				let { signal: e } = t, n = () => {
+					a(), s(), r(e.reason), this.#N(), this.emit("next");
+				};
+				if (a = () => {
+					e.removeEventListener("abort", n), this.#b.delete(a);
+				}, e.aborted) {
+					n();
+					return;
+				}
+				e.addEventListener("abort", n, { once: !0 }), this.#b.add(a);
+			}
+			this.emit("add"), this.#N();
+		});
+	}
+	async addAll(e, t) {
+		return Promise.all(e.map(async (e) => this.add(e, t)));
+	}
+	start() {
+		return this.#_ ? (this.#_ = !1, this.#I(), this) : this;
+	}
+	pause() {
+		this.#_ = !0;
+	}
+	clear() {
+		for (let e of this.#b) e();
+		this.#p = new this.#m(), this.#j(), this.#V(), this.emit("empty"), this.#h === 0 && (this.#M(), this.emit("idle")), this.emit("next");
+	}
+	async onEmpty() {
+		this.#p.size !== 0 && await this.#L("empty");
+	}
+	async onSizeLessThan(e) {
+		this.#p.size < e || await this.#L(["next", "active"], () => this.#p.size < e);
+	}
+	async onIdle() {
+		(this.#h !== 0 || this.#p.size !== 0) && await this.#L("idle");
+	}
+	async onPendingZero() {
+		this.#h !== 0 && await this.#L("pendingZero");
+	}
+	async onRateLimit() {
+		this.isRateLimited || await this.#L("rateLimit");
+	}
+	async onRateLimitCleared() {
+		this.isRateLimited && await this.#L("rateLimitCleared");
+	}
+	onError() {
+		return new Promise((e, t) => {
+			let n = (e) => {
+				this.off("error", n), t(e);
+			};
+			this.on("error", n);
+		});
+	}
+	async #L(e, t) {
+		let n = Array.isArray(e) ? e : [e];
+		return new Promise((e) => {
+			let r = () => {
+				if (!t || t()) {
+					for (let e of n) this.off(e, r);
+					e();
+				}
+			};
+			for (let e of n) this.on(e, r);
+		});
+	}
+	get size() {
+		return this.#p.size;
+	}
+	sizeBy(e) {
+		return this.#p.filter(e).length;
+	}
+	get pending() {
+		return this.#h;
+	}
+	get isPaused() {
+		return this.#_;
+	}
+	#R() {
+		this.#t || (this.on("add", () => {
+			this.#p.size > 0 && this.#z();
+		}), this.on("next", () => {
+			this.#z();
+		}));
+	}
+	#z() {
+		this.#t || this.#a || (this.#a = !0, queueMicrotask(() => {
+			this.#a = !1, this.#V();
+		}));
+	}
+	#B() {
+		this.#t || (this.#C(), this.#z());
+	}
+	#V() {
+		let e = this.#i;
+		if (this.#t || this.#p.size === 0) {
+			e && (this.#i = !1, this.emit("rateLimitCleared"));
+			return;
+		}
+		let t;
+		if (this.#u) {
+			let e = Date.now();
+			this.#x(e), t = this.#w();
+		} else t = this.#n;
+		let n = t >= this.#r;
+		n !== e && (this.#i = n, this.emit(n ? "rateLimit" : "rateLimitCleared"));
+	}
+	get isRateLimited() {
+		return this.#i;
+	}
+	get isSaturated() {
+		return this.#h === this.#g && this.#p.size > 0 || this.isRateLimited && this.#p.size > 0;
+	}
+	get runningTasks() {
+		return [...this.#y.values()].map((e) => ({
+			...e,
+			timeoutRemaining: e.timeout ? Math.max(0, e.startTime + e.timeout - Date.now()) : void 0
+		}));
+	}
+}, hr = (e) => e.map((e) => ({ ...e })), gr = async (e, t, n, r, i) => {
+	let a = [], o = n.cached ? n.nextPagePath : n.id;
+	for (; o;) {
+		let e = await r(o);
+		a = a.concat(e.items), o = e.nextPagePath;
+	}
+	let s = a.filter((e) => e.isFolder === !0), c = a.filter((e) => e.isFolder === !1), l = s.map((e) => ({
+		type: "folder",
+		id: e.requestPath,
+		cached: !1,
+		nextPagePath: null,
+		status: "checked",
+		parentId: n.id,
+		data: e
+	})), u = c.map((e) => {
+		let t = i(e);
+		return {
+			type: "file",
+			id: e.requestPath,
+			restrictionError: t,
+			status: t ? "unchecked" : "checked",
+			parentId: n.id,
+			data: e
+		};
+	});
+	n.cached = !0, n.nextPagePath = null, t.push(...u, ...l), l.forEach(async (n) => {
+		e.add(() => gr(e, t, n, r, i));
+	});
+}, _r = async (e, t, n, r) => {
+	let i = new mr({ concurrency: 6 }), a = hr(e);
+	return a.filter((e) => e.type === "folder" && e.status === "checked" && (e.cached === !1 || e.nextPagePath)).forEach((e) => {
+		i.add(() => gr(i, a, e, t, n));
+	}), i.on("completed", () => {
+		let e = a.filter((e) => e.type === "file" && e.status === "checked").length;
+		r(e);
+	}), await i.onIdle(), a;
+}, vr = (e, t, n, r, i) => {
+	let a = t.filter((t) => !e.find((e) => e.id === t.requestPath)), o = a.filter((e) => e.isFolder === !0), s = a.filter((e) => e.isFolder === !1), c = n.type === "folder" && n.status === "checked", l = o.map((e) => ({
+		type: "folder",
+		id: e.requestPath,
+		cached: !1,
+		nextPagePath: null,
+		status: c ? "checked" : "unchecked",
+		parentId: n.id,
+		data: e
+	})), u = s.map((e) => {
+		let t = i(e);
+		return {
+			type: "file",
+			id: e.requestPath,
+			restrictionError: t,
+			status: c && !t ? "checked" : "unchecked",
+			parentId: n.id,
+			data: e
+		};
+	}), d = {
+		...n,
+		cached: !0,
+		nextPagePath: r
+	};
+	return [
+		...e.map((e) => e.id === d.id ? d : e),
+		...l,
+		...u
+	];
+}, yr = (e, t, n, r, i) => {
+	let a = e.find((e) => e.id === t), o = n.filter((e) => e.isFolder === !0), s = n.filter((e) => e.isFolder === !1), c = {
+		...a,
+		nextPagePath: r
+	}, l = e.map((e) => e.id === c.id ? c : e), u = c.type === "folder" && c.status === "checked", d = o.map((e) => ({
+		type: "folder",
+		id: e.requestPath,
+		cached: !1,
+		nextPagePath: null,
+		status: u ? "checked" : "unchecked",
+		parentId: c.id,
+		data: e
+	})), f = s.map((e) => {
+		let t = i(e);
+		return {
+			type: "file",
+			id: e.requestPath,
+			restrictionError: t,
+			status: u && !t ? "checked" : "unchecked",
+			parentId: c.id,
+			data: e
+		};
+	});
+	return [
+		...l,
+		...d,
+		...f
+	];
+}, br = (e, t, n) => {
+	e.filter((e) => e.type !== "root" && e.parentId === t).forEach((t) => {
+		t.status = n && !(t.type === "file" && t.restrictionError) ? "checked" : "unchecked", br(e, t.id, n);
+	});
+}, xr = (e, t) => {
+	let n = e.find((e) => e.id === t);
+	if (n.type === "root") return;
+	let r = e.filter((e) => e.type !== "root" && e.parentId === n.id && !(e.type === "file" && e.restrictionError)), i = r.every((e) => e.status === "checked"), a = r.every((e) => e.status === "unchecked");
+	n.status = i && n.cached ? "checked" : a ? "unchecked" : "partial", xr(e, n.parentId);
+}, Sr = {
+	afterOpenFolder: vr,
+	afterScrollFolder: yr,
+	afterToggleCheckbox: (e, t) => {
+		let n = hr(e), r = n.filter((e) => e.type !== "root" && t.includes(e.id));
+		return r.forEach((e) => {
+			let t = e.status === "checked" ? "unchecked" : "checked";
+			e.status = e.type === "file" && e.restrictionError ? "unchecked" : t, br(n, e.id, e.status === "checked");
+		}), xr(n, r[0].parentId), n;
+	},
+	afterFill: _r
+}, Cr = (e) => {
+	let { scrollHeight: t, scrollTop: n, offsetHeight: r } = e.target;
+	return t - (n + r) < 50;
+}, wr = ({ i18n: e, item: t, toggleCheckbox: n, openFolder: r }) => {
+	let i = "restrictionError" in t && t.restrictionError != null && t.status !== "checked";
+	return F("li", {
+		className: (0, G.default)("uppy-ProviderBrowserItem", { "uppy-ProviderBrowserItem--disabled": i }, { "uppy-ProviderBrowserItem--noPreview": t.data.icon === "video" }, { "uppy-ProviderBrowserItem--is-checked": t.status === "checked" }, { "uppy-ProviderBrowserItem--is-partial": t.status === "partial" }),
+		title: ("restrictionError" in t ? t.restrictionError : void 0) ?? void 0,
+		children: [F("input", {
+			type: "checkbox",
+			className: "uppy-u-reset uppy-ProviderBrowserItem-checkbox",
+			onChange: () => n(t, !1),
+			checked: t.status === "checked",
+			"aria-label": t.data.name ?? e("unnamed"),
+			disabled: i,
+			"data-uppy-super-focusable": !0
+		}), F("button", {
+			type: "button",
+			className: "uppy-u-reset uppy-c-btn uppy-ProviderBrowserItem-inner",
+			disabled: i,
+			"aria-label": t.data.name,
+			onClick: () => {
+				t.data.isFolder && r(t.id);
+			},
+			children: [F("div", {
+				className: "uppy-ProviderBrowserItem-iconWrap",
+				children: F(Un, { itemIconString: t.data.icon })
+			}), t.data.name ?? e("unnamed")]
+		})]
+	});
+}, Tr = ({ searchResults: e, toggleCheckbox: t, openFolder: n, i18n: r }) => e.length === 0 ? F("div", {
+	className: "uppy-Provider-empty",
+	children: r("noFilesFound")
+}) : F("div", {
+	className: "uppy-ProviderBrowser-body",
+	children: F("ul", {
+		className: "uppy-ProviderBrowser-list",
+		children: e.map((e) => F(wr, {
+			i18n: r,
+			item: e,
+			toggleCheckbox: t,
+			openFolder: n
+		}, e.id))
+	})
+});
+//#endregion
+//#region node_modules/@uppy/core/lib/provider-views/Breadcrumbs.js
+function Er(e) {
+	let { openFolder: t, title: n, breadcrumbsIcon: r, breadcrumbs: i, i18n: a, disabled: o = !1 } = e;
+	return F("div", {
+		className: "uppy-Provider-breadcrumbs",
+		children: [F("div", {
+			className: "uppy-Provider-breadcrumbsIcon",
+			children: r
+		}), i.map((e, r) => {
+			let s = e.type === "root" ? n : e.data.name ?? a("unnamed"), c = i.length === r + 1;
+			return F(j, { children: [F("button", {
+				type: "button",
+				className: "uppy-u-reset uppy-c-btn",
+				onClick: c ? void 0 : () => t(e.id),
+				"aria-current": c ? "page" : void 0,
+				disabled: !c && o,
+				title: s,
+				children: s
+			}), !c && F("span", {
+				"aria-hidden": "true",
+				className: "uppy-Provider-breadcrumbsSeparator",
+				children: "/"
+			})] }, e.id);
+		})]
+	});
+}
+//#endregion
+//#region node_modules/@uppy/core/lib/provider-views/ProviderView/User.js
+function Dr({ i18n: e, logout: t, username: n, disabled: r = !1 }) {
+	return F(j, { children: [n && F("span", {
+		className: "uppy-ProviderBrowser-user",
+		children: n
+	}, "username"), F("button", {
+		type: "button",
+		onClick: t,
+		disabled: r,
+		className: "uppy-u-reset uppy-c-btn uppy-ProviderBrowser-userLogout",
+		children: e("logOut")
+	}, "logout")] });
+}
+//#endregion
+//#region node_modules/@uppy/core/lib/provider-views/ProviderView/Header.js
+function Or(e) {
+	let t = e.toolbarActions ?? [], n = e.busy ?? !1;
+	return F("div", {
+		className: "uppy-ProviderBrowser-header",
+		children: F("div", {
+			className: (0, G.default)("uppy-ProviderBrowser-headerBar", !e.showBreadcrumbs && "uppy-ProviderBrowser-headerBar--simple"),
+			children: [
+				e.showBreadcrumbs && F(Er, {
+					openFolder: e.openFolder,
+					breadcrumbs: e.breadcrumbs,
+					breadcrumbsIcon: e.pluginIcon?.(),
+					title: e.title,
+					i18n: e.i18n,
+					disabled: n
+				}),
+				(t.length > 0 || e.selectionToggle) && F("div", {
+					className: "uppy-ProviderBrowser-toolbar",
+					children: [e.selectionToggle && F("button", {
+						type: "button",
+						className: "uppy-u-reset uppy-c-btn uppy-ProviderBrowser-toolbarBtn",
+						onClick: e.selectionToggle.onToggle,
+						disabled: n,
+						children: e.selectionToggle.active ? e.i18n("cancelSelection") : e.i18n("selectMultiple")
+					}), t.map((t) => F("button", {
+						type: "button",
+						className: "uppy-u-reset uppy-c-btn uppy-ProviderBrowser-toolbarBtn",
+						onClick: () => e.runToolbarAction?.(t),
+						disabled: n,
+						children: t.label
+					}, t.id))]
+				}),
+				!e.standalone && F(Dr, {
+					logout: e.logout,
+					username: e.username,
+					i18n: e.i18n,
+					disabled: n
+				})
+			]
+		})
+	});
+}
+//#endregion
+//#region node_modules/@uppy/core/lib/provider-views/ProviderView/ProviderView.js
+var kr = /* @__PURE__ */ c(sn(), 1);
+function Ar() {
+	return F("svg", {
+		"aria-hidden": "true",
+		focusable: "false",
+		width: "30",
+		height: "30",
+		viewBox: "0 0 30 30",
+		children: F("path", { d: "M15 30c8.284 0 15-6.716 15-15 0-8.284-6.716-15-15-15C6.716 0 0 6.716 0 15c0 8.284 6.716 15 15 15zm4.258-12.676v6.846h-8.426v-6.846H5.204l9.82-12.364 9.82 12.364H19.26z" })
+	});
+}
+var jr = (e) => ({
+	authenticated: void 0,
+	partialTree: [{
+		type: "root",
+		id: e,
+		cached: !1,
+		nextPagePath: null
+	}],
+	currentFolderId: e,
+	searchString: "",
+	didFirstRender: !1,
+	username: null,
+	loading: !1,
+	selectionActive: !1,
+	detailItemId: void 0
+});
+function Mr(e, t) {
+	let n = [t], r = e.get(t.parentId);
+	for (; r && r.type !== "root";) n.push(r), r = e.get(r.parentId);
+	return n;
+}
+(class e {
+	static VERSION = fn.version;
+	static [Symbol.for("uppy test: searchDebounceMs")];
+	plugin;
+	provider;
+	opts;
+	isHandlingScroll = !1;
+	previousCheckbox = null;
+	#e;
+	constructor(t, n) {
+		this.plugin = t, this.provider = n.provider, this.#c = new $n(t);
+		let r = {
+			viewType: "list",
+			showTitles: !0,
+			showFilter: !0,
+			showBreadcrumbs: !0,
+			loadAllFiles: !1,
+			virtualList: !1
+		};
+		this.opts = {
+			...r,
+			...n
+		}, this.openFolder = this.openFolder.bind(this), this.logout = this.logout.bind(this), this.handleAuth = this.handleAuth.bind(this), this.handleScroll = this.handleScroll.bind(this), this.resetPluginState = this.resetPluginState.bind(this), this.donePicking = this.donePicking.bind(this), this.render = this.render.bind(this), this.cancelSelection = this.cancelSelection.bind(this), this.toggleCheckbox = this.toggleCheckbox.bind(this), this.openSearchResultFolder = this.openSearchResultFolder.bind(this), this.clearSearchState = this.clearSearchState.bind(this), this.resetPluginState(), this.plugin.uppy.on("dashboard:close-panel", this.resetPluginState), this.plugin.uppy.registerRequestClient(this.provider.provider, this.provider);
+		let i = e[Symbol.for("uppy test: searchDebounceMs")], a = i ?? 500, o = i === 0 ? {
+			leading: !0,
+			trailing: !0
+		} : void 0;
+		this.#e = (0, kr.default)(this.#f, a, o);
+	}
+	resetPluginState() {
+		this.#s.clear(), this.#c.cancel(), this.plugin.setPluginState(jr(this.plugin.rootFolderId));
+	}
+	refreshCurrentFolder = async (e = !1) => {
+		let { partialTree: t, currentFolderId: n } = this.plugin.getPluginState();
+		if (t == null || this.#i) return;
+		let r = ++this.#o, i = t.flatMap((e) => e.type !== "root" && e.parentId === n && e.status === "checked" ? [e.id] : []), a = new Map(t.map((e) => [e.id, e])), o = (e) => Mr(a, e).some(({ parentId: e }) => e === n), s = new Set(ir(t, n).map((e) => e.id)), c = t.filter((e) => e.type === "root" || !o(e)).filter((t) => !e || s.has(t.id)).map((t) => (e || t.id === n) && t.type !== "file" ? {
+			...t,
+			status: "unchecked",
+			cached: !1,
+			nextPagePath: null
+		} : t);
+		this.plugin.setPluginState({ partialTree: c }), await this.openFolder(n);
+		let { partialTree: l, detailItemId: u } = this.plugin.getPluginState();
+		if (l == null) return;
+		let d = l.some((e) => e.id === n && e.type !== "file" && e.cached);
+		r === this.#o && d && u && !l.some(({ id: e }) => e === u) && this.closeItemDetail();
+		let f = i.filter((e) => l.some((t) => t.type !== "root" && t.id === e && t.status !== "checked"));
+		f.length > 0 && this.plugin.setPluginState({ partialTree: Sr.afterToggleCheckbox(l, f) });
+	};
+	runAction = (e, t) => this.#n(e, () => e.run({
+		item: t,
+		...this.#t()
+	}));
+	runToolbarAction = (e) => this.#n(e, () => e.run({
+		currentFolderId: this.plugin.getPluginState().currentFolderId,
+		...this.#t()
+	}));
+	#t = () => {
+		let { uppy: e } = this.plugin;
+		return {
+			view: this,
+			uppy: e,
+			i18n: e.i18n
+		};
+	};
+	async #n({ refresh: e }, t) {
+		try {
+			if (await t() === !1) return;
+		} catch (e) {
+			this.#r(e);
+		}
+		e !== !1 && await this.refreshCurrentFolder(!0);
+	}
+	#r(e) {
+		let { uppy: t } = this.plugin;
+		if (ue(e)) {
+			t.log("[ProviderView] action cancelled", "warning");
+			return;
+		}
+		t.log(`[ProviderView] action failed: ${oe(e)}`, "error");
+		let n = e instanceof Error && e.name === "UserFacingApiError" ? An(t.i18n, e) : e instanceof d || Cn(e) ? t.i18n("companionError") : t.i18n("actionFailed");
+		t.info(n, "error", 5e3);
+	}
+	#i;
+	async runWithProgress(e) {
+		try {
+			await this.#u(async (t) => {
+				let n = this.#l;
+				this.#i = () => n?.abort(), this.setLoading(!0), await e({
+					signal: t,
+					setProgress: (e) => this.setLoading(e)
+				});
+			});
+		} finally {
+			this.#i = void 0, this.setLoading(!1);
+		}
+	}
+	toggleSelectionMode = () => {
+		let { selectionActive: e } = this.plugin.getPluginState();
+		e && this.cancelSelection(), this.plugin.setPluginState({ selectionActive: !e });
+	};
+	#a;
+	#o = 0;
+	openItemDetail = (e) => {
+		this.#a = e, this.plugin.setPluginState({ detailItemId: e.id });
+	};
+	closeItemDetail = () => {
+		this.plugin.setPluginState({ detailItemId: void 0 });
+	};
+	#s = /* @__PURE__ */ new Set();
+	getBulkActionItems = () => {
+		let { partialTree: e } = this.plugin.getPluginState(), t = new Map(e.map((e) => [e.id, e])), n = e.filter((e) => e.type !== "root" && e.status === "checked" && (e.type === "file" || Mr(t, e).some(({ id: e }) => this.#s.has(e)))), r = new Set(n.map((e) => e.id));
+		return n.filter((e) => !Mr(t, e).slice(1).some(({ id: e }) => r.has(e)));
+	};
+	runBulkAction = (e) => this.#n(e, async () => {
+		let t = this.getBulkActionItems();
+		if (t.length === 0) return !1;
+		let n = await e.run({
+			items: t,
+			...this.#t()
+		});
+		return n !== !1 && this.cancelSelection(), n;
+	});
+	#c;
+	prompt(e) {
+		return this.#c.prompt(e);
+	}
+	confirm(e) {
+		return this.#c.confirm(e);
+	}
+	tearDown() {}
+	setLoading(e) {
+		this.plugin.setPluginState({ loading: e });
+	}
+	get isLoading() {
+		return this.plugin.getPluginState().loading;
+	}
+	cancelSelection() {
+		this.#s.clear();
+		let { partialTree: e } = this.plugin.getPluginState(), t = e.map((e) => e.type === "root" ? e : {
+			...e,
+			status: "unchecked"
+		});
+		this.plugin.setPluginState({ partialTree: t });
+	}
+	clearSearchState() {
+		this.plugin.setPluginState({ searchResults: void 0 });
+	}
+	#l;
+	async #u(e) {
+		this.#l?.abort();
+		let t = new AbortController();
+		this.#l = t;
+		let n = () => {
+			t.abort();
+		};
+		try {
+			this.plugin.uppy.on("dashboard:close-panel", n), this.plugin.uppy.on("cancel-all", n), await e(t.signal);
+		} finally {
+			this.#l === t && (this.#l = void 0), this.plugin.uppy.off("dashboard:close-panel", n), this.plugin.uppy.off("cancel-all", n);
+		}
+	}
+	#d() {
+		this.#i === void 0 && this.setLoading(!1);
+	}
+	async #f() {
+		let { partialTree: e, currentFolderId: t, searchString: n } = this.plugin.getPluginState(), r = e.find((e) => e.id === t);
+		if (n.trim() === "") {
+			this.#l?.abort(), this.clearSearchState();
+			return;
+		}
+		this.setLoading(!0), await this.#u(async (e) => {
+			let i = r.type === "root" ? void 0 : t, { items: a } = await this.provider.search(n, {
+				signal: e,
+				path: i
+			}), { partialTree: o } = this.plugin.getPluginState(), s = [...o];
+			for (let e of a) {
+				let t = decodeURIComponent(e.requestPath).split("/").filter((e) => e.length > 0), n = this.plugin.rootFolderId, r;
+				t.forEach((i, a, o) => {
+					let c = t.slice(0, a + 1), l = encodeURIComponent(`/${c.join("/")}`), u = s.find((e) => e.id === l && e.type !== "root");
+					if (u) {
+						n = l, r = u.status === "checked";
+						return;
+					}
+					let d = a === o.length - 1, f, p = r ? "checked" : "unchecked";
+					if (d) {
+						if (e.isFolder) f = {
+							type: "folder",
+							id: l,
+							cached: !1,
+							nextPagePath: null,
+							status: p,
+							parentId: n,
+							data: e
+						};
+						else {
+							let t = this.validateSingleFile(e);
+							f = {
+								type: "file",
+								id: l,
+								restrictionError: t,
+								status: t ? "unchecked" : p,
+								parentId: n,
+								data: e
+							};
+						}
+					} else f = {
+						type: "folder",
+						id: l,
+						cached: !1,
+						nextPagePath: null,
+						status: p,
+						parentId: n,
+						data: {
+							name: decodeURIComponent(i),
+							icon: "folder",
+							isFolder: !0
+						}
+					};
+					s.push(f), n = l, r = p === "checked";
+				});
+			}
+			this.plugin.setPluginState({
+				partialTree: s,
+				searchResults: a.map((e) => e.requestPath)
+			});
+		}).catch(rr(this.plugin.uppy)), this.#d();
+	}
+	onSearchInput = (e) => {
+		this.plugin.setPluginState({ searchString: e }), this.opts.supportsSearch && this.#e();
+	};
+	async openSearchResultFolder(e) {
+		this.plugin.setPluginState({ searchString: "" }), await this.openFolder(e);
+	}
+	async openFolder(e) {
+		this.clearSearchState(), this.previousCheckbox = null;
+		let { partialTree: t } = this.plugin.getPluginState(), n = t.find((t) => t.id === e);
+		if (n.cached) {
+			this.plugin.setPluginState({
+				currentFolderId: e,
+				searchString: ""
+			});
+			return;
+		}
+		this.setLoading(!0), await this.#u(async (r) => {
+			let i = e, a = [];
+			do {
+				let { username: e, nextPagePath: t, items: n } = await this.provider.list(i, { signal: r });
+				this.plugin.setPluginState({ username: e }), i = t, a = a.concat(n), this.setLoading(this.plugin.uppy.i18n("loadedXFiles", { numFiles: a.length }));
+			} while (this.opts.loadAllFiles && i);
+			let o = Sr.afterOpenFolder(t, a, n, i, this.validateSingleFile);
+			this.plugin.setPluginState({
+				partialTree: o,
+				currentFolderId: e,
+				searchString: ""
+			});
+		}).catch(rr(this.plugin.uppy)), this.#d();
+	}
+	async logout() {
+		this.#s.clear(), await this.#u(async (e) => {
+			let t = await this.provider.logout({ signal: e });
+			if (t.ok) {
+				if (!t.revoked) {
+					let e = this.plugin.uppy.i18n("companionUnauthorizeHint", {
+						provider: this.plugin.title,
+						url: t.manual_revoke_url
+					});
+					this.plugin.uppy.info(e, "info", 7e3);
+				}
+				this.plugin.setPluginState({
+					...jr(this.plugin.rootFolderId),
+					authenticated: !1
+				});
+			}
+		}).catch(rr(this.plugin.uppy));
+	}
+	async handleAuth(e) {
+		await this.#u(async (t) => {
+			this.setLoading(!0), await this.provider.login({
+				authFormData: e,
+				signal: t
+			}), this.plugin.setPluginState({ authenticated: !0 }), await Promise.all([this.provider.fetchPreAuthToken(), this.openFolder(this.plugin.rootFolderId)]);
+		}).catch(rr(this.plugin.uppy)), this.#d();
+	}
+	async handleScroll(e) {
+		Cr(e) && await this.loadNextPage();
+	}
+	#p;
+	loadNextPage() {
+		return this.#p ||= this.#m().finally(() => {
+			this.#p = void 0;
+		}), this.#p;
+	}
+	async #m() {
+		let { partialTree: e, currentFolderId: t } = this.plugin.getPluginState(), n = e.find((e) => e.id === t);
+		if (n && n.type !== "file" && n.nextPagePath) {
+			let e = n.nextPagePath, r = !1;
+			return this.isHandlingScroll = !0, await this.#u(async (n) => {
+				let { nextPagePath: i, items: a } = await this.provider.list(e, { signal: n }), o = this.plugin.getPluginState();
+				if (n.aborted || o.currentFolderId !== t) return;
+				let s = Sr.afterScrollFolder(o.partialTree, t, a, i, this.validateSingleFile);
+				this.plugin.setPluginState({ partialTree: s }), r = !0;
+			}).catch(rr(this.plugin.uppy)), this.isHandlingScroll = !1, r;
+		}
+		return !1;
+	}
+	validateSingleFile = (e) => {
+		let t = _e(e);
+		return this.plugin.uppy.validateSingleFile(t);
+	};
+	async donePicking() {
+		let { partialTree: e } = this.plugin.getPluginState();
+		this.isLoading || (this.setLoading(!0), await this.#u(async (t) => {
+			let n = await Sr.afterFill(e, (e) => this.provider.list(e, { signal: t }), this.validateSingleFile, (e) => {
+				this.setLoading(this.plugin.uppy.i18n("addedNumFiles", { numFiles: e }));
+			});
+			if (this.validateAggregateRestrictions(n)) {
+				this.plugin.setPluginState({ partialTree: n });
+				return;
+			}
+			tr(or(n), this.plugin, this.provider), this.resetPluginState();
+		}).catch(rr(this.plugin.uppy)), this.#d());
+	}
+	toggleCheckbox(e, t) {
+		let { partialTree: n } = this.plugin.getPluginState(), r = nr(e.id, this.getDisplayedPartialTree(), t, this.previousCheckbox), i = Sr.afterToggleCheckbox(n, r), a = new Map(i.map((e) => [e.id, e.type === "root" ? void 0 : e.status]));
+		for (let e of r) a.get(e) === "checked" && this.#s.add(e);
+		for (let e of this.#s) {
+			let t = a.get(e);
+			(t === void 0 || t === "unchecked") && this.#s.delete(e);
+		}
+		this.plugin.setPluginState({ partialTree: i }), this.previousCheckbox = e.id;
+	}
+	getDisplayedPartialTree = () => {
+		let { partialTree: e, currentFolderId: t, searchString: n } = this.plugin.getPluginState(), r = e.filter((e) => e.type !== "root" && e.parentId === t);
+		return this.opts.supportsSearch || n.trim() === "" ? r : r.filter((e) => (e.data.name ?? this.plugin.uppy.i18n("unnamed")).toLowerCase().indexOf(n.trim().toLowerCase()) !== -1);
+	};
+	getBreadcrumbs = () => {
+		let { partialTree: e, currentFolderId: t } = this.plugin.getPluginState();
+		return ir(e, t);
+	};
+	getSelectedAmount = () => {
+		let { partialTree: e } = this.plugin.getPluginState();
+		return Yn(e);
+	};
+	validateAggregateRestrictions = (e) => {
+		let t = e.filter((e) => e.type === "file" && e.status === "checked").map((e) => e.data);
+		return this.plugin.uppy.validateAggregateRestrictions(t);
+	};
+	#h() {
+		let { i18n: e } = this.plugin.uppy, { searchResults: t, partialTree: n } = this.plugin.getPluginState(), r = /* @__PURE__ */ new Map();
+		return n.forEach((e) => {
+			e.type !== "root" && r.set(e.id, e);
+		}), F(Tr, {
+			searchResults: t.map((e) => {
+				let t = r.get(e);
+				if (t == null) throw Error("Partial tree not complete");
+				return t;
+			}),
+			openFolder: this.openSearchResultFolder,
+			toggleCheckbox: this.toggleCheckbox,
+			i18n: e
+		});
+	}
+	render(e, t = {}) {
+		let { didFirstRender: n } = this.plugin.getPluginState(), { i18n: r } = this.plugin.uppy;
+		n || (this.plugin.setPluginState({ didFirstRender: !0 }), this.provider.fetchPreAuthToken(), this.openFolder(this.plugin.rootFolderId));
+		let i = {
+			...this.opts,
+			...t
+		}, { authenticated: a, loading: o } = this.plugin.getPluginState(), s = this.plugin.icon || Ar;
+		if (a === !1) return F(Dn, {
+			pluginName: this.plugin.title,
+			pluginIcon: s,
+			handleAuth: this.handleAuth,
+			i18n: this.plugin.uppy.i18n,
+			renderForm: i.renderAuthForm,
+			loading: o
+		});
+		let { partialTree: c, currentFolderId: l, username: u, searchString: d, searchResults: f, dialog: p, selectionActive: m = !1, detailItemId: h } = this.plugin.getPluginState(), g = this.getBreadcrumbs(), _ = i.mode === "manager", v = !_ || m, y = this.#i !== void 0, b = c.find(({ id: e }) => e === l), x = b?.type !== "file" && b?.cached === !0 && !c.some((e) => e.type !== "root" && e.parentId === l);
+		h && (this.#a = c.find((e) => e.type !== "root" && e.id === h) ?? this.#a);
+		let S = this.#a?.id === h ? this.#a : void 0;
+		return F("div", {
+			className: (0, G.default)("uppy-ProviderBrowser", `uppy-ProviderBrowser-viewType--${i.viewType}`),
+			children: [
+				F(Or, {
+					showBreadcrumbs: i.showBreadcrumbs,
+					openFolder: this.openFolder,
+					breadcrumbs: g,
+					pluginIcon: s,
+					title: this.plugin.title,
+					logout: this.logout,
+					username: u,
+					i18n: r,
+					toolbarActions: i.toolbarActions ?? [],
+					runToolbarAction: this.runToolbarAction,
+					standalone: i.standalone ?? !1,
+					selectionToggle: _ && (i.bulkActions?.length ?? 0) > 0 && (m || !x) ? {
+						active: m,
+						onToggle: this.toggleSelectionMode
+					} : void 0,
+					busy: y
+				}),
+				i.showFilter && F(Sn, {
+					value: d,
+					onChange: (e) => this.onSearchInput(e),
+					onSubmit: () => {},
+					inputLabel: r("filter"),
+					i18n: r,
+					disabled: y
+				}),
+				f ? this.#h() : F(qn, {
+					toggleCheckbox: this.toggleCheckbox,
+					displayedPartialTree: this.getDisplayedPartialTree(),
+					openFolder: this.openFolder,
+					virtualList: i.virtualList,
+					noResultsLabel: r("noFilesFound"),
+					handleScroll: this.handleScroll,
+					viewType: i.viewType,
+					showTitles: i.showTitles,
+					i18n: this.plugin.uppy.i18n,
+					isLoading: o,
+					onCancelLoading: this.#i,
+					utmSource: "Companion",
+					actions: i.actions ?? [],
+					runAction: this.runAction,
+					selectable: v,
+					onFileClick: _ && !m ? this.openItemDetail : void 0
+				}),
+				y ? null : _ ? m && F(Jn, {
+					selectedCount: this.getBulkActionItems().length,
+					bulkActions: i.bulkActions ?? [],
+					runBulkAction: this.runBulkAction,
+					i18n: r
+				}) : F(Xn, {
+					partialTree: c,
+					donePicking: this.donePicking,
+					cancelSelection: this.cancelSelection,
+					i18n: r,
+					validateAggregateRestrictions: this.validateAggregateRestrictions
+				}),
+				S && F(Zn, {
+					item: S,
+					actions: i.actions ?? [],
+					runAction: this.runAction,
+					getPreviewUrl: i.getPreviewUrl,
+					onClose: this.closeItemDetail,
+					i18n: r
+				}, S.id),
+				p && F(Qn, {
+					dialog: p,
+					i18n: r,
+					onConfirm: this.#c.submit,
+					onCancel: this.#c.cancel
+				}, this.#c.revision)
+			]
+		});
+	}
+});
+//#endregion
+//#region node_modules/exifr/dist/mini.esm.mjs
+function K(e, t, n) {
+	return t in e ? Object.defineProperty(e, t, {
+		value: n,
+		enumerable: !0,
+		configurable: !0,
+		writable: !0
+	}) : e[t] = n, e;
+}
+var Nr = typeof self < "u" ? self : global, Pr = typeof navigator < "u", Fr = Pr && typeof HTMLImageElement > "u", Ir = !(typeof global > "u" || typeof process > "u" || !process.versions || !process.versions.node), Lr = Nr.Buffer, Rr = !!Lr, zr = (e) => e !== void 0;
+function Br(e) {
+	return e === void 0 || (e instanceof Map ? e.size === 0 : Object.values(e).filter(zr).length === 0);
+}
+function q(e) {
+	let t = Error(e);
+	throw delete t.stack, t;
+}
+function Vr(e) {
+	let t = function(e) {
+		let t = 0;
+		return e.ifd0.enabled && (t += 1024), e.exif.enabled && (t += 2048), e.makerNote && (t += 2048), e.userComment && (t += 1024), e.gps.enabled && (t += 512), e.interop.enabled && (t += 100), e.ifd1.enabled && (t += 1024), t + 2048;
+	}(e);
+	return e.jfif.enabled && (t += 50), e.xmp.enabled && (t += 2e4), e.iptc.enabled && (t += 14e3), e.icc.enabled && (t += 6e3), t;
+}
+var Hr = (e) => String.fromCharCode.apply(null, e), Ur = typeof TextDecoder < "u" ? new TextDecoder("utf-8") : void 0, Wr = class e {
+	static from(t, n) {
+		return t instanceof this && t.le === n ? t : new e(t, void 0, void 0, n);
+	}
+	constructor(t, n = 0, r, i) {
+		if (typeof i == "boolean" && (this.le = i), Array.isArray(t) && (t = new Uint8Array(t)), t === 0) this.byteOffset = 0, this.byteLength = 0;
+		else if (t instanceof ArrayBuffer) {
+			r === void 0 && (r = t.byteLength - n);
+			let e = new DataView(t, n, r);
+			this._swapDataView(e);
+		} else if (t instanceof Uint8Array || t instanceof DataView || t instanceof e) {
+			r === void 0 && (r = t.byteLength - n), (n += t.byteOffset) + r > t.byteOffset + t.byteLength && q("Creating view outside of available memory in ArrayBuffer");
+			let e = new DataView(t.buffer, n, r);
+			this._swapDataView(e);
+		} else if (typeof t == "number") {
+			let e = new DataView(new ArrayBuffer(t));
+			this._swapDataView(e);
+		} else q("Invalid input argument for BufferView: " + t);
+	}
+	_swapArrayBuffer(e) {
+		this._swapDataView(new DataView(e));
+	}
+	_swapBuffer(e) {
+		this._swapDataView(new DataView(e.buffer, e.byteOffset, e.byteLength));
+	}
+	_swapDataView(e) {
+		this.dataView = e, this.buffer = e.buffer, this.byteOffset = e.byteOffset, this.byteLength = e.byteLength;
+	}
+	_lengthToEnd(e) {
+		return this.byteLength - e;
+	}
+	set(t, n, r = e) {
+		return t instanceof DataView || t instanceof e ? t = new Uint8Array(t.buffer, t.byteOffset, t.byteLength) : t instanceof ArrayBuffer && (t = new Uint8Array(t)), t instanceof Uint8Array || q("BufferView.set(): Invalid data argument."), this.toUint8().set(t, n), new r(this, n, t.byteLength);
+	}
+	subarray(t, n) {
+		return n ||= this._lengthToEnd(t), new e(this, t, n);
+	}
+	toUint8() {
+		return new Uint8Array(this.buffer, this.byteOffset, this.byteLength);
+	}
+	getUint8Array(e, t) {
+		return new Uint8Array(this.buffer, this.byteOffset + e, t);
+	}
+	getString(e = 0, t = this.byteLength) {
+		return n = this.getUint8Array(e, t), Ur ? Ur.decode(n) : Rr ? Buffer.from(n).toString("utf8") : decodeURIComponent(escape(Hr(n)));
+		var n;
+	}
+	getLatin1String(e = 0, t = this.byteLength) {
+		return Hr(this.getUint8Array(e, t));
+	}
+	getUnicodeString(e = 0, t = this.byteLength) {
+		let n = [];
+		for (let r = 0; r < t && e + r < this.byteLength; r += 2) n.push(this.getUint16(e + r));
+		return Hr(n);
+	}
+	getInt8(e) {
+		return this.dataView.getInt8(e);
+	}
+	getUint8(e) {
+		return this.dataView.getUint8(e);
+	}
+	getInt16(e, t = this.le) {
+		return this.dataView.getInt16(e, t);
+	}
+	getInt32(e, t = this.le) {
+		return this.dataView.getInt32(e, t);
+	}
+	getUint16(e, t = this.le) {
+		return this.dataView.getUint16(e, t);
+	}
+	getUint32(e, t = this.le) {
+		return this.dataView.getUint32(e, t);
+	}
+	getFloat32(e, t = this.le) {
+		return this.dataView.getFloat32(e, t);
+	}
+	getFloat64(e, t = this.le) {
+		return this.dataView.getFloat64(e, t);
+	}
+	getFloat(e, t = this.le) {
+		return this.dataView.getFloat32(e, t);
+	}
+	getDouble(e, t = this.le) {
+		return this.dataView.getFloat64(e, t);
+	}
+	getUintBytes(e, t, n) {
+		switch (t) {
+			case 1: return this.getUint8(e, n);
+			case 2: return this.getUint16(e, n);
+			case 4: return this.getUint32(e, n);
+			case 8: return this.getUint64 && this.getUint64(e, n);
+		}
+	}
+	getUint(e, t, n) {
+		switch (t) {
+			case 8: return this.getUint8(e, n);
+			case 16: return this.getUint16(e, n);
+			case 32: return this.getUint32(e, n);
+			case 64: return this.getUint64 && this.getUint64(e, n);
+		}
+	}
+	toString(e) {
+		return this.dataView.toString(e, this.constructor.name);
+	}
+	ensureChunk() {}
+};
+function Gr(e, t) {
+	q(`${e} '${t}' was not loaded, try using full build of exifr.`);
+}
+var Kr = class extends Map {
+	constructor(e) {
+		super(), this.kind = e;
+	}
+	get(e, t) {
+		return this.has(e) || Gr(this.kind, e), t && (e in t || function(e, t) {
+			q(`Unknown ${e} '${t}'.`);
+		}(this.kind, e), t[e].enabled || Gr(this.kind, e)), super.get(e);
+	}
+	keyList() {
+		return Array.from(this.keys());
+	}
+}, qr = new Kr("file parser"), J = new Kr("segment parser"), Jr = new Kr("file reader"), Yr = Nr.fetch;
+function Xr(e, t) {
+	return (n = e).startsWith("data:") || n.length > 1e4 ? Qr(e, t, "base64") : Ir && e.includes("://") ? Zr(e, t, "url", $r) : Ir ? Qr(e, t, "fs") : Pr ? Zr(e, t, "url", $r) : void q("Invalid input argument");
+	var n;
+}
+async function Zr(e, t, n, r) {
+	return Jr.has(n) ? Qr(e, t, n) : r ? async function(e, t) {
+		return new Wr(await t(e));
+	}(e, r) : void q(`Parser ${n} is not loaded`);
+}
+async function Qr(e, t, n) {
+	let r = new (Jr.get(n))(e, t);
+	return await r.read(), r;
+}
+var $r = (e) => Yr(e).then(((e) => e.arrayBuffer())), ei = (e) => new Promise(((t, n) => {
+	let r = new FileReader();
+	r.onloadend = () => t(r.result || /* @__PURE__ */ new ArrayBuffer()), r.onerror = n, r.readAsArrayBuffer(e);
+})), ti = class extends Map {
+	get tagKeys() {
+		return this.allKeys ||= Array.from(this.keys()), this.allKeys;
+	}
+	get tagValues() {
+		return this.allValues ||= Array.from(this.values()), this.allValues;
+	}
+};
+function ni(e, t, n) {
+	let r = new ti();
+	for (let [e, t] of n) r.set(e, t);
+	if (Array.isArray(t)) for (let n of t) e.set(n, r);
+	else e.set(t, r);
+	return r;
+}
+function ri(e, t, n) {
+	let r, i = e.get(t);
+	for (r of n) i.set(r[0], r[1]);
+}
+var ii = /* @__PURE__ */ new Map(), ai = /* @__PURE__ */ new Map(), oi = /* @__PURE__ */ new Map(), si = [
+	"chunked",
+	"firstChunkSize",
+	"firstChunkSizeNode",
+	"firstChunkSizeBrowser",
+	"chunkSize",
+	"chunkLimit"
+], ci = [
+	"jfif",
+	"xmp",
+	"icc",
+	"iptc",
+	"ihdr"
+], li = ["tiff", ...ci], Y = [
+	"ifd0",
+	"ifd1",
+	"exif",
+	"gps",
+	"interop"
+], ui = [...li, ...Y], di = ["makerNote", "userComment"], fi = [
+	"translateKeys",
+	"translateValues",
+	"reviveValues",
+	"multiSegment"
+], pi = [
+	...fi,
+	"sanitize",
+	"mergeOutput",
+	"silentErrors"
+], mi = class {
+	get translate() {
+		return this.translateKeys || this.translateValues || this.reviveValues;
+	}
+}, hi = class extends mi {
+	get needed() {
+		return this.enabled || this.deps.size > 0;
+	}
+	constructor(e, t, n, r) {
+		if (super(), K(this, "enabled", !1), K(this, "skip", /* @__PURE__ */ new Set()), K(this, "pick", /* @__PURE__ */ new Set()), K(this, "deps", /* @__PURE__ */ new Set()), K(this, "translateKeys", !1), K(this, "translateValues", !1), K(this, "reviveValues", !1), this.key = e, this.enabled = t, this.parse = this.enabled, this.applyInheritables(r), this.canBeFiltered = Y.includes(e), this.canBeFiltered && (this.dict = ii.get(e)), n !== void 0) {
+			if (Array.isArray(n)) this.parse = this.enabled = !0, this.canBeFiltered && n.length > 0 && this.translateTagSet(n, this.pick);
+			else if (typeof n == "object") {
+				if (this.enabled = !0, this.parse = !1 !== n.parse, this.canBeFiltered) {
+					let { pick: e, skip: t } = n;
+					e && e.length > 0 && this.translateTagSet(e, this.pick), t && t.length > 0 && this.translateTagSet(t, this.skip);
+				}
+				this.applyInheritables(n);
+			} else !0 === n || !1 === n ? this.parse = this.enabled = n : q(`Invalid options argument: ${n}`);
+		}
+	}
+	applyInheritables(e) {
+		let t, n;
+		for (t of fi) n = e[t], n !== void 0 && (this[t] = n);
+	}
+	translateTagSet(e, t) {
+		if (this.dict) {
+			let n, r, { tagKeys: i, tagValues: a } = this.dict;
+			for (n of e) typeof n == "string" ? (r = a.indexOf(n), r === -1 && (r = i.indexOf(Number(n))), r !== -1 && t.add(Number(i[r]))) : t.add(n);
+		} else for (let n of e) t.add(n);
+	}
+	finalizeFilters() {
+		!this.enabled && this.deps.size > 0 ? (this.enabled = !0, bi(this.pick, this.deps)) : this.enabled && this.pick.size > 0 && bi(this.pick, this.deps);
+	}
+}, X = {
+	jfif: !1,
+	tiff: !0,
+	xmp: !1,
+	icc: !1,
+	iptc: !1,
+	ifd0: !0,
+	ifd1: !1,
+	exif: !0,
+	gps: !0,
+	interop: !1,
+	ihdr: void 0,
+	makerNote: !1,
+	userComment: !1,
+	multiSegment: !1,
+	skip: [],
+	pick: [],
+	translateKeys: !0,
+	translateValues: !0,
+	reviveValues: !0,
+	sanitize: !0,
+	mergeOutput: !0,
+	silentErrors: !0,
+	chunked: !0,
+	firstChunkSize: void 0,
+	firstChunkSizeNode: 512,
+	firstChunkSizeBrowser: 65536,
+	chunkSize: 65536,
+	chunkLimit: 5
+}, gi = /* @__PURE__ */ new Map(), _i = class extends mi {
+	static useCached(e) {
+		let t = gi.get(e);
+		return t !== void 0 || (t = new this(e), gi.set(e, t)), t;
+	}
+	constructor(e) {
+		super(), !0 === e ? this.setupFromTrue() : e === void 0 ? this.setupFromUndefined() : Array.isArray(e) ? this.setupFromArray(e) : typeof e == "object" ? this.setupFromObject(e) : q(`Invalid options argument ${e}`), this.firstChunkSize === void 0 && (this.firstChunkSize = Pr ? this.firstChunkSizeBrowser : this.firstChunkSizeNode), this.mergeOutput && (this.ifd1.enabled = !1), this.filterNestedSegmentTags(), this.traverseTiffDependencyTree(), this.checkLoadedPlugins();
+	}
+	setupFromUndefined() {
+		let e;
+		for (e of si) this[e] = X[e];
+		for (e of pi) this[e] = X[e];
+		for (e of di) this[e] = X[e];
+		for (e of ui) this[e] = new hi(e, X[e], void 0, this);
+	}
+	setupFromTrue() {
+		let e;
+		for (e of si) this[e] = X[e];
+		for (e of pi) this[e] = X[e];
+		for (e of di) this[e] = !0;
+		for (e of ui) this[e] = new hi(e, !0, void 0, this);
+	}
+	setupFromArray(e) {
+		let t;
+		for (t of si) this[t] = X[t];
+		for (t of pi) this[t] = X[t];
+		for (t of di) this[t] = X[t];
+		for (t of ui) this[t] = new hi(t, !1, void 0, this);
+		this.setupGlobalFilters(e, void 0, Y);
+	}
+	setupFromObject(e) {
+		let t;
+		for (t of (Y.ifd0 = Y.ifd0 || Y.image, Y.ifd1 = Y.ifd1 || Y.thumbnail, Object.assign(this, e), si)) this[t] = yi(e[t], X[t]);
+		for (t of pi) this[t] = yi(e[t], X[t]);
+		for (t of di) this[t] = yi(e[t], X[t]);
+		for (t of li) this[t] = new hi(t, X[t], e[t], this);
+		for (t of Y) this[t] = new hi(t, X[t], e[t], this.tiff);
+		this.setupGlobalFilters(e.pick, e.skip, Y, ui), !0 === e.tiff ? this.batchEnableWithBool(Y, !0) : !1 === e.tiff ? this.batchEnableWithUserValue(Y, e) : Array.isArray(e.tiff) ? this.setupGlobalFilters(e.tiff, void 0, Y) : typeof e.tiff == "object" && this.setupGlobalFilters(e.tiff.pick, e.tiff.skip, Y);
+	}
+	batchEnableWithBool(e, t) {
+		for (let n of e) this[n].enabled = t;
+	}
+	batchEnableWithUserValue(e, t) {
+		for (let n of e) {
+			let e = t[n];
+			this[n].enabled = !1 !== e && e !== void 0;
+		}
+	}
+	setupGlobalFilters(e, t, n, r = n) {
+		if (e && e.length) {
+			for (let e of r) this[e].enabled = !1;
+			let t = vi(e, n);
+			for (let [e, n] of t) bi(this[e].pick, n), this[e].enabled = !0;
+		} else if (t && t.length) {
+			let e = vi(t, n);
+			for (let [t, n] of e) bi(this[t].skip, n);
+		}
+	}
+	filterNestedSegmentTags() {
+		let { ifd0: e, exif: t, xmp: n, iptc: r, icc: i } = this;
+		this.makerNote ? t.deps.add(37500) : t.skip.add(37500), this.userComment ? t.deps.add(37510) : t.skip.add(37510), n.enabled || e.skip.add(700), r.enabled || e.skip.add(33723), i.enabled || e.skip.add(34675);
+	}
+	traverseTiffDependencyTree() {
+		let { ifd0: e, exif: t, gps: n, interop: r } = this;
+		r.needed && (t.deps.add(40965), e.deps.add(40965)), t.needed && e.deps.add(34665), n.needed && e.deps.add(34853), this.tiff.enabled = Y.some(((e) => !0 === this[e].enabled)) || this.makerNote || this.userComment;
+		for (let e of Y) this[e].finalizeFilters();
+	}
+	get onlyTiff() {
+		return !ci.map(((e) => this[e].enabled)).some(((e) => !0 === e)) && this.tiff.enabled;
+	}
+	checkLoadedPlugins() {
+		for (let e of li) this[e].enabled && !J.has(e) && Gr("segment parser", e);
+	}
+};
+function vi(e, t) {
+	let n, r, i, a, o = [];
+	for (i of t) {
+		for (a of (n = ii.get(i), r = [], n)) (e.includes(a[0]) || e.includes(a[1])) && r.push(a[0]);
+		r.length && o.push([i, r]);
+	}
+	return o;
+}
+function yi(e, t) {
+	return e === void 0 ? t === void 0 ? void 0 : t : e;
+}
+function bi(e, t) {
+	for (let n of t) e.add(n);
+}
+K(_i, "default", X);
+var xi = class {
+	constructor(e) {
+		K(this, "parsers", {}), K(this, "output", {}), K(this, "errors", []), K(this, "pushToErrors", ((e) => this.errors.push(e))), this.options = _i.useCached(e);
+	}
+	async read(e) {
+		this.file = await function(e, t) {
+			return typeof e == "string" ? Xr(e, t) : Pr && !Fr && e instanceof HTMLImageElement ? Xr(e.src, t) : e instanceof Uint8Array || e instanceof ArrayBuffer || e instanceof DataView ? new Wr(e) : Pr && e instanceof Blob ? Zr(e, t, "blob", ei) : void q("Invalid input argument");
+		}(e, this.options);
+	}
+	setup() {
+		if (this.fileParser) return;
+		let { file: e } = this, t = e.getUint16(0);
+		for (let [n, r] of qr) if (r.canHandle(e, t)) return this.fileParser = new r(this.options, this.file, this.parsers), e[n] = !0;
+		this.file.close && this.file.close(), q("Unknown file format");
+	}
+	async parse() {
+		let { output: e, errors: t } = this;
+		return this.setup(), this.options.silentErrors ? (await this.executeParsers().catch(this.pushToErrors), t.push(...this.fileParser.errors)) : await this.executeParsers(), this.file.close && this.file.close(), this.options.silentErrors && t.length > 0 && (e.errors = t), Br(n = e) ? void 0 : n;
+		var n;
+	}
+	async executeParsers() {
+		let { output: e } = this;
+		await this.fileParser.parse();
+		let t = Object.values(this.parsers).map((async (t) => {
+			let n = await t.parse();
+			t.assignToOutput(e, n);
+		}));
+		this.options.silentErrors && (t = t.map(((e) => e.catch(this.pushToErrors)))), await Promise.all(t);
+	}
+	async extractThumbnail() {
+		this.setup();
+		let { options: e, file: t } = this, n = J.get("tiff", e);
+		var r;
+		if (t.tiff ? r = {
+			start: 0,
+			type: "tiff"
+		} : t.jpeg && (r = await this.fileParser.getOrFindSegment("tiff")), r === void 0) return;
+		let i = await this.fileParser.ensureSegmentChunk(r), a = await (this.parsers.tiff = new n(i, e, t)).extractThumbnail();
+		return t.close && t.close(), a;
+	}
+};
+async function Si(e, t) {
+	let n = new xi(t);
+	return await n.read(e), n.parse();
+}
+var Ci = Object.freeze({
+	__proto__: null,
+	parse: Si,
+	Exifr: xi,
+	fileParsers: qr,
+	segmentParsers: J,
+	fileReaders: Jr,
+	tagKeys: ii,
+	tagValues: ai,
+	tagRevivers: oi,
+	createDictionary: ni,
+	extendDictionary: ri,
+	fetchUrlAsArrayBuffer: $r,
+	readBlobAsArrayBuffer: ei,
+	chunkedProps: si,
+	otherSegments: ci,
+	segments: li,
+	tiffBlocks: Y,
+	segmentsAndBlocks: ui,
+	tiffExtractables: di,
+	inheritables: fi,
+	allFormatters: pi,
+	Options: _i
+}), wi = class {
+	static findPosition(e, t) {
+		let n = e.getUint16(t + 2) + 2, r = typeof this.headerLength == "function" ? this.headerLength(e, t, n) : this.headerLength, i = t + r, a = n - r;
+		return {
+			offset: t,
+			length: n,
+			headerLength: r,
+			start: i,
+			size: a,
+			end: i + a
+		};
+	}
+	static parse(e, t = {}) {
+		return new this(e, new _i({ [this.type]: t }), e).parse();
+	}
+	normalizeInput(e) {
+		return e instanceof Wr ? e : new Wr(e);
+	}
+	constructor(e, t = {}, n) {
+		K(this, "errors", []), K(this, "raw", /* @__PURE__ */ new Map()), K(this, "handleError", ((e) => {
+			if (!this.options.silentErrors) throw e;
+			this.errors.push(e.message);
+		})), this.chunk = this.normalizeInput(e), this.file = n, this.type = this.constructor.type, this.globalOptions = this.options = t, this.localOptions = t[this.type], this.canTranslate = this.localOptions && this.localOptions.translate;
+	}
+	translate() {
+		this.canTranslate && (this.translated = this.translateBlock(this.raw, this.type));
+	}
+	get output() {
+		return this.translated ? this.translated : this.raw ? Object.fromEntries(this.raw) : void 0;
+	}
+	translateBlock(e, t) {
+		let n = oi.get(t), r = ai.get(t), i = ii.get(t), a = this.options[t], o = a.reviveValues && !!n, s = a.translateValues && !!r, c = a.translateKeys && !!i, l = {};
+		for (let [t, a] of e) o && n.has(t) ? a = n.get(t)(a) : s && r.has(t) && (a = this.translateValue(a, r.get(t))), c && i.has(t) && (t = i.get(t) || t), l[t] = a;
+		return l;
+	}
+	translateValue(e, t) {
+		return t[e] || t.DEFAULT || e;
+	}
+	assignToOutput(e, t) {
+		this.assignObjectToOutput(e, this.constructor.type, t);
+	}
+	assignObjectToOutput(e, t, n) {
+		if (this.globalOptions.mergeOutput) return Object.assign(e, n);
+		e[t] ? Object.assign(e[t], n) : e[t] = n;
+	}
+};
+K(wi, "headerLength", 4), K(wi, "type", void 0), K(wi, "multiSegment", !1), K(wi, "canHandle", (() => !1));
+function Ti(e) {
+	return e === 192 || e === 194 || e === 196 || e === 219 || e === 221 || e === 218 || e === 254;
+}
+function Ei(e) {
+	return e >= 224 && e <= 239;
+}
+function Di(e, t, n) {
+	for (let [r, i] of J) if (i.canHandle(e, t, n)) return r;
+}
+var Oi = class extends class {
+	constructor(e, t, n) {
+		K(this, "errors", []), K(this, "ensureSegmentChunk", (async (e) => {
+			let t = e.start, n = e.size || 65536;
+			if (this.file.chunked) {
+				if (this.file.available(t, n)) e.chunk = this.file.subarray(t, n);
+				else try {
+					e.chunk = await this.file.readChunk(t, n);
+				} catch (t) {
+					q(`Couldn't read segment: ${JSON.stringify(e)}. ${t.message}`);
+				}
+			} else this.file.byteLength > t + n ? e.chunk = this.file.subarray(t, n) : e.size === void 0 ? e.chunk = this.file.subarray(t) : q("Segment unreachable: " + JSON.stringify(e));
+			return e.chunk;
+		})), this.extendOptions && this.extendOptions(e), this.options = e, this.file = t, this.parsers = n;
+	}
+	injectSegment(e, t) {
+		this.options[e].enabled && this.createParser(e, t);
+	}
+	createParser(e, t) {
+		let n = new (J.get(e))(t, this.options, this.file);
+		return this.parsers[e] = n;
+	}
+	createParsers(e) {
+		for (let t of e) {
+			let { type: e, chunk: n } = t, r = this.options[e];
+			if (r && r.enabled) {
+				let t = this.parsers[e];
+				t && t.append || t || this.createParser(e, n);
+			}
+		}
+	}
+	async readSegments(e) {
+		let t = e.map(this.ensureSegmentChunk);
+		await Promise.all(t);
+	}
+} {
+	constructor(...e) {
+		super(...e), K(this, "appSegments", []), K(this, "jpegSegments", []), K(this, "unknownSegments", []);
+	}
+	static canHandle(e, t) {
+		return t === 65496;
+	}
+	async parse() {
+		await this.findAppSegments(), await this.readSegments(this.appSegments), this.mergeMultiSegments(), this.createParsers(this.mergedAppSegments || this.appSegments);
+	}
+	setupSegmentFinderArgs(e) {
+		!0 === e ? (this.findAll = !0, this.wanted = new Set(J.keyList())) : (e = e === void 0 ? J.keyList().filter(((e) => this.options[e].enabled)) : e.filter(((e) => this.options[e].enabled && J.has(e))), this.findAll = !1, this.remaining = new Set(e), this.wanted = new Set(e)), this.unfinishedMultiSegment = !1;
+	}
+	async findAppSegments(e = 0, t) {
+		this.setupSegmentFinderArgs(t);
+		let { file: n, findAll: r, wanted: i, remaining: a } = this;
+		if (!r && this.file.chunked && (r = Array.from(i).some(((e) => {
+			let t = J.get(e), n = this.options[e];
+			return t.multiSegment && n.multiSegment;
+		})), r && await this.file.readWhole()), e = this.findAppSegmentsInRange(e, n.byteLength), !this.options.onlyTiff && n.chunked) {
+			let t = !1;
+			for (; a.size > 0 && !t && (n.canReadNextChunk || this.unfinishedMultiSegment);) {
+				let { nextChunkOffset: r } = n, i = this.appSegments.some(((e) => !this.file.available(e.offset || e.start, e.length || e.size)));
+				if (t = e > r && !i ? !await n.readNextChunk(e) : !await n.readNextChunk(r), (e = this.findAppSegmentsInRange(e, n.byteLength)) === void 0) return;
+			}
+		}
+	}
+	findAppSegmentsInRange(e, t) {
+		t -= 2;
+		let n, r, i, a, o, s, { file: c, findAll: l, wanted: u, remaining: d, options: f } = this;
+		for (; e < t; e++) if (c.getUint8(e) === 255) {
+			if (n = c.getUint8(e + 1), Ei(n)) {
+				if (r = c.getUint16(e + 2), i = Di(c, e, r), i && u.has(i) && (a = J.get(i), o = a.findPosition(c, e), s = f[i], o.type = i, this.appSegments.push(o), !l && (a.multiSegment && s.multiSegment ? (this.unfinishedMultiSegment = o.chunkNumber < o.chunkCount, this.unfinishedMultiSegment || d.delete(i)) : d.delete(i), d.size === 0))) break;
+				f.recordUnknownSegments && (o = wi.findPosition(c, e), o.marker = n, this.unknownSegments.push(o)), e += r + 1;
+			} else if (Ti(n)) {
+				if (r = c.getUint16(e + 2), n === 218 && !1 !== f.stopAfterSos) return;
+				f.recordJpegSegments && this.jpegSegments.push({
+					offset: e,
+					length: r,
+					marker: n
+				}), e += r + 1;
+			}
+		}
+		return e;
+	}
+	mergeMultiSegments() {
+		if (!this.appSegments.some(((e) => e.multiSegment))) return;
+		let e = function(e, t) {
+			let n, r, i, a = /* @__PURE__ */ new Map();
+			for (let o = 0; o < e.length; o++) n = e[o], r = n[t], a.has(r) ? i = a.get(r) : a.set(r, i = []), i.push(n);
+			return Array.from(a);
+		}(this.appSegments, "type");
+		this.mergedAppSegments = e.map((([e, t]) => {
+			let n = J.get(e, this.options);
+			return n.handleMultiSegments ? {
+				type: e,
+				chunk: n.handleMultiSegments(t)
+			} : t[0];
+		}));
+	}
+	getSegment(e) {
+		return this.appSegments.find(((t) => t.type === e));
+	}
+	async getOrFindSegment(e) {
+		let t = this.getSegment(e);
+		return t === void 0 && (await this.findAppSegments(0, [e]), t = this.getSegment(e)), t;
+	}
+};
+K(Oi, "type", "jpeg"), qr.set("jpeg", Oi);
+var ki = [
+	void 0,
+	1,
+	1,
+	2,
+	4,
+	8,
+	1,
+	1,
+	2,
+	4,
+	8,
+	4,
+	8,
+	4
+], Ai = class extends wi {
+	parseHeader() {
+		var e = this.chunk.getUint16();
+		e === 18761 ? this.le = !0 : e === 19789 && (this.le = !1), this.chunk.le = this.le, this.headerParsed = !0;
+	}
+	parseTags(e, t, n = /* @__PURE__ */ new Map()) {
+		let { pick: r, skip: i } = this.options[t];
+		r = new Set(r);
+		let a = r.size > 0, o = i.size === 0, s = this.chunk.getUint16(e);
+		e += 2;
+		for (let c = 0; c < s; c++) {
+			let s = this.chunk.getUint16(e);
+			if (a) {
+				if (r.has(s) && (n.set(s, this.parseTag(e, s, t)), r.delete(s), r.size === 0)) break;
+			} else !o && i.has(s) || n.set(s, this.parseTag(e, s, t));
+			e += 12;
+		}
+		return n;
+	}
+	parseTag(e, t, n) {
+		let { chunk: r } = this, i = r.getUint16(e + 2), a = r.getUint32(e + 4), o = ki[i];
+		if (o * a <= 4 ? e += 8 : e = r.getUint32(e + 8), (i < 1 || i > 13) && q(`Invalid TIFF value type. block: ${n.toUpperCase()}, tag: ${t.toString(16)}, type: ${i}, offset ${e}`), e > r.byteLength && q(`Invalid TIFF value offset. block: ${n.toUpperCase()}, tag: ${t.toString(16)}, type: ${i}, offset ${e} is outside of chunk size ${r.byteLength}`), i === 1) return r.getUint8Array(e, a);
+		if (i === 2) return (s = function(e) {
+			for (; e.endsWith("\0");) e = e.slice(0, -1);
+			return e;
+		}(s = r.getString(e, a)).trim()) === "" ? void 0 : s;
+		var s;
+		if (i === 7) return r.getUint8Array(e, a);
+		if (a === 1) return this.parseTagValue(i, e);
+		{
+			let t = new (function(e) {
+				switch (e) {
+					case 1: return Uint8Array;
+					case 3: return Uint16Array;
+					case 4: return Uint32Array;
+					case 5: return Array;
+					case 6: return Int8Array;
+					case 8: return Int16Array;
+					case 9: return Int32Array;
+					case 10: return Array;
+					case 11: return Float32Array;
+					case 12: return Float64Array;
+					default: return Array;
+				}
+			}(i))(a), n = o;
+			for (let r = 0; r < a; r++) t[r] = this.parseTagValue(i, e), e += n;
+			return t;
+		}
+	}
+	parseTagValue(e, t) {
+		let { chunk: n } = this;
+		switch (e) {
+			case 1: return n.getUint8(t);
+			case 3: return n.getUint16(t);
+			case 4: return n.getUint32(t);
+			case 5: return n.getUint32(t) / n.getUint32(t + 4);
+			case 6: return n.getInt8(t);
+			case 8: return n.getInt16(t);
+			case 9: return n.getInt32(t);
+			case 10: return n.getInt32(t) / n.getInt32(t + 4);
+			case 11: return n.getFloat(t);
+			case 12: return n.getDouble(t);
+			case 13: return n.getUint32(t);
+			default: q(`Invalid tiff type ${e}`);
+		}
+	}
+}, ji = class extends Ai {
+	static canHandle(e, t) {
+		return e.getUint8(t + 1) === 225 && e.getUint32(t + 4) === 1165519206 && e.getUint16(t + 8) === 0;
+	}
+	async parse() {
+		this.parseHeader();
+		let { options: e } = this;
+		return e.ifd0.enabled && await this.parseIfd0Block(), e.exif.enabled && await this.safeParse("parseExifBlock"), e.gps.enabled && await this.safeParse("parseGpsBlock"), e.interop.enabled && await this.safeParse("parseInteropBlock"), e.ifd1.enabled && await this.safeParse("parseThumbnailBlock"), this.createOutput();
+	}
+	safeParse(e) {
+		let t = this[e]();
+		return t.catch !== void 0 && (t = t.catch(this.handleError)), t;
+	}
+	findIfd0Offset() {
+		this.ifd0Offset === void 0 && (this.ifd0Offset = this.chunk.getUint32(4));
+	}
+	findIfd1Offset() {
+		if (this.ifd1Offset === void 0) {
+			this.findIfd0Offset();
+			let e = this.chunk.getUint16(this.ifd0Offset), t = this.ifd0Offset + 2 + 12 * e;
+			this.ifd1Offset = this.chunk.getUint32(t);
+		}
+	}
+	parseBlock(e, t) {
+		let n = /* @__PURE__ */ new Map();
+		return this[t] = n, this.parseTags(e, t, n), n;
+	}
+	async parseIfd0Block() {
+		if (this.ifd0) return;
+		let { file: e } = this;
+		this.findIfd0Offset(), this.ifd0Offset < 8 && q("Malformed EXIF data"), !e.chunked && this.ifd0Offset > e.byteLength && q(`IFD0 offset points to outside of file.\nthis.ifd0Offset: ${this.ifd0Offset}, file.byteLength: ${e.byteLength}`), e.tiff && await e.ensureChunk(this.ifd0Offset, Vr(this.options));
+		let t = this.parseBlock(this.ifd0Offset, "ifd0");
+		return t.size === 0 ? void 0 : (this.exifOffset = t.get(34665), this.interopOffset = t.get(40965), this.gpsOffset = t.get(34853), this.xmp = t.get(700), this.iptc = t.get(33723), this.icc = t.get(34675), this.options.sanitize && (t.delete(34665), t.delete(40965), t.delete(34853), t.delete(700), t.delete(33723), t.delete(34675)), t);
+	}
+	async parseExifBlock() {
+		if (this.exif || (this.ifd0 || await this.parseIfd0Block(), this.exifOffset === void 0)) return;
+		this.file.tiff && await this.file.ensureChunk(this.exifOffset, Vr(this.options));
+		let e = this.parseBlock(this.exifOffset, "exif");
+		return this.interopOffset ||= e.get(40965), this.makerNote = e.get(37500), this.userComment = e.get(37510), this.options.sanitize && (e.delete(40965), e.delete(37500), e.delete(37510)), this.unpack(e, 41728), this.unpack(e, 41729), e;
+	}
+	unpack(e, t) {
+		let n = e.get(t);
+		n && n.length === 1 && e.set(t, n[0]);
+	}
+	async parseGpsBlock() {
+		if (this.gps || (this.ifd0 || await this.parseIfd0Block(), this.gpsOffset === void 0)) return;
+		let e = this.parseBlock(this.gpsOffset, "gps");
+		return e && e.has(2) && e.has(4) && (e.set("latitude", Mi(...e.get(2), e.get(1))), e.set("longitude", Mi(...e.get(4), e.get(3)))), e;
+	}
+	async parseInteropBlock() {
+		if (!this.interop && (this.ifd0 || await this.parseIfd0Block(), this.interopOffset !== void 0 || this.exif || await this.parseExifBlock(), this.interopOffset !== void 0)) return this.parseBlock(this.interopOffset, "interop");
+	}
+	async parseThumbnailBlock(e = !1) {
+		if (!this.ifd1 && !this.ifd1Parsed && (!this.options.mergeOutput || e)) return this.findIfd1Offset(), this.ifd1Offset > 0 && (this.parseBlock(this.ifd1Offset, "ifd1"), this.ifd1Parsed = !0), this.ifd1;
+	}
+	async extractThumbnail() {
+		if (this.headerParsed || this.parseHeader(), this.ifd1Parsed || await this.parseThumbnailBlock(!0), this.ifd1 === void 0) return;
+		let e = this.ifd1.get(513), t = this.ifd1.get(514);
+		return this.chunk.getUint8Array(e, t);
+	}
+	get image() {
+		return this.ifd0;
+	}
+	get thumbnail() {
+		return this.ifd1;
+	}
+	createOutput() {
+		let e, t, n, r = {};
+		for (t of Y) if (e = this[t], !Br(e)) {
+			if (n = this.canTranslate ? this.translateBlock(e, t) : Object.fromEntries(e), this.options.mergeOutput) {
+				if (t === "ifd1") continue;
+				Object.assign(r, n);
+			} else r[t] = n;
+		}
+		return this.makerNote && (r.makerNote = this.makerNote), this.userComment && (r.userComment = this.userComment), r;
+	}
+	assignToOutput(e, t) {
+		if (this.globalOptions.mergeOutput) Object.assign(e, t);
+		else for (let [n, r] of Object.entries(t)) this.assignObjectToOutput(e, n, r);
+	}
+};
+function Mi(e, t, n, r) {
+	var i = e + t / 60 + n / 3600;
+	return r !== "S" && r !== "W" || (i *= -1), i;
+}
+K(ji, "type", "tiff"), K(ji, "headerLength", 10), J.set("tiff", ji), Object.freeze({
+	__proto__: null,
+	default: Ci,
+	Exifr: xi,
+	fileParsers: qr,
+	segmentParsers: J,
+	fileReaders: Jr,
+	tagKeys: ii,
+	tagValues: ai,
+	tagRevivers: oi,
+	createDictionary: ni,
+	extendDictionary: ri,
+	fetchUrlAsArrayBuffer: $r,
+	readBlobAsArrayBuffer: ei,
+	chunkedProps: si,
+	otherSegments: ci,
+	segments: li,
+	tiffBlocks: Y,
+	segmentsAndBlocks: ui,
+	tiffExtractables: di,
+	inheritables: fi,
+	allFormatters: pi,
+	Options: _i,
+	parse: Si
+});
+var Ni = {
+	ifd0: !1,
+	ifd1: !1,
+	exif: !1,
+	gps: !1,
+	interop: !1,
+	sanitize: !1,
+	reviveValues: !0,
+	translateKeys: !1,
+	translateValues: !1,
+	mergeOutput: !1
+};
+Object.assign({}, Ni, {
+	firstChunkSize: 4e4,
+	gps: [
+		1,
+		2,
+		3,
+		4
+	]
+}), Object.assign({}, Ni, {
+	tiff: !1,
+	ifd1: !0,
+	mergeOutput: !1
+});
+var Pi = Object.assign({}, Ni, {
+	firstChunkSize: 4e4,
+	ifd0: [274]
+});
+async function Fi(e) {
+	let t = new xi(Pi);
+	await t.read(e);
+	let n = await t.parse();
+	if (n && n.ifd0) return n.ifd0[274];
+}
+var Ii = Object.freeze({
+	1: {
+		dimensionSwapped: !1,
+		scaleX: 1,
+		scaleY: 1,
+		deg: 0,
+		rad: 0
+	},
+	2: {
+		dimensionSwapped: !1,
+		scaleX: -1,
+		scaleY: 1,
+		deg: 0,
+		rad: 0
+	},
+	3: {
+		dimensionSwapped: !1,
+		scaleX: 1,
+		scaleY: 1,
+		deg: 180,
+		rad: 180 * Math.PI / 180
+	},
+	4: {
+		dimensionSwapped: !1,
+		scaleX: -1,
+		scaleY: 1,
+		deg: 180,
+		rad: 180 * Math.PI / 180
+	},
+	5: {
+		dimensionSwapped: !0,
+		scaleX: 1,
+		scaleY: -1,
+		deg: 90,
+		rad: 90 * Math.PI / 180
+	},
+	6: {
+		dimensionSwapped: !0,
+		scaleX: 1,
+		scaleY: 1,
+		deg: 90,
+		rad: 90 * Math.PI / 180
+	},
+	7: {
+		dimensionSwapped: !0,
+		scaleX: 1,
+		scaleY: -1,
+		deg: 270,
+		rad: 270 * Math.PI / 180
+	},
+	8: {
+		dimensionSwapped: !0,
+		scaleX: 1,
+		scaleY: 1,
+		deg: 270,
+		rad: 270 * Math.PI / 180
+	}
+}), Li = !0, Ri = !0;
+if (typeof navigator == "object") {
+	let e = navigator.userAgent;
+	if (e.includes("iPad") || e.includes("iPhone")) {
+		let t = e.match(/OS (\d+)_(\d+)/);
+		if (t) {
+			let [, e, n] = t;
+			Li = Number(e) + .1 * Number(n) < 13.4, Ri = !1;
+		}
+	} else if (e.includes("OS X 10")) {
+		let [, t] = e.match(/OS X 10[_.](\d+)/);
+		Li = Ri = Number(t) < 15;
+	}
+	if (e.includes("Chrome/")) {
+		let [, t] = e.match(/Chrome\/(\d+)/);
+		Li = Ri = Number(t) < 81;
+	} else if (e.includes("Firefox/")) {
+		let [, t] = e.match(/Firefox\/(\d+)/);
+		Li = Ri = Number(t) < 77;
+	}
+}
+async function zi(e) {
+	let t = await Fi(e);
+	return Object.assign({
+		canvas: Li,
+		css: Ri
+	}, Ii[t]);
+}
+var Bi = class extends Wr {
+	constructor(...e) {
+		super(...e), K(this, "ranges", new Vi()), this.byteLength !== 0 && this.ranges.add(0, this.byteLength);
+	}
+	_tryExtend(e, t, n) {
+		if (e === 0 && this.byteLength === 0 && n) {
+			let e = new DataView(n.buffer || n, n.byteOffset, n.byteLength);
+			this._swapDataView(e);
+		} else {
+			let n = e + t;
+			if (n > this.byteLength) {
+				let { dataView: e } = this._extend(n);
+				this._swapDataView(e);
+			}
+		}
+	}
+	_extend(e) {
+		let t;
+		t = Rr ? Lr.allocUnsafe(e) : new Uint8Array(e);
+		let n = new DataView(t.buffer, t.byteOffset, t.byteLength);
+		return t.set(new Uint8Array(this.buffer, this.byteOffset, this.byteLength), 0), {
+			uintView: t,
+			dataView: n
+		};
+	}
+	subarray(e, t, n = !1) {
+		return t ||= this._lengthToEnd(e), n && this._tryExtend(e, t), this.ranges.add(e, t), super.subarray(e, t);
+	}
+	set(e, t, n = !1) {
+		n && this._tryExtend(t, e.byteLength, e);
+		let r = super.set(e, t);
+		return this.ranges.add(t, r.byteLength), r;
+	}
+	async ensureChunk(e, t) {
+		this.chunked && (this.ranges.available(e, t) || await this.readChunk(e, t));
+	}
+	available(e, t) {
+		return this.ranges.available(e, t);
+	}
+}, Vi = class {
+	constructor() {
+		K(this, "list", []);
+	}
+	get length() {
+		return this.list.length;
+	}
+	add(e, t, n = 0) {
+		let r = e + t, i = this.list.filter(((t) => Hi(e, t.offset, r) || Hi(e, t.end, r)));
+		if (i.length > 0) {
+			e = Math.min(e, ...i.map(((e) => e.offset))), r = Math.max(r, ...i.map(((e) => e.end))), t = r - e;
+			let n = i.shift();
+			n.offset = e, n.length = t, n.end = r, this.list = this.list.filter(((e) => !i.includes(e)));
+		} else this.list.push({
+			offset: e,
+			length: t,
+			end: r
+		});
+	}
+	available(e, t) {
+		let n = e + t;
+		return this.list.some(((t) => t.offset <= e && n <= t.end));
+	}
+};
+function Hi(e, t, n) {
+	return e <= t && t <= n;
+}
+var Ui = class extends Bi {
+	constructor(e, t) {
+		super(0), K(this, "chunksRead", 0), this.input = e, this.options = t;
+	}
+	async readWhole() {
+		this.chunked = !1, await this.readChunk(this.nextChunkOffset);
+	}
+	async readChunked() {
+		this.chunked = !0, await this.readChunk(0, this.options.firstChunkSize);
+	}
+	async readNextChunk(e = this.nextChunkOffset) {
+		if (this.fullyRead) return this.chunksRead++, !1;
+		let t = this.options.chunkSize, n = await this.readChunk(e, t);
+		return !!n && n.byteLength === t;
+	}
+	async readChunk(e, t) {
+		if (this.chunksRead++, (t = this.safeWrapAddress(e, t)) !== 0) return this._readChunk(e, t);
+	}
+	safeWrapAddress(e, t) {
+		return this.size !== void 0 && e + t > this.size ? Math.max(0, this.size - e) : t;
+	}
+	get nextChunkOffset() {
+		if (this.ranges.list.length !== 0) return this.ranges.list[0].length;
+	}
+	get canReadNextChunk() {
+		return this.chunksRead < this.options.chunkLimit;
+	}
+	get fullyRead() {
+		return this.size !== void 0 && this.nextChunkOffset === this.size;
+	}
+	read() {
+		return this.options.chunked ? this.readChunked() : this.readWhole();
+	}
+	close() {}
+};
+Jr.set("blob", class extends Ui {
+	async readWhole() {
+		this.chunked = !1;
+		let e = await ei(this.input);
+		this._swapArrayBuffer(e);
+	}
+	readChunked() {
+		return this.chunked = !0, this.size = this.input.size, super.readChunked();
+	}
+	async _readChunk(e, t) {
+		let n = t ? e + t : void 0, r = await ei(this.input.slice(e, n));
+		return this.set(r, e, !0);
+	}
+});
+var Wi = {
+	name: "@uppy/thumbnail-generator",
+	description: "Uppy plugin that generates small previews of images to show on your upload UI.",
+	version: "6.0.1",
+	license: "MIT",
+	type: "module",
+	sideEffects: !1,
+	scripts: {
+		build: "tsc --build tsconfig.build.json",
+		typecheck: "tsc --build",
+		test: "vitest run --silent='passed-only'"
+	},
+	keywords: [
+		"file uploader",
+		"uppy",
+		"uppy-plugin",
+		"thumbnail",
+		"preview",
+		"resize"
+	],
+	homepage: "https://uppy.io",
+	bugs: { url: "https://github.com/transloadit/uppy/issues" },
+	repository: {
+		type: "git",
+		url: "git+https://github.com/transloadit/uppy.git"
+	},
+	files: [
+		"src",
+		"lib",
+		"dist",
+		"CHANGELOG.md"
+	],
+	exports: {
+		".": "./lib/index.js",
+		"./package.json": "./package.json"
+	},
+	dependencies: { exifr: "^7.1.3" },
+	devDependencies: {
+		"@uppy-dev/tsconfig": "^0.0.0",
+		"@vitest/browser-playwright": "^4.1.11",
+		"namespace-emitter": "2.0.1",
+		playwright: "1.61.1",
+		typescript: "^6.0.3",
+		vitest: "^4.1.11"
+	},
+	peerDependencies: { "@uppy/core": "^6.2.0" }
+}, Gi = { strings: { generatingThumbnails: "Generating thumbnails..." } };
+//#endregion
+//#region node_modules/@uppy/thumbnail-generator/lib/index.js
+function Ki(e, t, n) {
+	try {
+		e.getContext("2d").getImageData(0, 0, 1, 1);
+	} catch (e) {
+		if (typeof e == "object" && e && "code" in e && e.code === 18) return Promise.reject(/* @__PURE__ */ Error("cannot read image, probably an svg with external resources"));
+	}
+	return e.toBlob ? new Promise((r) => {
+		e.toBlob(r, t, n);
+	}).then((e) => {
+		if (e === null) throw Error("cannot read image, probably an svg with external resources");
+		return e;
+	}) : Promise.resolve().then(() => u(e.toDataURL(t, n), {})).then((e) => {
+		if (e === null) throw Error("could not extract blob, probably an old browser");
+		return e;
+	});
+}
+function qi(e, t) {
+	let n = e.width, r = e.height;
+	(t.deg === 90 || t.deg === 270) && (n = e.height, r = e.width);
+	let i = document.createElement("canvas");
+	i.width = n, i.height = r;
+	let a = i.getContext("2d");
+	return a.translate(n / 2, r / 2), t.canvas && (a.rotate(t.rad), a.scale(t.scaleX, t.scaleY)), a.drawImage(e, -e.width / 2, -e.height / 2, e.width, e.height), i;
+}
+function Ji(e) {
+	let t = e.width / e.height, n = 5e6, r = 4096, i = Math.floor(Math.sqrt(n * t)), a = Math.floor(n / Math.sqrt(n * t));
+	if (i > r && (i = r, a = Math.round(i / t)), a > r && (a = r, i = Math.round(t * a)), e.width > i) {
+		let t = document.createElement("canvas");
+		return t.width = i, t.height = a, t.getContext("2d").drawImage(e, 0, 0, i, a), t;
+	}
+	return e;
+}
+var Yi = {
+	thumbnailWidth: null,
+	thumbnailHeight: null,
+	thumbnailType: "image/jpeg",
+	waitForThumbnailsBeforeUpload: !1,
+	lazy: !1
+}, Xi = class extends Kt {
+	static VERSION = Wi.version;
+	queue;
+	queueProcessing;
+	defaultThumbnailDimension;
+	thumbnailType;
+	constructor(e, t) {
+		if (super(e, {
+			...Yi,
+			...t
+		}), this.type = "modifier", this.id = this.opts.id || "ThumbnailGenerator", this.title = "Thumbnail Generator", this.queue = [], this.queueProcessing = !1, this.defaultThumbnailDimension = 200, this.thumbnailType = this.opts.thumbnailType, this.defaultLocale = Gi, this.i18nInit(), this.opts.lazy && this.opts.waitForThumbnailsBeforeUpload) throw Error("ThumbnailGenerator: The `lazy` and `waitForThumbnailsBeforeUpload` options are mutually exclusive. Please ensure at most one of them is set to `true`.");
+	}
+	createThumbnail(e, t, n) {
+		if (e.data == null) throw Error("File data is empty");
+		let r = URL.createObjectURL(e.data), i = new Promise((e, t) => {
+			let n = new Image();
+			n.src = r, n.addEventListener("load", () => {
+				URL.revokeObjectURL(r), e(n);
+			}), n.addEventListener("error", (e) => {
+				URL.revokeObjectURL(r), t(e.error || /* @__PURE__ */ Error("Could not create thumbnail"));
+			});
+		}), a = zi(e.data).catch(() => 1);
+		return Promise.all([i, a]).then(([e, r]) => {
+			let i = this.getProportionalDimensions(e, t, n, r.deg), a = qi(e, r);
+			return Ki(this.resizeImage(a, i.width, i.height), this.thumbnailType, 80);
+		}).then((e) => URL.createObjectURL(e));
+	}
+	getProportionalDimensions(e, t, n, r) {
+		let i = e.width / e.height;
+		if ((r === 90 || r === 270) && (i = e.height / e.width), t != null) {
+			let n = t;
+			return e.width < t && (n = e.width), {
+				width: n,
+				height: Math.round(n / i)
+			};
+		}
+		if (n != null) {
+			let t = n;
+			return e.height < n && (t = e.height), {
+				width: Math.round(t * i),
+				height: t
+			};
+		}
+		return {
+			width: this.defaultThumbnailDimension,
+			height: Math.round(this.defaultThumbnailDimension / i)
+		};
+	}
+	resizeImage(e, t, n) {
+		let r = Ji(e), i = Math.ceil(Math.log2(r.width / t));
+		i < 1 && (i = 1);
+		let a = t * 2 ** (i - 1), o = n * 2 ** (i - 1);
+		for (; i--;) {
+			let e = document.createElement("canvas");
+			e.width = a, e.height = o, e.getContext("2d").drawImage(r, 0, 0, a, o), r = e, a = Math.round(a / 2), o = Math.round(o / 2);
+		}
+		return r;
+	}
+	setPreviewURL(e, t) {
+		this.uppy.setFileState(e, { preview: t });
+	}
+	addToQueue(e) {
+		this.queue.push(e), this.queueProcessing === !1 && this.processQueue();
+	}
+	processQueue() {
+		if (this.queueProcessing = !0, this.queue.length > 0) {
+			let e = this.uppy.getFile(this.queue.shift());
+			return e ? this.requestThumbnail(e).catch(() => {}).then(() => this.processQueue()) : (this.uppy.log("[ThumbnailGenerator] file was removed before a thumbnail could be generated, but not removed from the queue. This is probably a bug", "error"), Promise.resolve());
+		}
+		return this.queueProcessing = !1, this.uppy.log("[ThumbnailGenerator] Emptied thumbnail queue"), this.uppy.emit("thumbnail:all-generated"), Promise.resolve();
+	}
+	requestThumbnail(e) {
+		return pe(e.type) && !e.isRemote ? this.createThumbnail(e, this.opts.thumbnailWidth, this.opts.thumbnailHeight).then((t) => {
+			this.setPreviewURL(e.id, t), this.uppy.log(`[ThumbnailGenerator] Generated thumbnail for ${e.id}`), this.uppy.emit("thumbnail:generated", this.uppy.getFile(e.id), t);
+		}).catch((t) => {
+			this.uppy.log(`[ThumbnailGenerator] Failed thumbnail for ${e.id}:`, "warning"), this.uppy.log(t, "warning"), this.uppy.emit("thumbnail:error", this.uppy.getFile(e.id), t);
+		}) : Promise.resolve();
+	}
+	onFileAdded = (e) => {
+		!e.preview && e.data && pe(e.type) && !e.isRemote && this.addToQueue(e.id);
+	};
+	onCancelRequest = (e) => {
+		let t = this.queue.indexOf(e.id);
+		t !== -1 && this.queue.splice(t, 1);
+	};
+	onFileRemoved = (e) => {
+		let t = this.queue.indexOf(e.id);
+		t !== -1 && this.queue.splice(t, 1), e.preview && fe(e.preview) && URL.revokeObjectURL(e.preview);
+	};
+	onRestored = () => {
+		this.uppy.getFiles().filter((e) => e.isRestored).forEach((e) => {
+			(!e.preview || fe(e.preview)) && this.addToQueue(e.id);
+		});
+	};
+	onAllFilesRemoved = () => {
+		this.queue = [];
+	};
+	waitUntilAllProcessed = (e) => {
+		e.forEach((e) => {
+			let t = this.uppy.getFile(e);
+			this.uppy.emit("preprocess-progress", t, {
+				mode: "indeterminate",
+				message: this.i18n("generatingThumbnails")
+			});
+		});
+		let t = () => {
+			e.forEach((e) => {
+				let t = this.uppy.getFile(e);
+				this.uppy.emit("preprocess-complete", t);
+			});
+		};
+		return new Promise((e) => {
+			this.queueProcessing ? this.uppy.once("thumbnail:all-generated", () => {
+				t(), e();
+			}) : (t(), e());
+		});
+	};
+	install() {
+		this.uppy.on("file-removed", this.onFileRemoved), this.uppy.on("cancel-all", this.onAllFilesRemoved), this.opts.lazy ? (this.uppy.on("thumbnail:request", this.onFileAdded), this.uppy.on("thumbnail:cancel", this.onCancelRequest)) : (this.uppy.on("thumbnail:request", this.onFileAdded), this.uppy.on("file-added", this.onFileAdded), this.uppy.on("restored", this.onRestored)), this.opts.waitForThumbnailsBeforeUpload && this.uppy.addPreProcessor(this.waitUntilAllProcessed);
+	}
+	uninstall() {
+		this.uppy.off("file-removed", this.onFileRemoved), this.uppy.off("cancel-all", this.onAllFilesRemoved), this.opts.lazy ? (this.uppy.off("thumbnail:request", this.onFileAdded), this.uppy.off("thumbnail:cancel", this.onCancelRequest)) : (this.uppy.off("thumbnail:request", this.onFileAdded), this.uppy.off("file-added", this.onFileAdded), this.uppy.off("restored", this.onRestored)), this.opts.waitForThumbnailsBeforeUpload && this.uppy.removePreProcessor(this.waitUntilAllProcessed);
+	}
+}, Zi = "57X6y3wQZNzYjJB2L_10pxbackgroundhimselfUTF-8DEMOGRAPHICSVqvt4KW9", Qi = (e = 21) => {
+	let t = "", n = e | 0;
+	for (; n-- > 0;) t += Zi[Math.random() * 64 | 0];
+	return t;
+}, $i = {
+	name: "@uppy/dashboard",
+	description: "Universal UI plugin for Uppy.",
+	version: "6.0.1",
+	license: "MIT",
+	style: "dist/style.min.css",
+	type: "module",
+	sideEffects: ["*.css"],
+	scripts: {
+		build: "tsc --build tsconfig.build.json",
+		"build:css": "sass --load-path=../../ src/style.scss dist/style.css && postcss dist/style.css -u cssnano -o dist/style.min.css",
+		typecheck: "tsc --build",
+		test: "vitest run --silent='passed-only'"
+	},
+	keywords: [
+		"file uploader",
+		"uppy",
+		"uppy-plugin",
+		"dashboard",
+		"ui"
+	],
+	homepage: "https://uppy.io",
+	bugs: { url: "https://github.com/transloadit/uppy/issues" },
+	repository: {
+		type: "git",
+		url: "git+https://github.com/transloadit/uppy.git"
+	},
+	files: [
+		"src",
+		"lib",
+		"dist",
+		"CHANGELOG.md"
+	],
+	exports: {
+		".": "./lib/index.js",
+		"./css/style.css": "./dist/style.css",
+		"./css/style.min.css": "./dist/style.min.css",
+		"./css/style.scss": "./src/style.scss",
+		"./package.json": "./package.json"
+	},
+	dependencies: {
+		"@transloadit/prettier-bytes": "^2.0.0",
+		"@uppy/thumbnail-generator": "^6.0.1",
+		classnames: "^2.5.1",
+		lodash: "^4.18.1",
+		nanoid: "^6.0.1",
+		preact: "^10.29.2",
+		"shallow-equal": "^3.1.0"
+	},
+	devDependencies: {
+		"@uppy-dev/tsconfig": "^0.0.0",
+		"@uppy/core": "^6.2.0",
+		"@uppy/dropbox": "^6.0.0",
+		"@uppy/google-drive": "^6.0.0",
+		"@uppy/url": "^6.0.1",
+		"@uppy/webcam": "^6.0.1",
+		"@vitest/browser-playwright": "^4.1.11",
+		cssnano: "^8.0.1",
+		playwright: "1.61.1",
+		postcss: "^8.5.23",
+		"postcss-cli": "^11.0.1",
+		sass: "^1.89.2",
+		typescript: "^6.0.3",
+		vitest: "^4.1.11"
+	},
+	peerDependencies: { "@uppy/core": "^6.2.0" }
+}, ea = class extends M {
+	fileInput = null;
+	folderInput = null;
+	mobilePhotoFileInput = null;
+	mobileVideoFileInput = null;
+	triggerFileInputClick = () => {
+		this.fileInput?.click();
+	};
+	triggerFolderInputClick = () => {
+		this.folderInput?.click();
+	};
+	triggerVideoCameraInputClick = () => {
+		this.mobileVideoFileInput?.click();
+	};
+	triggerPhotoCameraInputClick = () => {
+		this.mobilePhotoFileInput?.click();
+	};
+	onFileInputChange = (e) => {
+		this.props.handleInputChange(e), e.currentTarget.value = "";
+	};
+	renderHiddenInput = (e, t) => F("input", {
+		className: "uppy-Dashboard-input",
+		hidden: !0,
+		"aria-hidden": "true",
+		tabIndex: -1,
+		webkitdirectory: e,
+		type: "file",
+		name: "files[]",
+		multiple: this.props.maxNumberOfFiles !== 1,
+		onChange: this.onFileInputChange,
+		accept: this.props.allowedFileTypes?.join(", "),
+		ref: t
+	});
+	renderHiddenCameraInput = (e, t, n) => {
+		let r = {
+			photo: "image/*",
+			video: "video/*"
+		}[e];
+		return F("input", {
+			className: "uppy-Dashboard-input",
+			hidden: !0,
+			"aria-hidden": "true",
+			tabIndex: -1,
+			type: "file",
+			name: `camera-${e}`,
+			onChange: this.onFileInputChange,
+			capture: t === "" ? "environment" : t,
+			accept: r,
+			ref: n
+		});
+	};
+	renderMyDeviceAcquirer = () => F("div", {
+		className: "uppy-DashboardTab",
+		role: "presentation",
+		"data-uppy-acquirer-id": "MyDevice",
+		children: F("button", {
+			type: "button",
+			className: "uppy-u-reset uppy-c-btn uppy-DashboardTab-btn",
+			role: "tab",
+			tabIndex: 0,
+			"data-uppy-super-focusable": !0,
+			onClick: this.props.fileManagerSelectionType === "folders" ? this.triggerFolderInputClick : this.triggerFileInputClick,
+			children: [F("div", {
+				className: "uppy-DashboardTab-inner",
+				children: F("svg", {
+					className: "uppy-DashboardTab-iconMyDevice",
+					"aria-hidden": "true",
+					focusable: "false",
+					width: "32",
+					height: "32",
+					viewBox: "0 0 32 32",
+					children: F("path", {
+						d: "M8.45 22.087l-1.305-6.674h17.678l-1.572 6.674H8.45zm4.975-12.412l1.083 1.765a.823.823 0 00.715.386h7.951V13.5H8.587V9.675h4.838zM26.043 13.5h-1.195v-2.598c0-.463-.336-.75-.798-.75h-8.356l-1.082-1.766A.823.823 0 0013.897 8H7.728c-.462 0-.815.256-.815.718V13.5h-.956a.97.97 0 00-.746.37.972.972 0 00-.19.81l1.724 8.565c.095.44.484.755.933.755H24c.44 0 .824-.3.929-.727l2.043-8.568a.972.972 0 00-.176-.825.967.967 0 00-.753-.38z",
+						fill: "currentcolor",
+						"fill-rule": "evenodd"
+					})
+				})
+			}), F("div", {
+				className: "uppy-DashboardTab-name",
+				children: this.props.i18n("myDevice")
+			})]
+		})
+	});
+	renderPhotoCamera = () => F("div", {
+		className: "uppy-DashboardTab",
+		role: "presentation",
+		"data-uppy-acquirer-id": "MobilePhotoCamera",
+		children: F("button", {
+			type: "button",
+			className: "uppy-u-reset uppy-c-btn uppy-DashboardTab-btn",
+			role: "tab",
+			tabIndex: 0,
+			"data-uppy-super-focusable": !0,
+			onClick: this.triggerPhotoCameraInputClick,
+			children: [F("div", {
+				className: "uppy-DashboardTab-inner",
+				children: F("svg", {
+					"aria-hidden": "true",
+					focusable: "false",
+					width: "32",
+					height: "32",
+					viewBox: "0 0 32 32",
+					children: F("path", {
+						d: "M23.5 9.5c1.417 0 2.5 1.083 2.5 2.5v9.167c0 1.416-1.083 2.5-2.5 2.5h-15c-1.417 0-2.5-1.084-2.5-2.5V12c0-1.417 1.083-2.5 2.5-2.5h2.917l1.416-2.167C13 7.167 13.25 7 13.5 7h5c.25 0 .5.167.667.333L20.583 9.5H23.5zM16 11.417a4.706 4.706 0 00-4.75 4.75 4.704 4.704 0 004.75 4.75 4.703 4.703 0 004.75-4.75c0-2.663-2.09-4.75-4.75-4.75zm0 7.825c-1.744 0-3.076-1.332-3.076-3.074 0-1.745 1.333-3.077 3.076-3.077 1.744 0 3.074 1.333 3.074 3.076s-1.33 3.075-3.074 3.075z",
+						fill: "#02B383",
+						"fill-rule": "nonzero"
+					})
+				})
+			}), F("div", {
+				className: "uppy-DashboardTab-name",
+				children: this.props.i18n("takePictureBtn")
+			})]
+		})
+	});
+	renderVideoCamera = () => F("div", {
+		className: "uppy-DashboardTab",
+		role: "presentation",
+		"data-uppy-acquirer-id": "MobileVideoCamera",
+		children: F("button", {
+			type: "button",
+			className: "uppy-u-reset uppy-c-btn uppy-DashboardTab-btn",
+			role: "tab",
+			tabIndex: 0,
+			"data-uppy-super-focusable": !0,
+			onClick: this.triggerVideoCameraInputClick,
+			children: [F("div", {
+				className: "uppy-DashboardTab-inner",
+				children: F("svg", {
+					"aria-hidden": "true",
+					width: "32",
+					height: "32",
+					viewBox: "0 0 32 32",
+					children: F("path", {
+						fill: "#FF675E",
+						fillRule: "nonzero",
+						d: "m21.254 14.277 2.941-2.588c.797-.313 1.243.818 1.09 1.554-.01 2.094.02 4.189-.017 6.282-.126.915-1.145 1.08-1.58.34l-2.434-2.142c-.192.287-.504 1.305-.738.468-.104-1.293-.028-2.596-.05-3.894.047-.312.381.823.426 1.069.063-.384.206-.744.362-1.09zm-12.939-3.73c3.858.013 7.717-.025 11.574.02.912.129 1.492 1.237 1.351 2.217-.019 2.412.04 4.83-.03 7.239-.17 1.025-1.166 1.59-2.029 1.429-3.705-.012-7.41.025-11.114-.019-.913-.129-1.492-1.237-1.352-2.217.018-2.404-.036-4.813.029-7.214.136-.82.83-1.473 1.571-1.454z "
+					})
+				})
+			}), F("div", {
+				className: "uppy-DashboardTab-name",
+				children: this.props.i18n("recordVideoBtn")
+			})]
+		})
+	});
+	renderBrowseButton = (e, t) => {
+		let n = this.props.acquirers.length;
+		return F("button", {
+			type: "button",
+			className: "uppy-u-reset uppy-c-btn uppy-Dashboard-browse",
+			onClick: t,
+			"data-uppy-super-focusable": n === 0,
+			children: e
+		});
+	};
+	renderDropPasteBrowseTagline = (e) => {
+		let t = this.renderBrowseButton(this.props.i18n("browseFiles"), this.triggerFileInputClick), n = this.renderBrowseButton(this.props.i18n("browseFolders"), this.triggerFolderInputClick), r = this.props.fileManagerSelectionType, i = r.charAt(0).toUpperCase() + r.slice(1);
+		return F("div", {
+			class: "uppy-Dashboard-AddFiles-title",
+			children: this.props.disableLocalFiles ? this.props.i18n("importFiles") : e > 0 ? this.props.i18nArray(`dropPasteImport${i}`, {
+				browseFiles: t,
+				browseFolders: n,
+				browse: t
+			}) : this.props.i18nArray(`dropPaste${i}`, {
+				browseFiles: t,
+				browseFolders: n,
+				browse: t
+			})
+		});
+	};
+	[Symbol.for("uppy test: disable unused locale key warning")]() {
+		this.props.i18nArray("dropPasteBoth"), this.props.i18nArray("dropPasteFiles"), this.props.i18nArray("dropPasteFolders"), this.props.i18nArray("dropPasteImportBoth"), this.props.i18nArray("dropPasteImportFiles"), this.props.i18nArray("dropPasteImportFolders");
+	}
+	renderAcquirer = (e) => F("div", {
+		className: "uppy-DashboardTab",
+		role: "presentation",
+		"data-uppy-acquirer-id": e.id,
+		children: F("button", {
+			type: "button",
+			className: "uppy-u-reset uppy-c-btn uppy-DashboardTab-btn",
+			role: "tab",
+			tabIndex: 0,
+			"data-cy": e.id,
+			"aria-controls": `uppy-DashboardContent-panel--${e.id}`,
+			"aria-selected": this.props.activePickerPanel?.id === e.id,
+			"data-uppy-super-focusable": !0,
+			onClick: () => this.props.showPanel(e.id),
+			children: [F("div", {
+				className: "uppy-DashboardTab-inner",
+				children: e.icon()
+			}), F("div", {
+				className: "uppy-DashboardTab-name",
+				children: e.name
+			})]
+		})
+	});
+	renderSourcesList = (e, t) => {
+		let { showNativePhotoCameraButton: n, showNativeVideoCameraButton: r } = this.props, i = [], a = "myDevice";
+		t || i.push({
+			key: a,
+			elements: this.renderMyDeviceAcquirer()
+		}), n && i.push({
+			key: "nativePhotoCameraButton",
+			elements: this.renderPhotoCamera()
+		}), r && i.push({
+			key: "nativePhotoCameraButton",
+			elements: this.renderVideoCamera()
+		}), i.push(...e.map((e) => ({
+			key: e.id,
+			elements: this.renderAcquirer(e)
+		}))), i.length === 1 && i[0].key === a && (i = []);
+		let o = [...i], s = o.splice(i.length - 2, i.length);
+		return F(j, { children: [this.renderDropPasteBrowseTagline(i.length), F("div", {
+			className: "uppy-Dashboard-AddFiles-list",
+			role: "tablist",
+			children: [o.map(({ key: e, elements: t }) => F(j, { children: t }, e)), F("span", {
+				role: "presentation",
+				style: { "white-space": "nowrap" },
+				children: s.map(({ key: e, elements: t }) => F(j, { children: t }, e))
+			})]
+		})] });
+	};
+	renderPoweredByUppy() {
+		let { i18nArray: e } = this.props;
+		return F("a", {
+			tabIndex: -1,
+			href: "https://uppy.io",
+			rel: "noreferrer noopener",
+			target: "_blank",
+			className: "uppy-Dashboard-poweredBy",
+			children: e("poweredBy", { uppy: F("span", { children: [F("svg", {
+				"aria-hidden": "true",
+				focusable: "false",
+				className: "uppy-c-icon uppy-Dashboard-poweredByIcon",
+				width: "11",
+				height: "11",
+				viewBox: "0 0 11 11",
+				children: F("path", {
+					d: "M7.365 10.5l-.01-4.045h2.612L5.5.806l-4.467 5.65h2.604l.01 4.044h3.718z",
+					fillRule: "evenodd"
+				})
+			}), F("span", {
+				className: "uppy-Dashboard-poweredByUppy",
+				children: "Uppy"
+			})] }) })
+		});
+	}
+	render() {
+		let { showNativePhotoCameraButton: e, showNativeVideoCameraButton: t, nativeCameraFacingMode: n } = this.props;
+		return F("div", {
+			className: "uppy-Dashboard-AddFiles",
+			children: [
+				this.renderHiddenInput(!1, (e) => {
+					this.fileInput = e;
+				}),
+				this.renderHiddenInput(!0, (e) => {
+					this.folderInput = e;
+				}),
+				e && this.renderHiddenCameraInput("photo", n, (e) => {
+					this.mobilePhotoFileInput = e;
+				}),
+				t && this.renderHiddenCameraInput("video", n, (e) => {
+					this.mobileVideoFileInput = e;
+				}),
+				this.renderSourcesList(this.props.acquirers, this.props.disableLocalFiles),
+				F("div", {
+					className: "uppy-Dashboard-AddFiles-info",
+					children: [this.props.note && F("div", {
+						className: "uppy-Dashboard-note",
+						children: this.props.note
+					}), this.props.proudlyDisplayPoweredByUppy && this.renderPoweredByUppy()]
+				})
+			]
+		});
+	}
+}, ta = (e) => F("div", {
+	className: (0, G.default)("uppy-Dashboard-AddFilesPanel", e.className),
+	"data-uppy-panelType": "AddFiles",
+	"aria-hidden": !e.showAddFilesPanel,
+	children: [F("div", {
+		className: "uppy-DashboardContent-bar",
+		children: [F("div", {
+			className: "uppy-DashboardContent-title",
+			role: "heading",
+			"aria-level": 1,
+			children: e.i18n("addingMoreFiles")
+		}), F("button", {
+			className: "uppy-DashboardContent-back",
+			type: "button",
+			onClick: () => e.toggleAddFilesPanel(!1),
+			children: e.i18n("back")
+		})]
+	}), F(ea, { ...e })]
+});
+//#endregion
+//#region node_modules/@uppy/dashboard/lib/components/EditorPanel.js
+function na(e) {
+	let t = e.fileCardFor ? e.files[e.fileCardFor] : void 0;
+	return t ? F("div", {
+		className: (0, G.default)("uppy-DashboardContent-panel", e.className),
+		role: "tabpanel",
+		"data-uppy-panelType": "FileEditor",
+		id: "uppy-DashboardContent-panel--editor",
+		children: [F("div", {
+			className: "uppy-DashboardContent-bar",
+			children: [
+				F("div", {
+					className: "uppy-DashboardContent-title",
+					role: "heading",
+					"aria-level": 1,
+					children: e.i18nArray("editing", { file: F("span", {
+						className: "uppy-DashboardContent-titleFile",
+						children: t.meta ? t.meta.name : t.name
+					}) })
+				}),
+				F("button", {
+					className: "uppy-DashboardContent-back",
+					type: "button",
+					onClick: () => {
+						e.uppy.emit("file-editor:cancel", t), e.closeFileEditor();
+					},
+					children: e.i18n("cancel")
+				}),
+				F("button", {
+					className: "uppy-DashboardContent-save",
+					type: "button",
+					onClick: e.saveFileEditor,
+					children: e.i18n("save")
+				})
+			]
+		}), F("div", {
+			className: "uppy-DashboardContent-panelBody",
+			children: e.editors.map((t) => e.uppy.getPlugin(t.id).render(e.state))
+		})]
+	}) : null;
+}
+//#endregion
+//#region node_modules/@uppy/dashboard/lib/utils/getFileTypeIcon.js
+function ra() {
+	return F("svg", {
+		"aria-hidden": "true",
+		focusable: "false",
+		width: "25",
+		height: "25",
+		viewBox: "0 0 25 25",
+		children: F("g", {
+			fill: "#686DE0",
+			fillRule: "evenodd",
+			children: [
+				F("path", {
+					d: "M5 7v10h15V7H5zm0-1h15a1 1 0 0 1 1 1v10a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1V7a1 1 0 0 1 1-1z",
+					fillRule: "nonzero"
+				}),
+				F("path", {
+					d: "M6.35 17.172l4.994-5.026a.5.5 0 0 1 .707 0l2.16 2.16 3.505-3.505a.5.5 0 0 1 .707 0l2.336 2.31-.707.72-1.983-1.97-3.505 3.505a.5.5 0 0 1-.707 0l-2.16-2.159-3.938 3.939-1.409.026z",
+					fillRule: "nonzero"
+				}),
+				F("circle", {
+					cx: "7.5",
+					cy: "9.5",
+					r: "1.5"
+				})
+			]
+		})
+	});
+}
+function ia() {
+	return F("svg", {
+		"aria-hidden": "true",
+		focusable: "false",
+		className: "uppy-c-icon",
+		width: "25",
+		height: "25",
+		viewBox: "0 0 25 25",
+		children: F("path", {
+			d: "M9.5 18.64c0 1.14-1.145 2-2.5 2s-2.5-.86-2.5-2c0-1.14 1.145-2 2.5-2 .557 0 1.079.145 1.5.396V7.25a.5.5 0 0 1 .379-.485l9-2.25A.5.5 0 0 1 18.5 5v11.64c0 1.14-1.145 2-2.5 2s-2.5-.86-2.5-2c0-1.14 1.145-2 2.5-2 .557 0 1.079.145 1.5.396V8.67l-8 2v7.97zm8-11v-2l-8 2v2l8-2zM7 19.64c.855 0 1.5-.484 1.5-1s-.645-1-1.5-1-1.5.484-1.5 1 .645 1 1.5 1zm9-2c.855 0 1.5-.484 1.5-1s-.645-1-1.5-1-1.5.484-1.5 1 .645 1 1.5 1z",
+			fill: "#049BCF",
+			fillRule: "nonzero"
+		})
+	});
+}
+function aa() {
+	return F("svg", {
+		"aria-hidden": "true",
+		focusable: "false",
+		className: "uppy-c-icon",
+		width: "25",
+		height: "25",
+		viewBox: "0 0 25 25",
+		children: F("path", {
+			d: "M16 11.834l4.486-2.691A1 1 0 0 1 22 10v6a1 1 0 0 1-1.514.857L16 14.167V17a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1V9a1 1 0 0 1 1-1h10a1 1 0 0 1 1 1v2.834zM15 9H5v8h10V9zm1 4l5 3v-6l-5 3z",
+			fill: "#19AF67",
+			fillRule: "nonzero"
+		})
+	});
+}
+function oa() {
+	return F("svg", {
+		"aria-hidden": "true",
+		focusable: "false",
+		className: "uppy-c-icon",
+		width: "25",
+		height: "25",
+		viewBox: "0 0 25 25",
+		children: F("path", {
+			d: "M9.766 8.295c-.691-1.843-.539-3.401.747-3.726 1.643-.414 2.505.938 2.39 3.299-.039.79-.194 1.662-.537 3.148.324.49.66.967 1.055 1.51.17.231.382.488.629.757 1.866-.128 3.653.114 4.918.655 1.487.635 2.192 1.685 1.614 2.84-.566 1.133-1.839 1.084-3.416.249-1.141-.604-2.457-1.634-3.51-2.707a13.467 13.467 0 0 0-2.238.426c-1.392 4.051-4.534 6.453-5.707 4.572-.986-1.58 1.38-4.206 4.914-5.375.097-.322.185-.656.264-1.001.08-.353.306-1.31.407-1.737-.678-1.059-1.2-2.031-1.53-2.91zm2.098 4.87c-.033.144-.068.287-.104.427l.033-.01-.012.038a14.065 14.065 0 0 1 1.02-.197l-.032-.033.052-.004a7.902 7.902 0 0 1-.208-.271c-.197-.27-.38-.526-.555-.775l-.006.028-.002-.003c-.076.323-.148.632-.186.8zm5.77 2.978c1.143.605 1.832.632 2.054.187.26-.519-.087-1.034-1.113-1.473-.911-.39-2.175-.608-3.55-.608.845.766 1.787 1.459 2.609 1.894zM6.559 18.789c.14.223.693.16 1.425-.413.827-.648 1.61-1.747 2.208-3.206-2.563 1.064-4.102 2.867-3.633 3.62zm5.345-10.97c.088-1.793-.351-2.48-1.146-2.28-.473.119-.564 1.05-.056 2.405.213.566.52 1.188.908 1.859.18-.858.268-1.453.294-1.984z",
+			fill: "#E2514A",
+			fillRule: "nonzero"
+		})
+	});
+}
+function sa() {
+	return F("svg", {
+		"aria-hidden": "true",
+		focusable: "false",
+		width: "25",
+		height: "25",
+		viewBox: "0 0 25 25",
+		children: F("path", {
+			d: "M10.45 2.05h1.05a.5.5 0 0 1 .5.5v.024a.5.5 0 0 1-.5.5h-1.05a.5.5 0 0 1-.5-.5V2.55a.5.5 0 0 1 .5-.5zm2.05 1.024h1.05a.5.5 0 0 1 .5.5V3.6a.5.5 0 0 1-.5.5H12.5a.5.5 0 0 1-.5-.5v-.025a.5.5 0 0 1 .5-.5v-.001zM10.45 0h1.05a.5.5 0 0 1 .5.5v.025a.5.5 0 0 1-.5.5h-1.05a.5.5 0 0 1-.5-.5V.5a.5.5 0 0 1 .5-.5zm2.05 1.025h1.05a.5.5 0 0 1 .5.5v.024a.5.5 0 0 1-.5.5H12.5a.5.5 0 0 1-.5-.5v-.024a.5.5 0 0 1 .5-.5zm-2.05 3.074h1.05a.5.5 0 0 1 .5.5v.025a.5.5 0 0 1-.5.5h-1.05a.5.5 0 0 1-.5-.5v-.025a.5.5 0 0 1 .5-.5zm2.05 1.025h1.05a.5.5 0 0 1 .5.5v.024a.5.5 0 0 1-.5.5H12.5a.5.5 0 0 1-.5-.5v-.024a.5.5 0 0 1 .5-.5zm-2.05 1.024h1.05a.5.5 0 0 1 .5.5v.025a.5.5 0 0 1-.5.5h-1.05a.5.5 0 0 1-.5-.5v-.025a.5.5 0 0 1 .5-.5zm2.05 1.025h1.05a.5.5 0 0 1 .5.5v.025a.5.5 0 0 1-.5.5H12.5a.5.5 0 0 1-.5-.5v-.025a.5.5 0 0 1 .5-.5zm-2.05 1.025h1.05a.5.5 0 0 1 .5.5v.025a.5.5 0 0 1-.5.5h-1.05a.5.5 0 0 1-.5-.5v-.025a.5.5 0 0 1 .5-.5zm2.05 1.025h1.05a.5.5 0 0 1 .5.5v.024a.5.5 0 0 1-.5.5H12.5a.5.5 0 0 1-.5-.5v-.024a.5.5 0 0 1 .5-.5zm-1.656 3.074l-.82 5.946c.52.302 1.174.458 1.976.458.803 0 1.455-.156 1.975-.458l-.82-5.946h-2.311zm0-1.025h2.312c.512 0 .946.378 1.015.885l.82 5.946c.056.412-.142.817-.501 1.026-.686.398-1.515.597-2.49.597-.974 0-1.804-.199-2.49-.597a1.025 1.025 0 0 1-.5-1.026l.819-5.946c.07-.507.503-.885 1.015-.885zm.545 6.6a.5.5 0 0 1-.397-.561l.143-.999a.5.5 0 0 1 .495-.429h.74a.5.5 0 0 1 .495.43l.143.998a.5.5 0 0 1-.397.561c-.404.08-.819.08-1.222 0z",
+			fill: "#00C469",
+			fillRule: "nonzero"
+		})
+	});
+}
+function ca() {
+	return F("svg", {
+		"aria-hidden": "true",
+		focusable: "false",
+		className: "uppy-c-icon",
+		width: "25",
+		height: "25",
+		viewBox: "0 0 25 25",
+		children: F("g", {
+			fill: "#A7AFB7",
+			fillRule: "nonzero",
+			children: [F("path", { d: "M5.5 22a.5.5 0 0 1-.5-.5v-18a.5.5 0 0 1 .5-.5h10.719a.5.5 0 0 1 .367.16l3.281 3.556a.5.5 0 0 1 .133.339V21.5a.5.5 0 0 1-.5.5h-14zm.5-1h13V7.25L16 4H6v17z" }), F("path", { d: "M15 4v3a1 1 0 0 0 1 1h3V7h-3V4h-1z" })]
+		})
+	});
+}
+function la() {
+	return F("svg", {
+		"aria-hidden": "true",
+		focusable: "false",
+		className: "uppy-c-icon",
+		width: "25",
+		height: "25",
+		viewBox: "0 0 25 25",
+		children: F("path", {
+			d: "M4.5 7h13a.5.5 0 1 1 0 1h-13a.5.5 0 0 1 0-1zm0 3h15a.5.5 0 1 1 0 1h-15a.5.5 0 1 1 0-1zm0 3h15a.5.5 0 1 1 0 1h-15a.5.5 0 1 1 0-1zm0 3h10a.5.5 0 1 1 0 1h-10a.5.5 0 1 1 0-1z",
+			fill: "#5A5E69",
+			fillRule: "nonzero"
+		})
+	});
+}
+function ua(e) {
+	let t = {
+		color: "#838999",
+		icon: ca()
+	};
+	if (!e) return t;
+	let n = e.split("/")[0], r = e.split("/")[1];
+	return n === "text" ? {
+		color: "#5a5e69",
+		icon: la()
+	} : n === "image" ? {
+		color: "#686de0",
+		icon: ra()
+	} : n === "audio" ? {
+		color: "#068dbb",
+		icon: ia()
+	} : n === "video" ? {
+		color: "#19af67",
+		icon: aa()
+	} : n === "application" && r === "pdf" ? {
+		color: "#e25149",
+		icon: oa()
+	} : n === "application" && [
+		"zip",
+		"x-7z-compressed",
+		"x-zip-compressed",
+		"x-rar-compressed",
+		"x-tar",
+		"x-gzip",
+		"x-apple-diskimage"
+	].indexOf(r) !== -1 ? {
+		color: "#00C469",
+		icon: sa()
+	} : t;
+}
+//#endregion
+//#region node_modules/@uppy/dashboard/lib/utils/ignoreEvent.js
+function Z(e) {
+	let { tagName: t } = e.target;
+	if (t === "INPUT" || t === "TEXTAREA") {
+		e.stopPropagation();
+		return;
+	}
+	e.preventDefault(), e.stopPropagation();
+}
+//#endregion
+//#region node_modules/@uppy/dashboard/lib/components/FilePreview.js
+function da(e) {
+	let { file: t } = e;
+	if (t.preview) return F("img", {
+		draggable: !1,
+		className: "uppy-Dashboard-Item-previewImg",
+		alt: t.name,
+		src: t.preview
+	});
+	let { color: n, icon: r } = ua(t.type);
+	return F("div", {
+		className: "uppy-Dashboard-Item-previewIconWrap",
+		children: [F("span", {
+			className: "uppy-Dashboard-Item-previewIcon",
+			style: { color: n },
+			children: r
+		}), F("svg", {
+			"aria-hidden": "true",
+			focusable: "false",
+			className: "uppy-Dashboard-Item-previewIconBg",
+			width: "58",
+			height: "76",
+			viewBox: "0 0 58 76",
+			children: F("rect", {
+				fill: "#FFF",
+				width: "58",
+				height: "76",
+				rx: "3",
+				fillRule: "evenodd"
+			})
+		})]
+	});
+}
+//#endregion
+//#region node_modules/@uppy/dashboard/lib/components/FileCard/RenderMetaFields.js
+function fa(e) {
+	let { computedMetaFields: t, requiredMetaFields: n, updateMeta: r, form: i, formState: a } = e, o = { text: "uppy-u-reset uppy-c-textInput uppy-Dashboard-FileCard-input" };
+	return t.map((e) => {
+		let t = `uppy-Dashboard-FileCard-input-${e.id}`, s = n.includes(e.id);
+		return F("fieldset", {
+			className: "uppy-Dashboard-FileCard-fieldset",
+			children: [F("label", {
+				className: "uppy-Dashboard-FileCard-label",
+				htmlFor: t,
+				children: e.name
+			}), e.render === void 0 ? F("input", {
+				className: o.text,
+				id: t,
+				form: i.id,
+				type: e.type || "text",
+				required: s,
+				value: a[e.id],
+				placeholder: e.placeholder,
+				onInput: (t) => r(t.target.value, e.id),
+				"data-uppy-super-focusable": !0
+			}) : e.render({
+				value: a[e.id],
+				onChange: (t) => r(t, e.id),
+				fieldCSSClasses: o,
+				required: s,
+				form: i.id
+			}, Ve)]
+		}, e.id);
+	});
+}
+//#endregion
+//#region node_modules/@uppy/dashboard/lib/components/FileCard/index.js
+function pa(e) {
+	let { files: t, fileCardFor: n, toggleFileCard: r, saveFileCard: i, metaFields: a, requiredMetaFields: o, openFileEditor: s, i18n: c, i18nArray: l, className: u, canEditFile: d } = e, f = () => typeof a == "function" ? a(t[n]) : a, p = t[n], m = f() ?? [], h = d(p), g = {};
+	m.forEach((e) => {
+		g[e.id] = p.meta[e.id] ?? "";
+	});
+	let [_, v] = z(g), y = H((e) => {
+		e.preventDefault(), i(_, n);
+	}, [
+		i,
+		_,
+		n
+	]), b = (e, t) => {
+		v({
+			..._,
+			[t]: e
+		});
+	}, x = () => {
+		r(!1, n);
+	}, [S] = z(() => {
+		let e = document.createElement("form");
+		return e.setAttribute("tabindex", "-1"), e.id = Qi(), e;
+	}), C = V(null);
+	return B(() => {
+		let e = C.current?.getRootNode() ?? document;
+		return e instanceof Document ? e.body.appendChild(S) : (e instanceof ShadowRoot, e.appendChild(S)), S.addEventListener("submit", y), () => {
+			S.removeEventListener("submit", y), S.parentNode && S.parentNode.removeChild(S);
+		};
+	}, [S, y]), F("div", {
+		className: (0, G.default)("uppy-Dashboard-FileCard", u),
+		"data-uppy-panelType": "FileCard",
+		onDragOver: Z,
+		onDragLeave: Z,
+		onDrop: Z,
+		onPaste: Z,
+		ref: C,
+		children: [F("div", {
+			className: "uppy-DashboardContent-bar",
+			children: [F("div", {
+				className: "uppy-DashboardContent-title",
+				role: "heading",
+				"aria-level": 1,
+				children: l("editing", { file: F("span", {
+					className: "uppy-DashboardContent-titleFile",
+					children: p.meta ? p.meta.name : p.name
+				}) })
+			}), F("button", {
+				className: "uppy-DashboardContent-back",
+				type: "button",
+				form: S.id,
+				title: c("finishEditingFile"),
+				onClick: x,
+				children: c("cancel")
+			})]
+		}), F("div", {
+			className: "uppy-Dashboard-FileCard-inner",
+			children: [
+				F("div", {
+					className: "uppy-Dashboard-FileCard-preview",
+					style: { backgroundColor: ua(p.type).color },
+					children: [F(da, { file: p }), h && F("button", {
+						type: "button",
+						className: "uppy-u-reset uppy-c-btn uppy-Dashboard-FileCard-edit",
+						onClick: (e) => {
+							y(e), s(p);
+						},
+						children: c("editImage")
+					})]
+				}),
+				F("div", {
+					className: "uppy-Dashboard-FileCard-info",
+					children: F(fa, {
+						computedMetaFields: m,
+						requiredMetaFields: o,
+						updateMeta: b,
+						form: S,
+						formState: _
+					})
+				}),
+				F("div", {
+					className: "uppy-Dashboard-FileCard-actions",
+					children: [F("button", {
+						className: "uppy-u-reset uppy-c-btn uppy-c-btn-primary uppy-Dashboard-FileCard-actionsBtn",
+						type: "submit",
+						form: S.id,
+						children: c("saveChanges")
+					}), F("button", {
+						className: "uppy-u-reset uppy-c-btn uppy-c-btn-link uppy-Dashboard-FileCard-actionsBtn",
+						type: "button",
+						onClick: x,
+						form: S.id,
+						children: c("cancel")
+					})]
+				})
+			]
+		})]
+	});
+}
+//#endregion
+//#region node_modules/shallow-equal/dist/index.modern.mjs
+function ma(e, t) {
+	if (e === t) return !0;
+	if (!e || !t) return !1;
+	let n = Object.keys(e), r = Object.keys(t), i = n.length;
+	if (r.length !== i) return !1;
+	for (let r = 0; r < i; r++) {
+		let i = n[r];
+		if (e[i] !== t[i] || !Object.prototype.hasOwnProperty.call(t, i)) return !1;
+	}
+	return !0;
+}
+//#endregion
+//#region node_modules/@uppy/dashboard/lib/utils/copyToClipboard.js
+function ha(e, t = "Copy the URL below") {
+	return new Promise((n) => {
+		let r = document.createElement("textarea");
+		r.style.position = "fixed", r.style.top = "0", r.style.left = "0", r.style.width = "2em", r.style.height = "2em", r.style.padding = "0", r.style.border = "none", r.style.outline = "none", r.style.boxShadow = "none", r.style.background = "transparent", r.value = e, document.body.appendChild(r), r.select();
+		let i = () => {
+			document.body.removeChild(r), window.prompt(t, e), n();
+		};
+		try {
+			if (!document.execCommand("copy")) return i();
+			document.body.removeChild(r), n();
+		} catch {
+			return document.body.removeChild(r), i();
+		}
+	});
+}
+//#endregion
+//#region node_modules/@uppy/dashboard/lib/components/FileItem/Buttons/index.js
+function ga({ file: e, uploadInProgressOrComplete: t, metaFields: n, canEditFile: r, i18n: i, onClick: a }) {
+	return !t && n && n.length > 0 || !t && r(e) ? F("button", {
+		className: "uppy-u-reset uppy-c-btn uppy-Dashboard-Item-action uppy-Dashboard-Item-action--edit",
+		type: "button",
+		"aria-label": i("editFileWithFilename", { file: e.meta.name }),
+		title: i("editFileWithFilename", { file: e.meta.name }),
+		onClick: () => a(),
+		children: F("svg", {
+			"aria-hidden": "true",
+			focusable: "false",
+			className: "uppy-c-icon",
+			width: "14",
+			height: "14",
+			viewBox: "0 0 14 14",
+			children: F("g", {
+				fillRule: "evenodd",
+				children: [
+					F("path", {
+						d: "M1.5 10.793h2.793A1 1 0 0 0 5 10.5L11.5 4a1 1 0 0 0 0-1.414L9.707.793a1 1 0 0 0-1.414 0l-6.5 6.5A1 1 0 0 0 1.5 8v2.793zm1-1V8L9 1.5l1.793 1.793-6.5 6.5H2.5z",
+						fillRule: "nonzero"
+					}),
+					F("rect", {
+						x: "1",
+						y: "12.293",
+						width: "11",
+						height: "1",
+						rx: ".5"
+					}),
+					F("path", {
+						fillRule: "nonzero",
+						d: "M6.793 2.5L9.5 5.207l.707-.707L7.5 1.793z"
+					})
+				]
+			})
+		})
+	}) : null;
+}
+function _a({ i18n: e, onClick: t, file: n }) {
+	return F("button", {
+		className: "uppy-u-reset uppy-Dashboard-Item-action uppy-Dashboard-Item-action--remove",
+		type: "button",
+		"aria-label": e("removeFile", { file: n.meta.name }),
+		title: e("removeFile", { file: n.meta.name }),
+		onClick: () => t(),
+		children: F("svg", {
+			"aria-hidden": "true",
+			focusable: "false",
+			className: "uppy-c-icon",
+			width: "18",
+			height: "18",
+			viewBox: "0 0 18 18",
+			children: [F("path", { d: "M9 0C4.034 0 0 4.034 0 9s4.034 9 9 9 9-4.034 9-9-4.034-9-9-9z" }), F("path", {
+				fill: "#FFF",
+				d: "M13 12.222l-.778.778L9 9.778 5.778 13 5 12.222 8.222 9 5 5.778 5.778 5 9 8.222 12.222 5l.778.778L9.778 9z"
+			})]
+		})
+	});
+}
+function va({ file: e, uppy: t, i18n: n }) {
+	let r = (r) => {
+		let { currentTarget: i } = r;
+		ha(e.uploadURL, n("copyLinkToClipboardFallback")).then(() => {
+			t.log("Link copied to clipboard."), t.info(n("copyLinkToClipboardSuccess"), "info", 3e3);
+		}).catch(t.log).then(() => i.focus({ preventScroll: !0 }));
+	};
+	return F("button", {
+		className: "uppy-u-reset uppy-Dashboard-Item-action uppy-Dashboard-Item-action--copyLink",
+		type: "button",
+		"aria-label": n("copyLink"),
+		title: n("copyLink"),
+		onClick: (e) => r(e),
+		children: F("svg", {
+			"aria-hidden": "true",
+			focusable: "false",
+			className: "uppy-c-icon",
+			width: "14",
+			height: "14",
+			viewBox: "0 0 14 12",
+			children: F("path", { d: "M7.94 7.703a2.613 2.613 0 0 1-.626 2.681l-.852.851a2.597 2.597 0 0 1-1.849.766A2.616 2.616 0 0 1 2.764 7.54l.852-.852a2.596 2.596 0 0 1 2.69-.625L5.267 7.099a1.44 1.44 0 0 0-.833.407l-.852.851a1.458 1.458 0 0 0 1.03 2.486c.39 0 .755-.152 1.03-.426l.852-.852c.231-.231.363-.522.406-.824l1.04-1.038zm4.295-5.937A2.596 2.596 0 0 0 10.387 1c-.698 0-1.355.272-1.849.766l-.852.851a2.614 2.614 0 0 0-.624 2.688l1.036-1.036c.041-.304.173-.6.407-.833l.852-.852c.275-.275.64-.426 1.03-.426a1.458 1.458 0 0 1 1.03 2.486l-.852.851a1.442 1.442 0 0 1-.824.406l-1.04 1.04a2.596 2.596 0 0 0 2.683-.628l.851-.85a2.616 2.616 0 0 0 0-3.697zm-6.88 6.883a.577.577 0 0 0 .82 0l3.474-3.474a.579.579 0 1 0-.819-.82L5.355 7.83a.579.579 0 0 0 0 .819z" })
+		})
+	});
+}
+function ya(e) {
+	let { uppy: t, file: n, uploadInProgressOrComplete: r, canEditFile: i, metaFields: a, showLinkToFileUploadResult: o, showRemoveButton: s, i18n: c, toggleFileCard: l, openFileEditor: u } = e;
+	return F("div", {
+		className: "uppy-Dashboard-Item-actionWrapper",
+		children: [
+			F(ga, {
+				i18n: c,
+				file: n,
+				uploadInProgressOrComplete: r,
+				canEditFile: i,
+				metaFields: a,
+				onClick: () => {
+					a && a.length > 0 ? l(!0, n.id) : u(n);
+				}
+			}),
+			o && n.uploadURL ? F(va, {
+				file: n,
+				uppy: t,
+				i18n: c
+			}) : null,
+			s ? F(_a, {
+				i18n: c,
+				file: n,
+				onClick: () => t.removeFile(n.id)
+			}) : null
+		]
+	});
+}
+//#endregion
+//#region node_modules/@uppy/dashboard/lib/components/FileItem/MetaErrorMessage.js
+function ba(e, t, n) {
+	return (typeof t == "function" ? t(n) : t)?.find((t) => t.id === e)?.name ?? e;
+}
+function xa(e) {
+	let { file: t, toggleFileCard: n, i18n: r, metaFields: i } = e, { missingRequiredMetaFields: a } = t;
+	if (!a?.length) return null;
+	let o = a.map((e) => ba(e, i, t)).join(", ");
+	return F("div", {
+		className: "uppy-Dashboard-Item-errorMessage",
+		children: [
+			r("missingRequiredMetaFields", {
+				smart_count: a.length,
+				fields: o
+			}),
+			" ",
+			F("button", {
+				type: "button",
+				class: "uppy-u-reset uppy-Dashboard-Item-errorMessageBtn",
+				onClick: () => n(!0, t.id),
+				children: r("editFile")
+			})
+		]
+	});
+}
+//#endregion
+//#region node_modules/@uppy/dashboard/lib/components/FileItem/FileInfo/index.js
+var Sa = (e) => {
+	let { author: t, name: n } = e.file.meta;
+	function r() {
+		return e.isSingleFile && e.containerHeight >= 350 ? 90 : e.containerWidth <= 352 ? 35 : e.containerWidth <= 576 ? 60 : t ? 20 : 30;
+	}
+	return F("div", {
+		className: "uppy-Dashboard-Item-name",
+		title: n,
+		children: Ce(n, r())
+	});
+}, Ca = (e) => {
+	let { author: t } = e.file.meta, n = "remote" in e.file ? e.file.remote?.providerName : void 0;
+	return t ? F("div", {
+		className: "uppy-Dashboard-Item-author",
+		children: [F("a", {
+			href: `${t.url}?utm_source=Companion&utm_medium=referral`,
+			target: "_blank",
+			rel: "noopener noreferrer",
+			children: Ce(t.name, 13)
+		}), n ? F(j, { children: [
+			" · ",
+			n,
+			" · "
+		] }) : null]
+	}) : null;
+}, wa = (e) => e.file.size && F("div", {
+	className: "uppy-Dashboard-Item-statusSize",
+	children: U(e.file.size)
+}), Ta = (e) => e.file.isGhost && F("span", { children: [" • ", F("button", {
+	className: "uppy-u-reset uppy-c-btn uppy-Dashboard-Item-reSelect",
+	type: "button",
+	onClick: () => e.toggleAddFilesPanel(!0),
+	children: e.i18n("reSelect")
+})] }), Ea = ({ file: e, onClick: t }) => e.error ? F("button", {
+	className: "uppy-u-reset uppy-c-btn uppy-Dashboard-Item-errorDetails",
+	"aria-label": e.error,
+	"data-microtip-position": "bottom",
+	"data-microtip-size": "medium",
+	onClick: t,
+	type: "button",
+	children: "?"
+}) : null;
+function Da(e) {
+	let { file: t, i18n: n, toggleFileCard: r, metaFields: i, toggleAddFilesPanel: a, isSingleFile: o, containerHeight: s, containerWidth: c } = e;
+	return F("div", {
+		className: "uppy-Dashboard-Item-fileInfo",
+		"data-uppy-file-source": t.source,
+		children: [
+			F("div", {
+				className: "uppy-Dashboard-Item-fileName",
+				children: [Sa({
+					file: t,
+					isSingleFile: o,
+					containerHeight: s,
+					containerWidth: c
+				}), F(Ea, {
+					file: t,
+					onClick: () => alert(t.error)
+				})]
+			}),
+			F("div", {
+				className: "uppy-Dashboard-Item-status",
+				children: [
+					Ca({ file: t }),
+					wa({ file: t }),
+					Ta({
+						file: t,
+						toggleAddFilesPanel: a,
+						i18n: n
+					})
+				]
+			}),
+			F(xa, {
+				file: t,
+				i18n: n,
+				toggleFileCard: r,
+				metaFields: i
+			})
+		]
+	});
+}
+//#endregion
+//#region node_modules/@uppy/dashboard/lib/components/FileItem/FilePreviewAndLink/index.js
+function Oa(e) {
+	let { file: t, i18n: n, toggleFileCard: r, metaFields: i, showLinkToFileUploadResult: a } = e;
+	return F("div", {
+		className: "uppy-Dashboard-Item-previewInnerWrap",
+		style: { backgroundColor: t.preview ? "rgba(255, 255, 255, 0.5)" : ua(t.type).color },
+		children: [
+			a && t.uploadURL && F("a", {
+				className: "uppy-Dashboard-Item-previewLink",
+				href: t.uploadURL,
+				rel: "noreferrer noopener",
+				target: "_blank",
+				"aria-label": t.meta.name,
+				children: F("span", {
+					hidden: !0,
+					children: t.meta.name
+				})
+			}),
+			F(da, { file: t }),
+			F(xa, {
+				file: t,
+				i18n: n,
+				toggleFileCard: r,
+				metaFields: i
+			})
+		]
+	});
+}
+//#endregion
+//#region node_modules/@uppy/dashboard/lib/components/FileItem/FileProgress/index.js
+function ka(e) {
+	if (!e.isUploaded) {
+		if (e.error && !e.hideRetryButton) {
+			e.uppy.retryUpload(e.file.id);
+			return;
+		}
+		e.resumableUploads && !e.hidePauseResumeButton ? e.uppy.pauseResume(e.file.id) : e.individualCancellation && !e.hideCancelButton && e.uppy.removeFile(e.file.id);
+	}
+}
+function Aa(e) {
+	return e.isUploaded ? e.i18n("uploadComplete") : e.error ? e.i18n("retryUpload") : e.resumableUploads ? e.file.isPaused ? e.i18n("resumeUpload") : e.i18n("pauseUpload") : e.individualCancellation ? e.i18n("cancelUpload") : "";
+}
+function ja(e) {
+	return F("div", {
+		className: "uppy-Dashboard-Item-progress",
+		children: F("button", {
+			className: "uppy-u-reset uppy-c-btn uppy-Dashboard-Item-progressIndicator",
+			type: "button",
+			"aria-label": Aa(e),
+			title: Aa(e),
+			onClick: () => ka(e),
+			children: e.children
+		})
+	});
+}
+function Ma({ children: e }) {
+	return F("svg", {
+		"aria-hidden": "true",
+		focusable: "false",
+		width: "70",
+		height: "70",
+		viewBox: "0 0 36 36",
+		className: "uppy-c-icon uppy-Dashboard-Item-progressIcon--circle",
+		children: e
+	});
+}
+function Na({ progress: e }) {
+	let t = 2 * Math.PI * 15;
+	return F("g", { children: [F("circle", {
+		className: "uppy-Dashboard-Item-progressIcon--bg",
+		r: "15",
+		cx: "18",
+		cy: "18",
+		"stroke-width": "2",
+		fill: "none"
+	}), F("circle", {
+		className: "uppy-Dashboard-Item-progressIcon--progress",
+		r: "15",
+		cx: "18",
+		cy: "18",
+		transform: "rotate(-90, 18, 18)",
+		fill: "none",
+		"stroke-width": "2",
+		"stroke-dasharray": t,
+		"stroke-dashoffset": t - t / 100 * e
+	})] });
+}
+function Pa(e) {
+	return !e.file.progress.uploadStarted || e.file.progress.percentage === void 0 ? null : e.isUploaded ? F("div", {
+		className: "uppy-Dashboard-Item-progress",
+		children: F("div", {
+			className: "uppy-Dashboard-Item-progressIndicator",
+			children: F(Ma, { children: [F("circle", {
+				r: "15",
+				cx: "18",
+				cy: "18",
+				fill: "#1bb240"
+			}), F("polygon", {
+				className: "uppy-Dashboard-Item-progressIcon--check",
+				transform: "translate(2, 3)",
+				points: "14 22.5 7 15.2457065 8.99985857 13.1732815 14 18.3547104 22.9729883 9 25 11.1005634"
+			})] })
+		})
+	}) : e.recoveredState ? null : e.error && !e.hideRetryButton ? F(ja, {
+		...e,
+		children: F("svg", {
+			"aria-hidden": "true",
+			focusable: "false",
+			className: "uppy-c-icon uppy-Dashboard-Item-progressIcon--retry",
+			width: "28",
+			height: "31",
+			viewBox: "0 0 16 19",
+			children: [
+				F("path", { d: "M16 11a8 8 0 1 1-8-8v2a6 6 0 1 0 6 6h2z" }),
+				F("path", { d: "M7.9 3H10v2H7.9z" }),
+				F("path", { d: "M8.536.5l3.535 3.536-1.414 1.414L7.12 1.914z" }),
+				F("path", { d: "M10.657 2.621l1.414 1.415L8.536 7.57 7.12 6.157z" })
+			]
+		})
+	}) : e.resumableUploads && !e.hidePauseResumeButton ? F(ja, {
+		...e,
+		children: F(Ma, { children: [F(Na, { progress: e.file.progress.percentage }), e.file.isPaused ? F("polygon", {
+			className: "uppy-Dashboard-Item-progressIcon--play",
+			transform: "translate(3, 3)",
+			points: "12 20 12 10 20 15"
+		}) : F("g", {
+			className: "uppy-Dashboard-Item-progressIcon--pause",
+			transform: "translate(14.5, 13)",
+			children: [F("rect", {
+				x: "0",
+				y: "0",
+				width: "2",
+				height: "10",
+				rx: "0"
+			}), F("rect", {
+				x: "5",
+				y: "0",
+				width: "2",
+				height: "10",
+				rx: "0"
+			})]
+		})] })
+	}) : !e.resumableUploads && e.individualCancellation && !e.hideCancelButton ? F(ja, {
+		...e,
+		children: F(Ma, { children: [F(Na, { progress: e.file.progress.percentage }), F("polygon", {
+			className: "cancel",
+			transform: "translate(2, 2)",
+			points: "19.8856516 11.0625 16 14.9481516 12.1019737 11.0625 11.0625 12.1143484 14.9481516 16 11.0625 19.8980263 12.1019737 20.9375 16 17.0518484 19.8856516 20.9375 20.9375 19.8980263 17.0518484 16 20.9375 12"
+		})] })
+	}) : F("div", {
+		className: "uppy-Dashboard-Item-progress",
+		children: F("div", {
+			className: "uppy-Dashboard-Item-progressIndicator",
+			children: F(Ma, { children: F(Na, { progress: e.file.progress.percentage }) })
+		})
+	});
+}
+//#endregion
+//#region node_modules/@uppy/dashboard/lib/components/FileItem/index.js
+var Fa = class extends M {
+	componentDidMount() {
+		let { file: e } = this.props;
+		e.preview || this.props.handleRequestThumbnail(e);
+	}
+	shouldComponentUpdate(e) {
+		return !ma(this.props, e);
+	}
+	componentDidUpdate() {
+		let { file: e } = this.props;
+		e.preview || this.props.handleRequestThumbnail(e);
+	}
+	componentWillUnmount() {
+		let { file: e } = this.props;
+		e.preview || this.props.handleCancelThumbnail(e);
+	}
+	render() {
+		let { file: e } = this.props, t = e.progress.preprocess || e.progress.postprocess, n = !!e.progress.uploadComplete && !t && !e.error, r = !!e.progress.uploadStarted || !!t, i = e.progress.uploadStarted && !e.progress.uploadComplete || t, a = e.error || !1, { isGhost: o } = e, s = (this.props.individualCancellation || !i) && !n;
+		return n && this.props.showRemoveButtonAfterComplete && (s = !0), F("div", {
+			className: (0, G.default)({
+				"uppy-Dashboard-Item": !0,
+				"is-inprogress": i && !this.props.recoveredState,
+				"is-processing": t,
+				"is-complete": n,
+				"is-error": !!a,
+				"is-resumable": this.props.resumableUploads,
+				"is-noIndividualCancellation": !this.props.individualCancellation,
+				"is-ghost": o
+			}),
+			id: `uppy_${e.id}`,
+			role: this.props.role,
+			children: [F("div", {
+				className: "uppy-Dashboard-Item-preview",
+				children: [F(Oa, {
+					file: e,
+					showLinkToFileUploadResult: this.props.showLinkToFileUploadResult,
+					i18n: this.props.i18n,
+					toggleFileCard: this.props.toggleFileCard,
+					metaFields: this.props.metaFields
+				}), F(Pa, {
+					uppy: this.props.uppy,
+					file: e,
+					error: a,
+					isUploaded: n,
+					hideRetryButton: this.props.hideRetryButton,
+					hideCancelButton: this.props.hideCancelButton,
+					hidePauseResumeButton: this.props.hidePauseResumeButton,
+					recoveredState: this.props.recoveredState,
+					resumableUploads: this.props.resumableUploads,
+					individualCancellation: this.props.individualCancellation,
+					i18n: this.props.i18n
+				})]
+			}), F("div", {
+				className: "uppy-Dashboard-Item-fileInfoAndButtons",
+				children: [F(Da, {
+					file: e,
+					containerWidth: this.props.containerWidth,
+					containerHeight: this.props.containerHeight,
+					i18n: this.props.i18n,
+					toggleAddFilesPanel: this.props.toggleAddFilesPanel,
+					toggleFileCard: this.props.toggleFileCard,
+					metaFields: this.props.metaFields,
+					isSingleFile: this.props.isSingleFile
+				}), F(ya, {
+					file: e,
+					metaFields: this.props.metaFields,
+					showLinkToFileUploadResult: this.props.showLinkToFileUploadResult,
+					showRemoveButton: s,
+					canEditFile: this.props.canEditFile,
+					uploadInProgressOrComplete: r,
+					toggleFileCard: this.props.toggleFileCard,
+					openFileEditor: this.props.openFileEditor,
+					uppy: this.props.uppy,
+					i18n: this.props.i18n
+				})]
+			})]
+		});
+	}
+};
+//#endregion
+//#region node_modules/@uppy/dashboard/lib/components/FileList.js
+function Ia(e, t) {
+	let n = [], r = [];
+	return e.forEach((e) => {
+		r.length < t ? r.push(e) : (n.push(r), r = [e]);
+	}), r.length && n.push(r), n;
+}
+function La({ id: e, i18n: t, uppy: n, files: r, resumableUploads: i, hideRetryButton: a, hidePauseResumeButton: o, hideCancelButton: s, showLinkToFileUploadResult: c, showRemoveButtonAfterComplete: l, metaFields: u, isSingleFile: d, toggleFileCard: f, handleRequestThumbnail: p, handleCancelThumbnail: m, recoveredState: h, individualCancellation: g, itemsPerRow: _, openFileEditor: v, canEditFile: y, toggleAddFilesPanel: b, containerWidth: x, containerHeight: S }) {
+	let C = _ === 1 ? 71 : 200, w = Tt(() => {
+		let e = (e, t) => Number(r[t].isGhost) - Number(r[e].isGhost), t = Object.keys(r);
+		return h && t.sort(e), Ia(t, _);
+	}, [
+		r,
+		_,
+		h
+	]), T = (_) => F("div", {
+		class: "uppy-Dashboard-filesInner",
+		role: "presentation",
+		children: _.map((_) => F(Fa, {
+			uppy: n,
+			id: e,
+			i18n: t,
+			resumableUploads: i,
+			individualCancellation: g,
+			hideRetryButton: a,
+			hidePauseResumeButton: o,
+			hideCancelButton: s,
+			showLinkToFileUploadResult: c,
+			showRemoveButtonAfterComplete: l,
+			metaFields: u,
+			recoveredState: h,
+			isSingleFile: d,
+			containerWidth: x,
+			containerHeight: S,
+			toggleFileCard: f,
+			handleRequestThumbnail: p,
+			handleCancelThumbnail: m,
+			role: "listitem",
+			openFileEditor: v,
+			canEditFile: y,
+			toggleAddFilesPanel: b,
+			file: r[_]
+		}, _))
+	}, _[0]);
+	return d ? F("div", {
+		class: "uppy-Dashboard-files",
+		children: T(w[0])
+	}) : F(It, {
+		class: "uppy-Dashboard-files",
+		role: "list",
+		data: w,
+		renderRow: T,
+		rowHeight: C
+	});
+}
+//#endregion
+//#region node_modules/@uppy/dashboard/lib/components/Informer/FadeIn.js
+var Ra = 300, za = class extends M {
+	ref = Ue();
+	componentWillEnter(e) {
+		this.ref.current.style.opacity = "1", this.ref.current.style.transform = "none", setTimeout(e, Ra);
+	}
+	componentWillLeave(e) {
+		this.ref.current.style.opacity = "0", this.ref.current.style.transform = "translateY(350%)", setTimeout(e, Ra);
+	}
+	render() {
+		let { children: e } = this.props;
+		return F("div", {
+			className: "uppy-Informer-animated",
+			ref: this.ref,
+			children: e
+		});
+	}
+};
+//#endregion
+//#region node_modules/@uppy/dashboard/lib/components/Informer/TransitionGroup.js
+function Ba(e, t) {
+	return Object.assign(e, t);
+}
+function Va(e, t) {
+	return e?.key ?? t;
+}
+function Ha(e, t) {
+	let n = e._ptgLinkedRefs ||= {};
+	return n[t] || (n[t] = (n) => {
+		e.refs[t] = n;
+	});
+}
+function Ua(e) {
+	let t = {};
+	for (let n = 0; n < e.length; n++) if (e[n] != null) {
+		let r = Va(e[n], n.toString(36));
+		t[r] = e[n];
+	}
+	return t;
+}
+function Wa(e, t) {
+	e ||= {}, t ||= {};
+	let n = (n) => Object.hasOwn(t, n) ? t[n] : e[n], r = {}, i = [];
+	for (let n in e) Object.hasOwn(t, n) ? i.length && (r[n] = i, i = []) : i.push(n);
+	let a = {};
+	for (let e in t) {
+		if (Object.hasOwn(r, e)) for (let t = 0; t < r[e].length; t++) {
+			let i = r[e][t];
+			a[r[e][t]] = n(i);
+		}
+		a[e] = n(e);
+	}
+	for (let e = 0; e < i.length; e++) a[i[e]] = n(i[e]);
+	return a;
+}
+var Ga = (e) => e, Ka = class extends M {
+	constructor(e, t) {
+		super(e, t), this.refs = {}, this.state = { children: Ua(P(P(this.props.children)) || []) }, this.performAppear = this.performAppear.bind(this), this.performEnter = this.performEnter.bind(this), this.performLeave = this.performLeave.bind(this);
+	}
+	componentWillMount() {
+		this.currentlyTransitioningKeys = {}, this.keysToAbortLeave = [], this.keysToEnter = [], this.keysToLeave = [];
+	}
+	componentDidMount() {
+		let e = this.state.children;
+		for (let t in e) e[t] && this.performAppear(t);
+	}
+	componentWillReceiveProps(e) {
+		let t = Ua(P(e.children) || []), n = this.state.children;
+		this.setState((e) => ({ children: Wa(e.children, t) }));
+		let r;
+		for (r in t) if (Object.hasOwn(t, r)) {
+			let e = n && Object.hasOwn(n, r);
+			t[r] && e && this.currentlyTransitioningKeys[r] ? (this.keysToEnter.push(r), this.keysToAbortLeave.push(r)) : t[r] && !e && !this.currentlyTransitioningKeys[r] && this.keysToEnter.push(r);
+		}
+		for (r in n) if (Object.hasOwn(n, r)) {
+			let e = t && Object.hasOwn(t, r);
+			n[r] && !e && !this.currentlyTransitioningKeys[r] && this.keysToLeave.push(r);
+		}
+	}
+	componentDidUpdate() {
+		let { keysToEnter: e } = this;
+		this.keysToEnter = [], e.forEach(this.performEnter);
+		let { keysToLeave: t } = this;
+		this.keysToLeave = [], t.forEach(this.performLeave);
+	}
+	_finishAbort(e) {
+		let t = this.keysToAbortLeave.indexOf(e);
+		t !== -1 && this.keysToAbortLeave.splice(t, 1);
+	}
+	performAppear(e) {
+		this.currentlyTransitioningKeys[e] = !0;
+		let t = this.refs[e];
+		t?.componentWillAppear ? t.componentWillAppear(this._handleDoneAppearing.bind(this, e)) : this._handleDoneAppearing(e);
+	}
+	_handleDoneAppearing(e) {
+		let t = this.refs[e];
+		t?.componentDidAppear && t.componentDidAppear(), delete this.currentlyTransitioningKeys[e], this._finishAbort(e);
+		let n = Ua(P(this.props.children) || []);
+		(!n || !Object.hasOwn(n, e)) && this.performLeave(e);
+	}
+	performEnter(e) {
+		this.currentlyTransitioningKeys[e] = !0;
+		let t = this.refs[e];
+		t?.componentWillEnter ? t.componentWillEnter(this._handleDoneEntering.bind(this, e)) : this._handleDoneEntering(e);
+	}
+	_handleDoneEntering(e) {
+		let t = this.refs[e];
+		t?.componentDidEnter && t.componentDidEnter(), delete this.currentlyTransitioningKeys[e], this._finishAbort(e);
+		let n = Ua(P(this.props.children) || []);
+		(!n || !Object.hasOwn(n, e)) && this.performLeave(e);
+	}
+	performLeave(e) {
+		if (this.keysToAbortLeave.indexOf(e) !== -1) return;
+		this.currentlyTransitioningKeys[e] = !0;
+		let t = this.refs[e];
+		t?.componentWillLeave ? t.componentWillLeave(this._handleDoneLeaving.bind(this, e)) : this._handleDoneLeaving(e);
+	}
+	_handleDoneLeaving(e) {
+		if (this.keysToAbortLeave.indexOf(e) !== -1) return;
+		let t = this.refs[e];
+		t?.componentDidLeave && t.componentDidLeave(), delete this.currentlyTransitioningKeys[e];
+		let n = Ua(P(this.props.children) || []);
+		if (n && Object.hasOwn(n, e)) this.performEnter(e);
+		else {
+			let t = Ba({}, this.state.children);
+			delete t[e], this.setState({ children: t });
+		}
+	}
+	render({ childFactory: e, transitionLeave: t, transitionName: n, transitionAppear: r, transitionEnter: i, transitionLeaveTimeout: a, transitionEnterTimeout: o, transitionAppearTimeout: s, component: c, ...l }, { children: u }) {
+		return Ve(c, l, Object.entries(u).map(([t, n]) => {
+			if (!n) return;
+			let r = Ha(this, t);
+			return ut(e(n), {
+				ref: r,
+				key: t
+			});
+		}).filter(Boolean));
+	}
+};
+Ka.defaultProps = {
+	component: "span",
+	childFactory: Ga
+};
+//#endregion
+//#region node_modules/@uppy/dashboard/lib/components/Informer/Informer.js
+var qa = class extends M {
+	render() {
+		let { info: e } = this.props.uppy.getState();
+		return F("div", {
+			className: "uppy uppy-Informer",
+			children: F(Ka, { children: e.map((e) => F(za, { children: F("p", {
+				role: "alert",
+				children: [
+					e.message,
+					" ",
+					e.details && F("span", {
+						"aria-label": e.details,
+						"data-microtip-position": "top-left",
+						"data-microtip-size": "medium",
+						role: "tooltip",
+						onClick: () => alert(`${e.message} \n\n ${e.details}`),
+						children: "?"
+					})
+				]
+			}) }, e.message)) })
+		});
+	}
+};
+//#endregion
+//#region node_modules/@uppy/dashboard/lib/components/PickerPanelContent.js
+function Ja({ activePickerPanel: e, className: t, hideAllPanels: n, i18n: r, state: i, uppy: a }) {
+	let o = V(null), s = a.getPlugin(e.id), c = !!s?.opts.standalone, l = (e) => {
+		let t = e.target;
+		return !!s?.acceptsFileDrops && !!e.dataTransfer?.types.includes("Files") && t.closest("input, textarea, dialog") == null;
+	}, u = (e) => {
+		l(e) || (Z(e), e.type === "dragover" && e.defaultPrevented && e.dataTransfer && (e.dataTransfer.dropEffect = "none"));
+	};
+	return F("div", {
+		className: (0, G.default)("uppy-DashboardContent-panel", t),
+		role: "tabpanel",
+		"data-uppy-panelType": "PickerPanel",
+		id: `uppy-DashboardContent-panel--${e.id}`,
+		onDragOver: u,
+		onDragLeave: u,
+		onDrop: u,
+		onPaste: Z,
+		children: [!c && F("div", {
+			className: "uppy-DashboardContent-bar",
+			children: [F("div", {
+				className: "uppy-DashboardContent-title",
+				role: "heading",
+				"aria-level": 1,
+				children: r("importFrom", { name: e.name })
+			}), F("button", {
+				className: "uppy-DashboardContent-back",
+				type: "button",
+				onClick: n,
+				children: r("cancel")
+			})]
+		}), F("div", {
+			ref: o,
+			className: "uppy-DashboardContent-panelBody",
+			children: s?.render(i, o.current)
+		})]
+	});
+}
+//#endregion
+//#region node_modules/@uppy/dashboard/lib/components/PickerPanelTopBar.js
+var Q = {
+	STATE_ERROR: "error",
+	STATE_WAITING: "waiting",
+	STATE_PREPROCESSING: "preprocessing",
+	STATE_UPLOADING: "uploading",
+	STATE_POSTPROCESSING: "postprocessing",
+	STATE_COMPLETE: "complete",
+	STATE_PAUSED: "paused"
+};
+function Ya(e, t, n, r = {}) {
+	if (e) return Q.STATE_ERROR;
+	if (t) return Q.STATE_COMPLETE;
+	if (n) return Q.STATE_PAUSED;
+	let i = Q.STATE_WAITING, a = Object.keys(r);
+	for (let e = 0; e < a.length; e++) {
+		let { progress: t } = r[a[e]];
+		if (t.uploadStarted && !t.uploadComplete) return Q.STATE_UPLOADING;
+		t.preprocess && (i = Q.STATE_PREPROCESSING), t.postprocess && i !== Q.STATE_PREPROCESSING && (i = Q.STATE_POSTPROCESSING);
+	}
+	return i;
+}
+function Xa({ files: e, i18n: t, isAllComplete: n, isAllErrored: r, isAllPaused: i, inProgressNotPausedFiles: a, newFiles: o, processingFiles: s }) {
+	switch (Ya(r, n, i, e)) {
+		case "uploading": return t("uploadingXFiles", { smart_count: a.length });
+		case "preprocessing":
+		case "postprocessing": return t("processingXFiles", { smart_count: s.length });
+		case "paused": return t("uploadPaused");
+		case "waiting": return t("xFilesSelected", { smart_count: o.length });
+		case "complete": return t("uploadComplete");
+		case "error": return t("error");
+	}
+}
+function Za(e) {
+	let { i18n: t, isAllComplete: n, hideCancelButton: r, maxNumberOfFiles: i, toggleAddFilesPanel: a, totalFileCount: o, uppy: s } = e, { allowNewUpload: c } = e;
+	return c && i && (c = o < i), F("div", {
+		className: "uppy-DashboardContent-bar",
+		children: [
+			!n && !r ? F("button", {
+				className: "uppy-DashboardContent-back",
+				type: "button",
+				onClick: () => s.cancelAll(),
+				children: t("cancel")
+			}) : F("div", {}),
+			F("div", {
+				className: "uppy-DashboardContent-title",
+				children: F(Xa, { ...e })
+			}),
+			c ? F("button", {
+				className: "uppy-DashboardContent-addMore",
+				type: "button",
+				"aria-label": t("addMoreFiles"),
+				title: t("addMoreFiles"),
+				onClick: () => a(!0),
+				children: [F("svg", {
+					"aria-hidden": "true",
+					focusable: "false",
+					className: "uppy-c-icon",
+					width: "15",
+					height: "15",
+					viewBox: "0 0 15 15",
+					children: F("path", { d: "M8 6.5h6a.5.5 0 0 1 .5.5v.5a.5.5 0 0 1-.5.5H8v6a.5.5 0 0 1-.5.5H7a.5.5 0 0 1-.5-.5V8h-6a.5.5 0 0 1-.5-.5V7a.5.5 0 0 1 .5-.5h6v-6A.5.5 0 0 1 7 0h.5a.5.5 0 0 1 .5.5v6z" })
+				}), F("span", {
+					className: "uppy-DashboardContent-addMoreCaption",
+					children: t("addMore")
+				})]
+			}) : F("div", {})
+		]
+	});
+}
+//#endregion
+//#region node_modules/@uppy/dashboard/lib/components/Slide.js
+var Qa = "uppy-transition-slideDownUp", $a = 250;
+function eo({ children: e }) {
+	let [t, n] = z(null), [r, i] = z(""), a = V(), o = V(), s = V(), c = H(() => {
+		i(`${Qa}-enter`), cancelAnimationFrame(s.current), clearTimeout(o.current), o.current = void 0, s.current = requestAnimationFrame(() => {
+			i(`${Qa}-enter ${Qa}-enter-active`), a.current = setTimeout(() => {
+				i("");
+			}, $a);
+		});
+	}, []), l = H(() => {
+		i(`${Qa}-leave`), cancelAnimationFrame(s.current), clearTimeout(a.current), a.current = void 0, s.current = requestAnimationFrame(() => {
+			i(`${Qa}-leave ${Qa}-leave-active`), o.current = setTimeout(() => {
+				n(null), i("");
+			}, $a);
+		});
+	}, []);
+	return B(() => {
+		let r = P(e)[0];
+		t !== r && (r && !t ? c() : t && !r && !o.current && l(), n(r));
+	}, [
+		e,
+		t,
+		c,
+		l
+	]), B(() => () => {
+		clearTimeout(a.current), clearTimeout(o.current), cancelAnimationFrame(s.current);
+	}, []), t ? ut(t, { className: (0, G.default)(r, t.props.className) }) : null;
+}
+//#endregion
+//#region node_modules/@uppy/dashboard/lib/components/StatusBar/StatusBarStates.js
+var $ = {
+	STATE_ERROR: "error",
+	STATE_WAITING: "waiting",
+	STATE_PREPROCESSING: "preprocessing",
+	STATE_UPLOADING: "uploading",
+	STATE_POSTPROCESSING: "postprocessing",
+	STATE_COMPLETE: "complete"
+}, to = "·", no = () => ` ${to} `;
+function ro(e) {
+	let { newFiles: t, isUploadStarted: n, recoveredState: r, i18n: i, uploadState: a, isSomeGhost: o, startUpload: s } = e, c = (0, G.default)("uppy-u-reset", "uppy-c-btn", "uppy-StatusBar-actionBtn", "uppy-StatusBar-actionBtn--upload", { "uppy-c-btn-primary": a === $.STATE_WAITING }, { "uppy-StatusBar-actionBtn--disabled": o }), l = i(t && n && !r ? "uploadXNewFiles" : "uploadXFiles", { smart_count: t });
+	return F("button", {
+		type: "button",
+		className: c,
+		"aria-label": i("uploadXFiles", { smart_count: t }),
+		onClick: s,
+		disabled: o,
+		"data-uppy-super-focusable": !0,
+		children: l
+	});
+}
+function io(e) {
+	let { i18n: t, uppy: n } = e;
+	return F("button", {
+		type: "button",
+		className: "uppy-u-reset uppy-c-btn uppy-StatusBar-actionBtn uppy-StatusBar-actionBtn--retry",
+		"aria-label": t("retryUpload"),
+		onClick: () => n.retryAll().catch(() => {}),
+		"data-uppy-super-focusable": !0,
+		"data-cy": "retry",
+		children: [F("svg", {
+			"aria-hidden": "true",
+			focusable: "false",
+			className: "uppy-c-icon",
+			width: "8",
+			height: "10",
+			viewBox: "0 0 8 10",
+			children: F("path", { d: "M4 2.408a2.75 2.75 0 1 0 2.75 2.75.626.626 0 0 1 1.25.018v.023a4 4 0 1 1-4-4.041V.25a.25.25 0 0 1 .389-.208l2.299 1.533a.25.25 0 0 1 0 .416l-2.3 1.533A.25.25 0 0 1 4 3.316v-.908z" })
+		}), t("retry")]
+	});
+}
+function ao(e) {
+	let { i18n: t, uppy: n } = e;
+	return F("button", {
+		type: "button",
+		className: "uppy-u-reset uppy-StatusBar-actionCircleBtn",
+		title: t("cancel"),
+		"aria-label": t("cancel"),
+		onClick: () => n.cancelAll(),
+		"data-cy": "cancel",
+		"data-uppy-super-focusable": !0,
+		children: F("svg", {
+			"aria-hidden": "true",
+			focusable: "false",
+			className: "uppy-c-icon",
+			width: "16",
+			height: "16",
+			viewBox: "0 0 16 16",
+			children: F("g", {
+				fill: "none",
+				fillRule: "evenodd",
+				children: [F("circle", {
+					fill: "#888",
+					cx: "8",
+					cy: "8",
+					r: "8"
+				}), F("path", {
+					fill: "#FFF",
+					d: "M9.283 8l2.567 2.567-1.283 1.283L8 9.283 5.433 11.85 4.15 10.567 6.717 8 4.15 5.433 5.433 4.15 8 6.717l2.567-2.567 1.283 1.283z"
+				})]
+			})
+		})
+	});
+}
+function oo(e) {
+	let { isAllPaused: t, i18n: n, isAllComplete: r, resumableUploads: i, uppy: a } = e, o = n(t ? "resume" : "pause");
+	function s() {
+		if (!r) {
+			if (!i) {
+				a.cancelAll();
+				return;
+			}
+			if (t) {
+				a.resumeAll();
+				return;
+			}
+			a.pauseAll();
+		}
+	}
+	return F("button", {
+		title: o,
+		"aria-label": o,
+		className: "uppy-u-reset uppy-StatusBar-actionCircleBtn",
+		type: "button",
+		onClick: s,
+		"data-cy": "togglePauseResume",
+		"data-uppy-super-focusable": !0,
+		children: F("svg", {
+			"aria-hidden": "true",
+			focusable: "false",
+			className: "uppy-c-icon",
+			width: "16",
+			height: "16",
+			viewBox: "0 0 16 16",
+			children: F("g", {
+				fill: "none",
+				fillRule: "evenodd",
+				children: [F("circle", {
+					fill: "#888",
+					cx: "8",
+					cy: "8",
+					r: "8"
+				}), F("path", {
+					fill: "#FFF",
+					d: t ? "M6 4.25L11.5 8 6 11.75z" : "M5 4.5h2v7H5v-7zm4 0h2v7H9v-7z"
+				})]
+			})
+		})
+	});
+}
+function so(e) {
+	let { i18n: t, doneButtonHandler: n } = e;
+	return F("button", {
+		type: "button",
+		className: "uppy-u-reset uppy-c-btn uppy-StatusBar-actionBtn uppy-StatusBar-actionBtn--done",
+		onClick: n,
+		"data-uppy-super-focusable": !0,
+		children: t("done")
+	});
+}
+function co() {
+	return F("svg", {
+		className: "uppy-StatusBar-spinner",
+		"aria-hidden": "true",
+		focusable: "false",
+		width: "14",
+		height: "14",
+		children: F("path", {
+			d: "M13.983 6.547c-.12-2.509-1.64-4.893-3.939-5.936-2.48-1.127-5.488-.656-7.556 1.094C.524 3.367-.398 6.048.162 8.562c.556 2.495 2.46 4.52 4.94 5.183 2.932.784 5.61-.602 7.256-3.015-1.493 1.993-3.745 3.309-6.298 2.868-2.514-.434-4.578-2.349-5.153-4.84a6.226 6.226 0 0 1 2.98-6.778C6.34.586 9.74 1.1 11.373 3.493c.407.596.693 1.282.842 1.988.127.598.073 1.197.161 1.794.078.525.543 1.257 1.15.864.525-.341.49-1.05.456-1.592-.007-.15.02.3 0 0",
+			fillRule: "evenodd"
+		})
+	});
+}
+function lo(e) {
+	let { progress: t } = e, { value: n, mode: r, message: i } = t;
+	return F("div", {
+		className: "uppy-StatusBar-content",
+		children: [
+			F(co, {}),
+			r === "determinate" ? `${Math.round(n * 100)}% · ` : "",
+			i
+		]
+	});
+}
+function uo(e) {
+	let { numUploads: t, complete: n, totalUploadedSize: r, totalSize: i, totalETA: a, i18n: o } = e, s = t > 1, c = U(r);
+	return F("div", {
+		className: "uppy-StatusBar-statusSecondary",
+		children: [s && o("filesUploadedOfTotal", {
+			complete: n,
+			smart_count: t
+		}), F("span", {
+			className: "uppy-StatusBar-additionalInfo",
+			children: [
+				s && no(),
+				i == null ? o("dataUploadedOfUnknown", { complete: c }) : o("dataUploadedOfTotal", {
+					complete: c,
+					total: U(i)
+				}),
+				no(),
+				a != null && o("xTimeLeft", { time: ge(a) })
+			]
+		})]
+	});
+}
+function fo(e) {
+	let { i18n: t, complete: n, numUploads: r } = e;
+	return F("div", {
+		className: "uppy-StatusBar-statusSecondary",
+		children: t("filesUploadedOfTotal", {
+			complete: n,
+			smart_count: r
+		})
+	});
+}
+function po(e) {
+	let { i18n: t, newFiles: n, startUpload: r } = e, i = (0, G.default)("uppy-u-reset", "uppy-c-btn", "uppy-StatusBar-actionBtn", "uppy-StatusBar-actionBtn--uploadNewlyAdded");
+	return F("div", {
+		className: "uppy-StatusBar-statusSecondary",
+		children: [F("div", {
+			className: "uppy-StatusBar-statusSecondaryHint",
+			children: t("xMoreFilesAdded", { smart_count: n })
+		}), F("button", {
+			type: "button",
+			className: i,
+			"aria-label": t("uploadXFiles", { smart_count: n }),
+			onClick: r,
+			children: t("upload")
+		})]
+	});
+}
+function mo(e) {
+	let { i18n: t, supportsUploadProgress: n, totalProgress: r, hideProgressDetails: i, isUploadStarted: a, isAllComplete: o, isAllPaused: s, newFiles: c, numUploads: l, complete: u, totalUploadedSize: d, totalSize: f, totalETA: p, startUpload: m } = e, h = c && a;
+	if (!a || o) return null;
+	let g = t(s ? "paused" : "uploading");
+	function _() {
+		return !s && !h && !i ? n ? F(uo, {
+			numUploads: l,
+			complete: u,
+			totalUploadedSize: d,
+			totalSize: f,
+			totalETA: p,
+			i18n: t
+		}) : F(fo, {
+			i18n: t,
+			complete: u,
+			numUploads: l
+		}) : null;
+	}
+	return F("div", {
+		className: "uppy-StatusBar-content",
+		title: g,
+		children: [s ? null : F(co, {}), F("div", {
+			className: "uppy-StatusBar-status",
+			children: [
+				F("div", {
+					className: "uppy-StatusBar-statusPrimary",
+					children: n && r !== 0 ? `${g}: ${r}%` : g
+				}),
+				_(),
+				h ? F(po, {
+					i18n: t,
+					newFiles: c,
+					startUpload: m
+				}) : null
+			]
+		})]
+	});
+}
+function ho(e) {
+	let { i18n: t } = e;
+	return F("div", {
+		className: "uppy-StatusBar-content",
+		role: "status",
+		title: t("complete"),
+		children: F("div", {
+			className: "uppy-StatusBar-status",
+			children: F("div", {
+				className: "uppy-StatusBar-statusPrimary",
+				children: [F("svg", {
+					"aria-hidden": "true",
+					focusable: "false",
+					className: "uppy-StatusBar-statusIndicator uppy-c-icon",
+					width: "15",
+					height: "11",
+					viewBox: "0 0 15 11",
+					children: F("path", { d: "M.414 5.843L1.627 4.63l3.472 3.472L13.202 0l1.212 1.213L5.1 10.528z" })
+				}), t("complete")]
+			})
+		})
+	});
+}
+function go(e) {
+	let { error: t, i18n: n, complete: r, numUploads: i } = e;
+	function a() {
+		let e = `${n("uploadFailed")} \n\n ${t}`;
+		alert(e);
+	}
+	return F("div", {
+		className: "uppy-StatusBar-content",
+		title: n("uploadFailed"),
+		children: [F("svg", {
+			"aria-hidden": "true",
+			focusable: "false",
+			className: "uppy-StatusBar-statusIndicator uppy-c-icon",
+			width: "11",
+			height: "11",
+			viewBox: "0 0 11 11",
+			children: F("path", { d: "M4.278 5.5L0 1.222 1.222 0 5.5 4.278 9.778 0 11 1.222 6.722 5.5 11 9.778 9.778 11 5.5 6.722 1.222 11 0 9.778z" })
+		}), F("div", {
+			className: "uppy-StatusBar-status",
+			children: [F("div", {
+				className: "uppy-StatusBar-statusPrimary",
+				children: [n("uploadFailed"), F("button", {
+					className: "uppy-u-reset uppy-StatusBar-details",
+					"aria-label": n("showErrorDetails"),
+					"data-microtip-position": "top-right",
+					"data-microtip-size": "medium",
+					onClick: a,
+					type: "button",
+					children: "?"
+				})]
+			}), F(fo, {
+				i18n: n,
+				complete: r,
+				numUploads: i
+			})]
+		})]
+	});
+}
+//#endregion
+//#region node_modules/@uppy/dashboard/lib/components/StatusBar/calculateProcessingProgress.js
+function _o(e) {
+	let t = [], n = "indeterminate", r;
+	for (let { progress: i } of Object.values(e)) {
+		let { preprocess: e, postprocess: a } = i;
+		r == null && (e || a) && ({mode: n, message: r} = e || a), e?.mode === "determinate" && t.push(e.value), a?.mode === "determinate" && t.push(a.value);
+	}
+	let i = t.reduce((e, n) => e + n / t.length, 0);
+	return {
+		mode: n,
+		message: r,
+		value: i
+	};
+}
+//#endregion
+//#region node_modules/@uppy/dashboard/lib/components/StatusBar/StatusBarUI.js
+var { STATE_ERROR: vo, STATE_WAITING: yo, STATE_PREPROCESSING: bo, STATE_UPLOADING: xo, STATE_POSTPROCESSING: So, STATE_COMPLETE: Co } = $;
+function wo({ newFiles: e, allowNewUpload: t, isUploadInProgress: n, isAllPaused: r, resumableUploads: i, error: a, hideUploadButton: o = void 0, hidePauseResumeButton: s = !1, hideCancelButton: c = !1, hideRetryButton: l = !1, recoveredState: u, uploadState: d, totalProgress: f, files: p, supportsUploadProgress: m, hideAfterFinish: h = !1, isSomeGhost: g, doneButtonHandler: _ = void 0, isUploadStarted: v, i18n: y, startUpload: b, uppy: x, isAllComplete: S, hideProgressDetails: C = void 0, numUploads: w, complete: T, totalSize: E, totalETA: D, totalUploadedSize: ee }) {
+	function te() {
+		switch (d) {
+			case So:
+			case bo: {
+				let e = _o(p);
+				return e.mode === "determinate" ? e.value * 100 : f;
+			}
+			case vo: return null;
+			case xo: return m ? f : null;
+			default: return f;
+		}
+	}
+	function ne() {
+		switch (d) {
+			case So:
+			case bo: {
+				let { mode: e } = _o(p);
+				return e === "indeterminate";
+			}
+			case xo: return !m;
+			default: return !1;
+		}
+	}
+	let re = te(), ie = re ?? 100, ae = !a && e && (!n && !r || u) && t && !o, oe = !c && d !== yo && d !== Co, se = i && !s && d === xo, ce = a && !S && !l, le = _ && d === Co, ue = (0, G.default)("uppy-StatusBar-progress", { "is-indeterminate": ne() }), de = (0, G.default)("uppy-StatusBar", `is-${d}`, { "has-ghosts": g }), fe = (() => {
+		switch (d) {
+			case bo:
+			case So: return F(lo, { progress: _o(p) });
+			case Co: return F(ho, { i18n: y });
+			case vo: return F(go, {
+				error: a,
+				i18n: y,
+				numUploads: w,
+				complete: T
+			});
+			case xo: return F(mo, {
+				i18n: y,
+				supportsUploadProgress: m,
+				totalProgress: f,
+				hideProgressDetails: C,
+				isUploadStarted: v,
+				isAllComplete: S,
+				isAllPaused: r,
+				newFiles: e,
+				numUploads: w,
+				complete: T,
+				totalUploadedSize: ee,
+				totalSize: E,
+				totalETA: D,
+				startUpload: b
+			});
+			default: return null;
+		}
+	})();
+	return !(ae || ce || se || oe || le) && !fe || d === Co && h ? null : F("div", {
+		className: de,
+		children: [
+			F("div", {
+				className: ue,
+				style: { width: `${ie}%` },
+				role: "progressbar",
+				"aria-label": `${ie}%`,
+				"aria-valuetext": `${ie}%`,
+				"aria-valuemin": 0,
+				"aria-valuemax": 100,
+				"aria-valuenow": re
+			}),
+			fe,
+			F("div", {
+				className: "uppy-StatusBar-actions",
+				children: [
+					ae ? F(ro, {
+						newFiles: e,
+						isUploadStarted: v,
+						recoveredState: u,
+						i18n: y,
+						isSomeGhost: g,
+						startUpload: b,
+						uploadState: d
+					}) : null,
+					ce ? F(io, {
+						i18n: y,
+						uppy: x
+					}) : null,
+					se ? F(oo, {
+						isAllPaused: r,
+						i18n: y,
+						isAllComplete: S,
+						resumableUploads: i,
+						uppy: x
+					}) : null,
+					oe ? F(ao, {
+						i18n: y,
+						uppy: x
+					}) : null,
+					le ? F(so, {
+						i18n: y,
+						doneButtonHandler: _
+					}) : null
+				]
+			})
+		]
+	});
+}
+//#endregion
+//#region node_modules/@uppy/dashboard/lib/components/StatusBar/StatusBar.js
+var To = 2e3, Eo = 2e3;
+function Do(e, t, n, r) {
+	if (e) return $.STATE_ERROR;
+	if (t) return $.STATE_COMPLETE;
+	if (n) return $.STATE_WAITING;
+	let i = $.STATE_WAITING, a = Object.keys(r);
+	for (let e = 0; e < a.length; e++) {
+		let { progress: t } = r[a[e]];
+		if (t.uploadStarted && !t.uploadComplete) return $.STATE_UPLOADING;
+		t.preprocess && (i = $.STATE_PREPROCESSING), t.postprocess && i !== $.STATE_PREPROCESSING && (i = $.STATE_POSTPROCESSING);
+	}
+	return i;
+}
+var Oo = class extends M {
+	#e;
+	#t;
+	#n;
+	#r;
+	componentDidMount() {
+		this.#e = performance.now(), this.#t = this.props.uppy.getFiles().reduce((e, t) => e + (t.progress.bytesUploaded || 0), 0), this.props.uppy.on("upload", this.#i);
+	}
+	componentWillUnmount() {
+		this.props.uppy.off("upload", this.#i);
+	}
+	#i = () => {
+		let { recoveredState: e } = this.props.uppy.getState();
+		if (this.#n = null, this.#r = null, e) {
+			this.#t = Object.values(e.files).reduce((e, { progress: t }) => e + (t.bytesUploaded || 0), 0);
+			return;
+		}
+		this.#e = performance.now(), this.#t = 0;
+	};
+	#a(e) {
+		if (e.total == null || e.total === 0) return null;
+		let t = e.total - e.uploaded;
+		if (t <= 0) return null;
+		this.#e ??= performance.now();
+		let n = performance.now() - this.#e;
+		if (n === 0) return Math.round((this.#r ?? 0) / 100) / 10;
+		if (this.#t == null) return this.#t = e.uploaded, null;
+		let r = e.uploaded - this.#t;
+		if (this.#t = e.uploaded, r <= 0) return Math.round((this.#r ?? 0) / 100) / 10;
+		let i = r / n;
+		if (!Number.isFinite(i) || i <= 0) return null;
+		let a = this.#n == null ? i : f(i, this.#n, To, n);
+		if (!Number.isFinite(a) || a <= 0) return null;
+		this.#n = a;
+		let o = t / a;
+		if (!Number.isFinite(o) || o < 0) return null;
+		let s = Math.max((this.#r ?? 0) - n, 0), c = this.#r == null ? o : f(o, s, Eo, n);
+		return !Number.isFinite(c) || c < 0 ? null : (this.#r = c, this.#e = performance.now(), Math.round(c / 100) / 10);
+	}
+	startUpload = () => {
+		let { recoveredState: e } = this.props.uppy.getState();
+		e ? this.props.uppy.emit("restore-confirmed") : this.props.uppy.upload().catch((() => {}));
+	};
+	render() {
+		let { capabilities: e, files: t, allowNewUpload: n, totalProgress: r, error: i, recoveredState: a } = this.props.uppy.getState(), { newFiles: o, startedFiles: s, completeFiles: c, isUploadStarted: l, isAllComplete: u, isAllPaused: d, isUploadInProgress: f, isSomeGhost: p } = this.props.uppy.getObjectOfFilesPerState(), m = a ? Object.values(t) : o, h = !!e.resumableUploads, g = e.uploadProgress !== !1, _ = null, v = 0;
+		s.every((e) => e.progress.bytesTotal != null && e.progress.bytesTotal !== 0) ? (_ = 0, s.forEach((e) => {
+			_ += e.progress.bytesTotal || 0, v += e.progress.bytesUploaded || 0;
+		})) : s.forEach((e) => {
+			v += e.progress.bytesUploaded || 0;
+		});
+		let y = this.#a({
+			uploaded: v,
+			total: _
+		});
+		return F(wo, {
+			error: i,
+			uploadState: Do(i, u, a, t || {}),
+			allowNewUpload: n,
+			totalProgress: r,
+			totalSize: _,
+			totalUploadedSize: v,
+			isAllComplete: u,
+			isAllPaused: d,
+			isUploadStarted: l,
+			isUploadInProgress: f,
+			isSomeGhost: p,
+			recoveredState: a,
+			complete: c.length,
+			newFiles: m.length,
+			numUploads: s.length,
+			totalETA: y,
+			files: t,
+			i18n: this.props.i18n,
+			uppy: this.props.uppy,
+			startUpload: this.startUpload,
+			doneButtonHandler: this.props.doneButtonHandler,
+			resumableUploads: h,
+			supportsUploadProgress: g,
+			hideProgressDetails: this.props.hideProgressDetails,
+			hideUploadButton: this.props.hideUploadButton,
+			hideRetryButton: this.props.hideRetryButton,
+			hidePauseResumeButton: this.props.hidePauseResumeButton,
+			hideCancelButton: this.props.hideCancelButton,
+			hideAfterFinish: this.props.hideAfterFinish
+		});
+	}
+}, ko = 900, Ao = 700, jo = 576, Mo = 330;
+function No(e) {
+	let { activePickerPanel: t, fileCardFor: n } = e, r = e.totalFileCount === 0, i = e.totalFileCount === 1, a = e.containerHeight > Mo, o = (0, G.default)({
+		"uppy-Dashboard": !0,
+		"uppy-Dashboard--isDisabled": e.disabled,
+		"uppy-Dashboard--animateOpenClose": e.animateOpenClose,
+		"uppy-Dashboard--isClosing": e.isClosing,
+		"uppy-Dashboard--isDraggingOver": e.isDraggingOver,
+		"uppy-Dashboard--modal": !e.inline,
+		"uppy-size--md": e.containerWidth > jo,
+		"uppy-size--lg": e.containerWidth > Ao,
+		"uppy-size--xl": e.containerWidth > ko,
+		"uppy-size--height-md": e.containerHeight > Mo,
+		"uppy-Dashboard--isAddFilesPanelVisible": e.showAddFilesPanel,
+		"uppy-Dashboard--isInnerWrapVisible": e.areInsidesReadyToBeVisible,
+		"uppy-Dashboard--singleFile": e.singleFileFullScreen && i && a
+	}), s = 1;
+	e.containerWidth > ko ? s = 5 : e.containerWidth > Ao ? s = 4 : e.containerWidth > jo && (s = 3);
+	let c = e.showSelectedFiles && !r, l = e.recoveredState ? Object.keys(e.recoveredState.files).length : null, u = e.files ? Object.keys(e.files).filter((t) => e.files[t].isGhost).length : 0, d = () => u > 0 ? e.i18n("recoveredXFiles", { smart_count: u }) : e.i18n("recoveredAllFiles");
+	return F("div", {
+		className: o,
+		"data-uppy-theme": e.theme,
+		"data-uppy-num-acquirers": e.acquirers.length,
+		"data-uppy-drag-drop-supported": !e.disableLocalFiles && de(),
+		"aria-hidden": e.inline ? "false" : e.isHidden,
+		"aria-disabled": e.disabled,
+		"aria-label": e.inline ? e.i18n("dashboardTitle") : e.i18n("dashboardWindowTitle"),
+		onPaste: e.handlePaste,
+		onDragOver: e.handleDragOver,
+		onDragLeave: e.handleDragLeave,
+		onDrop: e.handleDrop,
+		children: [F("div", {
+			"aria-hidden": "true",
+			className: "uppy-Dashboard-overlay",
+			tabIndex: -1,
+			onClick: e.handleClickOutside
+		}), F("div", {
+			className: "uppy-Dashboard-inner",
+			role: e.inline ? void 0 : "dialog",
+			style: {
+				width: e.inline && e.width ? e.width : "",
+				height: e.inline && e.height ? e.height : ""
+			},
+			children: [e.inline ? null : F("button", {
+				className: "uppy-u-reset uppy-Dashboard-close",
+				type: "button",
+				"aria-label": e.i18n("closeModal"),
+				title: e.i18n("closeModal"),
+				onClick: e.closeModal,
+				children: F("span", {
+					"aria-hidden": "true",
+					children: "×"
+				})
+			}), F("div", {
+				className: "uppy-Dashboard-innerWrap",
+				children: [
+					F("div", {
+						className: "uppy-Dashboard-dropFilesHereHint",
+						children: e.i18n("dropHint")
+					}),
+					c && F(Za, { ...e }),
+					l != null && l > 0 && F("div", {
+						className: "uppy-Dashboard-serviceMsg",
+						children: [
+							F("svg", {
+								className: "uppy-Dashboard-serviceMsg-icon",
+								"aria-hidden": "true",
+								focusable: "false",
+								width: "21",
+								height: "16",
+								viewBox: "0 0 24 19",
+								children: F("g", {
+									transform: "translate(0 -1)",
+									fill: "none",
+									fillRule: "evenodd",
+									children: [
+										F("path", {
+											d: "M12.857 1.43l10.234 17.056A1 1 0 0122.234 20H1.766a1 1 0 01-.857-1.514L11.143 1.429a1 1 0 011.714 0z",
+											fill: "#FFD300"
+										}),
+										F("path", {
+											fill: "#000",
+											d: "M11 6h2l-.3 8h-1.4z"
+										}),
+										F("circle", {
+											fill: "#000",
+											cx: "12",
+											cy: "17",
+											r: "1"
+										})
+									]
+								})
+							}),
+							F("strong", {
+								className: "uppy-Dashboard-serviceMsg-title",
+								children: e.i18n("sessionRestored")
+							}),
+							F("div", {
+								className: "uppy-Dashboard-serviceMsg-text",
+								children: d()
+							})
+						]
+					}),
+					c ? F(La, {
+						id: e.id,
+						i18n: e.i18n,
+						uppy: e.uppy,
+						files: e.files,
+						resumableUploads: e.resumableUploads,
+						hideRetryButton: e.hideRetryButton,
+						hidePauseResumeButton: e.hidePauseResumeButton,
+						hideCancelButton: e.hideCancelButton,
+						showLinkToFileUploadResult: e.showLinkToFileUploadResult,
+						showRemoveButtonAfterComplete: e.showRemoveButtonAfterComplete,
+						metaFields: e.metaFields,
+						toggleFileCard: e.toggleFileCard,
+						handleRequestThumbnail: e.handleRequestThumbnail,
+						handleCancelThumbnail: e.handleCancelThumbnail,
+						recoveredState: e.recoveredState,
+						individualCancellation: e.individualCancellation,
+						openFileEditor: e.openFileEditor,
+						canEditFile: e.canEditFile,
+						toggleAddFilesPanel: e.toggleAddFilesPanel,
+						isSingleFile: i,
+						itemsPerRow: s,
+						containerWidth: e.containerWidth,
+						containerHeight: e.containerHeight
+					}) : F(ea, {
+						i18n: e.i18n,
+						i18nArray: e.i18nArray,
+						acquirers: e.acquirers,
+						handleInputChange: e.handleInputChange,
+						maxNumberOfFiles: e.maxNumberOfFiles,
+						allowedFileTypes: e.allowedFileTypes,
+						showNativePhotoCameraButton: e.showNativePhotoCameraButton,
+						showNativeVideoCameraButton: e.showNativeVideoCameraButton,
+						nativeCameraFacingMode: e.nativeCameraFacingMode,
+						showPanel: e.showPanel,
+						activePickerPanel: e.activePickerPanel,
+						disableLocalFiles: e.disableLocalFiles,
+						fileManagerSelectionType: e.fileManagerSelectionType,
+						note: e.note,
+						proudlyDisplayPoweredByUppy: e.proudlyDisplayPoweredByUppy
+					}),
+					F(eo, { children: e.showAddFilesPanel ? F(ta, { ...e }, "AddFiles") : null }),
+					F(eo, { children: n ? F(pa, {
+						...e,
+						fileCardFor: n
+					}, "FileCard") : null }),
+					F(eo, { children: t ? F(Ja, {
+						...e,
+						activePickerPanel: t
+					}, "Picker") : null }),
+					F(eo, { children: e.showFileEditor ? F(na, { ...e }, "Editor") : null }),
+					F("div", {
+						className: "uppy-Dashboard-progressindicators",
+						children: [
+							!e.disableInformer && F(qa, { uppy: e.uppy }),
+							!e.disableStatusBar && F(Oo, {
+								uppy: e.uppy,
+								i18n: e.i18n,
+								hideProgressDetails: e.hideProgressDetails,
+								hideUploadButton: e.hideUploadButton,
+								hideRetryButton: e.hideRetryButton,
+								hidePauseResumeButton: e.hidePauseResumeButton,
+								hideCancelButton: e.hideCancelButton,
+								hideAfterFinish: e.hideProgressAfterFinish,
+								doneButtonHandler: e.doneButtonHandler
+							}),
+							!e.disableInformer && F(qa, { uppy: e.uppy }),
+							e.progressindicators.map((t) => e.uppy.getPlugin(t.id).render(e.state))
+						]
+					})
+				]
+			})]
+		})]
+	});
+}
+//#endregion
+//#region node_modules/@uppy/dashboard/lib/locale.js
+var Po = { strings: {
+	closeModal: "Close Modal",
+	addMoreFiles: "Add more files",
+	addingMoreFiles: "Adding more files",
+	importFrom: "Import from %{name}",
+	dashboardWindowTitle: "Uppy Dashboard Window (Press escape to close)",
+	dashboardTitle: "Uppy Dashboard",
+	copyLinkToClipboardSuccess: "Link copied to clipboard.",
+	copyLinkToClipboardFallback: "Copy the URL below",
+	copyLink: "Copy link",
+	back: "Back",
+	removeFile: "Remove file",
+	editFile: "Edit file",
+	editImage: "Edit image",
+	editing: "Editing %{file}",
+	error: "Error",
+	finishEditingFile: "Finish editing file",
+	saveChanges: "Save changes",
+	myDevice: "My Device",
+	dropHint: "Drop your files here",
+	uploadComplete: "Upload complete",
+	uploadPaused: "Upload paused",
+	resumeUpload: "Resume upload",
+	pauseUpload: "Pause upload",
+	retryUpload: "Retry upload",
+	cancelUpload: "Cancel upload",
+	xFilesSelected: {
+		0: "%{smart_count} file selected",
+		1: "%{smart_count} files selected"
+	},
+	uploadingXFiles: {
+		0: "Uploading %{smart_count} file",
+		1: "Uploading %{smart_count} files"
+	},
+	processingXFiles: {
+		0: "Processing %{smart_count} file",
+		1: "Processing %{smart_count} files"
+	},
+	poweredBy: "Powered by %{uppy}",
+	addMore: "Add more",
+	editFileWithFilename: "Edit file %{file}",
+	save: "Save",
+	cancel: "Cancel",
+	dropPasteFiles: "Drop files here or %{browseFiles}",
+	dropPasteFolders: "Drop files here or %{browseFolders}",
+	dropPasteBoth: "Drop files here, %{browseFiles} or %{browseFolders}",
+	dropPasteImportFiles: "Drop files here, %{browseFiles} or import from:",
+	dropPasteImportFolders: "Drop files here, %{browseFolders} or import from:",
+	dropPasteImportBoth: "Drop files here, %{browseFiles}, %{browseFolders} or import from:",
+	importFiles: "Import files from:",
+	browseFiles: "browse files",
+	browseFolders: "browse folders",
+	recoveredXFiles: {
+		0: "We could not fully recover 1 file. Please re-select it and resume the upload.",
+		1: "We could not fully recover %{smart_count} files. Please re-select them and resume the upload."
+	},
+	recoveredAllFiles: "We restored all files. You can now resume the upload.",
+	sessionRestored: "Session restored",
+	reSelect: "Re-select",
+	missingRequiredMetaFields: {
+		0: "Missing required meta field: %{fields}.",
+		1: "Missing required meta fields: %{fields}."
+	},
+	takePictureBtn: "Take Picture",
+	recordVideoBtn: "Record Video",
+	uploading: "Uploading",
+	complete: "Complete",
+	uploadFailed: "Upload failed",
+	paused: "Paused",
+	retry: "Retry",
+	pause: "Pause",
+	resume: "Resume",
+	done: "Done",
+	filesUploadedOfTotal: {
+		0: "%{complete} of %{smart_count} file uploaded",
+		1: "%{complete} of %{smart_count} files uploaded"
+	},
+	dataUploadedOfTotal: "%{complete} of %{total}",
+	dataUploadedOfUnknown: "%{complete} of unknown",
+	xTimeLeft: "%{time} left",
+	uploadXFiles: {
+		0: "Upload %{smart_count} file",
+		1: "Upload %{smart_count} files"
+	},
+	uploadXNewFiles: {
+		0: "Upload +%{smart_count} file",
+		1: "Upload +%{smart_count} files"
+	},
+	upload: "Upload",
+	xMoreFilesAdded: {
+		0: "%{smart_count} more file added",
+		1: "%{smart_count} more files added"
+	},
+	showErrorDetails: "Show error details"
+} };
+//#endregion
+//#region node_modules/@uppy/dashboard/lib/utils/getActiveOverlayEl.js
+function Fo(e, t) {
+	if (t) {
+		let n = e.querySelector(`[data-uppy-paneltype="${t}"]`);
+		if (n) return n;
+	}
+	return e;
+}
+//#endregion
+//#region node_modules/@uppy/dashboard/lib/utils/createSuperFocus.js
+function Io() {
+	let e = !1;
+	return (0, kr.default)((t, n) => {
+		let r = Fo(t, n), i = r.contains(document.activeElement);
+		if (i && e) return;
+		let a = r.querySelector("[data-uppy-super-focusable]");
+		(!i || a) && (a ? (a.focus({ preventScroll: !0 }), e = !0) : (r.querySelector(p.join(","))?.focus({ preventScroll: !0 }), e = !1));
+	}, 260);
+}
+//#endregion
+//#region node_modules/@uppy/dashboard/lib/utils/trapFocus.js
+function Lo(e, t) {
+	let n = t[0];
+	n && (n.focus(), e.preventDefault());
+}
+function Ro(e, t) {
+	let n = t[t.length - 1];
+	n && (n.focus(), e.preventDefault());
+}
+function zo(e) {
+	return e.contains(document.activeElement);
+}
+function Bo(e, t, n) {
+	let r = Fo(n, t), i = D(r.querySelectorAll(p.join(","))), a = i.indexOf(document.activeElement);
+	zo(r) ? e.shiftKey && a === 0 ? Ro(e, i) : !e.shiftKey && a === i.length - 1 && Lo(e, i) : Lo(e, i);
+}
+function Vo(e, t, n) {
+	t === null || Bo(e, t, n);
+}
+//#endregion
+//#region node_modules/@uppy/dashboard/lib/Dashboard.js
+var Ho = 9, Uo = 27;
+function Wo() {
+	let e = {};
+	return e.promise = new Promise((t, n) => {
+		e.resolve = t, e.reject = n;
+	}), e;
+}
+var Go = {
+	target: "body",
+	metaFields: [],
+	thumbnailWidth: 280,
+	thumbnailType: "image/jpeg",
+	waitForThumbnailsBeforeUpload: !1,
+	defaultPickerIcon: Ar,
+	showLinkToFileUploadResult: !1,
+	hideProgressDetails: !1,
+	hideUploadButton: !1,
+	hideCancelButton: !1,
+	hideRetryButton: !1,
+	hidePauseResumeButton: !1,
+	hideProgressAfterFinish: !1,
+	note: null,
+	singleFileFullScreen: !0,
+	disableStatusBar: !1,
+	disableInformer: !1,
+	disableThumbnailGenerator: !1,
+	fileManagerSelectionType: "files",
+	proudlyDisplayPoweredByUppy: !0,
+	showSelectedFiles: !0,
+	showRemoveButtonAfterComplete: !1,
+	showNativePhotoCameraButton: !1,
+	showNativeVideoCameraButton: !1,
+	theme: "light",
+	autoOpen: null,
+	disabled: !1,
+	disableLocalFiles: !1,
+	nativeCameraFacingMode: "",
+	onDragLeave: () => {},
+	onDragOver: () => {},
+	onDrop: () => {},
+	plugins: [],
+	doneButtonHandler: void 0,
+	onRequestCloseModal: null,
+	inline: !1,
+	animateOpenClose: !0,
+	browserBackButtonClose: !1,
+	closeAfterFinish: !1,
+	closeModalOnClickOutside: !1,
+	disablePageScrollWhenModalOpen: !0,
+	trigger: null,
+	width: 750,
+	height: 550
+}, Ko = class extends Kt {
+	static VERSION = $i.version;
+	#e;
+	modalName = `uppy-Dashboard-${Qi()}`;
+	superFocus = Io();
+	ifFocusedOnUppyRecently = !1;
+	dashboardIsDisabled;
+	savedActiveElement;
+	resizeObserver;
+	darkModeMediaQuery;
+	makeDashboardInsidesVisibleAnywayTimeout;
+	constructor(e, t) {
+		let n = t?.autoOpen ?? null;
+		super(e, {
+			...Go,
+			...t,
+			autoOpen: n
+		}), this.id = this.opts.id || "Dashboard", this.title = "Dashboard", this.type = "orchestrator", this.defaultLocale = Po, this.opts.doneButtonHandler === void 0 && (this.opts.doneButtonHandler = () => {
+			this.uppy.clear(), this.requestCloseModal();
+		}), this.opts.onRequestCloseModal ??= () => this.closeModal(), this.i18nInit();
+	}
+	removeTarget = (e) => {
+		let t = this.getPluginState().targets.filter((t) => t.id !== e.id);
+		this.setPluginState({ targets: t });
+	};
+	addTarget = (e) => {
+		let t = e.id || e.constructor.name, n = e.title || t, r = e.type;
+		if (r !== "acquirer" && r !== "progressindicator" && r !== "editor") return this.uppy.log("Dashboard: can only be targeted by plugins of types: acquirer, progressindicator, editor", "error"), null;
+		let i = {
+			id: t,
+			name: n,
+			type: r
+		}, a = this.getPluginState().targets.slice();
+		return a.push(i), this.setPluginState({ targets: a }), this.el;
+	};
+	hideAllPanels = () => {
+		let e = this.getPluginState(), t = {
+			activePickerPanel: void 0,
+			showAddFilesPanel: !1,
+			activeOverlayType: null,
+			fileCardFor: null,
+			showFileEditor: !1
+		};
+		(e.activePickerPanel !== t.activePickerPanel || e.showAddFilesPanel !== t.showAddFilesPanel || e.showFileEditor !== t.showFileEditor || e.activeOverlayType !== t.activeOverlayType) && (this.setPluginState(t), this.uppy.emit("dashboard:close-panel", e.activePickerPanel?.id));
+	};
+	showPanel = (e) => {
+		let { targets: t } = this.getPluginState(), n = t.find((t) => t.type === "acquirer" && t.id === e);
+		this.setPluginState({
+			activePickerPanel: n,
+			activeOverlayType: "PickerPanel"
+		}), this.uppy.emit("dashboard:show-panel", e);
+	};
+	canEditFile = (e) => {
+		let { targets: t } = this.getPluginState();
+		return this.#s(t).some((t) => this.uppy.getPlugin(t.id).canEditFile(e));
+	};
+	openFileEditor = (e) => {
+		let { targets: t } = this.getPluginState(), n = this.#s(t);
+		this.setPluginState({
+			showFileEditor: !0,
+			fileCardFor: e.id || null,
+			activeOverlayType: "FileEditor"
+		}), n.forEach((t) => {
+			this.uppy.getPlugin(t.id).selectFile(e);
+		});
+	};
+	closeFileEditor = () => {
+		let { metaFields: e } = this.getPluginState();
+		e && e.length > 0 ? this.setPluginState({
+			showFileEditor: !1,
+			activeOverlayType: "FileCard"
+		}) : this.setPluginState({
+			showFileEditor: !1,
+			fileCardFor: null,
+			activeOverlayType: "AddFiles"
+		});
+	};
+	saveFileEditor = () => {
+		let { targets: e } = this.getPluginState();
+		this.#s(e).forEach((e) => {
+			this.uppy.getPlugin(e.id).save();
+		}), this.closeFileEditor();
+	};
+	openModal = () => {
+		let { promise: e, resolve: t } = Wo();
+		if (this.savedActiveElement = document.activeElement, this.opts.disablePageScrollWhenModalOpen && document.body.classList.add("uppy-Dashboard-isFixed"), this.opts.animateOpenClose && this.getPluginState().isClosing) {
+			let e = () => {
+				this.setPluginState({ isHidden: !1 }), this.el.removeEventListener("animationend", e, !1), t();
+			};
+			this.el.addEventListener("animationend", e, !1);
+		} else this.setPluginState({ isHidden: !1 }), t();
+		return this.opts.browserBackButtonClose && this.updateBrowserHistory(), document.addEventListener("keydown", this.handleKeyDownInModal), this.uppy.emit("dashboard:modal-open"), e;
+	};
+	closeModal = (e) => {
+		let t = e?.manualClose ?? !0, { isHidden: n, isClosing: r } = this.getPluginState();
+		if (n || r) return;
+		let { promise: i, resolve: a } = Wo();
+		if (this.opts.disablePageScrollWhenModalOpen && document.body.classList.remove("uppy-Dashboard-isFixed"), this.opts.animateOpenClose) {
+			this.setPluginState({ isClosing: !0 });
+			let e = () => {
+				this.setPluginState({
+					isHidden: !0,
+					isClosing: !1
+				}), this.superFocus.cancel(), this.savedActiveElement.focus(), this.el.removeEventListener("animationend", e, !1), a();
+			};
+			this.el.addEventListener("animationend", e, !1);
+		} else this.setPluginState({ isHidden: !0 }), this.superFocus.cancel(), this.savedActiveElement.focus(), a();
+		return document.removeEventListener("keydown", this.handleKeyDownInModal), t && this.opts.browserBackButtonClose && history.state?.[this.modalName] && history.back(), this.uppy.emit("dashboard:modal-closed"), i;
+	};
+	isModalOpen = () => !this.getPluginState().isHidden || !1;
+	requestCloseModal = () => this.opts.onRequestCloseModal ? this.opts.onRequestCloseModal() : this.closeModal();
+	setDarkModeCapability = (e) => {
+		let { capabilities: t } = this.uppy.getState();
+		this.uppy.setState({ capabilities: {
+			...t,
+			darkMode: e
+		} });
+	};
+	handleSystemDarkModeChange = (e) => {
+		let t = e.matches;
+		this.uppy.log(`[Dashboard] Dark mode is ${t ? "on" : "off"}`), this.setDarkModeCapability(t);
+	};
+	toggleFileCard = (e, t) => {
+		let n = this.uppy.getFile(t);
+		e ? this.uppy.emit("dashboard:file-edit-start", n) : this.uppy.emit("dashboard:file-edit-complete", n), this.setPluginState({
+			fileCardFor: e ? t : null,
+			activeOverlayType: e ? "FileCard" : null
+		});
+	};
+	toggleAddFilesPanel = (e) => {
+		this.setPluginState({
+			showAddFilesPanel: e,
+			activeOverlayType: e ? "AddFiles" : null
+		});
+	};
+	addFiles = (e) => {
+		let t = e.map((e) => ({
+			source: this.id,
+			name: e.name,
+			type: e.type,
+			data: e,
+			meta: { relativePath: e.relativePath || e.webkitRelativePath || null }
+		}));
+		try {
+			this.uppy.addFiles(t);
+		} catch (e) {
+			this.uppy.log(e);
+		}
+	};
+	startListeningToResize = () => {
+		this.resizeObserver = new ResizeObserver((e) => {
+			let { width: t, height: n } = e[0].contentRect;
+			this.setPluginState({
+				containerWidth: t,
+				containerHeight: n,
+				areInsidesReadyToBeVisible: !0
+			});
+		}), this.resizeObserver.observe(this.el.querySelector(".uppy-Dashboard-inner")), this.makeDashboardInsidesVisibleAnywayTimeout = setTimeout(() => {
+			let e = this.getPluginState(), t = !this.opts.inline && e.isHidden;
+			!e.areInsidesReadyToBeVisible && !t && (this.uppy.log("[Dashboard] resize event didn’t fire on time: defaulted to mobile layout", "warning"), this.setPluginState({ areInsidesReadyToBeVisible: !0 }));
+		}, 1e3);
+	};
+	stopListeningToResize = () => {
+		this.resizeObserver.disconnect(), clearTimeout(this.makeDashboardInsidesVisibleAnywayTimeout);
+	};
+	recordIfFocusedOnUppyRecently = (e) => {
+		this.el.contains(e.target) ? this.ifFocusedOnUppyRecently = !0 : (this.ifFocusedOnUppyRecently = !1, this.superFocus.cancel());
+	};
+	disableInteractiveElements = (e) => {
+		let t = this.#e ?? D(this.el.querySelectorAll([
+			"a[href]",
+			"input:not([disabled])",
+			"select:not([disabled])",
+			"textarea:not([disabled])",
+			"button:not([disabled])",
+			"[role=\"button\"]:not([disabled])"
+		])).filter((e) => !e.classList.contains("uppy-Dashboard-close"));
+		for (let n of t) n.tagName === "A" ? n.setAttribute("aria-disabled", e) : n.disabled = e;
+		this.#e = e ? t : null, this.dashboardIsDisabled = e;
+	};
+	updateBrowserHistory = () => {
+		history.state?.[this.modalName] || history.pushState({
+			...history.state,
+			[this.modalName]: !0
+		}, ""), window.addEventListener("popstate", this.handlePopState, !1);
+	};
+	handlePopState = (e) => {
+		this.isModalOpen() && !e.state?.[this.modalName] && this.closeModal({ manualClose: !1 }), !this.isModalOpen() && e.state?.[this.modalName] && history.back();
+	};
+	handleKeyDownInModal = (e) => {
+		e.keyCode === Uo && this.requestCloseModal(), e.keyCode === Ho && Bo(e, this.getPluginState().activeOverlayType, this.el);
+	};
+	handleClickOutside = () => {
+		this.opts.closeModalOnClickOutside && this.requestCloseModal();
+	};
+	handlePaste = (e) => {
+		this.uppy.iteratePlugins((t) => {
+			t.type === "acquirer" && t.handleRootPaste?.(e);
+		});
+		let t = D(e.clipboardData.files);
+		t.length > 0 && (this.uppy.log("[Dashboard] Files pasted"), this.addFiles(t));
+	};
+	handleInputChange = (e) => {
+		e.preventDefault();
+		let t = D(e.currentTarget.files || []);
+		t.length > 0 && (this.uppy.log("[Dashboard] Files selected through input"), this.addFiles(t));
+	};
+	handleDragOver = (e) => {
+		e.preventDefault(), e.stopPropagation();
+		let t = () => {
+			let t = !0;
+			return this.uppy.iteratePlugins((n) => {
+				n.canHandleRootDrop?.(e) && (t = !0);
+			}), t;
+		}, n = () => {
+			let { types: t } = e.dataTransfer;
+			return t.some((e) => e === "Files");
+		}, r = t(), i = n();
+		if (!r && !i || this.opts.disabled || this.opts.disableLocalFiles && (i || !r) || !this.uppy.getState().allowNewUpload) {
+			e.dataTransfer.dropEffect = "none";
+			return;
+		}
+		e.dataTransfer.dropEffect = "copy", this.setPluginState({ isDraggingOver: !0 }), this.opts.onDragOver(e);
+	};
+	handleDragLeave = (e) => {
+		e.preventDefault(), e.stopPropagation(), this.setPluginState({ isDraggingOver: !1 }), this.opts.onDragLeave(e);
+	};
+	handleDrop = async (e) => {
+		e.preventDefault(), e.stopPropagation(), this.setPluginState({ isDraggingOver: !1 }), this.uppy.iteratePlugins((t) => {
+			t.type === "acquirer" && t.handleRootDrop?.(e);
+		});
+		let t = !1, n = (e) => {
+			this.uppy.log(e, "error"), t ||= (this.uppy.info(e.message, "error"), !0);
+		};
+		this.uppy.log("[Dashboard] Processing dropped files");
+		let r = await ae(e.dataTransfer, { logDropError: n });
+		r.length > 0 && (this.uppy.log("[Dashboard] Files dropped"), this.addFiles(r)), this.opts.onDrop(e);
+	};
+	handleRequestThumbnail = (e) => {
+		this.opts.waitForThumbnailsBeforeUpload || this.uppy.emit("thumbnail:request", e);
+	};
+	handleCancelThumbnail = (e) => {
+		this.opts.waitForThumbnailsBeforeUpload || this.uppy.emit("thumbnail:cancel", e);
+	};
+	handleKeyDownInInline = (e) => {
+		e.keyCode === Ho && Vo(e, this.getPluginState().activeOverlayType, this.el);
+	};
+	handlePasteOnBody = (e) => {
+		this.el.contains(document.activeElement) && this.handlePaste(e);
+	};
+	handleComplete = ({ failed: e }) => {
+		this.opts.closeAfterFinish && !e?.length && this.requestCloseModal();
+	};
+	#t = () => {
+		if (this.opts.disableThumbnailGenerator) return;
+		let e = this.uppy.getFiles();
+		if (e.length === 1) {
+			let t = this.uppy.getPlugin(`${this.id}:ThumbnailGenerator`);
+			t?.setOptions({ thumbnailWidth: 600 });
+			let n = {
+				...e[0],
+				preview: void 0
+			};
+			t?.requestThumbnail(n).then(() => {
+				t?.setOptions({ thumbnailWidth: this.opts.thumbnailWidth });
+			});
+		}
+	};
+	#n = (e) => {
+		let t = e[0], { metaFields: n } = this.getPluginState(), r = n && n.length > 0, i = this.canEditFile(t);
+		r && this.opts.autoOpen === "metaEditor" ? this.toggleFileCard(!0, t.id) : i && this.opts.autoOpen === "imageEditor" && this.openFileEditor(t);
+	};
+	initEvents = () => {
+		if (this.opts.trigger && !this.opts.inline) {
+			let e = _(this.opts.trigger);
+			e ? e.forEach((e) => {
+				e.addEventListener("click", this.openModal);
+			}) : this.uppy.log("Dashboard modal trigger not found. Make sure `trigger` is set in Dashboard options, unless you are planning to call `dashboard.openModal()` method yourself", "warning");
+		}
+		this.startListeningToResize(), document.addEventListener("paste", this.handlePasteOnBody), this.uppy.on("plugin-added", this.#u), this.uppy.on("plugin-remove", this.removeTarget), this.uppy.on("file-added", this.hideAllPanels), this.uppy.on("dashboard:modal-closed", this.hideAllPanels), this.uppy.on("complete", this.handleComplete), this.uppy.on("files-added", this.#t), this.uppy.on("file-removed", this.#t), document.addEventListener("focus", this.recordIfFocusedOnUppyRecently, !0), document.addEventListener("click", this.recordIfFocusedOnUppyRecently, !0), this.opts.inline && this.el.addEventListener("keydown", this.handleKeyDownInInline), this.opts.autoOpen && this.uppy.on("files-added", this.#n);
+	};
+	removeEvents = () => {
+		let e = _(this.opts.trigger);
+		!this.opts.inline && e && e.forEach((e) => {
+			e.removeEventListener("click", this.openModal);
+		}), this.stopListeningToResize(), document.removeEventListener("paste", this.handlePasteOnBody), window.removeEventListener("popstate", this.handlePopState, !1), this.uppy.off("plugin-added", this.#u), this.uppy.off("plugin-remove", this.removeTarget), this.uppy.off("file-added", this.hideAllPanels), this.uppy.off("dashboard:modal-closed", this.hideAllPanels), this.uppy.off("complete", this.handleComplete), this.uppy.off("files-added", this.#t), this.uppy.off("file-removed", this.#t), document.removeEventListener("focus", this.recordIfFocusedOnUppyRecently, !0), document.removeEventListener("click", this.recordIfFocusedOnUppyRecently, !0), this.opts.inline && this.el.removeEventListener("keydown", this.handleKeyDownInInline), this.opts.autoOpen && this.uppy.off("files-added", this.#n);
+	};
+	superFocusOnEachUpdate = () => {
+		let e = this.el.contains(document.activeElement), t = document.activeElement === document.body || document.activeElement === null, n = this.uppy.getState().info.length === 0, r = !this.opts.inline;
+		n && (r || e || t && this.ifFocusedOnUppyRecently) ? this.superFocus(this.el, this.getPluginState().activeOverlayType) : this.superFocus.cancel();
+	};
+	afterUpdate = () => {
+		if (this.opts.disabled && !this.dashboardIsDisabled) {
+			this.disableInteractiveElements(!0);
+			return;
+		}
+		!this.opts.disabled && this.dashboardIsDisabled && this.disableInteractiveElements(!1), this.superFocusOnEachUpdate();
+	};
+	saveFileCard = (e, t) => {
+		this.uppy.setFileMeta(t, e), this.toggleFileCard(!1, t);
+	};
+	#r = (e) => {
+		let t = this.uppy.getPlugin(e.id);
+		return {
+			...e,
+			icon: t.icon || this.opts.defaultPickerIcon,
+			render: t.render
+		};
+	};
+	#i = (e) => {
+		let t = this.uppy.getPlugin(e.id);
+		return typeof t.isSupported != "function" || t.isSupported();
+	};
+	#a = (e) => e.filter((e) => e.type === "acquirer" && this.#i(e)).map(this.#r);
+	#o = (e) => e.filter((e) => e.type === "progressindicator").map(this.#r);
+	#s = (e) => e.filter((e) => e.type === "editor").map(this.#r);
+	render = (e) => {
+		let t = this.getPluginState(), { files: n, capabilities: r, allowNewUpload: i } = e, { newFiles: a, uploadStartedFiles: o, completeFiles: s, erroredFiles: c, inProgressFiles: l, inProgressNotPausedFiles: u, processingFiles: d, isUploadStarted: f, isAllComplete: p, isAllPaused: m } = this.uppy.getObjectOfFilesPerState(), h = this.#a(t.targets), g = this.#o(t.targets), _ = this.#s(t.targets), v;
+		return v = this.opts.theme === "auto" ? r.darkMode ? "dark" : "light" : this.opts.theme, [
+			"files",
+			"folders",
+			"both"
+		].indexOf(this.opts.fileManagerSelectionType) < 0 && (this.opts.fileManagerSelectionType = "files", console.warn(`Unsupported option for "fileManagerSelectionType". Using default of "${this.opts.fileManagerSelectionType}".`)), No({
+			state: e,
+			isHidden: t.isHidden,
+			files: n,
+			newFiles: a,
+			uploadStartedFiles: o,
+			completeFiles: s,
+			erroredFiles: c,
+			inProgressFiles: l,
+			inProgressNotPausedFiles: u,
+			processingFiles: d,
+			isUploadStarted: f,
+			isAllComplete: p,
+			isAllPaused: m,
+			totalFileCount: Object.keys(n).length,
+			totalProgress: e.totalProgress,
+			allowNewUpload: i,
+			acquirers: h,
+			theme: v,
+			disabled: this.opts.disabled,
+			disableLocalFiles: this.opts.disableLocalFiles,
+			direction: this.opts.direction,
+			activePickerPanel: t.activePickerPanel,
+			showFileEditor: t.showFileEditor,
+			saveFileEditor: this.saveFileEditor,
+			closeFileEditor: this.closeFileEditor,
+			disableInteractiveElements: this.disableInteractiveElements,
+			animateOpenClose: this.opts.animateOpenClose,
+			isClosing: t.isClosing,
+			progressindicators: g,
+			editors: _,
+			autoProceed: this.uppy.opts.autoProceed,
+			id: this.id,
+			closeModal: this.requestCloseModal,
+			handleClickOutside: this.handleClickOutside,
+			handleInputChange: this.handleInputChange,
+			handlePaste: this.handlePaste,
+			inline: this.opts.inline,
+			showPanel: this.showPanel,
+			hideAllPanels: this.hideAllPanels,
+			i18n: this.i18n,
+			i18nArray: this.i18nArray,
+			uppy: this.uppy,
+			note: this.opts.note,
+			recoveredState: e.recoveredState,
+			metaFields: t.metaFields,
+			resumableUploads: r.resumableUploads || !1,
+			individualCancellation: r.individualCancellation,
+			isMobileDevice: r.isMobileDevice,
+			fileCardFor: t.fileCardFor,
+			toggleFileCard: this.toggleFileCard,
+			toggleAddFilesPanel: this.toggleAddFilesPanel,
+			showAddFilesPanel: t.showAddFilesPanel,
+			saveFileCard: this.saveFileCard,
+			openFileEditor: this.openFileEditor,
+			canEditFile: this.canEditFile,
+			width: this.opts.width,
+			height: this.opts.height,
+			showLinkToFileUploadResult: this.opts.showLinkToFileUploadResult,
+			fileManagerSelectionType: this.opts.fileManagerSelectionType,
+			proudlyDisplayPoweredByUppy: this.opts.proudlyDisplayPoweredByUppy,
+			showRemoveButtonAfterComplete: this.opts.showRemoveButtonAfterComplete,
+			containerWidth: t.containerWidth,
+			containerHeight: t.containerHeight,
+			areInsidesReadyToBeVisible: t.areInsidesReadyToBeVisible,
+			parentElement: this.el,
+			allowedFileTypes: this.uppy.opts.restrictions.allowedFileTypes,
+			maxNumberOfFiles: this.uppy.opts.restrictions.maxNumberOfFiles,
+			requiredMetaFields: this.uppy.opts.restrictions.requiredMetaFields,
+			showSelectedFiles: this.opts.showSelectedFiles,
+			showNativePhotoCameraButton: this.opts.showNativePhotoCameraButton,
+			showNativeVideoCameraButton: this.opts.showNativeVideoCameraButton,
+			nativeCameraFacingMode: this.opts.nativeCameraFacingMode,
+			singleFileFullScreen: this.opts.singleFileFullScreen,
+			handleRequestThumbnail: this.handleRequestThumbnail,
+			handleCancelThumbnail: this.handleCancelThumbnail,
+			isDraggingOver: t.isDraggingOver,
+			handleDragOver: this.handleDragOver,
+			handleDragLeave: this.handleDragLeave,
+			handleDrop: this.handleDrop,
+			disableInformer: this.opts.disableInformer,
+			disableStatusBar: this.opts.disableStatusBar,
+			hideProgressDetails: this.opts.hideProgressDetails,
+			hideUploadButton: this.opts.hideUploadButton,
+			hideRetryButton: this.opts.hideRetryButton,
+			hidePauseResumeButton: this.opts.hidePauseResumeButton,
+			hideCancelButton: this.opts.hideCancelButton,
+			hideProgressAfterFinish: this.opts.hideProgressAfterFinish,
+			doneButtonHandler: this.opts.doneButtonHandler
+		});
+	};
+	#c = () => {
+		let { plugins: e } = this.opts;
+		e.forEach((e) => {
+			let t = this.uppy.getPlugin(e);
+			t ? t.mount(this, t) : this.uppy.log(`[Uppy] Dashboard could not find plugin '${e}', make sure to uppy.use() the plugins you are specifying`, "warning");
+		});
+	};
+	#l = () => {
+		this.uppy.iteratePlugins(this.#u);
+	};
+	#u = (e) => {
+		e && !e.opts?.target && ["acquirer", "editor"].includes(e.type) && (this.getPluginState().targets.some((t) => e.id === t.id) || e.mount(this, e));
+	};
+	#d() {
+		let { thumbnailWidth: e, thumbnailHeight: t, thumbnailType: n, waitForThumbnailsBeforeUpload: r } = this.opts;
+		return {
+			thumbnailWidth: e,
+			thumbnailHeight: t,
+			thumbnailType: n,
+			waitForThumbnailsBeforeUpload: r,
+			lazy: !r
+		};
+	}
+	setOptions(e) {
+		super.setOptions(e), this.uppy.getPlugin(this.#f())?.setOptions(this.#d());
+	}
+	#f() {
+		return `${this.id}:ThumbnailGenerator`;
+	}
+	install = () => {
+		this.setPluginState({
+			isHidden: !0,
+			fileCardFor: null,
+			activeOverlayType: null,
+			showAddFilesPanel: !1,
+			activePickerPanel: void 0,
+			showFileEditor: !1,
+			metaFields: this.opts.metaFields,
+			targets: [],
+			areInsidesReadyToBeVisible: !1,
+			isDraggingOver: !1
+		});
+		let { inline: e, closeAfterFinish: t } = this.opts;
+		if (e && t) throw Error("[Dashboard] `closeAfterFinish: true` cannot be used on an inline Dashboard, because an inline Dashboard cannot be closed at all. Either set `inline: false`, or disable the `closeAfterFinish` option.");
+		let { allowMultipleUploads: n, allowMultipleUploadBatches: r } = this.uppy.opts;
+		(n || r) && t && this.uppy.log("[Dashboard] When using `closeAfterFinish`, we recommended setting the `allowMultipleUploadBatches` option to `false` in the Uppy constructor. See https://uppy.io/docs/uppy/#allowMultipleUploads-true", "warning");
+		let { target: i } = this.opts;
+		i && this.mount(i, this), this.opts.disableThumbnailGenerator || this.uppy.use(Xi, {
+			id: this.#f(),
+			...this.#d()
+		}), this.darkModeMediaQuery = typeof window < "u" && window.matchMedia ? window.matchMedia("(prefers-color-scheme: dark)") : null;
+		let a = this.darkModeMediaQuery ? this.darkModeMediaQuery.matches : !1;
+		this.uppy.log(`[Dashboard] Dark mode is ${a ? "on" : "off"}`), this.setDarkModeCapability(a), this.opts.theme === "auto" && this.darkModeMediaQuery?.addListener(this.handleSystemDarkModeChange), this.#c(), this.#l(), this.initEvents();
+	};
+	uninstall = () => {
+		if (!this.opts.disableThumbnailGenerator) {
+			let e = this.uppy.getPlugin(`${this.id}:ThumbnailGenerator`);
+			e && this.uppy.removePlugin(e);
+		}
+		let { plugins: e } = this.opts;
+		e.forEach((e) => {
+			let t = this.uppy.getPlugin(e);
+			t && t.unmount();
+		}), this.opts.theme === "auto" && this.darkModeMediaQuery?.removeListener(this.handleSystemDarkModeChange), this.opts.disablePageScrollWhenModalOpen && document.body.classList.remove("uppy-Dashboard-isFixed"), this.unmount(), this.removeEvents();
+	};
+}, qo = class extends Lt {
+	constructor(e, t) {
+		super(e, t), this.id = "LivewireUpload", this.type = "uploader";
+	}
+	install() {
+		this.uppy.addUploader(this.upload), this.uppy.on("file-removed", this.cancel);
+	}
+	uninstall() {
+		this.uppy.removeUploader(this.upload), this.uppy.off("file-removed", this.cancel);
+	}
+	upload = (e) => {
+		let t = this.uppy.getFilesByIds(e);
+		this.uppy.emit("upload-start", t);
+		let n = [...t];
+		return Promise.all(Array.from({ length: this.opts.maxParallelUploads }, async () => {
+			for (; n.length;) await this.uploadFile(n.shift());
+		}));
+	};
+	uploadFile(e) {
+		return new Promise((t) => {
+			let n = Date.now();
+			this.opts.uploadUsing(e.meta.fileKey, e.data, () => {
+				this.uppy.emit("upload-success", this.uppy.getFile(e.id), {
+					status: 200,
+					body: {}
+				}), t();
+			}, () => {
+				this.uppy.emit("upload-error", this.uppy.getFile(e.id), Error(this.opts.uploadFailedMessage)), t();
+			}, (t) => {
+				this.uppy.getFile(e.id) && this.uppy.emit("upload-progress", this.uppy.getFile(e.id), {
+					uploadStarted: n,
+					bytesUploaded: e.size * t / 100,
+					bytesTotal: e.size
+				});
+			});
+		});
+	}
+	cancel = (e) => {
+		e.progress.uploadStarted && !e.progress.uploadComplete && this.opts.cancelUploadUsing(e.meta.fileKey);
+	};
+}, Jo = Object.fromEntries(Object.entries(/* #__PURE__ */ Object.assign({
+	"../../node_modules/@uppy/locales/lib/ar_SA.js": () => import("../fluppy-ar_SA-CQZhzxTe.js").then((e) => e.default),
+	"../../node_modules/@uppy/locales/lib/az_AZ.js": () => import("../fluppy-az_AZ-DB1xAzP0.js").then((e) => e.default),
+	"../../node_modules/@uppy/locales/lib/bg_BG.js": () => import("../fluppy-bg_BG-ClXXsxcL.js").then((e) => e.default),
+	"../../node_modules/@uppy/locales/lib/ca_ES.js": () => import("../fluppy-ca_ES-ZPSb7vJZ.js").then((e) => e.default),
+	"../../node_modules/@uppy/locales/lib/cs_CZ.js": () => import("../fluppy-cs_CZ-Dsg97WQz.js").then((e) => e.default),
+	"../../node_modules/@uppy/locales/lib/da_DK.js": () => import("../fluppy-da_DK-OaLjfu4E.js").then((e) => e.default),
+	"../../node_modules/@uppy/locales/lib/de_DE.js": () => import("../fluppy-de_DE-H_i9ctOT.js").then((e) => e.default),
+	"../../node_modules/@uppy/locales/lib/el_GR.js": () => import("../fluppy-el_GR-6ne9Osl3.js").then((e) => e.default),
+	"../../node_modules/@uppy/locales/lib/es_ES.js": () => import("../fluppy-es_ES-BCbT0y0-.js").then((e) => e.default),
+	"../../node_modules/@uppy/locales/lib/es_MX.js": () => import("../fluppy-es_MX-BSIBOj7u.js").then((e) => e.default),
+	"../../node_modules/@uppy/locales/lib/fa_IR.js": () => import("../fluppy-fa_IR-DAvzeluH.js").then((e) => e.default),
+	"../../node_modules/@uppy/locales/lib/fi_FI.js": () => import("../fluppy-fi_FI-0J0wsJwt.js").then((e) => e.default),
+	"../../node_modules/@uppy/locales/lib/fr_FR.js": () => import("../fluppy-fr_FR-ONUiN_EA.js").then((e) => e.default),
+	"../../node_modules/@uppy/locales/lib/gl_ES.js": () => import("../fluppy-gl_ES-BGQclE6M.js").then((e) => e.default),
+	"../../node_modules/@uppy/locales/lib/he_IL.js": () => import("../fluppy-he_IL-DLrc5R85.js").then((e) => e.default),
+	"../../node_modules/@uppy/locales/lib/hi_IN.js": () => import("../fluppy-hi_IN-C4jaKbK6.js").then((e) => e.default),
+	"../../node_modules/@uppy/locales/lib/hr_HR.js": () => import("../fluppy-hr_HR-CMT5zhTQ.js").then((e) => e.default),
+	"../../node_modules/@uppy/locales/lib/hu_HU.js": () => import("../fluppy-hu_HU-sDS4h4T0.js").then((e) => e.default),
+	"../../node_modules/@uppy/locales/lib/id_ID.js": () => import("../fluppy-id_ID-By4kfpsR.js").then((e) => e.default),
+	"../../node_modules/@uppy/locales/lib/is_IS.js": () => import("../fluppy-is_IS-Zi5-Epc_.js").then((e) => e.default),
+	"../../node_modules/@uppy/locales/lib/it_IT.js": () => import("../fluppy-it_IT-BkxaTd6-.js").then((e) => e.default),
+	"../../node_modules/@uppy/locales/lib/ja_JP.js": () => import("../fluppy-ja_JP-DihuvdDM.js").then((e) => e.default),
+	"../../node_modules/@uppy/locales/lib/ko_KR.js": () => import("../fluppy-ko_KR-DLVOMz2B.js").then((e) => e.default),
+	"../../node_modules/@uppy/locales/lib/mn_MN.js": () => import("../fluppy-mn_MN-DwbFk0s0.js").then((e) => e.default),
+	"../../node_modules/@uppy/locales/lib/ms_MY.js": () => import("../fluppy-ms_MY-D-2AIZDL.js").then((e) => e.default),
+	"../../node_modules/@uppy/locales/lib/nb_NO.js": () => import("../fluppy-nb_NO-Da_zpiNU.js").then((e) => e.default),
+	"../../node_modules/@uppy/locales/lib/nl_NL.js": () => import("../fluppy-nl_NL-DPVrpXDH.js").then((e) => e.default),
+	"../../node_modules/@uppy/locales/lib/nn_NO.js": () => import("../fluppy-nn_NO-BQ5qQCQ3.js").then((e) => e.default),
+	"../../node_modules/@uppy/locales/lib/pl_PL.js": () => import("../fluppy-pl_PL-BVOi6Vjd.js").then((e) => e.default),
+	"../../node_modules/@uppy/locales/lib/pt_BR.js": () => import("../fluppy-pt_BR-DbkW6VJf.js").then((e) => e.default),
+	"../../node_modules/@uppy/locales/lib/pt_PT.js": () => import("../fluppy-pt_PT-DuJd6bQp.js").then((e) => e.default),
+	"../../node_modules/@uppy/locales/lib/ro_RO.js": () => import("../fluppy-ro_RO-BcV4_VVm.js").then((e) => e.default),
+	"../../node_modules/@uppy/locales/lib/ru_RU.js": () => import("../fluppy-ru_RU-XByOQ53A.js").then((e) => e.default),
+	"../../node_modules/@uppy/locales/lib/sk_SK.js": () => import("../fluppy-sk_SK-C_AuHbUQ.js").then((e) => e.default),
+	"../../node_modules/@uppy/locales/lib/sr_RS_Cyrillic.js": () => import("../fluppy-sr_RS_Cyrillic-BNlMwayO.js").then((e) => e.default),
+	"../../node_modules/@uppy/locales/lib/sr_RS_Latin.js": () => import("../fluppy-sr_RS_Latin-C5bMypPr.js").then((e) => e.default),
+	"../../node_modules/@uppy/locales/lib/sv_SE.js": () => import("../fluppy-sv_SE-CL6PD6-v.js").then((e) => e.default),
+	"../../node_modules/@uppy/locales/lib/th_TH.js": () => import("../fluppy-th_TH-5x4-DvEu.js").then((e) => e.default),
+	"../../node_modules/@uppy/locales/lib/tr_TR.js": () => import("../fluppy-tr_TR-DIexgnUB.js").then((e) => e.default),
+	"../../node_modules/@uppy/locales/lib/uk_UA.js": () => import("../fluppy-uk_UA-pKYMXHm1.js").then((e) => e.default),
+	"../../node_modules/@uppy/locales/lib/uz_UZ.js": () => import("../fluppy-uz_UZ-DNdWw7Bl.js").then((e) => e.default),
+	"../../node_modules/@uppy/locales/lib/vi_VN.js": () => import("../fluppy-vi_VN-CRXFH0mz.js").then((e) => e.default),
+	"../../node_modules/@uppy/locales/lib/zh_CN.js": () => import("../fluppy-zh_CN-GAVY8KdU.js").then((e) => e.default),
+	"../../node_modules/@uppy/locales/lib/zh_TW.js": () => import("../fluppy-zh_TW-DUEsd-Z_.js").then((e) => e.default)
+})).map(([e, t]) => [e.split("/").pop().slice(0, -3), t]));
+function Yo(e) {
+	let [t, ...n] = String(e ?? "").toLowerCase().replace(/-/g, "_").split("_"), r = Object.keys(Jo).filter((e) => e.toLowerCase().startsWith(`${t}_`));
+	return r.find((e) => n.some((t) => e.toLowerCase().includes(`_${t.slice(0, 3)}`))) ?? r[0] ?? null;
+}
+async function Xo(e) {
+	let t = Yo(e);
+	return t ? await Jo[t]() : null;
+}
+//#endregion
+//#region resources/js/index.js
+function Zo() {
+	return "10000000-1000-4000-8000-100000000000".replace(/[018]/g, (e) => (e ^ crypto.getRandomValues(/* @__PURE__ */ new Uint8Array(1))[0] & 15 >> e / 4).toString(16));
+}
+function Qo({ acceptedFileTypes: e, cancelUploadUsing: t, deleteUploadedFileUsing: n, getUploadedFilesUsing: r, isDeletable: i, isDisabled: a, isMultiple: o, locale: s, maxFiles: c, maxParallelUploads: l, maxSize: u, minSize: d, removeUploadedFileUsing: f, state: p, uploadFailedMessage: m, uploadingMessage: h, uploadUsing: g }) {
+	let _ = null;
+	return {
+		state: p,
+		isRemovingSilently: !1,
+		async init() {
+			let r = await Xo(s);
+			_ = new bn({
+				autoProceed: !0,
+				...r ? { locale: r } : {},
+				restrictions: {
+					allowedFileTypes: e?.length ? e : null,
+					maxFileSize: u,
+					maxNumberOfFiles: o ? c : 1,
+					minFileSize: d
+				}
+			}).use(Ko, {
+				target: this.$refs.dashboard,
+				inline: !0,
+				width: "100%",
+				height: 320,
+				disabled: a,
+				hideUploadButton: !0,
+				hideCancelButton: !0,
+				doneButtonHandler: null,
+				showRemoveButtonAfterComplete: i && !a,
+				proudlyDisplayPoweredByUppy: !1,
+				theme: this.getTheme()
+			}).use(qo, {
+				cancelUploadUsing: t,
+				maxParallelUploads: l ?? 2,
+				uploadFailedMessage: m,
+				uploadUsing: g
+			}), _.on("file-added", (e) => {
+				_.setFileMeta(e.id, { fileKey: Zo() });
+			}), _.on("file-removed", (e) => {
+				_.getFiles().some((e) => e.error) || _.setState({ error: null }), !this.isRemovingSilently && e.meta.fileKey && (this.isStoredFile(e.meta.fileKey) ? n(e.meta.fileKey) : f(e.meta.fileKey));
+			}), _.on("upload", () => {
+				this.dispatchFormEvent("form-processing-started", { message: h });
+			}), _.on("complete", () => {
+				this.dispatchFormEvent("form-processing-finished");
+			}), this.themeListener = () => _.getPlugin("Dashboard").setOptions({ theme: this.getTheme() }), window.addEventListener("theme-changed", this.themeListener), await this.syncFiles(), this.$watch("state", () => this.syncFiles());
+		},
+		destroy() {
+			window.removeEventListener("theme-changed", this.themeListener), this.isRemovingSilently = !0, _?.destroy();
+		},
+		getUppy() {
+			return _;
+		},
+		getTheme() {
+			return this.$store.theme === "dark" ? "dark" : "light";
+		},
+		getFileKeysInState() {
+			return Object.keys(this.state ?? {});
+		},
+		isStoredFile(e) {
+			let t = this.state?.[e];
+			return typeof t == "string" && !t.startsWith("livewire-file:");
+		},
+		async syncFiles() {
+			let e = this.getFileKeysInState(), t = _.getFiles();
+			this.isRemovingSilently = !0, t.filter((t) => t.progress.uploadComplete && !e.includes(t.meta.fileKey)).forEach((e) => _.removeFile(e.id)), this.isRemovingSilently = !1;
+			let n = _.getFiles().map((e) => e.meta.fileKey);
+			if (e.every((e) => n.includes(e))) return;
+			let i = await r() ?? {};
+			Object.entries(i).filter(([e, t]) => t && !n.includes(e)).forEach(([e, t]) => this.showStoredFile(e, t)), _.getFiles().every((e) => e.progress.uploadComplete) && _.setState({ totalProgress: 100 });
+		},
+		showStoredFile(e, { name: t, size: n, type: r, url: i }) {
+			let a = `fluppy-${e}`;
+			_.setState({ files: {
+				..._.getState().files,
+				[a]: {
+					id: a,
+					name: t,
+					extension: t.includes(".") ? t.split(".").pop() : "",
+					type: r,
+					size: n,
+					data: { size: n },
+					meta: {
+						name: t,
+						type: r,
+						fileKey: e
+					},
+					source: "Fluppy",
+					isRemote: !1,
+					isGhost: !1,
+					preview: r?.startsWith("image/") ? i : void 0,
+					uploadURL: i,
+					progress: {
+						percentage: 100,
+						bytesUploaded: n,
+						bytesTotal: n,
+						uploadComplete: !0,
+						uploadStarted: Date.now()
+					}
+				}
+			} });
+		},
+		dispatchFormEvent(e, t = {}) {
+			this.$el.closest("form")?.dispatchEvent(new CustomEvent(e, {
+				composed: !0,
+				cancelable: !0,
+				detail: t
+			}));
+		}
+	};
+}
+//#endregion
+export { Qo as default };

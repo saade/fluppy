@@ -75,7 +75,7 @@ Files are uploaded through Livewire, validated and stored the same way as with `
 
 # Styling
 
-The field uses your panel's colors: Uppy's grays, blues, reds, greens and oranges are replaced with Filament's `gray`, `primary`, `danger`, `success` and `warning`, and it follows the panel's light and dark mode.
+The field is styled with your panel's `gray`, `primary`, `danger` and `success` colors and follows its light and dark mode.
 
 Everything the package draws has a class that starts with `fi-fluppy`, to style from your theme. Uppy's own elements keep their `uppy-` classes, which you can style inside `.fi-fluppy`:
 
