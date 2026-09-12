@@ -59,7 +59,7 @@ export default class LivewireUpload extends BasePlugin {
                     this.uppy.emit(
                         'upload-error',
                         this.uppy.getFile(file.id),
-                        new Error('The file could not be uploaded.'),
+                        new Error(this.opts.uploadFailedMessage),
                     )
 
                     resolve()

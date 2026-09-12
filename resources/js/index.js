@@ -1,6 +1,7 @@
 import Uppy from '@uppy/core'
 import Dashboard from '@uppy/dashboard'
 import LivewireUpload from './livewire-upload.js'
+import { loadUppyLocale } from './locale.js'
 
 // The same generator Filament's own upload field uses, which also works on
 // pages served without HTTPS, where `crypto.randomUUID()` is not available.
@@ -21,12 +22,14 @@ export default function fluppy({
     isDeletable,
     isDisabled,
     isMultiple,
+    locale,
     maxFiles,
     maxParallelUploads,
     maxSize,
     minSize,
     removeUploadedFileUsing,
     state,
+    uploadFailedMessage,
     uploadingMessage,
     uploadUsing,
 }) {
@@ -43,8 +46,11 @@ export default function fluppy({
         isRemovingSilently: false,
 
         async init() {
+            const uppyLocale = await loadUppyLocale(locale)
+
             uppy = new Uppy({
                 autoProceed: true,
+                ...(uppyLocale ? { locale: uppyLocale } : {}),
                 restrictions: {
                     allowedFileTypes: acceptedFileTypes?.length
                         ? acceptedFileTypes
@@ -72,6 +78,7 @@ export default function fluppy({
                     cancelUploadUsing,
                     // The number FilePond uses when Filament's field sets none.
                     maxParallelUploads: maxParallelUploads ?? 2,
+                    uploadFailedMessage,
                     uploadUsing,
                 })
 

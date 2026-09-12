@@ -18,6 +18,7 @@ Fluppy for Filament
 - [Usage](#usage)
 - [Options](#options)
 - [Styling](#styling)
+- [Translations](#translations)
 - [Testing](#testing)
 - [Changelog](#changelog)
 - [Contributing](#contributing)
@@ -87,6 +88,16 @@ Everything the package draws has a class that starts with `fi-fluppy`, to style 
 | Class | Element |
 | ----- | ------- |
 | `.fi-fluppy` | The field. |
+
+# Translations
+
+The field speaks your app's locale. Uppy's interface comes from its own [locale packs](https://uppy.io/docs/locales/), and the one that matches `app()->getLocale()` is loaded when the field is shown: `pt_BR` and `pt-BR` load Brazilian Portuguese, `pt` the first Portuguese pack, and a locale Uppy has no pack for falls back to English.
+
+The messages the package adds itself are in its translation files. To change them, or to add a language, publish them:
+
+```bash
+php artisan vendor:publish --tag="fluppy-translations"
+```
 
 # Testing
 

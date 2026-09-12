@@ -3,6 +3,7 @@
 use Filament\Forms\Components\FileUpload;
 use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Js;
 use Livewire\Features\SupportTesting\Testable;
 use Livewire\Livewire;
 use Saade\Fluppy\Forms\Components\FluppyField;
@@ -58,6 +59,15 @@ it('gives the browser the methods of the field to call', function () {
         "'deleteUploadedFile'",
         '$wire.upload(',
         '$wire.cancelUpload(',
+    ]);
+});
+
+it('passes the locale of the app and its own messages in that locale', function () {
+    app()->setLocale('pt_BR');
+
+    fluppyForm()->assertSeeHtml([
+        "locale: 'pt_BR'",
+        'uploadFailedMessage: ' . Js::from('Não foi possível enviar o arquivo.'),
     ]);
 });
 

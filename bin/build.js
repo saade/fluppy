@@ -6,6 +6,10 @@ const isDev = process.argv.includes('--dev')
 
 const outdir = 'resources/dist'
 
+const uppyLocales = readdirSync('node_modules/@uppy/locales/lib')
+    .filter((file) => file.endsWith('.js'))
+    .map((file) => file.slice(0, -3))
+
 const options = {
     entryPoints: { 'components/fluppy': 'resources/js/index.js' },
     outdir,
@@ -22,6 +26,7 @@ const options = {
     sourcemap: isDev ? 'inline' : false,
     define: {
         'process.env.NODE_ENV': isDev ? `'development'` : `'production'`,
+        __UPPY_LOCALES__: JSON.stringify(uppyLocales),
     },
 }
 

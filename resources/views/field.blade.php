@@ -29,6 +29,7 @@
             isDeletable: @js($isDeletable()),
             isDisabled: @js($isDisabled),
             isMultiple: @js($isMultiple),
+            locale: @js(app()->getLocale()),
             maxFiles: @js($getMaxFiles()),
             maxParallelUploads: @js($getMaxParallelUploads()),
             maxSize: @js($maxSize ? $maxSize * 1024 : null),
@@ -37,6 +38,7 @@
                 return await $wire.callSchemaComponentMethod(@js($key), 'removeUploadedFile', { fileKey })
             },
             state: $wire.{{ $applyStateBindingModifiers("\$entangle('{$statePath}')") }},
+            uploadFailedMessage: @js(__('fluppy::fluppy.upload_failed')),
             uploadingMessage: @js($getUploadingMessage()),
             uploadUsing: (fileKey, file, success, error, progress) => {
                 $wire.upload(
