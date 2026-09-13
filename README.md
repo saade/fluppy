@@ -70,8 +70,29 @@ Files are uploaded through Livewire, validated and stored the same way as with `
 | `acceptedFileTypes(array \| Closure $types)`, `image()` | The types of file that can be chosen. |
 | `maxSize(int \| Closure $size)`, `minSize(int \| Closure $size)` | The size a file can have, in kilobytes. |
 | `maxParallelUploads(int \| Closure $count)` | How many files are uploaded at once. 2 by default. |
+| `reorderable(bool \| Closure $condition)` | Lets files be put in order by dragging one onto another. |
 | `deletable(bool \| Closure $condition)` | Whether a file can be removed. |
 | `disabled()` | Shows the files without letting them change. |
+
+It works where `FileUpload` does: pages, modals and slide-overs, repeaters and builder blocks, relation managers, table actions, live forms and panels in SPA mode.
+
+## Not supported yet
+
+These `FileUpload` options belong to FilePond's interface and have no effect on `FluppyField`:
+
+- The image editor, and automatic cropping and resizing of images.
+- `openable()`, `downloadable()` and `previewable(false)`.
+- `avatar()`, `panelLayout()`, `appendFiles()`, `prependFiles()` and the options that position buttons and indicators.
+
+## Upload limits
+
+A file is sent to Livewire in one request, as with `FileUpload`, so it has to fit within the limits of every layer it passes through:
+
+- PHP's `upload_max_filesize` and `post_max_size`.
+- The web server's request size (`client_max_body_size` in nginx), and any proxy or CDN in front of it.
+- Livewire's own rule for temporary uploads, 12 MB by default, set with `livewire.temporary_file_upload.rules`.
+
+When Livewire's temporary disk is S3, the browser sends the file straight to the bucket and the first two do not apply.
 
 # Styling
 

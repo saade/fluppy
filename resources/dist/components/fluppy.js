@@ -8836,21 +8836,21 @@ async function Xo(e) {
 function Zo() {
 	return "10000000-1000-4000-8000-100000000000".replace(/[018]/g, (e) => (e ^ crypto.getRandomValues(/* @__PURE__ */ new Uint8Array(1))[0] & 15 >> e / 4).toString(16));
 }
-function Qo({ acceptedFileTypes: e, cancelUploadUsing: t, deleteUploadedFileUsing: n, getUploadedFilesUsing: r, isDeletable: i, isDisabled: a, isMultiple: o, locale: s, maxFiles: c, maxParallelUploads: l, maxSize: u, minSize: d, removeUploadedFileUsing: f, state: p, uploadFailedMessage: m, uploadingMessage: h, uploadUsing: g }) {
-	let _ = null;
+function Qo({ acceptedFileTypes: e, cancelUploadUsing: t, deleteUploadedFileUsing: n, getUploadedFilesUsing: r, isDeletable: i, isDisabled: a, isMultiple: o, isReorderable: s, locale: c, maxFiles: l, maxParallelUploads: u, maxSize: d, minSize: f, removeUploadedFileUsing: p, reorderUploadedFilesUsing: m, state: h, uploadFailedMessage: g, uploadingMessage: _, uploadUsing: v }) {
+	let y = null, b = null, x = null;
 	return {
-		state: p,
+		state: h,
 		isRemovingSilently: !1,
 		async init() {
-			let r = await Xo(s);
-			_ = new bn({
+			let r = await Xo(c);
+			y = new bn({
 				autoProceed: !0,
 				...r ? { locale: r } : {},
 				restrictions: {
 					allowedFileTypes: e?.length ? e : null,
-					maxFileSize: u,
-					maxNumberOfFiles: o ? c : 1,
-					minFileSize: d
+					maxFileSize: d,
+					maxNumberOfFiles: o ? l : 1,
+					minFileSize: f
 				}
 			}).use(Ko, {
 				target: this.$refs.dashboard,
@@ -8866,24 +8866,24 @@ function Qo({ acceptedFileTypes: e, cancelUploadUsing: t, deleteUploadedFileUsin
 				theme: this.getTheme()
 			}).use(qo, {
 				cancelUploadUsing: t,
-				maxParallelUploads: l ?? 2,
-				uploadFailedMessage: m,
-				uploadUsing: g
-			}), _.on("file-added", (e) => {
-				_.setFileMeta(e.id, { fileKey: Zo() });
-			}), _.on("file-removed", (e) => {
-				_.getFiles().some((e) => e.error) || _.setState({ error: null }), !this.isRemovingSilently && e.meta.fileKey && (this.isStoredFile(e.meta.fileKey) ? n(e.meta.fileKey) : f(e.meta.fileKey));
-			}), _.on("upload", () => {
-				this.dispatchFormEvent("form-processing-started", { message: h });
-			}), _.on("complete", () => {
-				this.dispatchFormEvent("form-processing-finished");
-			}), this.themeListener = () => _.getPlugin("Dashboard").setOptions({ theme: this.getTheme() }), window.addEventListener("theme-changed", this.themeListener), await this.syncFiles(), this.$watch("state", () => this.syncFiles());
+				maxParallelUploads: u ?? 2,
+				uploadFailedMessage: g,
+				uploadUsing: v
+			}), y.on("file-added", (e) => {
+				y.setFileMeta(e.id, { fileKey: Zo() });
+			}), y.on("file-removed", (e) => {
+				y.getFiles().some((e) => e.error) || y.setState({ error: null }), !this.isRemovingSilently && e.meta.fileKey && (this.isStoredFile(e.meta.fileKey) ? n(e.meta.fileKey) : p(e.meta.fileKey));
+			}), y.on("upload", () => {
+				this.dispatchFormEvent("form-processing-started", { message: _ });
+			}), y.on("complete", () => {
+				this.dispatchFormEvent("form-processing-finished"), s && !a && this.saveFileOrder();
+			}), s && !a && this.enableReordering(), x = () => y.getPlugin("Dashboard").setOptions({ theme: this.getTheme() }), window.addEventListener("theme-changed", x), await this.syncFiles(), this.$watch("state", () => this.syncFiles());
 		},
 		destroy() {
-			window.removeEventListener("theme-changed", this.themeListener), this.isRemovingSilently = !0, _?.destroy();
+			window.removeEventListener("theme-changed", x), b?.disconnect(), this.isRemovingSilently = !0, y?.destroy();
 		},
 		getUppy() {
-			return _;
+			return y;
 		},
 		getTheme() {
 			return this.$store.theme === "dark" ? "dark" : "light";
@@ -8896,17 +8896,17 @@ function Qo({ acceptedFileTypes: e, cancelUploadUsing: t, deleteUploadedFileUsin
 			return typeof t == "string" && !t.startsWith("livewire-file:");
 		},
 		async syncFiles() {
-			let e = this.getFileKeysInState(), t = _.getFiles();
-			this.isRemovingSilently = !0, t.filter((t) => t.progress.uploadComplete && !e.includes(t.meta.fileKey)).forEach((e) => _.removeFile(e.id)), this.isRemovingSilently = !1;
-			let n = _.getFiles().map((e) => e.meta.fileKey);
+			let e = this.getFileKeysInState(), t = y.getFiles();
+			this.isRemovingSilently = !0, t.filter((t) => t.progress.uploadComplete && !e.includes(t.meta.fileKey)).forEach((e) => y.removeFile(e.id)), this.isRemovingSilently = !1;
+			let n = y.getFiles().map((e) => e.meta.fileKey);
 			if (e.every((e) => n.includes(e))) return;
 			let i = await r() ?? {};
-			Object.entries(i).filter(([e, t]) => t && !n.includes(e)).forEach(([e, t]) => this.showStoredFile(e, t)), _.getFiles().every((e) => e.progress.uploadComplete) && _.setState({ totalProgress: 100 });
+			Object.entries(i).filter(([e, t]) => t && !n.includes(e)).forEach(([e, t]) => this.showStoredFile(e, t)), y.getFiles().every((e) => e.progress.uploadComplete) && y.setState({ totalProgress: 100 });
 		},
 		showStoredFile(e, { name: t, size: n, type: r, url: i }) {
 			let a = `fluppy-${e}`;
-			_.setState({ files: {
-				..._.getState().files,
+			y.setState({ files: {
+				...y.getState().files,
 				[a]: {
 					id: a,
 					name: t,
@@ -8933,6 +8933,40 @@ function Qo({ acceptedFileTypes: e, cancelUploadUsing: t, deleteUploadedFileUsin
 					}
 				}
 			} });
+		},
+		enableReordering() {
+			let e = this.$refs.dashboard, t = (e) => e.target.closest?.(".uppy-Dashboard-Item"), n = (e) => e.id.replace(/^uppy_/, ""), r = null, i = null, a = (e) => {
+				i?.removeAttribute("data-fluppy-drop-target"), i = e, i?.setAttribute("data-fluppy-drop-target", "");
+			};
+			b = new MutationObserver(() => {
+				e.querySelectorAll(".uppy-Dashboard-Item:not([draggable])").forEach((e) => e.draggable = !0);
+			}), b.observe(e, {
+				childList: !0,
+				subtree: !0
+			}), e.addEventListener("dragstart", (e) => {
+				let i = t(e);
+				i && (r = n(i), e.dataTransfer.effectAllowed = "move");
+			}), e.addEventListener("dragover", (e) => {
+				if (!r) return;
+				e.preventDefault(), e.stopPropagation(), e.dataTransfer.dropEffect = "move";
+				let i = t(e);
+				a(i && n(i) !== r ? i : null);
+			}, !0), e.addEventListener("drop", (e) => {
+				if (!r) return;
+				e.preventDefault(), e.stopPropagation();
+				let i = t(e);
+				i && this.moveFile(r, n(i));
+			}, !0), e.addEventListener("dragend", () => {
+				r = null, a(null);
+			});
+		},
+		moveFile(e, t) {
+			let { files: n } = y.getState(), r = Object.keys(n), i = r.indexOf(e), a = r.indexOf(t);
+			i !== -1 && a !== -1 && i !== a && (r.splice(a, 0, r.splice(i, 1)[0]), y.setState({ files: Object.fromEntries(r.map((e) => [e, n[e]])) }), this.saveFileOrder());
+		},
+		saveFileOrder() {
+			let e = y.getFiles().map((e) => e.meta.fileKey);
+			e.join() !== this.getFileKeysInState().filter((t) => e.includes(t)).join() && m(e);
 		},
 		dispatchFormEvent(e, t = {}) {
 			this.$el.closest("form")?.dispatchEvent(new CustomEvent(e, {

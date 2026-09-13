@@ -131,6 +131,40 @@ it('lets the browser ask for its files', function () {
     expect(data_get($component->effects, 'returns.0'))->toHaveKey('k1.name', 'photo.png');
 });
 
+it('lets files be reordered only when it is reorderable', function () {
+    fluppyForm()
+        ->assertSeeHtml('isReorderable: false')
+        ->assertDontSeeHtml('fi-fluppy-reorderable');
+
+    fluppyForm(fn (FluppyField $field) => $field->multiple()->reorderable())
+        ->assertSeeHtml(['isReorderable: true', 'fi-fluppy-reorderable', "'reorderUploadedFiles'"]);
+
+    fluppyForm(fn (FluppyField $field) => $field->multiple()->reorderable()->disabled())
+        ->assertDontSeeHtml('fi-fluppy-reorderable');
+});
+
+it('saves the order the browser gives its files', function () {
+    $component = fluppyForm(fn (FluppyField $field) => $field->multiple()->reorderable());
+
+    $component
+        ->set('data.attachments', ['k1' => 'a.txt', 'k2' => 'b.txt', 'k3' => 'c.txt'])
+        ->call('callSchemaComponentMethod', fluppyField($component)->getKey(), 'reorderUploadedFiles', ['fileKeys' => ['k3', 'k1', 'k2']]);
+
+    expect(array_keys($component->get('data.attachments')))->toBe(['k3', 'k1', 'k2']);
+});
+
+it('deletes a stored file the browser removes', function () {
+    Storage::disk('uploads')->put('existing/photo.png', 'contents');
+
+    $component = fluppyForm();
+
+    $component
+        ->set('data.attachments', ['k1' => 'existing/photo.png'])
+        ->call('callSchemaComponentMethod', fluppyField($component)->getKey(), 'deleteUploadedFile', ['fileKey' => 'k1']);
+
+    expect($component->get('data.attachments'))->toBe([]);
+});
+
 it('forgets a file the browser removes', function () {
     Storage::disk('uploads')->put('existing/photo.png', 'contents');
 

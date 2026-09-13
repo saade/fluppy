@@ -73,6 +73,14 @@
     @apply border-gray-950/5 dark:border-white/10;
 }
 
+.fi-fluppy-reorderable .uppy-Dashboard-Item {
+    @apply cursor-grab;
+}
+
+.fi-fluppy .uppy-Dashboard-Item[data-fluppy-drop-target] {
+    @apply bg-primary-50 dark:bg-primary-400/10;
+}
+
 .fi-fluppy .uppy-Dashboard-Item-name {
     @apply text-sm font-medium text-gray-950 dark:text-white;
 }

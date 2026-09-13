@@ -5,6 +5,7 @@
     $statePath = $getStatePath();
     $isDisabled = $isDisabled();
     $isMultiple = $isMultiple();
+    $isReorderable = $isReorderable();
     $maxSize = $getMaxSize();
     $minSize = $getMinSize();
 @endphp
@@ -12,7 +13,7 @@
 <x-dynamic-component :component="$getFieldWrapperView()" :field="$field">
     <div
         wire:ignore
-        wire:key="{{ $getLivewireKey() }}.{{ md5(serialize([$isDisabled, $isMultiple])) }}"
+        wire:key="{{ $getLivewireKey() }}.{{ md5(serialize([$isDisabled, $isMultiple, $isReorderable])) }}"
         x-load
         x-load-src="{{ FilamentAsset::getAlpineComponentSrc('fluppy', 'saade/fluppy') }}"
         x-data="fluppy({
@@ -29,6 +30,7 @@
             isDeletable: @js($isDeletable()),
             isDisabled: @js($isDisabled),
             isMultiple: @js($isMultiple),
+            isReorderable: @js($isReorderable),
             locale: @js(app()->getLocale()),
             maxFiles: @js($getMaxFiles()),
             maxParallelUploads: @js($getMaxParallelUploads()),
@@ -36,6 +38,9 @@
             minSize: @js($minSize ? $minSize * 1024 : null),
             removeUploadedFileUsing: async (fileKey) => {
                 return await $wire.callSchemaComponentMethod(@js($key), 'removeUploadedFile', { fileKey })
+            },
+            reorderUploadedFilesUsing: async (fileKeys) => {
+                return await $wire.callSchemaComponentMethod(@js($key), 'reorderUploadedFiles', { fileKeys })
             },
             state: $wire.{{ $applyStateBindingModifiers("\$entangle('{$statePath}')") }},
             uploadFailedMessage: @js(__('fluppy::fluppy.upload_failed')),
@@ -50,7 +55,10 @@
                 )
             },
         })"
-        class="fi-fluppy"
+        @class([
+            'fi-fluppy',
+            'fi-fluppy-reorderable' => $isReorderable && ! $isDisabled,
+        ])
     >
         <div x-ref="dashboard"></div>
     </div>
