@@ -18,15 +18,20 @@
         x-load-src="{{ FilamentAsset::getAlpineComponentSrc('fluppy', 'saade/fluppy') }}"
         x-data="fluppy({
             acceptedFileTypes: @js($getAcceptedFileTypes()),
+            adoptUploadUsing: async (fileKey, reference) => {
+                return await $wire.callSchemaComponentMethod(@js($key), 'adoptUpload', { fileKey, reference })
+            },
             cancelUploadUsing: (fileKey) => {
                 $wire.cancelUpload(`{{ $statePath }}.${fileKey}`)
             },
+            csrfToken: @js(csrf_token()),
             deleteUploadedFileUsing: async (fileKey) => {
                 return await $wire.callSchemaComponentMethod(@js($key), 'deleteUploadedFile', { fileKey })
             },
             getUploadedFilesUsing: async () => {
                 return await $wire.callSchemaComponentMethod(@js($key), 'getUploadedFiles')
             },
+            isChunked: @js($isChunked()),
             isDeletable: @js($isDeletable()),
             isDisabled: @js($isDisabled),
             isMultiple: @js($isMultiple),
@@ -36,6 +41,9 @@
             maxParallelUploads: @js($getMaxParallelUploads()),
             maxSize: @js($maxSize ? $maxSize * 1024 : null),
             minSize: @js($minSize ? $minSize * 1024 : null),
+            planUploadUsing: async (file) => {
+                return await $wire.callSchemaComponentMethod(@js($key), 'planUpload', { file })
+            },
             removeUploadedFileUsing: async (fileKey) => {
                 return await $wire.callSchemaComponentMethod(@js($key), 'removeUploadedFile', { fileKey })
             },

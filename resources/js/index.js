@@ -16,9 +16,12 @@ function generateFileKey() {
 
 export default function fluppy({
     acceptedFileTypes,
+    adoptUploadUsing,
     cancelUploadUsing,
+    csrfToken,
     deleteUploadedFileUsing,
     getUploadedFilesUsing,
+    isChunked,
     isDeletable,
     isDisabled,
     isMultiple,
@@ -28,6 +31,7 @@ export default function fluppy({
     maxParallelUploads,
     maxSize,
     minSize,
+    planUploadUsing,
     removeUploadedFileUsing,
     reorderUploadedFilesUsing,
     state,
@@ -83,7 +87,11 @@ export default function fluppy({
                     theme: this.getTheme(),
                 })
                 .use(LivewireUpload, {
+                    adoptUsing: adoptUploadUsing,
                     cancelUploadUsing,
+                    csrfToken,
+                    isChunked,
+                    planUsing: planUploadUsing,
                     // The number FilePond uses when Filament's field sets none.
                     maxParallelUploads: maxParallelUploads ?? 2,
                     uploadFailedMessage,

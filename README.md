@@ -17,6 +17,7 @@ Fluppy for Filament
 - [Installation](#installation)
 - [Usage](#usage)
 - [Options](#options)
+- [Large files](#large-files)
 - [Styling](#styling)
 - [Translations](#translations)
 - [Testing](#testing)
@@ -84,15 +85,52 @@ These `FileUpload` options belong to FilePond's interface and have no effect on 
 - `openable()`, `downloadable()` and `previewable(false)`.
 - `avatar()`, `panelLayout()`, `appendFiles()`, `prependFiles()` and the options that position buttons and indicators.
 
-## Upload limits
+# Large files
 
-A file is sent to Livewire in one request, as with `FileUpload`, so it has to fit within the limits of every layer it passes through:
+A file larger than one chunk (900 KB by default) is sent in chunks, each in a request of its own, and put together on Livewire's temporary disk. From there it is an ordinary temporary upload: it is validated and stored the same way as any other. So a file can be larger than PHP or the web server accept in one request, and an upload can be paused, resumed and retried. A file chosen again after the page was reloaded continues from the chunks that already arrived.
 
-- PHP's `upload_max_filesize` and `post_max_size`.
-- The web server's request size (`client_max_body_size` in nginx), and any proxy or CDN in front of it.
-- Livewire's own rule for temporary uploads, 12 MB by default, set with `livewire.temporary_file_upload.rules`.
+Nothing has to be set up for this, but one limit is yours to raise: **Livewire's rule for temporary uploads allows 12 MB by default**, and it applies to the assembled file. Set it in `config/livewire.php` to the largest file your app should accept:
 
-When Livewire's temporary disk is S3, the browser sends the file straight to the bucket and the first two do not apply.
+```php
+'temporary_file_upload' => [
+    'rules' => ['required', 'file', 'max:1048576'], // 1 GB, in kilobytes
+],
+```
+
+A file over that limit, or outside the field's `maxSize()` and `minSize()`, is turned away before any of it is sent, with the reason shown on the file.
+
+| Method | Description |
+| ------ | ----------- |
+| `chunked(bool \| Closure $condition)` | Whether large files are sent in chunks. On by default. |
+| `chunkSize(int \| Closure $size)` | The size of a chunk, in kilobytes. |
+
+To change the defaults for every field, publish the configuration:
+
+```bash
+php artisan vendor:publish --tag="fluppy-config"
+```
+
+```php
+'chunking' => [
+    'enabled' => true,
+    'chunk_size' => 900, // kilobytes
+    'throttle' => '600,1', // requests,minutes for the chunk route
+],
+```
+
+## Choosing a chunk size
+
+Each chunk still has to fit in one request:
+
+- It is lowered automatically to what PHP's `upload_max_filesize` and `post_max_size` allow.
+- The web server's limit cannot be read from PHP. nginx allows 1 MB unless `client_max_body_size` says otherwise, which is why the default is just under it. If you raise the chunk size, raise that limit with it, and the limit of any proxy or CDN in front.
+
+Larger chunks mean fewer requests. With the default throttle of 600 chunks a minute, 900 KB chunks top out at about 9 MB per second.
+
+## When chunks are not used
+
+- A file no larger than one chunk goes to Livewire in a single request, as with `FileUpload`.
+- When Livewire's temporary disk is S3, the browser sends the file straight to the bucket in one request.
 
 # Styling
 

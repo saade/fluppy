@@ -6,6 +6,8 @@ use Filament\Support\Assets\AlpineComponent;
 use Filament\Support\Assets\Asset;
 use Filament\Support\Assets\Js;
 use Filament\Support\Facades\FilamentAsset;
+use Illuminate\Support\Facades\Route;
+use Saade\Fluppy\Http\Controllers\ChunkController;
 use Spatie\LaravelPackageTools\Package;
 use Spatie\LaravelPackageTools\PackageServiceProvider;
 
@@ -30,6 +32,10 @@ class FluppyServiceProvider extends PackageServiceProvider
             $this->getAssets(),
             $this->getAssetPackageName(),
         );
+
+        Route::post('fluppy/chunks', ChunkController::class)
+            ->middleware(['web', 'throttle:' . config('fluppy.chunking.throttle', '600,1')])
+            ->name('fluppy.chunks');
     }
 
     protected function getAssetPackageName(): ?string
