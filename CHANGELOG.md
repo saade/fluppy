@@ -9,6 +9,7 @@ All notable changes to `fluppy` will be documented in this file.
 - The first release.
 - The upload field uses the panel's colors and follows its light and dark mode.
 - Large files are uploaded in chunks, so they can be larger than one request allows, and can be paused, resumed and retried. See "Large files" in the README; `chunked()` and `chunkSize()` set it per field.
+- With S3 as Livewire's temporary disk, large files go straight to the bucket as multipart uploads, with the same pause, resume and retry.
 - A file that is too large or too small is turned away before it is sent, with the reason shown on the file.
 - `reorderable()` lets files be put in order by dragging one onto another.
 - The field no longer leaves a listener behind when it is removed from the page, which raised an error on the next theme change.

@@ -17,12 +17,18 @@
         x-load
         x-load-src="{{ FilamentAsset::getAlpineComponentSrc('fluppy', 'saade/fluppy') }}"
         x-data="fluppy({
+            abortMultipartUploadUsing: async (capability) => {
+                return await $wire.callSchemaComponentMethod(@js($key), 'abortMultipartUpload', { capability })
+            },
             acceptedFileTypes: @js($getAcceptedFileTypes()),
             adoptUploadUsing: async (fileKey, reference) => {
                 return await $wire.callSchemaComponentMethod(@js($key), 'adoptUpload', { fileKey, reference })
             },
             cancelUploadUsing: (fileKey) => {
                 $wire.cancelUpload(`{{ $statePath }}.${fileKey}`)
+            },
+            completeMultipartUploadUsing: async (capability) => {
+                return await $wire.callSchemaComponentMethod(@js($key), 'completeMultipartUpload', { capability })
             },
             csrfToken: @js(csrf_token()),
             deleteUploadedFileUsing: async (fileKey) => {
@@ -49,6 +55,9 @@
             },
             reorderUploadedFilesUsing: async (fileKeys) => {
                 return await $wire.callSchemaComponentMethod(@js($key), 'reorderUploadedFiles', { fileKeys })
+            },
+            signUploadPartsUsing: async (capability, partNumbers) => {
+                return await $wire.callSchemaComponentMethod(@js($key), 'signUploadParts', { capability, partNumbers })
             },
             state: $wire.{{ $applyStateBindingModifiers("\$entangle('{$statePath}')") }},
             uploadFailedMessage: @js(__('fluppy::fluppy.upload_failed')),

@@ -17,6 +17,10 @@ return [
     | lowered to fit them) and within the web server's request size, which
     | is 1 MB on an untouched nginx.
     |
+    | When Livewire's temporary disk is S3, the browser sends the file to the
+    | bucket as a multipart upload instead. `s3_part_size` is the size of a
+    | part, in kilobytes; S3 accepts no less than 5 MB.
+    |
     | `throttle` is the rate limit of the chunk route, as attempts,minutes.
     |
     */
@@ -24,6 +28,7 @@ return [
     'chunking' => [
         'enabled' => true,
         'chunk_size' => 900,
+        's3_part_size' => 5120,
         'throttle' => '600,1',
     ],
 

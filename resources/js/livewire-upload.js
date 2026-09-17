@@ -1,7 +1,8 @@
 import { BasePlugin } from '@uppy/core'
 
-const CHUNKS_IN_PARALLEL = 3
-const CHUNK_ATTEMPTS = 4
+const PIECES_IN_PARALLEL = 3
+const ATTEMPTS = 4
+const PARTS_SIGNED_AT_ONCE = 10
 
 class Paused extends Error {}
 
@@ -9,12 +10,13 @@ class Cancelled extends Error {}
 
 /**
  * Sends each file the way the field plans it: a small one through Livewire's
- * own upload, as Filament's upload field does, and a large one in chunks to
- * the package's route. Either way the file reaches the form's state as a
- * temporary upload.
+ * own upload, as Filament's upload field does, and a large one in pieces,
+ * either as chunks to the package's route or as the parts of an S3 multipart
+ * upload. Whichever way, the file reaches the form's state as a temporary
+ * upload.
  */
 export default class LivewireUpload extends BasePlugin {
-    // What is in flight for each file being sent in chunks, by file ID.
+    // What is in flight for each file being sent in pieces, by file ID.
     transfers = new Map()
 
     constructor(uppy, opts) {
@@ -79,8 +81,8 @@ export default class LivewireUpload extends BasePlugin {
                 throw new Error(plan.message)
             }
 
-            if (plan.strategy === 'chunked') {
-                await this.uploadInChunks(file, plan)
+            if (this.isInPieces(plan)) {
+                await this.uploadInPieces(file, plan)
             } else {
                 await this.uploadThroughLivewire(file)
             }
@@ -111,25 +113,30 @@ export default class LivewireUpload extends BasePlugin {
         })
     }
 
+    isInPieces(plan) {
+        return plan.strategy === 'chunked' || plan.strategy === 's3'
+    }
+
     uploadThroughLivewire(file) {
         return new Promise((resolve, reject) => {
             this.opts.uploadUsing(
                 file.meta.fileKey,
                 file.data,
                 resolve,
-                () => reject(new Error(this.opts.uploadFailedMessage)),
+                () => reject(this.failure()),
                 (percentage) =>
                     this.reportProgress(file, (file.size * percentage) / 100),
             )
         })
     }
 
-    async uploadInChunks(file, plan) {
+    async uploadInPieces(file, plan) {
         const transfer = {
             isPaused: false,
             isCancelled: false,
             requests: new Set(),
             resume: null,
+            abort: null,
         }
 
         this.transfers.set(file.id, transfer)
@@ -138,11 +145,25 @@ export default class LivewireUpload extends BasePlugin {
             let reference = plan.completed
 
             // Sending stops when the file is paused, and when the signed
-            // address of the route expires on a long upload. Both continue
-            // from a new plan, which says what has arrived.
+            // address of the chunk route expires on a long upload. Both
+            // continue from a new plan, which says what has arrived.
             while (!reference) {
+                const { capability } = plan
+
+                // The field may be gone by the time this is called.
+                transfer.abort =
+                    plan.strategy === 's3'
+                        ? () =>
+                              Promise.resolve()
+                                  .then(() => this.opts.abortUsing(capability))
+                                  .catch(() => {})
+                        : null
+
                 try {
-                    reference = await this.sendChunks(file, plan, transfer)
+                    reference =
+                        plan.strategy === 's3'
+                            ? await this.sendParts(file, plan, transfer)
+                            : await this.sendChunks(file, plan, transfer)
                 } catch (error) {
                     if (!(error instanceof Paused) && error.status !== 401) {
                         throw error
@@ -158,10 +179,8 @@ export default class LivewireUpload extends BasePlugin {
 
                     plan = await this.plan(file)
 
-                    if (plan.strategy !== 'chunked') {
-                        throw new Error(
-                            plan.message ?? this.opts.uploadFailedMessage,
-                        )
+                    if (!this.isInPieces(plan)) {
+                        throw this.failure(plan.message)
                     }
 
                     reference = plan.completed
@@ -169,94 +188,201 @@ export default class LivewireUpload extends BasePlugin {
             }
 
             if (!(await this.opts.adoptUsing(file.meta.fileKey, reference))) {
-                throw new Error(this.opts.uploadFailedMessage)
+                throw this.failure()
             }
         } finally {
             this.transfers.delete(file.id)
         }
     }
 
-    async sendChunks(file, plan, transfer) {
-        const received = new Set(plan.receivedChunks)
+    /**
+     * Sends the pieces that are missing, a few at a time, reporting progress
+     * as the bytes of the ones that arrived plus those on their way.
+     */
+    async sendPieces(file, { missing, sizeOf, arrived, send }) {
         const inFlight = new Map()
-        const pending = []
+        const pending = [...missing]
 
-        for (let index = 0; index < plan.totalChunks; index++) {
-            if (!received.has(index)) {
-                pending.push(index)
-            }
-        }
-
-        const report = () => {
-            const sent = [...received].reduce(
-                (bytes, index) => bytes + this.chunkOf(file, plan, index).size,
-                0,
-            )
-
+        const report = () =>
             this.reportProgress(
                 file,
-                sent + [...inFlight.values()].reduce((a, b) => a + b, 0),
+                [...arrived].reduce((bytes, piece) => bytes + sizeOf(piece), 0) +
+                    [...inFlight.values()].reduce((a, b) => a + b, 0),
             )
-        }
-
-        let reference = null
-        let lastIndex = null
 
         const work = async () => {
-            while (pending.length && !reference) {
-                const index = pending.shift()
+            while (pending.length) {
+                const piece = pending.shift()
 
-                lastIndex = index
+                const isDone = await send(piece, pending, (loaded) => {
+                    inFlight.set(piece, loaded)
+                    report()
+                })
 
-                const response = await this.sendChunk(
-                    file,
-                    plan,
-                    index,
-                    transfer,
-                    (loaded) => {
-                        inFlight.set(index, loaded)
-                        report()
-                    },
-                )
-
-                inFlight.delete(index)
-                received.add(index)
+                inFlight.delete(piece)
+                arrived.add(piece)
                 report()
 
-                if (response.complete) {
-                    reference = response.reference
+                if (isDone) {
+                    pending.length = 0
                 }
             }
         }
 
         report()
 
-        await Promise.all(Array.from({ length: CHUNKS_IN_PARALLEL }, work))
+        await Promise.all(Array.from({ length: PIECES_IN_PARALLEL }, work))
+    }
+
+    async sendChunks(file, plan, transfer) {
+        const arrived = new Set(plan.receivedChunks)
+        const chunkOf = (index) =>
+            file.data.slice(
+                index * plan.chunkSize,
+                Math.min(file.size, (index + 1) * plan.chunkSize),
+            )
+
+        const sendChunk = (index, onProgress) => {
+            const body = new FormData()
+
+            body.append('capability', plan.capability)
+            body.append('index', index)
+            body.append('name', file.name)
+            body.append('type', file.type ?? '')
+            body.append('chunk', chunkOf(index), file.name)
+
+            return this.attempt(transfer, () =>
+                this.request(transfer, {
+                    method: 'POST',
+                    url: plan.url,
+                    headers: {
+                        Accept: 'application/json',
+                        'X-CSRF-TOKEN': this.opts.csrfToken,
+                    },
+                    body,
+                    onProgress,
+                }),
+            )
+        }
+
+        let reference = null
+        let lastIndex = plan.totalChunks - 1
+
+        await this.sendPieces(file, {
+            missing: this.range(0, plan.totalChunks - 1).filter(
+                (index) => !arrived.has(index),
+            ),
+            sizeOf: (index) => chunkOf(index).size,
+            arrived,
+            send: async (index, pending, onProgress) => {
+                lastIndex = index
+
+                const response = await sendChunk(index, onProgress)
+
+                reference = response?.complete ? response.reference : reference
+
+                return Boolean(reference)
+            },
+        })
 
         // Every chunk arrived but none was answered with the file: another
         // request was assembling it. Asking again gets the answer.
-        for (let attempt = 0; !reference && attempt < CHUNK_ATTEMPTS; attempt++) {
+        for (let attempt = 0; !reference && attempt < ATTEMPTS; attempt++) {
             await this.wait(1000 * (attempt + 1))
 
-            const response = await this.sendChunk(
-                file,
-                plan,
-                lastIndex ?? plan.totalChunks - 1,
-                transfer,
-                () => {},
-            )
+            const response = await sendChunk(lastIndex, () => {})
 
-            reference = response.complete ? response.reference : null
+            reference = response?.complete ? response.reference : null
         }
 
         if (!reference) {
-            throw new Error(this.opts.uploadFailedMessage)
+            throw this.failure()
         }
 
         return reference
     }
 
-    async sendChunk(file, plan, index, transfer, onProgress) {
+    async sendParts(file, plan, transfer) {
+        const arrived = new Set(plan.uploadedParts)
+        const addresses = new Map()
+        const partOf = (number) =>
+            file.data.slice(
+                (number - 1) * plan.partSize,
+                Math.min(file.size, number * plan.partSize),
+            )
+
+        let signing = null
+
+        // Addresses are signed a few parts ahead: each is only valid for a
+        // while, and a very large file has thousands of parts.
+        const addressOf = async (number, pending) => {
+            await signing
+
+            if (!addresses.has(number)) {
+                signing = this.opts
+                    .signPartsUsing(plan.capability, [
+                        number,
+                        ...pending.slice(0, PARTS_SIGNED_AT_ONCE - 1),
+                    ])
+                    .then((signed) =>
+                        Object.entries(signed ?? {}).forEach(([part, address]) =>
+                            addresses.set(Number(part), address),
+                        ),
+                    )
+                    .finally(() => (signing = null))
+
+                await signing
+            }
+
+            if (!addresses.has(number)) {
+                throw this.failure()
+            }
+
+            const address = addresses.get(number)
+
+            addresses.delete(number)
+
+            return address
+        }
+
+        await this.sendPieces(file, {
+            missing: this.range(1, plan.totalParts).filter(
+                (number) => !arrived.has(number),
+            ),
+            sizeOf: (number) => partOf(number).size,
+            arrived,
+            send: async (number, pending, onProgress) => {
+                await this.attempt(
+                    transfer,
+                    async () =>
+                        this.request(transfer, {
+                            method: 'PUT',
+                            url: await addressOf(number, pending),
+                            body: partOf(number),
+                            onProgress,
+                        }),
+                    { retryForbidden: true },
+                )
+
+                return false
+            },
+        })
+
+        const reference = await this.opts.completeUsing(plan.capability)
+
+        if (!reference) {
+            throw this.failure()
+        }
+
+        return reference
+    }
+
+    /**
+     * What the server refuses once it refuses again, apart from being asked
+     * to slow down. S3 also refuses an address that has expired, which is
+     * worth another attempt because each one signs a new address.
+     */
+    async attempt(transfer, send, { retryForbidden = false } = {}) {
         for (let attempt = 1; ; attempt++) {
             if (transfer.isCancelled) {
                 throw new Cancelled()
@@ -267,18 +393,19 @@ export default class LivewireUpload extends BasePlugin {
             }
 
             try {
-                return await this.request(file, plan, index, transfer, onProgress)
+                return await send()
             } catch (error) {
                 if (error instanceof Paused || error instanceof Cancelled) {
                     throw error
                 }
 
-                // What the server refuses once it refuses again, apart from
-                // being asked to slow down.
                 const isWorthRetrying =
-                    !error.status || error.status === 429 || error.status >= 500
+                    !error.status ||
+                    (retryForbidden && error.status === 403) ||
+                    error.status === 429 ||
+                    error.status >= 500
 
-                if (!isWorthRetrying || attempt === CHUNK_ATTEMPTS) {
+                if (!isWorthRetrying || attempt === ATTEMPTS) {
                     throw error
                 }
 
@@ -287,16 +414,8 @@ export default class LivewireUpload extends BasePlugin {
         }
     }
 
-    request(file, plan, index, transfer, onProgress) {
+    request(transfer, { method, url, headers = {}, body, onProgress }) {
         return new Promise((resolve, reject) => {
-            const body = new FormData()
-
-            body.append('capability', plan.capability)
-            body.append('index', index)
-            body.append('name', file.name)
-            body.append('type', file.type ?? '')
-            body.append('chunk', this.chunkOf(file, plan, index), file.name)
-
             const request = new XMLHttpRequest()
 
             transfer.requests.add(request)
@@ -306,10 +425,11 @@ export default class LivewireUpload extends BasePlugin {
                 reject(error)
             }
 
-            request.open('POST', plan.url)
-            request.setRequestHeader('Accept', 'application/json')
-            request.setRequestHeader('X-CSRF-TOKEN', this.opts.csrfToken)
-            request.responseType = 'json'
+            request.open(method, url)
+
+            Object.entries(headers).forEach(([name, value]) =>
+                request.setRequestHeader(name, value),
+            )
 
             request.upload.addEventListener('progress', (event) =>
                 onProgress(event.loaded),
@@ -319,12 +439,10 @@ export default class LivewireUpload extends BasePlugin {
                 if (request.status >= 200 && request.status < 300) {
                     transfer.requests.delete(request)
 
-                    return resolve(request.response)
+                    return resolve(this.json(request))
                 }
 
-                const error = new Error(
-                    request.response?.message || this.opts.uploadFailedMessage,
-                )
+                const error = this.failure(this.json(request)?.message)
 
                 error.status = request.status
 
@@ -337,9 +455,7 @@ export default class LivewireUpload extends BasePlugin {
                 fail(error)
             })
 
-            request.addEventListener('error', () =>
-                fail(new Error(this.opts.uploadFailedMessage)),
-            )
+            request.addEventListener('error', () => fail(this.failure()))
 
             request.addEventListener('abort', () =>
                 fail(transfer.isCancelled ? new Cancelled() : new Paused()),
@@ -349,11 +465,20 @@ export default class LivewireUpload extends BasePlugin {
         })
     }
 
-    chunkOf(file, plan, index) {
-        return file.data.slice(
-            index * plan.chunkSize,
-            Math.min(file.size, (index + 1) * plan.chunkSize),
-        )
+    json(request) {
+        try {
+            return JSON.parse(request.responseText)
+        } catch {
+            return null
+        }
+    }
+
+    failure(message) {
+        return new Error(message || this.opts.uploadFailedMessage)
+    }
+
+    range(from, to) {
+        return Array.from({ length: to - from + 1 }, (_, index) => from + index)
     }
 
     reportProgress(file, bytesUploaded) {
@@ -409,6 +534,7 @@ export default class LivewireUpload extends BasePlugin {
             transfer.isCancelled = true
             transfer.requests.forEach((request) => request.abort())
             transfer.resume?.()
+            transfer.abort?.()
 
             return
         }

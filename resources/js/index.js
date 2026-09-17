@@ -15,9 +15,11 @@ function generateFileKey() {
 }
 
 export default function fluppy({
+    abortMultipartUploadUsing,
     acceptedFileTypes,
     adoptUploadUsing,
     cancelUploadUsing,
+    completeMultipartUploadUsing,
     csrfToken,
     deleteUploadedFileUsing,
     getUploadedFilesUsing,
@@ -34,6 +36,7 @@ export default function fluppy({
     planUploadUsing,
     removeUploadedFileUsing,
     reorderUploadedFilesUsing,
+    signUploadPartsUsing,
     state,
     uploadFailedMessage,
     uploadingMessage,
@@ -87,8 +90,11 @@ export default function fluppy({
                     theme: this.getTheme(),
                 })
                 .use(LivewireUpload, {
+                    abortUsing: abortMultipartUploadUsing,
                     adoptUsing: adoptUploadUsing,
                     cancelUploadUsing,
+                    completeUsing: completeMultipartUploadUsing,
+                    signPartsUsing: signUploadPartsUsing,
                     csrfToken,
                     isChunked,
                     planUsing: planUploadUsing,

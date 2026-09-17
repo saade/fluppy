@@ -59,6 +59,24 @@ class ChunkedUpload
     }
 
     /**
+     * The same for the same file chosen again, and impossible to work out
+     * from another session.
+     *
+     * @param  array{name: string, size: int, type: string, lastModified: int}  $file
+     */
+    public static function fingerprint(array $file, int $chunkSize): string
+    {
+        return sha1(implode('|', [
+            session()->getId(),
+            $file['name'],
+            $file['size'],
+            $file['type'],
+            $file['lastModified'],
+            $chunkSize,
+        ]));
+    }
+
+    /**
      * @param  array{name: string, size: int, type: string, lastModified: int}  $file
      * @return array<string, mixed>
      */
@@ -67,15 +85,7 @@ class ChunkedUpload
         $chunkSize = static::chunkSizeFor($file['size'], $chunkSizeInKilobytes);
 
         $upload = new static(
-            fingerprint: sha1(implode('|', [
-                // No other session can work out the fingerprint of this one's upload.
-                session()->getId(),
-                $file['name'],
-                $file['size'],
-                $file['type'],
-                $file['lastModified'],
-                $chunkSize,
-            ])),
+            fingerprint: static::fingerprint($file, $chunkSize),
             totalChunks: max(1, (int) ceil($file['size'] / $chunkSize)),
             chunkSize: $chunkSize,
             size: $file['size'],

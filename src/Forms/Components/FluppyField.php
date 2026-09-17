@@ -10,6 +10,7 @@ use Livewire\Attributes\Renderless;
 use Livewire\Features\SupportFileUploads\FileUploadConfiguration;
 use Livewire\Features\SupportFileUploads\TemporaryUploadedFile;
 use Saade\Fluppy\Uploads\ChunkedUpload;
+use Saade\Fluppy\Uploads\S3MultipartUpload;
 
 class FluppyField extends FileUpload
 {
@@ -76,17 +77,55 @@ class FluppyField extends FileUpload
             return ['strategy' => 'reject', 'message' => $message];
         }
 
-        // With S3 as Livewire's temporary disk the browser already sends the
-        // file straight to the bucket.
-        if (
-            ! $this->isChunked() ||
-            FileUploadConfiguration::isUsingS3() ||
-            $file['size'] <= ChunkedUpload::chunkSizeFor($file['size'], $this->getChunkSize())
-        ) {
+        if (! $this->isChunked()) {
             return ['strategy' => 'livewire'];
         }
 
-        return ChunkedUpload::plan($file, $this->getChunkSize());
+        if (FileUploadConfiguration::isUsingS3()) {
+            return $file['size'] > S3MultipartUpload::partSizeFor($file['size'])
+                ? app(S3MultipartUpload::class)->plan($file)
+                : ['strategy' => 'livewire'];
+        }
+
+        return $file['size'] > ChunkedUpload::chunkSizeFor($file['size'], $this->getChunkSize())
+            ? ChunkedUpload::plan($file, $this->getChunkSize())
+            : ['strategy' => 'livewire'];
+    }
+
+    /**
+     * @param  array<mixed>  $partNumbers
+     * @return array<int, string> Where to send each part, by part number.
+     */
+    #[ExposedLivewireMethod]
+    #[Renderless]
+    public function signUploadParts(string $capability, array $partNumbers): array
+    {
+        if ($this->isDisabled()) {
+            return [];
+        }
+
+        return app(S3MultipartUpload::class)->signParts($capability, $partNumbers) ?? [];
+    }
+
+    /**
+     * @return string | null A reference to the finished file, to adopt.
+     */
+    #[ExposedLivewireMethod]
+    #[Renderless]
+    public function completeMultipartUpload(string $capability): ?string
+    {
+        if ($this->isDisabled()) {
+            return null;
+        }
+
+        return app(S3MultipartUpload::class)->complete($capability);
+    }
+
+    #[ExposedLivewireMethod]
+    #[Renderless]
+    public function abortMultipartUpload(string $capability): void
+    {
+        app(S3MultipartUpload::class)->abort($capability);
     }
 
     /**

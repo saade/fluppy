@@ -114,6 +114,7 @@ php artisan vendor:publish --tag="fluppy-config"
 'chunking' => [
     'enabled' => true,
     'chunk_size' => 900, // kilobytes
+    's3_part_size' => 5120, // kilobytes
     'throttle' => '600,1', // requests,minutes for the chunk route
 ],
 ```
@@ -127,10 +128,16 @@ Each chunk still has to fit in one request:
 
 Larger chunks mean fewer requests. With the default throttle of 600 chunks a minute, 900 KB chunks top out at about 9 MB per second.
 
-## When chunks are not used
+A file no larger than one chunk goes to Livewire in a single request, as with `FileUpload`.
 
-- A file no larger than one chunk goes to Livewire in a single request, as with `FileUpload`.
-- When Livewire's temporary disk is S3, the browser sends the file straight to the bucket in one request.
+## S3 as the temporary disk
+
+When [Livewire's temporary disk is S3](https://livewire.laravel.com/docs/uploads#storing-uploaded-files-on-s3), the browser sends files straight to the bucket. A file larger than one part (5 MB, the least S3 accepts) is sent as a multipart upload: the server opens it and signs an address for each part, the browser sends the parts, and the server completes it. Pause, resume and retry work the same, and a file chosen again continues from the parts the bucket already has.
+
+- **CORS.** The bucket has to accept `PUT` from your app's origin, as it already does for Livewire's own uploads to S3. It does not have to expose the `ETag` header: the parts are read back from S3 when the upload is completed.
+- **Part size.** `fluppy.chunking.s3_part_size`, in kilobytes. `chunkSize()` and `chunk_size` are for chunks that go through PHP and do not apply here.
+- **Abandoned uploads.** Removing a file aborts its upload in S3. One that is abandoned (the tab was closed) stays in the bucket, and is billed, until it is aborted. Add a lifecycle rule to the bucket that aborts incomplete multipart uploads after a day or so.
+- Requires `league/flysystem-aws-s3-v3`, as S3 disks do.
 
 # Styling
 

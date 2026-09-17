@@ -8764,7 +8764,7 @@ var Go = {
 			let t = await this.plan(e);
 			if (!this.uppy.getFile(e.id)) return;
 			if (t.strategy === "reject") throw Error(t.message);
-			if (t.strategy === "chunked" ? await this.uploadInChunks(e, t) : await this.uploadThroughLivewire(e), !this.uppy.getFile(e.id)) return;
+			if (this.isInPieces(t) ? await this.uploadInPieces(e, t) : await this.uploadThroughLivewire(e), !this.uppy.getFile(e.id)) return;
 			this.uppy.emit("upload-success", this.uppy.getFile(e.id), {
 				status: 200,
 				body: {}
@@ -8782,92 +8782,147 @@ var Go = {
 			lastModified: e.data.lastModified ?? 0
 		});
 	}
+	isInPieces(e) {
+		return e.strategy === "chunked" || e.strategy === "s3";
+	}
 	uploadThroughLivewire(e) {
 		return new Promise((t, n) => {
-			this.opts.uploadUsing(e.meta.fileKey, e.data, t, () => n(Error(this.opts.uploadFailedMessage)), (t) => this.reportProgress(e, e.size * t / 100));
+			this.opts.uploadUsing(e.meta.fileKey, e.data, t, () => n(this.failure()), (t) => this.reportProgress(e, e.size * t / 100));
 		});
 	}
-	async uploadInChunks(e, t) {
+	async uploadInPieces(e, t) {
 		let n = {
 			isPaused: !1,
 			isCancelled: !1,
 			requests: /* @__PURE__ */ new Set(),
-			resume: null
+			resume: null,
+			abort: null
 		};
 		this.transfers.set(e.id, n);
 		try {
 			let r = t.completed;
-			for (; !r;) try {
-				r = await this.sendChunks(e, t, n);
-			} catch (i) {
-				if (!(i instanceof Yo) && i.status !== 401) throw i;
-				for (; n.isPaused && !n.isCancelled;) await new Promise((e) => n.resume = e);
-				if (n.isCancelled) throw new Xo();
-				if (t = await this.plan(e), t.strategy !== "chunked") throw Error(t.message ?? this.opts.uploadFailedMessage);
-				r = t.completed;
+			for (; !r;) {
+				let { capability: i } = t;
+				n.abort = t.strategy === "s3" ? () => Promise.resolve().then(() => this.opts.abortUsing(i)).catch(() => {}) : null;
+				try {
+					r = t.strategy === "s3" ? await this.sendParts(e, t, n) : await this.sendChunks(e, t, n);
+				} catch (i) {
+					if (!(i instanceof Yo) && i.status !== 401) throw i;
+					for (; n.isPaused && !n.isCancelled;) await new Promise((e) => n.resume = e);
+					if (n.isCancelled) throw new Xo();
+					if (t = await this.plan(e), !this.isInPieces(t)) throw this.failure(t.message);
+					r = t.completed;
+				}
 			}
-			if (!await this.opts.adoptUsing(e.meta.fileKey, r)) throw Error(this.opts.uploadFailedMessage);
+			if (!await this.opts.adoptUsing(e.meta.fileKey, r)) throw this.failure();
 		} finally {
 			this.transfers.delete(e.id);
 		}
 	}
-	async sendChunks(e, t, n) {
-		let r = new Set(t.receivedChunks), i = /* @__PURE__ */ new Map(), a = [];
-		for (let e = 0; e < t.totalChunks; e++) r.has(e) || a.push(e);
-		let o = () => {
-			let n = [...r].reduce((n, r) => n + this.chunkOf(e, t, r).size, 0);
-			this.reportProgress(e, n + [...i.values()].reduce((e, t) => e + t, 0));
-		}, s = null, c = null;
-		o(), await Promise.all(Array.from({ length: qo }, async () => {
-			for (; a.length && !s;) {
-				let l = a.shift();
-				c = l;
-				let u = await this.sendChunk(e, t, l, n, (e) => {
-					i.set(l, e), o();
+	async sendPieces(e, { missing: t, sizeOf: n, arrived: r, send: i }) {
+		let a = /* @__PURE__ */ new Map(), o = [...t], s = () => this.reportProgress(e, [...r].reduce((e, t) => e + n(t), 0) + [...a.values()].reduce((e, t) => e + t, 0));
+		s(), await Promise.all(Array.from({ length: qo }, async () => {
+			for (; o.length;) {
+				let e = o.shift(), t = await i(e, o, (t) => {
+					a.set(e, t), s();
 				});
-				i.delete(l), r.add(l), o(), u.complete && (s = u.reference);
+				a.delete(e), r.add(e), s(), t && (o.length = 0);
 			}
 		}));
-		for (let r = 0; !s && r < Jo; r++) {
-			await this.wait(1e3 * (r + 1));
-			let i = await this.sendChunk(e, t, c ?? t.totalChunks - 1, n, () => {});
-			s = i.complete ? i.reference : null;
-		}
-		if (!s) throw Error(this.opts.uploadFailedMessage);
-		return s;
 	}
-	async sendChunk(e, t, n, r, i) {
-		for (let a = 1;; a++) {
-			if (r.isCancelled) throw new Xo();
-			if (r.isPaused) throw new Yo();
+	async sendChunks(e, t, n) {
+		let r = new Set(t.receivedChunks), i = (n) => e.data.slice(n * t.chunkSize, Math.min(e.size, (n + 1) * t.chunkSize)), a = (r, a) => {
+			let o = new FormData();
+			return o.append("capability", t.capability), o.append("index", r), o.append("name", e.name), o.append("type", e.type ?? ""), o.append("chunk", i(r), e.name), this.attempt(n, () => this.request(n, {
+				method: "POST",
+				url: t.url,
+				headers: {
+					Accept: "application/json",
+					"X-CSRF-TOKEN": this.opts.csrfToken
+				},
+				body: o,
+				onProgress: a
+			}));
+		}, o = null, s = t.totalChunks - 1;
+		await this.sendPieces(e, {
+			missing: this.range(0, t.totalChunks - 1).filter((e) => !r.has(e)),
+			sizeOf: (e) => i(e).size,
+			arrived: r,
+			send: async (e, t, n) => {
+				s = e;
+				let r = await a(e, n);
+				return o = r?.complete ? r.reference : o, !!o;
+			}
+		});
+		for (let e = 0; !o && e < Jo; e++) {
+			await this.wait(1e3 * (e + 1));
+			let t = await a(s, () => {});
+			o = t?.complete ? t.reference : null;
+		}
+		if (!o) throw this.failure();
+		return o;
+	}
+	async sendParts(e, t, n) {
+		let r = new Set(t.uploadedParts), i = /* @__PURE__ */ new Map(), a = (n) => e.data.slice((n - 1) * t.partSize, Math.min(e.size, n * t.partSize)), o = null, s = async (e, n) => {
+			if (await o, i.has(e) || (o = this.opts.signPartsUsing(t.capability, [e, ...n.slice(0, 9)]).then((e) => Object.entries(e ?? {}).forEach(([e, t]) => i.set(Number(e), t))).finally(() => o = null), await o), !i.has(e)) throw this.failure();
+			let r = i.get(e);
+			return i.delete(e), r;
+		};
+		await this.sendPieces(e, {
+			missing: this.range(1, t.totalParts).filter((e) => !r.has(e)),
+			sizeOf: (e) => a(e).size,
+			arrived: r,
+			send: async (e, t, r) => (await this.attempt(n, async () => this.request(n, {
+				method: "PUT",
+				url: await s(e, t),
+				body: a(e),
+				onProgress: r
+			}), { retryForbidden: !0 }), !1)
+		});
+		let c = await this.opts.completeUsing(t.capability);
+		if (!c) throw this.failure();
+		return c;
+	}
+	async attempt(e, t, { retryForbidden: n = !1 } = {}) {
+		for (let r = 1;; r++) {
+			if (e.isCancelled) throw new Xo();
+			if (e.isPaused) throw new Yo();
 			try {
-				return await this.request(e, t, n, r, i);
+				return await t();
 			} catch (e) {
-				if (e instanceof Yo || e instanceof Xo || !(!e.status || e.status === 429 || e.status >= 500) || a === Jo) throw e;
-				await this.wait(e.retryAfter ?? 1e3 * 2 ** (a - 1));
+				if (e instanceof Yo || e instanceof Xo || !(!e.status || n && e.status === 403 || e.status === 429 || e.status >= 500) || r === Jo) throw e;
+				await this.wait(e.retryAfter ?? 1e3 * 2 ** (r - 1));
 			}
 		}
 	}
-	request(e, t, n, r, i) {
-		return new Promise((a, o) => {
-			let s = new FormData();
-			s.append("capability", t.capability), s.append("index", n), s.append("name", e.name), s.append("type", e.type ?? ""), s.append("chunk", this.chunkOf(e, t, n), e.name);
+	request(e, { method: t, url: n, headers: r = {}, body: i, onProgress: a }) {
+		return new Promise((o, s) => {
 			let c = new XMLHttpRequest();
-			r.requests.add(c);
-			let l = (e) => {
-				r.requests.delete(c), o(e);
+			e.requests.add(c);
+			let l = (t) => {
+				e.requests.delete(c), s(t);
 			};
-			c.open("POST", t.url), c.setRequestHeader("Accept", "application/json"), c.setRequestHeader("X-CSRF-TOKEN", this.opts.csrfToken), c.responseType = "json", c.upload.addEventListener("progress", (e) => i(e.loaded)), c.addEventListener("load", () => {
-				if (c.status >= 200 && c.status < 300) return r.requests.delete(c), a(c.response);
-				let e = Error(c.response?.message || this.opts.uploadFailedMessage);
-				e.status = c.status;
-				let t = Number(c.getResponseHeader("Retry-After"));
-				t && (e.retryAfter = t * 1e3), l(e);
-			}), c.addEventListener("error", () => l(Error(this.opts.uploadFailedMessage))), c.addEventListener("abort", () => l(r.isCancelled ? new Xo() : new Yo())), c.send(s);
+			c.open(t, n), Object.entries(r).forEach(([e, t]) => c.setRequestHeader(e, t)), c.upload.addEventListener("progress", (e) => a(e.loaded)), c.addEventListener("load", () => {
+				if (c.status >= 200 && c.status < 300) return e.requests.delete(c), o(this.json(c));
+				let t = this.failure(this.json(c)?.message);
+				t.status = c.status;
+				let n = Number(c.getResponseHeader("Retry-After"));
+				n && (t.retryAfter = n * 1e3), l(t);
+			}), c.addEventListener("error", () => l(this.failure())), c.addEventListener("abort", () => l(e.isCancelled ? new Xo() : new Yo())), c.send(i);
 		});
 	}
-	chunkOf(e, t, n) {
-		return e.data.slice(n * t.chunkSize, Math.min(e.size, (n + 1) * t.chunkSize));
+	json(e) {
+		try {
+			return JSON.parse(e.responseText);
+		} catch {
+			return null;
+		}
+	}
+	failure(e) {
+		return Error(e || this.opts.uploadFailedMessage);
+	}
+	range(e, t) {
+		return Array.from({ length: t - e + 1 }, (t, n) => e + n);
 	}
 	reportProgress(e, t) {
 		let n = this.uppy.getFile(e.id);
@@ -8896,7 +8951,7 @@ var Go = {
 	cancel = (e) => {
 		let t = this.transfers.get(e.id);
 		if (t) {
-			t.isCancelled = !0, t.requests.forEach((e) => e.abort()), t.resume?.();
+			t.isCancelled = !0, t.requests.forEach((e) => e.abort()), t.resume?.(), t.abort?.();
 			return;
 		}
 		e.progress.uploadStarted && !e.progress.uploadComplete && this.opts.cancelUploadUsing(e.meta.fileKey);
@@ -8960,58 +9015,61 @@ async function es(e) {
 function ts() {
 	return "10000000-1000-4000-8000-100000000000".replace(/[018]/g, (e) => (e ^ crypto.getRandomValues(/* @__PURE__ */ new Uint8Array(1))[0] & 15 >> e / 4).toString(16));
 }
-function ns({ acceptedFileTypes: e, adoptUploadUsing: t, cancelUploadUsing: n, csrfToken: r, deleteUploadedFileUsing: i, getUploadedFilesUsing: a, isChunked: o, isDeletable: s, isDisabled: c, isMultiple: l, isReorderable: u, locale: d, maxFiles: f, maxParallelUploads: p, maxSize: m, minSize: h, planUploadUsing: g, removeUploadedFileUsing: _, reorderUploadedFilesUsing: v, state: y, uploadFailedMessage: b, uploadingMessage: x, uploadUsing: S }) {
-	let C = null, w = null, T = null;
+function ns({ abortMultipartUploadUsing: e, acceptedFileTypes: t, adoptUploadUsing: n, cancelUploadUsing: r, completeMultipartUploadUsing: i, csrfToken: a, deleteUploadedFileUsing: o, getUploadedFilesUsing: s, isChunked: c, isDeletable: l, isDisabled: u, isMultiple: d, isReorderable: f, locale: p, maxFiles: m, maxParallelUploads: h, maxSize: g, minSize: _, planUploadUsing: v, removeUploadedFileUsing: y, reorderUploadedFilesUsing: b, signUploadPartsUsing: x, state: S, uploadFailedMessage: C, uploadingMessage: w, uploadUsing: T }) {
+	let E = null, D = null, ee = null;
 	return {
-		state: y,
+		state: S,
 		isRemovingSilently: !1,
 		async init() {
-			let a = await es(d);
-			C = new yn({
+			let s = await es(p);
+			E = new yn({
 				autoProceed: !0,
-				...a ? { locale: a } : {},
+				...s ? { locale: s } : {},
 				restrictions: {
-					allowedFileTypes: e?.length ? e : null,
-					maxFileSize: m,
-					maxNumberOfFiles: l ? f : 1,
-					minFileSize: h
+					allowedFileTypes: t?.length ? t : null,
+					maxFileSize: g,
+					maxNumberOfFiles: d ? m : 1,
+					minFileSize: _
 				}
 			}).use(Ko, {
 				target: this.$refs.dashboard,
 				inline: !0,
 				width: "100%",
 				height: 320,
-				disabled: c,
+				disabled: u,
 				hideUploadButton: !0,
 				hideCancelButton: !0,
 				doneButtonHandler: null,
-				showRemoveButtonAfterComplete: s && !c,
+				showRemoveButtonAfterComplete: l && !u,
 				proudlyDisplayPoweredByUppy: !1,
 				theme: this.getTheme()
 			}).use(Zo, {
-				adoptUsing: t,
-				cancelUploadUsing: n,
-				csrfToken: r,
-				isChunked: o,
-				planUsing: g,
-				maxParallelUploads: p ?? 2,
-				uploadFailedMessage: b,
-				uploadUsing: S
-			}), C.on("file-added", (e) => {
-				C.setFileMeta(e.id, { fileKey: ts() });
-			}), C.on("file-removed", (e) => {
-				C.getFiles().some((e) => e.error) || C.setState({ error: null }), !this.isRemovingSilently && e.meta.fileKey && (this.isStoredFile(e.meta.fileKey) ? i(e.meta.fileKey) : _(e.meta.fileKey));
-			}), C.on("upload", () => {
-				this.dispatchFormEvent("form-processing-started", { message: x });
-			}), C.on("complete", () => {
-				this.dispatchFormEvent("form-processing-finished"), u && !c && this.saveFileOrder();
-			}), u && !c && this.enableReordering(), T = () => C.getPlugin("Dashboard").setOptions({ theme: this.getTheme() }), window.addEventListener("theme-changed", T), await this.syncFiles(), this.$watch("state", () => this.syncFiles());
+				abortUsing: e,
+				adoptUsing: n,
+				cancelUploadUsing: r,
+				completeUsing: i,
+				signPartsUsing: x,
+				csrfToken: a,
+				isChunked: c,
+				planUsing: v,
+				maxParallelUploads: h ?? 2,
+				uploadFailedMessage: C,
+				uploadUsing: T
+			}), E.on("file-added", (e) => {
+				E.setFileMeta(e.id, { fileKey: ts() });
+			}), E.on("file-removed", (e) => {
+				E.getFiles().some((e) => e.error) || E.setState({ error: null }), !this.isRemovingSilently && e.meta.fileKey && (this.isStoredFile(e.meta.fileKey) ? o(e.meta.fileKey) : y(e.meta.fileKey));
+			}), E.on("upload", () => {
+				this.dispatchFormEvent("form-processing-started", { message: w });
+			}), E.on("complete", () => {
+				this.dispatchFormEvent("form-processing-finished"), f && !u && this.saveFileOrder();
+			}), f && !u && this.enableReordering(), ee = () => E.getPlugin("Dashboard").setOptions({ theme: this.getTheme() }), window.addEventListener("theme-changed", ee), await this.syncFiles(), this.$watch("state", () => this.syncFiles());
 		},
 		destroy() {
-			window.removeEventListener("theme-changed", T), w?.disconnect(), this.isRemovingSilently = !0, C?.destroy();
+			window.removeEventListener("theme-changed", ee), D?.disconnect(), this.isRemovingSilently = !0, E?.destroy();
 		},
 		getUppy() {
-			return C;
+			return E;
 		},
 		getTheme() {
 			return this.$store.theme === "dark" ? "dark" : "light";
@@ -9024,17 +9082,17 @@ function ns({ acceptedFileTypes: e, adoptUploadUsing: t, cancelUploadUsing: n, c
 			return typeof t == "string" && !t.startsWith("livewire-file:");
 		},
 		async syncFiles() {
-			let e = this.getFileKeysInState(), t = C.getFiles();
-			this.isRemovingSilently = !0, t.filter((t) => t.progress.uploadComplete && !e.includes(t.meta.fileKey)).forEach((e) => C.removeFile(e.id)), this.isRemovingSilently = !1;
-			let n = C.getFiles().map((e) => e.meta.fileKey);
+			let e = this.getFileKeysInState(), t = E.getFiles();
+			this.isRemovingSilently = !0, t.filter((t) => t.progress.uploadComplete && !e.includes(t.meta.fileKey)).forEach((e) => E.removeFile(e.id)), this.isRemovingSilently = !1;
+			let n = E.getFiles().map((e) => e.meta.fileKey);
 			if (e.every((e) => n.includes(e))) return;
-			let r = await a() ?? {};
-			Object.entries(r).filter(([e, t]) => t && !n.includes(e)).forEach(([e, t]) => this.showStoredFile(e, t)), C.getFiles().every((e) => e.progress.uploadComplete) && C.setState({ totalProgress: 100 });
+			let r = await s() ?? {};
+			Object.entries(r).filter(([e, t]) => t && !n.includes(e)).forEach(([e, t]) => this.showStoredFile(e, t)), E.getFiles().every((e) => e.progress.uploadComplete) && E.setState({ totalProgress: 100 });
 		},
 		showStoredFile(e, { name: t, size: n, type: r, url: i }) {
 			let a = `fluppy-${e}`;
-			C.setState({ files: {
-				...C.getState().files,
+			E.setState({ files: {
+				...E.getState().files,
 				[a]: {
 					id: a,
 					name: t,
@@ -9066,9 +9124,9 @@ function ns({ acceptedFileTypes: e, adoptUploadUsing: t, cancelUploadUsing: n, c
 			let e = this.$refs.dashboard, t = (e) => e.target.closest?.(".uppy-Dashboard-Item"), n = (e) => e.id.replace(/^uppy_/, ""), r = null, i = null, a = (e) => {
 				i?.removeAttribute("data-fluppy-drop-target"), i = e, i?.setAttribute("data-fluppy-drop-target", "");
 			};
-			w = new MutationObserver(() => {
+			D = new MutationObserver(() => {
 				e.querySelectorAll(".uppy-Dashboard-Item:not([draggable])").forEach((e) => e.draggable = !0);
-			}), w.observe(e, {
+			}), D.observe(e, {
 				childList: !0,
 				subtree: !0
 			}), e.addEventListener("dragstart", (e) => {
@@ -9089,12 +9147,12 @@ function ns({ acceptedFileTypes: e, adoptUploadUsing: t, cancelUploadUsing: n, c
 			});
 		},
 		moveFile(e, t) {
-			let { files: n } = C.getState(), r = Object.keys(n), i = r.indexOf(e), a = r.indexOf(t);
-			i !== -1 && a !== -1 && i !== a && (r.splice(a, 0, r.splice(i, 1)[0]), C.setState({ files: Object.fromEntries(r.map((e) => [e, n[e]])) }), this.saveFileOrder());
+			let { files: n } = E.getState(), r = Object.keys(n), i = r.indexOf(e), a = r.indexOf(t);
+			i !== -1 && a !== -1 && i !== a && (r.splice(a, 0, r.splice(i, 1)[0]), E.setState({ files: Object.fromEntries(r.map((e) => [e, n[e]])) }), this.saveFileOrder());
 		},
 		saveFileOrder() {
-			let e = C.getFiles().map((e) => e.meta.fileKey);
-			e.join() !== this.getFileKeysInState().filter((t) => e.includes(t)).join() && v(e);
+			let e = E.getFiles().map((e) => e.meta.fileKey);
+			e.join() !== this.getFileKeysInState().filter((t) => e.includes(t)).join() && b(e);
 		},
 		dispatchFormEvent(e, t = {}) {
 			this.$el.closest("form")?.dispatchEvent(new CustomEvent(e, {
