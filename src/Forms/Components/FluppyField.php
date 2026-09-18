@@ -10,7 +10,9 @@ use Livewire\Attributes\Renderless;
 use Livewire\Features\SupportFileUploads\FileUploadConfiguration;
 use Livewire\Features\SupportFileUploads\TemporaryUploadedFile;
 use Saade\Fluppy\Uploads\ChunkedUpload;
+use Saade\Fluppy\Uploads\S3Copy;
 use Saade\Fluppy\Uploads\S3MultipartUpload;
+use Throwable;
 
 class FluppyField extends FileUpload
 {
@@ -154,6 +156,36 @@ class FluppyField extends FileUpload
         $this->callAfterStateUpdated();
 
         return true;
+    }
+
+    /**
+     * `FileUpload` saves a file by reading it from the temporary disk and
+     * writing it to the final one. When both are in S3 the file is copied
+     * there instead, and only if that fails is it saved the usual way.
+     */
+    public function saveUploadedFile(TemporaryUploadedFile $file): ?string
+    {
+        $copy = app(S3Copy::class);
+
+        if (! $copy->isPossible($this->getDiskName()) || ! rescue(fn (): bool => $file->exists(), false, report: false)) {
+            return parent::saveUploadedFile($file);
+        }
+
+        $path = trim($this->getDirectory() . '/' . $this->getUploadedFileNameForStorage($file), '/');
+
+        try {
+            $copy->copy($file, $this->getDiskName(), $path);
+        } catch (Throwable $exception) {
+            report($exception);
+
+            return parent::saveUploadedFile($file);
+        }
+
+        if ($this->getVisibility() === 'public') {
+            rescue(fn () => $this->getDisk()->setVisibility($path, 'public'), report: false);
+        }
+
+        return $path;
     }
 
     /**

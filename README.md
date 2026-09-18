@@ -139,6 +139,17 @@ When [Livewire's temporary disk is S3](https://livewire.laravel.com/docs/uploads
 - **Abandoned uploads.** Removing a file aborts its upload in S3. One that is abandoned (the tab was closed) stays in the bucket, and is billed, until it is aborted. Add a lifecycle rule to the bucket that aborts incomplete multipart uploads after a day or so.
 - Requires `league/flysystem-aws-s3-v3`, as S3 disks do.
 
+### Saving without the file passing through the server
+
+`FileUpload` saves a file by reading it from the temporary disk and writing it to the final one, so the whole file passes through PHP. On a server with a time limit, such as a serverless function, a large file does not survive that.
+
+When the temporary disk and the field's `disk()` are both S3, `FluppyField` has S3 copy the file itself, and nothing passes through your server, during the upload or on save. This needs no option, and works:
+
+- within one bucket, and from one bucket to another;
+- for files of any size: above 5 GB, the most S3 copies in one request, the copy is made in parts.
+
+For a copy between two buckets, both disks have to be on the same S3 service (the same `endpoint`), and the credentials of the field's disk have to be allowed to read the temporary bucket. If S3 refuses the copy, the error is reported and the file is saved the usual way.
+
 # Styling
 
 The field is styled with your panel's `gray`, `primary`, `danger` and `success` colors and follows its light and dark mode.
