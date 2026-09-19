@@ -248,7 +248,7 @@ class S3MultipartUpload
      */
     protected function mapping(string $fingerprint): ?array
     {
-        $contents = FileUploadConfiguration::storage()->get($this->mappingPath($fingerprint));
+        $contents = $this->read($this->mappingPath($fingerprint));
 
         return $contents ? json_decode($contents, true) : null;
     }
@@ -276,7 +276,18 @@ class S3MultipartUpload
 
     protected function completedFilename(string $fingerprint): ?string
     {
-        return FileUploadConfiguration::storage()->get($this->mappingPath($fingerprint, 'done'));
+        return $this->read($this->mappingPath($fingerprint, 'done'));
+    }
+
+    /**
+     * A disk can be set to throw when a file is not there, instead of
+     * answering with nothing.
+     */
+    protected function read(string $path): ?string
+    {
+        $storage = FileUploadConfiguration::storage();
+
+        return $storage->exists($path) ? $storage->get($path) : null;
     }
 
     protected function mappingPath(string $fingerprint, string $extension = 'json'): string

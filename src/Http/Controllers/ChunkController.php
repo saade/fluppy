@@ -29,7 +29,7 @@ class ChunkController
         $request->validate([
             'index' => ['required', 'integer', 'min:0', 'max:' . ($upload->totalChunks - 1)],
             'chunk' => ['required', 'file'],
-            'name' => ['required', 'string', 'max:255'],
+            'name' => ['required', 'string'],
             'type' => ['nullable', 'string', 'max:255'],
         ]);
 
@@ -44,7 +44,7 @@ class ChunkController
             return ['complete' => false, 'received' => $received];
         }
 
-        return $this->assembleOnce($upload, $request->string('name')->value(), $request->input('type'));
+        return $this->assembleOnce($upload, mb_substr(basename($request->string('name')->value()), 0, 255), $request->input('type'));
     }
 
     /**

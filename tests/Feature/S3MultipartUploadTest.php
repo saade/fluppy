@@ -72,6 +72,12 @@ it('opens a multipart upload for a larger file', function () {
         ->and(head(FakeS3MultipartUpload::$uploads)['key'])->toStartWith('livewire-tmp/')->toEndWith('.mp4');
 });
 
+it('plans on a disk that throws when a file is not there', function () {
+    Storage::fake('tmp-for-tests', ['throw' => true]);
+
+    expect(planMultipartUpload(multipartForm()))->strategy->toBe('s3')->completed->toBeNull();
+});
+
 it('uses the part size of the configuration, and never less than S3 accepts', function () {
     config(['fluppy.chunking.s3_part_size' => 6 * 1024]);
 

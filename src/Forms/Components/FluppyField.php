@@ -69,7 +69,8 @@ class FluppyField extends FileUpload
     public function planUpload(array $file): array
     {
         $file = [
-            'name' => is_string($file['name'] ?? null) ? $file['name'] : '',
+            // The name ends up inside the name of the temporary file.
+            'name' => is_string($file['name'] ?? null) ? mb_substr(basename($file['name']), 0, 255) : '',
             'size' => max(0, (int) ($file['size'] ?? 0)),
             'type' => is_string($file['type'] ?? null) ? $file['type'] : '',
             'lastModified' => (int) ($file['lastModified'] ?? 0),

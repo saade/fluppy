@@ -9,6 +9,7 @@ use Livewire\Features\SupportTesting\Testable;
 use Livewire\Livewire;
 use Saade\Fluppy\Forms\Components\FluppyField;
 use Saade\Fluppy\Tests\Fixtures\FluppyForm;
+use Saade\Fluppy\Uploads\Signer;
 
 beforeEach(function () {
     Storage::fake('uploads');
@@ -212,6 +213,45 @@ it('refuses an address it did not sign', function () {
     $plan['url'] = route('fluppy.chunks', absolute: false);
 
     sendChunk($plan, $contents, 0)->assertUnauthorized();
+});
+
+it('keeps only the name of a file whose name is a path', function () {
+    $contents = str_repeat('a', 1500);
+
+    $component = chunkedForm();
+
+    $plan = planChunkedUpload($component, $contents, '../../public/shell.php');
+
+    sendChunk($plan, $contents, 0);
+
+    $reference = test()
+        ->withCookie(session()->getName(), session()->getId())
+        ->post($plan['url'], [
+            'capability' => $plan['capability'],
+            'index' => 1,
+            'name' => '../../public/shell.php',
+            'type' => 'text/plain',
+            'chunk' => UploadedFile::fake()->createWithContent('shell.php', substr($contents, 1024)),
+        ], ['Accept' => 'application/json'])
+        ->assertOk()
+        ->json('reference');
+
+    $component->call('callSchemaComponentMethod', chunkedField($component)->getKey(), 'adoptUpload', [
+        'fileKey' => 'a1b2',
+        'reference' => $reference,
+    ]);
+
+    $file = $component->instance()->data['attachments']['a1b2'];
+
+    expect($file->getClientOriginalName())->toBe('shell.php')
+        ->and($file->getFilename())->not->toContain('/')
+        ->and(FileUploadConfiguration::storage()->files(FileUploadConfiguration::path()))->toHaveCount(1);
+});
+
+it('does not sign anything without an application key', function () {
+    config(['app.key' => '']);
+
+    expect(fn () => Signer::sign('file', 'report.pdf'))->toThrow(RuntimeException::class);
 });
 
 it('does not adopt a reference it did not sign', function () {

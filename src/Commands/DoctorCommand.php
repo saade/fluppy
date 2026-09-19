@@ -166,7 +166,7 @@ class DoctorCommand extends Command
         } catch (Throwable $exception) {
             $this->reason($exception) === 'NoSuchCORSConfiguration'
                 ? $this->warns('CORS', "the bucket has no CORS rules. Unless the service allows every origin by itself, as MinIO does, the browser cannot send parts from {$this->origin()}")
-                : $this->warns('CORS', 'could not be read: ' . $this->reason($exception));
+                : $this->warns('CORS', $this->unreadable($exception) . ": check that PUT is allowed from {$this->origin()}");
         }
 
         try {
@@ -176,7 +176,7 @@ class DoctorCommand extends Command
                 ? $this->passes('Lifecycle', 'incomplete multipart uploads are aborted')
                 : $this->warns('Lifecycle', 'no rule aborts incomplete multipart uploads: abandoned ones stay, and are billed');
         } catch (Throwable $exception) {
-            $this->warns('Lifecycle', 'no rule could be read (' . $this->reason($exception) . '): add one that aborts incomplete multipart uploads');
+            $this->warns('Lifecycle', $this->unreadable($exception) . ': check that a rule aborts incomplete multipart uploads');
         }
     }
 
@@ -239,6 +239,19 @@ class DoctorCommand extends Command
         return method_exists($exception, 'getAwsErrorCode') && $exception->getAwsErrorCode()
             ? $exception->getAwsErrorCode()
             : $exception->getMessage();
+    }
+
+    /**
+     * A key that may only read and write objects, which is all uploads
+     * need, is refused the settings of the bucket.
+     */
+    protected function unreadable(Throwable $exception): string
+    {
+        return match ($reason = $this->reason($exception)) {
+            'AccessDenied' => 'this key may not read the bucket\'s settings',
+            'NoSuchLifecycleConfiguration' => 'the bucket has no lifecycle rules',
+            default => "could not be read ({$reason})",
+        };
     }
 
     protected function passes(string $check, string $result): void

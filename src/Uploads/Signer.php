@@ -2,6 +2,8 @@
 
 namespace Saade\Fluppy\Uploads;
 
+use RuntimeException;
+
 /**
  * Signs what the server hands the browser to send back later, so it cannot
  * be altered or made up. Livewire signs its upload references the same way
@@ -33,6 +35,11 @@ class Signer
 
     protected static function signature(string $purpose, string $payload): string
     {
-        return hash_hmac('sha256', "fluppy|{$purpose}|{$payload}", (string) config('app.key'));
+        $key = (string) config('app.key');
+
+        // Signed with an empty key, anything could be forged.
+        throw_if($key === '', RuntimeException::class, 'The application has no key to sign uploads with.');
+
+        return hash_hmac('sha256', "fluppy|{$purpose}|{$payload}", $key);
     }
 }

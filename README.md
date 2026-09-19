@@ -167,10 +167,48 @@ It removes what has not changed for 24 hours (`--hours=` to change that): chunks
 
 When [Livewire's temporary disk is S3](https://livewire.laravel.com/docs/uploads#storing-uploaded-files-on-s3), the browser sends files straight to the bucket. A file larger than one part (5 MB, the least S3 accepts) is sent as a multipart upload: the server opens it and signs an address for each part, the browser sends the parts, and the server completes it. Pause, resume and retry work the same, and a file chosen again continues from the parts the bucket already has.
 
-- **CORS.** The bucket has to accept `PUT` from your app's origin, as it already does for Livewire's own uploads to S3. It does not have to expose the `ETag` header: the parts are read back from S3 when the upload is completed.
+- **CORS.** The bucket has to accept `PUT` from your app's origin, as it already does for Livewire's own uploads to S3. It does not have to expose the `ETag` header: the parts are read back from S3 when the upload is completed. Allow your own origin rather than every one:
+
+  ```json
+  [
+      {
+          "AllowedOrigins": ["https://your-app.com"],
+          "AllowedMethods": ["PUT"],
+          "AllowedHeaders": ["*"],
+          "MaxAgeSeconds": 3000
+      }
+  ]
+  ```
+
+- **Permissions.** The credentials of the temporary disk need no more than this on the temporary bucket. `s3:ListBucketMultipartUploads`, on the bucket itself, is only used by `fluppy:doctor`.
+
+  ```json
+  {
+      "Effect": "Allow",
+      "Action": [
+          "s3:PutObject",
+          "s3:GetObject",
+          "s3:DeleteObject",
+          "s3:AbortMultipartUpload",
+          "s3:ListMultipartUploadParts"
+      ],
+      "Resource": "arn:aws:s3:::your-temporary-bucket/livewire-tmp/*"
+  }
+  ```
 - **Part size.** `fluppy.chunking.s3_part_size`, in kilobytes. `chunkSize()` and `chunk_size` are for chunks that go through PHP and do not apply here.
 - **Abandoned uploads.** Removing a file aborts its upload in S3. One that is abandoned (the tab was closed) stays in the bucket, and is billed, until it is aborted. [`fluppy:prune`](#cleaning-up) aborts the ones it knows about; also add a lifecycle rule to the bucket that aborts incomplete multipart uploads after a day or so, which catches the rest and removes temporary files nobody saved.
 - Requires `league/flysystem-aws-s3-v3`, as S3 disks do.
+
+### S3-compatible services
+
+Anything Laravel's `s3` driver talks to should work, since only standard multipart calls and presigned addresses are used. Tried so far:
+
+| Service | Notes |
+| ------- | ----- |
+| Cloudflare R2 | Works, including the copy on save. Use `'region' => 'auto'` and `'use_path_style_endpoint' => true`. A new bucket has no CORS rules: add the one above. R2 already aborts incomplete multipart uploads after 7 days. |
+| MinIO | Works, including the copy on save. It allows every origin by itself, and has no per-bucket CORS or lifecycle rules to read. |
+
+`fluppy:doctor` cannot read a bucket's CORS and lifecycle rules with a key that may only read and write objects. It says so, and uploads are not affected.
 
 ### Saving without the file passing through the server
 
@@ -214,6 +252,15 @@ php artisan vendor:publish --tag="fluppy-translations"
 ```bash
 composer test
 ```
+
+Some of the tests drive a real browser, which has to be installed once:
+
+```bash
+npm install
+npx playwright install chromium
+```
+
+To run only the others: `vendor/bin/pest --testsuite=Feature`.
 
 # Changelog
 
