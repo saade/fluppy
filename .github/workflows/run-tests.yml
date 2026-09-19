@@ -57,12 +57,25 @@ jobs:
       - name: Install dependencies
         env:
           FILAMENT: ${{ matrix.filament }}
+          PHP: ${{ matrix.php }}
         run: |
           composer require "filament/filament:${FILAMENT}" --no-interaction --no-update
+          if [ "${PHP}" = "8.2" ]; then composer remove --dev pestphp/pest-plugin-browser --no-interaction --no-update; fi
           composer update --prefer-stable --prefer-dist --no-interaction
 
       - name: List installed dependencies
         run: composer show -D
 
       - name: Execute tests
-        run: vendor/bin/pest --ci
+        run: vendor/bin/pest --ci --testsuite=Feature
+
+      # Pest's browser plugin needs PHP 8.3.
+      - name: Install the browser
+        if: matrix.php != '8.2'
+        run: |
+          npm ci
+          npx playwright install --with-deps chromium
+
+      - name: Execute browser tests
+        if: matrix.php != '8.2'
+        run: vendor/bin/pest --ci --testsuite=Browser

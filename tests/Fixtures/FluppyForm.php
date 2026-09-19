@@ -21,13 +21,20 @@ class FluppyForm extends Component implements HasSchemas
     public static ?Closure $configureUsing = null;
 
     /**
+     * Lets a test give the form the state a record would.
+     *
+     * @var array<string, mixed>
+     */
+    public static array $fill = [];
+
+    /**
      * @var array<string, mixed> | null
      */
     public ?array $data = [];
 
     public function mount(): void
     {
-        $this->form->fill();
+        $this->form->fill(static::$fill);
     }
 
     public function form(Schema $schema): Schema

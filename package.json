@@ -10,6 +10,7 @@
         "@uppy/core": "^6.2.0",
         "@uppy/dashboard": "^6.0.1",
         "@uppy/locales": "^5.3.0",
+        "playwright": "^1.63.0",
         "prettier": "^3.9.9",
         "vite": "^8.3.2"
     }
