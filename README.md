@@ -130,13 +130,46 @@ Larger chunks mean fewer requests. With the default throttle of 600 chunks a min
 
 A file no larger than one chunk goes to Livewire in a single request, as with `FileUpload`.
 
+## Checking your setup
+
+```bash
+php artisan fluppy:doctor
+```
+
+It looks at everything a large upload passes through and says what would stop one:
+
+- the largest file Livewire's rules allow, and whether that is still the 12 MB default;
+- the chunk size, and whether it was lowered to fit PHP. It asks the running app for PHP's limits, since PHP on the command line can be configured differently;
+- whether a chunk of that size reaches the app, or the web server refuses it. It sends one to find out;
+- with S3 as the temporary disk: that the bucket can be reached, how many multipart uploads are open, whether CORS allows `PUT` from your app, and whether a lifecycle rule aborts incomplete uploads;
+- whether `fluppy:prune` is scheduled.
+
+It exits with an error when something would make uploads fail, so it can run in a deployment.
+
+| Option | Description |
+| ------ | ----------- |
+| `--disk=` | A disk your fields store files on, to see whether saving to it [copies inside S3](#saving-without-the-file-passing-through-the-server). Can be given more than once. |
+| `--url=` | The address of the app as a browser reaches it, when it is not `APP_URL`. |
+
+## Cleaning up
+
+An upload that is never finished leaves its chunks on the temporary disk, or an open multipart upload in the bucket. Schedule the command that removes them:
+
+```php
+use Illuminate\Support\Facades\Schedule;
+
+Schedule::command('fluppy:prune')->daily();
+```
+
+It removes what has not changed for 24 hours (`--hours=` to change that): chunks, multipart uploads that were opened and never completed, and, off S3, temporary uploads that were never saved, the way Livewire removes its own.
+
 ## S3 as the temporary disk
 
 When [Livewire's temporary disk is S3](https://livewire.laravel.com/docs/uploads#storing-uploaded-files-on-s3), the browser sends files straight to the bucket. A file larger than one part (5 MB, the least S3 accepts) is sent as a multipart upload: the server opens it and signs an address for each part, the browser sends the parts, and the server completes it. Pause, resume and retry work the same, and a file chosen again continues from the parts the bucket already has.
 
 - **CORS.** The bucket has to accept `PUT` from your app's origin, as it already does for Livewire's own uploads to S3. It does not have to expose the `ETag` header: the parts are read back from S3 when the upload is completed.
 - **Part size.** `fluppy.chunking.s3_part_size`, in kilobytes. `chunkSize()` and `chunk_size` are for chunks that go through PHP and do not apply here.
-- **Abandoned uploads.** Removing a file aborts its upload in S3. One that is abandoned (the tab was closed) stays in the bucket, and is billed, until it is aborted. Add a lifecycle rule to the bucket that aborts incomplete multipart uploads after a day or so.
+- **Abandoned uploads.** Removing a file aborts its upload in S3. One that is abandoned (the tab was closed) stays in the bucket, and is billed, until it is aborted. [`fluppy:prune`](#cleaning-up) aborts the ones it knows about; also add a lifecycle rule to the bucket that aborts incomplete multipart uploads after a day or so, which catches the rest and removes temporary files nobody saved.
 - Requires `league/flysystem-aws-s3-v3`, as S3 disks do.
 
 ### Saving without the file passing through the server

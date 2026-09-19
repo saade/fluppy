@@ -7,7 +7,10 @@ use Filament\Support\Assets\Asset;
 use Filament\Support\Assets\Js;
 use Filament\Support\Facades\FilamentAsset;
 use Illuminate\Support\Facades\Route;
+use Saade\Fluppy\Commands\DoctorCommand;
+use Saade\Fluppy\Commands\PruneCommand;
 use Saade\Fluppy\Http\Controllers\ChunkController;
+use Saade\Fluppy\Http\Controllers\DoctorController;
 use Spatie\LaravelPackageTools\Package;
 use Spatie\LaravelPackageTools\PackageServiceProvider;
 
@@ -23,6 +26,7 @@ class FluppyServiceProvider extends PackageServiceProvider
             ->name(static::$name)
             ->hasTranslations()
             ->hasConfigFile()
+            ->hasCommands([DoctorCommand::class, PruneCommand::class])
             ->hasViews();
     }
 
@@ -36,6 +40,12 @@ class FluppyServiceProvider extends PackageServiceProvider
         Route::post('fluppy/chunks', ChunkController::class)
             ->middleware(['web', 'throttle:' . config('fluppy.chunking.throttle', '600,1')])
             ->name('fluppy.chunks');
+
+        // Called by `fluppy:doctor`, which has no session to pass the `web`
+        // group with.
+        Route::post('fluppy/doctor', DoctorController::class)
+            ->middleware('throttle:10,1')
+            ->name('fluppy.doctor');
     }
 
     protected function getAssetPackageName(): ?string

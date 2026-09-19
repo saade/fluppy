@@ -3,6 +3,7 @@
 namespace Saade\Fluppy\Uploads;
 
 use Aws\Exception\AwsException;
+use DateTimeInterface;
 use Illuminate\Contracts\Cache\Lock;
 use Illuminate\Contracts\Cache\LockTimeoutException;
 use Illuminate\Http\UploadedFile;
@@ -151,6 +152,34 @@ class S3MultipartUpload
         rescue(fn () => $this->abortUpload($mapping), report: false);
 
         FileUploadConfiguration::storage()->delete($this->mappingPath($fingerprint));
+    }
+
+    /**
+     * Aborts the uploads that were opened before the given time and never
+     * completed, and forgets the answers remembered for finished ones.
+     *
+     * @return int The number of unfinished uploads aborted.
+     */
+    public function prune(DateTimeInterface $before): int
+    {
+        $storage = FileUploadConfiguration::storage();
+        $aborted = 0;
+
+        foreach ($storage->files(FileUploadConfiguration::path('fluppy/multipart', false)) as $file) {
+            if ($storage->lastModified($file) >= $before->getTimestamp()) {
+                continue;
+            }
+
+            if (str_ends_with($file, '.json') && ($mapping = json_decode((string) $storage->get($file), true))) {
+                rescue(fn () => $this->abortUpload($mapping), report: false);
+
+                $aborted++;
+            }
+
+            $storage->delete($file);
+        }
+
+        return $aborted;
     }
 
     /**

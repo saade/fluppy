@@ -2,6 +2,7 @@
 
 namespace Saade\Fluppy\Uploads;
 
+use DateTimeInterface;
 use Illuminate\Contracts\Filesystem\Filesystem;
 use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Facades\URL;
@@ -234,6 +235,30 @@ class ChunkedUpload
         }
 
         return $reference;
+    }
+
+    /**
+     * Removes the chunks of uploads that received nothing since the given
+     * time, and the answers remembered for finished ones.
+     *
+     * @return int The number of unfinished uploads removed.
+     */
+    public static function prune(DateTimeInterface $before): int
+    {
+        $storage = FileUploadConfiguration::storage();
+        $directory = FileUploadConfiguration::path('fluppy/chunks', false);
+        $isOld = fn (string $file): bool => $storage->lastModified($file) < $before->getTimestamp();
+
+        $abandoned = array_filter(
+            $storage->directories($directory),
+            fn (string $upload): bool => collect($storage->files($upload))->every($isOld),
+        );
+
+        array_map($storage->deleteDirectory(...), $abandoned);
+
+        $storage->delete(array_filter($storage->files($directory), $isOld));
+
+        return count($abandoned);
     }
 
     public static function referenceTo(string $filename): string
