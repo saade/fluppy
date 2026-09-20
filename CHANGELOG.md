@@ -10,6 +10,7 @@ All notable changes to `fluppy` will be documented in this file.
 - The upload field uses the panel's colors and follows its light and dark mode.
 - Large files are uploaded in chunks, so they can be larger than one request allows, and can be paused, resumed and retried. See "Large files" in the README; `chunked()` and `chunkSize()` set it per field.
 - With S3 as Livewire's temporary disk, large files go straight to the bucket as multipart uploads, with the same pause, resume and retry.
+- `camera()`, `microphone()` and `screenCapture()` let a file be taken or recorded on the spot.
 - `php artisan fluppy:doctor` checks everything a large upload passes through: Livewire's limit, PHP's and the web server's, and the bucket's CORS and lifecycle rules.
 - `php artisan fluppy:prune` removes what unfinished uploads left behind. Schedule it daily.
 - When the temporary and the final disk are both S3, a file is copied inside S3 on save, within a bucket or from one to another, instead of passing through the server.

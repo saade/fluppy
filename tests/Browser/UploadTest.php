@@ -171,6 +171,72 @@ it('puts files in the order they are dragged into', function () {
     expect(json_decode($page->text('#saved')))->toBe(['c.txt', 'a.txt', 'b.txt']);
 });
 
+it('offers the camera, the microphone and the screen only on a field that has them', function () {
+    visit('/fluppy-tests')
+        ->assertSee('browse files')
+        ->assertDontSee('Camera')
+        ->assertScript('Boolean(' . UPPY . ".getPlugin('Webcam'))", false);
+
+    FluppyForm::$configureUsing = fn (FluppyField $field) => $field->camera()->microphone()->screenCapture();
+
+    visit('/fluppy-tests')
+        ->assertSee('My Device')
+        ->assertSee('Camera')
+        ->assertSee('Audio')
+        ->assertSee('Screencast')
+        ->click('Camera')
+        ->assertScript('Boolean(document.querySelector(".uppy-Webcam-container, .uppy-Webcam-permissons"))', true);
+});
+
+it('uploads a picture taken with the camera', function () {
+    FluppyForm::$configureUsing = fn (FluppyField $field) => $field->image()->camera();
+
+    $page = visit('/fluppy-tests')->assertSee('Camera');
+
+    // A drawing stands in for the camera, which a test has none of. It is
+    // drawn again and again because a canvas only sends a frame when it
+    // changes, and a picture taken before the first frame is empty.
+    $page->script(<<<'JS'
+        (() => {
+            const canvas = document.createElement('canvas')
+
+            canvas.width = 320
+            canvas.height = 240
+
+            setInterval(() => {
+                const context = canvas.getContext('2d')
+
+                context.fillStyle = `hsl(${Date.now() % 360} 80% 50%)`
+                context.fillRect(0, 0, 320, 240)
+            }, 50)
+
+            navigator.mediaDevices.getUserMedia = async () => canvas.captureStream(10)
+            navigator.mediaDevices.enumerateDevices = async () => [{ kind: 'videoinput', deviceId: 'drawing', label: 'Drawing' }]
+        })()
+    JS);
+
+    $page->click('Camera')
+        ->wait(1)
+        ->click('.uppy-Webcam-button--picture')
+        ->click('.uppy-Webcam-button--submit')
+        ->assertSee('Upload complete')
+        ->press('Save')
+        ->assertSee('Saved:');
+
+    $stored = json_decode($page->text('#saved'));
+
+    expect($stored)->toEndWith('.jpg')
+        ->and(getimagesizefromstring(Storage::disk('uploads')->get($stored)))->toMatchArray([320, 240]);
+});
+
+it('only takes pictures with the camera of a field for images', function () {
+    FluppyForm::$configureUsing = fn (FluppyField $field) => $field->image()->camera();
+
+    visit('/fluppy-tests')
+        ->assertSee('Camera')
+        ->assertScript('JSON.stringify(' . UPPY . ".getPlugin('Webcam').opts.modes)", '["picture"]');
+});
+
 it('shows the files a field already has', function () {
     Storage::disk('uploads')->put('existing/photo.png', 'contents');
 

@@ -2,6 +2,7 @@ import Uppy from '@uppy/core'
 import Dashboard from '@uppy/dashboard'
 import LivewireUpload from './livewire-upload.js'
 import { loadUppyLocale } from './locale.js'
+import { useSources } from './sources.js'
 
 // The same generator Filament's own upload field uses, which also works on
 // pages served without HTTPS, where `crypto.randomUUID()` is not available.
@@ -37,6 +38,7 @@ export default function fluppy({
     removeUploadedFileUsing,
     reorderUploadedFilesUsing,
     signUploadPartsUsing,
+    sources,
     state,
     uploadFailedMessage,
     uploadingMessage,
@@ -103,6 +105,10 @@ export default function fluppy({
                     uploadFailedMessage,
                     uploadUsing,
                 })
+
+            if (!isDisabled) {
+                await useSources(uppy, sources ?? [], { acceptedFileTypes })
+            }
 
             uppy.on('file-added', (file) => {
                 uppy.setFileMeta(file.id, { fileKey: generateFileKey() })

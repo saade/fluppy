@@ -131,6 +131,14 @@ it('lets the browser ask for its files', function () {
     expect(data_get($component->effects, 'returns.0'))->toHaveKey('k1.name', 'photo.png');
 });
 
+it('tells the browser where else files can come from', function () {
+    expect(fluppyField(fluppyForm())->getSources())->toBe([]);
+
+    $component = fluppyForm(fn (FluppyField $field) => $field->camera()->screenCapture(fn (): bool => true)->microphone(false));
+
+    expect(fluppyField($component)->getSources())->toBe(['camera', 'screenCapture']);
+});
+
 it('lets files be reordered only when it is reorderable', function () {
     fluppyForm()
         ->assertSeeHtml('isReorderable: false')

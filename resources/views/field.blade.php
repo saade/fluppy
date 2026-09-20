@@ -59,6 +59,7 @@
             signUploadPartsUsing: async (capability, partNumbers) => {
                 return await $wire.callSchemaComponentMethod(@js($key), 'signUploadParts', { capability, partNumbers })
             },
+            sources: @js($getSources()),
             state: $wire.{{ $applyStateBindingModifiers("\$entangle('{$statePath}')") }},
             uploadFailedMessage: @js(__('fluppy::fluppy.upload_failed')),
             uploadingMessage: @js($getUploadingMessage()),

@@ -26,6 +26,12 @@ class FluppyField extends FileUpload
 
     protected int | Closure | null $chunkSize = null;
 
+    protected bool | Closure $hasCamera = false;
+
+    protected bool | Closure $hasMicrophone = false;
+
+    protected bool | Closure $hasScreenCapture = false;
+
     public function chunked(bool | Closure | null $condition = true): static
     {
         $this->isChunked = $condition;
@@ -41,6 +47,48 @@ class FluppyField extends FileUpload
         $this->chunkSize = $size;
 
         return $this;
+    }
+
+    /**
+     * Lets a picture or a video be taken with the device's camera.
+     */
+    public function camera(bool | Closure $condition = true): static
+    {
+        $this->hasCamera = $condition;
+
+        return $this;
+    }
+
+    /**
+     * Lets audio be recorded with the device's microphone.
+     */
+    public function microphone(bool | Closure $condition = true): static
+    {
+        $this->hasMicrophone = $condition;
+
+        return $this;
+    }
+
+    /**
+     * Lets the screen, a window or a browser tab be recorded.
+     */
+    public function screenCapture(bool | Closure $condition = true): static
+    {
+        $this->hasScreenCapture = $condition;
+
+        return $this;
+    }
+
+    /**
+     * @return array<string> The places, other than the device's files, a file can come from.
+     */
+    public function getSources(): array
+    {
+        return array_keys(array_filter([
+            'camera' => $this->evaluate($this->hasCamera),
+            'microphone' => $this->evaluate($this->hasMicrophone),
+            'screenCapture' => $this->evaluate($this->hasScreenCapture),
+        ]));
     }
 
     public function isChunked(): bool

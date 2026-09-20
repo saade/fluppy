@@ -10,7 +10,13 @@ function uppyStyles() {
         name: 'fluppy-uppy-styles',
         buildStart() {
             const require = createRequire(import.meta.url)
-            const styles = ['@uppy/core', '@uppy/dashboard'].map((name) => {
+            const styles = [
+                '@uppy/core',
+                '@uppy/dashboard',
+                '@uppy/webcam',
+                '@uppy/screen-capture',
+                '@uppy/audio',
+            ].map((name) => {
                 const { version } = require(`${name}/package.json`)
                 const css = readFileSync(
                     require.resolve(`${name}/css/style.min.css`),

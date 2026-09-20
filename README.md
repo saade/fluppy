@@ -72,10 +72,27 @@ Files are uploaded through Livewire, validated and stored the same way as with `
 | `maxSize(int \| Closure $size)`, `minSize(int \| Closure $size)` | The size a file can have, in kilobytes. |
 | `maxParallelUploads(int \| Closure $count)` | How many files are uploaded at once. 2 by default. |
 | `reorderable(bool \| Closure $condition)` | Lets files be put in order by dragging one onto another. |
+| `camera(bool \| Closure $condition)` | Lets a picture or a video be taken with the device's camera. |
+| `microphone(bool \| Closure $condition)` | Lets audio be recorded with the device's microphone. |
+| `screenCapture(bool \| Closure $condition)` | Lets the screen, a window or a browser tab be recorded. |
 | `deletable(bool \| Closure $condition)` | Whether a file can be removed. |
 | `disabled()` | Shows the files without letting them change. |
 
 It works where `FileUpload` does: pages, modals and slide-overs, repeaters and builder blocks, relation managers, table actions, live forms and panels in SPA mode.
+
+## Camera, microphone and screen
+
+```php
+FluppyField::make('photo')
+    ->image()
+    ->camera()
+```
+
+Each one adds a button next to "My Device". What is taken or recorded is uploaded like any other file, and has to pass the same rules.
+
+- A field that only accepts images takes pictures and does not record videos; one that only accepts videos does the opposite.
+- The script of a source is loaded only by fields that have it on.
+- Browsers give access to the camera, the microphone and the screen on HTTPS pages only (and on `localhost`), and ask the person for it the first time. If your app sends a `Permissions-Policy` header, it has to allow `camera`, `microphone` and `display-capture` for your own origin.
 
 ## Not supported yet
 

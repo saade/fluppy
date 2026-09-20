@@ -121,7 +121,11 @@ export default class LivewireUpload extends BasePlugin {
         return new Promise((resolve, reject) => {
             this.opts.uploadUsing(
                 file.meta.fileKey,
-                file.data,
+                // What the camera and the other sources produce has no name
+                // of its own, and Livewire takes the name from the file.
+                file.data instanceof File
+                    ? file.data
+                    : new File([file.data], file.name, { type: file.type }),
                 resolve,
                 () => reject(this.failure()),
                 (percentage) =>

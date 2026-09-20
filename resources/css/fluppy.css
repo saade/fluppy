@@ -52,6 +52,20 @@
     background-image: none;
 }
 
+/* The camera and the other places a file can come from. */
+.fi-fluppy .uppy-DashboardTab {
+    @apply border-gray-950/5 dark:border-white/10;
+}
+
+.fi-fluppy .uppy-DashboardTab-btn {
+    @apply text-gray-700 hover:bg-gray-950/5 focus:bg-gray-950/5 active:bg-gray-950/5 dark:text-gray-200 dark:hover:bg-white/5 dark:focus:bg-white/5 dark:active:bg-white/5;
+}
+
+.fi-fluppy .uppy-DashboardContent-panel,
+.fi-fluppy .uppy-DashboardContent-panelBody {
+    @apply bg-gray-50 dark:bg-gray-900;
+}
+
 .fi-fluppy .uppy-DashboardContent-bar {
     @apply border-gray-950/5 bg-gray-50 dark:border-white/10 dark:bg-white/5;
 }
