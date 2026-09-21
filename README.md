@@ -75,6 +75,8 @@ Files are uploaded through Livewire, validated and stored the same way as with `
 | `camera(bool \| Closure $condition)` | Lets a picture or a video be taken with the device's camera. |
 | `microphone(bool \| Closure $condition)` | Lets audio be recorded with the device's microphone. |
 | `screenCapture(bool \| Closure $condition)` | Lets the screen, a window or a browser tab be recorded. |
+| `openable(bool \| Closure $condition)` | Makes the picture of a stored file a link that opens it in a new tab. |
+| `previewable(bool \| Closure $condition)` | Whether images are shown as pictures. On by default. |
 | `deletable(bool \| Closure $condition)` | Whether a file can be removed. |
 | `disabled()` | Shows the files without letting them change. |
 
@@ -99,7 +101,7 @@ Each one adds a button next to "My Device". What is taken or recorded is uploade
 These `FileUpload` options belong to FilePond's interface and have no effect on `FluppyField`:
 
 - The image editor, and automatic cropping and resizing of images.
-- `openable()`, `downloadable()` and `previewable(false)`.
+- `downloadable()`.
 - `avatar()`, `panelLayout()`, `appendFiles()`, `prependFiles()` and the options that position buttons and indicators.
 
 # Large files

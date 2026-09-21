@@ -68,6 +68,13 @@ class BrowserTestCase extends TestCase
         Route::middleware('web')->group(function () {
             Route::view('fluppy-tests', 'page');
 
+            // Where the fake disk says its files are, so the browser can
+            // open one that is already stored. Not streamed: the server
+            // Pest's browser plugin runs never finishes a streamed response.
+            Route::get('storage/{path}', fn (string $path) => response(Storage::disk('uploads')->get($path))
+                ->header('Content-Type', Storage::disk('uploads')->mimeType($path)))
+                ->where('path', '.*');
+
             // There is no compiled theme here, and Uppy's own stylesheet is
             // enough for its interface to be laid out and clickable.
             Route::get('fluppy-tests/uppy.css', fn () => response()->file(

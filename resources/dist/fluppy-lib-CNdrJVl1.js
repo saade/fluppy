@@ -1,7 +1,9 @@
-import { n as e, t } from "./fluppy-mimeTypes-CpS7W_JN.js";
-import { t as n } from "./fluppy-getErrorMessage-e5OqMKex.js";
-import { f as r, i, r as a, t as o } from "./fluppy-UIPlugin-Cg6ptWEb.js";
-import { t as s } from "./fluppy-getFileTypeExtension-ZfAAaqva.js";
+import { t as e } from "./fluppy-rolldown-runtime-DtPi1Y-2.js";
+import { t } from "./fluppy-getErrorMessage-e5OqMKex.js";
+import { i as n, r, t as i } from "./fluppy-UIPlugin-ihypjxg2.js";
+import { t as a } from "./fluppy-mimeTypes-CcSLKirE.js";
+import { t as o } from "./fluppy-getFileTypeExtension-ZfAAaqva.js";
+import { t as s } from "./fluppy-isRestrictionError-Dq8RAQXC.js";
 //#region node_modules/@uppy/core/lib/utils/canvasToBlob.js
 function c(e, t, n) {
 	return new Promise((r) => {
@@ -84,14 +86,14 @@ var l = (/* @__PURE__ */ e(((e, t) => {
 //#endregion
 //#region node_modules/@uppy/webcam/lib/CameraIcon.js
 function d() {
-	return a("svg", {
+	return r("svg", {
 		"aria-hidden": "true",
 		focusable: "false",
 		fill: "#0097DC",
 		width: "66",
 		height: "55",
 		viewBox: "0 0 66 55",
-		children: a("path", {
+		children: r("path", {
 			d: "M57.3 8.433c4.59 0 8.1 3.51 8.1 8.1v29.7c0 4.59-3.51 8.1-8.1 8.1H8.7c-4.59 0-8.1-3.51-8.1-8.1v-29.7c0-4.59 3.51-8.1 8.1-8.1h9.45l4.59-7.02c.54-.54 1.35-1.08 2.16-1.08h16.2c.81 0 1.62.54 2.16 1.08l4.59 7.02h9.45zM33 14.64c-8.62 0-15.393 6.773-15.393 15.393 0 8.62 6.773 15.393 15.393 15.393 8.62 0 15.393-6.773 15.393-15.393 0-8.62-6.773-15.393-15.393-15.393zM33 40c-5.648 0-9.966-4.319-9.966-9.967 0-5.647 4.318-9.966 9.966-9.966s9.966 4.319 9.966 9.966C42.966 35.681 38.648 40 33 40z",
 			fillRule: "evenodd"
 		})
@@ -100,14 +102,14 @@ function d() {
 //#endregion
 //#region node_modules/@uppy/webcam/lib/DiscardButton.js
 function f({ onDiscard: e, i18n: t }) {
-	return a("button", {
+	return r("button", {
 		className: "uppy-u-reset uppy-c-btn uppy-Webcam-button uppy-Webcam-button--discard",
 		type: "button",
 		title: t("discardRecordedFile"),
 		"aria-label": t("discardRecordedFile"),
 		onClick: e,
 		"data-uppy-super-focusable": !0,
-		children: a("svg", {
+		children: r("svg", {
 			width: "13",
 			height: "13",
 			viewBox: "0 0 13 13",
@@ -115,53 +117,53 @@ function f({ onDiscard: e, i18n: t }) {
 			"aria-hidden": "true",
 			focusable: "false",
 			className: "uppy-c-icon",
-			children: a("g", {
+			children: r("g", {
 				fill: "#FFF",
 				fillRule: "evenodd",
-				children: [a("path", { d: "M.496 11.367L11.103.76l1.414 1.414L1.911 12.781z" }), a("path", { d: "M11.104 12.782L.497 2.175 1.911.76l10.607 10.606z" })]
+				children: [r("path", { d: "M.496 11.367L11.103.76l1.414 1.414L1.911 12.781z" }), r("path", { d: "M11.104 12.782L.497 2.175 1.911.76l10.607 10.606z" })]
 			})
 		})
 	});
 }
 //#endregion
 //#region node_modules/@uppy/webcam/lib/RecordButton.js
-function p({ recording: e, onStartRecording: t, onStopRecording: n, i18n: r }) {
-	return e ? a("button", {
+function p({ recording: e, onStartRecording: t, onStopRecording: n, i18n: i }) {
+	return e ? r("button", {
 		className: "uppy-u-reset uppy-c-btn uppy-Webcam-button",
 		type: "button",
-		title: r("stopRecording"),
-		"aria-label": r("stopRecording"),
+		title: i("stopRecording"),
+		"aria-label": i("stopRecording"),
 		onClick: n,
 		"data-uppy-super-focusable": !0,
-		children: a("svg", {
+		children: r("svg", {
 			"aria-hidden": "true",
 			focusable: "false",
 			className: "uppy-c-icon",
 			width: "100",
 			height: "100",
 			viewBox: "0 0 100 100",
-			children: a("rect", {
+			children: r("rect", {
 				x: "15",
 				y: "15",
 				width: "70",
 				height: "70"
 			})
 		})
-	}) : a("button", {
+	}) : r("button", {
 		className: "uppy-u-reset uppy-c-btn uppy-Webcam-button",
 		type: "button",
-		title: r("startRecording"),
-		"aria-label": r("startRecording"),
+		title: i("startRecording"),
+		"aria-label": i("startRecording"),
 		onClick: t,
 		"data-uppy-super-focusable": !0,
-		children: a("svg", {
+		children: r("svg", {
 			"aria-hidden": "true",
 			focusable: "false",
 			className: "uppy-c-icon",
 			width: "100",
 			height: "100",
 			viewBox: "0 0 100 100",
-			children: a("circle", {
+			children: r("circle", {
 				cx: "50",
 				cy: "50",
 				r: "40"
@@ -178,12 +180,12 @@ function m(e) {
 //#region node_modules/@uppy/webcam/lib/RecordingLength.js
 function h({ recordingLengthSeconds: e }) {
 	let t = m(e);
-	return a("span", { children: t });
+	return r("span", { children: t });
 }
 //#endregion
 //#region node_modules/@uppy/webcam/lib/SnapshotButton.js
 function g({ onSnapshot: e, i18n: t }) {
-	return a("button", {
+	return r("button", {
 		className: "uppy-u-reset uppy-c-btn uppy-Webcam-button uppy-Webcam-button--picture",
 		type: "button",
 		title: t("takePicture"),
@@ -196,14 +198,14 @@ function g({ onSnapshot: e, i18n: t }) {
 //#endregion
 //#region node_modules/@uppy/webcam/lib/SubmitButton.js
 function _({ onSubmit: e, i18n: t }) {
-	return a("button", {
+	return r("button", {
 		className: "uppy-u-reset uppy-c-btn uppy-Webcam-button uppy-Webcam-button--submit",
 		type: "button",
 		title: t("submitRecordedFile"),
 		"aria-label": t("submitRecordedFile"),
 		onClick: e,
 		"data-uppy-super-focusable": !0,
-		children: a("svg", {
+		children: r("svg", {
 			width: "12",
 			height: "9",
 			viewBox: "0 0 12 9",
@@ -211,7 +213,7 @@ function _({ onSubmit: e, i18n: t }) {
 			"aria-hidden": "true",
 			focusable: "false",
 			className: "uppy-c-icon",
-			children: a("path", {
+			children: r("path", {
 				fill: "#fff",
 				fillRule: "nonzero",
 				d: "M10.66 0L12 1.31 4.136 9 0 4.956l1.34-1.31L4.136 6.38z"
@@ -222,14 +224,14 @@ function _({ onSubmit: e, i18n: t }) {
 //#endregion
 //#region node_modules/@uppy/webcam/lib/VideoSourceSelect.js
 function v({ currentDeviceId: e, videoSources: t, onChangeVideoSource: n }) {
-	return a("div", {
+	return r("div", {
 		className: "uppy-Webcam-videoSource",
-		children: a("select", {
+		children: r("select", {
 			className: "uppy-u-reset uppy-Webcam-videoSource-select",
 			onChange: (e) => {
 				n(e.target.value);
 			},
-			children: t.map((t) => a("option", {
+			children: t.map((t) => r("option", {
 				value: t.deviceId,
 				selected: t.deviceId === e,
 				children: t.label
@@ -242,7 +244,7 @@ function v({ currentDeviceId: e, videoSources: t, onChangeVideoSource: n }) {
 function y(e, t) {
 	return e.includes(t);
 }
-var b = class extends i {
+var b = class extends n {
 	videoElement;
 	refs;
 	componentDidMount() {
@@ -254,58 +256,58 @@ var b = class extends i {
 		e();
 	}
 	render() {
-		let { src: e, recordedVideo: t, capturedSnapshot: n, recording: r, modes: i, supportsRecording: o, videoSources: s, showVideoSourceDropdown: c, showRecordingLength: l, onSubmit: u, i18n: d, mirror: m, onSnapshot: b, onStartRecording: x, onStopRecording: S, onDiscardRecordedMedia: C, recordingLengthSeconds: w } = this.props, T = !!t, E = !!n, D = T || E, O = !D && o && (y(i, "video-only") || y(i, "audio-only") || y(i, "video-audio")), k = !D && y(i, "picture"), A = o && l && !T, j = c && s && s.length > 1, M = { playsInline: !0 };
-		return t ? (M.muted = !1, M.controls = !0, M.src = t, this.videoElement && (this.videoElement.srcObject = null)) : (M.muted = !0, M.autoPlay = !0, M.srcObject = e), a("div", {
+		let { src: e, recordedVideo: t, capturedSnapshot: n, recording: i, modes: a, supportsRecording: o, videoSources: s, showVideoSourceDropdown: c, showRecordingLength: l, onSubmit: u, i18n: d, mirror: m, onSnapshot: b, onStartRecording: x, onStopRecording: S, onDiscardRecordedMedia: C, recordingLengthSeconds: w } = this.props, T = !!t, E = !!n, D = T || E, O = !D && o && (y(a, "video-only") || y(a, "audio-only") || y(a, "video-audio")), k = !D && y(a, "picture"), A = o && l && !T, j = c && s && s.length > 1, M = { playsInline: !0 };
+		return t ? (M.muted = !1, M.controls = !0, M.src = t, this.videoElement && (this.videoElement.srcObject = null)) : (M.muted = !0, M.autoPlay = !0, M.srcObject = e), r("div", {
 			className: "uppy uppy-Webcam-container",
-			children: [a("div", {
+			children: [r("div", {
 				className: "uppy-Webcam-videoContainer",
-				children: n && !r && !t ? a("div", {
+				children: n && !i && !t ? r("div", {
 					className: "uppy-Webcam-imageContainer",
-					children: a("img", {
+					children: r("img", {
 						src: n,
 						className: "uppy-Webcam-video",
 						alt: "capturedSnapshot"
 					})
-				}) : a("video", {
+				}) : r("video", {
 					ref: (e) => {
 						this.videoElement = e;
 					},
 					className: `uppy-Webcam-video  ${m ? "uppy-Webcam-video--mirrored" : ""}`,
 					...M
 				})
-			}), a("div", {
+			}), r("div", {
 				className: "uppy-Webcam-footer",
 				children: [
-					a("div", {
+					r("div", {
 						className: "uppy-Webcam-videoSourceContainer",
 						children: j ? v(this.props) : null
 					}),
-					a("div", {
+					r("div", {
 						className: "uppy-Webcam-buttonContainer",
 						children: [
-							k && a(g, {
+							k && r(g, {
 								onSnapshot: b,
 								i18n: d
 							}),
-							O && a(p, {
-								recording: r,
+							O && r(p, {
+								recording: i,
 								onStartRecording: x,
 								onStopRecording: S,
 								i18n: d
 							}),
-							(T || E) && a(_, {
+							(T || E) && r(_, {
 								onSubmit: u,
 								i18n: d
 							}),
-							(T || E) && a(f, {
+							(T || E) && r(f, {
 								onDiscard: C,
 								i18n: d
 							})
 						]
 					}),
-					a("div", {
+					r("div", {
 						className: "uppy-Webcam-recordingLength",
-						children: A && a(h, { recordingLengthSeconds: w })
+						children: A && r(h, { recordingLengthSeconds: w })
 					})
 				]
 			})]
@@ -329,18 +331,18 @@ var b = class extends i {
 //#endregion
 //#region node_modules/@uppy/webcam/lib/PermissionsScreen.js
 function S({ icon: e, i18n: t, hasCamera: n }) {
-	return a("div", {
+	return r("div", {
 		className: "uppy-Webcam-permissons",
 		children: [
-			a("div", {
+			r("div", {
 				className: "uppy-Webcam-permissonsIcon",
 				children: e()
 			}),
-			a("div", {
+			r("div", {
 				className: "uppy-Webcam-title",
 				children: t(n ? "allowAccessTitle" : "noCameraTitle")
 			}),
-			a("p", { children: t(n ? "allowAccessDescription" : "noCameraDescription") })
+			r("p", { children: t(n ? "allowAccessDescription" : "noCameraDescription") })
 		]
 	});
 }
@@ -352,7 +354,7 @@ function C() {
 //#endregion
 //#region node_modules/@uppy/webcam/lib/Webcam.js
 function w(e) {
-	return e[0] === "." ? t[e.slice(1)] : e;
+	return e[0] === "." ? a[e.slice(1)] : e;
 }
 function T(e) {
 	return /^video\/[^*]+$/.test(e);
@@ -381,7 +383,7 @@ var k = {
 	preferredVideoMimeType: null,
 	showRecordingLength: !1,
 	mobileNativeCamera: (0, l.isMobile)({ tablet: !0 })
-}, A = class extends o {
+}, A = class extends i {
 	static VERSION = u.version;
 	#e;
 	mediaDevices;
@@ -398,13 +400,13 @@ var k = {
 		super(e, {
 			...k,
 			...t
-		}), this.mediaDevices = D(), this.supportsUserMedia = !!this.mediaDevices, this.id = this.opts.id || "Webcam", this.type = "acquirer", this.capturedMediaFile = null, this.icon = () => a("svg", {
+		}), this.mediaDevices = D(), this.supportsUserMedia = !!this.mediaDevices, this.id = this.opts.id || "Webcam", this.type = "acquirer", this.capturedMediaFile = null, this.icon = () => r("svg", {
 			"aria-hidden": "true",
 			focusable: "false",
 			width: "32",
 			height: "32",
 			viewBox: "0 0 32 32",
-			children: a("path", {
+			children: r("path", {
 				d: "M23.5 9.5c1.417 0 2.5 1.083 2.5 2.5v9.167c0 1.416-1.083 2.5-2.5 2.5h-15c-1.417 0-2.5-1.084-2.5-2.5V12c0-1.417 1.083-2.5 2.5-2.5h2.917l1.416-2.167C13 7.167 13.25 7 13.5 7h5c.25 0 .5.167.667.333L20.583 9.5H23.5zM16 11.417a4.706 4.706 0 00-4.75 4.75 4.704 4.704 0 004.75 4.75 4.703 4.703 0 004.75-4.75c0-2.663-2.09-4.75-4.75-4.75zm0 7.825c-1.744 0-3.076-1.332-3.076-3.074 0-1.745 1.333-3.077 3.076-3.077 1.744 0 3.074 1.333 3.074 3.076s-1.33 3.075-3.074 3.075z",
 				fill: "#02B383",
 				fillRule: "nonzero"
@@ -451,8 +453,8 @@ var k = {
 	start(e = null) {
 		if (!this.supportsUserMedia) return Promise.reject(/* @__PURE__ */ Error("Webcam access not supported"));
 		this.webcamActive = !0, this.opts.mirror && (this.#e = !0);
-		let t = this.getConstraints(e?.deviceId);
-		return this.hasCameraCheck().then((r) => (this.setPluginState({ hasCamera: r }), this.mediaDevices.getUserMedia(t).then((t) => {
+		let n = this.getConstraints(e?.deviceId);
+		return this.hasCameraCheck().then((r) => (this.setPluginState({ hasCamera: r }), this.mediaDevices.getUserMedia(n).then((t) => {
 			this.stream = t;
 			let n = null, r = this.isAudioOnly() ? t.getAudioTracks() : t.getVideoTracks();
 			e?.deviceId ? r.forEach((t) => {
@@ -465,7 +467,7 @@ var k = {
 			this.setPluginState({
 				cameraReady: !1,
 				cameraError: e
-			}), this.uppy.info(n(e), "error");
+			}), this.uppy.info(t(e), "error");
 		})));
 	}
 	getMediaRecorderOptions() {
@@ -473,7 +475,7 @@ var k = {
 		if (MediaRecorder.isTypeSupported) {
 			let { restrictions: t } = this.uppy.opts, n = [];
 			this.opts.preferredVideoMimeType ? n = [this.opts.preferredVideoMimeType] : t.allowedFileTypes && (n = t.allowedFileTypes.map(w).filter(T));
-			let r = n.filter((e) => MediaRecorder.isTypeSupported(e) && s(e));
+			let r = n.filter((e) => MediaRecorder.isTypeSupported(e) && o(e));
 			r.length > 0 && (e.mimeType = r[0]);
 		}
 		return e;
@@ -502,7 +504,7 @@ var k = {
 			try {
 				this.capturedMediaFile = e, this.setPluginState({ recordedVideo: URL.createObjectURL(e.data) }), this.#e = !1;
 			} catch (e) {
-				r(e) || this.uppy.log(e);
+				s(e) || this.uppy.log(e);
 			}
 		}).then(() => {
 			this.recordingChunks = null, this.recorder = null;
@@ -521,7 +523,7 @@ var k = {
 		try {
 			this.capturedMediaFile && this.uppy.addFile(this.capturedMediaFile);
 		} catch (e) {
-			r(e) || this.uppy.log(e, "error");
+			s(e) || this.uppy.log(e, "error");
 		}
 	}
 	async stop() {
@@ -557,8 +559,8 @@ var k = {
 			try {
 				await this.opts.onBeforeSnapshot();
 			} catch (e) {
-				let t = n(e);
-				throw this.uppy.info(t, "error", 5e3), Error(`onBeforeSnapshot: ${t}`);
+				let n = t(e);
+				throw this.uppy.info(n, "error", 5e3), Error(`onBeforeSnapshot: ${n}`);
 			}
 			try {
 				let e = await this.getImage();
@@ -566,7 +568,7 @@ var k = {
 				let t = URL.createObjectURL(e.data);
 				this.setPluginState({ capturedSnapshot: t }), this.captureInProgress = !1;
 			} catch (e) {
-				this.captureInProgress = !1, r(e) || this.uppy.log(e);
+				this.captureInProgress = !1, s(e) || this.uppy.log(e);
 			}
 		}
 	}
@@ -577,16 +579,16 @@ var k = {
 		r.width = t, r.height = n, r.getContext("2d").drawImage(e, 0, 0);
 		let { restrictions: i } = this.uppy.opts, a = [];
 		this.opts.preferredImageMimeType ? a = [this.opts.preferredImageMimeType] : i.allowedFileTypes && (a = i.allowedFileTypes.map(w).filter(E));
-		let o = a[0] || "image/jpeg", l = s(o) || "jpg", u = `cam-${Date.now()}.${l}`;
-		return c(r, o).then((e) => ({
+		let s = a[0] || "image/jpeg", l = o(s) || "jpg", u = `cam-${Date.now()}.${l}`;
+		return c(r, s).then((e) => ({
 			source: this.id,
 			name: u,
-			data: new Blob([e], { type: o }),
-			type: o
+			data: new Blob([e], { type: s }),
+			type: s
 		}));
 	}
 	getVideo() {
-		let e = this.recordingChunks.find((e) => e.type?.length > 0).type, t = s(e);
+		let e = this.recordingChunks.find((e) => e.type?.length > 0).type, t = o(e);
 		if (!t) return Promise.reject(/* @__PURE__ */ Error(`Could not retrieve recording: Unsupported media type "${e}"`));
 		let n = `webcam-${Date.now()}.${t}`, r = new Blob(this.recordingChunks, { type: e }), i = {
 			source: this.id,
@@ -612,11 +614,11 @@ var k = {
 	render() {
 		this.webcamActive || this.start();
 		let e = this.getPluginState();
-		return !e.cameraReady || !e.hasCamera ? a(S, {
+		return !e.cameraReady || !e.hasCamera ? r(S, {
 			icon: d,
 			i18n: this.i18n,
 			hasCamera: e.hasCamera
-		}) : a(b, {
+		}) : r(b, {
 			...e,
 			onChangeVideoSource: this.changeVideoSource,
 			onSnapshot: this.takeSnapshot,

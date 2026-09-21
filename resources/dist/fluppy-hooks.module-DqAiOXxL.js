@@ -1,4 +1,4 @@
-import { u as e } from "./fluppy-UIPlugin-Cg6ptWEb.js";
+import { u as e } from "./fluppy-UIPlugin-ihypjxg2.js";
 //#region node_modules/preact/hooks/dist/hooks.module.js
 var t, n, r, i, a = 0, o = [], s = e, c = s.__b, l = s.__r, u = s.diffed, d = s.__c, f = s.unmount, p = s.__;
 function m(e, t) {

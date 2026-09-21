@@ -6,6 +6,8 @@ use Saade\Fluppy\Tests\Fixtures\FluppyForm;
 
 const UPPY = "window.Alpine.\$data(document.querySelector('.fi-fluppy')).getUppy()";
 
+const EDITED_IMAGE_IS_UPLOADED = '(() => { const files = ' . UPPY . ".getFiles(); return files.length === 1 && files[0].source === 'ImageEditor' && files[0].progress.uploadComplete === true })()";
+
 /**
  * Hands files to Uppy the way its file picker does. The plugin's own
  * `attach()` gives the browser a path on this machine, which Playwright
@@ -40,6 +42,24 @@ function chooseFiles(mixed $page, array $files): mixed
     JS);
 
     return $page;
+}
+
+/**
+ * Waits for something in the page that no text on it tells apart, such as
+ * an upload that replaces another: "Upload complete" is shown before and
+ * after.
+ */
+function waitUntil(mixed $page, string $expression): mixed
+{
+    for ($attempt = 0; $attempt < 100; $attempt++) {
+        if ($page->script($expression) === true) {
+            return $page;
+        }
+
+        usleep(100_000);
+    }
+
+    test()->fail("Waited 10 seconds for [{$expression}].");
 }
 
 function storedFile(mixed $page): string
@@ -235,6 +255,132 @@ it('only takes pictures with the camera of a field for images', function () {
     visit('/fluppy-tests')
         ->assertSee('Camera')
         ->assertScript('JSON.stringify(' . UPPY . ".getPlugin('Webcam').opts.modes)", '["picture"]');
+});
+
+it('links a stored file to where it can be opened, only when it is openable', function () {
+    Storage::disk('uploads')->put('existing/report.pdf', 'contents');
+
+    FluppyForm::$fill = ['attachments' => 'existing/report.pdf'];
+
+    visit('/fluppy-tests')
+        ->assertSee('report.pdf')
+        ->assertScript('document.querySelectorAll(".uppy-Dashboard-Item-previewLink").length', 0);
+
+    FluppyForm::$configureUsing = fn (FluppyField $field) => $field->openable();
+
+    visit('/fluppy-tests')
+        ->assertSee('report.pdf')
+        ->assertScript('document.querySelector(".uppy-Dashboard-Item-previewLink")?.getAttribute("href")?.includes("existing/report.pdf")', true)
+        ->assertScript('document.querySelector(".uppy-Dashboard-Item-previewLink")?.target', '_blank');
+});
+
+it('shows no picture of an image when it is not previewable', function () {
+    Storage::disk('uploads')->put('existing/photo.png', base64_decode('iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mNkYPhfDwAChwGA60e6kgAAAABJRU5ErkJggg=='));
+
+    FluppyForm::$fill = ['attachments' => 'existing/photo.png'];
+
+    visit('/fluppy-tests')
+        ->assertSee('photo.png')
+        ->assertScript('document.querySelectorAll(".uppy-Dashboard-Item-previewImg").length', 1);
+
+    FluppyForm::$configureUsing = fn (FluppyField $field) => $field->previewable(false);
+
+    visit('/fluppy-tests')
+        ->assertSee('photo.png')
+        ->assertScript('document.querySelectorAll(".uppy-Dashboard-Item-previewImg").length', 0);
+});
+
+/**
+ * A PNG of the given size, for the image editor to work on.
+ */
+function picture(int $width, int $height): string
+{
+    $image = imagecreatetruecolor($width, $height);
+
+    imagefill($image, 0, 0, imagecolorallocate($image, 200, 60, 60));
+
+    ob_start();
+    imagepng($image);
+
+    return ob_get_clean();
+}
+
+it('gives a stored file a download link, only when it is downloadable', function () {
+    Storage::disk('uploads')->put('existing/report.pdf', 'contents');
+
+    FluppyForm::$fill = ['attachments' => 'existing/report.pdf'];
+
+    visit('/fluppy-tests')
+        ->assertSee('report.pdf')
+        ->assertScript('document.querySelectorAll("[data-fluppy-action=download]").length', 0);
+
+    FluppyForm::$configureUsing = fn (FluppyField $field) => $field->downloadable();
+
+    visit('/fluppy-tests')
+        ->assertSee('report.pdf')
+        ->assertScript('document.querySelector("[data-fluppy-action=download]")?.getAttribute("href")?.includes("existing/report.pdf")', true)
+        ->assertScript('document.querySelector("[data-fluppy-action=download]")?.download', 'report.pdf')
+        ->assertScript('document.querySelector("[data-fluppy-action=download]")?.title', 'Download');
+});
+
+it('has no edit button without an image editor, or on a file that is not an image', function () {
+    chooseFiles(visit('/fluppy-tests'), ['photo.png' => picture(40, 30)])
+        ->assertSee('Upload complete')
+        ->assertScript('document.querySelectorAll("[data-fluppy-action=edit]").length', 0);
+
+    FluppyForm::$configureUsing = fn (FluppyField $field) => $field->multiple()->imageEditor();
+
+    chooseFiles(visit('/fluppy-tests'), ['photo.png' => picture(40, 30), 'notes.txt' => 'notes'])
+        ->assertSee('Upload complete')
+        ->assertScript('document.querySelectorAll("[data-fluppy-action=edit]").length', 1);
+});
+
+it('edits an uploaded image and uploads the result in its place', function () {
+    FluppyForm::$configureUsing = fn (FluppyField $field) => $field->image()->imageEditor();
+
+    $page = chooseFiles(visit('/fluppy-tests'), ['photo.png' => picture(400, 300)])
+        ->assertSee('Upload complete')
+        ->click('[data-fluppy-action=edit]')
+        ->click('.uppy-ImageCropper-controls button[aria-label="Rotate 90°"]')
+        ->wait(0.5)
+        ->click('.uppy-DashboardContent-save');
+
+    waitUntil($page, EDITED_IMAGE_IS_UPLOADED)
+        ->press('Save')
+        ->assertSee('Saved:');
+
+    expect(getimagesizefromstring(storedFile($page)))->toMatchArray([300, 400]);
+});
+
+it('edits an image that was already stored', function () {
+    Storage::disk('uploads')->put('existing/photo.png', picture(400, 300));
+
+    // Public, so the file is at its plain address, which the test serves.
+    FluppyForm::$configureUsing = fn (FluppyField $field) => $field->image()->imageEditor()->visibility('public');
+    FluppyForm::$fill = ['attachments' => 'existing/photo.png'];
+
+    $page = visit('/fluppy-tests')
+        ->assertSee('photo.png')
+        ->click('[data-fluppy-action=edit]')
+        ->click('.uppy-ImageCropper-controls button[aria-label="Rotate 90°"]')
+        ->wait(0.5)
+        ->click('.uppy-DashboardContent-save');
+
+    waitUntil($page, EDITED_IMAGE_IS_UPLOADED)
+        ->press('Save')
+        ->assertSee('Saved:');
+
+    expect(json_decode($page->text('#saved')))->not->toBe('existing/photo.png')
+        ->and(getimagesizefromstring(storedFile($page)))->toMatchArray([300, 400]);
+});
+
+it('offers only the crop shapes the field allows', function () {
+    FluppyForm::$configureUsing = fn (FluppyField $field) => $field->image()->imageEditor()->imageEditorAspectRatioOptions([null, '1:1', '4:3']);
+
+    chooseFiles(visit('/fluppy-tests'), ['photo.png' => picture(400, 300)])
+        ->assertSee('Upload complete')
+        ->assertScript('JSON.stringify(' . UPPY . ".getPlugin('ImageEditor').opts.actions.cropSquare)", 'true')
+        ->assertScript('JSON.stringify(' . UPPY . ".getPlugin('ImageEditor').opts.actions.cropWidescreen)", 'false');
 });
 
 it('shows the files a field already has', function () {

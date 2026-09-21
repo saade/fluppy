@@ -37,10 +37,16 @@
             getUploadedFilesUsing: async () => {
                 return await $wire.callSchemaComponentMethod(@js($key), 'getUploadedFiles')
             },
+            downloadLabel: @js(__('fluppy::fluppy.download')),
+            editLabel: @js(__('fluppy::fluppy.edit')),
+            imageEditor: @js($getImageEditorOptions()),
             isChunked: @js($isChunked()),
+            isDownloadable: @js($isDownloadable()),
             isDeletable: @js($isDeletable()),
             isDisabled: @js($isDisabled),
             isMultiple: @js($isMultiple),
+            isOpenable: @js($isOpenable()),
+            isPreviewable: @js($isPreviewable()),
             isReorderable: @js($isReorderable),
             locale: @js(app()->getLocale()),
             maxFiles: @js($getMaxFiles()),

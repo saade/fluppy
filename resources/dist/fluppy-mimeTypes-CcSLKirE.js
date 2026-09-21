@@ -1,14 +1,5 @@
-//#region \0rolldown/runtime.js
-var e = Object.create, t = Object.defineProperty, n = Object.getOwnPropertyDescriptor, r = Object.getOwnPropertyNames, i = Object.getPrototypeOf, a = Object.prototype.hasOwnProperty, o = (e, t) => () => (t || (e((t = { exports: {} }).exports, t), e = null), t.exports), s = (e, i, o, s) => {
-	if (i && typeof i == "object" || typeof i == "function") for (var c = r(i), l = 0, u = c.length, d; l < u; l++) d = c[l], !a.call(e, d) && d !== o && t(e, d, {
-		get: ((e) => i[e]).bind(null, d),
-		enumerable: !(s = n(i, d)) || s.enumerable
-	});
-	return e;
-}, c = (n, r, o) => (o = n == null ? {} : e(i(n)), s(r || !n || !n.__esModule || !a.call(n, "default") ? t(o, "default", {
-	value: n,
-	enumerable: !0
-}) : o, n)), l = {
+//#region node_modules/@uppy/core/lib/utils/mimeTypes.js
+var e = {
 	__proto__: null,
 	md: "text/markdown",
 	markdown: "text/markdown",
@@ -64,4 +55,4 @@ var e = Object.create, t = Object.defineProperty, n = Object.getOwnPropertyDescr
 	dmg: "application/x-apple-diskimage"
 };
 //#endregion
-export { o as n, c as r, l as t };
+export { e as t };

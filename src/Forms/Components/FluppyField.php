@@ -91,6 +91,35 @@ class FluppyField extends FileUpload
         ]));
     }
 
+    /**
+     * What Uppy's image editor can take from the options of Filament's:
+     * the shapes an image may be cropped to, as width divided by height.
+     * Null when the field has no image editor.
+     *
+     * @return array{aspectRatios: array<float>, fixedAspectRatio: ?float} | null
+     */
+    public function getImageEditorOptions(): ?array
+    {
+        if (! $this->hasImageEditor()) {
+            return null;
+        }
+
+        $toFloat = function (?string $ratio): ?float {
+            if (blank($ratio) || ! preg_match('/^(\d+(?:\.\d+)?)\s*[:\/]\s*(\d+(?:\.\d+)?)$/', $ratio, $sides) || (float) $sides[2] === 0.0) {
+                return null;
+            }
+
+            return (float) $sides[1] / (float) $sides[2];
+        };
+
+        return [
+            'aspectRatios' => array_values(array_filter(
+                array_map(fn (mixed $ratio): ?float => is_numeric($ratio) ? (float) $ratio : null, $this->getImageEditorAspectRatioOptionsForJs()),
+            )),
+            'fixedAspectRatio' => $toFloat($this->getAutomaticallyCropImagesAspectRatio()),
+        ];
+    }
+
     public function isChunked(): bool
     {
         return (bool) ($this->evaluate($this->isChunked) ?? ChunkedUpload::isEnabled());

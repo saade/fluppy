@@ -16,12 +16,15 @@ function uppyStyles() {
                 '@uppy/webcam',
                 '@uppy/screen-capture',
                 '@uppy/audio',
+                '@uppy/image-editor',
             ].map((name) => {
                 const { version } = require(`${name}/package.json`)
                 const css = readFileSync(
                     require.resolve(`${name}/css/style.min.css`),
                     'utf8',
-                ).replace(/^@charset "UTF-8";/, '')
+                )
+                    .replace(/^@charset "UTF-8";/, '')
+                    .replace(/\/\*# sourceMappingURL=[^*]*\*\//g, '')
 
                 return `/* ${name} ${version} */\n${css}`
             })

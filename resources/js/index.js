@@ -1,6 +1,8 @@
 import Uppy from '@uppy/core'
 import Dashboard from '@uppy/dashboard'
 import LivewireUpload from './livewire-upload.js'
+import { isEditable, useImageEditor } from './image-editor.js'
+import { useItemActions } from './item-actions.js'
 import { loadUppyLocale } from './locale.js'
 import { useSources } from './sources.js'
 
@@ -23,11 +25,17 @@ export default function fluppy({
     completeMultipartUploadUsing,
     csrfToken,
     deleteUploadedFileUsing,
+    downloadLabel,
+    editLabel,
     getUploadedFilesUsing,
+    imageEditor,
     isChunked,
     isDeletable,
     isDisabled,
+    isDownloadable,
     isMultiple,
+    isOpenable,
+    isPreviewable,
     isReorderable,
     locale,
     maxFiles,
@@ -49,6 +57,7 @@ export default function fluppy({
     // through one.
     let uppy = null
     let reorderObserver = null
+    let stopItemActions = null
 
     // Also kept out: Alpine returns a new bound function each time a method
     // is read from the data, so the listener could never be removed.
@@ -88,6 +97,8 @@ export default function fluppy({
                     // "Done" would clear the field once its uploads finish.
                     doneButtonHandler: null,
                     showRemoveButtonAfterComplete: isDeletable && !isDisabled,
+                    showLinkToFileUploadResult: isOpenable,
+                    disableThumbnailGenerator: !isPreviewable,
                     proudlyDisplayPoweredByUppy: false,
                     theme: this.getTheme(),
                 })
@@ -148,6 +159,37 @@ export default function fluppy({
                 this.enableReordering()
             }
 
+            if (imageEditor && !isDisabled) {
+                await useImageEditor(uppy, imageEditor)
+
+                uppy.on('file-editor:complete', (file) => this.replaceFile(file))
+            }
+
+            stopItemActions = useItemActions(
+                uppy,
+                this.$refs.dashboard,
+                (file) => [
+                    ...(isEditable(uppy, file) && !isDisabled
+                        ? [
+                              {
+                                  name: 'edit',
+                                  label: editLabel,
+                                  onClick: (fileId) => this.editFile(fileId),
+                              },
+                          ]
+                        : []),
+                    ...(file.meta.downloadUrl
+                        ? [
+                              {
+                                  name: 'download',
+                                  label: downloadLabel,
+                                  href: file.meta.downloadUrl,
+                              },
+                          ]
+                        : []),
+                ],
+            )
+
             themeListener = () =>
                 uppy
                     .getPlugin('Dashboard')
@@ -163,6 +205,7 @@ export default function fluppy({
         destroy() {
             window.removeEventListener('theme-changed', themeListener)
             reorderObserver?.disconnect()
+            stopItemActions?.()
 
             this.isRemovingSilently = true
             uppy?.destroy()
@@ -170,6 +213,54 @@ export default function fluppy({
 
         getUppy() {
             return uppy
+        },
+
+        async editFile(fileId) {
+            const file = uppy.getFile(fileId)
+
+            // A stored file is only shown, by its details. To be edited it
+            // has to be in the browser first.
+            if (!(file.data instanceof Blob)) {
+                try {
+                    const response = await fetch(file.meta.url)
+
+                    if (!response.ok) {
+                        throw new Error(response.statusText)
+                    }
+
+                    uppy.setFileState(fileId, { data: await response.blob() })
+                } catch {
+                    uppy.info(uploadFailedMessage, 'error')
+
+                    return
+                }
+            }
+
+            uppy.getPlugin('Dashboard').openFileEditor(uppy.getFile(fileId))
+        },
+
+        // The edited image is uploaded as a new file, in the place of the
+        // one it was made from, which is removed as if by its remove button.
+        replaceFile(file) {
+            const position = Object.keys(uppy.getState().files).indexOf(file.id)
+
+            uppy.removeFile(file.id)
+
+            const fileId = uppy.addFile({
+                name: file.name,
+                type: file.type,
+                data: file.data,
+                source: 'ImageEditor',
+            })
+
+            const { files } = uppy.getState()
+            const fileIds = Object.keys(files).filter((id) => id !== fileId)
+
+            fileIds.splice(position, 0, fileId)
+
+            uppy.setState({
+                files: Object.fromEntries(fileIds.map((id) => [id, files[id]])),
+            })
         },
 
         getTheme() {
@@ -231,7 +322,10 @@ export default function fluppy({
         // Uppy has no way to add a file that is already uploaded, and adding
         // it as a new one would download and upload it again. Its entry is
         // written straight into Uppy's state, as a finished upload.
-        showStoredFile(fileKey, { name, size, type, url }) {
+        showStoredFile(
+            fileKey,
+            { name, size, type, url, openableUrl, downloadableUrl },
+        ) {
             const id = `fluppy-${fileKey}`
 
             uppy.setState({
@@ -244,12 +338,23 @@ export default function fluppy({
                         type,
                         size,
                         data: { size },
-                        meta: { name, type, fileKey },
+                        meta: {
+                            name,
+                            type,
+                            fileKey,
+                            url,
+                            downloadUrl: isDownloadable
+                                ? (downloadableUrl ?? url)
+                                : null,
+                        },
                         source: 'Fluppy',
                         isRemote: false,
                         isGhost: false,
-                        preview: type?.startsWith('image/') ? url : undefined,
-                        uploadURL: url,
+                        preview:
+                            isPreviewable && type?.startsWith('image/')
+                                ? url
+                                : undefined,
+                        uploadURL: openableUrl ?? url,
                         progress: {
                             percentage: 100,
                             bytesUploaded: size,

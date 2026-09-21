@@ -1,7 +1,8 @@
 import { t as e } from "./fluppy-getErrorMessage-e5OqMKex.js";
-import { f as t, r as n, t as r } from "./fluppy-UIPlugin-Cg6ptWEb.js";
-import { t as i } from "./fluppy-getFileTypeExtension-ZfAAaqva.js";
-import { o as a, t as o } from "./fluppy-hooks.module-DdOx1m6x.js";
+import { r as t, t as n } from "./fluppy-UIPlugin-ihypjxg2.js";
+import { t as r } from "./fluppy-getFileTypeExtension-ZfAAaqva.js";
+import { t as i } from "./fluppy-isRestrictionError-Dq8RAQXC.js";
+import { o as a, t as o } from "./fluppy-hooks.module-DqAiOXxL.js";
 var s = {
 	name: "@uppy/audio",
 	description: "Uppy plugin that records audio using the device’s microphone.",
@@ -72,33 +73,33 @@ var s = {
 	submitRecordedFile: "Submit recorded file",
 	discardRecordedFile: "Discard recorded file"
 } }, l = (e) => {
-	let { icon: t, hasAudio: r, i18n: i } = e;
-	return n("div", {
+	let { icon: n, hasAudio: r, i18n: i } = e;
+	return t("div", {
 		className: "uppy-Audio-permissons",
 		children: [
-			n("div", {
+			t("div", {
 				className: "uppy-Audio-permissonsIcon",
-				children: t()
+				children: n()
 			}),
-			n("div", {
+			t("div", {
 				className: "uppy-Audio-title",
 				children: i(r ? "allowAudioAccessTitle" : "noAudioTitle")
 			}),
-			n("p", { children: i(r ? "allowAudioAccessDescription" : "noAudioDescription") })
+			t("p", { children: i(r ? "allowAudioAccessDescription" : "noAudioDescription") })
 		]
 	});
-}, u = ({ currentDeviceId: e, audioSources: t, onChangeSource: r }) => n("div", {
+}, u = ({ currentDeviceId: e, audioSources: n, onChangeSource: r }) => t("div", {
 	className: "uppy-Audio-videoSource",
-	children: n("select", {
+	children: t("select", {
 		className: "uppy-u-reset uppy-Audio-audioSource-select",
 		onChange: (e) => {
 			r(e.target.value);
 		},
-		children: t.map((t) => n("option", {
-			value: t.deviceId,
-			selected: t.deviceId === e,
-			children: t.label
-		}, t.deviceId))
+		children: n.map((n) => t("option", {
+			value: n.deviceId,
+			selected: n.deviceId === e,
+			children: n.label
+		}, n.deviceId))
 	})
 });
 //#endregion
@@ -143,68 +144,68 @@ var p = class {
 };
 //#endregion
 //#region node_modules/@uppy/audio/lib/DiscardButton.js
-function m({ onDiscard: e, i18n: t }) {
-	return n("button", {
+function m({ onDiscard: e, i18n: n }) {
+	return t("button", {
 		className: "uppy-u-reset uppy-c-btn uppy-Audio-button",
 		type: "button",
-		title: t("discardRecordedFile"),
-		"aria-label": t("discardRecordedFile"),
+		title: n("discardRecordedFile"),
+		"aria-label": n("discardRecordedFile"),
 		onClick: e,
 		"data-uppy-super-focusable": !0,
-		children: n("svg", {
+		children: t("svg", {
 			width: "13",
 			height: "13",
 			viewBox: "0 0 13 13",
 			xmlns: "http://www.w3.org/2000/svg",
 			"aria-hidden": "true",
 			className: "uppy-c-icon",
-			children: n("g", {
+			children: t("g", {
 				fill: "#FFF",
 				fillRule: "evenodd",
-				children: [n("path", { d: "M.496 11.367L11.103.76l1.414 1.414L1.911 12.781z" }), n("path", { d: "M11.104 12.782L.497 2.175 1.911.76l10.607 10.606z" })]
+				children: [t("path", { d: "M.496 11.367L11.103.76l1.414 1.414L1.911 12.781z" }), t("path", { d: "M11.104 12.782L.497 2.175 1.911.76l10.607 10.606z" })]
 			})
 		})
 	});
 }
 //#endregion
 //#region node_modules/@uppy/audio/lib/RecordButton.js
-function h({ recording: e, onStartRecording: t, onStopRecording: r, i18n: i }) {
-	return e ? n("button", {
+function h({ recording: e, onStartRecording: n, onStopRecording: r, i18n: i }) {
+	return e ? t("button", {
 		className: "uppy-u-reset uppy-c-btn uppy-Audio-button",
 		type: "button",
 		title: i("stopAudioRecording"),
 		"aria-label": i("stopAudioRecording"),
 		onClick: r,
 		"data-uppy-super-focusable": !0,
-		children: n("svg", {
+		children: t("svg", {
 			"aria-hidden": "true",
 			focusable: "false",
 			className: "uppy-c-icon",
 			width: "100",
 			height: "100",
 			viewBox: "0 0 100 100",
-			children: n("rect", {
+			children: t("rect", {
 				x: "15",
 				y: "15",
 				width: "70",
 				height: "70"
 			})
 		})
-	}) : n("button", {
+	}) : t("button", {
 		className: "uppy-u-reset uppy-c-btn uppy-Audio-button",
 		type: "button",
 		title: i("startAudioRecording"),
 		"aria-label": i("startAudioRecording"),
-		onClick: t,
+		onClick: n,
 		"data-uppy-super-focusable": !0,
-		children: n("svg", {
+		children: t("svg", {
 			"aria-hidden": "true",
 			focusable: "false",
 			className: "uppy-c-icon",
 			width: "14px",
 			height: "20px",
 			viewBox: "0 0 14 20",
-			children: n("path", {
+			children: t("path", {
 				d: "M7 14c2.21 0 4-1.71 4-3.818V3.818C11 1.71 9.21 0 7 0S3 1.71 3 3.818v6.364C3 12.29 4.79 14 7 14zm6.364-7h-.637a.643.643 0 0 0-.636.65V9.6c0 3.039-2.565 5.477-5.6 5.175-2.645-.264-4.582-2.692-4.582-5.407V7.65c0-.36-.285-.65-.636-.65H.636A.643.643 0 0 0 0 7.65v1.631c0 3.642 2.544 6.888 6.045 7.382v1.387H3.818a.643.643 0 0 0-.636.65v.65c0 .36.285.65.636.65h6.364c.351 0 .636-.29.636-.65v-.65c0-.36-.285-.65-.636-.65H7.955v-1.372C11.363 16.2 14 13.212 14 9.6V7.65c0-.36-.285-.65-.636-.65z",
 				fill: "#FFF",
 				"fill-rule": "nonzero"
@@ -220,20 +221,20 @@ function g(e) {
 //#endregion
 //#region node_modules/@uppy/audio/lib/RecordingLength.js
 function _({ recordingLengthSeconds: e }) {
-	let t = g(e);
-	return n("span", { children: t });
+	let n = g(e);
+	return t("span", { children: n });
 }
 //#endregion
 //#region node_modules/@uppy/audio/lib/SubmitButton.js
-function v({ onSubmit: e, i18n: t }) {
-	return n("button", {
+function v({ onSubmit: e, i18n: n }) {
+	return t("button", {
 		className: "uppy-u-reset uppy-c-btn uppy-Audio-button uppy-Audio-button--submit",
 		type: "button",
-		title: t("submitRecordedFile"),
-		"aria-label": t("submitRecordedFile"),
+		title: n("submitRecordedFile"),
+		"aria-label": n("submitRecordedFile"),
 		onClick: e,
 		"data-uppy-super-focusable": !0,
-		children: n("svg", {
+		children: t("svg", {
 			width: "12",
 			height: "9",
 			viewBox: "0 0 12 9",
@@ -241,7 +242,7 @@ function v({ onSubmit: e, i18n: t }) {
 			"aria-hidden": "true",
 			focusable: "false",
 			className: "uppy-c-icon",
-			children: n("path", {
+			children: t("path", {
 				fill: "#fff",
 				fillRule: "nonzero",
 				d: "M10.66 0L12 1.31 4.136 9 0 4.956l1.34-1.31L4.136 6.38z"
@@ -252,7 +253,7 @@ function v({ onSubmit: e, i18n: t }) {
 //#endregion
 //#region node_modules/@uppy/audio/lib/RecordingScreen.js
 function y(e) {
-	let { stream: t, recordedAudio: r, onStop: i, recording: s, supportsRecording: c, audioSources: l, showAudioSourceDropdown: d, onSubmit: f, i18n: g, onStartRecording: y, onStopRecording: b, onDiscardRecordedAudio: x, recordingLengthSeconds: S } = e, C = o(null), w = o();
+	let { stream: n, recordedAudio: r, onStop: i, recording: s, supportsRecording: c, audioSources: l, showAudioSourceDropdown: d, onSubmit: f, i18n: g, onStartRecording: y, onStopRecording: b, onDiscardRecordedAudio: x, recordingLengthSeconds: S } = e, C = o(null), w = o();
 	a(() => () => {
 		w.current = null, i();
 	}, [i]), a(() => {
@@ -266,53 +267,53 @@ function y(e) {
 				fillStyle: "rgb(0,0,0)",
 				strokeStyle: "green"
 			}
-		}), w.current.draw(), t)) {
-			let e = new AudioContext().createMediaStreamSource(t);
+		}), w.current.draw(), n)) {
+			let e = new AudioContext().createMediaStreamSource(n);
 			w.current.addSource(e);
 		}
-	}, [r, t]);
+	}, [r, n]);
 	let T = r != null, E = !T && c, D = d && !T && l && l.length > 1;
-	return n("div", {
+	return t("div", {
 		className: "uppy-Audio-container",
-		children: [n("div", {
+		children: [t("div", {
 			className: "uppy-Audio-audioContainer",
-			children: T ? n("audio", {
+			children: T ? t("audio", {
 				className: "uppy-Audio-player",
 				controls: !0,
 				src: r
-			}) : n("canvas", {
+			}) : t("canvas", {
 				ref: C,
 				className: "uppy-Audio-canvas"
 			})
-		}), n("div", {
+		}), t("div", {
 			className: "uppy-Audio-footer",
 			children: [
-				n("div", {
+				t("div", {
 					className: "uppy-Audio-audioSourceContainer",
 					children: D ? u(e) : null
 				}),
-				n("div", {
+				t("div", {
 					className: "uppy-Audio-buttonContainer",
 					children: [
-						E && n(h, {
+						E && t(h, {
 							recording: s,
 							onStartRecording: y,
 							onStopRecording: b,
 							i18n: g
 						}),
-						T && n(v, {
+						T && t(v, {
 							onSubmit: f,
 							i18n: g
 						}),
-						T && n(m, {
+						T && t(m, {
 							onDiscard: x,
 							i18n: g
 						})
 					]
 				}),
-				n("div", {
+				t("div", {
 					className: "uppy-Audio-recordingLength",
-					children: !T && n(_, { recordingLengthSeconds: S })
+					children: !T && t(_, { recordingLengthSeconds: S })
 				})
 			]
 		})]
@@ -325,7 +326,7 @@ function b() {
 }
 //#endregion
 //#region node_modules/@uppy/audio/lib/Audio.js
-var x = class extends r {
+var x = class extends n {
 	static VERSION = s.version;
 	#e;
 	icon;
@@ -336,20 +337,20 @@ var x = class extends r {
 	#a = null;
 	#o;
 	#s;
-	constructor(e, t) {
-		super(e, t), this.#o = navigator.mediaDevices, this.#s = this.#o != null, this.id = this.opts.id || "Audio", this.type = "acquirer", this.icon = () => n("svg", {
+	constructor(e, n) {
+		super(e, n), this.#o = navigator.mediaDevices, this.#s = this.#o != null, this.id = this.opts.id || "Audio", this.type = "acquirer", this.icon = () => t("svg", {
 			className: "uppy-DashboardTab-iconAudio",
 			"aria-hidden": "true",
 			focusable: "false",
 			width: "32px",
 			height: "32px",
 			viewBox: "0 0 32 32",
-			children: n("path", {
+			children: t("path", {
 				d: "M21.143 12.297c.473 0 .857.383.857.857v2.572c0 3.016-2.24 5.513-5.143 5.931v2.64h2.572a.857.857 0 110 1.714H12.57a.857.857 0 110-1.714h2.572v-2.64C12.24 21.24 10 18.742 10 15.726v-2.572a.857.857 0 111.714 0v2.572A4.29 4.29 0 0016 20.01a4.29 4.29 0 004.286-4.285v-2.572c0-.474.384-.857.857-.857zM16 6.5a3 3 0 013 3v6a3 3 0 01-6 0v-6a3 3 0 013-3z",
 				fill: "currentcolor",
 				"fill-rule": "nonzero"
 			})
-		}), this.defaultLocale = c, this.opts = { ...t }, this.i18nInit(), this.title = this.i18n("pluginNameAudio"), this.setPluginState({
+		}), this.defaultLocale = c, this.opts = { ...n }, this.i18nInit(), this.title = this.i18n("pluginNameAudio"), this.setPluginState({
 			hasAudio: !1,
 			audioReady: !1,
 			cameraError: null,
@@ -397,7 +398,7 @@ var x = class extends r {
 		try {
 			this.#a = e, this.setPluginState({ recordedAudio: URL.createObjectURL(e.data) });
 		} catch (e) {
-			t(e) || this.uppy.log(e);
+			i(e) || this.uppy.log(e);
 		}
 	}).then(() => {
 		this.#r = null, this.#i = null;
@@ -411,7 +412,7 @@ var x = class extends r {
 		try {
 			this.#a && this.uppy.addFile(this.#a);
 		} catch (e) {
-			t(e) || this.uppy.log(e, "warning");
+			i(e) || this.uppy.log(e, "warning");
 		}
 	};
 	#m = async () => {
@@ -426,12 +427,12 @@ var x = class extends r {
 		});
 	};
 	#h() {
-		let e = this.#r.find((e) => e.type?.length > 0).type, t = i(e);
+		let e = this.#r.find((e) => e.type?.length > 0).type, t = r(e);
 		if (!t) return Promise.reject(/* @__PURE__ */ Error(`Could not retrieve recording: Unsupported media type "${e}"`));
-		let n = `audio-${Date.now()}.${t}`, r = new Blob(this.#r, { type: e }), a = {
+		let n = `audio-${Date.now()}.${t}`, i = new Blob(this.#r, { type: e }), a = {
 			source: this.id,
 			name: n,
-			data: new Blob([r], { type: e }),
+			data: new Blob([i], { type: e }),
 			type: e
 		};
 		return Promise.resolve(a);
@@ -447,11 +448,11 @@ var x = class extends r {
 	render() {
 		this.#n || this.#l();
 		let e = this.getPluginState();
-		return !e.audioReady || !e.hasAudio ? n(l, {
+		return !e.audioReady || !e.hasAudio ? t(l, {
 			icon: this.icon,
 			i18n: this.i18n,
 			hasAudio: e.hasAudio
-		}) : n(y, {
+		}) : t(y, {
 			...e,
 			onChangeSource: this.#g,
 			onStartRecording: this.#u,
