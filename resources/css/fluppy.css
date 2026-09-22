@@ -108,6 +108,11 @@
     @apply text-gray-400 hover:text-gray-500 focus:ring-2 focus:ring-primary-600 dark:text-gray-500 dark:hover:text-gray-400 dark:focus:ring-primary-500;
 }
 
+/* The buttons the field adds to a file itself: edit and download. */
+.fi-fluppy [data-fluppy-action] {
+    @apply inline-flex items-center justify-center;
+}
+
 .fi-fluppy .uppy-Dashboard-Item-previewLink:focus {
     box-shadow: inset 0 0 0 3px var(--primary-500);
 }

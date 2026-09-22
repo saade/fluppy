@@ -75,7 +75,9 @@ Files are uploaded through Livewire, validated and stored the same way as with `
 | `camera(bool \| Closure $condition)` | Lets a picture or a video be taken with the device's camera. |
 | `microphone(bool \| Closure $condition)` | Lets audio be recorded with the device's microphone. |
 | `screenCapture(bool \| Closure $condition)` | Lets the screen, a window or a browser tab be recorded. |
+| `imageEditor(bool \| Closure $condition)` | Lets an uploaded image be cropped, rotated and flipped. See [Editing images](#editing-images). |
 | `openable(bool \| Closure $condition)` | Makes the picture of a stored file a link that opens it in a new tab. |
+| `downloadable(bool \| Closure $condition)` | Gives a stored file a download button. |
 | `previewable(bool \| Closure $condition)` | Whether images are shown as pictures. On by default. |
 | `deletable(bool \| Closure $condition)` | Whether a file can be removed. |
 | `disabled()` | Shows the files without letting them change. |
@@ -96,12 +98,36 @@ Each one adds a button next to "My Device". What is taken or recorded is uploade
 - The script of a source is loaded only by fields that have it on.
 - Browsers give access to the camera, the microphone and the screen on HTTPS pages only (and on `localhost`), and ask the person for it the first time. If your app sends a `Permissions-Policy` header, it has to allow `camera`, `microphone` and `display-capture` for your own origin.
 
+## Editing images
+
+```php
+FluppyField::make('photos')
+    ->image()
+    ->multiple()
+    ->imageEditor()
+```
+
+An uploaded image gets an edit button, which opens [Uppy's image editor](https://uppy.io/docs/image-editor/): crop, rotate, flip and zoom. Saving uploads the edited image in the place of the one it was made from. An image that was already stored can be edited too; it is fetched into the browser first, so its address has to be readable from your app's origin.
+
+The editor is Uppy's, not the one `FileUpload` has, so only part of Filament's editor options carry over:
+
+| Option | Effect |
+| ------ | ------ |
+| `imageEditor()` | Turns the editor on. Its script is loaded only by fields that have it. |
+| `imageEditorAspectRatioOptions()` | Limits the crop shapes offered. Uppy has three: a square (`1:1`), `16:9` and `9:16`. Any other ratio in the list is left out. |
+| `automaticallyCropImagesToAspectRatio()` | The editor only crops to that ratio. The image is not cropped by itself: the person has to open the editor. |
+
+These have no effect: `imageEditorMode()`, `imageEditorViewportWidth()` and `imageEditorViewportHeight()`, `imageEditorEmptyFillColor()`, `circleCropper()`, and automatic resizing.
+
+## Opening and downloading
+
+`openable()` makes the picture of a stored file a link that opens it in a new tab, and `downloadable()` gives it a download button. Both use the file's address on its disk, or the one you give with `getOpenableFileUrlUsing()` and `getDownloadableFileUrlUsing()`.
+
 ## Not supported yet
 
 These `FileUpload` options belong to FilePond's interface and have no effect on `FluppyField`:
 
-- The image editor, and automatic cropping and resizing of images.
-- `downloadable()`.
+- Automatic cropping and resizing of images, and the editor options listed above.
 - `avatar()`, `panelLayout()`, `appendFiles()`, `prependFiles()` and the options that position buttons and indicators.
 
 # Large files
