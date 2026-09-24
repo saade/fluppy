@@ -123,6 +123,24 @@ These have no effect: `imageEditorMode()`, `imageEditorViewportWidth()` and `ima
 
 `openable()` makes the picture of a stored file a link that opens it in a new tab, and `downloadable()` gives it a download button. Both use the file's address on its disk, or the one you give with `getOpenableFileUrlUsing()` and `getDownloadableFileUrlUsing()`.
 
+## Spatie's media library
+
+With [Filament's media library plugin](https://filamentphp.com/plugins/filament-spatie-media-library) installed, use `SpatieMediaLibraryFluppyField` where you would use `SpatieMediaLibraryFileUpload`. It is that field, with the same options, and everything on this page applies to it:
+
+```bash
+composer require filament/spatie-laravel-media-library-plugin
+```
+
+```php
+use Saade\Fluppy\Forms\Components\SpatieMediaLibraryFluppyField;
+
+SpatieMediaLibraryFluppyField::make('attachments')
+    ->collection('attachments')
+    ->multiple()
+```
+
+One thing differs. The plugin's field reads each uploaded file into memory to hand it to the media library, which a large file does not fit in. This one points the media library at the file on the temporary disk, and the library copies it from there as a stream.
+
 ## Not supported yet
 
 These `FileUpload` options belong to FilePond's interface and have no effect on `FluppyField`:

@@ -53,6 +53,9 @@
             maxParallelUploads: @js($getMaxParallelUploads()),
             maxSize: @js($maxSize ? $maxSize * 1024 : null),
             minSize: @js($minSize ? $minSize * 1024 : null),
+            placeUploadedFileUsing: async (fileKey, beforeFileKey) => {
+                return await $wire.callSchemaComponentMethod(@js($key), 'placeUploadedFile', { fileKey, beforeFileKey })
+            },
             planUploadUsing: async (file) => {
                 return await $wire.callSchemaComponentMethod(@js($key), 'planUpload', { file })
             },

@@ -27,6 +27,7 @@
         "spatie/laravel-package-tools": "^1.92.7"
     },
     "require-dev": {
+        "filament/spatie-laravel-media-library-plugin": "^4.0|^5.0",
         "larastan/larastan": "^3.0",
         "laravel/pint": "^1.0",
         "league/flysystem-aws-s3-v3": "^3.35",
@@ -39,6 +40,10 @@
         "phpstan/phpstan-deprecation-rules": "^1.0|^2.0",
         "phpstan/phpstan-phpunit": "^1.0|^2.0",
         "spatie/laravel-ray": "^1.26"
+    },
+    "suggest": {
+        "filament/spatie-laravel-media-library-plugin": "To use SpatieMediaLibraryFluppyField.",
+        "league/flysystem-aws-s3-v3": "To send large files straight to an S3 bucket."
     },
     "autoload": {
         "psr-4": {

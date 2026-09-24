@@ -374,6 +374,65 @@ it('edits an image that was already stored', function () {
         ->and(getimagesizefromstring(storedFile($page)))->toMatchArray([300, 400]);
 });
 
+it('removes one of two stored images and keeps the other', function () {
+    Storage::disk('uploads')->put('existing/one.png', picture(40, 30));
+    Storage::disk('uploads')->put('existing/two.png', picture(40, 30));
+
+    FluppyForm::$configureUsing = fn (FluppyField $field) => $field->image()->multiple()->visibility('public');
+    FluppyForm::$fill = ['attachments' => ['existing/one.png', 'existing/two.png']];
+
+    $page = visit('/fluppy-tests')->assertSee('one.png')->assertSee('two.png');
+
+    $page->script('window.pageErrors = []; window.addEventListener("error", (event) => window.pageErrors.push(event.message))');
+
+    $page->click('.uppy-Dashboard-Item:has-text("one.png") .uppy-Dashboard-Item-action--remove')
+        ->assertDontSee('one.png')
+        ->press('Save')
+        ->assertSee('Saved:');
+
+    expect(json_decode($page->text('#saved')))->toBe(['existing/two.png'])
+        ->and($page->script('window.pageErrors'))->toBe([]);
+});
+
+it('edits one of two stored images and keeps both', function () {
+    Storage::disk('uploads')->put('existing/one.png', picture(400, 300));
+    Storage::disk('uploads')->put('existing/two.png', picture(40, 30));
+
+    FluppyForm::$configureUsing = fn (FluppyField $field) => $field->image()->multiple()->imageEditor()->visibility('public');
+    FluppyForm::$fill = ['attachments' => ['existing/one.png', 'existing/two.png']];
+
+    $page = visit('/fluppy-tests')
+        ->assertSee('one.png')
+        ->click('.uppy-Dashboard-Item:has-text("one.png") [data-fluppy-action=edit]')
+        ->click('.uppy-ImageCropper-controls button[aria-label="Rotate 90°"]')
+        ->wait(0.5)
+        ->click('.uppy-DashboardContent-save');
+
+    waitUntil($page, '(() => { const files = ' . UPPY . ".getFiles(); return files.length === 2 && files.some((file) => file.source === 'ImageEditor') && files.every((file) => file.progress.uploadComplete === true) })()")
+        ->press('Save')
+        ->assertSee('Saved:');
+
+    $stored = json_decode($page->text('#saved'));
+
+    expect($stored)->toHaveCount(2)
+        ->and($stored[1])->toBe('existing/two.png')
+        ->and(getimagesizefromstring(Storage::disk('uploads')->get($stored[0])))->toMatchArray([300, 400]);
+});
+
+it('uploads a file under the name Uppy shows, not the one its data carries', function () {
+    FluppyForm::$configureUsing = fn (FluppyField $field) => $field->preserveFilenames();
+
+    $page = visit('/fluppy-tests')->assertSee('browse files');
+
+    $page->script('(() => { ' . UPPY . ".addFile({ name: 'one.png', type: 'image/png', data: new File(['pixels'], 'one', { type: 'image/png' }) }) })()");
+
+    $page->assertSee('Upload complete')
+        ->press('Save')
+        ->assertSee('Saved:');
+
+    expect(json_decode($page->text('#saved')))->toBe('one.png');
+});
+
 it('offers only the crop shapes the field allows', function () {
     FluppyForm::$configureUsing = fn (FluppyField $field) => $field->image()->imageEditor()->imageEditorAspectRatioOptions([null, '1:1', '4:3']);
 

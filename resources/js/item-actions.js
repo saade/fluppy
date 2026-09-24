@@ -68,7 +68,8 @@ export function useItemActions(uppy, dashboard, getActions) {
 
     let isScheduled = false
 
-    // Uppy changes its state many times in a row; once a frame is enough.
+    // Uppy changes its state many times in a row, and once after them is
+    // enough. Not on the next frame: a tab in the background has none.
     const schedule = () => {
         if (isScheduled) {
             return
@@ -76,7 +77,7 @@ export function useItemActions(uppy, dashboard, getActions) {
 
         isScheduled = true
 
-        requestAnimationFrame(() => {
+        setTimeout(() => {
             isScheduled = false
             sync()
         })

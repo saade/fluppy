@@ -54,7 +54,7 @@ function ee(e) {
 }
 //#endregion
 //#region node_modules/@uppy/core/lib/utils/getFileNameAndExtension.js
-function k(e) {
+function te(e) {
 	let t = e.lastIndexOf(".");
 	return t === -1 || t === e.length - 1 ? {
 		name: e,
@@ -66,25 +66,25 @@ function k(e) {
 }
 //#endregion
 //#region node_modules/@uppy/core/lib/utils/getFileType.js
-function te(e) {
+function ne(e) {
 	if (e.type) return e.type;
-	let t = e.name ? k(e.name).extension?.toLowerCase() : null;
+	let t = e.name ? te(e.name).extension?.toLowerCase() : null;
 	return t && t in h ? h[t] : "application/octet-stream";
 }
 //#endregion
 //#region node_modules/@uppy/core/lib/utils/generateFileID.js
-function ne(e) {
+function re(e) {
 	return e.charCodeAt(0).toString(32);
 }
-function A(e) {
+function k(e) {
 	let t = "";
-	return e.replace(/[^A-Z0-9]/gi, (e) => (t += `-${ne(e)}`, "/")) + t;
+	return e.replace(/[^A-Z0-9]/gi, (e) => (t += `-${re(e)}`, "/")) + t;
 }
-function j(e, t) {
+function A(e, t) {
 	let n = t || "uppy";
-	return typeof e.name == "string" && (n += `-${A(e.name.toLowerCase())}`), e.type !== void 0 && (n += `-${e.type}`), e.meta && typeof e.meta.relativePath == "string" && (n += `-${A(e.meta.relativePath.toLowerCase())}`), e.data?.size !== void 0 && (n += `-${e.data.size}`), e.data.lastModified !== void 0 && (n += `-${e.data.lastModified}`), n;
+	return typeof e.name == "string" && (n += `-${k(e.name.toLowerCase())}`), e.type !== void 0 && (n += `-${e.type}`), e.meta && typeof e.meta.relativePath == "string" && (n += `-${k(e.meta.relativePath.toLowerCase())}`), e.data?.size !== void 0 && (n += `-${e.data.size}`), e.data.lastModified !== void 0 && (n += `-${e.data.lastModified}`), n;
 }
-function re(e) {
+function j(e) {
 	return !e.isRemote || !e.remote ? !1 : (/* @__PURE__ */ new Set([
 		"box",
 		"dropbox",
@@ -94,9 +94,9 @@ function re(e) {
 	])).has(e.remote.provider);
 }
 function M(e, t) {
-	if (re(e)) return e.id;
-	let n = te(e);
-	return j({
+	if (j(e)) return e.id;
+	let n = ne(e);
+	return A({
 		...e,
 		type: n
 	}, t);
@@ -106,17 +106,17 @@ function M(e, t) {
 var N = Array.from;
 //#endregion
 //#region node_modules/@uppy/core/lib/utils/getDroppedFiles/utils/fallbackApi.js
-function ie(e) {
+function P(e) {
 	let t = N(e.files);
 	return Promise.resolve(t);
 }
 //#endregion
 //#region node_modules/@uppy/core/lib/utils/getDroppedFiles/utils/webkitGetAsEntryApi/getFilesAndDirectoriesFromDirectory.js
-function ae(e, t, n, { onSuccess: r }) {
+function ie(e, t, n, { onSuccess: r }) {
 	e.readEntries((i) => {
 		let a = [...t, ...i];
 		i.length ? queueMicrotask(() => {
-			ae(e, a, n, { onSuccess: r });
+			ie(e, a, n, { onSuccess: r });
 		}) : r(a);
 	}, (e) => {
 		n(e), r(t);
@@ -124,7 +124,7 @@ function ae(e, t, n, { onSuccess: r }) {
 }
 //#endregion
 //#region node_modules/@uppy/core/lib/utils/getDroppedFiles/utils/webkitGetAsEntryApi/index.js
-function oe(e, t) {
+function ae(e, t) {
 	return e == null ? e : {
 		kind: e.isFile ? "file" : e.isDirectory ? "directory" : void 0,
 		name: e.name,
@@ -134,30 +134,30 @@ function oe(e, t) {
 		async *values() {
 			let n = e.createReader();
 			yield* await new Promise((e) => {
-				ae(n, [], t, { onSuccess: (n) => e(n.map((e) => oe(e, t))) });
+				ie(n, [], t, { onSuccess: (n) => e(n.map((e) => ae(e, t))) });
 			});
 		},
 		isSameEntry: void 0
 	};
 }
-async function* se(e, t, n = void 0) {
+async function* oe(e, t, n = void 0) {
 	let r = () => `${t}/${e.name}`;
 	if (e.kind === "file") {
 		let i = await e.getFile();
 		i == null ? n != null && (yield n) : (i.relativePath = t ? r() : null, yield i);
-	} else if (e.kind === "directory") for await (let n of e.values()) yield* se(n, t ? r() : e.name);
+	} else if (e.kind === "directory") for await (let n of e.values()) yield* oe(n, t ? r() : e.name);
 	else n != null && (yield n);
 }
-async function* ce(e, t) {
+async function* se(e, t) {
 	let n = await Promise.all(Array.from(e.items, async (e) => {
 		let n;
-		return n ??= oe(typeof e.getAsEntry == "function" ? e.getAsEntry() : e.webkitGetAsEntry(), t), {
+		return n ??= ae(typeof e.getAsEntry == "function" ? e.getAsEntry() : e.webkitGetAsEntry(), t), {
 			fileSystemHandle: n,
 			lastResortFile: e.getAsFile()
 		};
 	}));
 	for (let { lastResortFile: e, fileSystemHandle: r } of n) if (r != null) try {
-		yield* se(r, "", e);
+		yield* oe(r, "", e);
 	} catch (n) {
 		e == null ? t(n) : yield e;
 	}
@@ -165,50 +165,50 @@ async function* ce(e, t) {
 }
 //#endregion
 //#region node_modules/@uppy/core/lib/utils/getDroppedFiles/index.js
-async function le(e, t) {
+async function ce(e, t) {
 	let n = t?.logDropError ?? Function.prototype;
 	try {
 		let t = [];
-		for await (let r of ce(e, n)) t.push(r);
+		for await (let r of se(e, n)) t.push(r);
 		return t;
 	} catch {
-		return ie(e);
+		return P(e);
 	}
 }
 //#endregion
 //#region node_modules/@uppy/core/lib/utils/getTimeStamp.js
-function ue(e) {
+function le(e) {
 	return e < 10 ? `0${e}` : e.toString();
 }
-function de() {
+function ue() {
 	let e = /* @__PURE__ */ new Date();
-	return `${ue(e.getHours())}:${ue(e.getMinutes())}:${ue(e.getSeconds())}`;
+	return `${le(e.getHours())}:${le(e.getMinutes())}:${le(e.getSeconds())}`;
 }
 //#endregion
 //#region node_modules/@uppy/core/lib/utils/isAbortError.js
-function fe(e) {
+function de(e) {
 	return typeof e == "object" && !!e && "name" in e && e.name === "AbortError";
 }
 //#endregion
 //#region node_modules/@uppy/core/lib/utils/isDragDropSupported.js
-function pe() {
+function fe() {
 	if (typeof window > "u") return !1;
 	let e = document.body;
 	return !(e == null || window == null || !("draggable" in e) || !("ondragstart" in e) || !("ondrop" in e) || !("FormData" in window) || !("FileReader" in window));
 }
 //#endregion
 //#region node_modules/@uppy/core/lib/utils/isObjectURL.js
-function me(e) {
+function pe(e) {
 	return e.startsWith("blob:");
 }
 //#endregion
 //#region node_modules/@uppy/core/lib/utils/isPreviewSupported.js
-function he(e) {
+function me(e) {
 	return e ? /^[^/]+\/(jpe?g|gif|png|svg|svg\+xml|bmp|webp|avif)$/.test(e) : !1;
 }
 //#endregion
 //#region node_modules/@uppy/core/lib/utils/secondsToTime.js
-function ge(e) {
+function he(e) {
 	return {
 		hours: Math.floor(e / 3600) % 24,
 		minutes: Math.floor(e / 60) % 60,
@@ -217,43 +217,43 @@ function ge(e) {
 }
 //#endregion
 //#region node_modules/@uppy/core/lib/utils/prettyETA.js
-function _e(e) {
-	let t = ge(e);
+function ge(e) {
+	let t = he(e);
 	return `${t.hours === 0 ? "" : `${t.hours}h`}${t.minutes === 0 ? "" : `${t.hours === 0 ? t.minutes : ` ${t.minutes.toString(10).padStart(2, "0")}`}m`}${t.hours === 0 ? `${t.minutes === 0 ? t.seconds : ` ${t.seconds.toString(10).padStart(2, "0")}`}s` : ""}`;
 }
 //#endregion
 //#region node_modules/@uppy/core/lib/utils/remoteFileObjToLocal.js
-function ve(e) {
+function _e(e) {
 	return {
 		...e,
 		type: e.mimeType,
-		extension: e.name ? k(e.name).extension : null
+		extension: e.name ? te(e.name).extension : null
 	};
 }
 //#endregion
 //#region node_modules/@uppy/core/lib/utils/truncateString.js
-var ye = "...";
-function be(e, t) {
+var ve = "...";
+function ye(e, t) {
 	if (t === 0) return "";
 	if (e.length <= t) return e;
 	if (t <= 4) return `${e.slice(0, t - 1)}…`;
 	let n = t - 3, r = Math.ceil(n / 2), i = Math.floor(n / 2);
-	return e.slice(0, r) + ye + e.slice(-i);
+	return e.slice(0, r) + ve + e.slice(-i);
 }
 //#endregion
 //#region node_modules/@uppy/core/lib/utils/VirtualList.js
-var xe = {
+var be = {
 	position: "relative",
 	width: "100%",
 	minHeight: "100%"
-}, Se = {
+}, xe = {
 	position: "absolute",
 	top: 0,
 	left: 0,
 	width: "100%",
 	overflow: "visible"
 };
-function Ce({ data: e, rowHeight: t, renderRow: n, overscanCount: r = 10, padding: i = 4, ...a }) {
+function Se({ data: e, rowHeight: t, renderRow: n, overscanCount: r = 10, padding: i = 4, ...a }) {
 	let o = C(null), [s, c] = v(0), [l, u] = v(0);
 	b(() => {
 		function e() {
@@ -268,10 +268,10 @@ function Ce({ data: e, rowHeight: t, renderRow: n, overscanCount: r = 10, paddin
 	}, []), p = Math.floor(s / t), m = Math.floor(l / t);
 	r && (p = Math.max(0, p - p % r), m += r);
 	let h = p + m + i, g = e.slice(p, h), _ = {
-		...xe,
+		...be,
 		height: e.length * t
 	}, y = {
-		...Se,
+		...xe,
 		top: p * t
 	};
 	return f("div", {
@@ -291,15 +291,15 @@ function Ce({ data: e, rowHeight: t, renderRow: n, overscanCount: r = 10, paddin
 }
 //#endregion
 //#region node_modules/@uppy/core/lib/loggers.js
-var we = {
+var Ce = {
 	debug: () => {},
 	warn: () => {},
-	error: (...e) => console.error(`[Uppy] [${de()}]`, ...e)
-}, Te = {
-	debug: (...e) => console.debug(`[Uppy] [${de()}]`, ...e),
-	warn: (...e) => console.warn(`[Uppy] [${de()}]`, ...e),
-	error: (...e) => console.error(`[Uppy] [${de()}]`, ...e)
-}, Ee = [
+	error: (...e) => console.error(`[Uppy] [${ue()}]`, ...e)
+}, we = {
+	debug: (...e) => console.debug(`[Uppy] [${ue()}]`, ...e),
+	warn: (...e) => console.warn(`[Uppy] [${ue()}]`, ...e),
+	error: (...e) => console.error(`[Uppy] [${ue()}]`, ...e)
+}, Te = [
 	"B",
 	"KB",
 	"MB",
@@ -310,16 +310,16 @@ var we = {
 	"ZB",
 	"YB"
 ];
-function P(e, t) {
+function F(e, t) {
 	if (typeof e != "number" || Number.isNaN(e)) throw TypeError(`Expected a number, got ${typeof e}`);
 	let n = e < 0, r = Math.abs(e);
 	if (n && (r = -r), r === 0) return "0 B";
-	let i = t ? Ee.indexOf(t) : Math.min(Math.floor(Math.log(r) / Math.log(1024)), Ee.length - 1), a = Number(r / 1024 ** i), o = Ee[i];
+	let i = t ? Te.indexOf(t) : Math.min(Math.floor(Math.log(r) / Math.log(1024)), Te.length - 1), a = Number(r / 1024 ** i), o = Te[i];
 	return i >= 3 ? a % 1 == 0 ? `${Math.round(a)} ${o}` : `${a.toFixed(2)} ${o}` : `${a >= 10 || a % 1 == 0 ? Math.round(a) : a.toFixed(1)} ${o}`;
 }
 //#endregion
 //#region node_modules/wildcard/index.js
-var De = /* @__PURE__ */ t(((e, t) => {
+var Ee = /* @__PURE__ */ t(((e, t) => {
 	function n(e, t) {
 		this.text = e ||= "", this.hasWild = ~e.indexOf("*"), this.separator = t, this.parts = e.split(t);
 	}
@@ -339,8 +339,8 @@ var De = /* @__PURE__ */ t(((e, t) => {
 		var i = new n(e, r || /[\/\.]/);
 		return t === void 0 ? i : i.match(t);
 	};
-})), Oe = /* @__PURE__ */ e((/* @__PURE__ */ t(((e, t) => {
-	var n = De(), r = /[\/\+\.]/;
+})), De = /* @__PURE__ */ e((/* @__PURE__ */ t(((e, t) => {
+	var n = Ee(), r = /[\/\+\.]/;
 	t.exports = function(e, t) {
 		function i(t) {
 			var i = n(t, e, r);
@@ -348,7 +348,7 @@ var De = /* @__PURE__ */ t(((e, t) => {
 		}
 		return t ? i(t.split(";")[0]) : i;
 	};
-})))(), 1), ke = {
+})))(), 1), Oe = {
 	maxFileSize: null,
 	minFileSize: null,
 	maxTotalFileSize: null,
@@ -356,14 +356,14 @@ var De = /* @__PURE__ */ t(((e, t) => {
 	minNumberOfFiles: null,
 	allowedFileTypes: null,
 	requiredMetaFields: []
-}, F = class extends Error {
+}, I = class extends Error {
 	isUserFacing;
 	file;
 	constructor(e, t) {
 		super(e), this.isUserFacing = t?.isUserFacing ?? !0, t?.file && (this.file = t.file);
 	}
 	isRestriction = !0;
-}, Ae = class {
+}, ke = class {
 	getI18n;
 	getOpts;
 	constructor(e, t) {
@@ -375,26 +375,26 @@ var De = /* @__PURE__ */ t(((e, t) => {
 	}
 	validateAggregateRestrictions(e, t) {
 		let { maxTotalFileSize: n, maxNumberOfFiles: r } = this.getOpts().restrictions;
-		if (r && e.filter((e) => !e.isGhost).length + t.length > r) throw new F(`${this.getI18n()("youCanOnlyUploadX", { smart_count: r })}`);
+		if (r && e.filter((e) => !e.isGhost).length + t.length > r) throw new I(`${this.getI18n()("youCanOnlyUploadX", { smart_count: r })}`);
 		if (n) {
 			let r = [...e, ...t].reduce((e, t) => e + (t.size ?? 0), 0);
-			if (r > n) throw new F(this.getI18n()("aggregateExceedsSize", {
-				sizeAllowed: P(n),
-				size: P(r)
+			if (r > n) throw new I(this.getI18n()("aggregateExceedsSize", {
+				sizeAllowed: F(n),
+				size: F(r)
 			}));
 		}
 	}
 	validateSingleFile(e) {
 		let { maxFileSize: t, minFileSize: n, allowedFileTypes: r } = this.getOpts().restrictions;
-		if (r && !r.some((t) => t.includes("/") ? e.type ? (0, Oe.default)(e.type.replace(/;.*?$/, ""), t) : !1 : t[0] === "." && e.extension ? e.extension.toLowerCase() === t.slice(1).toLowerCase() : !1)) {
+		if (r && !r.some((t) => t.includes("/") ? e.type ? (0, De.default)(e.type.replace(/;.*?$/, ""), t) : !1 : t[0] === "." && e.extension ? e.extension.toLowerCase() === t.slice(1).toLowerCase() : !1)) {
 			let t = r.join(", ");
-			throw new F(this.getI18n()("youCanOnlyUploadFileTypes", { types: t }), { file: e });
+			throw new I(this.getI18n()("youCanOnlyUploadFileTypes", { types: t }), { file: e });
 		}
-		if (t && e.size != null && e.size > t) throw new F(this.getI18n()("exceedsSize", {
-			size: P(t),
+		if (t && e.size != null && e.size > t) throw new I(this.getI18n()("exceedsSize", {
+			size: F(t),
 			file: e.name ?? this.getI18n()("unnamed")
 		}), { file: e });
-		if (n && e.size != null && e.size < n) throw new F(this.getI18n()("inferiorSize", { size: P(n) }), { file: e });
+		if (n && e.size != null && e.size < n) throw new I(this.getI18n()("inferiorSize", { size: F(n) }), { file: e });
 	}
 	validate(e, t) {
 		t.forEach((e) => {
@@ -403,49 +403,49 @@ var De = /* @__PURE__ */ t(((e, t) => {
 	}
 	validateMinNumberOfFiles(e) {
 		let { minNumberOfFiles: t } = this.getOpts().restrictions;
-		if (t && Object.keys(e).length < t) throw new F(this.getI18n()("youHaveToAtLeastSelectX", { smart_count: t }));
+		if (t && Object.keys(e).length < t) throw new I(this.getI18n()("youHaveToAtLeastSelectX", { smart_count: t }));
 	}
 	getMissingRequiredMetaFields(e) {
-		let t = new F(this.getI18n()("missingRequiredMetaFieldOnFile", { fileName: e.name ?? this.getI18n()("unnamed") })), { requiredMetaFields: n } = this.getOpts().restrictions, r = [];
+		let t = new I(this.getI18n()("missingRequiredMetaFieldOnFile", { fileName: e.name ?? this.getI18n()("unnamed") })), { requiredMetaFields: n } = this.getOpts().restrictions, r = [];
 		for (let t of n) (!Object.hasOwn(e.meta, t) || e.meta[t] === "") && r.push(t);
 		return {
 			missingFields: r,
 			error: t
 		};
 	}
-}, je = /* @__PURE__ */ t(((e, t) => {
+}, Ae = /* @__PURE__ */ t(((e, t) => {
 	function n(e) {
 		var t = typeof e;
 		return e != null && (t == "object" || t == "function");
 	}
 	t.exports = n;
-})), Me = /* @__PURE__ */ t(((e, t) => {
+})), je = /* @__PURE__ */ t(((e, t) => {
 	t.exports = typeof global == "object" && global && global.Object === Object && global;
-})), Ne = /* @__PURE__ */ t(((e, t) => {
-	var n = Me(), r = typeof self == "object" && self && self.Object === Object && self;
+})), Me = /* @__PURE__ */ t(((e, t) => {
+	var n = je(), r = typeof self == "object" && self && self.Object === Object && self;
 	t.exports = n || r || Function("return this")();
-})), Pe = /* @__PURE__ */ t(((e, t) => {
-	var n = Ne();
+})), Ne = /* @__PURE__ */ t(((e, t) => {
+	var n = Me();
 	t.exports = function() {
 		return n.Date.now();
 	};
-})), Fe = /* @__PURE__ */ t(((e, t) => {
+})), Pe = /* @__PURE__ */ t(((e, t) => {
 	var n = /\s/;
 	function r(e) {
 		for (var t = e.length; t-- && n.test(e.charAt(t)););
 		return t;
 	}
 	t.exports = r;
-})), Ie = /* @__PURE__ */ t(((e, t) => {
-	var n = Fe(), r = /^\s+/;
+})), Fe = /* @__PURE__ */ t(((e, t) => {
+	var n = Pe(), r = /^\s+/;
 	function i(e) {
 		return e && e.slice(0, n(e) + 1).replace(r, "");
 	}
 	t.exports = i;
+})), Ie = /* @__PURE__ */ t(((e, t) => {
+	t.exports = Me().Symbol;
 })), Le = /* @__PURE__ */ t(((e, t) => {
-	t.exports = Ne().Symbol;
-})), Re = /* @__PURE__ */ t(((e, t) => {
-	var n = Le(), r = Object.prototype, i = r.hasOwnProperty, a = r.toString, o = n ? n.toStringTag : void 0;
+	var n = Ie(), r = Object.prototype, i = r.hasOwnProperty, a = r.toString, o = n ? n.toStringTag : void 0;
 	function s(e) {
 		var t = i.call(e, o), n = e[o];
 		try {
@@ -456,31 +456,31 @@ var De = /* @__PURE__ */ t(((e, t) => {
 		return r && (t ? e[o] = n : delete e[o]), s;
 	}
 	t.exports = s;
-})), ze = /* @__PURE__ */ t(((e, t) => {
+})), Re = /* @__PURE__ */ t(((e, t) => {
 	var n = Object.prototype.toString;
 	function r(e) {
 		return n.call(e);
 	}
 	t.exports = r;
-})), Be = /* @__PURE__ */ t(((e, t) => {
-	var n = Le(), r = Re(), i = ze(), a = "[object Null]", o = "[object Undefined]", s = n ? n.toStringTag : void 0;
+})), ze = /* @__PURE__ */ t(((e, t) => {
+	var n = Ie(), r = Le(), i = Re(), a = "[object Null]", o = "[object Undefined]", s = n ? n.toStringTag : void 0;
 	function c(e) {
 		return e == null ? e === void 0 ? o : a : s && s in Object(e) ? r(e) : i(e);
 	}
 	t.exports = c;
-})), Ve = /* @__PURE__ */ t(((e, t) => {
+})), Be = /* @__PURE__ */ t(((e, t) => {
 	function n(e) {
 		return typeof e == "object" && !!e;
 	}
 	t.exports = n;
-})), He = /* @__PURE__ */ t(((e, t) => {
-	var n = Be(), r = Ve(), i = "[object Symbol]";
+})), Ve = /* @__PURE__ */ t(((e, t) => {
+	var n = ze(), r = Be(), i = "[object Symbol]";
 	function a(e) {
 		return typeof e == "symbol" || r(e) && n(e) == i;
 	}
 	t.exports = a;
-})), Ue = /* @__PURE__ */ t(((e, t) => {
-	var n = Ie(), r = je(), i = He(), a = NaN, o = /^[-+]0x[0-9a-f]+$/i, s = /^0b[01]+$/i, c = /^0o[0-7]+$/i, l = parseInt;
+})), He = /* @__PURE__ */ t(((e, t) => {
+	var n = Fe(), r = Ae(), i = Ve(), a = NaN, o = /^[-+]0x[0-9a-f]+$/i, s = /^0b[01]+$/i, c = /^0o[0-7]+$/i, l = parseInt;
 	function u(e) {
 		if (typeof e == "number") return e;
 		if (i(e)) return a;
@@ -494,8 +494,8 @@ var De = /* @__PURE__ */ t(((e, t) => {
 		return u || c.test(e) ? l(e.slice(2), u ? 2 : 8) : o.test(e) ? a : +e;
 	}
 	t.exports = u;
-})), We = /* @__PURE__ */ t(((e, t) => {
-	var n = je(), r = Pe(), i = Ue(), a = "Expected a function", o = Math.max, s = Math.min;
+})), Ue = /* @__PURE__ */ t(((e, t) => {
+	var n = Ae(), r = Ne(), i = He(), a = "Expected a function", o = Math.max, s = Math.min;
 	function c(e, t, c) {
 		var l, u, d, f, p, m, h = 0, g = !1, _ = !1, v = !0;
 		if (typeof e != "function") throw TypeError(a);
@@ -540,8 +540,8 @@ var De = /* @__PURE__ */ t(((e, t) => {
 		return D.cancel = T, D.flush = E, D;
 	}
 	t.exports = c;
-})), Ge = /* @__PURE__ */ t(((e, t) => {
-	var n = We(), r = je(), i = "Expected a function";
+})), We = /* @__PURE__ */ t(((e, t) => {
+	var n = Ue(), r = Ae(), i = "Expected a function";
 	function a(e, t, a) {
 		var o = !0, s = !0;
 		if (typeof e != "function") throw TypeError(i);
@@ -552,7 +552,7 @@ var De = /* @__PURE__ */ t(((e, t) => {
 		});
 	}
 	t.exports = a;
-})), Ke = /* @__PURE__ */ t(((e, t) => {
+})), Ge = /* @__PURE__ */ t(((e, t) => {
 	t.exports = function() {
 		var e = {}, t = e._fns = {};
 		e.emit = function(e, t, i, a, o, s, c) {
@@ -592,11 +592,11 @@ var De = /* @__PURE__ */ t(((e, t) => {
 		}
 		return e;
 	};
-})), qe = "57X6y3wQZNzYjJB2L_10pxbackgroundhimselfUTF-8DEMOGRAPHICSVqvt4KW9", Je = (e = 21) => {
+})), Ke = "57X6y3wQZNzYjJB2L_10pxbackgroundhimselfUTF-8DEMOGRAPHICSVqvt4KW9", qe = (e = 21) => {
 	let t = "", n = e | 0;
-	for (; n-- > 0;) t += qe[Math.random() * 64 | 0];
+	for (; n-- > 0;) t += Ke[Math.random() * 64 | 0];
 	return t;
-}, Ye = {
+}, Je = {
 	name: "@uppy/core",
 	description: "Core module for the extensible JavaScript file upload widget with support for drag&drop, resumable uploads, previews, restrictions, file processing/encoding, remote providers like Dropbox, Google Drive, S3 and more :dog:",
 	version: "6.2.0",
@@ -678,12 +678,12 @@ var De = /* @__PURE__ */ t(((e, t) => {
 };
 //#endregion
 //#region node_modules/@uppy/core/lib/getFileName.js
-function Xe(e, t) {
+function Ye(e, t) {
 	return t.name ? t.name : e.split("/")[0] === "image" ? `${e.split("/")[0]}.${e.split("/")[1]}` : "noname";
 }
 //#endregion
 //#region node_modules/@uppy/core/lib/locale.js
-var Ze = { strings: {
+var Xe = { strings: {
 	addBulkFilesFailed: {
 		0: "Failed to add %{smart_count} file due to an internal error",
 		1: "Failed to add %{smart_count} files due to internal errors"
@@ -775,8 +775,8 @@ var Ze = { strings: {
 	s3RequestFailed: "The storage request failed",
 	s3SelectedInOtherSession: "This file was selected in another storage session. Reconnect and select it again",
 	webdavCannotConnect: "Cannot connect to server"
-} }, Qe = class {
-	static VERSION = Ye.version;
+} }, Ze = class {
+	static VERSION = Je.version;
 	state = {};
 	#e = /* @__PURE__ */ new Set();
 	getState() {
@@ -802,7 +802,7 @@ var Ze = { strings: {
 };
 //#endregion
 //#region node_modules/@uppy/core/lib/supportsUploadProgress.js
-function $e(e) {
+function Qe(e) {
 	if (e == null && typeof navigator < "u" && (e = navigator.userAgent), !e) return !0;
 	let t = /Edge\/(\d+\.\d+)/.exec(e);
 	if (!t) return !0;
@@ -811,17 +811,17 @@ function $e(e) {
 }
 //#endregion
 //#region node_modules/@uppy/core/lib/Uppy.js
-var et = /* @__PURE__ */ e(Ge(), 1), tt = /* @__PURE__ */ e(Ke(), 1), nt = {
+var $e = /* @__PURE__ */ e(We(), 1), et = /* @__PURE__ */ e(Ge(), 1), tt = {
 	totalProgress: 0,
 	allowNewUpload: !0,
 	error: null,
 	recoveredState: null
-}, rt = class e {
-	static VERSION = Ye.version;
+}, nt = class e {
+	static VERSION = Je.version;
 	#e = Object.create(null);
 	#t;
 	#n;
-	#r = (0, tt.default)();
+	#r = (0, et.default)();
 	#i = /* @__PURE__ */ new Set();
 	#a = /* @__PURE__ */ new Set();
 	#o = /* @__PURE__ */ new Set();
@@ -834,18 +834,18 @@ var et = /* @__PURE__ */ e(Ge(), 1), tt = /* @__PURE__ */ e(Ke(), 1), nt = {
 	scheduledAutoProceed = null;
 	wasOffline = !1;
 	constructor(t) {
-		this.defaultLocale = Ze;
+		this.defaultLocale = Xe;
 		let n = {
 			id: "uppy",
 			autoProceed: !1,
 			allowMultipleUploadBatches: !0,
 			debug: !1,
-			restrictions: ke,
+			restrictions: Oe,
 			meta: {},
 			onBeforeFileAdded: (e, t) => !Object.hasOwn(t, e.id),
 			onBeforeUpload: (e) => e,
-			store: new Qe(),
-			logger: we,
+			store: new Ze(),
+			logger: Ce,
 			infoTimeout: 5e3
 		}, r = {
 			...n,
@@ -857,19 +857,19 @@ var et = /* @__PURE__ */ e(Ge(), 1), tt = /* @__PURE__ */ e(Ke(), 1), nt = {
 				...n.restrictions,
 				...t?.restrictions
 			}
-		}, t?.logger && t.debug ? this.log("You are using a custom `logger`, but also set `debug: true`, which uses built-in logger to output logs to console. Ignoring `debug: true` and using your custom `logger`.", "warning") : t?.debug && (this.opts.logger = Te), this.log(`Using Core v${e.VERSION}`), this.i18nInit(), this.store = this.opts.store, this.setState({
-			...nt,
+		}, t?.logger && t.debug ? this.log("You are using a custom `logger`, but also set `debug: true`, which uses built-in logger to output logs to console. Ignoring `debug: true` and using your custom `logger`.", "warning") : t?.debug && (this.opts.logger = we), this.log(`Using Core v${e.VERSION}`), this.i18nInit(), this.store = this.opts.store, this.setState({
+			...tt,
 			plugins: {},
 			files: {},
 			currentUploads: {},
 			capabilities: {
-				uploadProgress: $e(),
+				uploadProgress: Qe(),
 				individualCancellation: !0,
 				resumableUploads: !1
 			},
 			meta: { ...this.opts.meta },
 			info: []
-		}), this.#t = new Ae(() => this.opts, () => this.i18n), this.#n = this.store.subscribe((e, t, n) => {
+		}), this.#t = new ke(() => this.opts, () => this.i18n), this.#n = this.store.subscribe((e, t, n) => {
 			this.emit("state-update", e, t, n), this.updateAll(t);
 		}), this.opts.debug && typeof window < "u" && (window[this.opts.id] = this), this.#b();
 	}
@@ -946,14 +946,14 @@ var et = /* @__PURE__ */ e(Ge(), 1), tt = /* @__PURE__ */ e(Ke(), 1), nt = {
 			};
 		}), this.setState({
 			files: n,
-			...nt
+			...tt
 		});
 	}
 	clear() {
 		let { capabilities: e, currentUploads: t } = this.getState();
 		if (Object.keys(t).length > 0 && !e.individualCancellation) throw Error("The installed uploader plugin does not allow removing files during an upload.");
 		this.setState({
-			...nt,
+			...tt,
 			files: {}
 		});
 	}
@@ -1092,7 +1092,7 @@ var et = /* @__PURE__ */ e(Ge(), 1), tt = /* @__PURE__ */ e(Ke(), 1), nt = {
 	#u(e) {
 		let { allowNewUpload: t } = this.getState();
 		if (t === !1) {
-			let t = new F(this.i18n("noMoreFilesAllowed"), { file: e });
+			let t = new I(this.i18n("noMoreFilesAllowed"), { file: e });
 			throw this.#s([t]), t;
 		}
 	}
@@ -1110,7 +1110,7 @@ var et = /* @__PURE__ */ e(Ge(), 1), tt = /* @__PURE__ */ e(Ke(), 1), nt = {
 			isRemote: !1,
 			source: void 0,
 			preview: void 0
-		} : e, n = te(t), r = Xe(n, t), i = k(r).extension, a = M(t, this.getID()), o = {
+		} : e, n = ne(t), r = Ye(n, t), i = te(r).extension, a = M(t, this.getID()), o = {
 			...t.meta,
 			name: r,
 			type: n
@@ -1170,8 +1170,8 @@ var et = /* @__PURE__ */ e(Ge(), 1), tt = /* @__PURE__ */ e(Ke(), 1), nt = {
 			if (t = this.getState().files, n = {
 				...t,
 				...n
-			}, !s && this.checkIfFileAlreadyExists(e.id)) throw new F(this.i18n("noDuplicates", { fileName: e.name ?? this.i18n("unnamed") }), { file: e });
-			if (s === !1 && !o) throw new F("Cannot add the file because onBeforeFileAdded returned false.", {
+			}, !s && this.checkIfFileAlreadyExists(e.id)) throw new I(this.i18n("noDuplicates", { fileName: e.name ?? this.i18n("unnamed") }), { file: e });
+			if (s === !1 && !o) throw new I("Cannot add the file because onBeforeFileAdded returned false.", {
 				isUserFacing: !1,
 				file: e
 			});
@@ -1316,7 +1316,7 @@ var et = /* @__PURE__ */ e(Ge(), 1), tt = /* @__PURE__ */ e(Ke(), 1), nt = {
 	cancelAll() {
 		this.emit("cancel-all");
 		let { files: e } = this.getState(), t = Object.keys(e);
-		t.length && this.removeFiles(t), this.setState(nt);
+		t.length && this.removeFiles(t), this.setState(tt);
 	}
 	retryUpload(e) {
 		this.setFileState(e, {
@@ -1358,7 +1358,7 @@ var et = /* @__PURE__ */ e(Ge(), 1), tt = /* @__PURE__ */ e(Ke(), 1), nt = {
 		let e = this.#y(), t = null;
 		e != null && (t = Math.round(e * 100), t > 100 ? t = 100 : t < 0 && (t = 0)), this.emit("progress", t ?? 0), this.setState({ totalProgress: t ?? 0 });
 	}
-	#v = (0, et.default)(() => this.#_(), 500, {
+	#v = (0, $e.default)(() => this.#_(), 500, {
 		leading: !0,
 		trailing: !0
 	});
@@ -1563,7 +1563,7 @@ var et = /* @__PURE__ */ e(Ge(), 1), tt = /* @__PURE__ */ e(Ke(), 1), nt = {
 	#C(e, t = {}) {
 		let { forceAllowNewUpload: n = !1 } = t, { allowNewUpload: r, currentUploads: i } = this.getState();
 		if (!r && !n) throw Error("Cannot create a new upload: already uploading.");
-		let a = Je();
+		let a = qe();
 		return this.emit("upload", a, this.getFilesByIds(e)), this.setState({
 			allowNewUpload: this.opts.allowMultipleUploadBatches !== !1 && this.opts.allowMultipleUploads !== !1,
 			currentUploads: {
@@ -1662,7 +1662,7 @@ var et = /* @__PURE__ */ e(Ge(), 1), tt = /* @__PURE__ */ e(Ke(), 1), nt = {
 		if (t === !1) throw Error("Not starting the upload because onBeforeUpload returned false");
 		t && typeof t == "object" && (e = t, this.setState({ files: e }));
 		try {
-			if (this.#t.validateMinNumberOfFiles(e), !this.#l(e)) throw new F(this.i18n("missingRequiredMetaField"));
+			if (this.#t.validateMinNumberOfFiles(e), !this.#l(e)) throw new I(this.i18n("missingRequiredMetaField"));
 			let { currentUploads: t } = this.getState(), n = Object.values(t).flatMap((e) => e.fileIDs), r = Object.keys(e).filter((e) => {
 				let t = this.getFile(e);
 				return t && !t.progress.uploadStarted && !n.includes(e);
@@ -1675,12 +1675,12 @@ var et = /* @__PURE__ */ e(Ge(), 1), tt = /* @__PURE__ */ e(Ke(), 1), nt = {
 };
 //#endregion
 //#region node_modules/@uppy/core/lib/provider-views/useSearchForm.js
-function it(e) {
+function rt(e) {
 	let t = S((t) => {
 		t.preventDefault(), e();
 	}, [e]), [n] = v(() => {
 		let e = document.createElement("form");
-		return e.setAttribute("tabindex", "-1"), e.id = Je(), e;
+		return e.setAttribute("tabindex", "-1"), e.id = qe(), e;
 	});
 	return b(() => (document.body.appendChild(n), n.addEventListener("submit", t), () => {
 		n.removeEventListener("submit", t), n.remove();
@@ -1688,8 +1688,8 @@ function it(e) {
 }
 //#endregion
 //#region node_modules/@uppy/core/lib/provider-views/FilterInput.js
-function at({ value: e, onChange: t, onSubmit: n, inputLabel: r, i18n: i, disabled: a = !1 }) {
-	let { formId: o } = it(n);
+function it({ value: e, onChange: t, onSubmit: n, inputLabel: r, i18n: i, disabled: a = !1 }) {
+	let { formId: o } = rt(n);
 	return f("section", {
 		className: "uppy-ProviderBrowser-searchFilter",
 		children: [
@@ -1732,12 +1732,12 @@ function at({ value: e, onChange: t, onSubmit: n, inputLabel: r, i18n: i, disabl
 }
 //#endregion
 //#region node_modules/@uppy/core/lib/companion-client/AuthError.js
-function ot(e) {
+function at(e) {
 	return e instanceof Error && "isAuthError" in e && e.isAuthError === !0;
 }
 //#endregion
 //#region node_modules/@uppy/core/lib/provider-views/ProviderView/AuthView.js
-function st() {
+function ot() {
 	return f("svg", {
 		width: "26",
 		height: "26",
@@ -1778,7 +1778,7 @@ function st() {
 		})
 	});
 }
-function ct({ pluginName: e, i18n: t, onAuth: n }) {
+function st({ pluginName: e, i18n: t, onAuth: n }) {
 	let r = e === "Google Drive", i = S((e) => {
 		e.preventDefault(), n();
 	}, [n]);
@@ -1788,7 +1788,7 @@ function ct({ pluginName: e, i18n: t, onAuth: n }) {
 			type: "submit",
 			className: "uppy-u-reset uppy-c-btn uppy-c-btn-primary uppy-Provider-authBtn uppy-Provider-btn-google",
 			"data-uppy-super-focusable": !0,
-			children: [f(st, {}), t("signInWithGoogle")]
+			children: [f(ot, {}), t("signInWithGoogle")]
 		}) : f("button", {
 			type: "submit",
 			className: "uppy-u-reset uppy-c-btn uppy-c-btn-primary uppy-Provider-authBtn",
@@ -1797,12 +1797,12 @@ function ct({ pluginName: e, i18n: t, onAuth: n }) {
 		})
 	});
 }
-var lt = ({ pluginName: e, i18n: t, onAuth: n }) => f(ct, {
+var ct = ({ pluginName: e, i18n: t, onAuth: n }) => f(st, {
 	pluginName: e,
 	i18n: t,
 	onAuth: n
 });
-function ut({ loading: e, pluginName: t, pluginIcon: n, i18n: r, handleAuth: i, renderForm: a = lt }) {
+function lt({ loading: e, pluginName: t, pluginIcon: n, i18n: r, handleAuth: i, renderForm: a = ct }) {
 	return f("div", {
 		className: "uppy-Provider-auth",
 		children: [
@@ -1825,7 +1825,7 @@ function ut({ loading: e, pluginName: t, pluginIcon: n, i18n: r, handleAuth: i, 
 }
 //#endregion
 //#region node_modules/classnames/index.js
-var dt = /* @__PURE__ */ t(((e, t) => {
+var ut = /* @__PURE__ */ t(((e, t) => {
 	(function() {
 		var e = {}.hasOwnProperty;
 		function n() {
@@ -1851,7 +1851,7 @@ var dt = /* @__PURE__ */ t(((e, t) => {
 			return n;
 		}) : window.classNames = n;
 	})();
-})), ft = {
+})), dt = {
 	S3_ALREADY_EXISTS: "s3AlreadyExists",
 	S3_CONFLICT: "s3Conflict",
 	S3_DESTINATION_MUST_BE_FILE: "s3DestinationMustBeFile",
@@ -1869,18 +1869,18 @@ var dt = /* @__PURE__ */ t(((e, t) => {
 	S3_SELECTED_IN_OTHER_SESSION: "s3SelectedInOtherSession",
 	WEBDAV_CANNOT_CONNECT: "webdavCannotConnect"
 };
-function pt(e, t) {
+function ft(e, t) {
 	let { code: n } = t;
-	return n && Object.hasOwn(ft, n) ? e(ft[n]) : n && t.message === n ? e("companionError") : t.message;
+	return n && Object.hasOwn(dt, n) ? e(dt[n]) : n && t.message === n ? e("companionError") : t.message;
 }
 //#endregion
 //#region node_modules/@uppy/core/lib/provider-views/Item/components/ItemActionsMenu.js
-var mt = ({ appliesTo: e = "all" }, t) => e === "all" || e === (t.data.isFolder ? "folder" : "file");
-function ht(e, t) {
-	return e.filter((e) => mt(e, t));
+var pt = ({ appliesTo: e = "all" }, t) => e === "all" || e === (t.data.isFolder ? "folder" : "file");
+function mt(e, t) {
+	return e.filter((e) => pt(e, t));
 }
-function gt({ file: e, actions: t, open: n, onToggle: r, i18n: i }) {
-	return t.some((t) => mt(t, e)) ? f("div", {
+function ht({ file: e, actions: t, open: n, onToggle: r, i18n: i }) {
+	return t.some((t) => pt(t, e)) ? f("div", {
 		className: "uppy-ProviderBrowserItem-actions",
 		children: f("button", {
 			type: "button",
@@ -1923,16 +1923,16 @@ function gt({ file: e, actions: t, open: n, onToggle: r, i18n: i }) {
 }
 //#endregion
 //#region node_modules/@uppy/core/lib/provider-views/ModalDialog.js
-function _t(e) {
+function gt(e) {
 	e.key === "Escape" && e.stopPropagation();
 }
-var vt = (e) => {
+var _t = (e) => {
 	let t = e.currentTarget;
 	if (e.target !== t) return !1;
 	let n = t.getBoundingClientRect();
 	return e.clientX < n.left || e.clientX > n.right || e.clientY < n.top || e.clientY > n.bottom;
 };
-function yt({ onDismiss: e, restoreFocus: t, children: n, ...r }) {
+function vt({ onDismiss: e, restoreFocus: t, children: n, ...r }) {
 	let i = C(null), a = C(!1), o = C(t);
 	return o.current = t, b(() => {
 		let e = i.current;
@@ -1950,10 +1950,10 @@ function yt({ onDismiss: e, restoreFocus: t, children: n, ...r }) {
 			t.preventDefault(), e();
 		},
 		onPointerDown: (e) => {
-			a.current = vt(e);
+			a.current = _t(e);
 		},
 		onClick: (t) => {
-			a.current && vt(t) && e(), a.current = !1;
+			a.current && _t(t) && e(), a.current = !1;
 		},
 		onKeyDown: (t) => {
 			t.key !== "Escape" || t.isComposing || (t.preventDefault(), t.stopPropagation(), e());
@@ -1963,12 +1963,12 @@ function yt({ onDismiss: e, restoreFocus: t, children: n, ...r }) {
 }
 //#endregion
 //#region node_modules/@uppy/core/lib/provider-views/Item/components/ItemActionsPopover.js
-var I = /* @__PURE__ */ e(dt(), 1), bt = 4;
-function xt({ file: e, actions: t, anchor: n, containerRef: r, runAction: i, onClose: a, i18n: o }) {
+var L = /* @__PURE__ */ e(ut(), 1), yt = 4;
+function bt({ file: e, actions: t, anchor: n, containerRef: r, runAction: i, onClose: a, i18n: o }) {
 	let s = C(null), [c, l] = v(null), u = S(() => {
 		let e = s.current;
 		if (!e) return;
-		let t = n.getBoundingClientRect(), r = e.offsetHeight, i = t.bottom + bt + r <= window.innerHeight ? t.bottom + bt : Math.max(0, t.top - bt - r);
+		let t = n.getBoundingClientRect(), r = e.offsetHeight, i = t.bottom + yt + r <= window.innerHeight ? t.bottom + yt : Math.max(0, t.top - yt - r);
 		l(getComputedStyle(n).direction === "rtl" ? {
 			top: i,
 			left: Math.max(0, t.left)
@@ -2006,7 +2006,7 @@ function xt({ file: e, actions: t, anchor: n, containerRef: r, runAction: i, onC
 		};
 		switch (e.key) {
 			case "Escape":
-				_t(e), typeof s.current?.hidePopover != "function" && d();
+				gt(e), typeof s.current?.hidePopover != "function" && d();
 				break;
 			case "ArrowDown":
 				r(n + 1);
@@ -2037,7 +2037,7 @@ function xt({ file: e, actions: t, anchor: n, containerRef: r, runAction: i, onC
 		children: t.map((t) => f("button", {
 			type: "button",
 			role: "menuitem",
-			className: (0, I.default)("uppy-u-reset uppy-c-btn uppy-ProviderBrowserItem-actionsMenuItem", t.danger && "uppy-ProviderBrowserItem-actionsMenuItem--danger"),
+			className: (0, L.default)("uppy-u-reset uppy-c-btn uppy-ProviderBrowserItem-actionsMenuItem", t.danger && "uppy-ProviderBrowserItem-actionsMenuItem--danger"),
 			onClick: (n) => {
 				n.stopPropagation(), n.preventDefault(), d(), i(t, e);
 			},
@@ -2047,7 +2047,7 @@ function xt({ file: e, actions: t, anchor: n, containerRef: r, runAction: i, onC
 }
 //#endregion
 //#region node_modules/@uppy/core/lib/provider-views/Item/components/useItemMenu.js
-function St(e) {
+function xt(e) {
 	let [t, n] = v(null), r = t ? e.find(({ id: e }) => e === t.id) : void 0;
 	return {
 		open: t && r ? {
@@ -2063,7 +2063,7 @@ function St(e) {
 }
 //#endregion
 //#region node_modules/@uppy/core/lib/provider-views/Item/components/ItemIcon.js
-function Ct() {
+function St() {
 	return f("svg", {
 		"aria-hidden": "true",
 		focusable: "false",
@@ -2074,7 +2074,7 @@ function Ct() {
 		children: f("path", { d: "M27.437.517a1 1 0 0 0-.094.03H4.25C2.037.548.217 2.368.217 4.58v48.405c0 2.212 1.82 4.03 4.03 4.03H39.03c2.21 0 4.03-1.818 4.03-4.03V15.61a1 1 0 0 0-.03-.28 1 1 0 0 0 0-.093 1 1 0 0 0-.03-.032 1 1 0 0 0 0-.03 1 1 0 0 0-.032-.063 1 1 0 0 0-.03-.063 1 1 0 0 0-.032 0 1 1 0 0 0-.03-.063 1 1 0 0 0-.032-.03 1 1 0 0 0-.03-.063 1 1 0 0 0-.063-.062l-14.593-14a1 1 0 0 0-.062-.062A1 1 0 0 0 28 .708a1 1 0 0 0-.374-.157 1 1 0 0 0-.156 0 1 1 0 0 0-.03-.03l-.003-.003zM4.25 2.547h22.218v9.97c0 2.21 1.82 4.03 4.03 4.03h10.564v36.438a2.02 2.02 0 0 1-2.032 2.032H4.25c-1.13 0-2.032-.9-2.032-2.032V4.58c0-1.13.902-2.032 2.03-2.032zm24.218 1.345l10.375 9.937.75.718H30.5c-1.13 0-2.032-.9-2.032-2.03V3.89z" })
 	});
 }
-function wt() {
+function Ct() {
 	return f("svg", {
 		"aria-hidden": "true",
 		focusable: "false",
@@ -2087,7 +2087,7 @@ function wt() {
 		children: f("path", { d: "M273.08 101.378c-3.3-4.65-8.86-7.32-15.254-7.32h-24.34V67.59c0-10.2-8.3-18.5-18.5-18.5h-85.322c-3.63 0-9.295-2.875-11.436-5.805l-6.386-8.735c-4.982-6.814-15.104-11.954-23.546-11.954H58.73c-9.292 0-18.638 6.608-21.737 15.372l-2.033 5.752c-.958 2.71-4.72 5.37-7.596 5.37H18.5C8.3 49.09 0 57.39 0 67.59v167.07c0 .886.16 1.73.443 2.52.152 3.306 1.18 6.424 3.053 9.064 3.3 4.652 8.86 7.32 15.255 7.32h188.487c11.395 0 23.27-8.425 27.035-19.18l40.677-116.188c2.11-6.035 1.43-12.164-1.87-16.816zM18.5 64.088h8.864c9.295 0 18.64-6.607 21.738-15.37l2.032-5.75c.96-2.712 4.722-5.373 7.597-5.373h29.565c3.63 0 9.295 2.876 11.437 5.806l6.386 8.735c4.982 6.815 15.104 11.954 23.546 11.954h85.322c1.898 0 3.5 1.602 3.5 3.5v26.47H69.34c-11.395 0-23.27 8.423-27.035 19.178L15 191.23V67.59c0-1.898 1.603-3.5 3.5-3.5zm242.29 49.15l-40.676 116.188c-1.674 4.78-7.812 9.135-12.877 9.135H18.75c-1.447 0-2.576-.372-3.02-.997-.442-.625-.422-1.814.057-3.18l40.677-116.19c1.674-4.78 7.812-9.134 12.877-9.134h188.487c1.448 0 2.577.372 3.02.997.443.625.423 1.814-.056 3.18z" })
 	});
 }
-function Tt() {
+function wt() {
 	return f("svg", {
 		"aria-hidden": "true",
 		focusable: "false",
@@ -2099,12 +2099,12 @@ function Tt() {
 		children: [f("path", { d: "M36.537 28.156l-11-7a1.005 1.005 0 0 0-1.02-.033C24.2 21.3 24 21.635 24 22v14a1 1 0 0 0 1.537.844l11-7a1.002 1.002 0 0 0 0-1.688zM26 34.18V23.82L34.137 29 26 34.18z" }), f("path", { d: "M57 6H1a1 1 0 0 0-1 1v44a1 1 0 0 0 1 1h56a1 1 0 0 0 1-1V7a1 1 0 0 0-1-1zM10 28H2v-9h8v9zm-8 2h8v9H2v-9zm10 10V8h34v42H12V40zm44-12h-8v-9h8v9zm-8 2h8v9h-8v-9zm8-22v9h-8V8h8zM2 8h8v9H2V8zm0 42v-9h8v9H2zm54 0h-8v-9h8v9z" })]
 	});
 }
-function Et({ itemIconString: e, alt: t = void 0 }) {
+function Tt({ itemIconString: e, alt: t = void 0 }) {
 	if (e === null) return null;
 	switch (e) {
-		case "file": return f(Ct, {});
-		case "folder": return f(wt, {});
-		case "video": return f(Tt, {});
+		case "file": return f(St, {});
+		case "folder": return f(Ct, {});
+		case "video": return f(wt, {});
 		default: return f("img", {
 			src: e,
 			alt: t,
@@ -2117,9 +2117,9 @@ function Et({ itemIconString: e, alt: t = void 0 }) {
 }
 //#endregion
 //#region node_modules/@uppy/core/lib/provider-views/Item/components/GridItem.js
-function Dt({ file: e, toggleCheckbox: t, className: n, isDisabled: r, restrictionError: i, showTitles: a, children: o = null, i18n: s, actionsMenu: c = null, selectable: l = !0, onFileClick: u }) {
+function Et({ file: e, toggleCheckbox: t, className: n, isDisabled: r, restrictionError: i, showTitles: a, children: o = null, i18n: s, actionsMenu: c = null, selectable: l = !0, onFileClick: u }) {
 	let d = e.data.name ?? s("unnamed"), m = f(p, { children: [
-		f(Et, { itemIconString: e.data.thumbnail || e.data.icon }),
+		f(Tt, { itemIconString: e.data.thumbnail || e.data.icon }),
 		a && d,
 		o
 	] });
@@ -2156,10 +2156,10 @@ function Dt({ file: e, toggleCheckbox: t, className: n, isDisabled: r, restricti
 }
 //#endregion
 //#region node_modules/@uppy/core/lib/provider-views/Item/components/ListItem.js
-function Ot({ file: e, openFolder: t, className: n, isDisabled: r, restrictionError: i, toggleCheckbox: a, showTitles: o, i18n: s, actionsMenu: c = null, selectable: l = !0, onFileClick: u }) {
+function Dt({ file: e, openFolder: t, className: n, isDisabled: r, restrictionError: i, toggleCheckbox: a, showTitles: o, i18n: s, actionsMenu: c = null, selectable: l = !0, onFileClick: u }) {
 	let d = f(p, { children: [f("div", {
 		className: "uppy-ProviderBrowserItem-iconWrap",
-		children: f(Et, { itemIconString: e.data.icon })
+		children: f(Tt, { itemIconString: e.data.icon })
 	}), o && f("span", {
 		className: "uppy-truncate-text",
 		children: e.data.name ?? s("unnamed")
@@ -2186,7 +2186,7 @@ function Ot({ file: e, openFolder: t, className: n, isDisabled: r, restrictionEr
 				"aria-label": s("openFolderNamed", { name: e.data.name ?? s("unnamed") }),
 				children: [f("div", {
 					className: "uppy-ProviderBrowserItem-iconWrap",
-					children: f(Et, { itemIconString: e.data.icon })
+					children: f(Tt, { itemIconString: e.data.icon })
 				}), o && e.data.name ? f("span", {
 					className: "uppy-truncate-text",
 					children: e.data.name
@@ -2209,8 +2209,8 @@ function Ot({ file: e, openFolder: t, className: n, isDisabled: r, restrictionEr
 }
 //#endregion
 //#region node_modules/@uppy/core/lib/provider-views/Item/index.js
-function kt(e) {
-	let { viewType: t, toggleCheckbox: n, showTitles: r, i18n: i, openFolder: a, file: o, utmSource: s, actions: c = [], menuOpen: l = !1, toggleMenu: u, selectable: d = !0, onFileClick: p } = e, m = c.length > 0 && u ? f(gt, {
+function Ot(e) {
+	let { viewType: t, toggleCheckbox: n, showTitles: r, i18n: i, openFolder: a, file: o, utmSource: s, actions: c = [], menuOpen: l = !1, toggleMenu: u, selectable: d = !0, onFileClick: p } = e, m = c.length > 0 && u ? f(ht, {
 		file: o,
 		actions: c,
 		open: l,
@@ -2224,7 +2224,7 @@ function kt(e) {
 		i18n: i,
 		viewType: t,
 		showTitles: r,
-		className: (0, I.default)("uppy-ProviderBrowserItem", { "uppy-ProviderBrowserItem--disabled": g }, { "uppy-ProviderBrowserItem--noPreview": o.data.icon === "video" }, { "uppy-ProviderBrowserItem--is-checked": o.status === "checked" }, { "uppy-ProviderBrowserItem--is-partial": o.status === "partial" }),
+		className: (0, L.default)("uppy-ProviderBrowserItem", { "uppy-ProviderBrowserItem--disabled": g }, { "uppy-ProviderBrowserItem--noPreview": o.data.icon === "video" }, { "uppy-ProviderBrowserItem--is-checked": o.status === "checked" }, { "uppy-ProviderBrowserItem--is-partial": o.status === "partial" }),
 		isDisabled: g,
 		restrictionError: h,
 		actionsMenu: m,
@@ -2232,9 +2232,9 @@ function kt(e) {
 		onFileClick: p
 	};
 	switch (t) {
-		case "grid": return f(Dt, { ..._ });
-		case "list": return f(Ot, { ..._ });
-		case "unsplash": return f(Dt, {
+		case "grid": return f(Et, { ..._ });
+		case "list": return f(Dt, { ..._ });
+		case "unsplash": return f(Et, {
 			..._,
 			children: f("a", {
 				href: `${o.data.author.url}?utm_source=${s}&utm_medium=referral`,
@@ -2250,8 +2250,8 @@ function kt(e) {
 }
 //#endregion
 //#region node_modules/@uppy/core/lib/provider-views/Browser.js
-function At(e) {
-	let { displayedPartialTree: t, viewType: n, toggleCheckbox: r, handleScroll: i, showTitles: a, i18n: o, isLoading: s, onCancelLoading: c, openFolder: l, noResultsLabel: u, virtualList: d, utmSource: p, actions: m = [], runAction: h, selectable: g = !0, onFileClick: _ } = e, [y, x] = v(!1), S = St(t), w = C(null);
+function kt(e) {
+	let { displayedPartialTree: t, viewType: n, toggleCheckbox: r, handleScroll: i, showTitles: a, i18n: o, isLoading: s, onCancelLoading: c, openFolder: l, noResultsLabel: u, virtualList: d, utmSource: p, actions: m = [], runAction: h, selectable: g = !0, onFileClick: _ } = e, [y, x] = v(!1), S = xt(t), w = C(null);
 	b(() => {
 		let e = (e) => {
 			e.key === "Shift" && x(!1);
@@ -2282,7 +2282,7 @@ function At(e) {
 		className: "uppy-Provider-empty",
 		children: u
 	});
-	let D = (e) => f(kt, {
+	let D = (e) => f(Ot, {
 		viewType: n,
 		toggleCheckbox: (t) => {
 			t.stopPropagation(), t.preventDefault(), document.getSelection()?.removeAllRanges(), r(e, y);
@@ -2297,9 +2297,9 @@ function At(e) {
 		toggleMenu: h ? (t) => S.toggle(e.id, t) : void 0,
 		selectable: g,
 		onFileClick: _
-	}, e.id), O = S.open && h ? f(xt, {
+	}, e.id), O = S.open && h ? f(bt, {
 		file: S.open.item,
-		actions: ht(m, S.open.item),
+		actions: mt(m, S.open.item),
 		anchor: S.open.anchor,
 		containerRef: w,
 		runAction: h,
@@ -2309,7 +2309,7 @@ function At(e) {
 	return d ? f("div", {
 		className: "uppy-ProviderBrowser-body",
 		ref: w,
-		children: [f(Ce, {
+		children: [f(Se, {
 			className: "uppy-ProviderBrowser-list",
 			data: t,
 			renderRow: D,
@@ -2328,7 +2328,7 @@ function At(e) {
 }
 //#endregion
 //#region node_modules/@uppy/core/lib/provider-views/BulkActions.js
-function jt({ selectedCount: e, bulkActions: t, runBulkAction: n, i18n: r }) {
+function At({ selectedCount: e, bulkActions: t, runBulkAction: n, i18n: r }) {
 	return e === 0 || t.length === 0 ? null : f("div", {
 		className: "uppy-ProviderBrowser-footer",
 		children: f("div", {
@@ -2338,7 +2338,7 @@ function jt({ selectedCount: e, bulkActions: t, runBulkAction: n, i18n: r }) {
 				children: r("itemsSelected", { smart_count: e })
 			}), t.map((e) => f("button", {
 				type: "button",
-				className: (0, I.default)("uppy-u-reset uppy-c-btn uppy-c-btn-primary", { "uppy-ProviderDialog-confirm--danger": e.danger }),
+				className: (0, L.default)("uppy-u-reset uppy-c-btn uppy-c-btn-primary", { "uppy-ProviderDialog-confirm--danger": e.danger }),
 				onClick: () => n(e),
 				children: e.label
 			}, e.id))]
@@ -2347,17 +2347,17 @@ function jt({ selectedCount: e, bulkActions: t, runBulkAction: n, i18n: r }) {
 }
 //#endregion
 //#region node_modules/@uppy/core/lib/provider-views/utils/PartialTreeUtils/getNumberOfSelectedFiles.js
-var Mt = (e) => e.filter((t) => t.type === "file" && t.status === "checked" || t.type === "folder" && t.status === "checked" && !e.some((e) => e.type !== "root" && e.parentId === t.id)).length;
+var jt = (e) => e.filter((t) => t.type === "file" && t.status === "checked" || t.type === "folder" && t.status === "checked" && !e.some((e) => e.type !== "root" && e.parentId === t.id)).length;
 //#endregion
 //#region node_modules/@uppy/core/lib/provider-views/FooterActions.js
-function Nt({ cancelSelection: e, donePicking: t, i18n: n, partialTree: r, validateAggregateRestrictions: i }) {
-	let a = y(() => i(r), [r, i]), o = y(() => Mt(r), [r]);
+function Mt({ cancelSelection: e, donePicking: t, i18n: n, partialTree: r, validateAggregateRestrictions: i }) {
+	let a = y(() => i(r), [r, i]), o = y(() => jt(r), [r]);
 	return o === 0 ? null : f("div", {
 		className: "uppy-ProviderBrowser-footer",
 		children: [f("div", {
 			className: "uppy-ProviderBrowser-footer-buttons",
 			children: [f("button", {
-				className: (0, I.default)("uppy-u-reset uppy-c-btn uppy-c-btn-primary", { "uppy-c-btn--disabled": a }),
+				className: (0, L.default)("uppy-u-reset uppy-c-btn uppy-c-btn-primary", { "uppy-c-btn--disabled": a }),
 				disabled: !!a,
 				onClick: t,
 				type: "button",
@@ -2376,7 +2376,7 @@ function Nt({ cancelSelection: e, donePicking: t, i18n: n, partialTree: r, valid
 }
 //#endregion
 //#region node_modules/@uppy/core/lib/provider-views/ItemDetailDialog.js
-function Pt({ item: e, actions: t, runAction: n, getPreviewUrl: r, onClose: i, i18n: a }) {
+function Nt({ item: e, actions: t, runAction: n, getPreviewUrl: r, onClose: i, i18n: a }) {
 	let [o, s] = v(null), c = _(), [l] = v(e);
 	b(() => {
 		if (!r || l.data.isFolder) return;
@@ -2387,8 +2387,8 @@ function Pt({ item: e, actions: t, runAction: n, getPreviewUrl: r, onClose: i, i
 			e = !0;
 		};
 	}, [r, l]);
-	let u = e.data.name ?? a("unnamed"), d = ht(t, e), m = e.type === "file" ? e.data : void 0, h = m?.size, g = m?.mimeType, y = m?.modifiedDate;
-	return f(yt, {
+	let u = e.data.name ?? a("unnamed"), d = mt(t, e), m = e.type === "file" ? e.data : void 0, h = m?.size, g = m?.mimeType, y = m?.modifiedDate;
+	return f(vt, {
 		className: "uppy-ProviderDialog uppy-ItemDetail",
 		"aria-labelledby": c,
 		onDismiss: i,
@@ -2435,12 +2435,12 @@ function Pt({ item: e, actions: t, runAction: n, getPreviewUrl: r, onClose: i, i
 					}) : f("span", {
 						className: "uppy-ItemDetail-previewIcon",
 						"aria-hidden": "true",
-						children: f(Et, { itemIconString: e.data.icon })
+						children: f(Tt, { itemIconString: e.data.icon })
 					})
 				}), f("dl", {
 					className: "uppy-ItemDetail-facts",
 					children: [
-						typeof h == "number" ? f(p, { children: [f("dt", { children: a("detailSize") }), f("dd", { children: P(h) })] }) : null,
+						typeof h == "number" ? f(p, { children: [f("dt", { children: a("detailSize") }), f("dd", { children: F(h) })] }) : null,
 						g ? f(p, { children: [f("dt", { children: a("detailType") }), f("dd", { children: g })] }) : null,
 						y ? f(p, { children: [f("dt", { children: a("detailModified") }), f("dd", { children: y })] }) : null
 					]
@@ -2450,7 +2450,7 @@ function Pt({ item: e, actions: t, runAction: n, getPreviewUrl: r, onClose: i, i
 				className: "uppy-ItemDetail-actions",
 				children: d.map((t) => f("button", {
 					type: "button",
-					className: (0, I.default)("uppy-u-reset uppy-c-btn uppy-ItemDetail-action", t.danger && "uppy-ItemDetail-action--danger"),
+					className: (0, L.default)("uppy-u-reset uppy-c-btn uppy-ItemDetail-action", t.danger && "uppy-ItemDetail-action--danger"),
 					onClick: () => {
 						i(), n(t, e);
 					},
@@ -2462,11 +2462,11 @@ function Pt({ item: e, actions: t, runAction: n, getPreviewUrl: r, onClose: i, i
 }
 //#endregion
 //#region node_modules/@uppy/core/lib/provider-views/ProviderDialog.js
-function Ft({ dialog: e, i18n: t, onConfirm: n, onCancel: r }) {
+function Pt({ dialog: e, i18n: t, onConfirm: n, onCancel: r }) {
 	let [i, a] = v(e.kind === "prompt" ? e.defaultValue ?? "" : ""), o = C(null), s = C(null), c = C(null), l = _(), u = e.kind === "prompt", d = e.kind === "confirm" && e.danger === !0;
 	return b(() => {
 		(o.current ?? (d ? c : s).current)?.focus(), o.current?.select();
-	}, [d]), f(yt, {
+	}, [d]), f(vt, {
 		className: "uppy-ProviderDialog",
 		"aria-labelledby": l,
 		onDismiss: r,
@@ -2508,7 +2508,7 @@ function Ft({ dialog: e, i18n: t, onConfirm: n, onCancel: r }) {
 					}), f("button", {
 						ref: s,
 						type: "submit",
-						className: (0, I.default)("uppy-u-reset uppy-c-btn uppy-c-btn-primary", d && "uppy-ProviderDialog-confirm--danger"),
+						className: (0, L.default)("uppy-u-reset uppy-c-btn uppy-c-btn-primary", d && "uppy-ProviderDialog-confirm--danger"),
 						children: e.confirmLabel ?? t("dialogConfirm")
 					})]
 				})
@@ -2518,7 +2518,7 @@ function Ft({ dialog: e, i18n: t, onConfirm: n, onCancel: r }) {
 }
 //#endregion
 //#region node_modules/@uppy/core/lib/provider-views/ProviderDialogController.js
-var It = class {
+var Ft = class {
 	#e;
 	#t = null;
 	#n = 0;
@@ -2553,7 +2553,7 @@ var It = class {
 		let n = this.#t;
 		n && (this.#t = null, this.#e.setPluginState({ dialog: void 0 }), n(e, t));
 	}
-}, Lt = (e, t, n) => {
+}, It = (e, t, n) => {
 	let r = e.name || e.id;
 	return {
 		id: e.id,
@@ -2579,54 +2579,54 @@ var It = class {
 			requestClientId: n.provider
 		}
 	};
-}, Rt = (e, t, n) => {
-	let r = e.map((e) => Lt(e, t, n)), i = [], a = [];
+}, Lt = (e, t, n) => {
+	let r = e.map((e) => It(e, t, n)), i = [], a = [];
 	r.forEach((e) => {
 		t.uppy.checkIfFileAlreadyExists(M(e, t.uppy.getID())) ? a.push(e) : i.push(e);
 	}), i.length > 0 && t.uppy.info(t.uppy.i18n("addedNumFiles", { numFiles: i.length })), a.length > 0 && t.uppy.info(`Not adding ${a.length} files because they already exist`), t.uppy.addFiles(i);
-}, zt = (e, t, n, r) => {
+}, Rt = (e, t, n, r) => {
 	let i = t.findIndex((e) => e.id === r);
 	if (i !== -1 && n) {
 		let n = t.findIndex((t) => t.id === e);
 		return t.slice(Math.min(i, n), Math.max(i, n) + 1).map((e) => e.id);
 	}
 	return [e];
-}, L = (e) => (t) => {
-	if (ot(t)) return;
+}, R = (e) => (t) => {
+	if (at(t)) return;
 	let r = n(t);
-	if (fe(r)) {
+	if (de(r)) {
 		e.log("Aborting request", "warning");
 		return;
 	}
 	e.log(r, "error"), r.name === "UserFacingApiError" && e.info({
 		message: e.i18n("companionError"),
-		details: pt(e.i18n, r)
+		details: ft(e.i18n, r)
 	}, "warning", 5e3);
-}, Bt = (e, t) => {
+}, zt = (e, t) => {
 	let n = e.find((e) => e.id === t), r = [];
 	for (; r = [n, ...r], n.type !== "root";) {
 		let t = n.parentId;
 		n = e.find((e) => e.id === t);
 	}
 	return r;
-}, Vt = (e, t, n) => {
+}, Bt = (e, t, n) => {
 	let r = t === null ? "null" : t;
 	if (n[r]) return n[r];
 	let i = e.find((e) => e.id === t);
 	if (i.type === "root") return [];
-	let a = [...Vt(e, i.parentId, n), i];
+	let a = [...Bt(e, i.parentId, n), i];
 	return n[r] = a, a;
-}, Ht = (e) => {
+}, Vt = (e) => {
 	let t = Object.create(null);
 	return e.filter((e) => e.type === "file" && e.status === "checked").map((n) => {
-		let r = Vt(e, n.id, t), i = r.findIndex((e) => e.type === "folder" && e.status === "checked"), a = r.slice(i), o = `/${r.map((e) => e.data.name).join("/")}`, s = a.length === 1 ? void 0 : a.map((e) => e.data.name).join("/");
+		let r = Bt(e, n.id, t), i = r.findIndex((e) => e.type === "folder" && e.status === "checked"), a = r.slice(i), o = `/${r.map((e) => e.data.name).join("/")}`, s = a.length === 1 ? void 0 : a.map((e) => e.data.name).join("/");
 		return {
 			...n.data,
 			absDirPath: o,
 			relDirPath: s
 		};
 	});
-}, Ut = /* @__PURE__ */ e((/* @__PURE__ */ t(((e, t) => {
+}, Ht = /* @__PURE__ */ e((/* @__PURE__ */ t(((e, t) => {
 	var n = Object.prototype.hasOwnProperty, r = "~";
 	function i() {}
 	Object.create && (i.prototype = Object.create(null), new i().__proto__ || (r = !1));
@@ -2713,26 +2713,26 @@ var It = class {
 		var t;
 		return e ? (t = r ? r + e : e, this._events[t] && s(this, t)) : (this._events = new i(), this._eventsCount = 0), this;
 	}, c.prototype.off = c.prototype.removeListener, c.prototype.addListener = c.prototype.on, c.prefixed = r, c.EventEmitter = c, t !== void 0 && (t.exports = c);
-})))(), 1), Wt = class e extends Error {
+})))(), 1), Ut = class e extends Error {
 	name = "TimeoutError";
 	constructor(t, n) {
 		super(t, n), Error.captureStackTrace?.(this, e);
 	}
-}, Gt = (e) => e.reason ?? new DOMException("This operation was aborted.", "AbortError");
-function Kt(e, t) {
+}, Wt = (e) => e.reason ?? new DOMException("This operation was aborted.", "AbortError");
+function Gt(e, t) {
 	let { milliseconds: n, fallback: r, message: i, customTimers: a = {
 		setTimeout,
 		clearTimeout
 	}, signal: o } = t, s, c, l = new Promise((t, l) => {
 		if (typeof n != "number" || Math.sign(n) !== 1) throw TypeError(`Expected \`milliseconds\` to be a positive number, got \`${n}\``);
 		if (o?.aborted) {
-			l(Gt(o)), e.then(t, l);
+			l(Wt(o)), e.then(t, l);
 			return;
 		}
 		if (o && (c = () => {
-			l(Gt(o));
+			l(Wt(o));
 		}, o.addEventListener("abort", c, { once: !0 })), e.then(t, l), n === Infinity) return;
-		let u = new Wt();
+		let u = new Ut();
 		s = a.setTimeout.call(void 0, () => {
 			if (r) {
 				try {
@@ -2753,7 +2753,7 @@ function Kt(e, t) {
 }
 //#endregion
 //#region node_modules/p-queue/dist/lower-bound.js
-function qt(e, t, n) {
+function Kt(e, t, n) {
 	let r = 0, i = e.length;
 	for (; i > 0;) {
 		let a = Math.trunc(i / 2), o = r + a;
@@ -2763,7 +2763,7 @@ function qt(e, t, n) {
 }
 //#endregion
 //#region node_modules/p-queue/dist/priority-queue.js
-var Jt = 100, Yt = class {
+var qt = 100, Jt = class {
 	#e = [];
 	#t = 0;
 	enqueue(e, t) {
@@ -2781,7 +2781,7 @@ var Jt = 100, Yt = class {
 			return;
 		}
 		this.#n();
-		let o = qt(this.#e, a, (e, t) => t.priority - e.priority);
+		let o = Kt(this.#e, a, (e, t) => t.priority - e.priority);
 		this.#e.splice(o, 0, a);
 	}
 	setPriority(e, t) {
@@ -2800,7 +2800,7 @@ var Jt = 100, Yt = class {
 	dequeue() {
 		if (this.#t === this.#e.length) return;
 		let e = this.#e[this.#t];
-		return this.#t++, this.#t === this.#e.length ? (this.#e.length = 0, this.#t = 0) : this.#t > Jt && this.#t > this.#e.length / 2 && this.#n(), e?.run;
+		return this.#t++, this.#t === this.#e.length ? (this.#e.length = 0, this.#t = 0) : this.#t > qt && this.#t > this.#e.length / 2 && this.#n(), e?.run;
 	}
 	filter(e) {
 		let t = [];
@@ -2816,7 +2816,7 @@ var Jt = 100, Yt = class {
 	#n() {
 		this.#t !== 0 && (this.#e.splice(0, this.#t), this.#t = 0);
 	}
-}, Xt = class extends Ut.default {
+}, Yt = class extends Ht.default {
 	#e;
 	#t;
 	#n = 0;
@@ -2846,7 +2846,7 @@ var Jt = 100, Yt = class {
 			interval: 0,
 			concurrency: Infinity,
 			autoStart: !0,
-			queueClass: Yt,
+			queueClass: Jt,
 			strict: !1,
 			...e
 		}, !(typeof e.intervalCap == "number" && e.intervalCap >= 1)) throw TypeError(`Expected \`intervalCap\` to be a number from 1 and up, got \`${e.intervalCap?.toString() ?? ""}\` (${typeof e.intervalCap})`);
@@ -2976,7 +2976,7 @@ var Jt = 100, Yt = class {
 						throw this.#B(), this.#y.delete(i), e;
 					}
 					let r = e({ signal: t.signal });
-					if (t.timeout !== void 0 && (r = Kt(Promise.resolve(r), {
+					if (t.timeout !== void 0 && (r = Gt(Promise.resolve(r), {
 						milliseconds: t.timeout,
 						message: `Task timed out after ${t.timeout}ms (queue has ${this.#h} running, ${this.#p.size} waiting)`
 					})), t.signal) {
@@ -2999,7 +2999,7 @@ var Jt = 100, Yt = class {
 			};
 			this.#p.enqueue(o, t);
 			let s = () => {
-				if (this.#p instanceof Yt) {
+				if (this.#p instanceof Jt) {
 					this.#p.remove(o);
 					return;
 				}
@@ -3124,7 +3124,7 @@ var Jt = 100, Yt = class {
 			timeoutRemaining: e.timeout ? Math.max(0, e.startTime + e.timeout - Date.now()) : void 0
 		}));
 	}
-}, Zt = (e) => e.map((e) => ({ ...e })), Qt = async (e, t, n, r, i) => {
+}, Xt = (e) => e.map((e) => ({ ...e })), Zt = async (e, t, n, r, i) => {
 	let a = [], o = n.cached ? n.nextPagePath : n.id;
 	for (; o;) {
 		let e = await r(o);
@@ -3150,17 +3150,17 @@ var Jt = 100, Yt = class {
 		};
 	});
 	n.cached = !0, n.nextPagePath = null, t.push(...u, ...l), l.forEach(async (n) => {
-		e.add(() => Qt(e, t, n, r, i));
+		e.add(() => Zt(e, t, n, r, i));
 	});
-}, $t = async (e, t, n, r) => {
-	let i = new Xt({ concurrency: 6 }), a = Zt(e);
+}, Qt = async (e, t, n, r) => {
+	let i = new Yt({ concurrency: 6 }), a = Xt(e);
 	return a.filter((e) => e.type === "folder" && e.status === "checked" && (e.cached === !1 || e.nextPagePath)).forEach((e) => {
-		i.add(() => Qt(i, a, e, t, n));
+		i.add(() => Zt(i, a, e, t, n));
 	}), i.on("completed", () => {
 		let e = a.filter((e) => e.type === "file" && e.status === "checked").length;
 		r(e);
 	}), await i.onIdle(), a;
-}, en = (e, t, n, r, i) => {
+}, $t = (e, t, n, r, i) => {
 	let a = t.filter((t) => !e.find((e) => e.id === t.requestPath)), o = a.filter((e) => e.isFolder === !0), s = a.filter((e) => e.isFolder === !1), c = n.type === "folder" && n.status === "checked", l = o.map((e) => ({
 		type: "folder",
 		id: e.requestPath,
@@ -3189,7 +3189,7 @@ var Jt = 100, Yt = class {
 		...l,
 		...u
 	];
-}, tn = (e, t, n, r, i) => {
+}, en = (e, t, n, r, i) => {
 	let a = e.find((e) => e.id === t), o = n.filter((e) => e.isFolder === !0), s = n.filter((e) => e.isFolder === !1), c = {
 		...a,
 		nextPagePath: r
@@ -3217,33 +3217,33 @@ var Jt = 100, Yt = class {
 		...d,
 		...f
 	];
-}, nn = (e, t, n) => {
+}, tn = (e, t, n) => {
 	e.filter((e) => e.type !== "root" && e.parentId === t).forEach((t) => {
-		t.status = n && !(t.type === "file" && t.restrictionError) ? "checked" : "unchecked", nn(e, t.id, n);
+		t.status = n && !(t.type === "file" && t.restrictionError) ? "checked" : "unchecked", tn(e, t.id, n);
 	});
-}, rn = (e, t) => {
+}, nn = (e, t) => {
 	let n = e.find((e) => e.id === t);
 	if (n.type === "root") return;
 	let r = e.filter((e) => e.type !== "root" && e.parentId === n.id && !(e.type === "file" && e.restrictionError)), i = r.every((e) => e.status === "checked"), a = r.every((e) => e.status === "unchecked");
-	n.status = i && n.cached ? "checked" : a ? "unchecked" : "partial", rn(e, n.parentId);
-}, an = {
-	afterOpenFolder: en,
-	afterScrollFolder: tn,
+	n.status = i && n.cached ? "checked" : a ? "unchecked" : "partial", nn(e, n.parentId);
+}, rn = {
+	afterOpenFolder: $t,
+	afterScrollFolder: en,
 	afterToggleCheckbox: (e, t) => {
-		let n = Zt(e), r = n.filter((e) => e.type !== "root" && t.includes(e.id));
+		let n = Xt(e), r = n.filter((e) => e.type !== "root" && t.includes(e.id));
 		return r.forEach((e) => {
 			let t = e.status === "checked" ? "unchecked" : "checked";
-			e.status = e.type === "file" && e.restrictionError ? "unchecked" : t, nn(n, e.id, e.status === "checked");
-		}), rn(n, r[0].parentId), n;
+			e.status = e.type === "file" && e.restrictionError ? "unchecked" : t, tn(n, e.id, e.status === "checked");
+		}), nn(n, r[0].parentId), n;
 	},
-	afterFill: $t
-}, on = (e) => {
+	afterFill: Qt
+}, an = (e) => {
 	let { scrollHeight: t, scrollTop: n, offsetHeight: r } = e.target;
 	return t - (n + r) < 50;
-}, sn = ({ i18n: e, item: t, toggleCheckbox: n, openFolder: r }) => {
+}, on = ({ i18n: e, item: t, toggleCheckbox: n, openFolder: r }) => {
 	let i = "restrictionError" in t && t.restrictionError != null && t.status !== "checked";
 	return f("li", {
-		className: (0, I.default)("uppy-ProviderBrowserItem", { "uppy-ProviderBrowserItem--disabled": i }, { "uppy-ProviderBrowserItem--noPreview": t.data.icon === "video" }, { "uppy-ProviderBrowserItem--is-checked": t.status === "checked" }, { "uppy-ProviderBrowserItem--is-partial": t.status === "partial" }),
+		className: (0, L.default)("uppy-ProviderBrowserItem", { "uppy-ProviderBrowserItem--disabled": i }, { "uppy-ProviderBrowserItem--noPreview": t.data.icon === "video" }, { "uppy-ProviderBrowserItem--is-checked": t.status === "checked" }, { "uppy-ProviderBrowserItem--is-partial": t.status === "partial" }),
 		title: ("restrictionError" in t ? t.restrictionError : void 0) ?? void 0,
 		children: [f("input", {
 			type: "checkbox",
@@ -3263,18 +3263,18 @@ var Jt = 100, Yt = class {
 			},
 			children: [f("div", {
 				className: "uppy-ProviderBrowserItem-iconWrap",
-				children: f(Et, { itemIconString: t.data.icon })
+				children: f(Tt, { itemIconString: t.data.icon })
 			}), t.data.name ?? e("unnamed")]
 		})]
 	});
-}, cn = ({ searchResults: e, toggleCheckbox: t, openFolder: n, i18n: r }) => e.length === 0 ? f("div", {
+}, sn = ({ searchResults: e, toggleCheckbox: t, openFolder: n, i18n: r }) => e.length === 0 ? f("div", {
 	className: "uppy-Provider-empty",
 	children: r("noFilesFound")
 }) : f("div", {
 	className: "uppy-ProviderBrowser-body",
 	children: f("ul", {
 		className: "uppy-ProviderBrowser-list",
-		children: e.map((e) => f(sn, {
+		children: e.map((e) => f(on, {
 			i18n: r,
 			item: e,
 			toggleCheckbox: t,
@@ -3284,7 +3284,7 @@ var Jt = 100, Yt = class {
 });
 //#endregion
 //#region node_modules/@uppy/core/lib/provider-views/Breadcrumbs.js
-function ln(e) {
+function cn(e) {
 	let { openFolder: t, title: n, breadcrumbsIcon: r, breadcrumbs: i, i18n: a, disabled: o = !1 } = e;
 	return f("div", {
 		className: "uppy-Provider-breadcrumbs",
@@ -3311,7 +3311,7 @@ function ln(e) {
 }
 //#endregion
 //#region node_modules/@uppy/core/lib/provider-views/ProviderView/User.js
-function un({ i18n: e, logout: t, username: n, disabled: r = !1 }) {
+function ln({ i18n: e, logout: t, username: n, disabled: r = !1 }) {
 	return f(p, { children: [n && f("span", {
 		className: "uppy-ProviderBrowser-user",
 		children: n
@@ -3325,14 +3325,14 @@ function un({ i18n: e, logout: t, username: n, disabled: r = !1 }) {
 }
 //#endregion
 //#region node_modules/@uppy/core/lib/provider-views/ProviderView/Header.js
-function dn(e) {
+function un(e) {
 	let t = e.toolbarActions ?? [], n = e.busy ?? !1;
 	return f("div", {
 		className: "uppy-ProviderBrowser-header",
 		children: f("div", {
-			className: (0, I.default)("uppy-ProviderBrowser-headerBar", !e.showBreadcrumbs && "uppy-ProviderBrowser-headerBar--simple"),
+			className: (0, L.default)("uppy-ProviderBrowser-headerBar", !e.showBreadcrumbs && "uppy-ProviderBrowser-headerBar--simple"),
 			children: [
-				e.showBreadcrumbs && f(ln, {
+				e.showBreadcrumbs && f(cn, {
 					openFolder: e.openFolder,
 					breadcrumbs: e.breadcrumbs,
 					breadcrumbsIcon: e.pluginIcon?.(),
@@ -3356,7 +3356,7 @@ function dn(e) {
 						children: t.label
 					}, t.id))]
 				}),
-				!e.standalone && f(un, {
+				!e.standalone && f(ln, {
 					logout: e.logout,
 					username: e.username,
 					i18n: e.i18n,
@@ -3368,8 +3368,8 @@ function dn(e) {
 }
 //#endregion
 //#region node_modules/@uppy/core/lib/provider-views/ProviderView/ProviderView.js
-var fn = /* @__PURE__ */ e(We(), 1);
-function pn() {
+var dn = /* @__PURE__ */ e(Ue(), 1);
+function fn() {
 	return f("svg", {
 		"aria-hidden": "true",
 		focusable: "false",
@@ -3379,7 +3379,7 @@ function pn() {
 		children: f("path", { d: "M15 30c8.284 0 15-6.716 15-15 0-8.284-6.716-15-15-15C6.716 0 0 6.716 0 15c0 8.284 6.716 15 15 15zm4.258-12.676v6.846h-8.426v-6.846H5.204l9.82-12.364 9.82 12.364H19.26z" })
 	});
 }
-var mn = (e) => ({
+var pn = (e) => ({
 	authenticated: void 0,
 	partialTree: [{
 		type: "root",
@@ -3395,13 +3395,13 @@ var mn = (e) => ({
 	selectionActive: !1,
 	detailItemId: void 0
 });
-function hn(e, t) {
+function mn(e, t) {
 	let n = [t], r = e.get(t.parentId);
 	for (; r && r.type !== "root";) n.push(r), r = e.get(r.parentId);
 	return n;
 }
 (class e {
-	static VERSION = Ye.version;
+	static VERSION = Je.version;
 	static [Symbol.for("uppy test: searchDebounceMs")];
 	plugin;
 	provider;
@@ -3410,7 +3410,7 @@ function hn(e, t) {
 	previousCheckbox = null;
 	#e;
 	constructor(t, n) {
-		this.plugin = t, this.provider = n.provider, this.#c = new It(t);
+		this.plugin = t, this.provider = n.provider, this.#c = new Ft(t);
 		let r = {
 			viewType: "list",
 			showTitles: !0,
@@ -3427,15 +3427,15 @@ function hn(e, t) {
 			leading: !0,
 			trailing: !0
 		} : void 0;
-		this.#e = (0, fn.default)(this.#f, a, o);
+		this.#e = (0, dn.default)(this.#f, a, o);
 	}
 	resetPluginState() {
-		this.#s.clear(), this.#c.cancel(), this.plugin.setPluginState(mn(this.plugin.rootFolderId));
+		this.#s.clear(), this.#c.cancel(), this.plugin.setPluginState(pn(this.plugin.rootFolderId));
 	}
 	refreshCurrentFolder = async (e = !1) => {
 		let { partialTree: t, currentFolderId: n } = this.plugin.getPluginState();
 		if (t == null || this.#i) return;
-		let r = ++this.#o, i = t.flatMap((e) => e.type !== "root" && e.parentId === n && e.status === "checked" ? [e.id] : []), a = new Map(t.map((e) => [e.id, e])), o = (e) => hn(a, e).some(({ parentId: e }) => e === n), s = new Set(Bt(t, n).map((e) => e.id)), c = t.filter((e) => e.type === "root" || !o(e)).filter((t) => !e || s.has(t.id)).map((t) => (e || t.id === n) && t.type !== "file" ? {
+		let r = ++this.#o, i = t.flatMap((e) => e.type !== "root" && e.parentId === n && e.status === "checked" ? [e.id] : []), a = new Map(t.map((e) => [e.id, e])), o = (e) => mn(a, e).some(({ parentId: e }) => e === n), s = new Set(zt(t, n).map((e) => e.id)), c = t.filter((e) => e.type === "root" || !o(e)).filter((t) => !e || s.has(t.id)).map((t) => (e || t.id === n) && t.type !== "file" ? {
 			...t,
 			status: "unchecked",
 			cached: !1,
@@ -3447,7 +3447,7 @@ function hn(e, t) {
 		let d = l.some((e) => e.id === n && e.type !== "file" && e.cached);
 		r === this.#o && d && u && !l.some(({ id: e }) => e === u) && this.closeItemDetail();
 		let f = i.filter((e) => l.some((t) => t.type !== "root" && t.id === e && t.status !== "checked"));
-		f.length > 0 && this.plugin.setPluginState({ partialTree: an.afterToggleCheckbox(l, f) });
+		f.length > 0 && this.plugin.setPluginState({ partialTree: rn.afterToggleCheckbox(l, f) });
 	};
 	runAction = (e, t) => this.#n(e, () => e.run({
 		item: t,
@@ -3475,12 +3475,12 @@ function hn(e, t) {
 	}
 	#r(e) {
 		let { uppy: t } = this.plugin;
-		if (fe(e)) {
+		if (de(e)) {
 			t.log("[ProviderView] action cancelled", "warning");
 			return;
 		}
 		t.log(`[ProviderView] action failed: ${r(e)}`, "error");
-		let n = e instanceof Error && e.name === "UserFacingApiError" ? pt(t.i18n, e) : e instanceof E || ot(e) ? t.i18n("companionError") : t.i18n("actionFailed");
+		let n = e instanceof Error && e.name === "UserFacingApiError" ? ft(t.i18n, e) : e instanceof E || at(e) ? t.i18n("companionError") : t.i18n("actionFailed");
 		t.info(n, "error", 5e3);
 	}
 	#i;
@@ -3511,8 +3511,8 @@ function hn(e, t) {
 	};
 	#s = /* @__PURE__ */ new Set();
 	getBulkActionItems = () => {
-		let { partialTree: e } = this.plugin.getPluginState(), t = new Map(e.map((e) => [e.id, e])), n = e.filter((e) => e.type !== "root" && e.status === "checked" && (e.type === "file" || hn(t, e).some(({ id: e }) => this.#s.has(e)))), r = new Set(n.map((e) => e.id));
-		return n.filter((e) => !hn(t, e).slice(1).some(({ id: e }) => r.has(e)));
+		let { partialTree: e } = this.plugin.getPluginState(), t = new Map(e.map((e) => [e.id, e])), n = e.filter((e) => e.type !== "root" && e.status === "checked" && (e.type === "file" || mn(t, e).some(({ id: e }) => this.#s.has(e)))), r = new Set(n.map((e) => e.id));
+		return n.filter((e) => !mn(t, e).slice(1).some(({ id: e }) => r.has(e)));
 	};
 	runBulkAction = (e) => this.#n(e, async () => {
 		let t = this.getBulkActionItems();
@@ -3626,7 +3626,7 @@ function hn(e, t) {
 				partialTree: s,
 				searchResults: a.map((e) => e.requestPath)
 			});
-		}).catch(L(this.plugin.uppy)), this.#d();
+		}).catch(R(this.plugin.uppy)), this.#d();
 	}
 	onSearchInput = (e) => {
 		this.plugin.setPluginState({ searchString: e }), this.opts.supportsSearch && this.#e();
@@ -3650,13 +3650,13 @@ function hn(e, t) {
 				let { username: e, nextPagePath: t, items: n } = await this.provider.list(i, { signal: r });
 				this.plugin.setPluginState({ username: e }), i = t, a = a.concat(n), this.setLoading(this.plugin.uppy.i18n("loadedXFiles", { numFiles: a.length }));
 			} while (this.opts.loadAllFiles && i);
-			let o = an.afterOpenFolder(t, a, n, i, this.validateSingleFile);
+			let o = rn.afterOpenFolder(t, a, n, i, this.validateSingleFile);
 			this.plugin.setPluginState({
 				partialTree: o,
 				currentFolderId: e,
 				searchString: ""
 			});
-		}).catch(L(this.plugin.uppy)), this.#d();
+		}).catch(R(this.plugin.uppy)), this.#d();
 	}
 	async logout() {
 		this.#s.clear(), await this.#u(async (e) => {
@@ -3670,11 +3670,11 @@ function hn(e, t) {
 					this.plugin.uppy.info(e, "info", 7e3);
 				}
 				this.plugin.setPluginState({
-					...mn(this.plugin.rootFolderId),
+					...pn(this.plugin.rootFolderId),
 					authenticated: !1
 				});
 			}
-		}).catch(L(this.plugin.uppy));
+		}).catch(R(this.plugin.uppy));
 	}
 	async handleAuth(e) {
 		await this.#u(async (t) => {
@@ -3682,10 +3682,10 @@ function hn(e, t) {
 				authFormData: e,
 				signal: t
 			}), this.plugin.setPluginState({ authenticated: !0 }), await Promise.all([this.provider.fetchPreAuthToken(), this.openFolder(this.plugin.rootFolderId)]);
-		}).catch(L(this.plugin.uppy)), this.#d();
+		}).catch(R(this.plugin.uppy)), this.#d();
 	}
 	async handleScroll(e) {
-		on(e) && await this.loadNextPage();
+		an(e) && await this.loadNextPage();
 	}
 	#p;
 	loadNextPage() {
@@ -3700,31 +3700,31 @@ function hn(e, t) {
 			return this.isHandlingScroll = !0, await this.#u(async (n) => {
 				let { nextPagePath: i, items: a } = await this.provider.list(e, { signal: n }), o = this.plugin.getPluginState();
 				if (n.aborted || o.currentFolderId !== t) return;
-				let s = an.afterScrollFolder(o.partialTree, t, a, i, this.validateSingleFile);
+				let s = rn.afterScrollFolder(o.partialTree, t, a, i, this.validateSingleFile);
 				this.plugin.setPluginState({ partialTree: s }), r = !0;
-			}).catch(L(this.plugin.uppy)), this.isHandlingScroll = !1, r;
+			}).catch(R(this.plugin.uppy)), this.isHandlingScroll = !1, r;
 		}
 		return !1;
 	}
 	validateSingleFile = (e) => {
-		let t = ve(e);
+		let t = _e(e);
 		return this.plugin.uppy.validateSingleFile(t);
 	};
 	async donePicking() {
 		let { partialTree: e } = this.plugin.getPluginState();
 		this.isLoading || (this.setLoading(!0), await this.#u(async (t) => {
-			let n = await an.afterFill(e, (e) => this.provider.list(e, { signal: t }), this.validateSingleFile, (e) => {
+			let n = await rn.afterFill(e, (e) => this.provider.list(e, { signal: t }), this.validateSingleFile, (e) => {
 				this.setLoading(this.plugin.uppy.i18n("addedNumFiles", { numFiles: e }));
 			});
 			if (this.validateAggregateRestrictions(n)) {
 				this.plugin.setPluginState({ partialTree: n });
 				return;
 			}
-			Rt(Ht(n), this.plugin, this.provider), this.resetPluginState();
-		}).catch(L(this.plugin.uppy)), this.#d());
+			Lt(Vt(n), this.plugin, this.provider), this.resetPluginState();
+		}).catch(R(this.plugin.uppy)), this.#d());
 	}
 	toggleCheckbox(e, t) {
-		let { partialTree: n } = this.plugin.getPluginState(), r = zt(e.id, this.getDisplayedPartialTree(), t, this.previousCheckbox), i = an.afterToggleCheckbox(n, r), a = new Map(i.map((e) => [e.id, e.type === "root" ? void 0 : e.status]));
+		let { partialTree: n } = this.plugin.getPluginState(), r = Rt(e.id, this.getDisplayedPartialTree(), t, this.previousCheckbox), i = rn.afterToggleCheckbox(n, r), a = new Map(i.map((e) => [e.id, e.type === "root" ? void 0 : e.status]));
 		for (let e of r) a.get(e) === "checked" && this.#s.add(e);
 		for (let e of this.#s) {
 			let t = a.get(e);
@@ -3738,11 +3738,11 @@ function hn(e, t) {
 	};
 	getBreadcrumbs = () => {
 		let { partialTree: e, currentFolderId: t } = this.plugin.getPluginState();
-		return Bt(e, t);
+		return zt(e, t);
 	};
 	getSelectedAmount = () => {
 		let { partialTree: e } = this.plugin.getPluginState();
-		return Mt(e);
+		return jt(e);
 	};
 	validateAggregateRestrictions = (e) => {
 		let t = e.filter((e) => e.type === "file" && e.status === "checked").map((e) => e.data);
@@ -3758,7 +3758,7 @@ function hn(e, t) {
 			if (t == null) throw Error("Partial tree not complete");
 			return t;
 		});
-		return f(cn, {
+		return f(sn, {
 			searchResults: i,
 			openFolder: this.openSearchResultFolder,
 			toggleCheckbox: this.toggleCheckbox,
@@ -3771,8 +3771,8 @@ function hn(e, t) {
 		let i = {
 			...this.opts,
 			...t
-		}, { authenticated: a, loading: o } = this.plugin.getPluginState(), s = this.plugin.icon || pn;
-		if (a === !1) return f(ut, {
+		}, { authenticated: a, loading: o } = this.plugin.getPluginState(), s = this.plugin.icon || fn;
+		if (a === !1) return f(lt, {
 			pluginName: this.plugin.title,
 			pluginIcon: s,
 			handleAuth: this.handleAuth,
@@ -3784,9 +3784,9 @@ function hn(e, t) {
 		g && (this.#a = c.find((e) => e.type !== "root" && e.id === g) ?? this.#a);
 		let C = this.#a?.id === g ? this.#a : void 0;
 		return f("div", {
-			className: (0, I.default)("uppy-ProviderBrowser", `uppy-ProviderBrowser-viewType--${i.viewType}`),
+			className: (0, L.default)("uppy-ProviderBrowser", `uppy-ProviderBrowser-viewType--${i.viewType}`),
 			children: [
-				f(dn, {
+				f(un, {
 					showBreadcrumbs: i.showBreadcrumbs,
 					openFolder: this.openFolder,
 					breadcrumbs: _,
@@ -3804,7 +3804,7 @@ function hn(e, t) {
 					} : void 0,
 					busy: b
 				}),
-				i.showFilter && f(at, {
+				i.showFilter && f(it, {
 					value: d,
 					onChange: (e) => this.onSearchInput(e),
 					onSubmit: () => {},
@@ -3812,7 +3812,7 @@ function hn(e, t) {
 					i18n: r,
 					disabled: b
 				}),
-				p ? this.#h() : f(At, {
+				p ? this.#h() : f(kt, {
 					toggleCheckbox: this.toggleCheckbox,
 					displayedPartialTree: this.getDisplayedPartialTree(),
 					openFolder: this.openFolder,
@@ -3830,19 +3830,19 @@ function hn(e, t) {
 					selectable: y,
 					onFileClick: v && !h ? this.openItemDetail : void 0
 				}),
-				b ? null : v ? h && f(jt, {
+				b ? null : v ? h && f(At, {
 					selectedCount: this.getBulkActionItems().length,
 					bulkActions: i.bulkActions ?? [],
 					runBulkAction: this.runBulkAction,
 					i18n: r
-				}) : f(Nt, {
+				}) : f(Mt, {
 					partialTree: c,
 					donePicking: this.donePicking,
 					cancelSelection: this.cancelSelection,
 					i18n: r,
 					validateAggregateRestrictions: this.validateAggregateRestrictions
 				}),
-				C && f(Pt, {
+				C && f(Nt, {
 					item: C,
 					actions: i.actions ?? [],
 					runAction: this.runAction,
@@ -3850,7 +3850,7 @@ function hn(e, t) {
 					onClose: this.closeItemDetail,
 					i18n: r
 				}, C.id),
-				m && f(Ft, {
+				m && f(Pt, {
 					dialog: m,
 					i18n: r,
 					onConfirm: this.#c.submit,
@@ -3862,7 +3862,7 @@ function hn(e, t) {
 });
 //#endregion
 //#region node_modules/exifr/dist/mini.esm.mjs
-function R(e, t, n) {
+function z(e, t, n) {
 	return t in e ? Object.defineProperty(e, t, {
 		value: n,
 		enumerable: !0,
@@ -3870,22 +3870,22 @@ function R(e, t, n) {
 		writable: !0
 	}) : e[t] = n, e;
 }
-var gn = typeof self < "u" ? self : global, _n = typeof navigator < "u", vn = _n && typeof HTMLImageElement > "u", yn = !(typeof global > "u" || typeof process > "u" || !process.versions || !process.versions.node), bn = gn.Buffer, xn = !!bn, Sn = (e) => e !== void 0;
-function Cn(e) {
-	return e === void 0 || (e instanceof Map ? e.size === 0 : Object.values(e).filter(Sn).length === 0);
+var hn = typeof self < "u" ? self : global, gn = typeof navigator < "u", _n = gn && typeof HTMLImageElement > "u", vn = !(typeof global > "u" || typeof process > "u" || !process.versions || !process.versions.node), yn = hn.Buffer, bn = !!yn, xn = (e) => e !== void 0;
+function Sn(e) {
+	return e === void 0 || (e instanceof Map ? e.size === 0 : Object.values(e).filter(xn).length === 0);
 }
-function z(e) {
+function B(e) {
 	let t = Error(e);
 	throw delete t.stack, t;
 }
-function wn(e) {
+function Cn(e) {
 	let t = function(e) {
 		let t = 0;
 		return e.ifd0.enabled && (t += 1024), e.exif.enabled && (t += 2048), e.makerNote && (t += 2048), e.userComment && (t += 1024), e.gps.enabled && (t += 512), e.interop.enabled && (t += 100), e.ifd1.enabled && (t += 1024), t + 2048;
 	}(e);
 	return e.jfif.enabled && (t += 50), e.xmp.enabled && (t += 2e4), e.iptc.enabled && (t += 14e3), e.icc.enabled && (t += 6e3), t;
 }
-var Tn = (e) => String.fromCharCode.apply(null, e), En = typeof TextDecoder < "u" ? new TextDecoder("utf-8") : void 0, Dn = class e {
+var wn = (e) => String.fromCharCode.apply(null, e), Tn = typeof TextDecoder < "u" ? new TextDecoder("utf-8") : void 0, En = class e {
 	static from(t, n) {
 		return t instanceof this && t.le === n ? t : new e(t, void 0, void 0, n);
 	}
@@ -3896,13 +3896,13 @@ var Tn = (e) => String.fromCharCode.apply(null, e), En = typeof TextDecoder < "u
 			let e = new DataView(t, n, r);
 			this._swapDataView(e);
 		} else if (t instanceof Uint8Array || t instanceof DataView || t instanceof e) {
-			r === void 0 && (r = t.byteLength - n), (n += t.byteOffset) + r > t.byteOffset + t.byteLength && z("Creating view outside of available memory in ArrayBuffer");
+			r === void 0 && (r = t.byteLength - n), (n += t.byteOffset) + r > t.byteOffset + t.byteLength && B("Creating view outside of available memory in ArrayBuffer");
 			let e = new DataView(t.buffer, n, r);
 			this._swapDataView(e);
 		} else if (typeof t == "number") {
 			let e = new DataView(new ArrayBuffer(t));
 			this._swapDataView(e);
-		} else z("Invalid input argument for BufferView: " + t);
+		} else B("Invalid input argument for BufferView: " + t);
 	}
 	_swapArrayBuffer(e) {
 		this._swapDataView(new DataView(e));
@@ -3917,7 +3917,7 @@ var Tn = (e) => String.fromCharCode.apply(null, e), En = typeof TextDecoder < "u
 		return this.byteLength - e;
 	}
 	set(t, n, r = e) {
-		return t instanceof DataView || t instanceof e ? t = new Uint8Array(t.buffer, t.byteOffset, t.byteLength) : t instanceof ArrayBuffer && (t = new Uint8Array(t)), t instanceof Uint8Array || z("BufferView.set(): Invalid data argument."), this.toUint8().set(t, n), new r(this, n, t.byteLength);
+		return t instanceof DataView || t instanceof e ? t = new Uint8Array(t.buffer, t.byteOffset, t.byteLength) : t instanceof ArrayBuffer && (t = new Uint8Array(t)), t instanceof Uint8Array || B("BufferView.set(): Invalid data argument."), this.toUint8().set(t, n), new r(this, n, t.byteLength);
 	}
 	subarray(t, n) {
 		return n ||= this._lengthToEnd(t), new e(this, t, n);
@@ -3929,16 +3929,16 @@ var Tn = (e) => String.fromCharCode.apply(null, e), En = typeof TextDecoder < "u
 		return new Uint8Array(this.buffer, this.byteOffset + e, t);
 	}
 	getString(e = 0, t = this.byteLength) {
-		return n = this.getUint8Array(e, t), En ? En.decode(n) : xn ? Buffer.from(n).toString("utf8") : decodeURIComponent(escape(Tn(n)));
+		return n = this.getUint8Array(e, t), Tn ? Tn.decode(n) : bn ? Buffer.from(n).toString("utf8") : decodeURIComponent(escape(wn(n)));
 		var n;
 	}
 	getLatin1String(e = 0, t = this.byteLength) {
-		return Tn(this.getUint8Array(e, t));
+		return wn(this.getUint8Array(e, t));
 	}
 	getUnicodeString(e = 0, t = this.byteLength) {
 		let n = [];
 		for (let r = 0; r < t && e + r < this.byteLength; r += 2) n.push(this.getUint16(e + r));
-		return Tn(n);
+		return wn(n);
 	}
 	getInt8(e) {
 		return this.dataView.getInt8(e);
@@ -3991,39 +3991,39 @@ var Tn = (e) => String.fromCharCode.apply(null, e), En = typeof TextDecoder < "u
 	}
 	ensureChunk() {}
 };
-function On(e, t) {
-	z(`${e} '${t}' was not loaded, try using full build of exifr.`);
+function Dn(e, t) {
+	B(`${e} '${t}' was not loaded, try using full build of exifr.`);
 }
-var kn = class extends Map {
+var On = class extends Map {
 	constructor(e) {
 		super(), this.kind = e;
 	}
 	get(e, t) {
-		return this.has(e) || On(this.kind, e), t && (e in t || function(e, t) {
-			z(`Unknown ${e} '${t}'.`);
-		}(this.kind, e), t[e].enabled || On(this.kind, e)), super.get(e);
+		return this.has(e) || Dn(this.kind, e), t && (e in t || function(e, t) {
+			B(`Unknown ${e} '${t}'.`);
+		}(this.kind, e), t[e].enabled || Dn(this.kind, e)), super.get(e);
 	}
 	keyList() {
 		return Array.from(this.keys());
 	}
-}, An = new kn("file parser"), B = new kn("segment parser"), jn = new kn("file reader"), Mn = gn.fetch;
-function Nn(e, t) {
-	return (n = e).startsWith("data:") || n.length > 1e4 ? Fn(e, t, "base64") : yn && e.includes("://") ? Pn(e, t, "url", In) : yn ? Fn(e, t, "fs") : _n ? Pn(e, t, "url", In) : void z("Invalid input argument");
+}, kn = new On("file parser"), V = new On("segment parser"), An = new On("file reader"), jn = hn.fetch;
+function Mn(e, t) {
+	return (n = e).startsWith("data:") || n.length > 1e4 ? Pn(e, t, "base64") : vn && e.includes("://") ? Nn(e, t, "url", Fn) : vn ? Pn(e, t, "fs") : gn ? Nn(e, t, "url", Fn) : void B("Invalid input argument");
 	var n;
 }
-async function Pn(e, t, n, r) {
-	return jn.has(n) ? Fn(e, t, n) : r ? async function(e, t) {
-		return new Dn(await t(e));
-	}(e, r) : void z(`Parser ${n} is not loaded`);
+async function Nn(e, t, n, r) {
+	return An.has(n) ? Pn(e, t, n) : r ? async function(e, t) {
+		return new En(await t(e));
+	}(e, r) : void B(`Parser ${n} is not loaded`);
 }
-async function Fn(e, t, n) {
-	let r = new (jn.get(n))(e, t);
+async function Pn(e, t, n) {
+	let r = new (An.get(n))(e, t);
 	return await r.read(), r;
 }
-var In = (e) => Mn(e).then(((e) => e.arrayBuffer())), Ln = (e) => new Promise(((t, n) => {
+var Fn = (e) => jn(e).then(((e) => e.arrayBuffer())), In = (e) => new Promise(((t, n) => {
 	let r = new FileReader();
 	r.onloadend = () => t(r.result || /* @__PURE__ */ new ArrayBuffer()), r.onerror = n, r.readAsArrayBuffer(e);
-})), Rn = class extends Map {
+})), Ln = class extends Map {
 	get tagKeys() {
 		return this.allKeys ||= Array.from(this.keys()), this.allKeys;
 	}
@@ -4031,56 +4031,56 @@ var In = (e) => Mn(e).then(((e) => e.arrayBuffer())), Ln = (e) => new Promise(((
 		return this.allValues ||= Array.from(this.values()), this.allValues;
 	}
 };
-function zn(e, t, n) {
-	let r = new Rn();
+function Rn(e, t, n) {
+	let r = new Ln();
 	for (let [e, t] of n) r.set(e, t);
 	if (Array.isArray(t)) for (let n of t) e.set(n, r);
 	else e.set(t, r);
 	return r;
 }
-function Bn(e, t, n) {
+function zn(e, t, n) {
 	let r, i = e.get(t);
 	for (r of n) i.set(r[0], r[1]);
 }
-var Vn = /* @__PURE__ */ new Map(), Hn = /* @__PURE__ */ new Map(), Un = /* @__PURE__ */ new Map(), V = [
+var Bn = /* @__PURE__ */ new Map(), Vn = /* @__PURE__ */ new Map(), Hn = /* @__PURE__ */ new Map(), H = [
 	"chunked",
 	"firstChunkSize",
 	"firstChunkSizeNode",
 	"firstChunkSizeBrowser",
 	"chunkSize",
 	"chunkLimit"
-], Wn = [
+], Un = [
 	"jfif",
 	"xmp",
 	"icc",
 	"iptc",
 	"ihdr"
-], Gn = ["tiff", ...Wn], H = [
+], Wn = ["tiff", ...Un], U = [
 	"ifd0",
 	"ifd1",
 	"exif",
 	"gps",
 	"interop"
-], U = [...Gn, ...H], W = ["makerNote", "userComment"], Kn = [
+], W = [...Wn, ...U], G = ["makerNote", "userComment"], Gn = [
 	"translateKeys",
 	"translateValues",
 	"reviveValues",
 	"multiSegment"
-], G = [
-	...Kn,
+], K = [
+	...Gn,
 	"sanitize",
 	"mergeOutput",
 	"silentErrors"
-], qn = class {
+], Kn = class {
 	get translate() {
 		return this.translateKeys || this.translateValues || this.reviveValues;
 	}
-}, Jn = class extends qn {
+}, qn = class extends Kn {
 	get needed() {
 		return this.enabled || this.deps.size > 0;
 	}
 	constructor(e, t, n, r) {
-		if (super(), R(this, "enabled", !1), R(this, "skip", /* @__PURE__ */ new Set()), R(this, "pick", /* @__PURE__ */ new Set()), R(this, "deps", /* @__PURE__ */ new Set()), R(this, "translateKeys", !1), R(this, "translateValues", !1), R(this, "reviveValues", !1), this.key = e, this.enabled = t, this.parse = this.enabled, this.applyInheritables(r), this.canBeFiltered = H.includes(e), this.canBeFiltered && (this.dict = Vn.get(e)), n !== void 0) {
+		if (super(), z(this, "enabled", !1), z(this, "skip", /* @__PURE__ */ new Set()), z(this, "pick", /* @__PURE__ */ new Set()), z(this, "deps", /* @__PURE__ */ new Set()), z(this, "translateKeys", !1), z(this, "translateValues", !1), z(this, "reviveValues", !1), this.key = e, this.enabled = t, this.parse = this.enabled, this.applyInheritables(r), this.canBeFiltered = U.includes(e), this.canBeFiltered && (this.dict = Bn.get(e)), n !== void 0) {
 			if (Array.isArray(n)) this.parse = this.enabled = !0, this.canBeFiltered && n.length > 0 && this.translateTagSet(n, this.pick);
 			else if (typeof n == "object") {
 				if (this.enabled = !0, this.parse = !1 !== n.parse, this.canBeFiltered) {
@@ -4088,12 +4088,12 @@ var Vn = /* @__PURE__ */ new Map(), Hn = /* @__PURE__ */ new Map(), Un = /* @__P
 					e && e.length > 0 && this.translateTagSet(e, this.pick), t && t.length > 0 && this.translateTagSet(t, this.skip);
 				}
 				this.applyInheritables(n);
-			} else !0 === n || !1 === n ? this.parse = this.enabled = n : z(`Invalid options argument: ${n}`);
+			} else !0 === n || !1 === n ? this.parse = this.enabled = n : B(`Invalid options argument: ${n}`);
 		}
 	}
 	applyInheritables(e) {
 		let t, n;
-		for (t of Kn) n = e[t], n !== void 0 && (this[t] = n);
+		for (t of Gn) n = e[t], n !== void 0 && (this[t] = n);
 	}
 	translateTagSet(e, t) {
 		if (this.dict) {
@@ -4102,9 +4102,9 @@ var Vn = /* @__PURE__ */ new Map(), Hn = /* @__PURE__ */ new Map(), Un = /* @__P
 		} else for (let n of e) t.add(n);
 	}
 	finalizeFilters() {
-		!this.enabled && this.deps.size > 0 ? (this.enabled = !0, $n(this.pick, this.deps)) : this.enabled && this.pick.size > 0 && $n(this.pick, this.deps);
+		!this.enabled && this.deps.size > 0 ? (this.enabled = !0, Qn(this.pick, this.deps)) : this.enabled && this.pick.size > 0 && Qn(this.pick, this.deps);
 	}
-}, K = {
+}, q = {
 	jfif: !1,
 	tiff: !0,
 	xmp: !1,
@@ -4133,44 +4133,44 @@ var Vn = /* @__PURE__ */ new Map(), Hn = /* @__PURE__ */ new Map(), Un = /* @__P
 	firstChunkSizeBrowser: 65536,
 	chunkSize: 65536,
 	chunkLimit: 5
-}, Yn = /* @__PURE__ */ new Map(), Xn = class extends qn {
+}, Jn = /* @__PURE__ */ new Map(), Yn = class extends Kn {
 	static useCached(e) {
-		let t = Yn.get(e);
-		return t !== void 0 || (t = new this(e), Yn.set(e, t)), t;
+		let t = Jn.get(e);
+		return t !== void 0 || (t = new this(e), Jn.set(e, t)), t;
 	}
 	constructor(e) {
-		super(), !0 === e ? this.setupFromTrue() : e === void 0 ? this.setupFromUndefined() : Array.isArray(e) ? this.setupFromArray(e) : typeof e == "object" ? this.setupFromObject(e) : z(`Invalid options argument ${e}`), this.firstChunkSize === void 0 && (this.firstChunkSize = _n ? this.firstChunkSizeBrowser : this.firstChunkSizeNode), this.mergeOutput && (this.ifd1.enabled = !1), this.filterNestedSegmentTags(), this.traverseTiffDependencyTree(), this.checkLoadedPlugins();
+		super(), !0 === e ? this.setupFromTrue() : e === void 0 ? this.setupFromUndefined() : Array.isArray(e) ? this.setupFromArray(e) : typeof e == "object" ? this.setupFromObject(e) : B(`Invalid options argument ${e}`), this.firstChunkSize === void 0 && (this.firstChunkSize = gn ? this.firstChunkSizeBrowser : this.firstChunkSizeNode), this.mergeOutput && (this.ifd1.enabled = !1), this.filterNestedSegmentTags(), this.traverseTiffDependencyTree(), this.checkLoadedPlugins();
 	}
 	setupFromUndefined() {
 		let e;
-		for (e of V) this[e] = K[e];
-		for (e of G) this[e] = K[e];
-		for (e of W) this[e] = K[e];
-		for (e of U) this[e] = new Jn(e, K[e], void 0, this);
+		for (e of H) this[e] = q[e];
+		for (e of K) this[e] = q[e];
+		for (e of G) this[e] = q[e];
+		for (e of W) this[e] = new qn(e, q[e], void 0, this);
 	}
 	setupFromTrue() {
 		let e;
-		for (e of V) this[e] = K[e];
-		for (e of G) this[e] = K[e];
-		for (e of W) this[e] = !0;
-		for (e of U) this[e] = new Jn(e, !0, void 0, this);
+		for (e of H) this[e] = q[e];
+		for (e of K) this[e] = q[e];
+		for (e of G) this[e] = !0;
+		for (e of W) this[e] = new qn(e, !0, void 0, this);
 	}
 	setupFromArray(e) {
 		let t;
-		for (t of V) this[t] = K[t];
-		for (t of G) this[t] = K[t];
-		for (t of W) this[t] = K[t];
-		for (t of U) this[t] = new Jn(t, !1, void 0, this);
-		this.setupGlobalFilters(e, void 0, H);
+		for (t of H) this[t] = q[t];
+		for (t of K) this[t] = q[t];
+		for (t of G) this[t] = q[t];
+		for (t of W) this[t] = new qn(t, !1, void 0, this);
+		this.setupGlobalFilters(e, void 0, U);
 	}
 	setupFromObject(e) {
 		let t;
-		for (t of (H.ifd0 = H.ifd0 || H.image, H.ifd1 = H.ifd1 || H.thumbnail, Object.assign(this, e), V)) this[t] = Qn(e[t], K[t]);
-		for (t of G) this[t] = Qn(e[t], K[t]);
-		for (t of W) this[t] = Qn(e[t], K[t]);
-		for (t of Gn) this[t] = new Jn(t, K[t], e[t], this);
-		for (t of H) this[t] = new Jn(t, K[t], e[t], this.tiff);
-		this.setupGlobalFilters(e.pick, e.skip, H, U), !0 === e.tiff ? this.batchEnableWithBool(H, !0) : !1 === e.tiff ? this.batchEnableWithUserValue(H, e) : Array.isArray(e.tiff) ? this.setupGlobalFilters(e.tiff, void 0, H) : typeof e.tiff == "object" && this.setupGlobalFilters(e.tiff.pick, e.tiff.skip, H);
+		for (t of (U.ifd0 = U.ifd0 || U.image, U.ifd1 = U.ifd1 || U.thumbnail, Object.assign(this, e), H)) this[t] = Zn(e[t], q[t]);
+		for (t of K) this[t] = Zn(e[t], q[t]);
+		for (t of G) this[t] = Zn(e[t], q[t]);
+		for (t of Wn) this[t] = new qn(t, q[t], e[t], this);
+		for (t of U) this[t] = new qn(t, q[t], e[t], this.tiff);
+		this.setupGlobalFilters(e.pick, e.skip, U, W), !0 === e.tiff ? this.batchEnableWithBool(U, !0) : !1 === e.tiff ? this.batchEnableWithUserValue(U, e) : Array.isArray(e.tiff) ? this.setupGlobalFilters(e.tiff, void 0, U) : typeof e.tiff == "object" && this.setupGlobalFilters(e.tiff.pick, e.tiff.skip, U);
 	}
 	batchEnableWithBool(e, t) {
 		for (let n of e) this[n].enabled = t;
@@ -4184,11 +4184,11 @@ var Vn = /* @__PURE__ */ new Map(), Hn = /* @__PURE__ */ new Map(), Un = /* @__P
 	setupGlobalFilters(e, t, n, r = n) {
 		if (e && e.length) {
 			for (let e of r) this[e].enabled = !1;
-			let t = Zn(e, n);
-			for (let [e, n] of t) $n(this[e].pick, n), this[e].enabled = !0;
+			let t = Xn(e, n);
+			for (let [e, n] of t) Qn(this[e].pick, n), this[e].enabled = !0;
 		} else if (t && t.length) {
-			let e = Zn(t, n);
-			for (let [t, n] of e) $n(this[t].skip, n);
+			let e = Xn(t, n);
+			for (let [t, n] of e) Qn(this[t].skip, n);
 		}
 	}
 	filterNestedSegmentTags() {
@@ -4197,49 +4197,49 @@ var Vn = /* @__PURE__ */ new Map(), Hn = /* @__PURE__ */ new Map(), Un = /* @__P
 	}
 	traverseTiffDependencyTree() {
 		let { ifd0: e, exif: t, gps: n, interop: r } = this;
-		r.needed && (t.deps.add(40965), e.deps.add(40965)), t.needed && e.deps.add(34665), n.needed && e.deps.add(34853), this.tiff.enabled = H.some(((e) => !0 === this[e].enabled)) || this.makerNote || this.userComment;
-		for (let e of H) this[e].finalizeFilters();
+		r.needed && (t.deps.add(40965), e.deps.add(40965)), t.needed && e.deps.add(34665), n.needed && e.deps.add(34853), this.tiff.enabled = U.some(((e) => !0 === this[e].enabled)) || this.makerNote || this.userComment;
+		for (let e of U) this[e].finalizeFilters();
 	}
 	get onlyTiff() {
-		return !Wn.map(((e) => this[e].enabled)).some(((e) => !0 === e)) && this.tiff.enabled;
+		return !Un.map(((e) => this[e].enabled)).some(((e) => !0 === e)) && this.tiff.enabled;
 	}
 	checkLoadedPlugins() {
-		for (let e of Gn) this[e].enabled && !B.has(e) && On("segment parser", e);
+		for (let e of Wn) this[e].enabled && !V.has(e) && Dn("segment parser", e);
 	}
 };
-function Zn(e, t) {
+function Xn(e, t) {
 	let n, r, i, a, o = [];
 	for (i of t) {
-		for (a of (n = Vn.get(i), r = [], n)) (e.includes(a[0]) || e.includes(a[1])) && r.push(a[0]);
+		for (a of (n = Bn.get(i), r = [], n)) (e.includes(a[0]) || e.includes(a[1])) && r.push(a[0]);
 		r.length && o.push([i, r]);
 	}
 	return o;
 }
-function Qn(e, t) {
+function Zn(e, t) {
 	return e === void 0 ? t === void 0 ? void 0 : t : e;
 }
-function $n(e, t) {
+function Qn(e, t) {
 	for (let n of t) e.add(n);
 }
-R(Xn, "default", K);
-var er = class {
+z(Yn, "default", q);
+var $n = class {
 	constructor(e) {
-		R(this, "parsers", {}), R(this, "output", {}), R(this, "errors", []), R(this, "pushToErrors", ((e) => this.errors.push(e))), this.options = Xn.useCached(e);
+		z(this, "parsers", {}), z(this, "output", {}), z(this, "errors", []), z(this, "pushToErrors", ((e) => this.errors.push(e))), this.options = Yn.useCached(e);
 	}
 	async read(e) {
 		this.file = await function(e, t) {
-			return typeof e == "string" ? Nn(e, t) : _n && !vn && e instanceof HTMLImageElement ? Nn(e.src, t) : e instanceof Uint8Array || e instanceof ArrayBuffer || e instanceof DataView ? new Dn(e) : _n && e instanceof Blob ? Pn(e, t, "blob", Ln) : void z("Invalid input argument");
+			return typeof e == "string" ? Mn(e, t) : gn && !_n && e instanceof HTMLImageElement ? Mn(e.src, t) : e instanceof Uint8Array || e instanceof ArrayBuffer || e instanceof DataView ? new En(e) : gn && e instanceof Blob ? Nn(e, t, "blob", In) : void B("Invalid input argument");
 		}(e, this.options);
 	}
 	setup() {
 		if (this.fileParser) return;
 		let { file: e } = this, t = e.getUint16(0);
-		for (let [n, r] of An) if (r.canHandle(e, t)) return this.fileParser = new r(this.options, this.file, this.parsers), e[n] = !0;
-		this.file.close && this.file.close(), z("Unknown file format");
+		for (let [n, r] of kn) if (r.canHandle(e, t)) return this.fileParser = new r(this.options, this.file, this.parsers), e[n] = !0;
+		this.file.close && this.file.close(), B("Unknown file format");
 	}
 	async parse() {
 		let { output: e, errors: t } = this;
-		return this.setup(), this.options.silentErrors ? (await this.executeParsers().catch(this.pushToErrors), t.push(...this.fileParser.errors)) : await this.executeParsers(), this.file.close && this.file.close(), this.options.silentErrors && t.length > 0 && (e.errors = t), Cn(n = e) ? void 0 : n;
+		return this.setup(), this.options.silentErrors ? (await this.executeParsers().catch(this.pushToErrors), t.push(...this.fileParser.errors)) : await this.executeParsers(), this.file.close && this.file.close(), this.options.silentErrors && t.length > 0 && (e.errors = t), Sn(n = e) ? void 0 : n;
 		var n;
 	}
 	async executeParsers() {
@@ -4253,7 +4253,7 @@ var er = class {
 	}
 	async extractThumbnail() {
 		this.setup();
-		let { options: e, file: t } = this, n = B.get("tiff", e);
+		let { options: e, file: t } = this, n = V.get("tiff", e);
 		var r;
 		if (t.tiff ? r = {
 			start: 0,
@@ -4263,34 +4263,34 @@ var er = class {
 		return t.close && t.close(), a;
 	}
 };
-async function tr(e, t) {
-	let n = new er(t);
+async function er(e, t) {
+	let n = new $n(t);
 	return await n.read(e), n.parse();
 }
-var nr = Object.freeze({
+var tr = Object.freeze({
 	__proto__: null,
-	parse: tr,
-	Exifr: er,
-	fileParsers: An,
-	segmentParsers: B,
-	fileReaders: jn,
-	tagKeys: Vn,
-	tagValues: Hn,
-	tagRevivers: Un,
-	createDictionary: zn,
-	extendDictionary: Bn,
-	fetchUrlAsArrayBuffer: In,
-	readBlobAsArrayBuffer: Ln,
-	chunkedProps: V,
-	otherSegments: Wn,
-	segments: Gn,
-	tiffBlocks: H,
-	segmentsAndBlocks: U,
-	tiffExtractables: W,
-	inheritables: Kn,
-	allFormatters: G,
-	Options: Xn
-}), q = class {
+	parse: er,
+	Exifr: $n,
+	fileParsers: kn,
+	segmentParsers: V,
+	fileReaders: An,
+	tagKeys: Bn,
+	tagValues: Vn,
+	tagRevivers: Hn,
+	createDictionary: Rn,
+	extendDictionary: zn,
+	fetchUrlAsArrayBuffer: Fn,
+	readBlobAsArrayBuffer: In,
+	chunkedProps: H,
+	otherSegments: Un,
+	segments: Wn,
+	tiffBlocks: U,
+	segmentsAndBlocks: W,
+	tiffExtractables: G,
+	inheritables: Gn,
+	allFormatters: K,
+	Options: Yn
+}), J = class {
 	static findPosition(e, t) {
 		let n = e.getUint16(t + 2) + 2, r = typeof this.headerLength == "function" ? this.headerLength(e, t, n) : this.headerLength, i = t + r, a = n - r;
 		return {
@@ -4303,13 +4303,13 @@ var nr = Object.freeze({
 		};
 	}
 	static parse(e, t = {}) {
-		return new this(e, new Xn({ [this.type]: t }), e).parse();
+		return new this(e, new Yn({ [this.type]: t }), e).parse();
 	}
 	normalizeInput(e) {
-		return e instanceof Dn ? e : new Dn(e);
+		return e instanceof En ? e : new En(e);
 	}
 	constructor(e, t = {}, n) {
-		R(this, "errors", []), R(this, "raw", /* @__PURE__ */ new Map()), R(this, "handleError", ((e) => {
+		z(this, "errors", []), z(this, "raw", /* @__PURE__ */ new Map()), z(this, "handleError", ((e) => {
 			if (!this.options.silentErrors) throw e;
 			this.errors.push(e.message);
 		})), this.chunk = this.normalizeInput(e), this.file = n, this.type = this.constructor.type, this.globalOptions = this.options = t, this.localOptions = t[this.type], this.canTranslate = this.localOptions && this.localOptions.translate;
@@ -4321,7 +4321,7 @@ var nr = Object.freeze({
 		return this.translated ? this.translated : this.raw ? Object.fromEntries(this.raw) : void 0;
 	}
 	translateBlock(e, t) {
-		let n = Un.get(t), r = Hn.get(t), i = Vn.get(t), a = this.options[t], o = a.reviveValues && !!n, s = a.translateValues && !!r, c = a.translateKeys && !!i, l = {};
+		let n = Hn.get(t), r = Vn.get(t), i = Bn.get(t), a = this.options[t], o = a.reviveValues && !!n, s = a.translateValues && !!r, c = a.translateKeys && !!i, l = {};
 		for (let [t, a] of e) o && n.has(t) ? a = n.get(t)(a) : s && r.has(t) && (a = this.translateValue(a, r.get(t))), c && i.has(t) && (t = i.get(t) || t), l[t] = a;
 		return l;
 	}
@@ -4336,28 +4336,28 @@ var nr = Object.freeze({
 		e[t] ? Object.assign(e[t], n) : e[t] = n;
 	}
 };
-R(q, "headerLength", 4), R(q, "type", void 0), R(q, "multiSegment", !1), R(q, "canHandle", (() => !1));
-function rr(e) {
+z(J, "headerLength", 4), z(J, "type", void 0), z(J, "multiSegment", !1), z(J, "canHandle", (() => !1));
+function nr(e) {
 	return e === 192 || e === 194 || e === 196 || e === 219 || e === 221 || e === 218 || e === 254;
 }
-function ir(e) {
+function rr(e) {
 	return e >= 224 && e <= 239;
 }
-function ar(e, t, n) {
-	for (let [r, i] of B) if (i.canHandle(e, t, n)) return r;
+function ir(e, t, n) {
+	for (let [r, i] of V) if (i.canHandle(e, t, n)) return r;
 }
-var or = class extends class {
+var ar = class extends class {
 	constructor(e, t, n) {
-		R(this, "errors", []), R(this, "ensureSegmentChunk", (async (e) => {
+		z(this, "errors", []), z(this, "ensureSegmentChunk", (async (e) => {
 			let t = e.start, n = e.size || 65536;
 			if (this.file.chunked) {
 				if (this.file.available(t, n)) e.chunk = this.file.subarray(t, n);
 				else try {
 					e.chunk = await this.file.readChunk(t, n);
 				} catch (t) {
-					z(`Couldn't read segment: ${JSON.stringify(e)}. ${t.message}`);
+					B(`Couldn't read segment: ${JSON.stringify(e)}. ${t.message}`);
 				}
-			} else this.file.byteLength > t + n ? e.chunk = this.file.subarray(t, n) : e.size === void 0 ? e.chunk = this.file.subarray(t) : z("Segment unreachable: " + JSON.stringify(e));
+			} else this.file.byteLength > t + n ? e.chunk = this.file.subarray(t, n) : e.size === void 0 ? e.chunk = this.file.subarray(t) : B("Segment unreachable: " + JSON.stringify(e));
 			return e.chunk;
 		})), this.extendOptions && this.extendOptions(e), this.options = e, this.file = t, this.parsers = n;
 	}
@@ -4365,7 +4365,7 @@ var or = class extends class {
 		this.options[e].enabled && this.createParser(e, t);
 	}
 	createParser(e, t) {
-		let n = new (B.get(e))(t, this.options, this.file);
+		let n = new (V.get(e))(t, this.options, this.file);
 		return this.parsers[e] = n;
 	}
 	createParsers(e) {
@@ -4383,7 +4383,7 @@ var or = class extends class {
 	}
 } {
 	constructor(...e) {
-		super(...e), R(this, "appSegments", []), R(this, "jpegSegments", []), R(this, "unknownSegments", []);
+		super(...e), z(this, "appSegments", []), z(this, "jpegSegments", []), z(this, "unknownSegments", []);
 	}
 	static canHandle(e, t) {
 		return t === 65496;
@@ -4392,13 +4392,13 @@ var or = class extends class {
 		await this.findAppSegments(), await this.readSegments(this.appSegments), this.mergeMultiSegments(), this.createParsers(this.mergedAppSegments || this.appSegments);
 	}
 	setupSegmentFinderArgs(e) {
-		!0 === e ? (this.findAll = !0, this.wanted = new Set(B.keyList())) : (e = e === void 0 ? B.keyList().filter(((e) => this.options[e].enabled)) : e.filter(((e) => this.options[e].enabled && B.has(e))), this.findAll = !1, this.remaining = new Set(e), this.wanted = new Set(e)), this.unfinishedMultiSegment = !1;
+		!0 === e ? (this.findAll = !0, this.wanted = new Set(V.keyList())) : (e = e === void 0 ? V.keyList().filter(((e) => this.options[e].enabled)) : e.filter(((e) => this.options[e].enabled && V.has(e))), this.findAll = !1, this.remaining = new Set(e), this.wanted = new Set(e)), this.unfinishedMultiSegment = !1;
 	}
 	async findAppSegments(e = 0, t) {
 		this.setupSegmentFinderArgs(t);
 		let { file: n, findAll: r, wanted: i, remaining: a } = this;
 		if (!r && this.file.chunked && (r = Array.from(i).some(((e) => {
-			let t = B.get(e), n = this.options[e];
+			let t = V.get(e), n = this.options[e];
 			return t.multiSegment && n.multiSegment;
 		})), r && await this.file.readWhole()), e = this.findAppSegmentsInRange(e, n.byteLength), !this.options.onlyTiff && n.chunked) {
 			let t = !1;
@@ -4412,10 +4412,10 @@ var or = class extends class {
 		t -= 2;
 		let n, r, i, a, o, s, { file: c, findAll: l, wanted: u, remaining: d, options: f } = this;
 		for (; e < t; e++) if (c.getUint8(e) === 255) {
-			if (n = c.getUint8(e + 1), ir(n)) {
-				if (r = c.getUint16(e + 2), i = ar(c, e, r), i && u.has(i) && (a = B.get(i), o = a.findPosition(c, e), s = f[i], o.type = i, this.appSegments.push(o), !l && (a.multiSegment && s.multiSegment ? (this.unfinishedMultiSegment = o.chunkNumber < o.chunkCount, this.unfinishedMultiSegment || d.delete(i)) : d.delete(i), d.size === 0))) break;
-				f.recordUnknownSegments && (o = q.findPosition(c, e), o.marker = n, this.unknownSegments.push(o)), e += r + 1;
-			} else if (rr(n)) {
+			if (n = c.getUint8(e + 1), rr(n)) {
+				if (r = c.getUint16(e + 2), i = ir(c, e, r), i && u.has(i) && (a = V.get(i), o = a.findPosition(c, e), s = f[i], o.type = i, this.appSegments.push(o), !l && (a.multiSegment && s.multiSegment ? (this.unfinishedMultiSegment = o.chunkNumber < o.chunkCount, this.unfinishedMultiSegment || d.delete(i)) : d.delete(i), d.size === 0))) break;
+				f.recordUnknownSegments && (o = J.findPosition(c, e), o.marker = n, this.unknownSegments.push(o)), e += r + 1;
+			} else if (nr(n)) {
 				if (r = c.getUint16(e + 2), n === 218 && !1 !== f.stopAfterSos) return;
 				f.recordJpegSegments && this.jpegSegments.push({
 					offset: e,
@@ -4434,7 +4434,7 @@ var or = class extends class {
 			return Array.from(a);
 		}(this.appSegments, "type");
 		this.mergedAppSegments = e.map((([e, t]) => {
-			let n = B.get(e, this.options);
+			let n = V.get(e, this.options);
 			return n.handleMultiSegments ? {
 				type: e,
 				chunk: n.handleMultiSegments(t)
@@ -4449,8 +4449,8 @@ var or = class extends class {
 		return t === void 0 && (await this.findAppSegments(0, [e]), t = this.getSegment(e)), t;
 	}
 };
-R(or, "type", "jpeg"), An.set("jpeg", or);
-var sr = [
+z(ar, "type", "jpeg"), kn.set("jpeg", ar);
+var or = [
 	void 0,
 	1,
 	1,
@@ -4465,7 +4465,7 @@ var sr = [
 	4,
 	8,
 	4
-], cr = class extends q {
+], sr = class extends J {
 	parseHeader() {
 		var e = this.chunk.getUint16();
 		e === 18761 ? this.le = !0 : e === 19789 && (this.le = !1), this.chunk.le = this.le, this.headerParsed = !0;
@@ -4485,8 +4485,8 @@ var sr = [
 		return n;
 	}
 	parseTag(e, t, n) {
-		let { chunk: r } = this, i = r.getUint16(e + 2), a = r.getUint32(e + 4), o = sr[i];
-		if (o * a <= 4 ? e += 8 : e = r.getUint32(e + 8), (i < 1 || i > 13) && z(`Invalid TIFF value type. block: ${n.toUpperCase()}, tag: ${t.toString(16)}, type: ${i}, offset ${e}`), e > r.byteLength && z(`Invalid TIFF value offset. block: ${n.toUpperCase()}, tag: ${t.toString(16)}, type: ${i}, offset ${e} is outside of chunk size ${r.byteLength}`), i === 1) return r.getUint8Array(e, a);
+		let { chunk: r } = this, i = r.getUint16(e + 2), a = r.getUint32(e + 4), o = or[i];
+		if (o * a <= 4 ? e += 8 : e = r.getUint32(e + 8), (i < 1 || i > 13) && B(`Invalid TIFF value type. block: ${n.toUpperCase()}, tag: ${t.toString(16)}, type: ${i}, offset ${e}`), e > r.byteLength && B(`Invalid TIFF value offset. block: ${n.toUpperCase()}, tag: ${t.toString(16)}, type: ${i}, offset ${e} is outside of chunk size ${r.byteLength}`), i === 1) return r.getUint8Array(e, a);
 		if (i === 2) return (s = function(e) {
 			for (; e.endsWith("\0");) e = e.slice(0, -1);
 			return e;
@@ -4528,10 +4528,10 @@ var sr = [
 			case 11: return n.getFloat(t);
 			case 12: return n.getDouble(t);
 			case 13: return n.getUint32(t);
-			default: z(`Invalid tiff type ${e}`);
+			default: B(`Invalid tiff type ${e}`);
 		}
 	}
-}, lr = class extends cr {
+}, cr = class extends sr {
 	static canHandle(e, t) {
 		return e.getUint8(t + 1) === 225 && e.getUint32(t + 4) === 1165519206 && e.getUint16(t + 8) === 0;
 	}
@@ -4561,13 +4561,13 @@ var sr = [
 	async parseIfd0Block() {
 		if (this.ifd0) return;
 		let { file: e } = this;
-		this.findIfd0Offset(), this.ifd0Offset < 8 && z("Malformed EXIF data"), !e.chunked && this.ifd0Offset > e.byteLength && z(`IFD0 offset points to outside of file.\nthis.ifd0Offset: ${this.ifd0Offset}, file.byteLength: ${e.byteLength}`), e.tiff && await e.ensureChunk(this.ifd0Offset, wn(this.options));
+		this.findIfd0Offset(), this.ifd0Offset < 8 && B("Malformed EXIF data"), !e.chunked && this.ifd0Offset > e.byteLength && B(`IFD0 offset points to outside of file.\nthis.ifd0Offset: ${this.ifd0Offset}, file.byteLength: ${e.byteLength}`), e.tiff && await e.ensureChunk(this.ifd0Offset, Cn(this.options));
 		let t = this.parseBlock(this.ifd0Offset, "ifd0");
 		return t.size === 0 ? void 0 : (this.exifOffset = t.get(34665), this.interopOffset = t.get(40965), this.gpsOffset = t.get(34853), this.xmp = t.get(700), this.iptc = t.get(33723), this.icc = t.get(34675), this.options.sanitize && (t.delete(34665), t.delete(40965), t.delete(34853), t.delete(700), t.delete(33723), t.delete(34675)), t);
 	}
 	async parseExifBlock() {
 		if (this.exif || (this.ifd0 || await this.parseIfd0Block(), this.exifOffset === void 0)) return;
-		this.file.tiff && await this.file.ensureChunk(this.exifOffset, wn(this.options));
+		this.file.tiff && await this.file.ensureChunk(this.exifOffset, Cn(this.options));
 		let e = this.parseBlock(this.exifOffset, "exif");
 		return this.interopOffset ||= e.get(40965), this.makerNote = e.get(37500), this.userComment = e.get(37510), this.options.sanitize && (e.delete(40965), e.delete(37500), e.delete(37510)), this.unpack(e, 41728), this.unpack(e, 41729), e;
 	}
@@ -4578,7 +4578,7 @@ var sr = [
 	async parseGpsBlock() {
 		if (this.gps || (this.ifd0 || await this.parseIfd0Block(), this.gpsOffset === void 0)) return;
 		let e = this.parseBlock(this.gpsOffset, "gps");
-		return e && e.has(2) && e.has(4) && (e.set("latitude", ur(...e.get(2), e.get(1))), e.set("longitude", ur(...e.get(4), e.get(3)))), e;
+		return e && e.has(2) && e.has(4) && (e.set("latitude", lr(...e.get(2), e.get(1))), e.set("longitude", lr(...e.get(4), e.get(3)))), e;
 	}
 	async parseInteropBlock() {
 		if (!this.interop && (this.ifd0 || await this.parseIfd0Block(), this.interopOffset !== void 0 || this.exif || await this.parseExifBlock(), this.interopOffset !== void 0)) return this.parseBlock(this.interopOffset, "interop");
@@ -4599,7 +4599,7 @@ var sr = [
 	}
 	createOutput() {
 		let e, t, n, r = {};
-		for (t of H) if (e = this[t], !Cn(e)) {
+		for (t of U) if (e = this[t], !Sn(e)) {
 			if (n = this.canTranslate ? this.translateBlock(e, t) : Object.fromEntries(e), this.options.mergeOutput) {
 				if (t === "ifd1") continue;
 				Object.assign(r, n);
@@ -4612,36 +4612,36 @@ var sr = [
 		else for (let [n, r] of Object.entries(t)) this.assignObjectToOutput(e, n, r);
 	}
 };
-function ur(e, t, n, r) {
+function lr(e, t, n, r) {
 	var i = e + t / 60 + n / 3600;
 	return r !== "S" && r !== "W" || (i *= -1), i;
 }
-R(lr, "type", "tiff"), R(lr, "headerLength", 10), B.set("tiff", lr), Object.freeze({
+z(cr, "type", "tiff"), z(cr, "headerLength", 10), V.set("tiff", cr), Object.freeze({
 	__proto__: null,
-	default: nr,
-	Exifr: er,
-	fileParsers: An,
-	segmentParsers: B,
-	fileReaders: jn,
-	tagKeys: Vn,
-	tagValues: Hn,
-	tagRevivers: Un,
-	createDictionary: zn,
-	extendDictionary: Bn,
-	fetchUrlAsArrayBuffer: In,
-	readBlobAsArrayBuffer: Ln,
-	chunkedProps: V,
-	otherSegments: Wn,
-	segments: Gn,
-	tiffBlocks: H,
-	segmentsAndBlocks: U,
-	tiffExtractables: W,
-	inheritables: Kn,
-	allFormatters: G,
-	Options: Xn,
-	parse: tr
+	default: tr,
+	Exifr: $n,
+	fileParsers: kn,
+	segmentParsers: V,
+	fileReaders: An,
+	tagKeys: Bn,
+	tagValues: Vn,
+	tagRevivers: Hn,
+	createDictionary: Rn,
+	extendDictionary: zn,
+	fetchUrlAsArrayBuffer: Fn,
+	readBlobAsArrayBuffer: In,
+	chunkedProps: H,
+	otherSegments: Un,
+	segments: Wn,
+	tiffBlocks: U,
+	segmentsAndBlocks: W,
+	tiffExtractables: G,
+	inheritables: Gn,
+	allFormatters: K,
+	Options: Yn,
+	parse: er
 });
-var dr = {
+var ur = {
 	ifd0: !1,
 	ifd1: !1,
 	exif: !1,
@@ -4653,7 +4653,7 @@ var dr = {
 	translateValues: !1,
 	mergeOutput: !1
 };
-Object.assign({}, dr, {
+Object.assign({}, ur, {
 	firstChunkSize: 4e4,
 	gps: [
 		1,
@@ -4661,22 +4661,22 @@ Object.assign({}, dr, {
 		3,
 		4
 	]
-}), Object.assign({}, dr, {
+}), Object.assign({}, ur, {
 	tiff: !1,
 	ifd1: !0,
 	mergeOutput: !1
 });
-var fr = Object.assign({}, dr, {
+var dr = Object.assign({}, ur, {
 	firstChunkSize: 4e4,
 	ifd0: [274]
 });
-async function pr(e) {
-	let t = new er(fr);
+async function fr(e) {
+	let t = new $n(dr);
 	await t.read(e);
 	let n = await t.parse();
 	if (n && n.ifd0) return n.ifd0[274];
 }
-var mr = Object.freeze({
+var pr = Object.freeze({
 	1: {
 		dimensionSwapped: !1,
 		scaleX: 1,
@@ -4733,37 +4733,37 @@ var mr = Object.freeze({
 		deg: 270,
 		rad: 270 * Math.PI / 180
 	}
-}), hr = !0, J = !0;
+}), mr = !0, Y = !0;
 if (typeof navigator == "object") {
 	let e = navigator.userAgent;
 	if (e.includes("iPad") || e.includes("iPhone")) {
 		let t = e.match(/OS (\d+)_(\d+)/);
 		if (t) {
 			let [, e, n] = t;
-			hr = Number(e) + .1 * Number(n) < 13.4, J = !1;
+			mr = Number(e) + .1 * Number(n) < 13.4, Y = !1;
 		}
 	} else if (e.includes("OS X 10")) {
 		let [, t] = e.match(/OS X 10[_.](\d+)/);
-		hr = J = Number(t) < 15;
+		mr = Y = Number(t) < 15;
 	}
 	if (e.includes("Chrome/")) {
 		let [, t] = e.match(/Chrome\/(\d+)/);
-		hr = J = Number(t) < 81;
+		mr = Y = Number(t) < 81;
 	} else if (e.includes("Firefox/")) {
 		let [, t] = e.match(/Firefox\/(\d+)/);
-		hr = J = Number(t) < 77;
+		mr = Y = Number(t) < 77;
 	}
 }
-async function gr(e) {
-	let t = await pr(e);
+async function hr(e) {
+	let t = await fr(e);
 	return Object.assign({
-		canvas: hr,
-		css: J
-	}, mr[t]);
+		canvas: mr,
+		css: Y
+	}, pr[t]);
 }
-var _r = class extends Dn {
+var gr = class extends En {
 	constructor(...e) {
-		super(...e), R(this, "ranges", new vr()), this.byteLength !== 0 && this.ranges.add(0, this.byteLength);
+		super(...e), z(this, "ranges", new _r()), this.byteLength !== 0 && this.ranges.add(0, this.byteLength);
 	}
 	_tryExtend(e, t, n) {
 		if (e === 0 && this.byteLength === 0 && n) {
@@ -4779,7 +4779,7 @@ var _r = class extends Dn {
 	}
 	_extend(e) {
 		let t;
-		t = xn ? bn.allocUnsafe(e) : new Uint8Array(e);
+		t = bn ? yn.allocUnsafe(e) : new Uint8Array(e);
 		let n = new DataView(t.buffer, t.byteOffset, t.byteLength);
 		return t.set(new Uint8Array(this.buffer, this.byteOffset, this.byteLength), 0), {
 			uintView: t,
@@ -4800,15 +4800,15 @@ var _r = class extends Dn {
 	available(e, t) {
 		return this.ranges.available(e, t);
 	}
-}, vr = class {
+}, _r = class {
 	constructor() {
-		R(this, "list", []);
+		z(this, "list", []);
 	}
 	get length() {
 		return this.list.length;
 	}
 	add(e, t, n = 0) {
-		let r = e + t, i = this.list.filter(((t) => yr(e, t.offset, r) || yr(e, t.end, r)));
+		let r = e + t, i = this.list.filter(((t) => vr(e, t.offset, r) || vr(e, t.end, r)));
 		if (i.length > 0) {
 			e = Math.min(e, ...i.map(((e) => e.offset))), r = Math.max(r, ...i.map(((e) => e.end))), t = r - e;
 			let n = i.shift();
@@ -4824,12 +4824,12 @@ var _r = class extends Dn {
 		return this.list.some(((t) => t.offset <= e && n <= t.end));
 	}
 };
-function yr(e, t, n) {
+function vr(e, t, n) {
 	return e <= t && t <= n;
 }
-var br = class extends _r {
+var yr = class extends gr {
 	constructor(e, t) {
-		super(0), R(this, "chunksRead", 0), this.input = e, this.options = t;
+		super(0), z(this, "chunksRead", 0), this.input = e, this.options = t;
 	}
 	async readWhole() {
 		this.chunked = !1, await this.readChunk(this.nextChunkOffset);
@@ -4862,21 +4862,21 @@ var br = class extends _r {
 	}
 	close() {}
 };
-jn.set("blob", class extends br {
+An.set("blob", class extends yr {
 	async readWhole() {
 		this.chunked = !1;
-		let e = await Ln(this.input);
+		let e = await In(this.input);
 		this._swapArrayBuffer(e);
 	}
 	readChunked() {
 		return this.chunked = !0, this.size = this.input.size, super.readChunked();
 	}
 	async _readChunk(e, t) {
-		let n = t ? e + t : void 0, r = await Ln(this.input.slice(e, n));
+		let n = t ? e + t : void 0, r = await In(this.input.slice(e, n));
 		return this.set(r, e, !0);
 	}
 });
-var xr = {
+var br = {
 	name: "@uppy/thumbnail-generator",
 	description: "Uppy plugin that generates small previews of images to show on your upload UI.",
 	version: "6.0.1",
@@ -4922,10 +4922,10 @@ var xr = {
 		vitest: "^4.1.11"
 	},
 	peerDependencies: { "@uppy/core": "^6.2.0" }
-}, Sr = { strings: { generatingThumbnails: "Generating thumbnails..." } };
+}, xr = { strings: { generatingThumbnails: "Generating thumbnails..." } };
 //#endregion
 //#region node_modules/@uppy/thumbnail-generator/lib/index.js
-function Cr(e, t, n) {
+function Sr(e, t, n) {
 	try {
 		e.getContext("2d").getImageData(0, 0, 1, 1);
 	} catch (e) {
@@ -4941,7 +4941,7 @@ function Cr(e, t, n) {
 		return e;
 	});
 }
-function wr(e, t) {
+function Cr(e, t) {
 	let n = e.width, r = e.height;
 	(t.deg === 90 || t.deg === 270) && (n = e.height, r = e.width);
 	let i = document.createElement("canvas");
@@ -4949,7 +4949,7 @@ function wr(e, t) {
 	let a = i.getContext("2d");
 	return a.translate(n / 2, r / 2), t.canvas && (a.rotate(t.rad), a.scale(t.scaleX, t.scaleY)), a.drawImage(e, -e.width / 2, -e.height / 2, e.width, e.height), i;
 }
-function Tr(e) {
+function wr(e) {
 	let t = e.width / e.height, n = 5e6, r = 4096, i = Math.floor(Math.sqrt(n * t)), a = Math.floor(n / Math.sqrt(n * t));
 	if (i > r && (i = r, a = Math.round(i / t)), a > r && (a = r, i = Math.round(t * a)), e.width > i) {
 		let t = document.createElement("canvas");
@@ -4957,23 +4957,23 @@ function Tr(e) {
 	}
 	return e;
 }
-var Er = {
+var Tr = {
 	thumbnailWidth: null,
 	thumbnailHeight: null,
 	thumbnailType: "image/jpeg",
 	waitForThumbnailsBeforeUpload: !1,
 	lazy: !1
-}, Dr = class extends m {
-	static VERSION = xr.version;
+}, Er = class extends m {
+	static VERSION = br.version;
 	queue;
 	queueProcessing;
 	defaultThumbnailDimension;
 	thumbnailType;
 	constructor(e, t) {
 		if (super(e, {
-			...Er,
+			...Tr,
 			...t
-		}), this.type = "modifier", this.id = this.opts.id || "ThumbnailGenerator", this.title = "Thumbnail Generator", this.queue = [], this.queueProcessing = !1, this.defaultThumbnailDimension = 200, this.thumbnailType = this.opts.thumbnailType, this.defaultLocale = Sr, this.i18nInit(), this.opts.lazy && this.opts.waitForThumbnailsBeforeUpload) throw Error("ThumbnailGenerator: The `lazy` and `waitForThumbnailsBeforeUpload` options are mutually exclusive. Please ensure at most one of them is set to `true`.");
+		}), this.type = "modifier", this.id = this.opts.id || "ThumbnailGenerator", this.title = "Thumbnail Generator", this.queue = [], this.queueProcessing = !1, this.defaultThumbnailDimension = 200, this.thumbnailType = this.opts.thumbnailType, this.defaultLocale = xr, this.i18nInit(), this.opts.lazy && this.opts.waitForThumbnailsBeforeUpload) throw Error("ThumbnailGenerator: The `lazy` and `waitForThumbnailsBeforeUpload` options are mutually exclusive. Please ensure at most one of them is set to `true`.");
 	}
 	createThumbnail(e, t, n) {
 		if (e.data == null) throw Error("File data is empty");
@@ -4984,10 +4984,10 @@ var Er = {
 			}), n.addEventListener("error", (e) => {
 				URL.revokeObjectURL(r), t(e.error || /* @__PURE__ */ Error("Could not create thumbnail"));
 			});
-		}), a = gr(e.data).catch(() => 1);
+		}), a = hr(e.data).catch(() => 1);
 		return Promise.all([i, a]).then(([e, r]) => {
-			let i = this.getProportionalDimensions(e, t, n, r.deg), a = wr(e, r);
-			return Cr(this.resizeImage(a, i.width, i.height), this.thumbnailType, 80);
+			let i = this.getProportionalDimensions(e, t, n, r.deg), a = Cr(e, r);
+			return Sr(this.resizeImage(a, i.width, i.height), this.thumbnailType, 80);
 		}).then((e) => URL.createObjectURL(e));
 	}
 	getProportionalDimensions(e, t, n, r) {
@@ -5012,7 +5012,7 @@ var Er = {
 		};
 	}
 	resizeImage(e, t, n) {
-		let r = Tr(e), i = Math.ceil(Math.log2(r.width / t));
+		let r = wr(e), i = Math.ceil(Math.log2(r.width / t));
 		i < 1 && (i = 1);
 		let a = t * 2 ** (i - 1), o = n * 2 ** (i - 1);
 		for (; i--;) {
@@ -5035,14 +5035,14 @@ var Er = {
 		return this.queueProcessing = !1, this.uppy.log("[ThumbnailGenerator] Emptied thumbnail queue"), this.uppy.emit("thumbnail:all-generated"), Promise.resolve();
 	}
 	requestThumbnail(e) {
-		return he(e.type) && !e.isRemote ? this.createThumbnail(e, this.opts.thumbnailWidth, this.opts.thumbnailHeight).then((t) => {
+		return me(e.type) && !e.isRemote ? this.createThumbnail(e, this.opts.thumbnailWidth, this.opts.thumbnailHeight).then((t) => {
 			this.setPreviewURL(e.id, t), this.uppy.log(`[ThumbnailGenerator] Generated thumbnail for ${e.id}`), this.uppy.emit("thumbnail:generated", this.uppy.getFile(e.id), t);
 		}).catch((t) => {
 			this.uppy.log(`[ThumbnailGenerator] Failed thumbnail for ${e.id}:`, "warning"), this.uppy.log(t, "warning"), this.uppy.emit("thumbnail:error", this.uppy.getFile(e.id), t);
 		}) : Promise.resolve();
 	}
 	onFileAdded = (e) => {
-		!e.preview && e.data && he(e.type) && !e.isRemote && this.addToQueue(e.id);
+		!e.preview && e.data && me(e.type) && !e.isRemote && this.addToQueue(e.id);
 	};
 	onCancelRequest = (e) => {
 		let t = this.queue.indexOf(e.id);
@@ -5050,11 +5050,11 @@ var Er = {
 	};
 	onFileRemoved = (e) => {
 		let t = this.queue.indexOf(e.id);
-		t !== -1 && this.queue.splice(t, 1), e.preview && me(e.preview) && URL.revokeObjectURL(e.preview);
+		t !== -1 && this.queue.splice(t, 1), e.preview && pe(e.preview) && URL.revokeObjectURL(e.preview);
 	};
 	onRestored = () => {
 		this.uppy.getFiles().filter((e) => e.isRestored).forEach((e) => {
-			(!e.preview || me(e.preview)) && this.addToQueue(e.id);
+			(!e.preview || pe(e.preview)) && this.addToQueue(e.id);
 		});
 	};
 	onAllFilesRemoved = () => {
@@ -5086,11 +5086,11 @@ var Er = {
 	uninstall() {
 		this.uppy.off("file-removed", this.onFileRemoved), this.uppy.off("cancel-all", this.onAllFilesRemoved), this.opts.lazy ? (this.uppy.off("thumbnail:request", this.onFileAdded), this.uppy.off("thumbnail:cancel", this.onCancelRequest)) : (this.uppy.off("thumbnail:request", this.onFileAdded), this.uppy.off("file-added", this.onFileAdded), this.uppy.off("restored", this.onRestored)), this.opts.waitForThumbnailsBeforeUpload && this.uppy.removePreProcessor(this.waitUntilAllProcessed);
 	}
-}, Or = "57X6y3wQZNzYjJB2L_10pxbackgroundhimselfUTF-8DEMOGRAPHICSVqvt4KW9", kr = (e = 21) => {
+}, Dr = "57X6y3wQZNzYjJB2L_10pxbackgroundhimselfUTF-8DEMOGRAPHICSVqvt4KW9", Or = (e = 21) => {
 	let t = "", n = e | 0;
-	for (; n-- > 0;) t += Or[Math.random() * 64 | 0];
+	for (; n-- > 0;) t += Dr[Math.random() * 64 | 0];
 	return t;
-}, Ar = {
+}, kr = {
 	name: "@uppy/dashboard",
 	description: "Universal UI plugin for Uppy.",
 	version: "6.0.1",
@@ -5156,7 +5156,7 @@ var Er = {
 		vitest: "^4.1.11"
 	},
 	peerDependencies: { "@uppy/core": "^6.2.0" }
-}, jr = class extends c {
+}, Ar = class extends c {
 	fileInput = null;
 	folderInput = null;
 	mobilePhotoFileInput = null;
@@ -5433,8 +5433,8 @@ var Er = {
 			]
 		});
 	}
-}, Mr = (e) => f("div", {
-	className: (0, I.default)("uppy-Dashboard-AddFilesPanel", e.className),
+}, jr = (e) => f("div", {
+	className: (0, L.default)("uppy-Dashboard-AddFilesPanel", e.className),
 	"data-uppy-panelType": "AddFiles",
 	"aria-hidden": !e.showAddFilesPanel,
 	children: [f("div", {
@@ -5450,14 +5450,14 @@ var Er = {
 			onClick: () => e.toggleAddFilesPanel(!1),
 			children: e.i18n("back")
 		})]
-	}), f(jr, { ...e })]
+	}), f(Ar, { ...e })]
 });
 //#endregion
 //#region node_modules/@uppy/dashboard/lib/components/EditorPanel.js
-function Nr(e) {
+function Mr(e) {
 	let t = e.fileCardFor ? e.files[e.fileCardFor] : void 0;
 	return t ? f("div", {
-		className: (0, I.default)("uppy-DashboardContent-panel", e.className),
+		className: (0, L.default)("uppy-DashboardContent-panel", e.className),
 		role: "tabpanel",
 		"data-uppy-panelType": "FileEditor",
 		id: "uppy-DashboardContent-panel--editor",
@@ -5496,7 +5496,7 @@ function Nr(e) {
 }
 //#endregion
 //#region node_modules/@uppy/dashboard/lib/utils/getFileTypeIcon.js
-function Pr() {
+function Nr() {
 	return f("svg", {
 		"aria-hidden": "true",
 		focusable: "false",
@@ -5524,7 +5524,7 @@ function Pr() {
 		})
 	});
 }
-function Fr() {
+function Pr() {
 	return f("svg", {
 		"aria-hidden": "true",
 		focusable: "false",
@@ -5539,7 +5539,7 @@ function Fr() {
 		})
 	});
 }
-function Ir() {
+function Fr() {
 	return f("svg", {
 		"aria-hidden": "true",
 		focusable: "false",
@@ -5554,7 +5554,7 @@ function Ir() {
 		})
 	});
 }
-function Lr() {
+function Ir() {
 	return f("svg", {
 		"aria-hidden": "true",
 		focusable: "false",
@@ -5569,7 +5569,7 @@ function Lr() {
 		})
 	});
 }
-function Rr() {
+function Lr() {
 	return f("svg", {
 		"aria-hidden": "true",
 		focusable: "false",
@@ -5583,7 +5583,7 @@ function Rr() {
 		})
 	});
 }
-function zr() {
+function Rr() {
 	return f("svg", {
 		"aria-hidden": "true",
 		focusable: "false",
@@ -5598,7 +5598,7 @@ function zr() {
 		})
 	});
 }
-function Br() {
+function zr() {
 	return f("svg", {
 		"aria-hidden": "true",
 		focusable: "false",
@@ -5613,28 +5613,28 @@ function Br() {
 		})
 	});
 }
-function Vr(e) {
+function Br(e) {
 	let t = {
 		color: "#838999",
-		icon: zr()
+		icon: Rr()
 	};
 	if (!e) return t;
 	let n = e.split("/")[0], r = e.split("/")[1];
 	return n === "text" ? {
 		color: "#5a5e69",
-		icon: Br()
+		icon: zr()
 	} : n === "image" ? {
 		color: "#686de0",
-		icon: Pr()
+		icon: Nr()
 	} : n === "audio" ? {
 		color: "#068dbb",
-		icon: Fr()
+		icon: Pr()
 	} : n === "video" ? {
 		color: "#19af67",
-		icon: Ir()
+		icon: Fr()
 	} : n === "application" && r === "pdf" ? {
 		color: "#e25149",
-		icon: Lr()
+		icon: Ir()
 	} : n === "application" && [
 		"zip",
 		"x-7z-compressed",
@@ -5645,12 +5645,12 @@ function Vr(e) {
 		"x-apple-diskimage"
 	].indexOf(r) !== -1 ? {
 		color: "#00C469",
-		icon: Rr()
+		icon: Lr()
 	} : t;
 }
 //#endregion
 //#region node_modules/@uppy/dashboard/lib/utils/ignoreEvent.js
-function Y(e) {
+function X(e) {
 	let { tagName: t } = e.target;
 	if (t === "INPUT" || t === "TEXTAREA") {
 		e.stopPropagation();
@@ -5660,7 +5660,7 @@ function Y(e) {
 }
 //#endregion
 //#region node_modules/@uppy/dashboard/lib/components/FilePreview.js
-function Hr(e) {
+function Vr(e) {
 	let { file: t } = e;
 	if (t.preview) return f("img", {
 		draggable: !1,
@@ -5668,7 +5668,7 @@ function Hr(e) {
 		alt: t.name,
 		src: t.preview
 	});
-	let { color: n, icon: r } = Vr(t.type);
+	let { color: n, icon: r } = Br(t.type);
 	return f("div", {
 		className: "uppy-Dashboard-Item-previewIconWrap",
 		children: [f("span", {
@@ -5694,7 +5694,7 @@ function Hr(e) {
 }
 //#endregion
 //#region node_modules/@uppy/dashboard/lib/components/FileCard/RenderMetaFields.js
-function Ur(e) {
+function Hr(e) {
 	let { computedMetaFields: t, requiredMetaFields: n, updateMeta: r, form: i, formState: a } = e, o = { text: "uppy-u-reset uppy-c-textInput uppy-Dashboard-FileCard-input" };
 	return t.map((e) => {
 		let t = `uppy-Dashboard-FileCard-input-${e.id}`, s = n.includes(e.id);
@@ -5726,7 +5726,7 @@ function Ur(e) {
 }
 //#endregion
 //#region node_modules/@uppy/dashboard/lib/components/FileCard/index.js
-function Wr(e) {
+function Ur(e) {
 	let { files: t, fileCardFor: n, toggleFileCard: r, saveFileCard: i, metaFields: a, requiredMetaFields: o, openFileEditor: s, i18n: c, i18nArray: l, className: u, canEditFile: d } = e, p = () => typeof a == "function" ? a(t[n]) : a, m = t[n], h = p() ?? [], g = d(m), _ = {};
 	h.forEach((e) => {
 		_[e.id] = m.meta[e.id] ?? "";
@@ -5746,7 +5746,7 @@ function Wr(e) {
 		r(!1, n);
 	}, [D] = v(() => {
 		let e = document.createElement("form");
-		return e.setAttribute("tabindex", "-1"), e.id = kr(), e;
+		return e.setAttribute("tabindex", "-1"), e.id = Or(), e;
 	}), O = C(null);
 	return b(() => {
 		let e = O.current?.getRootNode() ?? document;
@@ -5754,12 +5754,12 @@ function Wr(e) {
 			D.removeEventListener("submit", w), D.parentNode && D.parentNode.removeChild(D);
 		};
 	}, [D, w]), f("div", {
-		className: (0, I.default)("uppy-Dashboard-FileCard", u),
+		className: (0, L.default)("uppy-Dashboard-FileCard", u),
 		"data-uppy-panelType": "FileCard",
-		onDragOver: Y,
-		onDragLeave: Y,
-		onDrop: Y,
-		onPaste: Y,
+		onDragOver: X,
+		onDragLeave: X,
+		onDrop: X,
+		onPaste: X,
 		ref: O,
 		children: [f("div", {
 			className: "uppy-DashboardContent-bar",
@@ -5784,8 +5784,8 @@ function Wr(e) {
 			children: [
 				f("div", {
 					className: "uppy-Dashboard-FileCard-preview",
-					style: { backgroundColor: Vr(m.type).color },
-					children: [f(Hr, { file: m }), g && f("button", {
+					style: { backgroundColor: Br(m.type).color },
+					children: [f(Vr, { file: m }), g && f("button", {
 						type: "button",
 						className: "uppy-u-reset uppy-c-btn uppy-Dashboard-FileCard-edit",
 						onClick: (e) => {
@@ -5796,7 +5796,7 @@ function Wr(e) {
 				}),
 				f("div", {
 					className: "uppy-Dashboard-FileCard-info",
-					children: f(Ur, {
+					children: f(Hr, {
 						computedMetaFields: h,
 						requiredMetaFields: o,
 						updateMeta: T,
@@ -5825,7 +5825,7 @@ function Wr(e) {
 }
 //#endregion
 //#region node_modules/shallow-equal/dist/index.modern.mjs
-function Gr(e, t) {
+function Wr(e, t) {
 	if (e === t) return !0;
 	if (!e || !t) return !1;
 	let n = Object.keys(e), r = Object.keys(t), i = n.length;
@@ -5838,7 +5838,7 @@ function Gr(e, t) {
 }
 //#endregion
 //#region node_modules/@uppy/dashboard/lib/utils/copyToClipboard.js
-function Kr(e, t = "Copy the URL below") {
+function Gr(e, t = "Copy the URL below") {
 	return new Promise((n) => {
 		let r = document.createElement("textarea");
 		r.style.position = "fixed", r.style.top = "0", r.style.left = "0", r.style.width = "2em", r.style.height = "2em", r.style.padding = "0", r.style.border = "none", r.style.outline = "none", r.style.boxShadow = "none", r.style.background = "transparent", r.value = e, document.body.appendChild(r), r.select();
@@ -5855,7 +5855,7 @@ function Kr(e, t = "Copy the URL below") {
 }
 //#endregion
 //#region node_modules/@uppy/dashboard/lib/components/FileItem/Buttons/index.js
-function qr({ file: e, uploadInProgressOrComplete: t, metaFields: n, canEditFile: r, i18n: i, onClick: a }) {
+function Kr({ file: e, uploadInProgressOrComplete: t, metaFields: n, canEditFile: r, i18n: i, onClick: a }) {
 	return !t && n && n.length > 0 || !t && r(e) ? f("button", {
 		className: "uppy-u-reset uppy-c-btn uppy-Dashboard-Item-action uppy-Dashboard-Item-action--edit",
 		type: "button",
@@ -5892,7 +5892,7 @@ function qr({ file: e, uploadInProgressOrComplete: t, metaFields: n, canEditFile
 		})
 	}) : null;
 }
-function Jr({ i18n: e, onClick: t, file: n }) {
+function qr({ i18n: e, onClick: t, file: n }) {
 	return f("button", {
 		className: "uppy-u-reset uppy-Dashboard-Item-action uppy-Dashboard-Item-action--remove",
 		type: "button",
@@ -5913,10 +5913,10 @@ function Jr({ i18n: e, onClick: t, file: n }) {
 		})
 	});
 }
-function Yr({ file: e, uppy: t, i18n: n }) {
+function Jr({ file: e, uppy: t, i18n: n }) {
 	let r = (r) => {
 		let { currentTarget: i } = r;
-		Kr(e.uploadURL, n("copyLinkToClipboardFallback")).then(() => {
+		Gr(e.uploadURL, n("copyLinkToClipboardFallback")).then(() => {
 			t.log("Link copied to clipboard."), t.info(n("copyLinkToClipboardSuccess"), "info", 3e3);
 		}).catch(t.log).then(() => i.focus({ preventScroll: !0 }));
 	};
@@ -5937,12 +5937,12 @@ function Yr({ file: e, uppy: t, i18n: n }) {
 		})
 	});
 }
-function Xr(e) {
+function Yr(e) {
 	let { uppy: t, file: n, uploadInProgressOrComplete: r, canEditFile: i, metaFields: a, showLinkToFileUploadResult: o, showRemoveButton: s, i18n: c, toggleFileCard: l, openFileEditor: u } = e;
 	return f("div", {
 		className: "uppy-Dashboard-Item-actionWrapper",
 		children: [
-			f(qr, {
+			f(Kr, {
 				i18n: c,
 				file: n,
 				uploadInProgressOrComplete: r,
@@ -5952,12 +5952,12 @@ function Xr(e) {
 					a && a.length > 0 ? l(!0, n.id) : u(n);
 				}
 			}),
-			o && n.uploadURL ? f(Yr, {
+			o && n.uploadURL ? f(Jr, {
 				file: n,
 				uppy: t,
 				i18n: c
 			}) : null,
-			s ? f(Jr, {
+			s ? f(qr, {
 				i18n: c,
 				file: n,
 				onClick: () => t.removeFile(n.id)
@@ -5967,13 +5967,13 @@ function Xr(e) {
 }
 //#endregion
 //#region node_modules/@uppy/dashboard/lib/components/FileItem/MetaErrorMessage.js
-function Zr(e, t, n) {
+function Xr(e, t, n) {
 	return (typeof t == "function" ? t(n) : t)?.find((t) => t.id === e)?.name ?? e;
 }
-function Qr(e) {
+function Zr(e) {
 	let { file: t, toggleFileCard: n, i18n: r, metaFields: i } = e, { missingRequiredMetaFields: a } = t;
 	if (!a?.length) return null;
-	let o = a.map((e) => Zr(e, i, t)).join(", ");
+	let o = a.map((e) => Xr(e, i, t)).join(", ");
 	return f("div", {
 		className: "uppy-Dashboard-Item-errorMessage",
 		children: [
@@ -5993,7 +5993,7 @@ function Qr(e) {
 }
 //#endregion
 //#region node_modules/@uppy/dashboard/lib/components/FileItem/FileInfo/index.js
-var $r = (e) => {
+var Qr = (e) => {
 	let { author: t, name: n } = e.file.meta;
 	function r() {
 		return e.isSingleFile && e.containerHeight >= 350 ? 90 : e.containerWidth <= 352 ? 35 : e.containerWidth <= 576 ? 60 : t ? 20 : 30;
@@ -6001,9 +6001,9 @@ var $r = (e) => {
 	return f("div", {
 		className: "uppy-Dashboard-Item-name",
 		title: n,
-		children: be(n, r())
+		children: ye(n, r())
 	});
-}, ei = (e) => {
+}, $r = (e) => {
 	let { author: t } = e.file.meta, n = "remote" in e.file ? e.file.remote?.providerName : void 0;
 	return t ? f("div", {
 		className: "uppy-Dashboard-Item-author",
@@ -6011,22 +6011,22 @@ var $r = (e) => {
 			href: `${t.url}?utm_source=Companion&utm_medium=referral`,
 			target: "_blank",
 			rel: "noopener noreferrer",
-			children: be(t.name, 13)
+			children: ye(t.name, 13)
 		}), n ? f(p, { children: [
 			" · ",
 			n,
 			" · "
 		] }) : null]
 	}) : null;
-}, ti = (e) => e.file.size && f("div", {
+}, ei = (e) => e.file.size && f("div", {
 	className: "uppy-Dashboard-Item-statusSize",
-	children: P(e.file.size)
-}), ni = (e) => e.file.isGhost && f("span", { children: [" • ", f("button", {
+	children: F(e.file.size)
+}), ti = (e) => e.file.isGhost && f("span", { children: [" • ", f("button", {
 	className: "uppy-u-reset uppy-c-btn uppy-Dashboard-Item-reSelect",
 	type: "button",
 	onClick: () => e.toggleAddFilesPanel(!0),
 	children: e.i18n("reSelect")
-})] }), ri = ({ file: e, onClick: t }) => e.error ? f("button", {
+})] }), ni = ({ file: e, onClick: t }) => e.error ? f("button", {
 	className: "uppy-u-reset uppy-c-btn uppy-Dashboard-Item-errorDetails",
 	"aria-label": e.error,
 	"data-microtip-position": "bottom",
@@ -6035,7 +6035,7 @@ var $r = (e) => {
 	type: "button",
 	children: "?"
 }) : null;
-function ii(e) {
+function ri(e) {
 	let { file: t, i18n: n, toggleFileCard: r, metaFields: i, toggleAddFilesPanel: a, isSingleFile: o, containerHeight: s, containerWidth: c } = e;
 	return f("div", {
 		className: "uppy-Dashboard-Item-fileInfo",
@@ -6043,12 +6043,12 @@ function ii(e) {
 		children: [
 			f("div", {
 				className: "uppy-Dashboard-Item-fileName",
-				children: [$r({
+				children: [Qr({
 					file: t,
 					isSingleFile: o,
 					containerHeight: s,
 					containerWidth: c
-				}), f(ri, {
+				}), f(ni, {
 					file: t,
 					onClick: () => alert(t.error)
 				})]
@@ -6056,16 +6056,16 @@ function ii(e) {
 			f("div", {
 				className: "uppy-Dashboard-Item-status",
 				children: [
+					$r({ file: t }),
 					ei({ file: t }),
-					ti({ file: t }),
-					ni({
+					ti({
 						file: t,
 						toggleAddFilesPanel: a,
 						i18n: n
 					})
 				]
 			}),
-			f(Qr, {
+			f(Zr, {
 				file: t,
 				i18n: n,
 				toggleFileCard: r,
@@ -6076,8 +6076,8 @@ function ii(e) {
 }
 //#endregion
 //#region node_modules/@uppy/dashboard/lib/components/FileItem/FilePreviewAndLink/index.js
-function ai(e) {
-	let { file: t, i18n: n, toggleFileCard: r, metaFields: i, showLinkToFileUploadResult: a } = e, o = t.preview ? "rgba(255, 255, 255, 0.5)" : Vr(t.type).color;
+function ii(e) {
+	let { file: t, i18n: n, toggleFileCard: r, metaFields: i, showLinkToFileUploadResult: a } = e, o = t.preview ? "rgba(255, 255, 255, 0.5)" : Br(t.type).color;
 	return f("div", {
 		className: "uppy-Dashboard-Item-previewInnerWrap",
 		style: { backgroundColor: o },
@@ -6093,8 +6093,8 @@ function ai(e) {
 					children: t.meta.name
 				})
 			}),
-			f(Hr, { file: t }),
-			f(Qr, {
+			f(Vr, { file: t }),
+			f(Zr, {
 				file: t,
 				i18n: n,
 				toggleFileCard: r,
@@ -6105,7 +6105,7 @@ function ai(e) {
 }
 //#endregion
 //#region node_modules/@uppy/dashboard/lib/components/FileItem/FileProgress/index.js
-function oi(e) {
+function ai(e) {
 	if (!e.isUploaded) {
 		if (e.error && !e.hideRetryButton) {
 			e.uppy.retryUpload(e.file.id);
@@ -6114,23 +6114,23 @@ function oi(e) {
 		e.resumableUploads && !e.hidePauseResumeButton ? e.uppy.pauseResume(e.file.id) : e.individualCancellation && !e.hideCancelButton && e.uppy.removeFile(e.file.id);
 	}
 }
-function si(e) {
+function oi(e) {
 	return e.isUploaded ? e.i18n("uploadComplete") : e.error ? e.i18n("retryUpload") : e.resumableUploads ? e.file.isPaused ? e.i18n("resumeUpload") : e.i18n("pauseUpload") : e.individualCancellation ? e.i18n("cancelUpload") : "";
 }
-function ci(e) {
+function si(e) {
 	return f("div", {
 		className: "uppy-Dashboard-Item-progress",
 		children: f("button", {
 			className: "uppy-u-reset uppy-c-btn uppy-Dashboard-Item-progressIndicator",
 			type: "button",
-			"aria-label": si(e),
-			title: si(e),
-			onClick: () => oi(e),
+			"aria-label": oi(e),
+			title: oi(e),
+			onClick: () => ai(e),
 			children: e.children
 		})
 	});
 }
-function li({ children: e }) {
+function ci({ children: e }) {
 	return f("svg", {
 		"aria-hidden": "true",
 		focusable: "false",
@@ -6141,7 +6141,7 @@ function li({ children: e }) {
 		children: e
 	});
 }
-function ui({ progress: e }) {
+function li({ progress: e }) {
 	let t = 2 * Math.PI * 15;
 	return f("g", { children: [f("circle", {
 		className: "uppy-Dashboard-Item-progressIcon--bg",
@@ -6162,12 +6162,12 @@ function ui({ progress: e }) {
 		"stroke-dashoffset": t - t / 100 * e
 	})] });
 }
-function di(e) {
+function ui(e) {
 	return !e.file.progress.uploadStarted || e.file.progress.percentage === void 0 ? null : e.isUploaded ? f("div", {
 		className: "uppy-Dashboard-Item-progress",
 		children: f("div", {
 			className: "uppy-Dashboard-Item-progressIndicator",
-			children: f(li, { children: [f("circle", {
+			children: f(ci, { children: [f("circle", {
 				r: "15",
 				cx: "18",
 				cy: "18",
@@ -6178,7 +6178,7 @@ function di(e) {
 				points: "14 22.5 7 15.2457065 8.99985857 13.1732815 14 18.3547104 22.9729883 9 25 11.1005634"
 			})] })
 		})
-	}) : e.recoveredState ? null : e.error && !e.hideRetryButton ? f(ci, {
+	}) : e.recoveredState ? null : e.error && !e.hideRetryButton ? f(si, {
 		...e,
 		children: f("svg", {
 			"aria-hidden": "true",
@@ -6194,9 +6194,9 @@ function di(e) {
 				f("path", { d: "M10.657 2.621l1.414 1.415L8.536 7.57 7.12 6.157z" })
 			]
 		})
-	}) : e.resumableUploads && !e.hidePauseResumeButton ? f(ci, {
+	}) : e.resumableUploads && !e.hidePauseResumeButton ? f(si, {
 		...e,
-		children: f(li, { children: [f(ui, { progress: e.file.progress.percentage }), e.file.isPaused ? f("polygon", {
+		children: f(ci, { children: [f(li, { progress: e.file.progress.percentage }), e.file.isPaused ? f("polygon", {
 			className: "uppy-Dashboard-Item-progressIcon--play",
 			transform: "translate(3, 3)",
 			points: "12 20 12 10 20 15"
@@ -6217,9 +6217,9 @@ function di(e) {
 				rx: "0"
 			})]
 		})] })
-	}) : !e.resumableUploads && e.individualCancellation && !e.hideCancelButton ? f(ci, {
+	}) : !e.resumableUploads && e.individualCancellation && !e.hideCancelButton ? f(si, {
 		...e,
-		children: f(li, { children: [f(ui, { progress: e.file.progress.percentage }), f("polygon", {
+		children: f(ci, { children: [f(li, { progress: e.file.progress.percentage }), f("polygon", {
 			className: "cancel",
 			transform: "translate(2, 2)",
 			points: "19.8856516 11.0625 16 14.9481516 12.1019737 11.0625 11.0625 12.1143484 14.9481516 16 11.0625 19.8980263 12.1019737 20.9375 16 17.0518484 19.8856516 20.9375 20.9375 19.8980263 17.0518484 16 20.9375 12"
@@ -6228,19 +6228,19 @@ function di(e) {
 		className: "uppy-Dashboard-Item-progress",
 		children: f("div", {
 			className: "uppy-Dashboard-Item-progressIndicator",
-			children: f(li, { children: f(ui, { progress: e.file.progress.percentage }) })
+			children: f(ci, { children: f(li, { progress: e.file.progress.percentage }) })
 		})
 	});
 }
 //#endregion
 //#region node_modules/@uppy/dashboard/lib/components/FileItem/index.js
-var fi = class extends c {
+var di = class extends c {
 	componentDidMount() {
 		let { file: e } = this.props;
 		e.preview || this.props.handleRequestThumbnail(e);
 	}
 	shouldComponentUpdate(e) {
-		return !Gr(this.props, e);
+		return !Wr(this.props, e);
 	}
 	componentDidUpdate() {
 		let { file: e } = this.props;
@@ -6253,7 +6253,7 @@ var fi = class extends c {
 	render() {
 		let { file: e } = this.props, t = e.progress.preprocess || e.progress.postprocess, n = !!e.progress.uploadComplete && !t && !e.error, r = !!e.progress.uploadStarted || !!t, i = e.progress.uploadStarted && !e.progress.uploadComplete || t, a = e.error || !1, { isGhost: o } = e, s = (this.props.individualCancellation || !i) && !n;
 		n && this.props.showRemoveButtonAfterComplete && (s = !0);
-		let c = (0, I.default)({
+		let c = (0, L.default)({
 			"uppy-Dashboard-Item": !0,
 			"is-inprogress": i && !this.props.recoveredState,
 			"is-processing": t,
@@ -6269,13 +6269,13 @@ var fi = class extends c {
 			role: this.props.role,
 			children: [f("div", {
 				className: "uppy-Dashboard-Item-preview",
-				children: [f(ai, {
+				children: [f(ii, {
 					file: e,
 					showLinkToFileUploadResult: this.props.showLinkToFileUploadResult,
 					i18n: this.props.i18n,
 					toggleFileCard: this.props.toggleFileCard,
 					metaFields: this.props.metaFields
-				}), f(di, {
+				}), f(ui, {
 					uppy: this.props.uppy,
 					file: e,
 					error: a,
@@ -6290,7 +6290,7 @@ var fi = class extends c {
 				})]
 			}), f("div", {
 				className: "uppy-Dashboard-Item-fileInfoAndButtons",
-				children: [f(ii, {
+				children: [f(ri, {
 					file: e,
 					containerWidth: this.props.containerWidth,
 					containerHeight: this.props.containerHeight,
@@ -6299,7 +6299,7 @@ var fi = class extends c {
 					toggleFileCard: this.props.toggleFileCard,
 					metaFields: this.props.metaFields,
 					isSingleFile: this.props.isSingleFile
-				}), f(Xr, {
+				}), f(Yr, {
 					file: e,
 					metaFields: this.props.metaFields,
 					showLinkToFileUploadResult: this.props.showLinkToFileUploadResult,
@@ -6317,16 +6317,16 @@ var fi = class extends c {
 };
 //#endregion
 //#region node_modules/@uppy/dashboard/lib/components/FileList.js
-function pi(e, t) {
+function fi(e, t) {
 	let n = [], r = [];
 	return e.forEach((e) => {
 		r.length < t ? r.push(e) : (n.push(r), r = [e]);
 	}), r.length && n.push(r), n;
 }
-function mi({ id: e, i18n: t, uppy: n, files: r, resumableUploads: i, hideRetryButton: a, hidePauseResumeButton: o, hideCancelButton: s, showLinkToFileUploadResult: c, showRemoveButtonAfterComplete: l, metaFields: u, isSingleFile: d, toggleFileCard: p, handleRequestThumbnail: m, handleCancelThumbnail: h, recoveredState: g, individualCancellation: _, itemsPerRow: v, openFileEditor: b, canEditFile: x, toggleAddFilesPanel: S, containerWidth: C, containerHeight: w }) {
+function pi({ id: e, i18n: t, uppy: n, files: r, resumableUploads: i, hideRetryButton: a, hidePauseResumeButton: o, hideCancelButton: s, showLinkToFileUploadResult: c, showRemoveButtonAfterComplete: l, metaFields: u, isSingleFile: d, toggleFileCard: p, handleRequestThumbnail: m, handleCancelThumbnail: h, recoveredState: g, individualCancellation: _, itemsPerRow: v, openFileEditor: b, canEditFile: x, toggleAddFilesPanel: S, containerWidth: C, containerHeight: w }) {
 	let T = v === 1 ? 71 : 200, E = y(() => {
 		let e = (e, t) => Number(r[t].isGhost) - Number(r[e].isGhost), t = Object.keys(r);
-		return g && t.sort(e), pi(t, v);
+		return g && t.sort(e), fi(t, v);
 	}, [
 		r,
 		v,
@@ -6334,7 +6334,7 @@ function mi({ id: e, i18n: t, uppy: n, files: r, resumableUploads: i, hideRetryB
 	]), D = (v) => f("div", {
 		class: "uppy-Dashboard-filesInner",
 		role: "presentation",
-		children: v.map((v) => f(fi, {
+		children: v.map((v) => f(di, {
 			uppy: n,
 			id: e,
 			i18n: t,
@@ -6363,7 +6363,7 @@ function mi({ id: e, i18n: t, uppy: n, files: r, resumableUploads: i, hideRetryB
 	return d ? f("div", {
 		class: "uppy-Dashboard-files",
 		children: D(E[0])
-	}) : f(Ce, {
+	}) : f(Se, {
 		class: "uppy-Dashboard-files",
 		role: "list",
 		data: E,
@@ -6373,13 +6373,13 @@ function mi({ id: e, i18n: t, uppy: n, files: r, resumableUploads: i, hideRetryB
 }
 //#endregion
 //#region node_modules/@uppy/dashboard/lib/components/Informer/FadeIn.js
-var hi = 300, gi = class extends c {
+var mi = 300, hi = class extends c {
 	ref = d();
 	componentWillEnter(e) {
-		this.ref.current.style.opacity = "1", this.ref.current.style.transform = "none", setTimeout(e, hi);
+		this.ref.current.style.opacity = "1", this.ref.current.style.transform = "none", setTimeout(e, mi);
 	}
 	componentWillLeave(e) {
-		this.ref.current.style.opacity = "0", this.ref.current.style.transform = "translateY(350%)", setTimeout(e, hi);
+		this.ref.current.style.opacity = "0", this.ref.current.style.transform = "translateY(350%)", setTimeout(e, mi);
 	}
 	render() {
 		let { children: e } = this.props;
@@ -6392,27 +6392,27 @@ var hi = 300, gi = class extends c {
 };
 //#endregion
 //#region node_modules/@uppy/dashboard/lib/components/Informer/TransitionGroup.js
-function _i(e, t) {
+function gi(e, t) {
 	return Object.assign(e, t);
 }
-function vi(e, t) {
+function _i(e, t) {
 	return e?.key ?? t;
 }
-function yi(e, t) {
+function vi(e, t) {
 	let n = e._ptgLinkedRefs ||= {};
 	return n[t] || (n[t] = (n) => {
 		e.refs[t] = n;
 	});
 }
-function bi(e) {
+function yi(e) {
 	let t = {};
 	for (let n = 0; n < e.length; n++) if (e[n] != null) {
-		let r = vi(e[n], n.toString(36));
+		let r = _i(e[n], n.toString(36));
 		t[r] = e[n];
 	}
 	return t;
 }
-function xi(e, t) {
+function bi(e, t) {
 	e ||= {}, t ||= {};
 	let n = (n) => Object.hasOwn(t, n) ? t[n] : e[n], r = {}, i = [];
 	for (let n in e) Object.hasOwn(t, n) ? i.length && (r[n] = i, i = []) : i.push(n);
@@ -6427,9 +6427,9 @@ function xi(e, t) {
 	for (let e = 0; e < i.length; e++) a[i[e]] = n(i[e]);
 	return a;
 }
-var Si = (e) => e, Ci = class extends c {
+var xi = (e) => e, Si = class extends c {
 	constructor(e, t) {
-		super(e, t), this.refs = {}, this.state = { children: bi(i(i(this.props.children)) || []) }, this.performAppear = this.performAppear.bind(this), this.performEnter = this.performEnter.bind(this), this.performLeave = this.performLeave.bind(this);
+		super(e, t), this.refs = {}, this.state = { children: yi(i(i(this.props.children)) || []) }, this.performAppear = this.performAppear.bind(this), this.performEnter = this.performEnter.bind(this), this.performLeave = this.performLeave.bind(this);
 	}
 	componentWillMount() {
 		this.currentlyTransitioningKeys = {}, this.keysToAbortLeave = [], this.keysToEnter = [], this.keysToLeave = [];
@@ -6439,8 +6439,8 @@ var Si = (e) => e, Ci = class extends c {
 		for (let t in e) e[t] && this.performAppear(t);
 	}
 	componentWillReceiveProps(e) {
-		let t = bi(i(e.children) || []), n = this.state.children;
-		this.setState((e) => ({ children: xi(e.children, t) }));
+		let t = yi(i(e.children) || []), n = this.state.children;
+		this.setState((e) => ({ children: bi(e.children, t) }));
 		let r;
 		for (r in t) if (Object.hasOwn(t, r)) {
 			let e = n && Object.hasOwn(n, r);
@@ -6469,7 +6469,7 @@ var Si = (e) => e, Ci = class extends c {
 	_handleDoneAppearing(e) {
 		let t = this.refs[e];
 		t?.componentDidAppear && t.componentDidAppear(), delete this.currentlyTransitioningKeys[e], this._finishAbort(e);
-		let n = bi(i(this.props.children) || []);
+		let n = yi(i(this.props.children) || []);
 		(!n || !Object.hasOwn(n, e)) && this.performLeave(e);
 	}
 	performEnter(e) {
@@ -6480,7 +6480,7 @@ var Si = (e) => e, Ci = class extends c {
 	_handleDoneEntering(e) {
 		let t = this.refs[e];
 		t?.componentDidEnter && t.componentDidEnter(), delete this.currentlyTransitioningKeys[e], this._finishAbort(e);
-		let n = bi(i(this.props.children) || []);
+		let n = yi(i(this.props.children) || []);
 		(!n || !Object.hasOwn(n, e)) && this.performLeave(e);
 	}
 	performLeave(e) {
@@ -6493,17 +6493,17 @@ var Si = (e) => e, Ci = class extends c {
 		if (this.keysToAbortLeave.indexOf(e) !== -1) return;
 		let t = this.refs[e];
 		t?.componentDidLeave && t.componentDidLeave(), delete this.currentlyTransitioningKeys[e];
-		let n = bi(i(this.props.children) || []);
+		let n = yi(i(this.props.children) || []);
 		if (n && Object.hasOwn(n, e)) this.performEnter(e);
 		else {
-			let t = _i({}, this.state.children);
+			let t = gi({}, this.state.children);
 			delete t[e], this.setState({ children: t });
 		}
 	}
 	render({ childFactory: e, transitionLeave: t, transitionName: n, transitionAppear: r, transitionEnter: i, transitionLeaveTimeout: o, transitionEnterTimeout: s, transitionAppearTimeout: c, component: u, ...d }, { children: f }) {
 		let p = Object.entries(f).map(([t, n]) => {
 			if (!n) return;
-			let r = yi(this, t);
+			let r = vi(this, t);
 			return a(e(n), {
 				ref: r,
 				key: t
@@ -6512,18 +6512,18 @@ var Si = (e) => e, Ci = class extends c {
 		return l(u, d, p);
 	}
 };
-Ci.defaultProps = {
+Si.defaultProps = {
 	component: "span",
-	childFactory: Si
+	childFactory: xi
 };
 //#endregion
 //#region node_modules/@uppy/dashboard/lib/components/Informer/Informer.js
-var wi = class extends c {
+var Ci = class extends c {
 	render() {
 		let { info: e } = this.props.uppy.getState();
 		return f("div", {
 			className: "uppy uppy-Informer",
-			children: f(Ci, { children: e.map((e) => f(gi, { children: f("p", {
+			children: f(Si, { children: e.map((e) => f(hi, { children: f("p", {
 				role: "alert",
 				children: [
 					e.message,
@@ -6543,22 +6543,22 @@ var wi = class extends c {
 };
 //#endregion
 //#region node_modules/@uppy/dashboard/lib/components/PickerPanelContent.js
-function Ti({ activePickerPanel: e, className: t, hideAllPanels: n, i18n: r, state: i, uppy: a }) {
+function wi({ activePickerPanel: e, className: t, hideAllPanels: n, i18n: r, state: i, uppy: a }) {
 	let o = C(null), s = a.getPlugin(e.id), c = !!s?.opts.standalone, l = (e) => {
 		let t = e.target;
 		return !!s?.acceptsFileDrops && !!e.dataTransfer?.types.includes("Files") && t.closest("input, textarea, dialog") == null;
 	}, u = (e) => {
-		l(e) || (Y(e), e.type === "dragover" && e.defaultPrevented && e.dataTransfer && (e.dataTransfer.dropEffect = "none"));
+		l(e) || (X(e), e.type === "dragover" && e.defaultPrevented && e.dataTransfer && (e.dataTransfer.dropEffect = "none"));
 	};
 	return f("div", {
-		className: (0, I.default)("uppy-DashboardContent-panel", t),
+		className: (0, L.default)("uppy-DashboardContent-panel", t),
 		role: "tabpanel",
 		"data-uppy-panelType": "PickerPanel",
 		id: `uppy-DashboardContent-panel--${e.id}`,
 		onDragOver: u,
 		onDragLeave: u,
 		onDrop: u,
-		onPaste: Y,
+		onPaste: X,
 		children: [!c && f("div", {
 			className: "uppy-DashboardContent-bar",
 			children: [f("div", {
@@ -6581,7 +6581,7 @@ function Ti({ activePickerPanel: e, className: t, hideAllPanels: n, i18n: r, sta
 }
 //#endregion
 //#region node_modules/@uppy/dashboard/lib/components/PickerPanelTopBar.js
-var X = {
+var Z = {
 	STATE_ERROR: "error",
 	STATE_WAITING: "waiting",
 	STATE_PREPROCESSING: "preprocessing",
@@ -6590,20 +6590,20 @@ var X = {
 	STATE_COMPLETE: "complete",
 	STATE_PAUSED: "paused"
 };
-function Ei(e, t, n, r = {}) {
-	if (e) return X.STATE_ERROR;
-	if (t) return X.STATE_COMPLETE;
-	if (n) return X.STATE_PAUSED;
-	let i = X.STATE_WAITING, a = Object.keys(r);
+function Ti(e, t, n, r = {}) {
+	if (e) return Z.STATE_ERROR;
+	if (t) return Z.STATE_COMPLETE;
+	if (n) return Z.STATE_PAUSED;
+	let i = Z.STATE_WAITING, a = Object.keys(r);
 	for (let e = 0; e < a.length; e++) {
 		let { progress: t } = r[a[e]];
-		if (t.uploadStarted && !t.uploadComplete) return X.STATE_UPLOADING;
-		t.preprocess && (i = X.STATE_PREPROCESSING), t.postprocess && i !== X.STATE_PREPROCESSING && (i = X.STATE_POSTPROCESSING);
+		if (t.uploadStarted && !t.uploadComplete) return Z.STATE_UPLOADING;
+		t.preprocess && (i = Z.STATE_PREPROCESSING), t.postprocess && i !== Z.STATE_PREPROCESSING && (i = Z.STATE_POSTPROCESSING);
 	}
 	return i;
 }
-function Di({ files: e, i18n: t, isAllComplete: n, isAllErrored: r, isAllPaused: i, inProgressNotPausedFiles: a, newFiles: o, processingFiles: s }) {
-	switch (Ei(r, n, i, e)) {
+function Ei({ files: e, i18n: t, isAllComplete: n, isAllErrored: r, isAllPaused: i, inProgressNotPausedFiles: a, newFiles: o, processingFiles: s }) {
+	switch (Ti(r, n, i, e)) {
 		case "uploading": return t("uploadingXFiles", { smart_count: a.length });
 		case "preprocessing":
 		case "postprocessing": return t("processingXFiles", { smart_count: s.length });
@@ -6613,7 +6613,7 @@ function Di({ files: e, i18n: t, isAllComplete: n, isAllErrored: r, isAllPaused:
 		case "error": return t("error");
 	}
 }
-function Oi(e) {
+function Di(e) {
 	let { i18n: t, isAllComplete: n, hideCancelButton: r, maxNumberOfFiles: i, toggleAddFilesPanel: a, totalFileCount: o, uppy: s } = e, { allowNewUpload: c } = e;
 	return c && i && (c = o < i), f("div", {
 		className: "uppy-DashboardContent-bar",
@@ -6626,7 +6626,7 @@ function Oi(e) {
 			}) : f("div", {}),
 			f("div", {
 				className: "uppy-DashboardContent-title",
-				children: f(Di, { ...e })
+				children: f(Ei, { ...e })
 			}),
 			c ? f("button", {
 				className: "uppy-DashboardContent-addMore",
@@ -6652,19 +6652,19 @@ function Oi(e) {
 }
 //#endregion
 //#region node_modules/@uppy/dashboard/lib/components/Slide.js
-var Z = "uppy-transition-slideDownUp", ki = 250;
-function Ai({ children: e }) {
+var Q = "uppy-transition-slideDownUp", Oi = 250;
+function ki({ children: e }) {
 	let [t, n] = v(null), [r, o] = v(""), s = C(), c = C(), l = C(), u = S(() => {
-		o(`${Z}-enter`), cancelAnimationFrame(l.current), clearTimeout(c.current), c.current = void 0, l.current = requestAnimationFrame(() => {
-			o(`${Z}-enter ${Z}-enter-active`), s.current = setTimeout(() => {
+		o(`${Q}-enter`), cancelAnimationFrame(l.current), clearTimeout(c.current), c.current = void 0, l.current = requestAnimationFrame(() => {
+			o(`${Q}-enter ${Q}-enter-active`), s.current = setTimeout(() => {
 				o("");
-			}, ki);
+			}, Oi);
 		});
 	}, []), d = S(() => {
-		o(`${Z}-leave`), cancelAnimationFrame(l.current), clearTimeout(s.current), s.current = void 0, l.current = requestAnimationFrame(() => {
-			o(`${Z}-leave ${Z}-leave-active`), c.current = setTimeout(() => {
+		o(`${Q}-leave`), cancelAnimationFrame(l.current), clearTimeout(s.current), s.current = void 0, l.current = requestAnimationFrame(() => {
+			o(`${Q}-leave ${Q}-leave-active`), c.current = setTimeout(() => {
 				n(null), o("");
-			}, ki);
+			}, Oi);
 		});
 	}, []);
 	return b(() => {
@@ -6677,20 +6677,20 @@ function Ai({ children: e }) {
 		d
 	]), b(() => () => {
 		clearTimeout(s.current), clearTimeout(c.current), cancelAnimationFrame(l.current);
-	}, []), t ? a(t, { className: (0, I.default)(r, t.props.className) }) : null;
+	}, []), t ? a(t, { className: (0, L.default)(r, t.props.className) }) : null;
 }
 //#endregion
 //#region node_modules/@uppy/dashboard/lib/components/StatusBar/StatusBarStates.js
-var Q = {
+var $ = {
 	STATE_ERROR: "error",
 	STATE_WAITING: "waiting",
 	STATE_PREPROCESSING: "preprocessing",
 	STATE_UPLOADING: "uploading",
 	STATE_POSTPROCESSING: "postprocessing",
 	STATE_COMPLETE: "complete"
-}, ji = "·", Mi = () => ` ${ji} `;
-function Ni(e) {
-	let { newFiles: t, isUploadStarted: n, recoveredState: r, i18n: i, uploadState: a, isSomeGhost: o, startUpload: s } = e, c = (0, I.default)("uppy-u-reset", "uppy-c-btn", "uppy-StatusBar-actionBtn", "uppy-StatusBar-actionBtn--upload", { "uppy-c-btn-primary": a === Q.STATE_WAITING }, { "uppy-StatusBar-actionBtn--disabled": o }), l = i(t && n && !r ? "uploadXNewFiles" : "uploadXFiles", { smart_count: t });
+}, Ai = "·", ji = () => ` ${Ai} `;
+function Mi(e) {
+	let { newFiles: t, isUploadStarted: n, recoveredState: r, i18n: i, uploadState: a, isSomeGhost: o, startUpload: s } = e, c = (0, L.default)("uppy-u-reset", "uppy-c-btn", "uppy-StatusBar-actionBtn", "uppy-StatusBar-actionBtn--upload", { "uppy-c-btn-primary": a === $.STATE_WAITING }, { "uppy-StatusBar-actionBtn--disabled": o }), l = i(t && n && !r ? "uploadXNewFiles" : "uploadXFiles", { smart_count: t });
 	return f("button", {
 		type: "button",
 		className: c,
@@ -6701,7 +6701,7 @@ function Ni(e) {
 		children: l
 	});
 }
-function Pi(e) {
+function Ni(e) {
 	let { i18n: t, uppy: n } = e;
 	return f("button", {
 		type: "button",
@@ -6721,7 +6721,7 @@ function Pi(e) {
 		}), t("retry")]
 	});
 }
-function Fi(e) {
+function Pi(e) {
 	let { i18n: t, uppy: n } = e;
 	return f("button", {
 		type: "button",
@@ -6754,7 +6754,7 @@ function Fi(e) {
 		})
 	});
 }
-function Ii(e) {
+function Fi(e) {
 	let { isAllPaused: t, i18n: n, isAllComplete: r, resumableUploads: i, uppy: a } = e, o = n(t ? "resume" : "pause");
 	function s() {
 		if (!r) {
@@ -6800,7 +6800,7 @@ function Ii(e) {
 		})
 	});
 }
-function Li(e) {
+function Ii(e) {
 	let { i18n: t, doneButtonHandler: n } = e;
 	return f("button", {
 		type: "button",
@@ -6810,7 +6810,7 @@ function Li(e) {
 		children: t("done")
 	});
 }
-function Ri() {
+function Li() {
 	return f("svg", {
 		className: "uppy-StatusBar-spinner",
 		"aria-hidden": "true",
@@ -6823,19 +6823,19 @@ function Ri() {
 		})
 	});
 }
-function zi(e) {
+function Ri(e) {
 	let { progress: t } = e, { value: n, mode: r, message: i } = t;
 	return f("div", {
 		className: "uppy-StatusBar-content",
 		children: [
-			f(Ri, {}),
+			f(Li, {}),
 			r === "determinate" ? `${Math.round(n * 100)}% · ` : "",
 			i
 		]
 	});
 }
-function Bi(e) {
-	let { numUploads: t, complete: n, totalUploadedSize: r, totalSize: i, totalETA: a, i18n: o } = e, s = t > 1, c = P(r);
+function zi(e) {
+	let { numUploads: t, complete: n, totalUploadedSize: r, totalSize: i, totalETA: a, i18n: o } = e, s = t > 1, c = F(r);
 	return f("div", {
 		className: "uppy-StatusBar-statusSecondary",
 		children: [s && o("filesUploadedOfTotal", {
@@ -6844,18 +6844,18 @@ function Bi(e) {
 		}), f("span", {
 			className: "uppy-StatusBar-additionalInfo",
 			children: [
-				s && Mi(),
+				s && ji(),
 				i == null ? o("dataUploadedOfUnknown", { complete: c }) : o("dataUploadedOfTotal", {
 					complete: c,
-					total: P(i)
+					total: F(i)
 				}),
-				Mi(),
-				a != null && o("xTimeLeft", { time: _e(a) })
+				ji(),
+				a != null && o("xTimeLeft", { time: ge(a) })
 			]
 		})]
 	});
 }
-function Vi(e) {
+function Bi(e) {
 	let { i18n: t, complete: n, numUploads: r } = e;
 	return f("div", {
 		className: "uppy-StatusBar-statusSecondary",
@@ -6865,8 +6865,8 @@ function Vi(e) {
 		})
 	});
 }
-function Hi(e) {
-	let { i18n: t, newFiles: n, startUpload: r } = e, i = (0, I.default)("uppy-u-reset", "uppy-c-btn", "uppy-StatusBar-actionBtn", "uppy-StatusBar-actionBtn--uploadNewlyAdded");
+function Vi(e) {
+	let { i18n: t, newFiles: n, startUpload: r } = e, i = (0, L.default)("uppy-u-reset", "uppy-c-btn", "uppy-StatusBar-actionBtn", "uppy-StatusBar-actionBtn--uploadNewlyAdded");
 	return f("div", {
 		className: "uppy-StatusBar-statusSecondary",
 		children: [f("div", {
@@ -6881,19 +6881,19 @@ function Hi(e) {
 		})]
 	});
 }
-function Ui(e) {
+function Hi(e) {
 	let { i18n: t, supportsUploadProgress: n, totalProgress: r, hideProgressDetails: i, isUploadStarted: a, isAllComplete: o, isAllPaused: s, newFiles: c, numUploads: l, complete: u, totalUploadedSize: d, totalSize: p, totalETA: m, startUpload: h } = e, g = c && a;
 	if (!a || o) return null;
 	let _ = t(s ? "paused" : "uploading");
 	function v() {
-		return !s && !g && !i ? n ? f(Bi, {
+		return !s && !g && !i ? n ? f(zi, {
 			numUploads: l,
 			complete: u,
 			totalUploadedSize: d,
 			totalSize: p,
 			totalETA: m,
 			i18n: t
-		}) : f(Vi, {
+		}) : f(Bi, {
 			i18n: t,
 			complete: u,
 			numUploads: l
@@ -6902,7 +6902,7 @@ function Ui(e) {
 	return f("div", {
 		className: "uppy-StatusBar-content",
 		title: _,
-		children: [s ? null : f(Ri, {}), f("div", {
+		children: [s ? null : f(Li, {}), f("div", {
 			className: "uppy-StatusBar-status",
 			children: [
 				f("div", {
@@ -6910,7 +6910,7 @@ function Ui(e) {
 					children: n && r !== 0 ? `${_}: ${r}%` : _
 				}),
 				v(),
-				g ? f(Hi, {
+				g ? f(Vi, {
 					i18n: t,
 					newFiles: c,
 					startUpload: h
@@ -6919,7 +6919,7 @@ function Ui(e) {
 		})]
 	});
 }
-function Wi(e) {
+function Ui(e) {
 	let { i18n: t } = e;
 	return f("div", {
 		className: "uppy-StatusBar-content",
@@ -6942,7 +6942,7 @@ function Wi(e) {
 		})
 	});
 }
-function Gi(e) {
+function Wi(e) {
 	let { error: t, i18n: n, complete: r, numUploads: i } = e;
 	function a() {
 		let e = `${n("uploadFailed")} \n\n ${t}`;
@@ -6972,7 +6972,7 @@ function Gi(e) {
 					type: "button",
 					children: "?"
 				})]
-			}), f(Vi, {
+			}), f(Bi, {
 				i18n: n,
 				complete: r,
 				numUploads: i
@@ -6982,7 +6982,7 @@ function Gi(e) {
 }
 //#endregion
 //#region node_modules/@uppy/dashboard/lib/components/StatusBar/calculateProcessingProgress.js
-function Ki(e) {
+function Gi(e) {
 	let t = [], n = "indeterminate", r;
 	for (let { progress: i } of Object.values(e)) {
 		let { preprocess: e, postprocess: a } = i;
@@ -6997,43 +6997,43 @@ function Ki(e) {
 }
 //#endregion
 //#region node_modules/@uppy/dashboard/lib/components/StatusBar/StatusBarUI.js
-var { STATE_ERROR: qi, STATE_WAITING: Ji, STATE_PREPROCESSING: Yi, STATE_UPLOADING: Xi, STATE_POSTPROCESSING: Zi, STATE_COMPLETE: Qi } = Q;
-function $i({ newFiles: e, allowNewUpload: t, isUploadInProgress: n, isAllPaused: r, resumableUploads: i, error: a, hideUploadButton: o = void 0, hidePauseResumeButton: s = !1, hideCancelButton: c = !1, hideRetryButton: l = !1, recoveredState: u, uploadState: d, totalProgress: p, files: m, supportsUploadProgress: h, hideAfterFinish: g = !1, isSomeGhost: _, doneButtonHandler: v = void 0, isUploadStarted: y, i18n: b, startUpload: x, uppy: S, isAllComplete: C, hideProgressDetails: w = void 0, numUploads: T, complete: E, totalSize: D, totalETA: O, totalUploadedSize: ee }) {
-	function k() {
+var { STATE_ERROR: Ki, STATE_WAITING: qi, STATE_PREPROCESSING: Ji, STATE_UPLOADING: Yi, STATE_POSTPROCESSING: Xi, STATE_COMPLETE: Zi } = $;
+function Qi({ newFiles: e, allowNewUpload: t, isUploadInProgress: n, isAllPaused: r, resumableUploads: i, error: a, hideUploadButton: o = void 0, hidePauseResumeButton: s = !1, hideCancelButton: c = !1, hideRetryButton: l = !1, recoveredState: u, uploadState: d, totalProgress: p, files: m, supportsUploadProgress: h, hideAfterFinish: g = !1, isSomeGhost: _, doneButtonHandler: v = void 0, isUploadStarted: y, i18n: b, startUpload: x, uppy: S, isAllComplete: C, hideProgressDetails: w = void 0, numUploads: T, complete: E, totalSize: D, totalETA: O, totalUploadedSize: ee }) {
+	function te() {
 		switch (d) {
-			case Zi:
-			case Yi: {
-				let e = Ki(m);
+			case Xi:
+			case Ji: {
+				let e = Gi(m);
 				return e.mode === "determinate" ? e.value * 100 : p;
 			}
-			case qi: return null;
-			case Xi: return h ? p : null;
+			case Ki: return null;
+			case Yi: return h ? p : null;
 			default: return p;
 		}
 	}
-	function te() {
+	function ne() {
 		switch (d) {
-			case Zi:
-			case Yi: {
-				let { mode: e } = Ki(m);
+			case Xi:
+			case Ji: {
+				let { mode: e } = Gi(m);
 				return e === "indeterminate";
 			}
-			case Xi: return !h;
+			case Yi: return !h;
 			default: return !1;
 		}
 	}
-	let ne = k(), A = ne ?? 100, j = !a && e && (!n && !r || u) && t && !o, re = !c && d !== Ji && d !== Qi, M = i && !s && d === Xi, N = a && !C && !l, ie = v && d === Qi, ae = (0, I.default)("uppy-StatusBar-progress", { "is-indeterminate": te() }), oe = (0, I.default)("uppy-StatusBar", `is-${d}`, { "has-ghosts": _ }), se = (() => {
+	let re = te(), k = re ?? 100, A = !a && e && (!n && !r || u) && t && !o, j = !c && d !== qi && d !== Zi, M = i && !s && d === Yi, N = a && !C && !l, P = v && d === Zi, ie = (0, L.default)("uppy-StatusBar-progress", { "is-indeterminate": ne() }), ae = (0, L.default)("uppy-StatusBar", `is-${d}`, { "has-ghosts": _ }), oe = (() => {
 		switch (d) {
-			case Yi:
-			case Zi: return f(zi, { progress: Ki(m) });
-			case Qi: return f(Wi, { i18n: b });
-			case qi: return f(Gi, {
+			case Ji:
+			case Xi: return f(Ri, { progress: Gi(m) });
+			case Zi: return f(Ui, { i18n: b });
+			case Ki: return f(Wi, {
 				error: a,
 				i18n: b,
 				numUploads: T,
 				complete: E
 			});
-			case Xi: return f(Ui, {
+			case Yi: return f(Hi, {
 				i18n: b,
 				supportsUploadProgress: h,
 				totalProgress: p,
@@ -7052,24 +7052,24 @@ function $i({ newFiles: e, allowNewUpload: t, isUploadInProgress: n, isAllPaused
 			default: return null;
 		}
 	})();
-	return !(j || N || M || re || ie) && !se || d === Qi && g ? null : f("div", {
-		className: oe,
+	return !(A || N || M || j || P) && !oe || d === Zi && g ? null : f("div", {
+		className: ae,
 		children: [
 			f("div", {
-				className: ae,
-				style: { width: `${A}%` },
+				className: ie,
+				style: { width: `${k}%` },
 				role: "progressbar",
-				"aria-label": `${A}%`,
-				"aria-valuetext": `${A}%`,
+				"aria-label": `${k}%`,
+				"aria-valuetext": `${k}%`,
 				"aria-valuemin": 0,
 				"aria-valuemax": 100,
-				"aria-valuenow": ne
+				"aria-valuenow": re
 			}),
-			se,
+			oe,
 			f("div", {
 				className: "uppy-StatusBar-actions",
 				children: [
-					j ? f(Ni, {
+					A ? f(Mi, {
 						newFiles: e,
 						isUploadStarted: y,
 						recoveredState: u,
@@ -7078,22 +7078,22 @@ function $i({ newFiles: e, allowNewUpload: t, isUploadInProgress: n, isAllPaused
 						startUpload: x,
 						uploadState: d
 					}) : null,
-					N ? f(Pi, {
+					N ? f(Ni, {
 						i18n: b,
 						uppy: S
 					}) : null,
-					M ? f(Ii, {
+					M ? f(Fi, {
 						isAllPaused: r,
 						i18n: b,
 						isAllComplete: C,
 						resumableUploads: i,
 						uppy: S
 					}) : null,
-					re ? f(Fi, {
+					j ? f(Pi, {
 						i18n: b,
 						uppy: S
 					}) : null,
-					ie ? f(Li, {
+					P ? f(Ii, {
 						i18n: b,
 						doneButtonHandler: v
 					}) : null
@@ -7104,20 +7104,20 @@ function $i({ newFiles: e, allowNewUpload: t, isUploadInProgress: n, isAllPaused
 }
 //#endregion
 //#region node_modules/@uppy/dashboard/lib/components/StatusBar/StatusBar.js
-var ea = 2e3, ta = 2e3;
-function na(e, t, n, r) {
-	if (e) return Q.STATE_ERROR;
-	if (t) return Q.STATE_COMPLETE;
-	if (n) return Q.STATE_WAITING;
-	let i = Q.STATE_WAITING, a = Object.keys(r);
+var $i = 2e3, ea = 2e3;
+function ta(e, t, n, r) {
+	if (e) return $.STATE_ERROR;
+	if (t) return $.STATE_COMPLETE;
+	if (n) return $.STATE_WAITING;
+	let i = $.STATE_WAITING, a = Object.keys(r);
 	for (let e = 0; e < a.length; e++) {
 		let { progress: t } = r[a[e]];
-		if (t.uploadStarted && !t.uploadComplete) return Q.STATE_UPLOADING;
-		t.preprocess && (i = Q.STATE_PREPROCESSING), t.postprocess && i !== Q.STATE_PREPROCESSING && (i = Q.STATE_POSTPROCESSING);
+		if (t.uploadStarted && !t.uploadComplete) return $.STATE_UPLOADING;
+		t.preprocess && (i = $.STATE_PREPROCESSING), t.postprocess && i !== $.STATE_PREPROCESSING && (i = $.STATE_POSTPROCESSING);
 	}
 	return i;
 }
-var ra = class extends c {
+var na = class extends c {
 	#e;
 	#t;
 	#n;
@@ -7148,12 +7148,12 @@ var ra = class extends c {
 		if (this.#t = e.uploaded, r <= 0) return Math.round((this.#r ?? 0) / 100) / 10;
 		let i = r / n;
 		if (!Number.isFinite(i) || i <= 0) return null;
-		let a = this.#n == null ? i : D(i, this.#n, ea, n);
+		let a = this.#n == null ? i : D(i, this.#n, $i, n);
 		if (!Number.isFinite(a) || a <= 0) return null;
 		this.#n = a;
 		let o = t / a;
 		if (!Number.isFinite(o) || o < 0) return null;
-		let s = Math.max((this.#r ?? 0) - n, 0), c = this.#r == null ? o : D(o, s, ta, n);
+		let s = Math.max((this.#r ?? 0) - n, 0), c = this.#r == null ? o : D(o, s, ea, n);
 		return !Number.isFinite(c) || c < 0 ? null : (this.#r = c, this.#e = performance.now(), Math.round(c / 100) / 10);
 	}
 	startUpload = () => {
@@ -7171,9 +7171,9 @@ var ra = class extends c {
 			uploaded: y,
 			total: v
 		});
-		return f($i, {
+		return f(Qi, {
 			error: i,
-			uploadState: na(i, u, a, t || {}),
+			uploadState: ta(i, u, a, t || {}),
 			allowNewUpload: n,
 			totalProgress: r,
 			totalSize: v,
@@ -7203,30 +7203,30 @@ var ra = class extends c {
 			hideAfterFinish: this.props.hideAfterFinish
 		});
 	}
-}, ia = 900, aa = 700, oa = 576, sa = 330;
-function ca(e) {
-	let { activePickerPanel: t, fileCardFor: n } = e, r = e.totalFileCount === 0, i = e.totalFileCount === 1, a = e.containerHeight > sa, o = (0, I.default)({
+}, ra = 900, ia = 700, aa = 576, oa = 330;
+function sa(e) {
+	let { activePickerPanel: t, fileCardFor: n } = e, r = e.totalFileCount === 0, i = e.totalFileCount === 1, a = e.containerHeight > oa, o = (0, L.default)({
 		"uppy-Dashboard": !0,
 		"uppy-Dashboard--isDisabled": e.disabled,
 		"uppy-Dashboard--animateOpenClose": e.animateOpenClose,
 		"uppy-Dashboard--isClosing": e.isClosing,
 		"uppy-Dashboard--isDraggingOver": e.isDraggingOver,
 		"uppy-Dashboard--modal": !e.inline,
-		"uppy-size--md": e.containerWidth > oa,
-		"uppy-size--lg": e.containerWidth > aa,
-		"uppy-size--xl": e.containerWidth > ia,
-		"uppy-size--height-md": e.containerHeight > sa,
+		"uppy-size--md": e.containerWidth > aa,
+		"uppy-size--lg": e.containerWidth > ia,
+		"uppy-size--xl": e.containerWidth > ra,
+		"uppy-size--height-md": e.containerHeight > oa,
 		"uppy-Dashboard--isAddFilesPanelVisible": e.showAddFilesPanel,
 		"uppy-Dashboard--isInnerWrapVisible": e.areInsidesReadyToBeVisible,
 		"uppy-Dashboard--singleFile": e.singleFileFullScreen && i && a
 	}), s = 1;
-	e.containerWidth > ia ? s = 5 : e.containerWidth > aa ? s = 4 : e.containerWidth > oa && (s = 3);
+	e.containerWidth > ra ? s = 5 : e.containerWidth > ia ? s = 4 : e.containerWidth > aa && (s = 3);
 	let c = e.showSelectedFiles && !r, l = e.recoveredState ? Object.keys(e.recoveredState.files).length : null, u = e.files ? Object.keys(e.files).filter((t) => e.files[t].isGhost).length : 0, d = () => u > 0 ? e.i18n("recoveredXFiles", { smart_count: u }) : e.i18n("recoveredAllFiles");
 	return f("div", {
 		className: o,
 		"data-uppy-theme": e.theme,
 		"data-uppy-num-acquirers": e.acquirers.length,
-		"data-uppy-drag-drop-supported": !e.disableLocalFiles && pe(),
+		"data-uppy-drag-drop-supported": !e.disableLocalFiles && fe(),
 		"aria-hidden": e.inline ? "false" : e.isHidden,
 		"aria-disabled": e.disabled,
 		"aria-label": e.inline ? e.i18n("dashboardTitle") : e.i18n("dashboardWindowTitle"),
@@ -7263,7 +7263,7 @@ function ca(e) {
 						className: "uppy-Dashboard-dropFilesHereHint",
 						children: e.i18n("dropHint")
 					}),
-					c && f(Oi, { ...e }),
+					c && f(Di, { ...e }),
 					l != null && l > 0 && f("div", {
 						className: "uppy-Dashboard-serviceMsg",
 						children: [
@@ -7306,7 +7306,7 @@ function ca(e) {
 							})
 						]
 					}),
-					c ? f(mi, {
+					c ? f(pi, {
 						id: e.id,
 						i18n: e.i18n,
 						uppy: e.uppy,
@@ -7330,7 +7330,7 @@ function ca(e) {
 						itemsPerRow: s,
 						containerWidth: e.containerWidth,
 						containerHeight: e.containerHeight
-					}) : f(jr, {
+					}) : f(Ar, {
 						i18n: e.i18n,
 						i18nArray: e.i18nArray,
 						acquirers: e.acquirers,
@@ -7347,21 +7347,21 @@ function ca(e) {
 						note: e.note,
 						proudlyDisplayPoweredByUppy: e.proudlyDisplayPoweredByUppy
 					}),
-					f(Ai, { children: e.showAddFilesPanel ? f(Mr, { ...e }, "AddFiles") : null }),
-					f(Ai, { children: n ? f(Wr, {
+					f(ki, { children: e.showAddFilesPanel ? f(jr, { ...e }, "AddFiles") : null }),
+					f(ki, { children: n ? f(Ur, {
 						...e,
 						fileCardFor: n
 					}, "FileCard") : null }),
-					f(Ai, { children: t ? f(Ti, {
+					f(ki, { children: t ? f(wi, {
 						...e,
 						activePickerPanel: t
 					}, "Picker") : null }),
-					f(Ai, { children: e.showFileEditor ? f(Nr, { ...e }, "Editor") : null }),
+					f(ki, { children: e.showFileEditor ? f(Mr, { ...e }, "Editor") : null }),
 					f("div", {
 						className: "uppy-Dashboard-progressindicators",
 						children: [
-							!e.disableInformer && f(wi, { uppy: e.uppy }),
-							!e.disableStatusBar && f(ra, {
+							!e.disableInformer && f(Ci, { uppy: e.uppy }),
+							!e.disableStatusBar && f(na, {
 								uppy: e.uppy,
 								i18n: e.i18n,
 								hideProgressDetails: e.hideProgressDetails,
@@ -7372,7 +7372,7 @@ function ca(e) {
 								hideAfterFinish: e.hideProgressAfterFinish,
 								doneButtonHandler: e.doneButtonHandler
 							}),
-							!e.disableInformer && f(wi, { uppy: e.uppy }),
+							!e.disableInformer && f(Ci, { uppy: e.uppy }),
 							e.progressindicators.map((t) => e.uppy.getPlugin(t.id).render(e.state))
 						]
 					})
@@ -7383,7 +7383,7 @@ function ca(e) {
 }
 //#endregion
 //#region node_modules/@uppy/dashboard/lib/locale.js
-var la = { strings: {
+var ca = { strings: {
 	closeModal: "Close Modal",
 	addMoreFiles: "Add more files",
 	addingMoreFiles: "Adding more files",
@@ -7480,7 +7480,7 @@ var la = { strings: {
 } };
 //#endregion
 //#region node_modules/@uppy/dashboard/lib/utils/getActiveOverlayEl.js
-function ua(e, t) {
+function la(e, t) {
 	if (t) {
 		let n = e.querySelector(`[data-uppy-paneltype="${t}"]`);
 		if (n) return n;
@@ -7489,10 +7489,10 @@ function ua(e, t) {
 }
 //#endregion
 //#region node_modules/@uppy/dashboard/lib/utils/createSuperFocus.js
-function da() {
+function ua() {
 	let e = !1;
-	return (0, fn.default)((t, n) => {
-		let r = ua(t, n), i = r.contains(document.activeElement);
+	return (0, dn.default)((t, n) => {
+		let r = la(t, n), i = r.contains(document.activeElement);
 		if (i && e) return;
 		let a = r.querySelector("[data-uppy-super-focusable]");
 		(!i || a) && (a ? (a.focus({ preventScroll: !0 }), e = !0) : (r.querySelector(O.join(","))?.focus({ preventScroll: !0 }), e = !1));
@@ -7500,40 +7500,40 @@ function da() {
 }
 //#endregion
 //#region node_modules/@uppy/dashboard/lib/utils/trapFocus.js
-function fa(e, t) {
+function da(e, t) {
 	let n = t[0];
 	n && (n.focus(), e.preventDefault());
 }
-function pa(e, t) {
+function fa(e, t) {
 	let n = t[t.length - 1];
 	n && (n.focus(), e.preventDefault());
 }
-function ma(e) {
+function pa(e) {
 	return e.contains(document.activeElement);
 }
-function ha(e, t, n) {
-	let r = ua(n, t), i = N(r.querySelectorAll(O.join(","))), a = i.indexOf(document.activeElement);
-	ma(r) ? e.shiftKey && a === 0 ? pa(e, i) : !e.shiftKey && a === i.length - 1 && fa(e, i) : fa(e, i);
+function ma(e, t, n) {
+	let r = la(n, t), i = N(r.querySelectorAll(O.join(","))), a = i.indexOf(document.activeElement);
+	pa(r) ? e.shiftKey && a === 0 ? fa(e, i) : !e.shiftKey && a === i.length - 1 && da(e, i) : da(e, i);
 }
-function ga(e, t, n) {
-	t === null || ha(e, t, n);
+function ha(e, t, n) {
+	t === null || ma(e, t, n);
 }
 //#endregion
 //#region node_modules/@uppy/dashboard/lib/Dashboard.js
-var _a = 9, va = 27;
-function ya() {
+var ga = 9, _a = 27;
+function va() {
 	let e = {};
 	return e.promise = new Promise((t, n) => {
 		e.resolve = t, e.reject = n;
 	}), e;
 }
-var ba = {
+var ya = {
 	target: "body",
 	metaFields: [],
 	thumbnailWidth: 280,
 	thumbnailType: "image/jpeg",
 	waitForThumbnailsBeforeUpload: !1,
-	defaultPickerIcon: pn,
+	defaultPickerIcon: fn,
 	showLinkToFileUploadResult: !1,
 	hideProgressDetails: !1,
 	hideUploadButton: !1,
@@ -7572,11 +7572,11 @@ var ba = {
 	trigger: null,
 	width: 750,
 	height: 550
-}, xa = class extends m {
-	static VERSION = Ar.version;
+}, ba = class extends m {
+	static VERSION = kr.version;
 	#e;
-	modalName = `uppy-Dashboard-${kr()}`;
-	superFocus = da();
+	modalName = `uppy-Dashboard-${Or()}`;
+	superFocus = ua();
 	ifFocusedOnUppyRecently = !1;
 	dashboardIsDisabled;
 	savedActiveElement;
@@ -7586,10 +7586,10 @@ var ba = {
 	constructor(e, t) {
 		let n = t?.autoOpen ?? null;
 		super(e, {
-			...ba,
+			...ya,
 			...t,
 			autoOpen: n
-		}), this.id = this.opts.id || "Dashboard", this.title = "Dashboard", this.type = "orchestrator", this.defaultLocale = la, this.opts.doneButtonHandler === void 0 && (this.opts.doneButtonHandler = () => {
+		}), this.id = this.opts.id || "Dashboard", this.title = "Dashboard", this.type = "orchestrator", this.defaultLocale = ca, this.opts.doneButtonHandler === void 0 && (this.opts.doneButtonHandler = () => {
 			this.uppy.clear(), this.requestCloseModal();
 		}), this.opts.onRequestCloseModal ??= () => this.closeModal(), this.i18nInit();
 	}
@@ -7656,7 +7656,7 @@ var ba = {
 		}), this.closeFileEditor();
 	};
 	openModal = () => {
-		let { promise: e, resolve: t } = ya();
+		let { promise: e, resolve: t } = va();
 		if (this.savedActiveElement = document.activeElement, this.opts.disablePageScrollWhenModalOpen && document.body.classList.add("uppy-Dashboard-isFixed"), this.opts.animateOpenClose && this.getPluginState().isClosing) {
 			let e = () => {
 				this.setPluginState({ isHidden: !1 }), this.el.removeEventListener("animationend", e, !1), t();
@@ -7668,7 +7668,7 @@ var ba = {
 	closeModal = (e) => {
 		let t = e?.manualClose ?? !0, { isHidden: n, isClosing: r } = this.getPluginState();
 		if (n || r) return;
-		let { promise: i, resolve: a } = ya();
+		let { promise: i, resolve: a } = va();
 		if (this.opts.disablePageScrollWhenModalOpen && document.body.classList.remove("uppy-Dashboard-isFixed"), this.opts.animateOpenClose) {
 			this.setPluginState({ isClosing: !0 });
 			let e = () => {
@@ -7762,7 +7762,7 @@ var ba = {
 		this.isModalOpen() && !e.state?.[this.modalName] && this.closeModal({ manualClose: !1 }), !this.isModalOpen() && e.state?.[this.modalName] && history.back();
 	};
 	handleKeyDownInModal = (e) => {
-		e.keyCode === va && this.requestCloseModal(), e.keyCode === _a && ha(e, this.getPluginState().activeOverlayType, this.el);
+		e.keyCode === _a && this.requestCloseModal(), e.keyCode === ga && ma(e, this.getPluginState().activeOverlayType, this.el);
 	};
 	handleClickOutside = () => {
 		this.opts.closeModalOnClickOutside && this.requestCloseModal();
@@ -7807,7 +7807,7 @@ var ba = {
 			this.uppy.log(e, "error"), t ||= (this.uppy.info(e.message, "error"), !0);
 		};
 		this.uppy.log("[Dashboard] Processing dropped files");
-		let r = await le(e.dataTransfer, { logDropError: n });
+		let r = await ce(e.dataTransfer, { logDropError: n });
 		r.length > 0 && (this.uppy.log("[Dashboard] Files dropped"), this.addFiles(r)), this.opts.onDrop(e);
 	};
 	handleRequestThumbnail = (e) => {
@@ -7817,7 +7817,7 @@ var ba = {
 		this.opts.waitForThumbnailsBeforeUpload || this.uppy.emit("thumbnail:cancel", e);
 	};
 	handleKeyDownInInline = (e) => {
-		e.keyCode === _a && ga(e, this.getPluginState().activeOverlayType, this.el);
+		e.keyCode === ga && ha(e, this.getPluginState().activeOverlayType, this.el);
 	};
 	handlePasteOnBody = (e) => {
 		this.el.contains(document.activeElement) && this.handlePaste(e);
@@ -7894,7 +7894,7 @@ var ba = {
 			"files",
 			"folders",
 			"both"
-		].indexOf(this.opts.fileManagerSelectionType) < 0 && (this.opts.fileManagerSelectionType = "files", console.warn(`Unsupported option for "fileManagerSelectionType". Using default of "${this.opts.fileManagerSelectionType}".`)), ca({
+		].indexOf(this.opts.fileManagerSelectionType) < 0 && (this.opts.fileManagerSelectionType = "files", console.warn(`Unsupported option for "fileManagerSelectionType". Using default of "${this.opts.fileManagerSelectionType}".`)), sa({
 			state: e,
 			isHidden: t.isHidden,
 			files: n,
@@ -8032,7 +8032,7 @@ var ba = {
 		let { allowMultipleUploads: n, allowMultipleUploadBatches: r } = this.uppy.opts;
 		(n || r) && t && this.uppy.log("[Dashboard] When using `closeAfterFinish`, we recommended setting the `allowMultipleUploadBatches` option to `false` in the Uppy constructor. See https://uppy.io/docs/uppy/#allowMultipleUploads-true", "warning");
 		let { target: i } = this.opts;
-		i && this.mount(i, this), this.opts.disableThumbnailGenerator || this.uppy.use(Dr, {
+		i && this.mount(i, this), this.opts.disableThumbnailGenerator || this.uppy.use(Er, {
 			id: this.#f(),
 			...this.#d()
 		}), this.darkModeMediaQuery = typeof window < "u" && window.matchMedia ? window.matchMedia("(prefers-color-scheme: dark)") : null;
@@ -8050,7 +8050,7 @@ var ba = {
 			t && t.unmount();
 		}), this.opts.theme === "auto" && this.darkModeMediaQuery?.removeListener(this.handleSystemDarkModeChange), this.opts.disablePageScrollWhenModalOpen && document.body.classList.remove("uppy-Dashboard-isFixed"), this.unmount(), this.removeEvents();
 	};
-}, Sa = 3, Ca = 4, wa = class extends Error {}, $ = class extends Error {}, Ta = class extends u {
+}, xa = 3, Sa = 4, Ca = class extends Error {}, wa = class extends Error {}, Ta = class extends u {
 	transfers = /* @__PURE__ */ new Map();
 	constructor(e, t) {
 		super(e, t), this.id = "LivewireUpload", this.type = "uploader";
@@ -8083,7 +8083,7 @@ var ba = {
 				body: {}
 			});
 		} catch (t) {
-			if (t instanceof $ || !this.uppy.getFile(e.id)) return;
+			if (t instanceof wa || !this.uppy.getFile(e.id)) return;
 			this.uppy.emit("upload-error", this.uppy.getFile(e.id), t);
 		}
 	}
@@ -8100,7 +8100,7 @@ var ba = {
 	}
 	uploadThroughLivewire(e) {
 		return new Promise((t, n) => {
-			this.opts.uploadUsing(e.meta.fileKey, e.data instanceof File ? e.data : new File([e.data], e.name, { type: e.type }), t, () => n(this.failure()), (t) => this.reportProgress(e, e.size * t / 100));
+			this.opts.uploadUsing(e.meta.fileKey, e.data instanceof File && e.data.name === e.name ? e.data : new File([e.data], e.name, { type: e.type }), t, () => n(this.failure()), (t) => this.reportProgress(e, e.size * t / 100));
 		});
 	}
 	async uploadInPieces(e, t) {
@@ -8120,9 +8120,9 @@ var ba = {
 				try {
 					r = t.strategy === "s3" ? await this.sendParts(e, t, n) : await this.sendChunks(e, t, n);
 				} catch (i) {
-					if (!(i instanceof wa) && i.status !== 401) throw i;
+					if (!(i instanceof Ca) && i.status !== 401) throw i;
 					for (; n.isPaused && !n.isCancelled;) await new Promise((e) => n.resume = e);
-					if (n.isCancelled) throw new $();
+					if (n.isCancelled) throw new wa();
 					if (t = await this.plan(e), !this.isInPieces(t)) throw this.failure(t.message);
 					r = t.completed;
 				}
@@ -8134,7 +8134,7 @@ var ba = {
 	}
 	async sendPieces(e, { missing: t, sizeOf: n, arrived: r, send: i }) {
 		let a = /* @__PURE__ */ new Map(), o = [...t], s = () => this.reportProgress(e, [...r].reduce((e, t) => e + n(t), 0) + [...a.values()].reduce((e, t) => e + t, 0));
-		s(), await Promise.all(Array.from({ length: Sa }, async () => {
+		s(), await Promise.all(Array.from({ length: xa }, async () => {
 			for (; o.length;) {
 				let e = o.shift(), t = await i(e, o, (t) => {
 					a.set(e, t), s();
@@ -8167,7 +8167,7 @@ var ba = {
 				return o = r?.complete ? r.reference : o, !!o;
 			}
 		});
-		for (let e = 0; !o && e < Ca; e++) {
+		for (let e = 0; !o && e < Sa; e++) {
 			await this.wait(1e3 * (e + 1));
 			let t = await a(s, () => {});
 			o = t?.complete ? t.reference : null;
@@ -8198,12 +8198,12 @@ var ba = {
 	}
 	async attempt(e, t, { retryForbidden: n = !1 } = {}) {
 		for (let r = 1;; r++) {
-			if (e.isCancelled) throw new $();
-			if (e.isPaused) throw new wa();
+			if (e.isCancelled) throw new wa();
+			if (e.isPaused) throw new Ca();
 			try {
 				return await t();
 			} catch (e) {
-				if (e instanceof wa || e instanceof $ || !(!e.status || n && e.status === 403 || e.status === 429 || e.status >= 500) || r === Ca) throw e;
+				if (e instanceof Ca || e instanceof wa || !(!e.status || n && e.status === 403 || e.status === 429 || e.status >= 500) || r === Sa) throw e;
 				await this.wait(e.retryAfter ?? 1e3 * 2 ** (r - 1));
 			}
 		}
@@ -8221,7 +8221,7 @@ var ba = {
 				t.status = c.status;
 				let n = Number(c.getResponseHeader("Retry-After"));
 				n && (t.retryAfter = n * 1e3), l(t);
-			}), c.addEventListener("error", () => l(this.failure())), c.addEventListener("abort", () => l(e.isCancelled ? new $() : new wa())), c.send(i);
+			}), c.addEventListener("error", () => l(this.failure())), c.addEventListener("abort", () => l(e.isCancelled ? new wa() : new Ca())), c.send(i);
 		});
 	}
 	json(e) {
@@ -8302,7 +8302,7 @@ function Aa(e, t, n) {
 		let a = document.createElement(n ? "a" : "button");
 		return a.className = "uppy-u-reset uppy-c-btn uppy-Dashboard-Item-action uppy-Dashboard-Item-action--edit", a.dataset.fluppyAction = e, a.title = t, a.setAttribute("aria-label", t), a.innerHTML = ka[e], n ? (a.href = n, a.download = i.name, a.target = "_blank", a.rel = "noopener noreferrer") : (a.type = "button", a.addEventListener("click", () => r(i.id))), a;
 	}, a = !1, o = () => {
-		a || (a = !0, requestAnimationFrame(() => {
+		a || (a = !0, setTimeout(() => {
 			a = !1, r();
 		}));
 	}, s = new MutationObserver(o);
@@ -8385,14 +8385,14 @@ async function Ia(e, t, { acceptedFileTypes: n }) {
 function La() {
 	return "10000000-1000-4000-8000-100000000000".replace(/[018]/g, (e) => (e ^ crypto.getRandomValues(/* @__PURE__ */ new Uint8Array(1))[0] & 15 >> e / 4).toString(16));
 }
-function Ra({ abortMultipartUploadUsing: e, acceptedFileTypes: t, adoptUploadUsing: n, cancelUploadUsing: r, completeMultipartUploadUsing: i, csrfToken: a, deleteUploadedFileUsing: o, downloadLabel: s, editLabel: c, getUploadedFilesUsing: l, imageEditor: u, isChunked: d, isDeletable: f, isDisabled: p, isDownloadable: m, isMultiple: h, isOpenable: g, isPreviewable: _, isReorderable: v, locale: y, maxFiles: b, maxParallelUploads: x, maxSize: S, minSize: C, planUploadUsing: w, removeUploadedFileUsing: T, reorderUploadedFilesUsing: E, signUploadPartsUsing: D, sources: O, state: ee, uploadFailedMessage: k, uploadingMessage: te, uploadUsing: ne }) {
-	let A = null, j = null, re = null, M = null;
+function Ra({ abortMultipartUploadUsing: e, acceptedFileTypes: t, adoptUploadUsing: n, cancelUploadUsing: r, completeMultipartUploadUsing: i, csrfToken: a, deleteUploadedFileUsing: o, downloadLabel: s, editLabel: c, getUploadedFilesUsing: l, imageEditor: u, isChunked: d, isDeletable: f, isDisabled: p, isDownloadable: m, isMultiple: h, isOpenable: g, isPreviewable: _, isReorderable: v, locale: y, maxFiles: b, maxParallelUploads: x, maxSize: S, minSize: C, placeUploadedFileUsing: w, planUploadUsing: T, removeUploadedFileUsing: E, reorderUploadedFilesUsing: D, signUploadPartsUsing: O, sources: ee, state: te, uploadFailedMessage: ne, uploadingMessage: re, uploadUsing: k }) {
+	let A = null, j = null, M = null, N = /* @__PURE__ */ new Map(), P = null;
 	return {
-		state: ee,
+		state: te,
 		isRemovingSilently: !1,
 		async init() {
 			let l = await Na(y);
-			A = new rt({
+			A = new nt({
 				autoProceed: !0,
 				...l ? { locale: l } : {},
 				restrictions: {
@@ -8401,7 +8401,7 @@ function Ra({ abortMultipartUploadUsing: e, acceptedFileTypes: t, adoptUploadUsi
 					maxNumberOfFiles: h ? b : 1,
 					minFileSize: C
 				}
-			}).use(xa, {
+			}).use(ba, {
 				target: this.$refs.dashboard,
 				inline: !0,
 				width: "100%",
@@ -8420,22 +8420,24 @@ function Ra({ abortMultipartUploadUsing: e, acceptedFileTypes: t, adoptUploadUsi
 				adoptUsing: n,
 				cancelUploadUsing: r,
 				completeUsing: i,
-				signPartsUsing: D,
+				signPartsUsing: O,
 				csrfToken: a,
 				isChunked: d,
-				planUsing: w,
+				planUsing: T,
 				maxParallelUploads: x ?? 2,
-				uploadFailedMessage: k,
-				uploadUsing: ne
-			}), p || await Ia(A, O ?? [], { acceptedFileTypes: t }), A.on("file-added", (e) => {
+				uploadFailedMessage: ne,
+				uploadUsing: k
+			}), p || await Ia(A, ee ?? [], { acceptedFileTypes: t }), A.on("file-added", (e) => {
 				A.setFileMeta(e.id, { fileKey: La() });
 			}), A.on("file-removed", (e) => {
-				A.getFiles().some((e) => e.error) || A.setState({ error: null }), !this.isRemovingSilently && e.meta.fileKey && (this.isStoredFile(e.meta.fileKey) ? o(e.meta.fileKey) : T(e.meta.fileKey));
+				A.getFiles().some((e) => e.error) || A.setState({ error: null }), !this.isRemovingSilently && e.meta.fileKey && (this.isStoredFile(e.meta.fileKey) ? o(e.meta.fileKey) : E(e.meta.fileKey));
 			}), A.on("upload", () => {
-				this.dispatchFormEvent("form-processing-started", { message: te });
+				this.dispatchFormEvent("form-processing-started", { message: re });
 			}), A.on("complete", () => {
 				this.dispatchFormEvent("form-processing-finished"), v && !p && this.saveFileOrder();
-			}), v && !p && this.enableReordering(), u && !p && (await Da(A, u), A.on("file-editor:complete", (e) => this.replaceFile(e))), re = Aa(A, this.$refs.dashboard, (e) => [...Oa(A, e) && !p ? [{
+			}), v && !p && this.enableReordering(), u && !p && (await Da(A, u), A.on("file-editor:complete", (e) => this.replaceFile(e)), A.on("upload-success", (e) => {
+				N.has(e.id) && (w(e.meta.fileKey, N.get(e.id)), N.delete(e.id));
+			})), M = Aa(A, this.$refs.dashboard, (e) => [...Oa(A, e) && !p ? [{
 				name: "edit",
 				label: c,
 				onClick: (e) => this.editFile(e)
@@ -8443,22 +8445,22 @@ function Ra({ abortMultipartUploadUsing: e, acceptedFileTypes: t, adoptUploadUsi
 				name: "download",
 				label: s,
 				href: e.meta.downloadUrl
-			}] : []]), M = () => A.getPlugin("Dashboard").setOptions({ theme: this.getTheme() }), window.addEventListener("theme-changed", M), await this.syncFiles(), this.$watch("state", () => this.syncFiles());
+			}] : []]), P = () => A.getPlugin("Dashboard").setOptions({ theme: this.getTheme() }), window.addEventListener("theme-changed", P), await this.syncFiles(), this.$watch("state", () => this.syncFiles());
 		},
 		destroy() {
-			window.removeEventListener("theme-changed", M), j?.disconnect(), re?.(), this.isRemovingSilently = !0, A?.destroy();
+			window.removeEventListener("theme-changed", P), j?.disconnect(), M?.(), this.isRemovingSilently = !0, A?.destroy();
 		},
 		getUppy() {
 			return A;
 		},
 		async editFile(e) {
 			let t = A.getFile(e);
-			if (!(t.data instanceof Blob)) try {
+			if (t.source === "Fluppy" && t.data.size === 0) try {
 				let n = await fetch(t.meta.url);
 				if (!n.ok) throw Error(n.statusText);
 				A.setFileState(e, { data: await n.blob() });
 			} catch {
-				A.info(k, "error");
+				A.info(ne, "error");
 				return;
 			}
 			A.getPlugin("Dashboard").openFileEditor(A.getFile(e));
@@ -8466,13 +8468,15 @@ function Ra({ abortMultipartUploadUsing: e, acceptedFileTypes: t, adoptUploadUsi
 		replaceFile(e) {
 			let t = Object.keys(A.getState().files).indexOf(e.id);
 			A.removeFile(e.id);
-			let n = A.addFile({
-				name: e.name,
+			let n = e.type.split("/")[1].replace("jpeg", "jpg"), r = A.addFile({
+				name: /\.\w+$/.test(e.name) ? e.name : `${e.name}.${n}`,
 				type: e.type,
 				data: e.data,
 				source: "ImageEditor"
-			}), { files: r } = A.getState(), i = Object.keys(r).filter((e) => e !== n);
-			i.splice(t, 0, n), A.setState({ files: Object.fromEntries(i.map((e) => [e, r[e]])) });
+			}), { files: i } = A.getState(), a = Object.keys(i).filter((e) => e !== r);
+			a.splice(t, 0, r), A.setState({ files: Object.fromEntries(a.map((e) => [e, i[e]])) });
+			let o = a[t + 1];
+			o && N.set(r, i[o].meta.fileKey);
 		},
 		getTheme() {
 			return this.$store.theme === "dark" ? "dark" : "light";
@@ -8502,7 +8506,7 @@ function Ra({ abortMultipartUploadUsing: e, acceptedFileTypes: t, adoptUploadUsi
 					extension: t.includes(".") ? t.split(".").pop() : "",
 					type: r,
 					size: n,
-					data: { size: n },
+					data: new Blob([], { type: r ?? "" }),
 					meta: {
 						name: t,
 						type: r,
@@ -8557,7 +8561,7 @@ function Ra({ abortMultipartUploadUsing: e, acceptedFileTypes: t, adoptUploadUsi
 		},
 		saveFileOrder() {
 			let e = A.getFiles().map((e) => e.meta.fileKey);
-			e.join() !== this.getFileKeysInState().filter((t) => e.includes(t)).join() && E(e);
+			e.join() !== this.getFileKeysInState().filter((t) => e.includes(t)).join() && D(e);
 		},
 		dispatchFormEvent(e, t = {}) {
 			this.$el.closest("form")?.dispatchEvent(new CustomEvent(e, {

@@ -42,6 +42,7 @@ export default function fluppy({
     maxParallelUploads,
     maxSize,
     minSize,
+    placeUploadedFileUsing,
     planUploadUsing,
     removeUploadedFileUsing,
     reorderUploadedFilesUsing,
@@ -58,6 +59,9 @@ export default function fluppy({
     let uppy = null
     let reorderObserver = null
     let stopItemActions = null
+
+    // Where each edited image goes once it is uploaded, by file ID.
+    const placements = new Map()
 
     // Also kept out: Alpine returns a new bound function each time a method
     // is read from the data, so the listener could never be removed.
@@ -163,6 +167,17 @@ export default function fluppy({
                 await useImageEditor(uppy, imageEditor)
 
                 uppy.on('file-editor:complete', (file) => this.replaceFile(file))
+
+                uppy.on('upload-success', (file) => {
+                    if (placements.has(file.id)) {
+                        placeUploadedFileUsing(
+                            file.meta.fileKey,
+                            placements.get(file.id),
+                        )
+
+                        placements.delete(file.id)
+                    }
+                })
             }
 
             stopItemActions = useItemActions(
@@ -220,7 +235,7 @@ export default function fluppy({
 
             // A stored file is only shown, by its details. To be edited it
             // has to be in the browser first.
-            if (!(file.data instanceof Blob)) {
+            if (file.source === 'Fluppy' && file.data.size === 0) {
                 try {
                     const response = await fetch(file.meta.url)
 
@@ -246,8 +261,14 @@ export default function fluppy({
 
             uppy.removeFile(file.id)
 
+            // A stored file can be known by a name without an extension, as
+            // the media library's are, and the upload is named after it.
+            const extension = file.type.split('/')[1].replace('jpeg', 'jpg')
+
             const fileId = uppy.addFile({
-                name: file.name,
+                name: /\.\w+$/.test(file.name)
+                    ? file.name
+                    : `${file.name}.${extension}`,
                 type: file.type,
                 data: file.data,
                 source: 'ImageEditor',
@@ -261,6 +282,14 @@ export default function fluppy({
             uppy.setState({
                 files: Object.fromEntries(fileIds.map((id) => [id, files[id]])),
             })
+
+            // The upload lands at the end of the form's state. Once it is
+            // there, it is put before the file that follows it here.
+            const nextFileId = fileIds[position + 1]
+
+            if (nextFileId) {
+                placements.set(fileId, files[nextFileId].meta.fileKey)
+            }
         },
 
         getTheme() {
@@ -337,7 +366,10 @@ export default function fluppy({
                         extension: name.includes('.') ? name.split('.').pop() : '',
                         type,
                         size,
-                        data: { size },
+                        // Empty, but a real Blob: when a single image is
+                        // left Uppy draws a large picture from its data,
+                        // and anything else there throws.
+                        data: new Blob([], { type: type ?? '' }),
                         meta: {
                             name,
                             type,

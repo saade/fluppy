@@ -17,6 +17,7 @@ use Livewire\LivewireServiceProvider;
 use Orchestra\Testbench\TestCase as Orchestra;
 use RyanChandler\BladeCaptureDirective\BladeCaptureDirectiveServiceProvider;
 use Saade\Fluppy\FluppyServiceProvider;
+use Spatie\MediaLibrary\MediaLibraryServiceProvider;
 
 class TestCase extends Orchestra
 {
@@ -36,6 +37,7 @@ class TestCase extends Orchestra
             SupportServiceProvider::class,
             TablesServiceProvider::class,
             WidgetsServiceProvider::class,
+            MediaLibraryServiceProvider::class,
             FluppyServiceProvider::class,
         ];
     }
