@@ -139,6 +139,23 @@ it('tells the browser where else files can come from', function () {
     expect(fluppyField($component)->getSources())->toBe(['camera', 'screenCapture']);
 });
 
+it('is drawn in the form unless it is a modal', function () {
+    fluppyForm()
+        ->assertSeeHtml(['isModal: false', 'height: null', 'x-ref="dashboard"'])
+        ->assertDontSeeHtml('fi-fluppy-summary');
+
+    fluppyForm(fn (FluppyField $field) => $field->height(fn (): int => 480))
+        ->assertSeeHtml('height: 480');
+
+    fluppyForm(fn (FluppyField $field) => $field->modal())
+        ->assertSeeHtml(['isModal: true', 'fi-fluppy-summary', 'Choose files'])
+        ->assertDontSeeHtml('x-ref="dashboard"');
+
+    fluppyForm(fn (FluppyField $field) => $field->modal()->disabled())
+        ->assertSeeHtml('View files')
+        ->assertDontSeeHtml('removeFile(');
+});
+
 it('lets files be reordered only when it is reorderable', function () {
     fluppyForm()
         ->assertSeeHtml('isReorderable: false')

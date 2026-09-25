@@ -186,3 +186,53 @@
 .fi-fluppy .uppy-Informer p {
     @apply bg-gray-800 text-white dark:bg-gray-700;
 }
+
+/* What a field shown as a modal has in the form: a button and its files. */
+.fi-fluppy-summary {
+    @apply flex flex-col items-start gap-3;
+}
+
+.fi-fluppy-summary-files {
+    @apply w-full divide-y divide-gray-950/5 rounded-lg bg-white shadow-xs ring-1 ring-gray-950/10 dark:divide-white/10 dark:bg-white/5 dark:ring-white/20;
+}
+
+.fi-fluppy-summary-file {
+    @apply flex items-center gap-3 px-3 py-2 text-sm;
+}
+
+.fi-fluppy-summary-file-name {
+    @apply min-w-0 flex-1 truncate font-medium text-gray-950 dark:text-white;
+}
+
+.fi-fluppy-summary-file-status {
+    @apply shrink-0 text-gray-500 tabular-nums dark:text-gray-400;
+}
+
+.fi-fluppy-summary-file-failed .fi-fluppy-summary-file-status {
+    @apply text-danger-600 dark:text-danger-400;
+}
+
+/* Above Filament's own modals, which a field can be inside of. */
+.fi-fluppy-modal {
+    @apply relative z-50 w-auto;
+}
+
+.fi-fluppy-modal .uppy-Dashboard-overlay {
+    @apply bg-gray-950/50 dark:bg-gray-950/75;
+}
+
+/*
+ * Opaque, where the field in a form is see-through over its card. And Uppy
+ * puts the button that closes the modal outside its frame, above it.
+ */
+.fi-fluppy-modal .uppy-Dashboard-inner {
+    @apply overflow-visible bg-white dark:bg-gray-900;
+}
+
+.fi-fluppy-modal .uppy-Dashboard-innerWrap {
+    @apply overflow-hidden rounded-lg;
+}
+
+.fi-fluppy-modal .uppy-Dashboard-close {
+    @apply text-white/90 hover:text-white focus:text-white;
+}

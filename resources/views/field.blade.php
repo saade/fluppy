@@ -4,6 +4,8 @@
     $key = $getKey();
     $statePath = $getStatePath();
     $isDisabled = $isDisabled();
+    $isDeletable = $isDeletable();
+    $isModal = $isModal();
     $isMultiple = $isMultiple();
     $isReorderable = $isReorderable();
     $maxSize = $getMaxSize();
@@ -13,7 +15,7 @@
 <x-dynamic-component :component="$getFieldWrapperView()" :field="$field">
     <div
         wire:ignore
-        wire:key="{{ $getLivewireKey() }}.{{ md5(serialize([$isDisabled, $isMultiple, $isReorderable])) }}"
+        wire:key="{{ $getLivewireKey() }}.{{ md5(serialize([$isDisabled, $isModal, $isMultiple, $isReorderable])) }}"
         x-load
         x-load-src="{{ FilamentAsset::getAlpineComponentSrc('fluppy', 'saade/fluppy') }}"
         x-data="fluppy({
@@ -39,10 +41,12 @@
             },
             downloadLabel: @js(__('fluppy::fluppy.download')),
             editLabel: @js(__('fluppy::fluppy.edit')),
+            height: @js($getHeight()),
             imageEditor: @js($getImageEditorOptions()),
             isChunked: @js($isChunked()),
             isDownloadable: @js($isDownloadable()),
-            isDeletable: @js($isDeletable()),
+            isModal: @js($isModal),
+            isDeletable: @js($isDeletable),
             isDisabled: @js($isDisabled),
             isMultiple: @js($isMultiple),
             isOpenable: @js($isOpenable()),
@@ -87,6 +91,47 @@
             'fi-fluppy-reorderable' => $isReorderable && ! $isDisabled,
         ])
     >
-        <div x-ref="dashboard"></div>
+        @if ($isModal)
+            <div class="fi-fluppy-summary">
+                <x-filament::button
+                    color="gray"
+                    icon="heroicon-m-arrow-up-tray"
+                    x-on:click="openModal()"
+                >
+                    {{ $isDisabled ? __('fluppy::fluppy.view_files') : __('fluppy::fluppy.choose_files') }}
+                </x-filament::button>
+
+                <ul x-cloak x-show="files.length" class="fi-fluppy-summary-files">
+                    <template x-for="file in files" x-bind:key="file.id">
+                        <li
+                            x-bind:class="{ 'fi-fluppy-summary-file-failed': file.error }"
+                            class="fi-fluppy-summary-file"
+                        >
+                            <span
+                                x-text="file.name"
+                                class="fi-fluppy-summary-file-name"
+                            ></span>
+
+                            <span
+                                x-text="file.error ?? (file.isComplete ? file.size : `${file.percentage}%`)"
+                                class="fi-fluppy-summary-file-status"
+                            ></span>
+
+                            @if ($isDeletable && ! $isDisabled)
+                                <x-filament::icon-button
+                                    color="gray"
+                                    icon="heroicon-m-x-mark"
+                                    size="sm"
+                                    :label="__('fluppy::fluppy.remove')"
+                                    x-on:click="removeFile(file.id)"
+                                />
+                            @endif
+                        </li>
+                    </template>
+                </ul>
+            </div>
+        @else
+            <div x-ref="dashboard"></div>
+        @endif
     </div>
 </x-dynamic-component>

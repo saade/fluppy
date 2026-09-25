@@ -23,6 +23,10 @@ use Throwable;
  */
 trait InteractsWithUppy
 {
+    protected int | Closure | null $height = null;
+
+    protected bool | Closure $isModal = false;
+
     protected bool | Closure | null $isChunked = null;
 
     protected int | Closure | null $chunkSize = null;
@@ -32,6 +36,33 @@ trait InteractsWithUppy
     protected bool | Closure $hasMicrophone = false;
 
     protected bool | Closure $hasScreenCapture = false;
+
+    /**
+     * In pixels. A field shown as a modal takes its size from the window.
+     */
+    public function height(int | Closure | null $height): static
+    {
+        $this->height = $height;
+
+        return $this;
+    }
+
+    public function modal(bool | Closure $condition = true): static
+    {
+        $this->isModal = $condition;
+
+        return $this;
+    }
+
+    public function getHeight(): ?int
+    {
+        return $this->evaluate($this->height);
+    }
+
+    public function isModal(): bool
+    {
+        return (bool) $this->evaluate($this->isModal);
+    }
 
     public function chunked(bool | Closure | null $condition = true): static
     {

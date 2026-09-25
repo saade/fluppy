@@ -10,6 +10,7 @@ All notable changes to `fluppy` will be documented in this file.
 - The upload field uses the panel's colors and follows its light and dark mode.
 - Large files are uploaded in chunks, so they can be larger than one request allows, and can be paused, resumed and retried. See "Large files" in the README; `chunked()` and `chunkSize()` set it per field.
 - With S3 as Livewire's temporary disk, large files go straight to the bucket as multipart uploads, with the same pause, resume and retry.
+- `height()` sets how tall the field is, and `modal()` shows it as a button and a list of files that opens Uppy over the page.
 - `SpatieMediaLibraryFluppyField`, the upload field of Filament's media library plugin with Uppy as its interface. It adds files to the library without reading them into memory.
 - `imageEditor()` lets an uploaded or stored image be cropped, rotated and flipped, with Uppy's image editor.
 - `openable()`, `downloadable()` and `previewable()` are respected.

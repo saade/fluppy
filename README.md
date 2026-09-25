@@ -79,6 +79,8 @@ Files are uploaded through Livewire, validated and stored the same way as with `
 | `openable(bool \| Closure $condition)` | Makes the picture of a stored file a link that opens it in a new tab. |
 | `downloadable(bool \| Closure $condition)` | Gives a stored file a download button. |
 | `previewable(bool \| Closure $condition)` | Whether images are shown as pictures. On by default. |
+| `height(int \| Closure $height)` | How tall the field is, in pixels. 320 by default. |
+| `modal(bool \| Closure $condition)` | Shows a button and a list of files in the form, and opens Uppy over the page. See [Layout](#layout). |
 | `deletable(bool \| Closure $condition)` | Whether a file can be removed. |
 | `disabled()` | Shows the files without letting them change. |
 
@@ -122,6 +124,27 @@ These have no effect: `imageEditorMode()`, `imageEditorViewportWidth()` and `ima
 ## Opening and downloading
 
 `openable()` makes the picture of a stored file a link that opens it in a new tab, and `downloadable()` gives it a download button. Both use the file's address on its disk, or the one you give with `getOpenableFileUrlUsing()` and `getDownloadableFileUrlUsing()`.
+
+## Layout
+
+By default Uppy is drawn in the form, 320 pixels tall. `height()` changes that, which gives the image editor more room:
+
+```php
+FluppyField::make('photo')
+    ->image()
+    ->imageEditor()
+    ->height(480)
+```
+
+`modal()` keeps the field small instead. The form shows a button and the list of the field's files, each with its size or its progress and a button to remove it; the button opens Uppy over the page, where files are added, edited and put in order:
+
+```php
+FluppyField::make('attachments')
+    ->multiple()
+    ->modal()
+```
+
+The modal closes with its close button, the Escape key or a click outside it, and can be opened from a field that is itself inside one of Filament's modals.
 
 ## Spatie's media library
 
@@ -299,6 +322,12 @@ Everything the package draws has a class that starts with `fi-fluppy`, to style 
 | Class | Element |
 | ----- | ------- |
 | `.fi-fluppy` | The field. |
+| `.fi-fluppy-reorderable` | The field, when its files can be put in order. |
+| `.fi-fluppy-summary` | What a field shown as a modal has in the form: its button and its files. |
+| `.fi-fluppy-summary-files`, `.fi-fluppy-summary-file` | The list of files, and one of them. |
+| `.fi-fluppy-summary-file-name`, `.fi-fluppy-summary-file-status` | The name of a file, and its size, progress or error. |
+| `.fi-fluppy-summary-file-failed` | A file that could not be uploaded. |
+| `.fi-fluppy-modal` | The element at the end of the page that holds Uppy for a field shown as a modal. It also has `.fi-fluppy`. |
 
 # Translations
 

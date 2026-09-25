@@ -6,4 +6,7 @@ return [
     'file_too_small' => 'The file is smaller than the :min required.',
     'edit' => 'Edit',
     'download' => 'Download',
+    'remove' => 'Remove',
+    'choose_files' => 'Choose files',
+    'view_files' => 'View files',
 ];

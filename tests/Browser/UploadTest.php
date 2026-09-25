@@ -433,6 +433,53 @@ it('uploads a file under the name Uppy shows, not the one its data carries', fun
     expect(json_decode($page->text('#saved')))->toBe('one.png');
 });
 
+it('is as tall as it is told to be', function () {
+    visit('/fluppy-tests')
+        ->assertSee('browse files')
+        ->assertScript('Math.round(document.querySelector(".uppy-Dashboard-inner").getBoundingClientRect().height)', 320);
+
+    FluppyForm::$configureUsing = fn (FluppyField $field) => $field->height(500);
+
+    visit('/fluppy-tests')
+        ->assertSee('browse files')
+        ->assertScript('Math.round(document.querySelector(".uppy-Dashboard-inner").getBoundingClientRect().height)', 500);
+});
+
+it('opens over the page as a modal, and lists its files in the form', function () {
+    FluppyForm::$configureUsing = fn (FluppyField $field) => $field->multiple()->modal()->preserveFilenames();
+
+    $page = visit('/fluppy-tests')
+        ->assertSee('Choose files')
+        ->assertDontSee('browse files')
+        ->assertScript('document.querySelectorAll(".fi-fluppy:not(.fi-fluppy-modal) .uppy-Dashboard").length', 0)
+        ->press('Choose files');
+
+    chooseFiles($page, ['a.txt' => 'a', 'b.txt' => 'b'])
+        ->assertSee('Upload complete')
+        ->click('.uppy-Dashboard-close')
+        ->assertDontSee('Upload complete')
+        ->assertSeeIn('.fi-fluppy-summary', 'a.txt')
+        ->assertSeeIn('.fi-fluppy-summary', 'b.txt')
+        ->click('.fi-fluppy-summary-file:has-text("a.txt") button')
+        ->assertDontSeeIn('.fi-fluppy-summary', 'a.txt')
+        ->press('Save')
+        ->assertSee('Saved:');
+
+    expect(json_decode($page->text('#saved')))->toBe(['b.txt']);
+});
+
+it('removes the modal from the page with the field', function () {
+    FluppyForm::$configureUsing = fn (FluppyField $field) => $field->modal();
+
+    $page = visit('/fluppy-tests')
+        ->assertSee('Choose files')
+        ->assertScript('document.querySelectorAll("body > .fi-fluppy-modal").length', 1);
+
+    $page->script("window.Alpine.\$data(document.querySelector('.fi-fluppy')).destroy()");
+
+    $page->assertScript('document.querySelectorAll("body > .fi-fluppy-modal").length', 0);
+});
+
 it('offers only the crop shapes the field allows', function () {
     FluppyForm::$configureUsing = fn (FluppyField $field) => $field->image()->imageEditor()->imageEditorAspectRatioOptions([null, '1:1', '4:3']);
 

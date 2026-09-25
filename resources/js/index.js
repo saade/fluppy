@@ -1,3 +1,4 @@
+import { prettierBytes } from '@transloadit/prettier-bytes'
 import Uppy from '@uppy/core'
 import Dashboard from '@uppy/dashboard'
 import LivewireUpload from './livewire-upload.js'
@@ -28,11 +29,13 @@ export default function fluppy({
     downloadLabel,
     editLabel,
     getUploadedFilesUsing,
+    height,
     imageEditor,
     isChunked,
     isDeletable,
     isDisabled,
     isDownloadable,
+    isModal,
     isMultiple,
     isOpenable,
     isPreviewable,
@@ -59,6 +62,7 @@ export default function fluppy({
     let uppy = null
     let reorderObserver = null
     let stopItemActions = null
+    let modalContainer = null
 
     // Where each edited image goes once it is uploaded, by file ID.
     const placements = new Map()
@@ -74,6 +78,9 @@ export default function fluppy({
         // it, the state was replaced or the instance is being torn down. Only
         // the first should reach the server.
         isRemovingSilently: false,
+
+        // What the field shows of its files while the modal is closed.
+        files: [],
 
         async init() {
             const uppyLocale = await loadUppyLocale(locale)
@@ -91,10 +98,10 @@ export default function fluppy({
                 },
             })
                 .use(Dashboard, {
-                    target: this.$refs.dashboard,
-                    inline: true,
-                    width: '100%',
-                    height: 320,
+                    target: this.getContainer(),
+                    ...(isModal
+                        ? { inline: false, closeModalOnClickOutside: true }
+                        : { inline: true, width: '100%', height: height ?? 320 }),
                     disabled: isDisabled,
                     hideUploadButton: true,
                     hideCancelButton: true,
@@ -182,7 +189,7 @@ export default function fluppy({
 
             stopItemActions = useItemActions(
                 uppy,
-                this.$refs.dashboard,
+                this.getContainer(),
                 (file) => [
                     ...(isEditable(uppy, file) && !isDisabled
                         ? [
@@ -205,6 +212,10 @@ export default function fluppy({
                 ],
             )
 
+            if (isModal) {
+                uppy.on('state-update', () => this.summarize())
+            }
+
             themeListener = () =>
                 uppy
                     .getPlugin('Dashboard')
@@ -224,10 +235,54 @@ export default function fluppy({
 
             this.isRemovingSilently = true
             uppy?.destroy()
+            modalContainer?.remove()
         },
 
         getUppy() {
             return uppy
+        },
+
+        // Inline, the Dashboard is drawn inside the field. As a modal it is
+        // drawn at the end of the page, over everything, in an element that
+        // carries the field's class so the theme still styles it.
+        getContainer() {
+            if (!isModal) {
+                return this.$refs.dashboard
+            }
+
+            if (!modalContainer) {
+                modalContainer = document.createElement('div')
+                modalContainer.className = 'fi-fluppy fi-fluppy-modal'
+
+                if (isReorderable && !isDisabled) {
+                    modalContainer.classList.add('fi-fluppy-reorderable')
+                }
+
+                document.body.append(modalContainer)
+            }
+
+            return modalContainer
+        },
+
+        openModal() {
+            uppy.getPlugin('Dashboard').openModal()
+        },
+
+        removeFile(fileId) {
+            uppy.removeFile(fileId)
+        },
+
+        // Kept as plain values: the summary is drawn by Alpine, which must
+        // not be handed Uppy's own objects.
+        summarize() {
+            this.files = uppy.getFiles().map((file) => ({
+                id: file.id,
+                name: file.name,
+                size: prettierBytes(file.size ?? 0),
+                percentage: Math.round(file.progress.percentage ?? 0),
+                isComplete: Boolean(file.progress.uploadComplete),
+                error: file.error ?? null,
+            }))
         },
 
         async editFile(fileId) {
@@ -403,7 +458,7 @@ export default function fluppy({
         // order of their keys in Uppy's state, so a file dragged onto
         // another is moved there by rebuilding that object.
         enableReordering() {
-            const dashboard = this.$refs.dashboard
+            const dashboard = this.getContainer()
             const getItem = (event) =>
                 event.target.closest?.('.uppy-Dashboard-Item')
             const getFileId = (item) => item.id.replace(/^uppy_/, '')

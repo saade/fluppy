@@ -4,10 +4,30 @@ import { a as i, c as a, d as o, f as s, i as c, l, n as u, o as d, r as f, s as
 import { t as h } from "../fluppy-mimeTypes-CcSLKirE.js";
 import { t as g } from "../fluppy-isRestrictionError-Dq8RAQXC.js";
 import { a as _, i as v, n as y, o as b, r as x, s as S, t as C } from "../fluppy-hooks.module-DqAiOXxL.js";
+//#region node_modules/@transloadit/prettier-bytes/dist/prettierBytes.js
+var w = [
+	"B",
+	"KB",
+	"MB",
+	"GB",
+	"TB",
+	"PB",
+	"EB",
+	"ZB",
+	"YB"
+];
+function T(e, t) {
+	if (typeof e != "number" || Number.isNaN(e)) throw TypeError(`Expected a number, got ${typeof e}`);
+	let n = e < 0, r = Math.abs(e);
+	if (n && (r = -r), r === 0) return "0 B";
+	let i = t ? w.indexOf(t) : Math.min(Math.floor(Math.log(r) / Math.log(1024)), w.length - 1), a = Number(r / 1024 ** i), o = w[i];
+	return i >= 3 ? a % 1 == 0 ? `${Math.round(a)} ${o}` : `${a.toFixed(2)} ${o}` : `${a >= 10 || a % 1 == 0 ? Math.round(a) : a.toFixed(1)} ${o}`;
+}
+//#endregion
 //#region node_modules/@uppy/core/lib/utils/dataURItoBlob.js
-var w = /^data:([^/]+\/[^,;]+(?:[^,]*?))(;base64)?,([\s\S]*)$/;
-function T(e, t, n) {
-	let r = w.exec(e), i = t.mimeType ?? r?.[1] ?? "plain/text", a;
+var E = /^data:([^/]+\/[^,;]+(?:[^,]*?))(;base64)?,([\s\S]*)$/;
+function D(e, t, n) {
+	let r = E.exec(e), i = t.mimeType ?? r?.[1] ?? "plain/text", a;
 	if (r?.[2] != null) {
 		let e = atob(decodeURIComponent(r[3])), t = new Uint8Array(e.length);
 		for (let n = 0; n < e.length; n++) t[n] = e.charCodeAt(n);
@@ -17,7 +37,7 @@ function T(e, t, n) {
 }
 //#endregion
 //#region node_modules/@uppy/core/lib/utils/ErrorWithCause.js
-var E = class extends Error {
+var O = class extends Error {
 	isNetworkError;
 	constructor(e, t) {
 		super(e), this.cause = t?.cause, this.isNetworkError = this.cause && Object.hasOwn(this.cause, "isNetworkError") ? this.cause.isNetworkError : !1;
@@ -25,12 +45,12 @@ var E = class extends Error {
 };
 //#endregion
 //#region node_modules/@uppy/core/lib/utils/emaFilter.js
-function D(e, t, n, r) {
+function ee(e, t, n, r) {
 	return n === 0 || e === t ? e : r === 0 ? t : e + (t - e) * 2 ** (-r / n);
 }
 //#endregion
 //#region node_modules/@uppy/core/lib/utils/FOCUSABLE_ELEMENTS.js
-var O = [
+var te = [
 	"a[href]:not([tabindex^=\"-\"]):not([inert]):not([aria-hidden])",
 	"area[href]:not([tabindex^=\"-\"]):not([inert]):not([aria-hidden])",
 	"input:not([disabled]):not([inert]):not([aria-hidden])",
@@ -45,7 +65,7 @@ var O = [
 ];
 //#endregion
 //#region node_modules/@uppy/core/lib/utils/findAllDOMElements.js
-function ee(e) {
+function ne(e) {
 	if (typeof e == "string") {
 		let t = document.querySelectorAll(e);
 		return t.length === 0 ? null : Array.from(t);
@@ -54,7 +74,7 @@ function ee(e) {
 }
 //#endregion
 //#region node_modules/@uppy/core/lib/utils/getFileNameAndExtension.js
-function te(e) {
+function k(e) {
 	let t = e.lastIndexOf(".");
 	return t === -1 || t === e.length - 1 ? {
 		name: e,
@@ -66,9 +86,9 @@ function te(e) {
 }
 //#endregion
 //#region node_modules/@uppy/core/lib/utils/getFileType.js
-function ne(e) {
+function A(e) {
 	if (e.type) return e.type;
-	let t = e.name ? te(e.name).extension?.toLowerCase() : null;
+	let t = e.name ? k(e.name).extension?.toLowerCase() : null;
 	return t && t in h ? h[t] : "application/octet-stream";
 }
 //#endregion
@@ -76,13 +96,13 @@ function ne(e) {
 function re(e) {
 	return e.charCodeAt(0).toString(32);
 }
-function k(e) {
+function ie(e) {
 	let t = "";
 	return e.replace(/[^A-Z0-9]/gi, (e) => (t += `-${re(e)}`, "/")) + t;
 }
-function A(e, t) {
+function ae(e, t) {
 	let n = t || "uppy";
-	return typeof e.name == "string" && (n += `-${k(e.name.toLowerCase())}`), e.type !== void 0 && (n += `-${e.type}`), e.meta && typeof e.meta.relativePath == "string" && (n += `-${k(e.meta.relativePath.toLowerCase())}`), e.data?.size !== void 0 && (n += `-${e.data.size}`), e.data.lastModified !== void 0 && (n += `-${e.data.lastModified}`), n;
+	return typeof e.name == "string" && (n += `-${ie(e.name.toLowerCase())}`), e.type !== void 0 && (n += `-${e.type}`), e.meta && typeof e.meta.relativePath == "string" && (n += `-${ie(e.meta.relativePath.toLowerCase())}`), e.data?.size !== void 0 && (n += `-${e.data.size}`), e.data.lastModified !== void 0 && (n += `-${e.data.lastModified}`), n;
 }
 function j(e) {
 	return !e.isRemote || !e.remote ? !1 : (/* @__PURE__ */ new Set([
@@ -95,8 +115,8 @@ function j(e) {
 }
 function M(e, t) {
 	if (j(e)) return e.id;
-	let n = ne(e);
-	return A({
+	let n = A(e);
+	return ae({
 		...e,
 		type: n
 	}, t);
@@ -112,11 +132,11 @@ function P(e) {
 }
 //#endregion
 //#region node_modules/@uppy/core/lib/utils/getDroppedFiles/utils/webkitGetAsEntryApi/getFilesAndDirectoriesFromDirectory.js
-function ie(e, t, n, { onSuccess: r }) {
+function F(e, t, n, { onSuccess: r }) {
 	e.readEntries((i) => {
 		let a = [...t, ...i];
 		i.length ? queueMicrotask(() => {
-			ie(e, a, n, { onSuccess: r });
+			F(e, a, n, { onSuccess: r });
 		}) : r(a);
 	}, (e) => {
 		n(e), r(t);
@@ -124,7 +144,7 @@ function ie(e, t, n, { onSuccess: r }) {
 }
 //#endregion
 //#region node_modules/@uppy/core/lib/utils/getDroppedFiles/utils/webkitGetAsEntryApi/index.js
-function ae(e, t) {
+function oe(e, t) {
 	return e == null ? e : {
 		kind: e.isFile ? "file" : e.isDirectory ? "directory" : void 0,
 		name: e.name,
@@ -134,30 +154,30 @@ function ae(e, t) {
 		async *values() {
 			let n = e.createReader();
 			yield* await new Promise((e) => {
-				ie(n, [], t, { onSuccess: (n) => e(n.map((e) => ae(e, t))) });
+				F(n, [], t, { onSuccess: (n) => e(n.map((e) => oe(e, t))) });
 			});
 		},
 		isSameEntry: void 0
 	};
 }
-async function* oe(e, t, n = void 0) {
+async function* se(e, t, n = void 0) {
 	let r = () => `${t}/${e.name}`;
 	if (e.kind === "file") {
 		let i = await e.getFile();
 		i == null ? n != null && (yield n) : (i.relativePath = t ? r() : null, yield i);
-	} else if (e.kind === "directory") for await (let n of e.values()) yield* oe(n, t ? r() : e.name);
+	} else if (e.kind === "directory") for await (let n of e.values()) yield* se(n, t ? r() : e.name);
 	else n != null && (yield n);
 }
-async function* se(e, t) {
+async function* ce(e, t) {
 	let n = await Promise.all(Array.from(e.items, async (e) => {
 		let n;
-		return n ??= ae(typeof e.getAsEntry == "function" ? e.getAsEntry() : e.webkitGetAsEntry(), t), {
+		return n ??= oe(typeof e.getAsEntry == "function" ? e.getAsEntry() : e.webkitGetAsEntry(), t), {
 			fileSystemHandle: n,
 			lastResortFile: e.getAsFile()
 		};
 	}));
 	for (let { lastResortFile: e, fileSystemHandle: r } of n) if (r != null) try {
-		yield* oe(r, "", e);
+		yield* se(r, "", e);
 	} catch (n) {
 		e == null ? t(n) : yield e;
 	}
@@ -165,11 +185,11 @@ async function* se(e, t) {
 }
 //#endregion
 //#region node_modules/@uppy/core/lib/utils/getDroppedFiles/index.js
-async function ce(e, t) {
+async function le(e, t) {
 	let n = t?.logDropError ?? Function.prototype;
 	try {
 		let t = [];
-		for await (let r of se(e, n)) t.push(r);
+		for await (let r of ce(e, n)) t.push(r);
 		return t;
 	} catch {
 		return P(e);
@@ -177,38 +197,38 @@ async function ce(e, t) {
 }
 //#endregion
 //#region node_modules/@uppy/core/lib/utils/getTimeStamp.js
-function le(e) {
+function ue(e) {
 	return e < 10 ? `0${e}` : e.toString();
 }
-function ue() {
+function de() {
 	let e = /* @__PURE__ */ new Date();
-	return `${le(e.getHours())}:${le(e.getMinutes())}:${le(e.getSeconds())}`;
+	return `${ue(e.getHours())}:${ue(e.getMinutes())}:${ue(e.getSeconds())}`;
 }
 //#endregion
 //#region node_modules/@uppy/core/lib/utils/isAbortError.js
-function de(e) {
+function fe(e) {
 	return typeof e == "object" && !!e && "name" in e && e.name === "AbortError";
 }
 //#endregion
 //#region node_modules/@uppy/core/lib/utils/isDragDropSupported.js
-function fe() {
+function pe() {
 	if (typeof window > "u") return !1;
 	let e = document.body;
 	return !(e == null || window == null || !("draggable" in e) || !("ondragstart" in e) || !("ondrop" in e) || !("FormData" in window) || !("FileReader" in window));
 }
 //#endregion
 //#region node_modules/@uppy/core/lib/utils/isObjectURL.js
-function pe(e) {
+function me(e) {
 	return e.startsWith("blob:");
 }
 //#endregion
 //#region node_modules/@uppy/core/lib/utils/isPreviewSupported.js
-function me(e) {
+function he(e) {
 	return e ? /^[^/]+\/(jpe?g|gif|png|svg|svg\+xml|bmp|webp|avif)$/.test(e) : !1;
 }
 //#endregion
 //#region node_modules/@uppy/core/lib/utils/secondsToTime.js
-function he(e) {
+function ge(e) {
 	return {
 		hours: Math.floor(e / 3600) % 24,
 		minutes: Math.floor(e / 60) % 60,
@@ -217,43 +237,43 @@ function he(e) {
 }
 //#endregion
 //#region node_modules/@uppy/core/lib/utils/prettyETA.js
-function ge(e) {
-	let t = he(e);
+function _e(e) {
+	let t = ge(e);
 	return `${t.hours === 0 ? "" : `${t.hours}h`}${t.minutes === 0 ? "" : `${t.hours === 0 ? t.minutes : ` ${t.minutes.toString(10).padStart(2, "0")}`}m`}${t.hours === 0 ? `${t.minutes === 0 ? t.seconds : ` ${t.seconds.toString(10).padStart(2, "0")}`}s` : ""}`;
 }
 //#endregion
 //#region node_modules/@uppy/core/lib/utils/remoteFileObjToLocal.js
-function _e(e) {
+function ve(e) {
 	return {
 		...e,
 		type: e.mimeType,
-		extension: e.name ? te(e.name).extension : null
+		extension: e.name ? k(e.name).extension : null
 	};
 }
 //#endregion
 //#region node_modules/@uppy/core/lib/utils/truncateString.js
-var ve = "...";
-function ye(e, t) {
+var ye = "...";
+function be(e, t) {
 	if (t === 0) return "";
 	if (e.length <= t) return e;
 	if (t <= 4) return `${e.slice(0, t - 1)}…`;
 	let n = t - 3, r = Math.ceil(n / 2), i = Math.floor(n / 2);
-	return e.slice(0, r) + ve + e.slice(-i);
+	return e.slice(0, r) + ye + e.slice(-i);
 }
 //#endregion
 //#region node_modules/@uppy/core/lib/utils/VirtualList.js
-var be = {
+var xe = {
 	position: "relative",
 	width: "100%",
 	minHeight: "100%"
-}, xe = {
+}, Se = {
 	position: "absolute",
 	top: 0,
 	left: 0,
 	width: "100%",
 	overflow: "visible"
 };
-function Se({ data: e, rowHeight: t, renderRow: n, overscanCount: r = 10, padding: i = 4, ...a }) {
+function Ce({ data: e, rowHeight: t, renderRow: n, overscanCount: r = 10, padding: i = 4, ...a }) {
 	let o = C(null), [s, c] = v(0), [l, u] = v(0);
 	b(() => {
 		function e() {
@@ -268,10 +288,10 @@ function Se({ data: e, rowHeight: t, renderRow: n, overscanCount: r = 10, paddin
 	}, []), p = Math.floor(s / t), m = Math.floor(l / t);
 	r && (p = Math.max(0, p - p % r), m += r);
 	let h = p + m + i, g = e.slice(p, h), _ = {
-		...be,
+		...xe,
 		height: e.length * t
 	}, y = {
-		...xe,
+		...Se,
 		top: p * t
 	};
 	return f("div", {
@@ -291,35 +311,15 @@ function Se({ data: e, rowHeight: t, renderRow: n, overscanCount: r = 10, paddin
 }
 //#endregion
 //#region node_modules/@uppy/core/lib/loggers.js
-var Ce = {
+var we = {
 	debug: () => {},
 	warn: () => {},
-	error: (...e) => console.error(`[Uppy] [${ue()}]`, ...e)
-}, we = {
-	debug: (...e) => console.debug(`[Uppy] [${ue()}]`, ...e),
-	warn: (...e) => console.warn(`[Uppy] [${ue()}]`, ...e),
-	error: (...e) => console.error(`[Uppy] [${ue()}]`, ...e)
-}, Te = [
-	"B",
-	"KB",
-	"MB",
-	"GB",
-	"TB",
-	"PB",
-	"EB",
-	"ZB",
-	"YB"
-];
-function F(e, t) {
-	if (typeof e != "number" || Number.isNaN(e)) throw TypeError(`Expected a number, got ${typeof e}`);
-	let n = e < 0, r = Math.abs(e);
-	if (n && (r = -r), r === 0) return "0 B";
-	let i = t ? Te.indexOf(t) : Math.min(Math.floor(Math.log(r) / Math.log(1024)), Te.length - 1), a = Number(r / 1024 ** i), o = Te[i];
-	return i >= 3 ? a % 1 == 0 ? `${Math.round(a)} ${o}` : `${a.toFixed(2)} ${o}` : `${a >= 10 || a % 1 == 0 ? Math.round(a) : a.toFixed(1)} ${o}`;
-}
-//#endregion
-//#region node_modules/wildcard/index.js
-var Ee = /* @__PURE__ */ t(((e, t) => {
+	error: (...e) => console.error(`[Uppy] [${de()}]`, ...e)
+}, Te = {
+	debug: (...e) => console.debug(`[Uppy] [${de()}]`, ...e),
+	warn: (...e) => console.warn(`[Uppy] [${de()}]`, ...e),
+	error: (...e) => console.error(`[Uppy] [${de()}]`, ...e)
+}, Ee = /* @__PURE__ */ t(((e, t) => {
 	function n(e, t) {
 		this.text = e ||= "", this.hasWild = ~e.indexOf("*"), this.separator = t, this.parts = e.split(t);
 	}
@@ -379,8 +379,8 @@ var Ee = /* @__PURE__ */ t(((e, t) => {
 		if (n) {
 			let r = [...e, ...t].reduce((e, t) => e + (t.size ?? 0), 0);
 			if (r > n) throw new I(this.getI18n()("aggregateExceedsSize", {
-				sizeAllowed: F(n),
-				size: F(r)
+				sizeAllowed: T(n),
+				size: T(r)
 			}));
 		}
 	}
@@ -391,10 +391,10 @@ var Ee = /* @__PURE__ */ t(((e, t) => {
 			throw new I(this.getI18n()("youCanOnlyUploadFileTypes", { types: t }), { file: e });
 		}
 		if (t && e.size != null && e.size > t) throw new I(this.getI18n()("exceedsSize", {
-			size: F(t),
+			size: T(t),
 			file: e.name ?? this.getI18n()("unnamed")
 		}), { file: e });
-		if (n && e.size != null && e.size < n) throw new I(this.getI18n()("inferiorSize", { size: F(n) }), { file: e });
+		if (n && e.size != null && e.size < n) throw new I(this.getI18n()("inferiorSize", { size: T(n) }), { file: e });
 	}
 	validate(e, t) {
 		t.forEach((e) => {
@@ -845,7 +845,7 @@ var $e = /* @__PURE__ */ e(We(), 1), et = /* @__PURE__ */ e(Ge(), 1), tt = {
 			onBeforeFileAdded: (e, t) => !Object.hasOwn(t, e.id),
 			onBeforeUpload: (e) => e,
 			store: new Ze(),
-			logger: Ce,
+			logger: we,
 			infoTimeout: 5e3
 		}, r = {
 			...n,
@@ -857,7 +857,7 @@ var $e = /* @__PURE__ */ e(We(), 1), et = /* @__PURE__ */ e(Ge(), 1), tt = {
 				...n.restrictions,
 				...t?.restrictions
 			}
-		}, t?.logger && t.debug ? this.log("You are using a custom `logger`, but also set `debug: true`, which uses built-in logger to output logs to console. Ignoring `debug: true` and using your custom `logger`.", "warning") : t?.debug && (this.opts.logger = we), this.log(`Using Core v${e.VERSION}`), this.i18nInit(), this.store = this.opts.store, this.setState({
+		}, t?.logger && t.debug ? this.log("You are using a custom `logger`, but also set `debug: true`, which uses built-in logger to output logs to console. Ignoring `debug: true` and using your custom `logger`.", "warning") : t?.debug && (this.opts.logger = Te), this.log(`Using Core v${e.VERSION}`), this.i18nInit(), this.store = this.opts.store, this.setState({
 			...tt,
 			plugins: {},
 			files: {},
@@ -1110,7 +1110,7 @@ var $e = /* @__PURE__ */ e(We(), 1), et = /* @__PURE__ */ e(Ge(), 1), tt = {
 			isRemote: !1,
 			source: void 0,
 			preview: void 0
-		} : e, n = ne(t), r = Ye(n, t), i = te(r).extension, a = M(t, this.getID()), o = {
+		} : e, n = A(t), r = Ye(n, t), i = k(r).extension, a = M(t, this.getID()), o = {
 			...t.meta,
 			name: r,
 			type: n
@@ -2309,7 +2309,7 @@ function kt(e) {
 	return d ? f("div", {
 		className: "uppy-ProviderBrowser-body",
 		ref: w,
-		children: [f(Se, {
+		children: [f(Ce, {
 			className: "uppy-ProviderBrowser-list",
 			data: t,
 			renderRow: D,
@@ -2440,7 +2440,7 @@ function Nt({ item: e, actions: t, runAction: n, getPreviewUrl: r, onClose: i, i
 				}), f("dl", {
 					className: "uppy-ItemDetail-facts",
 					children: [
-						typeof h == "number" ? f(p, { children: [f("dt", { children: a("detailSize") }), f("dd", { children: F(h) })] }) : null,
+						typeof h == "number" ? f(p, { children: [f("dt", { children: a("detailSize") }), f("dd", { children: T(h) })] }) : null,
 						g ? f(p, { children: [f("dt", { children: a("detailType") }), f("dd", { children: g })] }) : null,
 						y ? f(p, { children: [f("dt", { children: a("detailModified") }), f("dd", { children: y })] }) : null
 					]
@@ -2594,7 +2594,7 @@ var Ft = class {
 }, R = (e) => (t) => {
 	if (at(t)) return;
 	let r = n(t);
-	if (de(r)) {
+	if (fe(r)) {
 		e.log("Aborting request", "warning");
 		return;
 	}
@@ -3226,7 +3226,7 @@ var qt = 100, Jt = class {
 	if (n.type === "root") return;
 	let r = e.filter((e) => e.type !== "root" && e.parentId === n.id && !(e.type === "file" && e.restrictionError)), i = r.every((e) => e.status === "checked"), a = r.every((e) => e.status === "unchecked");
 	n.status = i && n.cached ? "checked" : a ? "unchecked" : "partial", nn(e, n.parentId);
-}, rn = {
+}, z = {
 	afterOpenFolder: $t,
 	afterScrollFolder: en,
 	afterToggleCheckbox: (e, t) => {
@@ -3237,10 +3237,10 @@ var qt = 100, Jt = class {
 		}), nn(n, r[0].parentId), n;
 	},
 	afterFill: Qt
-}, an = (e) => {
+}, rn = (e) => {
 	let { scrollHeight: t, scrollTop: n, offsetHeight: r } = e.target;
 	return t - (n + r) < 50;
-}, on = ({ i18n: e, item: t, toggleCheckbox: n, openFolder: r }) => {
+}, an = ({ i18n: e, item: t, toggleCheckbox: n, openFolder: r }) => {
 	let i = "restrictionError" in t && t.restrictionError != null && t.status !== "checked";
 	return f("li", {
 		className: (0, L.default)("uppy-ProviderBrowserItem", { "uppy-ProviderBrowserItem--disabled": i }, { "uppy-ProviderBrowserItem--noPreview": t.data.icon === "video" }, { "uppy-ProviderBrowserItem--is-checked": t.status === "checked" }, { "uppy-ProviderBrowserItem--is-partial": t.status === "partial" }),
@@ -3267,14 +3267,14 @@ var qt = 100, Jt = class {
 			}), t.data.name ?? e("unnamed")]
 		})]
 	});
-}, sn = ({ searchResults: e, toggleCheckbox: t, openFolder: n, i18n: r }) => e.length === 0 ? f("div", {
+}, on = ({ searchResults: e, toggleCheckbox: t, openFolder: n, i18n: r }) => e.length === 0 ? f("div", {
 	className: "uppy-Provider-empty",
 	children: r("noFilesFound")
 }) : f("div", {
 	className: "uppy-ProviderBrowser-body",
 	children: f("ul", {
 		className: "uppy-ProviderBrowser-list",
-		children: e.map((e) => f(on, {
+		children: e.map((e) => f(an, {
 			i18n: r,
 			item: e,
 			toggleCheckbox: t,
@@ -3284,7 +3284,7 @@ var qt = 100, Jt = class {
 });
 //#endregion
 //#region node_modules/@uppy/core/lib/provider-views/Breadcrumbs.js
-function cn(e) {
+function sn(e) {
 	let { openFolder: t, title: n, breadcrumbsIcon: r, breadcrumbs: i, i18n: a, disabled: o = !1 } = e;
 	return f("div", {
 		className: "uppy-Provider-breadcrumbs",
@@ -3311,7 +3311,7 @@ function cn(e) {
 }
 //#endregion
 //#region node_modules/@uppy/core/lib/provider-views/ProviderView/User.js
-function ln({ i18n: e, logout: t, username: n, disabled: r = !1 }) {
+function cn({ i18n: e, logout: t, username: n, disabled: r = !1 }) {
 	return f(p, { children: [n && f("span", {
 		className: "uppy-ProviderBrowser-user",
 		children: n
@@ -3325,14 +3325,14 @@ function ln({ i18n: e, logout: t, username: n, disabled: r = !1 }) {
 }
 //#endregion
 //#region node_modules/@uppy/core/lib/provider-views/ProviderView/Header.js
-function un(e) {
+function ln(e) {
 	let t = e.toolbarActions ?? [], n = e.busy ?? !1;
 	return f("div", {
 		className: "uppy-ProviderBrowser-header",
 		children: f("div", {
 			className: (0, L.default)("uppy-ProviderBrowser-headerBar", !e.showBreadcrumbs && "uppy-ProviderBrowser-headerBar--simple"),
 			children: [
-				e.showBreadcrumbs && f(cn, {
+				e.showBreadcrumbs && f(sn, {
 					openFolder: e.openFolder,
 					breadcrumbs: e.breadcrumbs,
 					breadcrumbsIcon: e.pluginIcon?.(),
@@ -3356,7 +3356,7 @@ function un(e) {
 						children: t.label
 					}, t.id))]
 				}),
-				!e.standalone && f(ln, {
+				!e.standalone && f(cn, {
 					logout: e.logout,
 					username: e.username,
 					i18n: e.i18n,
@@ -3368,8 +3368,8 @@ function un(e) {
 }
 //#endregion
 //#region node_modules/@uppy/core/lib/provider-views/ProviderView/ProviderView.js
-var dn = /* @__PURE__ */ e(Ue(), 1);
-function fn() {
+var un = /* @__PURE__ */ e(Ue(), 1);
+function dn() {
 	return f("svg", {
 		"aria-hidden": "true",
 		focusable: "false",
@@ -3379,7 +3379,7 @@ function fn() {
 		children: f("path", { d: "M15 30c8.284 0 15-6.716 15-15 0-8.284-6.716-15-15-15C6.716 0 0 6.716 0 15c0 8.284 6.716 15 15 15zm4.258-12.676v6.846h-8.426v-6.846H5.204l9.82-12.364 9.82 12.364H19.26z" })
 	});
 }
-var pn = (e) => ({
+var fn = (e) => ({
 	authenticated: void 0,
 	partialTree: [{
 		type: "root",
@@ -3395,7 +3395,7 @@ var pn = (e) => ({
 	selectionActive: !1,
 	detailItemId: void 0
 });
-function mn(e, t) {
+function pn(e, t) {
 	let n = [t], r = e.get(t.parentId);
 	for (; r && r.type !== "root";) n.push(r), r = e.get(r.parentId);
 	return n;
@@ -3427,15 +3427,15 @@ function mn(e, t) {
 			leading: !0,
 			trailing: !0
 		} : void 0;
-		this.#e = (0, dn.default)(this.#f, a, o);
+		this.#e = (0, un.default)(this.#f, a, o);
 	}
 	resetPluginState() {
-		this.#s.clear(), this.#c.cancel(), this.plugin.setPluginState(pn(this.plugin.rootFolderId));
+		this.#s.clear(), this.#c.cancel(), this.plugin.setPluginState(fn(this.plugin.rootFolderId));
 	}
 	refreshCurrentFolder = async (e = !1) => {
 		let { partialTree: t, currentFolderId: n } = this.plugin.getPluginState();
 		if (t == null || this.#i) return;
-		let r = ++this.#o, i = t.flatMap((e) => e.type !== "root" && e.parentId === n && e.status === "checked" ? [e.id] : []), a = new Map(t.map((e) => [e.id, e])), o = (e) => mn(a, e).some(({ parentId: e }) => e === n), s = new Set(zt(t, n).map((e) => e.id)), c = t.filter((e) => e.type === "root" || !o(e)).filter((t) => !e || s.has(t.id)).map((t) => (e || t.id === n) && t.type !== "file" ? {
+		let r = ++this.#o, i = t.flatMap((e) => e.type !== "root" && e.parentId === n && e.status === "checked" ? [e.id] : []), a = new Map(t.map((e) => [e.id, e])), o = (e) => pn(a, e).some(({ parentId: e }) => e === n), s = new Set(zt(t, n).map((e) => e.id)), c = t.filter((e) => e.type === "root" || !o(e)).filter((t) => !e || s.has(t.id)).map((t) => (e || t.id === n) && t.type !== "file" ? {
 			...t,
 			status: "unchecked",
 			cached: !1,
@@ -3447,7 +3447,7 @@ function mn(e, t) {
 		let d = l.some((e) => e.id === n && e.type !== "file" && e.cached);
 		r === this.#o && d && u && !l.some(({ id: e }) => e === u) && this.closeItemDetail();
 		let f = i.filter((e) => l.some((t) => t.type !== "root" && t.id === e && t.status !== "checked"));
-		f.length > 0 && this.plugin.setPluginState({ partialTree: rn.afterToggleCheckbox(l, f) });
+		f.length > 0 && this.plugin.setPluginState({ partialTree: z.afterToggleCheckbox(l, f) });
 	};
 	runAction = (e, t) => this.#n(e, () => e.run({
 		item: t,
@@ -3475,12 +3475,12 @@ function mn(e, t) {
 	}
 	#r(e) {
 		let { uppy: t } = this.plugin;
-		if (de(e)) {
+		if (fe(e)) {
 			t.log("[ProviderView] action cancelled", "warning");
 			return;
 		}
 		t.log(`[ProviderView] action failed: ${r(e)}`, "error");
-		let n = e instanceof Error && e.name === "UserFacingApiError" ? ft(t.i18n, e) : e instanceof E || at(e) ? t.i18n("companionError") : t.i18n("actionFailed");
+		let n = e instanceof Error && e.name === "UserFacingApiError" ? ft(t.i18n, e) : e instanceof O || at(e) ? t.i18n("companionError") : t.i18n("actionFailed");
 		t.info(n, "error", 5e3);
 	}
 	#i;
@@ -3511,8 +3511,8 @@ function mn(e, t) {
 	};
 	#s = /* @__PURE__ */ new Set();
 	getBulkActionItems = () => {
-		let { partialTree: e } = this.plugin.getPluginState(), t = new Map(e.map((e) => [e.id, e])), n = e.filter((e) => e.type !== "root" && e.status === "checked" && (e.type === "file" || mn(t, e).some(({ id: e }) => this.#s.has(e)))), r = new Set(n.map((e) => e.id));
-		return n.filter((e) => !mn(t, e).slice(1).some(({ id: e }) => r.has(e)));
+		let { partialTree: e } = this.plugin.getPluginState(), t = new Map(e.map((e) => [e.id, e])), n = e.filter((e) => e.type !== "root" && e.status === "checked" && (e.type === "file" || pn(t, e).some(({ id: e }) => this.#s.has(e)))), r = new Set(n.map((e) => e.id));
+		return n.filter((e) => !pn(t, e).slice(1).some(({ id: e }) => r.has(e)));
 	};
 	runBulkAction = (e) => this.#n(e, async () => {
 		let t = this.getBulkActionItems();
@@ -3650,7 +3650,7 @@ function mn(e, t) {
 				let { username: e, nextPagePath: t, items: n } = await this.provider.list(i, { signal: r });
 				this.plugin.setPluginState({ username: e }), i = t, a = a.concat(n), this.setLoading(this.plugin.uppy.i18n("loadedXFiles", { numFiles: a.length }));
 			} while (this.opts.loadAllFiles && i);
-			let o = rn.afterOpenFolder(t, a, n, i, this.validateSingleFile);
+			let o = z.afterOpenFolder(t, a, n, i, this.validateSingleFile);
 			this.plugin.setPluginState({
 				partialTree: o,
 				currentFolderId: e,
@@ -3670,7 +3670,7 @@ function mn(e, t) {
 					this.plugin.uppy.info(e, "info", 7e3);
 				}
 				this.plugin.setPluginState({
-					...pn(this.plugin.rootFolderId),
+					...fn(this.plugin.rootFolderId),
 					authenticated: !1
 				});
 			}
@@ -3685,7 +3685,7 @@ function mn(e, t) {
 		}).catch(R(this.plugin.uppy)), this.#d();
 	}
 	async handleScroll(e) {
-		an(e) && await this.loadNextPage();
+		rn(e) && await this.loadNextPage();
 	}
 	#p;
 	loadNextPage() {
@@ -3700,20 +3700,20 @@ function mn(e, t) {
 			return this.isHandlingScroll = !0, await this.#u(async (n) => {
 				let { nextPagePath: i, items: a } = await this.provider.list(e, { signal: n }), o = this.plugin.getPluginState();
 				if (n.aborted || o.currentFolderId !== t) return;
-				let s = rn.afterScrollFolder(o.partialTree, t, a, i, this.validateSingleFile);
+				let s = z.afterScrollFolder(o.partialTree, t, a, i, this.validateSingleFile);
 				this.plugin.setPluginState({ partialTree: s }), r = !0;
 			}).catch(R(this.plugin.uppy)), this.isHandlingScroll = !1, r;
 		}
 		return !1;
 	}
 	validateSingleFile = (e) => {
-		let t = _e(e);
+		let t = ve(e);
 		return this.plugin.uppy.validateSingleFile(t);
 	};
 	async donePicking() {
 		let { partialTree: e } = this.plugin.getPluginState();
 		this.isLoading || (this.setLoading(!0), await this.#u(async (t) => {
-			let n = await rn.afterFill(e, (e) => this.provider.list(e, { signal: t }), this.validateSingleFile, (e) => {
+			let n = await z.afterFill(e, (e) => this.provider.list(e, { signal: t }), this.validateSingleFile, (e) => {
 				this.setLoading(this.plugin.uppy.i18n("addedNumFiles", { numFiles: e }));
 			});
 			if (this.validateAggregateRestrictions(n)) {
@@ -3724,7 +3724,7 @@ function mn(e, t) {
 		}).catch(R(this.plugin.uppy)), this.#d());
 	}
 	toggleCheckbox(e, t) {
-		let { partialTree: n } = this.plugin.getPluginState(), r = Rt(e.id, this.getDisplayedPartialTree(), t, this.previousCheckbox), i = rn.afterToggleCheckbox(n, r), a = new Map(i.map((e) => [e.id, e.type === "root" ? void 0 : e.status]));
+		let { partialTree: n } = this.plugin.getPluginState(), r = Rt(e.id, this.getDisplayedPartialTree(), t, this.previousCheckbox), i = z.afterToggleCheckbox(n, r), a = new Map(i.map((e) => [e.id, e.type === "root" ? void 0 : e.status]));
 		for (let e of r) a.get(e) === "checked" && this.#s.add(e);
 		for (let e of this.#s) {
 			let t = a.get(e);
@@ -3758,7 +3758,7 @@ function mn(e, t) {
 			if (t == null) throw Error("Partial tree not complete");
 			return t;
 		});
-		return f(sn, {
+		return f(on, {
 			searchResults: i,
 			openFolder: this.openSearchResultFolder,
 			toggleCheckbox: this.toggleCheckbox,
@@ -3771,7 +3771,7 @@ function mn(e, t) {
 		let i = {
 			...this.opts,
 			...t
-		}, { authenticated: a, loading: o } = this.plugin.getPluginState(), s = this.plugin.icon || fn;
+		}, { authenticated: a, loading: o } = this.plugin.getPluginState(), s = this.plugin.icon || dn;
 		if (a === !1) return f(lt, {
 			pluginName: this.plugin.title,
 			pluginIcon: s,
@@ -3786,7 +3786,7 @@ function mn(e, t) {
 		return f("div", {
 			className: (0, L.default)("uppy-ProviderBrowser", `uppy-ProviderBrowser-viewType--${i.viewType}`),
 			children: [
-				f(un, {
+				f(ln, {
 					showBreadcrumbs: i.showBreadcrumbs,
 					openFolder: this.openFolder,
 					breadcrumbs: _,
@@ -3862,7 +3862,7 @@ function mn(e, t) {
 });
 //#endregion
 //#region node_modules/exifr/dist/mini.esm.mjs
-function z(e, t, n) {
+function B(e, t, n) {
 	return t in e ? Object.defineProperty(e, t, {
 		value: n,
 		enumerable: !0,
@@ -3870,22 +3870,22 @@ function z(e, t, n) {
 		writable: !0
 	}) : e[t] = n, e;
 }
-var hn = typeof self < "u" ? self : global, gn = typeof navigator < "u", _n = gn && typeof HTMLImageElement > "u", vn = !(typeof global > "u" || typeof process > "u" || !process.versions || !process.versions.node), yn = hn.Buffer, bn = !!yn, xn = (e) => e !== void 0;
-function Sn(e) {
-	return e === void 0 || (e instanceof Map ? e.size === 0 : Object.values(e).filter(xn).length === 0);
+var mn = typeof self < "u" ? self : global, hn = typeof navigator < "u", gn = hn && typeof HTMLImageElement > "u", _n = !(typeof global > "u" || typeof process > "u" || !process.versions || !process.versions.node), vn = mn.Buffer, yn = !!vn, bn = (e) => e !== void 0;
+function xn(e) {
+	return e === void 0 || (e instanceof Map ? e.size === 0 : Object.values(e).filter(bn).length === 0);
 }
-function B(e) {
+function V(e) {
 	let t = Error(e);
 	throw delete t.stack, t;
 }
-function Cn(e) {
+function Sn(e) {
 	let t = function(e) {
 		let t = 0;
 		return e.ifd0.enabled && (t += 1024), e.exif.enabled && (t += 2048), e.makerNote && (t += 2048), e.userComment && (t += 1024), e.gps.enabled && (t += 512), e.interop.enabled && (t += 100), e.ifd1.enabled && (t += 1024), t + 2048;
 	}(e);
 	return e.jfif.enabled && (t += 50), e.xmp.enabled && (t += 2e4), e.iptc.enabled && (t += 14e3), e.icc.enabled && (t += 6e3), t;
 }
-var wn = (e) => String.fromCharCode.apply(null, e), Tn = typeof TextDecoder < "u" ? new TextDecoder("utf-8") : void 0, En = class e {
+var Cn = (e) => String.fromCharCode.apply(null, e), wn = typeof TextDecoder < "u" ? new TextDecoder("utf-8") : void 0, Tn = class e {
 	static from(t, n) {
 		return t instanceof this && t.le === n ? t : new e(t, void 0, void 0, n);
 	}
@@ -3896,13 +3896,13 @@ var wn = (e) => String.fromCharCode.apply(null, e), Tn = typeof TextDecoder < "u
 			let e = new DataView(t, n, r);
 			this._swapDataView(e);
 		} else if (t instanceof Uint8Array || t instanceof DataView || t instanceof e) {
-			r === void 0 && (r = t.byteLength - n), (n += t.byteOffset) + r > t.byteOffset + t.byteLength && B("Creating view outside of available memory in ArrayBuffer");
+			r === void 0 && (r = t.byteLength - n), (n += t.byteOffset) + r > t.byteOffset + t.byteLength && V("Creating view outside of available memory in ArrayBuffer");
 			let e = new DataView(t.buffer, n, r);
 			this._swapDataView(e);
 		} else if (typeof t == "number") {
 			let e = new DataView(new ArrayBuffer(t));
 			this._swapDataView(e);
-		} else B("Invalid input argument for BufferView: " + t);
+		} else V("Invalid input argument for BufferView: " + t);
 	}
 	_swapArrayBuffer(e) {
 		this._swapDataView(new DataView(e));
@@ -3917,7 +3917,7 @@ var wn = (e) => String.fromCharCode.apply(null, e), Tn = typeof TextDecoder < "u
 		return this.byteLength - e;
 	}
 	set(t, n, r = e) {
-		return t instanceof DataView || t instanceof e ? t = new Uint8Array(t.buffer, t.byteOffset, t.byteLength) : t instanceof ArrayBuffer && (t = new Uint8Array(t)), t instanceof Uint8Array || B("BufferView.set(): Invalid data argument."), this.toUint8().set(t, n), new r(this, n, t.byteLength);
+		return t instanceof DataView || t instanceof e ? t = new Uint8Array(t.buffer, t.byteOffset, t.byteLength) : t instanceof ArrayBuffer && (t = new Uint8Array(t)), t instanceof Uint8Array || V("BufferView.set(): Invalid data argument."), this.toUint8().set(t, n), new r(this, n, t.byteLength);
 	}
 	subarray(t, n) {
 		return n ||= this._lengthToEnd(t), new e(this, t, n);
@@ -3929,16 +3929,16 @@ var wn = (e) => String.fromCharCode.apply(null, e), Tn = typeof TextDecoder < "u
 		return new Uint8Array(this.buffer, this.byteOffset + e, t);
 	}
 	getString(e = 0, t = this.byteLength) {
-		return n = this.getUint8Array(e, t), Tn ? Tn.decode(n) : bn ? Buffer.from(n).toString("utf8") : decodeURIComponent(escape(wn(n)));
+		return n = this.getUint8Array(e, t), wn ? wn.decode(n) : yn ? Buffer.from(n).toString("utf8") : decodeURIComponent(escape(Cn(n)));
 		var n;
 	}
 	getLatin1String(e = 0, t = this.byteLength) {
-		return wn(this.getUint8Array(e, t));
+		return Cn(this.getUint8Array(e, t));
 	}
 	getUnicodeString(e = 0, t = this.byteLength) {
 		let n = [];
 		for (let r = 0; r < t && e + r < this.byteLength; r += 2) n.push(this.getUint16(e + r));
-		return wn(n);
+		return Cn(n);
 	}
 	getInt8(e) {
 		return this.dataView.getInt8(e);
@@ -3991,39 +3991,39 @@ var wn = (e) => String.fromCharCode.apply(null, e), Tn = typeof TextDecoder < "u
 	}
 	ensureChunk() {}
 };
-function Dn(e, t) {
-	B(`${e} '${t}' was not loaded, try using full build of exifr.`);
+function En(e, t) {
+	V(`${e} '${t}' was not loaded, try using full build of exifr.`);
 }
-var On = class extends Map {
+var Dn = class extends Map {
 	constructor(e) {
 		super(), this.kind = e;
 	}
 	get(e, t) {
-		return this.has(e) || Dn(this.kind, e), t && (e in t || function(e, t) {
-			B(`Unknown ${e} '${t}'.`);
-		}(this.kind, e), t[e].enabled || Dn(this.kind, e)), super.get(e);
+		return this.has(e) || En(this.kind, e), t && (e in t || function(e, t) {
+			V(`Unknown ${e} '${t}'.`);
+		}(this.kind, e), t[e].enabled || En(this.kind, e)), super.get(e);
 	}
 	keyList() {
 		return Array.from(this.keys());
 	}
-}, kn = new On("file parser"), V = new On("segment parser"), An = new On("file reader"), jn = hn.fetch;
-function Mn(e, t) {
-	return (n = e).startsWith("data:") || n.length > 1e4 ? Pn(e, t, "base64") : vn && e.includes("://") ? Nn(e, t, "url", Fn) : vn ? Pn(e, t, "fs") : gn ? Nn(e, t, "url", Fn) : void B("Invalid input argument");
+}, On = new Dn("file parser"), H = new Dn("segment parser"), kn = new Dn("file reader"), An = mn.fetch;
+function jn(e, t) {
+	return (n = e).startsWith("data:") || n.length > 1e4 ? Nn(e, t, "base64") : _n && e.includes("://") ? Mn(e, t, "url", Pn) : _n ? Nn(e, t, "fs") : hn ? Mn(e, t, "url", Pn) : void V("Invalid input argument");
 	var n;
 }
-async function Nn(e, t, n, r) {
-	return An.has(n) ? Pn(e, t, n) : r ? async function(e, t) {
-		return new En(await t(e));
-	}(e, r) : void B(`Parser ${n} is not loaded`);
+async function Mn(e, t, n, r) {
+	return kn.has(n) ? Nn(e, t, n) : r ? async function(e, t) {
+		return new Tn(await t(e));
+	}(e, r) : void V(`Parser ${n} is not loaded`);
 }
-async function Pn(e, t, n) {
-	let r = new (An.get(n))(e, t);
+async function Nn(e, t, n) {
+	let r = new (kn.get(n))(e, t);
 	return await r.read(), r;
 }
-var Fn = (e) => jn(e).then(((e) => e.arrayBuffer())), In = (e) => new Promise(((t, n) => {
+var Pn = (e) => An(e).then(((e) => e.arrayBuffer())), Fn = (e) => new Promise(((t, n) => {
 	let r = new FileReader();
 	r.onloadend = () => t(r.result || /* @__PURE__ */ new ArrayBuffer()), r.onerror = n, r.readAsArrayBuffer(e);
-})), Ln = class extends Map {
+})), In = class extends Map {
 	get tagKeys() {
 		return this.allKeys ||= Array.from(this.keys()), this.allKeys;
 	}
@@ -4031,56 +4031,56 @@ var Fn = (e) => jn(e).then(((e) => e.arrayBuffer())), In = (e) => new Promise(((
 		return this.allValues ||= Array.from(this.values()), this.allValues;
 	}
 };
-function Rn(e, t, n) {
-	let r = new Ln();
+function Ln(e, t, n) {
+	let r = new In();
 	for (let [e, t] of n) r.set(e, t);
 	if (Array.isArray(t)) for (let n of t) e.set(n, r);
 	else e.set(t, r);
 	return r;
 }
-function zn(e, t, n) {
+function Rn(e, t, n) {
 	let r, i = e.get(t);
 	for (r of n) i.set(r[0], r[1]);
 }
-var Bn = /* @__PURE__ */ new Map(), Vn = /* @__PURE__ */ new Map(), Hn = /* @__PURE__ */ new Map(), H = [
+var zn = /* @__PURE__ */ new Map(), Bn = /* @__PURE__ */ new Map(), Vn = /* @__PURE__ */ new Map(), U = [
 	"chunked",
 	"firstChunkSize",
 	"firstChunkSizeNode",
 	"firstChunkSizeBrowser",
 	"chunkSize",
 	"chunkLimit"
-], Un = [
+], Hn = [
 	"jfif",
 	"xmp",
 	"icc",
 	"iptc",
 	"ihdr"
-], Wn = ["tiff", ...Un], U = [
+], Un = ["tiff", ...Hn], W = [
 	"ifd0",
 	"ifd1",
 	"exif",
 	"gps",
 	"interop"
-], W = [...Wn, ...U], G = ["makerNote", "userComment"], Gn = [
+], G = [...Un, ...W], K = ["makerNote", "userComment"], Wn = [
 	"translateKeys",
 	"translateValues",
 	"reviveValues",
 	"multiSegment"
-], K = [
-	...Gn,
+], q = [
+	...Wn,
 	"sanitize",
 	"mergeOutput",
 	"silentErrors"
-], Kn = class {
+], Gn = class {
 	get translate() {
 		return this.translateKeys || this.translateValues || this.reviveValues;
 	}
-}, qn = class extends Kn {
+}, Kn = class extends Gn {
 	get needed() {
 		return this.enabled || this.deps.size > 0;
 	}
 	constructor(e, t, n, r) {
-		if (super(), z(this, "enabled", !1), z(this, "skip", /* @__PURE__ */ new Set()), z(this, "pick", /* @__PURE__ */ new Set()), z(this, "deps", /* @__PURE__ */ new Set()), z(this, "translateKeys", !1), z(this, "translateValues", !1), z(this, "reviveValues", !1), this.key = e, this.enabled = t, this.parse = this.enabled, this.applyInheritables(r), this.canBeFiltered = U.includes(e), this.canBeFiltered && (this.dict = Bn.get(e)), n !== void 0) {
+		if (super(), B(this, "enabled", !1), B(this, "skip", /* @__PURE__ */ new Set()), B(this, "pick", /* @__PURE__ */ new Set()), B(this, "deps", /* @__PURE__ */ new Set()), B(this, "translateKeys", !1), B(this, "translateValues", !1), B(this, "reviveValues", !1), this.key = e, this.enabled = t, this.parse = this.enabled, this.applyInheritables(r), this.canBeFiltered = W.includes(e), this.canBeFiltered && (this.dict = zn.get(e)), n !== void 0) {
 			if (Array.isArray(n)) this.parse = this.enabled = !0, this.canBeFiltered && n.length > 0 && this.translateTagSet(n, this.pick);
 			else if (typeof n == "object") {
 				if (this.enabled = !0, this.parse = !1 !== n.parse, this.canBeFiltered) {
@@ -4088,12 +4088,12 @@ var Bn = /* @__PURE__ */ new Map(), Vn = /* @__PURE__ */ new Map(), Hn = /* @__P
 					e && e.length > 0 && this.translateTagSet(e, this.pick), t && t.length > 0 && this.translateTagSet(t, this.skip);
 				}
 				this.applyInheritables(n);
-			} else !0 === n || !1 === n ? this.parse = this.enabled = n : B(`Invalid options argument: ${n}`);
+			} else !0 === n || !1 === n ? this.parse = this.enabled = n : V(`Invalid options argument: ${n}`);
 		}
 	}
 	applyInheritables(e) {
 		let t, n;
-		for (t of Gn) n = e[t], n !== void 0 && (this[t] = n);
+		for (t of Wn) n = e[t], n !== void 0 && (this[t] = n);
 	}
 	translateTagSet(e, t) {
 		if (this.dict) {
@@ -4102,9 +4102,9 @@ var Bn = /* @__PURE__ */ new Map(), Vn = /* @__PURE__ */ new Map(), Hn = /* @__P
 		} else for (let n of e) t.add(n);
 	}
 	finalizeFilters() {
-		!this.enabled && this.deps.size > 0 ? (this.enabled = !0, Qn(this.pick, this.deps)) : this.enabled && this.pick.size > 0 && Qn(this.pick, this.deps);
+		!this.enabled && this.deps.size > 0 ? (this.enabled = !0, Zn(this.pick, this.deps)) : this.enabled && this.pick.size > 0 && Zn(this.pick, this.deps);
 	}
-}, q = {
+}, J = {
 	jfif: !1,
 	tiff: !0,
 	xmp: !1,
@@ -4133,44 +4133,44 @@ var Bn = /* @__PURE__ */ new Map(), Vn = /* @__PURE__ */ new Map(), Hn = /* @__P
 	firstChunkSizeBrowser: 65536,
 	chunkSize: 65536,
 	chunkLimit: 5
-}, Jn = /* @__PURE__ */ new Map(), Yn = class extends Kn {
+}, qn = /* @__PURE__ */ new Map(), Jn = class extends Gn {
 	static useCached(e) {
-		let t = Jn.get(e);
-		return t !== void 0 || (t = new this(e), Jn.set(e, t)), t;
+		let t = qn.get(e);
+		return t !== void 0 || (t = new this(e), qn.set(e, t)), t;
 	}
 	constructor(e) {
-		super(), !0 === e ? this.setupFromTrue() : e === void 0 ? this.setupFromUndefined() : Array.isArray(e) ? this.setupFromArray(e) : typeof e == "object" ? this.setupFromObject(e) : B(`Invalid options argument ${e}`), this.firstChunkSize === void 0 && (this.firstChunkSize = gn ? this.firstChunkSizeBrowser : this.firstChunkSizeNode), this.mergeOutput && (this.ifd1.enabled = !1), this.filterNestedSegmentTags(), this.traverseTiffDependencyTree(), this.checkLoadedPlugins();
+		super(), !0 === e ? this.setupFromTrue() : e === void 0 ? this.setupFromUndefined() : Array.isArray(e) ? this.setupFromArray(e) : typeof e == "object" ? this.setupFromObject(e) : V(`Invalid options argument ${e}`), this.firstChunkSize === void 0 && (this.firstChunkSize = hn ? this.firstChunkSizeBrowser : this.firstChunkSizeNode), this.mergeOutput && (this.ifd1.enabled = !1), this.filterNestedSegmentTags(), this.traverseTiffDependencyTree(), this.checkLoadedPlugins();
 	}
 	setupFromUndefined() {
 		let e;
-		for (e of H) this[e] = q[e];
-		for (e of K) this[e] = q[e];
-		for (e of G) this[e] = q[e];
-		for (e of W) this[e] = new qn(e, q[e], void 0, this);
+		for (e of U) this[e] = J[e];
+		for (e of q) this[e] = J[e];
+		for (e of K) this[e] = J[e];
+		for (e of G) this[e] = new Kn(e, J[e], void 0, this);
 	}
 	setupFromTrue() {
 		let e;
-		for (e of H) this[e] = q[e];
-		for (e of K) this[e] = q[e];
-		for (e of G) this[e] = !0;
-		for (e of W) this[e] = new qn(e, !0, void 0, this);
+		for (e of U) this[e] = J[e];
+		for (e of q) this[e] = J[e];
+		for (e of K) this[e] = !0;
+		for (e of G) this[e] = new Kn(e, !0, void 0, this);
 	}
 	setupFromArray(e) {
 		let t;
-		for (t of H) this[t] = q[t];
-		for (t of K) this[t] = q[t];
-		for (t of G) this[t] = q[t];
-		for (t of W) this[t] = new qn(t, !1, void 0, this);
-		this.setupGlobalFilters(e, void 0, U);
+		for (t of U) this[t] = J[t];
+		for (t of q) this[t] = J[t];
+		for (t of K) this[t] = J[t];
+		for (t of G) this[t] = new Kn(t, !1, void 0, this);
+		this.setupGlobalFilters(e, void 0, W);
 	}
 	setupFromObject(e) {
 		let t;
-		for (t of (U.ifd0 = U.ifd0 || U.image, U.ifd1 = U.ifd1 || U.thumbnail, Object.assign(this, e), H)) this[t] = Zn(e[t], q[t]);
-		for (t of K) this[t] = Zn(e[t], q[t]);
-		for (t of G) this[t] = Zn(e[t], q[t]);
-		for (t of Wn) this[t] = new qn(t, q[t], e[t], this);
-		for (t of U) this[t] = new qn(t, q[t], e[t], this.tiff);
-		this.setupGlobalFilters(e.pick, e.skip, U, W), !0 === e.tiff ? this.batchEnableWithBool(U, !0) : !1 === e.tiff ? this.batchEnableWithUserValue(U, e) : Array.isArray(e.tiff) ? this.setupGlobalFilters(e.tiff, void 0, U) : typeof e.tiff == "object" && this.setupGlobalFilters(e.tiff.pick, e.tiff.skip, U);
+		for (t of (W.ifd0 = W.ifd0 || W.image, W.ifd1 = W.ifd1 || W.thumbnail, Object.assign(this, e), U)) this[t] = Xn(e[t], J[t]);
+		for (t of q) this[t] = Xn(e[t], J[t]);
+		for (t of K) this[t] = Xn(e[t], J[t]);
+		for (t of Un) this[t] = new Kn(t, J[t], e[t], this);
+		for (t of W) this[t] = new Kn(t, J[t], e[t], this.tiff);
+		this.setupGlobalFilters(e.pick, e.skip, W, G), !0 === e.tiff ? this.batchEnableWithBool(W, !0) : !1 === e.tiff ? this.batchEnableWithUserValue(W, e) : Array.isArray(e.tiff) ? this.setupGlobalFilters(e.tiff, void 0, W) : typeof e.tiff == "object" && this.setupGlobalFilters(e.tiff.pick, e.tiff.skip, W);
 	}
 	batchEnableWithBool(e, t) {
 		for (let n of e) this[n].enabled = t;
@@ -4184,11 +4184,11 @@ var Bn = /* @__PURE__ */ new Map(), Vn = /* @__PURE__ */ new Map(), Hn = /* @__P
 	setupGlobalFilters(e, t, n, r = n) {
 		if (e && e.length) {
 			for (let e of r) this[e].enabled = !1;
-			let t = Xn(e, n);
-			for (let [e, n] of t) Qn(this[e].pick, n), this[e].enabled = !0;
+			let t = Yn(e, n);
+			for (let [e, n] of t) Zn(this[e].pick, n), this[e].enabled = !0;
 		} else if (t && t.length) {
-			let e = Xn(t, n);
-			for (let [t, n] of e) Qn(this[t].skip, n);
+			let e = Yn(t, n);
+			for (let [t, n] of e) Zn(this[t].skip, n);
 		}
 	}
 	filterNestedSegmentTags() {
@@ -4197,49 +4197,49 @@ var Bn = /* @__PURE__ */ new Map(), Vn = /* @__PURE__ */ new Map(), Hn = /* @__P
 	}
 	traverseTiffDependencyTree() {
 		let { ifd0: e, exif: t, gps: n, interop: r } = this;
-		r.needed && (t.deps.add(40965), e.deps.add(40965)), t.needed && e.deps.add(34665), n.needed && e.deps.add(34853), this.tiff.enabled = U.some(((e) => !0 === this[e].enabled)) || this.makerNote || this.userComment;
-		for (let e of U) this[e].finalizeFilters();
+		r.needed && (t.deps.add(40965), e.deps.add(40965)), t.needed && e.deps.add(34665), n.needed && e.deps.add(34853), this.tiff.enabled = W.some(((e) => !0 === this[e].enabled)) || this.makerNote || this.userComment;
+		for (let e of W) this[e].finalizeFilters();
 	}
 	get onlyTiff() {
-		return !Un.map(((e) => this[e].enabled)).some(((e) => !0 === e)) && this.tiff.enabled;
+		return !Hn.map(((e) => this[e].enabled)).some(((e) => !0 === e)) && this.tiff.enabled;
 	}
 	checkLoadedPlugins() {
-		for (let e of Wn) this[e].enabled && !V.has(e) && Dn("segment parser", e);
+		for (let e of Un) this[e].enabled && !H.has(e) && En("segment parser", e);
 	}
 };
-function Xn(e, t) {
+function Yn(e, t) {
 	let n, r, i, a, o = [];
 	for (i of t) {
-		for (a of (n = Bn.get(i), r = [], n)) (e.includes(a[0]) || e.includes(a[1])) && r.push(a[0]);
+		for (a of (n = zn.get(i), r = [], n)) (e.includes(a[0]) || e.includes(a[1])) && r.push(a[0]);
 		r.length && o.push([i, r]);
 	}
 	return o;
 }
-function Zn(e, t) {
+function Xn(e, t) {
 	return e === void 0 ? t === void 0 ? void 0 : t : e;
 }
-function Qn(e, t) {
+function Zn(e, t) {
 	for (let n of t) e.add(n);
 }
-z(Yn, "default", q);
-var $n = class {
+B(Jn, "default", J);
+var Qn = class {
 	constructor(e) {
-		z(this, "parsers", {}), z(this, "output", {}), z(this, "errors", []), z(this, "pushToErrors", ((e) => this.errors.push(e))), this.options = Yn.useCached(e);
+		B(this, "parsers", {}), B(this, "output", {}), B(this, "errors", []), B(this, "pushToErrors", ((e) => this.errors.push(e))), this.options = Jn.useCached(e);
 	}
 	async read(e) {
 		this.file = await function(e, t) {
-			return typeof e == "string" ? Mn(e, t) : gn && !_n && e instanceof HTMLImageElement ? Mn(e.src, t) : e instanceof Uint8Array || e instanceof ArrayBuffer || e instanceof DataView ? new En(e) : gn && e instanceof Blob ? Nn(e, t, "blob", In) : void B("Invalid input argument");
+			return typeof e == "string" ? jn(e, t) : hn && !gn && e instanceof HTMLImageElement ? jn(e.src, t) : e instanceof Uint8Array || e instanceof ArrayBuffer || e instanceof DataView ? new Tn(e) : hn && e instanceof Blob ? Mn(e, t, "blob", Fn) : void V("Invalid input argument");
 		}(e, this.options);
 	}
 	setup() {
 		if (this.fileParser) return;
 		let { file: e } = this, t = e.getUint16(0);
-		for (let [n, r] of kn) if (r.canHandle(e, t)) return this.fileParser = new r(this.options, this.file, this.parsers), e[n] = !0;
-		this.file.close && this.file.close(), B("Unknown file format");
+		for (let [n, r] of On) if (r.canHandle(e, t)) return this.fileParser = new r(this.options, this.file, this.parsers), e[n] = !0;
+		this.file.close && this.file.close(), V("Unknown file format");
 	}
 	async parse() {
 		let { output: e, errors: t } = this;
-		return this.setup(), this.options.silentErrors ? (await this.executeParsers().catch(this.pushToErrors), t.push(...this.fileParser.errors)) : await this.executeParsers(), this.file.close && this.file.close(), this.options.silentErrors && t.length > 0 && (e.errors = t), Sn(n = e) ? void 0 : n;
+		return this.setup(), this.options.silentErrors ? (await this.executeParsers().catch(this.pushToErrors), t.push(...this.fileParser.errors)) : await this.executeParsers(), this.file.close && this.file.close(), this.options.silentErrors && t.length > 0 && (e.errors = t), xn(n = e) ? void 0 : n;
 		var n;
 	}
 	async executeParsers() {
@@ -4253,7 +4253,7 @@ var $n = class {
 	}
 	async extractThumbnail() {
 		this.setup();
-		let { options: e, file: t } = this, n = V.get("tiff", e);
+		let { options: e, file: t } = this, n = H.get("tiff", e);
 		var r;
 		if (t.tiff ? r = {
 			start: 0,
@@ -4263,34 +4263,34 @@ var $n = class {
 		return t.close && t.close(), a;
 	}
 };
-async function er(e, t) {
-	let n = new $n(t);
+async function $n(e, t) {
+	let n = new Qn(t);
 	return await n.read(e), n.parse();
 }
-var tr = Object.freeze({
+var er = Object.freeze({
 	__proto__: null,
-	parse: er,
-	Exifr: $n,
-	fileParsers: kn,
-	segmentParsers: V,
-	fileReaders: An,
-	tagKeys: Bn,
-	tagValues: Vn,
-	tagRevivers: Hn,
-	createDictionary: Rn,
-	extendDictionary: zn,
-	fetchUrlAsArrayBuffer: Fn,
-	readBlobAsArrayBuffer: In,
-	chunkedProps: H,
-	otherSegments: Un,
-	segments: Wn,
-	tiffBlocks: U,
-	segmentsAndBlocks: W,
-	tiffExtractables: G,
-	inheritables: Gn,
-	allFormatters: K,
-	Options: Yn
-}), J = class {
+	parse: $n,
+	Exifr: Qn,
+	fileParsers: On,
+	segmentParsers: H,
+	fileReaders: kn,
+	tagKeys: zn,
+	tagValues: Bn,
+	tagRevivers: Vn,
+	createDictionary: Ln,
+	extendDictionary: Rn,
+	fetchUrlAsArrayBuffer: Pn,
+	readBlobAsArrayBuffer: Fn,
+	chunkedProps: U,
+	otherSegments: Hn,
+	segments: Un,
+	tiffBlocks: W,
+	segmentsAndBlocks: G,
+	tiffExtractables: K,
+	inheritables: Wn,
+	allFormatters: q,
+	Options: Jn
+}), Y = class {
 	static findPosition(e, t) {
 		let n = e.getUint16(t + 2) + 2, r = typeof this.headerLength == "function" ? this.headerLength(e, t, n) : this.headerLength, i = t + r, a = n - r;
 		return {
@@ -4303,13 +4303,13 @@ var tr = Object.freeze({
 		};
 	}
 	static parse(e, t = {}) {
-		return new this(e, new Yn({ [this.type]: t }), e).parse();
+		return new this(e, new Jn({ [this.type]: t }), e).parse();
 	}
 	normalizeInput(e) {
-		return e instanceof En ? e : new En(e);
+		return e instanceof Tn ? e : new Tn(e);
 	}
 	constructor(e, t = {}, n) {
-		z(this, "errors", []), z(this, "raw", /* @__PURE__ */ new Map()), z(this, "handleError", ((e) => {
+		B(this, "errors", []), B(this, "raw", /* @__PURE__ */ new Map()), B(this, "handleError", ((e) => {
 			if (!this.options.silentErrors) throw e;
 			this.errors.push(e.message);
 		})), this.chunk = this.normalizeInput(e), this.file = n, this.type = this.constructor.type, this.globalOptions = this.options = t, this.localOptions = t[this.type], this.canTranslate = this.localOptions && this.localOptions.translate;
@@ -4321,7 +4321,7 @@ var tr = Object.freeze({
 		return this.translated ? this.translated : this.raw ? Object.fromEntries(this.raw) : void 0;
 	}
 	translateBlock(e, t) {
-		let n = Hn.get(t), r = Vn.get(t), i = Bn.get(t), a = this.options[t], o = a.reviveValues && !!n, s = a.translateValues && !!r, c = a.translateKeys && !!i, l = {};
+		let n = Vn.get(t), r = Bn.get(t), i = zn.get(t), a = this.options[t], o = a.reviveValues && !!n, s = a.translateValues && !!r, c = a.translateKeys && !!i, l = {};
 		for (let [t, a] of e) o && n.has(t) ? a = n.get(t)(a) : s && r.has(t) && (a = this.translateValue(a, r.get(t))), c && i.has(t) && (t = i.get(t) || t), l[t] = a;
 		return l;
 	}
@@ -4336,28 +4336,28 @@ var tr = Object.freeze({
 		e[t] ? Object.assign(e[t], n) : e[t] = n;
 	}
 };
-z(J, "headerLength", 4), z(J, "type", void 0), z(J, "multiSegment", !1), z(J, "canHandle", (() => !1));
-function nr(e) {
+B(Y, "headerLength", 4), B(Y, "type", void 0), B(Y, "multiSegment", !1), B(Y, "canHandle", (() => !1));
+function tr(e) {
 	return e === 192 || e === 194 || e === 196 || e === 219 || e === 221 || e === 218 || e === 254;
 }
-function rr(e) {
+function nr(e) {
 	return e >= 224 && e <= 239;
 }
-function ir(e, t, n) {
-	for (let [r, i] of V) if (i.canHandle(e, t, n)) return r;
+function rr(e, t, n) {
+	for (let [r, i] of H) if (i.canHandle(e, t, n)) return r;
 }
-var ar = class extends class {
+var ir = class extends class {
 	constructor(e, t, n) {
-		z(this, "errors", []), z(this, "ensureSegmentChunk", (async (e) => {
+		B(this, "errors", []), B(this, "ensureSegmentChunk", (async (e) => {
 			let t = e.start, n = e.size || 65536;
 			if (this.file.chunked) {
 				if (this.file.available(t, n)) e.chunk = this.file.subarray(t, n);
 				else try {
 					e.chunk = await this.file.readChunk(t, n);
 				} catch (t) {
-					B(`Couldn't read segment: ${JSON.stringify(e)}. ${t.message}`);
+					V(`Couldn't read segment: ${JSON.stringify(e)}. ${t.message}`);
 				}
-			} else this.file.byteLength > t + n ? e.chunk = this.file.subarray(t, n) : e.size === void 0 ? e.chunk = this.file.subarray(t) : B("Segment unreachable: " + JSON.stringify(e));
+			} else this.file.byteLength > t + n ? e.chunk = this.file.subarray(t, n) : e.size === void 0 ? e.chunk = this.file.subarray(t) : V("Segment unreachable: " + JSON.stringify(e));
 			return e.chunk;
 		})), this.extendOptions && this.extendOptions(e), this.options = e, this.file = t, this.parsers = n;
 	}
@@ -4365,7 +4365,7 @@ var ar = class extends class {
 		this.options[e].enabled && this.createParser(e, t);
 	}
 	createParser(e, t) {
-		let n = new (V.get(e))(t, this.options, this.file);
+		let n = new (H.get(e))(t, this.options, this.file);
 		return this.parsers[e] = n;
 	}
 	createParsers(e) {
@@ -4383,7 +4383,7 @@ var ar = class extends class {
 	}
 } {
 	constructor(...e) {
-		super(...e), z(this, "appSegments", []), z(this, "jpegSegments", []), z(this, "unknownSegments", []);
+		super(...e), B(this, "appSegments", []), B(this, "jpegSegments", []), B(this, "unknownSegments", []);
 	}
 	static canHandle(e, t) {
 		return t === 65496;
@@ -4392,13 +4392,13 @@ var ar = class extends class {
 		await this.findAppSegments(), await this.readSegments(this.appSegments), this.mergeMultiSegments(), this.createParsers(this.mergedAppSegments || this.appSegments);
 	}
 	setupSegmentFinderArgs(e) {
-		!0 === e ? (this.findAll = !0, this.wanted = new Set(V.keyList())) : (e = e === void 0 ? V.keyList().filter(((e) => this.options[e].enabled)) : e.filter(((e) => this.options[e].enabled && V.has(e))), this.findAll = !1, this.remaining = new Set(e), this.wanted = new Set(e)), this.unfinishedMultiSegment = !1;
+		!0 === e ? (this.findAll = !0, this.wanted = new Set(H.keyList())) : (e = e === void 0 ? H.keyList().filter(((e) => this.options[e].enabled)) : e.filter(((e) => this.options[e].enabled && H.has(e))), this.findAll = !1, this.remaining = new Set(e), this.wanted = new Set(e)), this.unfinishedMultiSegment = !1;
 	}
 	async findAppSegments(e = 0, t) {
 		this.setupSegmentFinderArgs(t);
 		let { file: n, findAll: r, wanted: i, remaining: a } = this;
 		if (!r && this.file.chunked && (r = Array.from(i).some(((e) => {
-			let t = V.get(e), n = this.options[e];
+			let t = H.get(e), n = this.options[e];
 			return t.multiSegment && n.multiSegment;
 		})), r && await this.file.readWhole()), e = this.findAppSegmentsInRange(e, n.byteLength), !this.options.onlyTiff && n.chunked) {
 			let t = !1;
@@ -4412,10 +4412,10 @@ var ar = class extends class {
 		t -= 2;
 		let n, r, i, a, o, s, { file: c, findAll: l, wanted: u, remaining: d, options: f } = this;
 		for (; e < t; e++) if (c.getUint8(e) === 255) {
-			if (n = c.getUint8(e + 1), rr(n)) {
-				if (r = c.getUint16(e + 2), i = ir(c, e, r), i && u.has(i) && (a = V.get(i), o = a.findPosition(c, e), s = f[i], o.type = i, this.appSegments.push(o), !l && (a.multiSegment && s.multiSegment ? (this.unfinishedMultiSegment = o.chunkNumber < o.chunkCount, this.unfinishedMultiSegment || d.delete(i)) : d.delete(i), d.size === 0))) break;
-				f.recordUnknownSegments && (o = J.findPosition(c, e), o.marker = n, this.unknownSegments.push(o)), e += r + 1;
-			} else if (nr(n)) {
+			if (n = c.getUint8(e + 1), nr(n)) {
+				if (r = c.getUint16(e + 2), i = rr(c, e, r), i && u.has(i) && (a = H.get(i), o = a.findPosition(c, e), s = f[i], o.type = i, this.appSegments.push(o), !l && (a.multiSegment && s.multiSegment ? (this.unfinishedMultiSegment = o.chunkNumber < o.chunkCount, this.unfinishedMultiSegment || d.delete(i)) : d.delete(i), d.size === 0))) break;
+				f.recordUnknownSegments && (o = Y.findPosition(c, e), o.marker = n, this.unknownSegments.push(o)), e += r + 1;
+			} else if (tr(n)) {
 				if (r = c.getUint16(e + 2), n === 218 && !1 !== f.stopAfterSos) return;
 				f.recordJpegSegments && this.jpegSegments.push({
 					offset: e,
@@ -4434,7 +4434,7 @@ var ar = class extends class {
 			return Array.from(a);
 		}(this.appSegments, "type");
 		this.mergedAppSegments = e.map((([e, t]) => {
-			let n = V.get(e, this.options);
+			let n = H.get(e, this.options);
 			return n.handleMultiSegments ? {
 				type: e,
 				chunk: n.handleMultiSegments(t)
@@ -4449,8 +4449,8 @@ var ar = class extends class {
 		return t === void 0 && (await this.findAppSegments(0, [e]), t = this.getSegment(e)), t;
 	}
 };
-z(ar, "type", "jpeg"), kn.set("jpeg", ar);
-var or = [
+B(ir, "type", "jpeg"), On.set("jpeg", ir);
+var ar = [
 	void 0,
 	1,
 	1,
@@ -4465,7 +4465,7 @@ var or = [
 	4,
 	8,
 	4
-], sr = class extends J {
+], or = class extends Y {
 	parseHeader() {
 		var e = this.chunk.getUint16();
 		e === 18761 ? this.le = !0 : e === 19789 && (this.le = !1), this.chunk.le = this.le, this.headerParsed = !0;
@@ -4485,8 +4485,8 @@ var or = [
 		return n;
 	}
 	parseTag(e, t, n) {
-		let { chunk: r } = this, i = r.getUint16(e + 2), a = r.getUint32(e + 4), o = or[i];
-		if (o * a <= 4 ? e += 8 : e = r.getUint32(e + 8), (i < 1 || i > 13) && B(`Invalid TIFF value type. block: ${n.toUpperCase()}, tag: ${t.toString(16)}, type: ${i}, offset ${e}`), e > r.byteLength && B(`Invalid TIFF value offset. block: ${n.toUpperCase()}, tag: ${t.toString(16)}, type: ${i}, offset ${e} is outside of chunk size ${r.byteLength}`), i === 1) return r.getUint8Array(e, a);
+		let { chunk: r } = this, i = r.getUint16(e + 2), a = r.getUint32(e + 4), o = ar[i];
+		if (o * a <= 4 ? e += 8 : e = r.getUint32(e + 8), (i < 1 || i > 13) && V(`Invalid TIFF value type. block: ${n.toUpperCase()}, tag: ${t.toString(16)}, type: ${i}, offset ${e}`), e > r.byteLength && V(`Invalid TIFF value offset. block: ${n.toUpperCase()}, tag: ${t.toString(16)}, type: ${i}, offset ${e} is outside of chunk size ${r.byteLength}`), i === 1) return r.getUint8Array(e, a);
 		if (i === 2) return (s = function(e) {
 			for (; e.endsWith("\0");) e = e.slice(0, -1);
 			return e;
@@ -4528,10 +4528,10 @@ var or = [
 			case 11: return n.getFloat(t);
 			case 12: return n.getDouble(t);
 			case 13: return n.getUint32(t);
-			default: B(`Invalid tiff type ${e}`);
+			default: V(`Invalid tiff type ${e}`);
 		}
 	}
-}, cr = class extends sr {
+}, sr = class extends or {
 	static canHandle(e, t) {
 		return e.getUint8(t + 1) === 225 && e.getUint32(t + 4) === 1165519206 && e.getUint16(t + 8) === 0;
 	}
@@ -4561,13 +4561,13 @@ var or = [
 	async parseIfd0Block() {
 		if (this.ifd0) return;
 		let { file: e } = this;
-		this.findIfd0Offset(), this.ifd0Offset < 8 && B("Malformed EXIF data"), !e.chunked && this.ifd0Offset > e.byteLength && B(`IFD0 offset points to outside of file.\nthis.ifd0Offset: ${this.ifd0Offset}, file.byteLength: ${e.byteLength}`), e.tiff && await e.ensureChunk(this.ifd0Offset, Cn(this.options));
+		this.findIfd0Offset(), this.ifd0Offset < 8 && V("Malformed EXIF data"), !e.chunked && this.ifd0Offset > e.byteLength && V(`IFD0 offset points to outside of file.\nthis.ifd0Offset: ${this.ifd0Offset}, file.byteLength: ${e.byteLength}`), e.tiff && await e.ensureChunk(this.ifd0Offset, Sn(this.options));
 		let t = this.parseBlock(this.ifd0Offset, "ifd0");
 		return t.size === 0 ? void 0 : (this.exifOffset = t.get(34665), this.interopOffset = t.get(40965), this.gpsOffset = t.get(34853), this.xmp = t.get(700), this.iptc = t.get(33723), this.icc = t.get(34675), this.options.sanitize && (t.delete(34665), t.delete(40965), t.delete(34853), t.delete(700), t.delete(33723), t.delete(34675)), t);
 	}
 	async parseExifBlock() {
 		if (this.exif || (this.ifd0 || await this.parseIfd0Block(), this.exifOffset === void 0)) return;
-		this.file.tiff && await this.file.ensureChunk(this.exifOffset, Cn(this.options));
+		this.file.tiff && await this.file.ensureChunk(this.exifOffset, Sn(this.options));
 		let e = this.parseBlock(this.exifOffset, "exif");
 		return this.interopOffset ||= e.get(40965), this.makerNote = e.get(37500), this.userComment = e.get(37510), this.options.sanitize && (e.delete(40965), e.delete(37500), e.delete(37510)), this.unpack(e, 41728), this.unpack(e, 41729), e;
 	}
@@ -4578,7 +4578,7 @@ var or = [
 	async parseGpsBlock() {
 		if (this.gps || (this.ifd0 || await this.parseIfd0Block(), this.gpsOffset === void 0)) return;
 		let e = this.parseBlock(this.gpsOffset, "gps");
-		return e && e.has(2) && e.has(4) && (e.set("latitude", lr(...e.get(2), e.get(1))), e.set("longitude", lr(...e.get(4), e.get(3)))), e;
+		return e && e.has(2) && e.has(4) && (e.set("latitude", cr(...e.get(2), e.get(1))), e.set("longitude", cr(...e.get(4), e.get(3)))), e;
 	}
 	async parseInteropBlock() {
 		if (!this.interop && (this.ifd0 || await this.parseIfd0Block(), this.interopOffset !== void 0 || this.exif || await this.parseExifBlock(), this.interopOffset !== void 0)) return this.parseBlock(this.interopOffset, "interop");
@@ -4599,7 +4599,7 @@ var or = [
 	}
 	createOutput() {
 		let e, t, n, r = {};
-		for (t of U) if (e = this[t], !Sn(e)) {
+		for (t of W) if (e = this[t], !xn(e)) {
 			if (n = this.canTranslate ? this.translateBlock(e, t) : Object.fromEntries(e), this.options.mergeOutput) {
 				if (t === "ifd1") continue;
 				Object.assign(r, n);
@@ -4612,36 +4612,36 @@ var or = [
 		else for (let [n, r] of Object.entries(t)) this.assignObjectToOutput(e, n, r);
 	}
 };
-function lr(e, t, n, r) {
+function cr(e, t, n, r) {
 	var i = e + t / 60 + n / 3600;
 	return r !== "S" && r !== "W" || (i *= -1), i;
 }
-z(cr, "type", "tiff"), z(cr, "headerLength", 10), V.set("tiff", cr), Object.freeze({
+B(sr, "type", "tiff"), B(sr, "headerLength", 10), H.set("tiff", sr), Object.freeze({
 	__proto__: null,
-	default: tr,
-	Exifr: $n,
-	fileParsers: kn,
-	segmentParsers: V,
-	fileReaders: An,
-	tagKeys: Bn,
-	tagValues: Vn,
-	tagRevivers: Hn,
-	createDictionary: Rn,
-	extendDictionary: zn,
-	fetchUrlAsArrayBuffer: Fn,
-	readBlobAsArrayBuffer: In,
-	chunkedProps: H,
-	otherSegments: Un,
-	segments: Wn,
-	tiffBlocks: U,
-	segmentsAndBlocks: W,
-	tiffExtractables: G,
-	inheritables: Gn,
-	allFormatters: K,
-	Options: Yn,
-	parse: er
+	default: er,
+	Exifr: Qn,
+	fileParsers: On,
+	segmentParsers: H,
+	fileReaders: kn,
+	tagKeys: zn,
+	tagValues: Bn,
+	tagRevivers: Vn,
+	createDictionary: Ln,
+	extendDictionary: Rn,
+	fetchUrlAsArrayBuffer: Pn,
+	readBlobAsArrayBuffer: Fn,
+	chunkedProps: U,
+	otherSegments: Hn,
+	segments: Un,
+	tiffBlocks: W,
+	segmentsAndBlocks: G,
+	tiffExtractables: K,
+	inheritables: Wn,
+	allFormatters: q,
+	Options: Jn,
+	parse: $n
 });
-var ur = {
+var lr = {
 	ifd0: !1,
 	ifd1: !1,
 	exif: !1,
@@ -4653,7 +4653,7 @@ var ur = {
 	translateValues: !1,
 	mergeOutput: !1
 };
-Object.assign({}, ur, {
+Object.assign({}, lr, {
 	firstChunkSize: 4e4,
 	gps: [
 		1,
@@ -4661,22 +4661,22 @@ Object.assign({}, ur, {
 		3,
 		4
 	]
-}), Object.assign({}, ur, {
+}), Object.assign({}, lr, {
 	tiff: !1,
 	ifd1: !0,
 	mergeOutput: !1
 });
-var dr = Object.assign({}, ur, {
+var ur = Object.assign({}, lr, {
 	firstChunkSize: 4e4,
 	ifd0: [274]
 });
-async function fr(e) {
-	let t = new $n(dr);
+async function dr(e) {
+	let t = new Qn(ur);
 	await t.read(e);
 	let n = await t.parse();
 	if (n && n.ifd0) return n.ifd0[274];
 }
-var pr = Object.freeze({
+var fr = Object.freeze({
 	1: {
 		dimensionSwapped: !1,
 		scaleX: 1,
@@ -4733,37 +4733,37 @@ var pr = Object.freeze({
 		deg: 270,
 		rad: 270 * Math.PI / 180
 	}
-}), mr = !0, Y = !0;
+}), pr = !0, mr = !0;
 if (typeof navigator == "object") {
 	let e = navigator.userAgent;
 	if (e.includes("iPad") || e.includes("iPhone")) {
 		let t = e.match(/OS (\d+)_(\d+)/);
 		if (t) {
 			let [, e, n] = t;
-			mr = Number(e) + .1 * Number(n) < 13.4, Y = !1;
+			pr = Number(e) + .1 * Number(n) < 13.4, mr = !1;
 		}
 	} else if (e.includes("OS X 10")) {
 		let [, t] = e.match(/OS X 10[_.](\d+)/);
-		mr = Y = Number(t) < 15;
+		pr = mr = Number(t) < 15;
 	}
 	if (e.includes("Chrome/")) {
 		let [, t] = e.match(/Chrome\/(\d+)/);
-		mr = Y = Number(t) < 81;
+		pr = mr = Number(t) < 81;
 	} else if (e.includes("Firefox/")) {
 		let [, t] = e.match(/Firefox\/(\d+)/);
-		mr = Y = Number(t) < 77;
+		pr = mr = Number(t) < 77;
 	}
 }
 async function hr(e) {
-	let t = await fr(e);
+	let t = await dr(e);
 	return Object.assign({
-		canvas: mr,
-		css: Y
-	}, pr[t]);
+		canvas: pr,
+		css: mr
+	}, fr[t]);
 }
-var gr = class extends En {
+var gr = class extends Tn {
 	constructor(...e) {
-		super(...e), z(this, "ranges", new _r()), this.byteLength !== 0 && this.ranges.add(0, this.byteLength);
+		super(...e), B(this, "ranges", new _r()), this.byteLength !== 0 && this.ranges.add(0, this.byteLength);
 	}
 	_tryExtend(e, t, n) {
 		if (e === 0 && this.byteLength === 0 && n) {
@@ -4779,7 +4779,7 @@ var gr = class extends En {
 	}
 	_extend(e) {
 		let t;
-		t = bn ? yn.allocUnsafe(e) : new Uint8Array(e);
+		t = yn ? vn.allocUnsafe(e) : new Uint8Array(e);
 		let n = new DataView(t.buffer, t.byteOffset, t.byteLength);
 		return t.set(new Uint8Array(this.buffer, this.byteOffset, this.byteLength), 0), {
 			uintView: t,
@@ -4802,7 +4802,7 @@ var gr = class extends En {
 	}
 }, _r = class {
 	constructor() {
-		z(this, "list", []);
+		B(this, "list", []);
 	}
 	get length() {
 		return this.list.length;
@@ -4829,7 +4829,7 @@ function vr(e, t, n) {
 }
 var yr = class extends gr {
 	constructor(e, t) {
-		super(0), z(this, "chunksRead", 0), this.input = e, this.options = t;
+		super(0), B(this, "chunksRead", 0), this.input = e, this.options = t;
 	}
 	async readWhole() {
 		this.chunked = !1, await this.readChunk(this.nextChunkOffset);
@@ -4862,17 +4862,17 @@ var yr = class extends gr {
 	}
 	close() {}
 };
-An.set("blob", class extends yr {
+kn.set("blob", class extends yr {
 	async readWhole() {
 		this.chunked = !1;
-		let e = await In(this.input);
+		let e = await Fn(this.input);
 		this._swapArrayBuffer(e);
 	}
 	readChunked() {
 		return this.chunked = !0, this.size = this.input.size, super.readChunked();
 	}
 	async _readChunk(e, t) {
-		let n = t ? e + t : void 0, r = await In(this.input.slice(e, n));
+		let n = t ? e + t : void 0, r = await Fn(this.input.slice(e, n));
 		return this.set(r, e, !0);
 	}
 });
@@ -4936,7 +4936,7 @@ function Sr(e, t, n) {
 	}).then((e) => {
 		if (e === null) throw Error("cannot read image, probably an svg with external resources");
 		return e;
-	}) : Promise.resolve().then(() => T(e.toDataURL(t, n), {})).then((e) => {
+	}) : Promise.resolve().then(() => D(e.toDataURL(t, n), {})).then((e) => {
 		if (e === null) throw Error("could not extract blob, probably an old browser");
 		return e;
 	});
@@ -5035,14 +5035,14 @@ var Tr = {
 		return this.queueProcessing = !1, this.uppy.log("[ThumbnailGenerator] Emptied thumbnail queue"), this.uppy.emit("thumbnail:all-generated"), Promise.resolve();
 	}
 	requestThumbnail(e) {
-		return me(e.type) && !e.isRemote ? this.createThumbnail(e, this.opts.thumbnailWidth, this.opts.thumbnailHeight).then((t) => {
+		return he(e.type) && !e.isRemote ? this.createThumbnail(e, this.opts.thumbnailWidth, this.opts.thumbnailHeight).then((t) => {
 			this.setPreviewURL(e.id, t), this.uppy.log(`[ThumbnailGenerator] Generated thumbnail for ${e.id}`), this.uppy.emit("thumbnail:generated", this.uppy.getFile(e.id), t);
 		}).catch((t) => {
 			this.uppy.log(`[ThumbnailGenerator] Failed thumbnail for ${e.id}:`, "warning"), this.uppy.log(t, "warning"), this.uppy.emit("thumbnail:error", this.uppy.getFile(e.id), t);
 		}) : Promise.resolve();
 	}
 	onFileAdded = (e) => {
-		!e.preview && e.data && me(e.type) && !e.isRemote && this.addToQueue(e.id);
+		!e.preview && e.data && he(e.type) && !e.isRemote && this.addToQueue(e.id);
 	};
 	onCancelRequest = (e) => {
 		let t = this.queue.indexOf(e.id);
@@ -5050,11 +5050,11 @@ var Tr = {
 	};
 	onFileRemoved = (e) => {
 		let t = this.queue.indexOf(e.id);
-		t !== -1 && this.queue.splice(t, 1), e.preview && pe(e.preview) && URL.revokeObjectURL(e.preview);
+		t !== -1 && this.queue.splice(t, 1), e.preview && me(e.preview) && URL.revokeObjectURL(e.preview);
 	};
 	onRestored = () => {
 		this.uppy.getFiles().filter((e) => e.isRestored).forEach((e) => {
-			(!e.preview || pe(e.preview)) && this.addToQueue(e.id);
+			(!e.preview || me(e.preview)) && this.addToQueue(e.id);
 		});
 	};
 	onAllFilesRemoved = () => {
@@ -6001,7 +6001,7 @@ var Qr = (e) => {
 	return f("div", {
 		className: "uppy-Dashboard-Item-name",
 		title: n,
-		children: ye(n, r())
+		children: be(n, r())
 	});
 }, $r = (e) => {
 	let { author: t } = e.file.meta, n = "remote" in e.file ? e.file.remote?.providerName : void 0;
@@ -6011,7 +6011,7 @@ var Qr = (e) => {
 			href: `${t.url}?utm_source=Companion&utm_medium=referral`,
 			target: "_blank",
 			rel: "noopener noreferrer",
-			children: ye(t.name, 13)
+			children: be(t.name, 13)
 		}), n ? f(p, { children: [
 			" · ",
 			n,
@@ -6020,7 +6020,7 @@ var Qr = (e) => {
 	}) : null;
 }, ei = (e) => e.file.size && f("div", {
 	className: "uppy-Dashboard-Item-statusSize",
-	children: F(e.file.size)
+	children: T(e.file.size)
 }), ti = (e) => e.file.isGhost && f("span", { children: [" • ", f("button", {
 	className: "uppy-u-reset uppy-c-btn uppy-Dashboard-Item-reSelect",
 	type: "button",
@@ -6363,7 +6363,7 @@ function pi({ id: e, i18n: t, uppy: n, files: r, resumableUploads: i, hideRetryB
 	return d ? f("div", {
 		class: "uppy-Dashboard-files",
 		children: D(E[0])
-	}) : f(Se, {
+	}) : f(Ce, {
 		class: "uppy-Dashboard-files",
 		role: "list",
 		data: E,
@@ -6835,7 +6835,7 @@ function Ri(e) {
 	});
 }
 function zi(e) {
-	let { numUploads: t, complete: n, totalUploadedSize: r, totalSize: i, totalETA: a, i18n: o } = e, s = t > 1, c = F(r);
+	let { numUploads: t, complete: n, totalUploadedSize: r, totalSize: i, totalETA: a, i18n: o } = e, s = t > 1, c = T(r);
 	return f("div", {
 		className: "uppy-StatusBar-statusSecondary",
 		children: [s && o("filesUploadedOfTotal", {
@@ -6847,10 +6847,10 @@ function zi(e) {
 				s && ji(),
 				i == null ? o("dataUploadedOfUnknown", { complete: c }) : o("dataUploadedOfTotal", {
 					complete: c,
-					total: F(i)
+					total: T(i)
 				}),
 				ji(),
-				a != null && o("xTimeLeft", { time: ge(a) })
+				a != null && o("xTimeLeft", { time: _e(a) })
 			]
 		})]
 	});
@@ -7022,7 +7022,7 @@ function Qi({ newFiles: e, allowNewUpload: t, isUploadInProgress: n, isAllPaused
 			default: return !1;
 		}
 	}
-	let re = te(), k = re ?? 100, A = !a && e && (!n && !r || u) && t && !o, j = !c && d !== qi && d !== Zi, M = i && !s && d === Yi, N = a && !C && !l, P = v && d === Zi, ie = (0, L.default)("uppy-StatusBar-progress", { "is-indeterminate": ne() }), ae = (0, L.default)("uppy-StatusBar", `is-${d}`, { "has-ghosts": _ }), oe = (() => {
+	let k = te(), A = k ?? 100, re = !a && e && (!n && !r || u) && t && !o, ie = !c && d !== qi && d !== Zi, ae = i && !s && d === Yi, j = a && !C && !l, M = v && d === Zi, N = (0, L.default)("uppy-StatusBar-progress", { "is-indeterminate": ne() }), P = (0, L.default)("uppy-StatusBar", `is-${d}`, { "has-ghosts": _ }), F = (() => {
 		switch (d) {
 			case Ji:
 			case Xi: return f(Ri, { progress: Gi(m) });
@@ -7052,24 +7052,24 @@ function Qi({ newFiles: e, allowNewUpload: t, isUploadInProgress: n, isAllPaused
 			default: return null;
 		}
 	})();
-	return !(A || N || M || j || P) && !oe || d === Zi && g ? null : f("div", {
-		className: ae,
+	return !(re || j || ae || ie || M) && !F || d === Zi && g ? null : f("div", {
+		className: P,
 		children: [
 			f("div", {
-				className: ie,
-				style: { width: `${k}%` },
+				className: N,
+				style: { width: `${A}%` },
 				role: "progressbar",
-				"aria-label": `${k}%`,
-				"aria-valuetext": `${k}%`,
+				"aria-label": `${A}%`,
+				"aria-valuetext": `${A}%`,
 				"aria-valuemin": 0,
 				"aria-valuemax": 100,
-				"aria-valuenow": re
+				"aria-valuenow": k
 			}),
-			oe,
+			F,
 			f("div", {
 				className: "uppy-StatusBar-actions",
 				children: [
-					A ? f(Mi, {
+					re ? f(Mi, {
 						newFiles: e,
 						isUploadStarted: y,
 						recoveredState: u,
@@ -7078,22 +7078,22 @@ function Qi({ newFiles: e, allowNewUpload: t, isUploadInProgress: n, isAllPaused
 						startUpload: x,
 						uploadState: d
 					}) : null,
-					N ? f(Ni, {
+					j ? f(Ni, {
 						i18n: b,
 						uppy: S
 					}) : null,
-					M ? f(Fi, {
+					ae ? f(Fi, {
 						isAllPaused: r,
 						i18n: b,
 						isAllComplete: C,
 						resumableUploads: i,
 						uppy: S
 					}) : null,
-					j ? f(Pi, {
+					ie ? f(Pi, {
 						i18n: b,
 						uppy: S
 					}) : null,
-					P ? f(Ii, {
+					M ? f(Ii, {
 						i18n: b,
 						doneButtonHandler: v
 					}) : null
@@ -7148,12 +7148,12 @@ var na = class extends c {
 		if (this.#t = e.uploaded, r <= 0) return Math.round((this.#r ?? 0) / 100) / 10;
 		let i = r / n;
 		if (!Number.isFinite(i) || i <= 0) return null;
-		let a = this.#n == null ? i : D(i, this.#n, $i, n);
+		let a = this.#n == null ? i : ee(i, this.#n, $i, n);
 		if (!Number.isFinite(a) || a <= 0) return null;
 		this.#n = a;
 		let o = t / a;
 		if (!Number.isFinite(o) || o < 0) return null;
-		let s = Math.max((this.#r ?? 0) - n, 0), c = this.#r == null ? o : D(o, s, ea, n);
+		let s = Math.max((this.#r ?? 0) - n, 0), c = this.#r == null ? o : ee(o, s, ea, n);
 		return !Number.isFinite(c) || c < 0 ? null : (this.#r = c, this.#e = performance.now(), Math.round(c / 100) / 10);
 	}
 	startUpload = () => {
@@ -7226,7 +7226,7 @@ function sa(e) {
 		className: o,
 		"data-uppy-theme": e.theme,
 		"data-uppy-num-acquirers": e.acquirers.length,
-		"data-uppy-drag-drop-supported": !e.disableLocalFiles && fe(),
+		"data-uppy-drag-drop-supported": !e.disableLocalFiles && pe(),
 		"aria-hidden": e.inline ? "false" : e.isHidden,
 		"aria-disabled": e.disabled,
 		"aria-label": e.inline ? e.i18n("dashboardTitle") : e.i18n("dashboardWindowTitle"),
@@ -7491,11 +7491,11 @@ function la(e, t) {
 //#region node_modules/@uppy/dashboard/lib/utils/createSuperFocus.js
 function ua() {
 	let e = !1;
-	return (0, dn.default)((t, n) => {
+	return (0, un.default)((t, n) => {
 		let r = la(t, n), i = r.contains(document.activeElement);
 		if (i && e) return;
 		let a = r.querySelector("[data-uppy-super-focusable]");
-		(!i || a) && (a ? (a.focus({ preventScroll: !0 }), e = !0) : (r.querySelector(O.join(","))?.focus({ preventScroll: !0 }), e = !1));
+		(!i || a) && (a ? (a.focus({ preventScroll: !0 }), e = !0) : (r.querySelector(te.join(","))?.focus({ preventScroll: !0 }), e = !1));
 	}, 260);
 }
 //#endregion
@@ -7512,7 +7512,7 @@ function pa(e) {
 	return e.contains(document.activeElement);
 }
 function ma(e, t, n) {
-	let r = la(n, t), i = N(r.querySelectorAll(O.join(","))), a = i.indexOf(document.activeElement);
+	let r = la(n, t), i = N(r.querySelectorAll(te.join(","))), a = i.indexOf(document.activeElement);
 	pa(r) ? e.shiftKey && a === 0 ? fa(e, i) : !e.shiftKey && a === i.length - 1 && da(e, i) : da(e, i);
 }
 function ha(e, t, n) {
@@ -7533,7 +7533,7 @@ var ya = {
 	thumbnailWidth: 280,
 	thumbnailType: "image/jpeg",
 	waitForThumbnailsBeforeUpload: !1,
-	defaultPickerIcon: fn,
+	defaultPickerIcon: dn,
 	showLinkToFileUploadResult: !1,
 	hideProgressDetails: !1,
 	hideUploadButton: !1,
@@ -7807,7 +7807,7 @@ var ya = {
 			this.uppy.log(e, "error"), t ||= (this.uppy.info(e.message, "error"), !0);
 		};
 		this.uppy.log("[Dashboard] Processing dropped files");
-		let r = await ce(e.dataTransfer, { logDropError: n });
+		let r = await le(e.dataTransfer, { logDropError: n });
 		r.length > 0 && (this.uppy.log("[Dashboard] Files dropped"), this.addFiles(r)), this.opts.onDrop(e);
 	};
 	handleRequestThumbnail = (e) => {
@@ -7846,7 +7846,7 @@ var ya = {
 	};
 	initEvents = () => {
 		if (this.opts.trigger && !this.opts.inline) {
-			let e = ee(this.opts.trigger);
+			let e = ne(this.opts.trigger);
 			e ? e.forEach((e) => {
 				e.addEventListener("click", this.openModal);
 			}) : this.uppy.log("Dashboard modal trigger not found. Make sure `trigger` is set in Dashboard options, unless you are planning to call `dashboard.openModal()` method yourself", "warning");
@@ -7854,7 +7854,7 @@ var ya = {
 		this.startListeningToResize(), document.addEventListener("paste", this.handlePasteOnBody), this.uppy.on("plugin-added", this.#u), this.uppy.on("plugin-remove", this.removeTarget), this.uppy.on("file-added", this.hideAllPanels), this.uppy.on("dashboard:modal-closed", this.hideAllPanels), this.uppy.on("complete", this.handleComplete), this.uppy.on("files-added", this.#t), this.uppy.on("file-removed", this.#t), document.addEventListener("focus", this.recordIfFocusedOnUppyRecently, !0), document.addEventListener("click", this.recordIfFocusedOnUppyRecently, !0), this.opts.inline && this.el.addEventListener("keydown", this.handleKeyDownInInline), this.opts.autoOpen && this.uppy.on("files-added", this.#n);
 	};
 	removeEvents = () => {
-		let e = ee(this.opts.trigger);
+		let e = ne(this.opts.trigger);
 		!this.opts.inline && e && e.forEach((e) => {
 			e.removeEventListener("click", this.openModal);
 		}), this.stopListeningToResize(), document.removeEventListener("paste", this.handlePasteOnBody), window.removeEventListener("popstate", this.handlePopState, !1), this.uppy.off("plugin-added", this.#u), this.uppy.off("plugin-remove", this.removeTarget), this.uppy.off("file-added", this.hideAllPanels), this.uppy.off("dashboard:modal-closed", this.hideAllPanels), this.uppy.off("complete", this.handleComplete), this.uppy.off("files-added", this.#t), this.uppy.off("file-removed", this.#t), document.removeEventListener("focus", this.recordIfFocusedOnUppyRecently, !0), document.removeEventListener("click", this.recordIfFocusedOnUppyRecently, !0), this.opts.inline && this.el.removeEventListener("keydown", this.handleKeyDownInInline), this.opts.autoOpen && this.uppy.off("files-added", this.#n);
@@ -8385,34 +8385,40 @@ async function Ia(e, t, { acceptedFileTypes: n }) {
 function La() {
 	return "10000000-1000-4000-8000-100000000000".replace(/[018]/g, (e) => (e ^ crypto.getRandomValues(/* @__PURE__ */ new Uint8Array(1))[0] & 15 >> e / 4).toString(16));
 }
-function Ra({ abortMultipartUploadUsing: e, acceptedFileTypes: t, adoptUploadUsing: n, cancelUploadUsing: r, completeMultipartUploadUsing: i, csrfToken: a, deleteUploadedFileUsing: o, downloadLabel: s, editLabel: c, getUploadedFilesUsing: l, imageEditor: u, isChunked: d, isDeletable: f, isDisabled: p, isDownloadable: m, isMultiple: h, isOpenable: g, isPreviewable: _, isReorderable: v, locale: y, maxFiles: b, maxParallelUploads: x, maxSize: S, minSize: C, placeUploadedFileUsing: w, planUploadUsing: T, removeUploadedFileUsing: E, reorderUploadedFilesUsing: D, signUploadPartsUsing: O, sources: ee, state: te, uploadFailedMessage: ne, uploadingMessage: re, uploadUsing: k }) {
-	let A = null, j = null, M = null, N = /* @__PURE__ */ new Map(), P = null;
+function Ra({ abortMultipartUploadUsing: e, acceptedFileTypes: t, adoptUploadUsing: n, cancelUploadUsing: r, completeMultipartUploadUsing: i, csrfToken: a, deleteUploadedFileUsing: o, downloadLabel: s, editLabel: c, getUploadedFilesUsing: l, height: u, imageEditor: d, isChunked: f, isDeletable: p, isDisabled: m, isDownloadable: h, isModal: g, isMultiple: _, isOpenable: v, isPreviewable: y, isReorderable: b, locale: x, maxFiles: S, maxParallelUploads: C, maxSize: w, minSize: E, placeUploadedFileUsing: D, planUploadUsing: O, removeUploadedFileUsing: ee, reorderUploadedFilesUsing: te, signUploadPartsUsing: ne, sources: k, state: A, uploadFailedMessage: re, uploadingMessage: ie, uploadUsing: ae }) {
+	let j = null, M = null, N = null, P = null, F = /* @__PURE__ */ new Map(), oe = null;
 	return {
-		state: te,
+		state: A,
 		isRemovingSilently: !1,
+		files: [],
 		async init() {
-			let l = await Na(y);
-			A = new nt({
+			let l = await Na(x);
+			j = new nt({
 				autoProceed: !0,
 				...l ? { locale: l } : {},
 				restrictions: {
 					allowedFileTypes: t?.length ? t : null,
-					maxFileSize: S,
-					maxNumberOfFiles: h ? b : 1,
-					minFileSize: C
+					maxFileSize: w,
+					maxNumberOfFiles: _ ? S : 1,
+					minFileSize: E
 				}
 			}).use(ba, {
-				target: this.$refs.dashboard,
-				inline: !0,
-				width: "100%",
-				height: 320,
-				disabled: p,
+				target: this.getContainer(),
+				...g ? {
+					inline: !1,
+					closeModalOnClickOutside: !0
+				} : {
+					inline: !0,
+					width: "100%",
+					height: u ?? 320
+				},
+				disabled: m,
 				hideUploadButton: !0,
 				hideCancelButton: !0,
 				doneButtonHandler: null,
-				showRemoveButtonAfterComplete: f && !p,
-				showLinkToFileUploadResult: g,
-				disableThumbnailGenerator: !_,
+				showRemoveButtonAfterComplete: p && !m,
+				showLinkToFileUploadResult: v,
+				disableThumbnailGenerator: !y,
 				proudlyDisplayPoweredByUppy: !1,
 				theme: this.getTheme()
 			}).use(Ta, {
@@ -8420,24 +8426,24 @@ function Ra({ abortMultipartUploadUsing: e, acceptedFileTypes: t, adoptUploadUsi
 				adoptUsing: n,
 				cancelUploadUsing: r,
 				completeUsing: i,
-				signPartsUsing: O,
+				signPartsUsing: ne,
 				csrfToken: a,
-				isChunked: d,
-				planUsing: T,
-				maxParallelUploads: x ?? 2,
-				uploadFailedMessage: ne,
-				uploadUsing: k
-			}), p || await Ia(A, ee ?? [], { acceptedFileTypes: t }), A.on("file-added", (e) => {
-				A.setFileMeta(e.id, { fileKey: La() });
-			}), A.on("file-removed", (e) => {
-				A.getFiles().some((e) => e.error) || A.setState({ error: null }), !this.isRemovingSilently && e.meta.fileKey && (this.isStoredFile(e.meta.fileKey) ? o(e.meta.fileKey) : E(e.meta.fileKey));
-			}), A.on("upload", () => {
-				this.dispatchFormEvent("form-processing-started", { message: re });
-			}), A.on("complete", () => {
-				this.dispatchFormEvent("form-processing-finished"), v && !p && this.saveFileOrder();
-			}), v && !p && this.enableReordering(), u && !p && (await Da(A, u), A.on("file-editor:complete", (e) => this.replaceFile(e)), A.on("upload-success", (e) => {
-				N.has(e.id) && (w(e.meta.fileKey, N.get(e.id)), N.delete(e.id));
-			})), M = Aa(A, this.$refs.dashboard, (e) => [...Oa(A, e) && !p ? [{
+				isChunked: f,
+				planUsing: O,
+				maxParallelUploads: C ?? 2,
+				uploadFailedMessage: re,
+				uploadUsing: ae
+			}), m || await Ia(j, k ?? [], { acceptedFileTypes: t }), j.on("file-added", (e) => {
+				j.setFileMeta(e.id, { fileKey: La() });
+			}), j.on("file-removed", (e) => {
+				j.getFiles().some((e) => e.error) || j.setState({ error: null }), !this.isRemovingSilently && e.meta.fileKey && (this.isStoredFile(e.meta.fileKey) ? o(e.meta.fileKey) : ee(e.meta.fileKey));
+			}), j.on("upload", () => {
+				this.dispatchFormEvent("form-processing-started", { message: ie });
+			}), j.on("complete", () => {
+				this.dispatchFormEvent("form-processing-finished"), b && !m && this.saveFileOrder();
+			}), b && !m && this.enableReordering(), d && !m && (await Da(j, d), j.on("file-editor:complete", (e) => this.replaceFile(e)), j.on("upload-success", (e) => {
+				F.has(e.id) && (D(e.meta.fileKey, F.get(e.id)), F.delete(e.id));
+			})), N = Aa(j, this.getContainer(), (e) => [...Oa(j, e) && !m ? [{
 				name: "edit",
 				label: c,
 				onClick: (e) => this.editFile(e)
@@ -8445,38 +8451,57 @@ function Ra({ abortMultipartUploadUsing: e, acceptedFileTypes: t, adoptUploadUsi
 				name: "download",
 				label: s,
 				href: e.meta.downloadUrl
-			}] : []]), P = () => A.getPlugin("Dashboard").setOptions({ theme: this.getTheme() }), window.addEventListener("theme-changed", P), await this.syncFiles(), this.$watch("state", () => this.syncFiles());
+			}] : []]), g && j.on("state-update", () => this.summarize()), oe = () => j.getPlugin("Dashboard").setOptions({ theme: this.getTheme() }), window.addEventListener("theme-changed", oe), await this.syncFiles(), this.$watch("state", () => this.syncFiles());
 		},
 		destroy() {
-			window.removeEventListener("theme-changed", P), j?.disconnect(), M?.(), this.isRemovingSilently = !0, A?.destroy();
+			window.removeEventListener("theme-changed", oe), M?.disconnect(), N?.(), this.isRemovingSilently = !0, j?.destroy(), P?.remove();
 		},
 		getUppy() {
-			return A;
+			return j;
+		},
+		getContainer() {
+			return g ? (P || (P = document.createElement("div"), P.className = "fi-fluppy fi-fluppy-modal", b && !m && P.classList.add("fi-fluppy-reorderable"), document.body.append(P)), P) : this.$refs.dashboard;
+		},
+		openModal() {
+			j.getPlugin("Dashboard").openModal();
+		},
+		removeFile(e) {
+			j.removeFile(e);
+		},
+		summarize() {
+			this.files = j.getFiles().map((e) => ({
+				id: e.id,
+				name: e.name,
+				size: T(e.size ?? 0),
+				percentage: Math.round(e.progress.percentage ?? 0),
+				isComplete: !!e.progress.uploadComplete,
+				error: e.error ?? null
+			}));
 		},
 		async editFile(e) {
-			let t = A.getFile(e);
+			let t = j.getFile(e);
 			if (t.source === "Fluppy" && t.data.size === 0) try {
 				let n = await fetch(t.meta.url);
 				if (!n.ok) throw Error(n.statusText);
-				A.setFileState(e, { data: await n.blob() });
+				j.setFileState(e, { data: await n.blob() });
 			} catch {
-				A.info(ne, "error");
+				j.info(re, "error");
 				return;
 			}
-			A.getPlugin("Dashboard").openFileEditor(A.getFile(e));
+			j.getPlugin("Dashboard").openFileEditor(j.getFile(e));
 		},
 		replaceFile(e) {
-			let t = Object.keys(A.getState().files).indexOf(e.id);
-			A.removeFile(e.id);
-			let n = e.type.split("/")[1].replace("jpeg", "jpg"), r = A.addFile({
+			let t = Object.keys(j.getState().files).indexOf(e.id);
+			j.removeFile(e.id);
+			let n = e.type.split("/")[1].replace("jpeg", "jpg"), r = j.addFile({
 				name: /\.\w+$/.test(e.name) ? e.name : `${e.name}.${n}`,
 				type: e.type,
 				data: e.data,
 				source: "ImageEditor"
-			}), { files: i } = A.getState(), a = Object.keys(i).filter((e) => e !== r);
-			a.splice(t, 0, r), A.setState({ files: Object.fromEntries(a.map((e) => [e, i[e]])) });
+			}), { files: i } = j.getState(), a = Object.keys(i).filter((e) => e !== r);
+			a.splice(t, 0, r), j.setState({ files: Object.fromEntries(a.map((e) => [e, i[e]])) });
 			let o = a[t + 1];
-			o && N.set(r, i[o].meta.fileKey);
+			o && F.set(r, i[o].meta.fileKey);
 		},
 		getTheme() {
 			return this.$store.theme === "dark" ? "dark" : "light";
@@ -8489,17 +8514,17 @@ function Ra({ abortMultipartUploadUsing: e, acceptedFileTypes: t, adoptUploadUsi
 			return typeof t == "string" && !t.startsWith("livewire-file:");
 		},
 		async syncFiles() {
-			let e = this.getFileKeysInState(), t = A.getFiles();
-			this.isRemovingSilently = !0, t.filter((t) => t.progress.uploadComplete && !e.includes(t.meta.fileKey)).forEach((e) => A.removeFile(e.id)), this.isRemovingSilently = !1;
-			let n = A.getFiles().map((e) => e.meta.fileKey);
+			let e = this.getFileKeysInState(), t = j.getFiles();
+			this.isRemovingSilently = !0, t.filter((t) => t.progress.uploadComplete && !e.includes(t.meta.fileKey)).forEach((e) => j.removeFile(e.id)), this.isRemovingSilently = !1;
+			let n = j.getFiles().map((e) => e.meta.fileKey);
 			if (e.every((e) => n.includes(e))) return;
 			let r = await l() ?? {};
-			Object.entries(r).filter(([e, t]) => t && !n.includes(e)).forEach(([e, t]) => this.showStoredFile(e, t)), A.getFiles().every((e) => e.progress.uploadComplete) && A.setState({ totalProgress: 100 });
+			Object.entries(r).filter(([e, t]) => t && !n.includes(e)).forEach(([e, t]) => this.showStoredFile(e, t)), j.getFiles().every((e) => e.progress.uploadComplete) && j.setState({ totalProgress: 100 });
 		},
 		showStoredFile(e, { name: t, size: n, type: r, url: i, openableUrl: a, downloadableUrl: o }) {
 			let s = `fluppy-${e}`;
-			A.setState({ files: {
-				...A.getState().files,
+			j.setState({ files: {
+				...j.getState().files,
 				[s]: {
 					id: s,
 					name: t,
@@ -8512,12 +8537,12 @@ function Ra({ abortMultipartUploadUsing: e, acceptedFileTypes: t, adoptUploadUsi
 						type: r,
 						fileKey: e,
 						url: i,
-						downloadUrl: m ? o ?? i : null
+						downloadUrl: h ? o ?? i : null
 					},
 					source: "Fluppy",
 					isRemote: !1,
 					isGhost: !1,
-					preview: _ && r?.startsWith("image/") ? i : void 0,
+					preview: y && r?.startsWith("image/") ? i : void 0,
 					uploadURL: a ?? i,
 					progress: {
 						percentage: 100,
@@ -8530,12 +8555,12 @@ function Ra({ abortMultipartUploadUsing: e, acceptedFileTypes: t, adoptUploadUsi
 			} });
 		},
 		enableReordering() {
-			let e = this.$refs.dashboard, t = (e) => e.target.closest?.(".uppy-Dashboard-Item"), n = (e) => e.id.replace(/^uppy_/, ""), r = null, i = null, a = (e) => {
+			let e = this.getContainer(), t = (e) => e.target.closest?.(".uppy-Dashboard-Item"), n = (e) => e.id.replace(/^uppy_/, ""), r = null, i = null, a = (e) => {
 				i?.removeAttribute("data-fluppy-drop-target"), i = e, i?.setAttribute("data-fluppy-drop-target", "");
 			};
-			j = new MutationObserver(() => {
+			M = new MutationObserver(() => {
 				e.querySelectorAll(".uppy-Dashboard-Item:not([draggable])").forEach((e) => e.draggable = !0);
-			}), j.observe(e, {
+			}), M.observe(e, {
 				childList: !0,
 				subtree: !0
 			}), e.addEventListener("dragstart", (e) => {
@@ -8556,12 +8581,12 @@ function Ra({ abortMultipartUploadUsing: e, acceptedFileTypes: t, adoptUploadUsi
 			});
 		},
 		moveFile(e, t) {
-			let { files: n } = A.getState(), r = Object.keys(n), i = r.indexOf(e), a = r.indexOf(t);
-			i !== -1 && a !== -1 && i !== a && (r.splice(a, 0, r.splice(i, 1)[0]), A.setState({ files: Object.fromEntries(r.map((e) => [e, n[e]])) }), this.saveFileOrder());
+			let { files: n } = j.getState(), r = Object.keys(n), i = r.indexOf(e), a = r.indexOf(t);
+			i !== -1 && a !== -1 && i !== a && (r.splice(a, 0, r.splice(i, 1)[0]), j.setState({ files: Object.fromEntries(r.map((e) => [e, n[e]])) }), this.saveFileOrder());
 		},
 		saveFileOrder() {
-			let e = A.getFiles().map((e) => e.meta.fileKey);
-			e.join() !== this.getFileKeysInState().filter((t) => e.includes(t)).join() && D(e);
+			let e = j.getFiles().map((e) => e.meta.fileKey);
+			e.join() !== this.getFileKeysInState().filter((t) => e.includes(t)).join() && te(e);
 		},
 		dispatchFormEvent(e, t = {}) {
 			this.$el.closest("form")?.dispatchEvent(new CustomEvent(e, {
