@@ -3,13 +3,17 @@
 namespace Saade\Fluppy\Uploads;
 
 use Aws\Exception\AwsException;
+use Closure;
 use DateTimeInterface;
+use GuzzleHttp\Psr7\Utils;
 use Illuminate\Contracts\Cache\Lock;
 use Illuminate\Contracts\Cache\LockTimeoutException;
 use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Facades\Cache;
 use Livewire\Features\SupportFileUploads\FileUploadConfiguration;
 use Livewire\Features\SupportFileUploads\TemporaryUploadedFile;
+use Psr\Http\Message\StreamInterface;
+use Saade\Fluppy\Sources\SourceException;
 use Throwable;
 
 use function Livewire\invade;
@@ -62,7 +66,7 @@ class S3MultipartUpload
             return [
                 'strategy' => 's3',
                 'capability' => $capability,
-                'completed' => ChunkedUpload::referenceTo($filename),
+                'completed' => TemporaryUpload::referenceTo($filename),
             ];
         }
 
@@ -112,7 +116,7 @@ class S3MultipartUpload
         }
 
         if ($filename = $this->completedFilename($fingerprint)) {
-            return ChunkedUpload::referenceTo($filename);
+            return TemporaryUpload::referenceTo($filename);
         }
 
         $mapping = $this->mapping($fingerprint);
@@ -136,7 +140,56 @@ class S3MultipartUpload
         FileUploadConfiguration::storage()->put($this->mappingPath($fingerprint, 'done'), $mapping['filename']);
         FileUploadConfiguration::storage()->delete($this->mappingPath($fingerprint));
 
-        return ChunkedUpload::referenceTo($mapping['filename']);
+        return TemporaryUpload::referenceTo($mapping['filename']);
+    }
+
+    /**
+     * Sends one part to the bucket from the server, for a file the server
+     * fetches from a remote source instead of the browser sending it.
+     *
+     * `$read` is asked for the bytes of the part, from the first to the
+     * last included. They are held here before they go on: a part has to be
+     * sent with its length and its checksum, and a stream that is still
+     * arriving from somewhere else has neither.
+     *
+     * @param  array{name: string, size: int, type: string, lastModified: int, origin?: string}  $file  The file the capability has to have been issued for.
+     * @param  Closure(int, int): StreamInterface  $read
+     */
+    public function storePart(mixed $capability, int $partNumber, array $file, Closure $read): bool
+    {
+        $fingerprint = $this->fingerprintFromCapability($capability);
+
+        $mapping = $fingerprint ? $this->mapping($fingerprint) : null;
+
+        if (
+            ! $mapping ||
+            $fingerprint !== ChunkedUpload::fingerprint($file, $mapping['partSize']) ||
+            $partNumber < 1 ||
+            $partNumber > $this->totalParts($mapping)
+        ) {
+            return false;
+        }
+
+        $from = ($partNumber - 1) * $mapping['partSize'];
+        $to = min($mapping['size'], $partNumber * $mapping['partSize']) - 1;
+
+        $part = Utils::streamFor(fopen('php://temp/maxmemory:2097152', 'w+b'));
+
+        try {
+            Utils::copyToStream($read($from, $to), $part);
+
+            if ($part->getSize() !== $to - $from + 1) {
+                throw SourceException::unreachable();
+            }
+
+            $part->rewind();
+
+            $this->putPart($mapping, $partNumber, $part);
+        } finally {
+            $part->close();
+        }
+
+        return true;
     }
 
     public function abort(mixed $capability): void
@@ -374,6 +427,20 @@ class S3MultipartUpload
                     ->values()
                     ->all(),
             ],
+        ]);
+    }
+
+    /**
+     * @param  array<string, mixed>  $mapping
+     */
+    protected function putPart(array $mapping, int $partNumber, StreamInterface $part): void
+    {
+        $this->client()->uploadPart([
+            'Bucket' => $this->bucket(),
+            'Key' => $mapping['key'],
+            'UploadId' => $mapping['uploadId'],
+            'PartNumber' => $partNumber,
+            'Body' => $part,
         ]);
     }
 

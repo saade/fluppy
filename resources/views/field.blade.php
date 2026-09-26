@@ -39,6 +39,9 @@
             getUploadedFilesUsing: async () => {
                 return await $wire.callSchemaComponentMethod(@js($key), 'getUploadedFiles')
             },
+            describeRemoteFileUsing: async (source, reference) => {
+                return await $wire.callSchemaComponentMethod(@js($key), 'describeRemoteFile', { source, reference })
+            },
             downloadLabel: @js(__('fluppy::fluppy.download')),
             editLabel: @js(__('fluppy::fluppy.edit')),
             height: @js($getHeight()),
@@ -60,9 +63,13 @@
             placeUploadedFileUsing: async (fileKey, beforeFileKey) => {
                 return await $wire.callSchemaComponentMethod(@js($key), 'placeUploadedFile', { fileKey, beforeFileKey })
             },
+            planRemoteUploadUsing: async (source, reference) => {
+                return await $wire.callSchemaComponentMethod(@js($key), 'planRemoteUpload', { source, reference })
+            },
             planUploadUsing: async (file) => {
                 return await $wire.callSchemaComponentMethod(@js($key), 'planUpload', { file })
             },
+            remoteSources: @js($getRemoteSources()),
             removeUploadedFileUsing: async (fileKey) => {
                 return await $wire.callSchemaComponentMethod(@js($key), 'removeUploadedFile', { fileKey })
             },

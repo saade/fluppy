@@ -100,6 +100,40 @@ Each one adds a button next to "My Device". What is taken or recorded is uploade
 - The script of a source is loaded only by fields that have it on.
 - Browsers give access to the camera, the microphone and the screen on HTTPS pages only (and on `localhost`), and ask the person for it the first time. If your app sends a `Permissions-Policy` header, it has to allow `camera`, `microphone` and `display-capture` for your own origin.
 
+## Importing from a link
+
+```php
+FluppyField::make('video')
+    ->importFromUrl()
+```
+
+This adds a "Link" button. The person pastes the address of a file, and **your server fetches it**: the file never passes through their device. Once fetched it is a temporary upload like any other, and has to pass the field's rules and Livewire's.
+
+- A large file is fetched in parts of 5 MB, each in a short request the browser asks for, so neither a queue nor a long-running request is needed, and the import shows its progress and can be paused. Set the size of a part with `fluppy.remote.part_size`, in kilobytes.
+- A server that does not answer range requests, or does not say how large the file is, gives the file whole, in one request. That request has to finish within PHP's `max_execution_time` and within `fluppy.remote.timeout` (60 seconds), and shows no progress until it is done.
+- With S3 as the temporary disk, each part goes from your server to the bucket as a part of a multipart upload.
+
+Fetching an address someone typed is a way to make your server reach places only it can reach, so the address is checked before anything is requested from it:
+
+- Only `http` and `https`, on ports 80 and 443 (`fluppy.remote.url.ports`), and without a user name or password in the address.
+- Every address the host name resolves to has to be on the public internet. Loopback, private and link-local addresses are refused, which includes the metadata address of cloud providers.
+- The connection is made to the address that was checked, so the name cannot answer differently a moment later.
+- A redirect is checked the same way before it is followed, five at most.
+- Only IPv4 is looked up: a file on a host with no IPv4 address cannot be imported.
+
+To only allow some hosts, list them in `fluppy.remote.url.hosts`; `*` matches any part of a name:
+
+```php
+// config/fluppy.php
+'remote' => [
+    'url' => [
+        'hosts' => ['files.example.com', '*.cdn.example.com'],
+    ],
+],
+```
+
+The route that fetches is only of use to the session a field planned an import for, and is throttled (`fluppy.remote.throttle`).
+
 ## Editing images
 
 ```php

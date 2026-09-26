@@ -3,6 +3,7 @@
 namespace Saade\Fluppy\Tests\Fixtures;
 
 use Livewire\Features\SupportFileUploads\FileUploadConfiguration;
+use Psr\Http\Message\StreamInterface;
 use RuntimeException;
 use Saade\Fluppy\Uploads\S3MultipartUpload;
 use Throwable;
@@ -53,6 +54,11 @@ class FakeS3MultipartUpload extends S3MultipartUpload
             FileUploadConfiguration::path($mapping['filename'], false),
             str_repeat('a', array_sum(array_column($parts, 'size'))),
         );
+    }
+
+    protected function putPart(array $mapping, int $partNumber, StreamInterface $part): void
+    {
+        static::receivePart($partNumber, $part->getSize(), $mapping['uploadId']);
     }
 
     protected function abortUpload(array $mapping): void

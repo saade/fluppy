@@ -11,6 +11,10 @@ use Saade\Fluppy\Commands\DoctorCommand;
 use Saade\Fluppy\Commands\PruneCommand;
 use Saade\Fluppy\Http\Controllers\ChunkController;
 use Saade\Fluppy\Http\Controllers\DoctorController;
+use Saade\Fluppy\Http\Controllers\RemoteController;
+use Saade\Fluppy\Sources\SourceManager;
+use Saade\Fluppy\Sources\Support\UrlGuard;
+use Saade\Fluppy\Sources\UrlSource;
 use Spatie\LaravelPackageTools\Package;
 use Spatie\LaravelPackageTools\PackageServiceProvider;
 
@@ -30,6 +34,14 @@ class FluppyServiceProvider extends PackageServiceProvider
             ->hasViews();
     }
 
+    public function packageRegistered(): void
+    {
+        $this->app->singleton(UrlGuard::class, fn (): UrlGuard => new UrlGuard);
+
+        $this->app->singleton(SourceManager::class, fn (): SourceManager => (new SourceManager)
+            ->extend('url', fn (): UrlSource => app(UrlSource::class)));
+    }
+
     public function packageBooted(): void
     {
         FilamentAsset::register(
@@ -40,6 +52,10 @@ class FluppyServiceProvider extends PackageServiceProvider
         Route::post('fluppy/chunks', ChunkController::class)
             ->middleware(['web', 'throttle:' . config('fluppy.chunking.throttle', '600,1')])
             ->name('fluppy.chunks');
+
+        Route::post('fluppy/remote', RemoteController::class)
+            ->middleware(['web', 'throttle:' . config('fluppy.remote.throttle', '600,1')])
+            ->name('fluppy.remote');
 
         // Called by `fluppy:doctor`, which has no session to pass the `web`
         // group with.

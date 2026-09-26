@@ -9,14 +9,16 @@ class Paused extends Error {}
 class Cancelled extends Error {}
 
 /**
- * Sends each file the way the field plans it: a small one through Livewire's
- * own upload, as Filament's upload field does, and a large one in pieces,
- * either as chunks to the package's route or as the parts of an S3 multipart
- * upload. Whichever way, the file reaches the form's state as a temporary
- * upload.
+ * Gets each file to Livewire's temporary disk the way the field plans it,
+ * and into the form's state as a temporary upload.
+ *
+ * A small file from the device goes through Livewire's own upload, as with
+ * Filament's upload field. A large one goes in pieces: chunks to the
+ * package's route, or the parts of an S3 multipart upload. A file from a
+ * remote source is never in the browser at all: the server fetches it, and
+ * the browser only asks for each piece.
  */
 export default class LivewireUpload extends BasePlugin {
-    // What is in flight for each file being sent in pieces, by file ID.
     transfers = new Map()
 
     constructor(uppy, opts) {
@@ -81,8 +83,8 @@ export default class LivewireUpload extends BasePlugin {
                 throw new Error(plan.message)
             }
 
-            if (this.isInPieces(plan)) {
-                await this.uploadInPieces(file, plan)
+            if (this.isTransfer(plan)) {
+                await this.transfer(file, plan)
             } else {
                 await this.uploadThroughLivewire(file)
             }
@@ -104,7 +106,13 @@ export default class LivewireUpload extends BasePlugin {
         }
     }
 
+    // What a remote file is known by is whatever its source's plugin put in
+    // `remote.body`: a link, an id. The server finds out the rest.
     plan(file) {
+        if (file.isRemote) {
+            return this.opts.planRemoteUsing(file.source, file.remote.body)
+        }
+
         return this.opts.planUsing({
             name: file.name,
             size: file.size,
@@ -113,8 +121,8 @@ export default class LivewireUpload extends BasePlugin {
         })
     }
 
-    isInPieces(plan) {
-        return plan.strategy === 'chunked' || plan.strategy === 's3'
+    isTransfer(plan) {
+        return ['chunked', 's3', 'remote'].includes(plan.strategy)
     }
 
     uploadThroughLivewire(file) {
@@ -130,12 +138,16 @@ export default class LivewireUpload extends BasePlugin {
                 resolve,
                 () => reject(this.failure()),
                 (percentage) =>
-                    this.reportProgress(file, (file.size * percentage) / 100),
+                    this.reportProgress(
+                        file,
+                        (file.size * percentage) / 100,
+                        file.size,
+                    ),
             )
         })
     }
 
-    async uploadInPieces(file, plan) {
+    async transfer(file, plan) {
         const transfer = {
             isPaused: false,
             isCancelled: false,
@@ -150,8 +162,8 @@ export default class LivewireUpload extends BasePlugin {
             let reference = plan.completed
 
             // Sending stops when the file is paused, and when the signed
-            // address of the chunk route expires on a long upload. Both
-            // continue from a new plan, which says what has arrived.
+            // address of the route expires on a long upload. Both continue
+            // from a new plan, which says what has arrived.
             while (!reference) {
                 const { capability } = plan
 
@@ -165,10 +177,7 @@ export default class LivewireUpload extends BasePlugin {
                         : null
 
                 try {
-                    reference =
-                        plan.strategy === 's3'
-                            ? await this.sendParts(file, plan, transfer)
-                            : await this.sendChunks(file, plan, transfer)
+                    reference = await this.send(file, plan, transfer)
                 } catch (error) {
                     if (!(error instanceof Paused) && error.status !== 401) {
                         throw error
@@ -184,7 +193,7 @@ export default class LivewireUpload extends BasePlugin {
 
                     plan = await this.plan(file)
 
-                    if (!this.isInPieces(plan)) {
+                    if (!this.isTransfer(plan)) {
                         throw this.failure(plan.message)
                     }
 
@@ -200,11 +209,19 @@ export default class LivewireUpload extends BasePlugin {
         }
     }
 
+    send(file, plan, transfer) {
+        return {
+            chunked: () => this.sendChunks(file, plan, transfer),
+            s3: () => this.sendParts(file, plan, transfer),
+            remote: () => this.fetchWhole(plan, transfer),
+        }[plan.strategy]()
+    }
+
     /**
      * Sends the pieces that are missing, a few at a time, reporting progress
      * as the bytes of the ones that arrived plus those on their way.
      */
-    async sendPieces(file, { missing, sizeOf, arrived, send }) {
+    async sendPieces(file, { missing, sizeOf, arrived, send, total }) {
         const inFlight = new Map()
         const pending = [...missing]
 
@@ -213,6 +230,7 @@ export default class LivewireUpload extends BasePlugin {
                 file,
                 [...arrived].reduce((bytes, piece) => bytes + sizeOf(piece), 0) +
                     [...inFlight.values()].reduce((a, b) => a + b, 0),
+                total,
             )
 
         const work = async () => {
@@ -239,36 +257,33 @@ export default class LivewireUpload extends BasePlugin {
         await Promise.all(Array.from({ length: PIECES_IN_PARALLEL }, work))
     }
 
+    // A file from the device carries its bytes to the package's route. For
+    // a remote one the request carries none: it tells the server which
+    // chunk to fetch, and the sealed description says of which file.
     async sendChunks(file, plan, transfer) {
+        const total = plan.size ?? file.size
         const arrived = new Set(plan.receivedChunks)
-        const chunkOf = (index) =>
-            file.data.slice(
-                index * plan.chunkSize,
-                Math.min(file.size, (index + 1) * plan.chunkSize),
-            )
+        const rangeOf = (index) => [
+            index * plan.chunkSize,
+            Math.min(total, (index + 1) * plan.chunkSize),
+        ]
 
-        const sendChunk = (index, onProgress) => {
-            const body = new FormData()
-
-            body.append('capability', plan.capability)
-            body.append('index', index)
-            body.append('name', file.name)
-            body.append('type', file.type ?? '')
-            body.append('chunk', chunkOf(index), file.name)
-
-            return this.attempt(transfer, () =>
-                this.request(transfer, {
-                    method: 'POST',
-                    url: plan.url,
-                    headers: {
-                        Accept: 'application/json',
-                        'X-CSRF-TOKEN': this.opts.csrfToken,
-                    },
-                    body,
+        const sendChunk = (index, onProgress) =>
+            this.attempt(transfer, () =>
+                this.post(
+                    transfer,
+                    plan,
+                    plan.sealed
+                        ? { index }
+                        : {
+                              index,
+                              name: file.name,
+                              type: file.type ?? '',
+                              chunk: [file.data.slice(...rangeOf(index)), file.name],
+                          },
                     onProgress,
-                }),
+                ),
             )
-        }
 
         let reference = null
         let lastIndex = plan.totalChunks - 1
@@ -277,8 +292,9 @@ export default class LivewireUpload extends BasePlugin {
             missing: this.range(0, plan.totalChunks - 1).filter(
                 (index) => !arrived.has(index),
             ),
-            sizeOf: (index) => chunkOf(index).size,
+            sizeOf: (index) => rangeOf(index)[1] - rangeOf(index)[0],
             arrived,
+            total,
             send: async (index, pending, onProgress) => {
                 lastIndex = index
 
@@ -308,13 +324,13 @@ export default class LivewireUpload extends BasePlugin {
     }
 
     async sendParts(file, plan, transfer) {
+        const total = plan.size ?? file.size
         const arrived = new Set(plan.uploadedParts)
         const addresses = new Map()
-        const partOf = (number) =>
-            file.data.slice(
-                (number - 1) * plan.partSize,
-                Math.min(file.size, number * plan.partSize),
-            )
+        const rangeOf = (number) => [
+            (number - 1) * plan.partSize,
+            Math.min(total, number * plan.partSize),
+        ]
 
         let signing = null
 
@@ -354,19 +370,22 @@ export default class LivewireUpload extends BasePlugin {
             missing: this.range(1, plan.totalParts).filter(
                 (number) => !arrived.has(number),
             ),
-            sizeOf: (number) => partOf(number).size,
+            sizeOf: (number) => rangeOf(number)[1] - rangeOf(number)[0],
             arrived,
+            total,
             send: async (number, pending, onProgress) => {
                 await this.attempt(
                     transfer,
                     async () =>
-                        this.request(transfer, {
-                            method: 'PUT',
-                            url: await addressOf(number, pending),
-                            body: partOf(number),
-                            onProgress,
-                        }),
-                    { retryForbidden: true },
+                        plan.sealed
+                            ? this.post(transfer, plan, { part: number }, onProgress)
+                            : this.request(transfer, {
+                                  method: 'PUT',
+                                  url: await addressOf(number, pending),
+                                  body: file.data.slice(...rangeOf(number)),
+                                  onProgress,
+                              }),
+                    { retryForbidden: !plan.sealed },
                 )
 
                 return false
@@ -380,6 +399,45 @@ export default class LivewireUpload extends BasePlugin {
         }
 
         return reference
+    }
+
+    async fetchWhole(plan, transfer) {
+        const response = await this.attempt(transfer, () =>
+            this.post(transfer, plan, {}, () => {}),
+        )
+
+        if (!response?.reference) {
+            throw this.failure()
+        }
+
+        return response.reference
+    }
+
+    post(transfer, plan, fields, onProgress) {
+        const body = new FormData()
+
+        Object.entries({
+            capability: plan.capability,
+            sealed: plan.sealed,
+            ...fields,
+        })
+            .filter(([, value]) => value !== undefined && value !== null)
+            .forEach(([name, value]) =>
+                Array.isArray(value)
+                    ? body.append(name, ...value)
+                    : body.append(name, value),
+            )
+
+        return this.request(transfer, {
+            method: 'POST',
+            url: plan.url,
+            headers: {
+                Accept: 'application/json',
+                'X-CSRF-TOKEN': this.opts.csrfToken,
+            },
+            body,
+            onProgress,
+        })
     }
 
     /**
@@ -486,17 +544,17 @@ export default class LivewireUpload extends BasePlugin {
         return Array.from({ length: to - from + 1 }, (_, index) => from + index)
     }
 
-    reportProgress(file, bytesUploaded) {
+    reportProgress(file, bytesUploaded, bytesTotal) {
         const current = this.uppy.getFile(file.id)
 
-        if (!current) {
+        if (!current || !bytesTotal) {
             return
         }
 
         this.uppy.emit('upload-progress', current, {
             uploadStarted: current.progress.uploadStarted ?? Date.now(),
-            bytesUploaded: Math.min(bytesUploaded, file.size),
-            bytesTotal: file.size,
+            bytesUploaded: Math.min(bytesUploaded, bytesTotal),
+            bytesTotal,
         })
     }
 

@@ -9,4 +9,10 @@ return [
     'remove' => 'Remover',
     'choose_files' => 'Escolher arquivos',
     'view_files' => 'Ver arquivos',
+    'sources' => [
+        'url' => 'Link',
+        'not_allowed' => 'Não é possível buscar arquivos desse endereço.',
+        'unreachable' => 'Não foi possível buscar o arquivo de onde ele está.',
+        'failed' => 'Não foi possível buscar o arquivo: o servidor respondeu :status.',
+    ],
 ];

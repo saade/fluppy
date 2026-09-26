@@ -5,7 +5,7 @@ import LivewireUpload from './livewire-upload.js'
 import { isEditable, useImageEditor } from './image-editor.js'
 import { useItemActions } from './item-actions.js'
 import { loadUppyLocale } from './locale.js'
-import { useSources } from './sources.js'
+import { useRemoteSources, useSources } from './sources.js'
 
 // The same generator Filament's own upload field uses, which also works on
 // pages served without HTTPS, where `crypto.randomUUID()` is not available.
@@ -26,6 +26,7 @@ export default function fluppy({
     completeMultipartUploadUsing,
     csrfToken,
     deleteUploadedFileUsing,
+    describeRemoteFileUsing,
     downloadLabel,
     editLabel,
     getUploadedFilesUsing,
@@ -46,7 +47,9 @@ export default function fluppy({
     maxSize,
     minSize,
     placeUploadedFileUsing,
+    planRemoteUploadUsing,
     planUploadUsing,
+    remoteSources,
     removeUploadedFileUsing,
     reorderUploadedFilesUsing,
     signUploadPartsUsing,
@@ -121,6 +124,7 @@ export default function fluppy({
                     signPartsUsing: signUploadPartsUsing,
                     csrfToken,
                     isChunked,
+                    planRemoteUsing: planRemoteUploadUsing,
                     planUsing: planUploadUsing,
                     // The number FilePond uses when Filament's field sets none.
                     maxParallelUploads: maxParallelUploads ?? 2,
@@ -130,6 +134,10 @@ export default function fluppy({
 
             if (!isDisabled) {
                 await useSources(uppy, sources ?? [], { acceptedFileTypes })
+                await useRemoteSources(uppy, remoteSources, {
+                    describe: describeRemoteFileUsing,
+                    failedMessage: uploadFailedMessage,
+                })
             }
 
             uppy.on('file-added', (file) => {

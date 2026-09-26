@@ -4,8 +4,6 @@ use Illuminate\Support\Facades\Storage;
 use Saade\Fluppy\Forms\Components\FluppyField;
 use Saade\Fluppy\Tests\Fixtures\FluppyForm;
 
-const UPPY = "window.Alpine.\$data(document.querySelector('.fi-fluppy')).getUppy()";
-
 const EDITED_IMAGE_IS_UPLOADED = '(() => { const files = ' . UPPY . ".getFiles(); return files.length === 1 && files[0].source === 'ImageEditor' && files[0].progress.uploadComplete === true })()";
 
 /**
@@ -60,11 +58,6 @@ function waitUntil(mixed $page, string $expression): mixed
     }
 
     test()->fail("Waited 10 seconds for [{$expression}].");
-}
-
-function storedFile(mixed $page): string
-{
-    return Storage::disk('uploads')->get(json_decode($page->text('#saved')));
 }
 
 it('uploads a small file through Livewire and stores it', function () {

@@ -9,6 +9,59 @@ const isOnly = (acceptedFileTypes, kind) =>
     Boolean(acceptedFileTypes?.length) &&
     acceptedFileTypes.every((type) => type.startsWith(`${kind}/`))
 
+// A remote source's plugin only says which file: the server fetches it. How
+// each is set up to ask the field, rather than Uppy's Companion, is here.
+const remoteSources = {
+    url: async (uppy, { label }, { describe, failedMessage }) => {
+        const { default: Url } = await import('@uppy/url')
+
+        uppy.use(Url, {
+            id: 'url',
+            // Required by the plugin and never called.
+            companionUrl: window.location.origin,
+            locale: { strings: { pluginNameUrl: label } },
+        })
+
+        // The plugin's own asks Companion about the link, and of a link it
+        // turns away only says that Companion failed. This one asks the
+        // field, and shows the reason the field gives.
+        uppy.getPlugin('url').addFile = async (link) => {
+            if (link.startsWith('blob')) {
+                return
+            }
+
+            const url = /^[a-z0-9]+:\/\//i.test(link) ? link : `https://${link}`
+            const file = await describe('url', { url }).catch(() => null)
+
+            if (!file || file.error) {
+                uppy.info(file?.error ?? failedMessage, 'error', 5000)
+
+                return
+            }
+
+            try {
+                return uppy.addFile({
+                    source: 'url',
+                    name: file.name,
+                    type: file.type,
+                    data: { size: file.size },
+                    isRemote: true,
+                    remote: { body: { url } },
+                })
+            } catch {
+                // Turned away by one of the field's restrictions, which
+                // Uppy has already told the person about.
+            }
+        }
+    },
+}
+
+export async function useRemoteSources(uppy, enabled, context) {
+    for (const [id, options] of Object.entries(enabled ?? {})) {
+        await remoteSources[id]?.(uppy, options, context)
+    }
+}
+
 /**
  * Adds to Uppy the places, other than the device's files, a file can come
  * from. The Dashboard shows each as a button of its own.

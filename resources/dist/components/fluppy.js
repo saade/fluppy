@@ -1,11 +1,12 @@
 import { n as e, t } from "../fluppy-rolldown-runtime-DtPi1Y-2.js";
-import { n, t as r } from "../fluppy-getErrorMessage-e5OqMKex.js";
-import { a as i, c as a, d as o, f as s, i as c, l, n as u, o as d, r as f, s as p, t as m } from "../fluppy-UIPlugin-ihypjxg2.js";
-import { t as h } from "../fluppy-mimeTypes-CcSLKirE.js";
-import { t as g } from "../fluppy-isRestrictionError-Dq8RAQXC.js";
-import { a as _, i as v, n as y, o as b, r as x, s as S, t as C } from "../fluppy-hooks.module-DqAiOXxL.js";
+import { a as n, i as r, n as i, o as a, r as o } from "../fluppy-AuthError-BZ7Rk9VV.js";
+import { n as s, t as c } from "../fluppy-getErrorMessage-e5OqMKex.js";
+import { a as l, c as u, d, f, i as p, l as m, n as h, o as g, r as _, s as v, t as y } from "../fluppy-UIPlugin-ihypjxg2.js";
+import { t as b } from "../fluppy-mimeTypes-CcSLKirE.js";
+import { t as x } from "../fluppy-isRestrictionError-Dq8RAQXC.js";
+import { a as S, i as C, n as w, o as T, r as E, s as D, t as O } from "../fluppy-hooks.module-DqAiOXxL.js";
 //#region node_modules/@transloadit/prettier-bytes/dist/prettierBytes.js
-var w = [
+var ee = [
 	"B",
 	"KB",
 	"MB",
@@ -16,18 +17,18 @@ var w = [
 	"ZB",
 	"YB"
 ];
-function T(e, t) {
+function k(e, t) {
 	if (typeof e != "number" || Number.isNaN(e)) throw TypeError(`Expected a number, got ${typeof e}`);
 	let n = e < 0, r = Math.abs(e);
 	if (n && (r = -r), r === 0) return "0 B";
-	let i = t ? w.indexOf(t) : Math.min(Math.floor(Math.log(r) / Math.log(1024)), w.length - 1), a = Number(r / 1024 ** i), o = w[i];
+	let i = t ? ee.indexOf(t) : Math.min(Math.floor(Math.log(r) / Math.log(1024)), ee.length - 1), a = Number(r / 1024 ** i), o = ee[i];
 	return i >= 3 ? a % 1 == 0 ? `${Math.round(a)} ${o}` : `${a.toFixed(2)} ${o}` : `${a >= 10 || a % 1 == 0 ? Math.round(a) : a.toFixed(1)} ${o}`;
 }
 //#endregion
 //#region node_modules/@uppy/core/lib/utils/dataURItoBlob.js
-var E = /^data:([^/]+\/[^,;]+(?:[^,]*?))(;base64)?,([\s\S]*)$/;
-function D(e, t, n) {
-	let r = E.exec(e), i = t.mimeType ?? r?.[1] ?? "plain/text", a;
+var te = /^data:([^/]+\/[^,;]+(?:[^,]*?))(;base64)?,([\s\S]*)$/;
+function ne(e, t, n) {
+	let r = te.exec(e), i = t.mimeType ?? r?.[1] ?? "plain/text", a;
 	if (r?.[2] != null) {
 		let e = atob(decodeURIComponent(r[3])), t = new Uint8Array(e.length);
 		for (let n = 0; n < e.length; n++) t[n] = e.charCodeAt(n);
@@ -36,21 +37,13 @@ function D(e, t, n) {
 	return n ? new File(a, t.name || "", { type: i }) : new Blob(a, { type: i });
 }
 //#endregion
-//#region node_modules/@uppy/core/lib/utils/ErrorWithCause.js
-var O = class extends Error {
-	isNetworkError;
-	constructor(e, t) {
-		super(e), this.cause = t?.cause, this.isNetworkError = this.cause && Object.hasOwn(this.cause, "isNetworkError") ? this.cause.isNetworkError : !1;
-	}
-};
-//#endregion
 //#region node_modules/@uppy/core/lib/utils/emaFilter.js
-function ee(e, t, n, r) {
+function A(e, t, n, r) {
 	return n === 0 || e === t ? e : r === 0 ? t : e + (t - e) * 2 ** (-r / n);
 }
 //#endregion
 //#region node_modules/@uppy/core/lib/utils/FOCUSABLE_ELEMENTS.js
-var te = [
+var re = [
 	"a[href]:not([tabindex^=\"-\"]):not([inert]):not([aria-hidden])",
 	"area[href]:not([tabindex^=\"-\"]):not([inert]):not([aria-hidden])",
 	"input:not([disabled]):not([inert]):not([aria-hidden])",
@@ -65,16 +58,16 @@ var te = [
 ];
 //#endregion
 //#region node_modules/@uppy/core/lib/utils/findAllDOMElements.js
-function ne(e) {
+function ie(e) {
 	if (typeof e == "string") {
 		let t = document.querySelectorAll(e);
 		return t.length === 0 ? null : Array.from(t);
 	}
-	return typeof e == "object" && s(e) ? [e] : null;
+	return typeof e == "object" && f(e) ? [e] : null;
 }
 //#endregion
 //#region node_modules/@uppy/core/lib/utils/getFileNameAndExtension.js
-function k(e) {
+function j(e) {
 	let t = e.lastIndexOf(".");
 	return t === -1 || t === e.length - 1 ? {
 		name: e,
@@ -86,25 +79,25 @@ function k(e) {
 }
 //#endregion
 //#region node_modules/@uppy/core/lib/utils/getFileType.js
-function A(e) {
+function M(e) {
 	if (e.type) return e.type;
-	let t = e.name ? k(e.name).extension?.toLowerCase() : null;
-	return t && t in h ? h[t] : "application/octet-stream";
+	let t = e.name ? j(e.name).extension?.toLowerCase() : null;
+	return t && t in b ? b[t] : "application/octet-stream";
 }
 //#endregion
 //#region node_modules/@uppy/core/lib/utils/generateFileID.js
-function re(e) {
+function ae(e) {
 	return e.charCodeAt(0).toString(32);
 }
-function ie(e) {
+function oe(e) {
 	let t = "";
-	return e.replace(/[^A-Z0-9]/gi, (e) => (t += `-${re(e)}`, "/")) + t;
+	return e.replace(/[^A-Z0-9]/gi, (e) => (t += `-${ae(e)}`, "/")) + t;
 }
-function ae(e, t) {
+function N(e, t) {
 	let n = t || "uppy";
-	return typeof e.name == "string" && (n += `-${ie(e.name.toLowerCase())}`), e.type !== void 0 && (n += `-${e.type}`), e.meta && typeof e.meta.relativePath == "string" && (n += `-${ie(e.meta.relativePath.toLowerCase())}`), e.data?.size !== void 0 && (n += `-${e.data.size}`), e.data.lastModified !== void 0 && (n += `-${e.data.lastModified}`), n;
+	return typeof e.name == "string" && (n += `-${oe(e.name.toLowerCase())}`), e.type !== void 0 && (n += `-${e.type}`), e.meta && typeof e.meta.relativePath == "string" && (n += `-${oe(e.meta.relativePath.toLowerCase())}`), e.data?.size !== void 0 && (n += `-${e.data.size}`), e.data.lastModified !== void 0 && (n += `-${e.data.lastModified}`), n;
 }
-function j(e) {
+function P(e) {
 	return !e.isRemote || !e.remote ? !1 : (/* @__PURE__ */ new Set([
 		"box",
 		"dropbox",
@@ -113,30 +106,27 @@ function j(e) {
 		"unsplash"
 	])).has(e.remote.provider);
 }
-function M(e, t) {
-	if (j(e)) return e.id;
-	let n = A(e);
-	return ae({
+function se(e, t) {
+	if (P(e)) return e.id;
+	let n = M(e);
+	return N({
 		...e,
 		type: n
 	}, t);
 }
 //#endregion
-//#region node_modules/@uppy/core/lib/utils/toArray.js
-var N = Array.from;
-//#endregion
 //#region node_modules/@uppy/core/lib/utils/getDroppedFiles/utils/fallbackApi.js
-function P(e) {
-	let t = N(e.files);
+function F(e) {
+	let t = n(e.files);
 	return Promise.resolve(t);
 }
 //#endregion
 //#region node_modules/@uppy/core/lib/utils/getDroppedFiles/utils/webkitGetAsEntryApi/getFilesAndDirectoriesFromDirectory.js
-function F(e, t, n, { onSuccess: r }) {
+function I(e, t, n, { onSuccess: r }) {
 	e.readEntries((i) => {
 		let a = [...t, ...i];
 		i.length ? queueMicrotask(() => {
-			F(e, a, n, { onSuccess: r });
+			I(e, a, n, { onSuccess: r });
 		}) : r(a);
 	}, (e) => {
 		n(e), r(t);
@@ -144,7 +134,7 @@ function F(e, t, n, { onSuccess: r }) {
 }
 //#endregion
 //#region node_modules/@uppy/core/lib/utils/getDroppedFiles/utils/webkitGetAsEntryApi/index.js
-function oe(e, t) {
+function ce(e, t) {
 	return e == null ? e : {
 		kind: e.isFile ? "file" : e.isDirectory ? "directory" : void 0,
 		name: e.name,
@@ -154,30 +144,30 @@ function oe(e, t) {
 		async *values() {
 			let n = e.createReader();
 			yield* await new Promise((e) => {
-				F(n, [], t, { onSuccess: (n) => e(n.map((e) => oe(e, t))) });
+				I(n, [], t, { onSuccess: (n) => e(n.map((e) => ce(e, t))) });
 			});
 		},
 		isSameEntry: void 0
 	};
 }
-async function* se(e, t, n = void 0) {
+async function* le(e, t, n = void 0) {
 	let r = () => `${t}/${e.name}`;
 	if (e.kind === "file") {
 		let i = await e.getFile();
 		i == null ? n != null && (yield n) : (i.relativePath = t ? r() : null, yield i);
-	} else if (e.kind === "directory") for await (let n of e.values()) yield* se(n, t ? r() : e.name);
+	} else if (e.kind === "directory") for await (let n of e.values()) yield* le(n, t ? r() : e.name);
 	else n != null && (yield n);
 }
-async function* ce(e, t) {
+async function* ue(e, t) {
 	let n = await Promise.all(Array.from(e.items, async (e) => {
 		let n;
-		return n ??= oe(typeof e.getAsEntry == "function" ? e.getAsEntry() : e.webkitGetAsEntry(), t), {
+		return n ??= ce(typeof e.getAsEntry == "function" ? e.getAsEntry() : e.webkitGetAsEntry(), t), {
 			fileSystemHandle: n,
 			lastResortFile: e.getAsFile()
 		};
 	}));
 	for (let { lastResortFile: e, fileSystemHandle: r } of n) if (r != null) try {
-		yield* se(r, "", e);
+		yield* le(r, "", e);
 	} catch (n) {
 		e == null ? t(n) : yield e;
 	}
@@ -185,50 +175,45 @@ async function* ce(e, t) {
 }
 //#endregion
 //#region node_modules/@uppy/core/lib/utils/getDroppedFiles/index.js
-async function le(e, t) {
+async function de(e, t) {
 	let n = t?.logDropError ?? Function.prototype;
 	try {
 		let t = [];
-		for await (let r of ce(e, n)) t.push(r);
+		for await (let r of ue(e, n)) t.push(r);
 		return t;
 	} catch {
-		return P(e);
+		return F(e);
 	}
 }
 //#endregion
 //#region node_modules/@uppy/core/lib/utils/getTimeStamp.js
-function ue(e) {
+function fe(e) {
 	return e < 10 ? `0${e}` : e.toString();
 }
-function de() {
+function pe() {
 	let e = /* @__PURE__ */ new Date();
-	return `${ue(e.getHours())}:${ue(e.getMinutes())}:${ue(e.getSeconds())}`;
-}
-//#endregion
-//#region node_modules/@uppy/core/lib/utils/isAbortError.js
-function fe(e) {
-	return typeof e == "object" && !!e && "name" in e && e.name === "AbortError";
+	return `${fe(e.getHours())}:${fe(e.getMinutes())}:${fe(e.getSeconds())}`;
 }
 //#endregion
 //#region node_modules/@uppy/core/lib/utils/isDragDropSupported.js
-function pe() {
+function me() {
 	if (typeof window > "u") return !1;
 	let e = document.body;
 	return !(e == null || window == null || !("draggable" in e) || !("ondragstart" in e) || !("ondrop" in e) || !("FormData" in window) || !("FileReader" in window));
 }
 //#endregion
 //#region node_modules/@uppy/core/lib/utils/isObjectURL.js
-function me(e) {
+function he(e) {
 	return e.startsWith("blob:");
 }
 //#endregion
 //#region node_modules/@uppy/core/lib/utils/isPreviewSupported.js
-function he(e) {
+function ge(e) {
 	return e ? /^[^/]+\/(jpe?g|gif|png|svg|svg\+xml|bmp|webp|avif)$/.test(e) : !1;
 }
 //#endregion
 //#region node_modules/@uppy/core/lib/utils/secondsToTime.js
-function ge(e) {
+function _e(e) {
 	return {
 		hours: Math.floor(e / 3600) % 24,
 		minutes: Math.floor(e / 60) % 60,
@@ -237,45 +222,45 @@ function ge(e) {
 }
 //#endregion
 //#region node_modules/@uppy/core/lib/utils/prettyETA.js
-function _e(e) {
-	let t = ge(e);
+function ve(e) {
+	let t = _e(e);
 	return `${t.hours === 0 ? "" : `${t.hours}h`}${t.minutes === 0 ? "" : `${t.hours === 0 ? t.minutes : ` ${t.minutes.toString(10).padStart(2, "0")}`}m`}${t.hours === 0 ? `${t.minutes === 0 ? t.seconds : ` ${t.seconds.toString(10).padStart(2, "0")}`}s` : ""}`;
 }
 //#endregion
 //#region node_modules/@uppy/core/lib/utils/remoteFileObjToLocal.js
-function ve(e) {
+function ye(e) {
 	return {
 		...e,
 		type: e.mimeType,
-		extension: e.name ? k(e.name).extension : null
+		extension: e.name ? j(e.name).extension : null
 	};
 }
 //#endregion
 //#region node_modules/@uppy/core/lib/utils/truncateString.js
-var ye = "...";
-function be(e, t) {
+var be = "...";
+function xe(e, t) {
 	if (t === 0) return "";
 	if (e.length <= t) return e;
 	if (t <= 4) return `${e.slice(0, t - 1)}…`;
 	let n = t - 3, r = Math.ceil(n / 2), i = Math.floor(n / 2);
-	return e.slice(0, r) + ye + e.slice(-i);
+	return e.slice(0, r) + be + e.slice(-i);
 }
 //#endregion
 //#region node_modules/@uppy/core/lib/utils/VirtualList.js
-var xe = {
+var Se = {
 	position: "relative",
 	width: "100%",
 	minHeight: "100%"
-}, Se = {
+}, Ce = {
 	position: "absolute",
 	top: 0,
 	left: 0,
 	width: "100%",
 	overflow: "visible"
 };
-function Ce({ data: e, rowHeight: t, renderRow: n, overscanCount: r = 10, padding: i = 4, ...a }) {
-	let o = C(null), [s, c] = v(0), [l, u] = v(0);
-	b(() => {
+function we({ data: e, rowHeight: t, renderRow: n, overscanCount: r = 10, padding: i = 4, ...a }) {
+	let o = O(null), [s, c] = C(0), [l, u] = C(0);
+	T(() => {
 		function e() {
 			o.current != null && l !== o.current.offsetHeight && u(o.current.offsetHeight);
 		}
@@ -283,43 +268,43 @@ function Ce({ data: e, rowHeight: t, renderRow: n, overscanCount: r = 10, paddin
 			window.removeEventListener("resize", e);
 		};
 	}, [l]);
-	let d = S(() => {
+	let d = D(() => {
 		o.current && c(o.current.scrollTop);
-	}, []), p = Math.floor(s / t), m = Math.floor(l / t);
-	r && (p = Math.max(0, p - p % r), m += r);
-	let h = p + m + i, g = e.slice(p, h), _ = {
-		...xe,
-		height: e.length * t
-	}, y = {
+	}, []), f = Math.floor(s / t), p = Math.floor(l / t);
+	r && (f = Math.max(0, f - f % r), p += r);
+	let m = f + p + i, h = e.slice(f, m), g = {
 		...Se,
-		top: p * t
+		height: e.length * t
+	}, v = {
+		...Ce,
+		top: f * t
 	};
-	return f("div", {
+	return _("div", {
 		onScroll: d,
 		ref: o,
 		...a,
-		children: f("div", {
+		children: _("div", {
 			role: "presentation",
-			style: _,
-			children: f("div", {
+			style: g,
+			children: _("div", {
 				role: "presentation",
-				style: y,
-				children: g.map(n)
+				style: v,
+				children: h.map(n)
 			})
 		})
 	});
 }
 //#endregion
 //#region node_modules/@uppy/core/lib/loggers.js
-var we = {
+var Te = {
 	debug: () => {},
 	warn: () => {},
-	error: (...e) => console.error(`[Uppy] [${de()}]`, ...e)
-}, Te = {
-	debug: (...e) => console.debug(`[Uppy] [${de()}]`, ...e),
-	warn: (...e) => console.warn(`[Uppy] [${de()}]`, ...e),
-	error: (...e) => console.error(`[Uppy] [${de()}]`, ...e)
-}, Ee = /* @__PURE__ */ t(((e, t) => {
+	error: (...e) => console.error(`[Uppy] [${pe()}]`, ...e)
+}, Ee = {
+	debug: (...e) => console.debug(`[Uppy] [${pe()}]`, ...e),
+	warn: (...e) => console.warn(`[Uppy] [${pe()}]`, ...e),
+	error: (...e) => console.error(`[Uppy] [${pe()}]`, ...e)
+}, De = /* @__PURE__ */ t(((e, t) => {
 	function n(e, t) {
 		this.text = e ||= "", this.hasWild = ~e.indexOf("*"), this.separator = t, this.parts = e.split(t);
 	}
@@ -339,8 +324,8 @@ var we = {
 		var i = new n(e, r || /[\/\.]/);
 		return t === void 0 ? i : i.match(t);
 	};
-})), De = /* @__PURE__ */ e((/* @__PURE__ */ t(((e, t) => {
-	var n = Ee(), r = /[\/\+\.]/;
+})), Oe = /* @__PURE__ */ e((/* @__PURE__ */ t(((e, t) => {
+	var n = De(), r = /[\/\+\.]/;
 	t.exports = function(e, t) {
 		function i(t) {
 			var i = n(t, e, r);
@@ -348,7 +333,7 @@ var we = {
 		}
 		return t ? i(t.split(";")[0]) : i;
 	};
-})))(), 1), Oe = {
+})))(), 1), ke = {
 	maxFileSize: null,
 	minFileSize: null,
 	maxTotalFileSize: null,
@@ -356,14 +341,14 @@ var we = {
 	minNumberOfFiles: null,
 	allowedFileTypes: null,
 	requiredMetaFields: []
-}, I = class extends Error {
+}, L = class extends Error {
 	isUserFacing;
 	file;
 	constructor(e, t) {
 		super(e), this.isUserFacing = t?.isUserFacing ?? !0, t?.file && (this.file = t.file);
 	}
 	isRestriction = !0;
-}, ke = class {
+}, Ae = class {
 	getI18n;
 	getOpts;
 	constructor(e, t) {
@@ -375,26 +360,26 @@ var we = {
 	}
 	validateAggregateRestrictions(e, t) {
 		let { maxTotalFileSize: n, maxNumberOfFiles: r } = this.getOpts().restrictions;
-		if (r && e.filter((e) => !e.isGhost).length + t.length > r) throw new I(`${this.getI18n()("youCanOnlyUploadX", { smart_count: r })}`);
+		if (r && e.filter((e) => !e.isGhost).length + t.length > r) throw new L(`${this.getI18n()("youCanOnlyUploadX", { smart_count: r })}`);
 		if (n) {
 			let r = [...e, ...t].reduce((e, t) => e + (t.size ?? 0), 0);
-			if (r > n) throw new I(this.getI18n()("aggregateExceedsSize", {
-				sizeAllowed: T(n),
-				size: T(r)
+			if (r > n) throw new L(this.getI18n()("aggregateExceedsSize", {
+				sizeAllowed: k(n),
+				size: k(r)
 			}));
 		}
 	}
 	validateSingleFile(e) {
 		let { maxFileSize: t, minFileSize: n, allowedFileTypes: r } = this.getOpts().restrictions;
-		if (r && !r.some((t) => t.includes("/") ? e.type ? (0, De.default)(e.type.replace(/;.*?$/, ""), t) : !1 : t[0] === "." && e.extension ? e.extension.toLowerCase() === t.slice(1).toLowerCase() : !1)) {
+		if (r && !r.some((t) => t.includes("/") ? e.type ? (0, Oe.default)(e.type.replace(/;.*?$/, ""), t) : !1 : t[0] === "." && e.extension ? e.extension.toLowerCase() === t.slice(1).toLowerCase() : !1)) {
 			let t = r.join(", ");
-			throw new I(this.getI18n()("youCanOnlyUploadFileTypes", { types: t }), { file: e });
+			throw new L(this.getI18n()("youCanOnlyUploadFileTypes", { types: t }), { file: e });
 		}
-		if (t && e.size != null && e.size > t) throw new I(this.getI18n()("exceedsSize", {
-			size: T(t),
+		if (t && e.size != null && e.size > t) throw new L(this.getI18n()("exceedsSize", {
+			size: k(t),
 			file: e.name ?? this.getI18n()("unnamed")
 		}), { file: e });
-		if (n && e.size != null && e.size < n) throw new I(this.getI18n()("inferiorSize", { size: T(n) }), { file: e });
+		if (n && e.size != null && e.size < n) throw new L(this.getI18n()("inferiorSize", { size: k(n) }), { file: e });
 	}
 	validate(e, t) {
 		t.forEach((e) => {
@@ -403,49 +388,49 @@ var we = {
 	}
 	validateMinNumberOfFiles(e) {
 		let { minNumberOfFiles: t } = this.getOpts().restrictions;
-		if (t && Object.keys(e).length < t) throw new I(this.getI18n()("youHaveToAtLeastSelectX", { smart_count: t }));
+		if (t && Object.keys(e).length < t) throw new L(this.getI18n()("youHaveToAtLeastSelectX", { smart_count: t }));
 	}
 	getMissingRequiredMetaFields(e) {
-		let t = new I(this.getI18n()("missingRequiredMetaFieldOnFile", { fileName: e.name ?? this.getI18n()("unnamed") })), { requiredMetaFields: n } = this.getOpts().restrictions, r = [];
+		let t = new L(this.getI18n()("missingRequiredMetaFieldOnFile", { fileName: e.name ?? this.getI18n()("unnamed") })), { requiredMetaFields: n } = this.getOpts().restrictions, r = [];
 		for (let t of n) (!Object.hasOwn(e.meta, t) || e.meta[t] === "") && r.push(t);
 		return {
 			missingFields: r,
 			error: t
 		};
 	}
-}, Ae = /* @__PURE__ */ t(((e, t) => {
+}, je = /* @__PURE__ */ t(((e, t) => {
 	function n(e) {
 		var t = typeof e;
 		return e != null && (t == "object" || t == "function");
 	}
 	t.exports = n;
-})), je = /* @__PURE__ */ t(((e, t) => {
-	t.exports = typeof global == "object" && global && global.Object === Object && global;
 })), Me = /* @__PURE__ */ t(((e, t) => {
-	var n = je(), r = typeof self == "object" && self && self.Object === Object && self;
-	t.exports = n || r || Function("return this")();
+	t.exports = typeof global == "object" && global && global.Object === Object && global;
 })), Ne = /* @__PURE__ */ t(((e, t) => {
-	var n = Me();
+	var n = Me(), r = typeof self == "object" && self && self.Object === Object && self;
+	t.exports = n || r || Function("return this")();
+})), Pe = /* @__PURE__ */ t(((e, t) => {
+	var n = Ne();
 	t.exports = function() {
 		return n.Date.now();
 	};
-})), Pe = /* @__PURE__ */ t(((e, t) => {
+})), Fe = /* @__PURE__ */ t(((e, t) => {
 	var n = /\s/;
 	function r(e) {
 		for (var t = e.length; t-- && n.test(e.charAt(t)););
 		return t;
 	}
 	t.exports = r;
-})), Fe = /* @__PURE__ */ t(((e, t) => {
-	var n = Pe(), r = /^\s+/;
+})), Ie = /* @__PURE__ */ t(((e, t) => {
+	var n = Fe(), r = /^\s+/;
 	function i(e) {
 		return e && e.slice(0, n(e) + 1).replace(r, "");
 	}
 	t.exports = i;
-})), Ie = /* @__PURE__ */ t(((e, t) => {
-	t.exports = Me().Symbol;
 })), Le = /* @__PURE__ */ t(((e, t) => {
-	var n = Ie(), r = Object.prototype, i = r.hasOwnProperty, a = r.toString, o = n ? n.toStringTag : void 0;
+	t.exports = Ne().Symbol;
+})), Re = /* @__PURE__ */ t(((e, t) => {
+	var n = Le(), r = Object.prototype, i = r.hasOwnProperty, a = r.toString, o = n ? n.toStringTag : void 0;
 	function s(e) {
 		var t = i.call(e, o), n = e[o];
 		try {
@@ -456,31 +441,31 @@ var we = {
 		return r && (t ? e[o] = n : delete e[o]), s;
 	}
 	t.exports = s;
-})), Re = /* @__PURE__ */ t(((e, t) => {
+})), ze = /* @__PURE__ */ t(((e, t) => {
 	var n = Object.prototype.toString;
 	function r(e) {
 		return n.call(e);
 	}
 	t.exports = r;
-})), ze = /* @__PURE__ */ t(((e, t) => {
-	var n = Ie(), r = Le(), i = Re(), a = "[object Null]", o = "[object Undefined]", s = n ? n.toStringTag : void 0;
+})), Be = /* @__PURE__ */ t(((e, t) => {
+	var n = Le(), r = Re(), i = ze(), a = "[object Null]", o = "[object Undefined]", s = n ? n.toStringTag : void 0;
 	function c(e) {
 		return e == null ? e === void 0 ? o : a : s && s in Object(e) ? r(e) : i(e);
 	}
 	t.exports = c;
-})), Be = /* @__PURE__ */ t(((e, t) => {
+})), Ve = /* @__PURE__ */ t(((e, t) => {
 	function n(e) {
 		return typeof e == "object" && !!e;
 	}
 	t.exports = n;
-})), Ve = /* @__PURE__ */ t(((e, t) => {
-	var n = ze(), r = Be(), i = "[object Symbol]";
+})), He = /* @__PURE__ */ t(((e, t) => {
+	var n = Be(), r = Ve(), i = "[object Symbol]";
 	function a(e) {
 		return typeof e == "symbol" || r(e) && n(e) == i;
 	}
 	t.exports = a;
-})), He = /* @__PURE__ */ t(((e, t) => {
-	var n = Fe(), r = Ae(), i = Ve(), a = NaN, o = /^[-+]0x[0-9a-f]+$/i, s = /^0b[01]+$/i, c = /^0o[0-7]+$/i, l = parseInt;
+})), Ue = /* @__PURE__ */ t(((e, t) => {
+	var n = Ie(), r = je(), i = He(), a = NaN, o = /^[-+]0x[0-9a-f]+$/i, s = /^0b[01]+$/i, c = /^0o[0-7]+$/i, l = parseInt;
 	function u(e) {
 		if (typeof e == "number") return e;
 		if (i(e)) return a;
@@ -494,8 +479,8 @@ var we = {
 		return u || c.test(e) ? l(e.slice(2), u ? 2 : 8) : o.test(e) ? a : +e;
 	}
 	t.exports = u;
-})), Ue = /* @__PURE__ */ t(((e, t) => {
-	var n = Ae(), r = Ne(), i = He(), a = "Expected a function", o = Math.max, s = Math.min;
+})), We = /* @__PURE__ */ t(((e, t) => {
+	var n = je(), r = Pe(), i = Ue(), a = "Expected a function", o = Math.max, s = Math.min;
 	function c(e, t, c) {
 		var l, u, d, f, p, m, h = 0, g = !1, _ = !1, v = !0;
 		if (typeof e != "function") throw TypeError(a);
@@ -540,8 +525,8 @@ var we = {
 		return D.cancel = T, D.flush = E, D;
 	}
 	t.exports = c;
-})), We = /* @__PURE__ */ t(((e, t) => {
-	var n = Ue(), r = Ae(), i = "Expected a function";
+})), Ge = /* @__PURE__ */ t(((e, t) => {
+	var n = We(), r = je(), i = "Expected a function";
 	function a(e, t, a) {
 		var o = !0, s = !0;
 		if (typeof e != "function") throw TypeError(i);
@@ -552,7 +537,7 @@ var we = {
 		});
 	}
 	t.exports = a;
-})), Ge = /* @__PURE__ */ t(((e, t) => {
+})), Ke = /* @__PURE__ */ t(((e, t) => {
 	t.exports = function() {
 		var e = {}, t = e._fns = {};
 		e.emit = function(e, t, i, a, o, s, c) {
@@ -592,89 +577,10 @@ var we = {
 		}
 		return e;
 	};
-})), Ke = "57X6y3wQZNzYjJB2L_10pxbackgroundhimselfUTF-8DEMOGRAPHICSVqvt4KW9", qe = (e = 21) => {
+})), qe = "57X6y3wQZNzYjJB2L_10pxbackgroundhimselfUTF-8DEMOGRAPHICSVqvt4KW9", Je = (e = 21) => {
 	let t = "", n = e | 0;
-	for (; n-- > 0;) t += Ke[Math.random() * 64 | 0];
+	for (; n-- > 0;) t += qe[Math.random() * 64 | 0];
 	return t;
-}, Je = {
-	name: "@uppy/core",
-	description: "Core module for the extensible JavaScript file upload widget with support for drag&drop, resumable uploads, previews, restrictions, file processing/encoding, remote providers like Dropbox, Google Drive, S3 and more :dog:",
-	version: "6.2.0",
-	license: "MIT",
-	style: "dist/style.min.css",
-	type: "module",
-	sideEffects: ["*.css"],
-	scripts: {
-		build: "tsc --build tsconfig.build.json",
-		"build:css": "sass --load-path=../../ src/style.scss dist/style.css && sass --load-path=../../ src/provider-views/style.scss dist/provider-views.css && postcss dist/style.css -u cssnano -o dist/style.min.css && postcss dist/provider-views.css -u cssnano -o dist/provider-views.min.css",
-		typecheck: "tsc --build",
-		test: "vitest run --silent='passed-only'"
-	},
-	keywords: [
-		"file uploader",
-		"uppy",
-		"uppy-plugin"
-	],
-	homepage: "https://uppy.io",
-	bugs: { url: "https://github.com/transloadit/uppy/issues" },
-	repository: {
-		type: "git",
-		url: "git+https://github.com/transloadit/uppy.git"
-	},
-	files: [
-		"src",
-		"lib",
-		"dist",
-		"CHANGELOG.md"
-	],
-	exports: {
-		".": "./lib/index.js",
-		"./css/style.min.css": "./dist/style.min.css",
-		"./css/style.css": "./dist/style.css",
-		"./css/style.scss": "./src/style.scss",
-		"./store-default": "./lib/store/index.js",
-		"./utils": "./lib/utils/index.js",
-		"./utils/preact": "./lib/utils/preact/index.js",
-		"./utils/preact/hooks": "./lib/utils/preact/hooks.js",
-		"./companion-client": "./lib/companion-client/index.js",
-		"./provider-views": "./lib/provider-views/index.js",
-		"./provider-views/css/style.min.css": "./dist/provider-views.min.css",
-		"./provider-views/css/style.css": "./dist/provider-views.css",
-		"./provider-views/css/style.scss": "./src/provider-views/style.scss",
-		"./package.json": "./package.json"
-	},
-	dependencies: {
-		"@transloadit/prettier-bytes": "^2.0.0",
-		classnames: "^2.5.1",
-		lodash: "^4.18.1",
-		"mime-match": "^1.0.2",
-		"namespace-emitter": "^2.0.1",
-		nanoid: "^6.0.1",
-		"p-queue": "^9.3.3",
-		"p-retry": "^8.0.0",
-		preact: "^10.29.2"
-	},
-	devDependencies: {
-		"@types/deep-freeze": "^0",
-		"@types/gapi": "^0.0.47",
-		"@types/google.accounts": "^0.0.18",
-		"@types/google.picker": "^0.0.52",
-		"@types/lodash": "^4.17.25",
-		"@types/mime-match": "^1.0.0",
-		"@types/namespace-emitter": "^2.0.0",
-		"@types/node": "^22.20.1",
-		"@uppy-dev/tsconfig": "^0.0.0",
-		"@vitest/browser-playwright": "^4.1.11",
-		cssnano: "^8.0.1",
-		"deep-freeze": "^0.0.1",
-		playwright: "1.61.1",
-		postcss: "^8.5.23",
-		"postcss-cli": "^11.0.1",
-		sass: "^1.89.2",
-		typescript: "^6.0.3",
-		vite: "^8.2.2",
-		vitest: "^4.1.11"
-	}
 };
 //#endregion
 //#region node_modules/@uppy/core/lib/getFileName.js
@@ -776,7 +682,7 @@ var Xe = { strings: {
 	s3SelectedInOtherSession: "This file was selected in another storage session. Reconnect and select it again",
 	webdavCannotConnect: "Cannot connect to server"
 } }, Ze = class {
-	static VERSION = Je.version;
+	static VERSION = o.version;
 	state = {};
 	#e = /* @__PURE__ */ new Set();
 	getState() {
@@ -811,13 +717,13 @@ function Qe(e) {
 }
 //#endregion
 //#region node_modules/@uppy/core/lib/Uppy.js
-var $e = /* @__PURE__ */ e(We(), 1), et = /* @__PURE__ */ e(Ge(), 1), tt = {
+var $e = /* @__PURE__ */ e(Ge(), 1), et = /* @__PURE__ */ e(Ke(), 1), tt = {
 	totalProgress: 0,
 	allowNewUpload: !0,
 	error: null,
 	recoveredState: null
 }, nt = class e {
-	static VERSION = Je.version;
+	static VERSION = o.version;
 	#e = Object.create(null);
 	#t;
 	#n;
@@ -840,12 +746,12 @@ var $e = /* @__PURE__ */ e(We(), 1), et = /* @__PURE__ */ e(Ge(), 1), tt = {
 			autoProceed: !1,
 			allowMultipleUploadBatches: !0,
 			debug: !1,
-			restrictions: Oe,
+			restrictions: ke,
 			meta: {},
 			onBeforeFileAdded: (e, t) => !Object.hasOwn(t, e.id),
 			onBeforeUpload: (e) => e,
 			store: new Ze(),
-			logger: we,
+			logger: Te,
 			infoTimeout: 5e3
 		}, r = {
 			...n,
@@ -857,7 +763,7 @@ var $e = /* @__PURE__ */ e(We(), 1), et = /* @__PURE__ */ e(Ge(), 1), tt = {
 				...n.restrictions,
 				...t?.restrictions
 			}
-		}, t?.logger && t.debug ? this.log("You are using a custom `logger`, but also set `debug: true`, which uses built-in logger to output logs to console. Ignoring `debug: true` and using your custom `logger`.", "warning") : t?.debug && (this.opts.logger = Te), this.log(`Using Core v${e.VERSION}`), this.i18nInit(), this.store = this.opts.store, this.setState({
+		}, t?.logger && t.debug ? this.log("You are using a custom `logger`, but also set `debug: true`, which uses built-in logger to output logs to console. Ignoring `debug: true` and using your custom `logger`.", "warning") : t?.debug && (this.opts.logger = Ee), this.log(`Using Core v${e.VERSION}`), this.i18nInit(), this.store = this.opts.store, this.setState({
 			...tt,
 			plugins: {},
 			files: {},
@@ -869,7 +775,7 @@ var $e = /* @__PURE__ */ e(We(), 1), et = /* @__PURE__ */ e(Ge(), 1), tt = {
 			},
 			meta: { ...this.opts.meta },
 			info: []
-		}), this.#t = new ke(() => this.opts, () => this.i18n), this.#n = this.store.subscribe((e, t, n) => {
+		}), this.#t = new Ae(() => this.opts, () => this.i18n), this.#n = this.store.subscribe((e, t, n) => {
 			this.emit("state-update", e, t, n), this.updateAll(t);
 		}), this.opts.debug && typeof window < "u" && (window[this.opts.id] = this), this.#b();
 	}
@@ -911,7 +817,7 @@ var $e = /* @__PURE__ */ e(We(), 1), et = /* @__PURE__ */ e(Ge(), 1), tt = {
 		this.patchFilesState({ [e]: t });
 	}
 	i18nInit() {
-		let e = new o([this.defaultLocale, this.opts.locale], { onMissingKey: (e) => this.log(`Missing i18n string: ${e}`, "error") });
+		let e = new d([this.defaultLocale, this.opts.locale], { onMissingKey: (e) => this.log(`Missing i18n string: ${e}`, "error") });
 		this.i18n = e.translate.bind(e), this.i18nArray = e.translateArray.bind(e), this.locale = e.locale;
 	}
 	setOptions(e) {
@@ -1064,7 +970,7 @@ var $e = /* @__PURE__ */ e(We(), 1), et = /* @__PURE__ */ e(Ge(), 1), tt = {
 		try {
 			this.#t.validateSingleFile(e);
 		} catch (e) {
-			return r(e);
+			return c(e);
 		}
 		return null;
 	}
@@ -1073,7 +979,7 @@ var $e = /* @__PURE__ */ e(We(), 1), et = /* @__PURE__ */ e(Ge(), 1), tt = {
 		try {
 			this.#t.validateAggregateRestrictions(t, e);
 		} catch (e) {
-			return r(e);
+			return c(e);
 		}
 		return null;
 	}
@@ -1092,7 +998,7 @@ var $e = /* @__PURE__ */ e(We(), 1), et = /* @__PURE__ */ e(Ge(), 1), tt = {
 	#u(e) {
 		let { allowNewUpload: t } = this.getState();
 		if (t === !1) {
-			let t = new I(this.i18n("noMoreFilesAllowed"), { file: e });
+			let t = new L(this.i18n("noMoreFilesAllowed"), { file: e });
 			throw this.#s([t]), t;
 		}
 	}
@@ -1110,7 +1016,7 @@ var $e = /* @__PURE__ */ e(We(), 1), et = /* @__PURE__ */ e(Ge(), 1), tt = {
 			isRemote: !1,
 			source: void 0,
 			preview: void 0
-		} : e, n = A(t), r = Ye(n, t), i = k(r).extension, a = M(t, this.getID()), o = {
+		} : e, n = M(t), r = Ye(n, t), i = j(r).extension, a = se(t, this.getID()), o = {
 			...t.meta,
 			name: r,
 			type: n
@@ -1148,7 +1054,7 @@ var $e = /* @__PURE__ */ e(We(), 1), et = /* @__PURE__ */ e(Ge(), 1), tt = {
 	#f() {
 		this.opts.autoProceed && !this.scheduledAutoProceed && (this.scheduledAutoProceed = setTimeout(() => {
 			this.scheduledAutoProceed = null, this.upload().catch((e) => {
-				g(e) || this.log(e.stack || e.message || e);
+				x(e) || this.log(e.stack || e.message || e);
 			});
 		}, 4));
 	}
@@ -1170,8 +1076,8 @@ var $e = /* @__PURE__ */ e(We(), 1), et = /* @__PURE__ */ e(Ge(), 1), tt = {
 			if (t = this.getState().files, n = {
 				...t,
 				...n
-			}, !s && this.checkIfFileAlreadyExists(e.id)) throw new I(this.i18n("noDuplicates", { fileName: e.name ?? this.i18n("unnamed") }), { file: e });
-			if (s === !1 && !o) throw new I("Cannot add the file because onBeforeFileAdded returned false.", {
+			}, !s && this.checkIfFileAlreadyExists(e.id)) throw new L(this.i18n("noDuplicates", { fileName: e.name ?? this.i18n("unnamed") }), { file: e });
+			if (s === !1 && !o) throw new L("Cannot add the file because onBeforeFileAdded returned false.", {
 				isUserFacing: !1,
 				file: e
 			});
@@ -1563,7 +1469,7 @@ var $e = /* @__PURE__ */ e(We(), 1), et = /* @__PURE__ */ e(Ge(), 1), tt = {
 	#C(e, t = {}) {
 		let { forceAllowNewUpload: n = !1 } = t, { allowNewUpload: r, currentUploads: i } = this.getState();
 		if (!r && !n) throw Error("Cannot create a new upload: already uploading.");
-		let a = qe();
+		let a = Je();
 		return this.emit("upload", a, this.getFilesByIds(e)), this.setState({
 			allowNewUpload: this.opts.allowMultipleUploadBatches !== !1 && this.opts.allowMultipleUploads !== !1,
 			currentUploads: {
@@ -1662,27 +1568,27 @@ var $e = /* @__PURE__ */ e(We(), 1), et = /* @__PURE__ */ e(Ge(), 1), tt = {
 		if (t === !1) throw Error("Not starting the upload because onBeforeUpload returned false");
 		t && typeof t == "object" && (e = t, this.setState({ files: e }));
 		try {
-			if (this.#t.validateMinNumberOfFiles(e), !this.#l(e)) throw new I(this.i18n("missingRequiredMetaField"));
+			if (this.#t.validateMinNumberOfFiles(e), !this.#l(e)) throw new L(this.i18n("missingRequiredMetaField"));
 			let { currentUploads: t } = this.getState(), n = Object.values(t).flatMap((e) => e.fileIDs), r = Object.keys(e).filter((e) => {
 				let t = this.getFile(e);
 				return t && !t.progress.uploadStarted && !n.includes(e);
 			}), i = this.#C(r), a = await this.#E(i);
 			return this.emit("complete", a), a;
 		} catch (e) {
-			throw this.#s([n(e)]), e;
+			throw this.#s([s(e)]), e;
 		}
 	}
 };
 //#endregion
 //#region node_modules/@uppy/core/lib/provider-views/useSearchForm.js
 function rt(e) {
-	let t = S((t) => {
+	let t = D((t) => {
 		t.preventDefault(), e();
-	}, [e]), [n] = v(() => {
+	}, [e]), [n] = C(() => {
 		let e = document.createElement("form");
-		return e.setAttribute("tabindex", "-1"), e.id = qe(), e;
+		return e.setAttribute("tabindex", "-1"), e.id = Je(), e;
 	});
-	return b(() => (document.body.appendChild(n), n.addEventListener("submit", t), () => {
+	return T(() => (document.body.appendChild(n), n.addEventListener("submit", t), () => {
 		n.removeEventListener("submit", t), n.remove();
 	}), [n, t]), { formId: n.id };
 }
@@ -1690,10 +1596,10 @@ function rt(e) {
 //#region node_modules/@uppy/core/lib/provider-views/FilterInput.js
 function it({ value: e, onChange: t, onSubmit: n, inputLabel: r, i18n: i, disabled: a = !1 }) {
 	let { formId: o } = rt(n);
-	return f("section", {
+	return _("section", {
 		className: "uppy-ProviderBrowser-searchFilter",
 		children: [
-			f("input", {
+			_("input", {
 				className: "uppy-u-reset uppy-ProviderBrowser-searchFilterInput",
 				type: "search",
 				"aria-label": r,
@@ -1704,92 +1610,87 @@ function it({ value: e, onChange: t, onSubmit: n, inputLabel: r, i18n: i, disabl
 				disabled: a,
 				"data-uppy-super-focusable": !0
 			}),
-			f("svg", {
+			_("svg", {
 				"aria-hidden": "true",
 				focusable: "false",
 				className: "uppy-c-icon uppy-ProviderBrowser-searchFilterIcon",
 				width: "12",
 				height: "12",
 				viewBox: "0 0 12 12",
-				children: f("path", { d: "M8.638 7.99l3.172 3.172a.492.492 0 1 1-.697.697L7.91 8.656a4.977 4.977 0 0 1-2.983.983C2.206 9.639 0 7.481 0 4.819 0 2.158 2.206 0 4.927 0c2.721 0 4.927 2.158 4.927 4.82a4.74 4.74 0 0 1-1.216 3.17zm-3.71.685c2.176 0 3.94-1.726 3.94-3.856 0-2.129-1.764-3.855-3.94-3.855C2.75.964.984 2.69.984 4.819c0 2.13 1.765 3.856 3.942 3.856z" })
+				children: _("path", { d: "M8.638 7.99l3.172 3.172a.492.492 0 1 1-.697.697L7.91 8.656a4.977 4.977 0 0 1-2.983.983C2.206 9.639 0 7.481 0 4.819 0 2.158 2.206 0 4.927 0c2.721 0 4.927 2.158 4.927 4.82a4.74 4.74 0 0 1-1.216 3.17zm-3.71.685c2.176 0 3.94-1.726 3.94-3.856 0-2.129-1.764-3.855-3.94-3.855C2.75.964.984 2.69.984 4.819c0 2.13 1.765 3.856 3.942 3.856z" })
 			}),
-			e && f("button", {
+			e && _("button", {
 				className: "uppy-u-reset uppy-ProviderBrowser-searchFilterReset",
 				type: "button",
 				"aria-label": i("resetFilter"),
 				disabled: a,
 				onClick: () => t(""),
-				children: f("svg", {
+				children: _("svg", {
 					"aria-hidden": "true",
 					focusable: "false",
 					className: "uppy-c-icon",
 					viewBox: "0 0 19 19",
-					children: f("path", { d: "M17.318 17.232L9.94 9.854 9.586 9.5l-.354.354-7.378 7.378h.707l-.62-.62v.706L9.318 9.94l.354-.354-.354-.354L1.94 1.854v.707l.62-.62h-.706l7.378 7.378.354.354.354-.354 7.378-7.378h-.707l.622.62v-.706L9.854 9.232l-.354.354.354.354 7.378 7.378.708-.707-7.38-7.378v.708l7.38-7.38.353-.353-.353-.353-.622-.622-.353-.353-.354.352-7.378 7.38h.708L2.56 1.23 2.208.88l-.353.353-.622.62-.353.355.352.353 7.38 7.38v-.708l-7.38 7.38-.353.353.352.353.622.622.353.353.354-.353 7.38-7.38h-.708l7.38 7.38z" })
+					children: _("path", { d: "M17.318 17.232L9.94 9.854 9.586 9.5l-.354.354-7.378 7.378h.707l-.62-.62v.706L9.318 9.94l.354-.354-.354-.354L1.94 1.854v.707l.62-.62h-.706l7.378 7.378.354.354.354-.354 7.378-7.378h-.707l.622.62v-.706L9.854 9.232l-.354.354.354.354 7.378 7.378.708-.707-7.38-7.378v.708l7.38-7.38.353-.353-.353-.353-.622-.622-.353-.353-.354.352-7.378 7.38h.708L2.56 1.23 2.208.88l-.353.353-.622.62-.353.355.352.353 7.38 7.38v-.708l-7.38 7.38-.353.353.352.353.622.622.353.353.354-.353 7.38-7.38h-.708l7.38 7.38z" })
 				})
 			})
 		]
 	});
 }
 //#endregion
-//#region node_modules/@uppy/core/lib/companion-client/AuthError.js
-function at(e) {
-	return e instanceof Error && "isAuthError" in e && e.isAuthError === !0;
-}
-//#endregion
 //#region node_modules/@uppy/core/lib/provider-views/ProviderView/AuthView.js
-function ot() {
-	return f("svg", {
+function at() {
+	return _("svg", {
 		width: "26",
 		height: "26",
 		viewBox: "0 0 26 26",
 		xmlns: "http://www.w3.org/2000/svg",
-		children: f("g", {
+		children: _("g", {
 			fill: "none",
 			"fill-rule": "evenodd",
 			children: [
-				f("circle", {
+				_("circle", {
 					fill: "#FFF",
 					cx: "13",
 					cy: "13",
 					r: "13"
 				}),
-				f("path", {
+				_("path", {
 					d: "M21.64 13.205c0-.639-.057-1.252-.164-1.841H13v3.481h4.844a4.14 4.14 0 01-1.796 2.716v2.259h2.908c1.702-1.567 2.684-3.875 2.684-6.615z",
 					fill: "#4285F4",
 					"fill-rule": "nonzero"
 				}),
-				f("path", {
+				_("path", {
 					d: "M13 22c2.43 0 4.467-.806 5.956-2.18l-2.908-2.259c-.806.54-1.837.86-3.048.86-2.344 0-4.328-1.584-5.036-3.711H4.957v2.332A8.997 8.997 0 0013 22z",
 					fill: "#34A853",
 					"fill-rule": "nonzero"
 				}),
-				f("path", {
+				_("path", {
 					d: "M7.964 14.71A5.41 5.41 0 017.682 13c0-.593.102-1.17.282-1.71V8.958H4.957A8.996 8.996 0 004 13c0 1.452.348 2.827.957 4.042l3.007-2.332z",
 					fill: "#FBBC05",
 					"fill-rule": "nonzero"
 				}),
-				f("path", {
+				_("path", {
 					d: "M13 7.58c1.321 0 2.508.454 3.44 1.345l2.582-2.58C17.463 4.891 15.426 4 13 4a8.997 8.997 0 00-8.043 4.958l3.007 2.332C8.672 9.163 10.656 7.58 13 7.58z",
 					fill: "#EA4335",
 					"fill-rule": "nonzero"
 				}),
-				f("path", { d: "M4 4h18v18H4z" })
+				_("path", { d: "M4 4h18v18H4z" })
 			]
 		})
 	});
 }
-function st({ pluginName: e, i18n: t, onAuth: n }) {
-	let r = e === "Google Drive", i = S((e) => {
+function ot({ pluginName: e, i18n: t, onAuth: n }) {
+	let r = e === "Google Drive", i = D((e) => {
 		e.preventDefault(), n();
 	}, [n]);
-	return f("form", {
+	return _("form", {
 		onSubmit: i,
-		children: r ? f("button", {
+		children: r ? _("button", {
 			type: "submit",
 			className: "uppy-u-reset uppy-c-btn uppy-c-btn-primary uppy-Provider-authBtn uppy-Provider-btn-google",
 			"data-uppy-super-focusable": !0,
-			children: [f(ot, {}), t("signInWithGoogle")]
-		}) : f("button", {
+			children: [_(at, {}), t("signInWithGoogle")]
+		}) : _("button", {
 			type: "submit",
 			className: "uppy-u-reset uppy-c-btn uppy-c-btn-primary uppy-Provider-authBtn",
 			"data-uppy-super-focusable": !0,
@@ -1797,20 +1698,20 @@ function st({ pluginName: e, i18n: t, onAuth: n }) {
 		})
 	});
 }
-var ct = ({ pluginName: e, i18n: t, onAuth: n }) => f(st, {
+var st = ({ pluginName: e, i18n: t, onAuth: n }) => _(ot, {
 	pluginName: e,
 	i18n: t,
 	onAuth: n
 });
-function lt({ loading: e, pluginName: t, pluginIcon: n, i18n: r, handleAuth: i, renderForm: a = ct }) {
-	return f("div", {
+function ct({ loading: e, pluginName: t, pluginIcon: n, i18n: r, handleAuth: i, renderForm: a = st }) {
+	return _("div", {
 		className: "uppy-Provider-auth",
 		children: [
-			f("div", {
+			_("div", {
 				className: "uppy-Provider-authIcon",
 				children: n()
 			}),
-			f("div", {
+			_("div", {
 				className: "uppy-Provider-authTitle",
 				children: r("authenticateWithTitle", { pluginName: t })
 			}),
@@ -1825,7 +1726,7 @@ function lt({ loading: e, pluginName: t, pluginIcon: n, i18n: r, handleAuth: i, 
 }
 //#endregion
 //#region node_modules/classnames/index.js
-var ut = /* @__PURE__ */ t(((e, t) => {
+var lt = /* @__PURE__ */ t(((e, t) => {
 	(function() {
 		var e = {}.hasOwnProperty;
 		function n() {
@@ -1851,7 +1752,7 @@ var ut = /* @__PURE__ */ t(((e, t) => {
 			return n;
 		}) : window.classNames = n;
 	})();
-})), dt = {
+})), ut = {
 	S3_ALREADY_EXISTS: "s3AlreadyExists",
 	S3_CONFLICT: "s3Conflict",
 	S3_DESTINATION_MUST_BE_FILE: "s3DestinationMustBeFile",
@@ -1869,20 +1770,20 @@ var ut = /* @__PURE__ */ t(((e, t) => {
 	S3_SELECTED_IN_OTHER_SESSION: "s3SelectedInOtherSession",
 	WEBDAV_CANNOT_CONNECT: "webdavCannotConnect"
 };
-function ft(e, t) {
+function dt(e, t) {
 	let { code: n } = t;
-	return n && Object.hasOwn(dt, n) ? e(dt[n]) : n && t.message === n ? e("companionError") : t.message;
+	return n && Object.hasOwn(ut, n) ? e(ut[n]) : n && t.message === n ? e("companionError") : t.message;
 }
 //#endregion
 //#region node_modules/@uppy/core/lib/provider-views/Item/components/ItemActionsMenu.js
-var pt = ({ appliesTo: e = "all" }, t) => e === "all" || e === (t.data.isFolder ? "folder" : "file");
-function mt(e, t) {
-	return e.filter((e) => pt(e, t));
+var ft = ({ appliesTo: e = "all" }, t) => e === "all" || e === (t.data.isFolder ? "folder" : "file");
+function pt(e, t) {
+	return e.filter((e) => ft(e, t));
 }
-function ht({ file: e, actions: t, open: n, onToggle: r, i18n: i }) {
-	return t.some((t) => pt(t, e)) ? f("div", {
+function mt({ file: e, actions: t, open: n, onToggle: r, i18n: i }) {
+	return t.some((t) => ft(t, e)) ? _("div", {
 		className: "uppy-ProviderBrowserItem-actions",
-		children: f("button", {
+		children: _("button", {
 			type: "button",
 			className: "uppy-u-reset uppy-c-btn uppy-ProviderBrowserItem-actionsBtn",
 			"aria-label": i("itemActionsNamed", { name: e.data.name ?? i("unnamed") }),
@@ -1891,26 +1792,26 @@ function ht({ file: e, actions: t, open: n, onToggle: r, i18n: i }) {
 			onClick: (e) => {
 				e.stopPropagation(), e.preventDefault(), r(e.currentTarget);
 			},
-			children: f("svg", {
+			children: _("svg", {
 				"aria-hidden": "true",
 				width: "16",
 				height: "16",
 				viewBox: "0 0 16 16",
 				focusable: "false",
 				children: [
-					f("circle", {
+					_("circle", {
 						cx: "3",
 						cy: "8",
 						r: "1.5",
 						fill: "currentColor"
 					}),
-					f("circle", {
+					_("circle", {
 						cx: "8",
 						cy: "8",
 						r: "1.5",
 						fill: "currentColor"
 					}),
-					f("circle", {
+					_("circle", {
 						cx: "13",
 						cy: "8",
 						r: "1.5",
@@ -1923,18 +1824,18 @@ function ht({ file: e, actions: t, open: n, onToggle: r, i18n: i }) {
 }
 //#endregion
 //#region node_modules/@uppy/core/lib/provider-views/ModalDialog.js
-function gt(e) {
+function ht(e) {
 	e.key === "Escape" && e.stopPropagation();
 }
-var _t = (e) => {
+var gt = (e) => {
 	let t = e.currentTarget;
 	if (e.target !== t) return !1;
 	let n = t.getBoundingClientRect();
 	return e.clientX < n.left || e.clientX > n.right || e.clientY < n.top || e.clientY > n.bottom;
 };
-function vt({ onDismiss: e, restoreFocus: t, children: n, ...r }) {
-	let i = C(null), a = C(!1), o = C(t);
-	return o.current = t, b(() => {
+function _t({ onDismiss: e, restoreFocus: t, children: n, ...r }) {
+	let i = O(null), a = O(!1), o = O(t);
+	return o.current = t, T(() => {
 		let e = i.current;
 		if (!e) return;
 		let t = document.activeElement instanceof HTMLElement ? document.activeElement : null;
@@ -1943,17 +1844,17 @@ function vt({ onDismiss: e, restoreFocus: t, children: n, ...r }) {
 			let { activeElement: n } = document;
 			(n === document.body || e.contains(n)) && (t?.isConnected ? t : o.current?.(e))?.focus();
 		};
-	}, []), f("dialog", {
+	}, []), _("dialog", {
 		...r,
 		ref: i,
 		onCancel: (t) => {
 			t.preventDefault(), e();
 		},
 		onPointerDown: (e) => {
-			a.current = _t(e);
+			a.current = gt(e);
 		},
 		onClick: (t) => {
-			a.current && _t(t) && e(), a.current = !1;
+			a.current && gt(t) && e(), a.current = !1;
 		},
 		onKeyDown: (t) => {
 			t.key !== "Escape" || t.isComposing || (t.preventDefault(), t.stopPropagation(), e());
@@ -1963,12 +1864,12 @@ function vt({ onDismiss: e, restoreFocus: t, children: n, ...r }) {
 }
 //#endregion
 //#region node_modules/@uppy/core/lib/provider-views/Item/components/ItemActionsPopover.js
-var L = /* @__PURE__ */ e(ut(), 1), yt = 4;
-function bt({ file: e, actions: t, anchor: n, containerRef: r, runAction: i, onClose: a, i18n: o }) {
-	let s = C(null), [c, l] = v(null), u = S(() => {
+var R = /* @__PURE__ */ e(lt(), 1), vt = 4;
+function yt({ file: e, actions: t, anchor: n, containerRef: r, runAction: i, onClose: a, i18n: o }) {
+	let s = O(null), [c, l] = C(null), u = D(() => {
 		let e = s.current;
 		if (!e) return;
-		let t = n.getBoundingClientRect(), r = e.offsetHeight, i = t.bottom + yt + r <= window.innerHeight ? t.bottom + yt : Math.max(0, t.top - yt - r);
+		let t = n.getBoundingClientRect(), r = e.offsetHeight, i = t.bottom + vt + r <= window.innerHeight ? t.bottom + vt : Math.max(0, t.top - vt - r);
 		l(getComputedStyle(n).direction === "rtl" ? {
 			top: i,
 			left: Math.max(0, t.left)
@@ -1977,7 +1878,7 @@ function bt({ file: e, actions: t, anchor: n, containerRef: r, runAction: i, onC
 			right: Math.max(0, window.innerWidth - t.right)
 		});
 	}, [n]);
-	x(u, [u]), b(() => {
+	E(u, [u]), T(() => {
 		let e = s.current, t = r.current;
 		if (!e) return;
 		let n = (e) => {
@@ -2000,13 +1901,13 @@ function bt({ file: e, actions: t, anchor: n, containerRef: r, runAction: i, onC
 	]);
 	let d = () => {
 		a(), n.focus({ preventScroll: !0 });
-	}, p = (e) => {
+	}, f = (e) => {
 		let t = Array.from(s.current?.querySelectorAll("[role=\"menuitem\"]") ?? []), n = t.indexOf(document.activeElement), r = (n) => {
 			e.preventDefault(), t[(n + t.length) % t.length]?.focus({ preventScroll: !0 });
 		};
 		switch (e.key) {
 			case "Escape":
-				gt(e), typeof s.current?.hidePopover != "function" && d();
+				ht(e), typeof s.current?.hidePopover != "function" && d();
 				break;
 			case "ArrowDown":
 				r(n + 1);
@@ -2023,7 +1924,7 @@ function bt({ file: e, actions: t, anchor: n, containerRef: r, runAction: i, onC
 			case "Tab": a();
 		}
 	};
-	return f("div", {
+	return _("div", {
 		ref: s,
 		className: "uppy-ProviderBrowserItem-actionsMenu",
 		popover: "auto",
@@ -2033,11 +1934,11 @@ function bt({ file: e, actions: t, anchor: n, containerRef: r, runAction: i, onC
 			top: `${c.top}px`,
 			..."left" in c ? { left: `${c.left}px` } : { right: `${c.right}px` }
 		} : { visibility: "hidden" },
-		onKeyDown: p,
-		children: t.map((t) => f("button", {
+		onKeyDown: f,
+		children: t.map((t) => _("button", {
 			type: "button",
 			role: "menuitem",
-			className: (0, L.default)("uppy-u-reset uppy-c-btn uppy-ProviderBrowserItem-actionsMenuItem", t.danger && "uppy-ProviderBrowserItem-actionsMenuItem--danger"),
+			className: (0, R.default)("uppy-u-reset uppy-c-btn uppy-ProviderBrowserItem-actionsMenuItem", t.danger && "uppy-ProviderBrowserItem-actionsMenuItem--danger"),
 			onClick: (n) => {
 				n.stopPropagation(), n.preventDefault(), d(), i(t, e);
 			},
@@ -2047,15 +1948,15 @@ function bt({ file: e, actions: t, anchor: n, containerRef: r, runAction: i, onC
 }
 //#endregion
 //#region node_modules/@uppy/core/lib/provider-views/Item/components/useItemMenu.js
-function xt(e) {
-	let [t, n] = v(null), r = t ? e.find(({ id: e }) => e === t.id) : void 0;
+function bt(e) {
+	let [t, n] = C(null), r = t ? e.find(({ id: e }) => e === t.id) : void 0;
 	return {
 		open: t && r ? {
 			item: r,
 			anchor: t.anchor
 		} : null,
-		close: S(() => n(null), []),
-		toggle: S((e, t) => n((n) => n?.id === e ? null : {
+		close: D(() => n(null), []),
+		toggle: D((e, t) => n((n) => n?.id === e ? null : {
 			id: e,
 			anchor: t
 		}), [])
@@ -2063,19 +1964,19 @@ function xt(e) {
 }
 //#endregion
 //#region node_modules/@uppy/core/lib/provider-views/Item/components/ItemIcon.js
-function St() {
-	return f("svg", {
+function xt() {
+	return _("svg", {
 		"aria-hidden": "true",
 		focusable: "false",
 		className: "uppy-c-icon",
 		width: 11,
 		height: 14.5,
 		viewBox: "0 0 44 58",
-		children: f("path", { d: "M27.437.517a1 1 0 0 0-.094.03H4.25C2.037.548.217 2.368.217 4.58v48.405c0 2.212 1.82 4.03 4.03 4.03H39.03c2.21 0 4.03-1.818 4.03-4.03V15.61a1 1 0 0 0-.03-.28 1 1 0 0 0 0-.093 1 1 0 0 0-.03-.032 1 1 0 0 0 0-.03 1 1 0 0 0-.032-.063 1 1 0 0 0-.03-.063 1 1 0 0 0-.032 0 1 1 0 0 0-.03-.063 1 1 0 0 0-.032-.03 1 1 0 0 0-.03-.063 1 1 0 0 0-.063-.062l-14.593-14a1 1 0 0 0-.062-.062A1 1 0 0 0 28 .708a1 1 0 0 0-.374-.157 1 1 0 0 0-.156 0 1 1 0 0 0-.03-.03l-.003-.003zM4.25 2.547h22.218v9.97c0 2.21 1.82 4.03 4.03 4.03h10.564v36.438a2.02 2.02 0 0 1-2.032 2.032H4.25c-1.13 0-2.032-.9-2.032-2.032V4.58c0-1.13.902-2.032 2.03-2.032zm24.218 1.345l10.375 9.937.75.718H30.5c-1.13 0-2.032-.9-2.032-2.03V3.89z" })
+		children: _("path", { d: "M27.437.517a1 1 0 0 0-.094.03H4.25C2.037.548.217 2.368.217 4.58v48.405c0 2.212 1.82 4.03 4.03 4.03H39.03c2.21 0 4.03-1.818 4.03-4.03V15.61a1 1 0 0 0-.03-.28 1 1 0 0 0 0-.093 1 1 0 0 0-.03-.032 1 1 0 0 0 0-.03 1 1 0 0 0-.032-.063 1 1 0 0 0-.03-.063 1 1 0 0 0-.032 0 1 1 0 0 0-.03-.063 1 1 0 0 0-.032-.03 1 1 0 0 0-.03-.063 1 1 0 0 0-.063-.062l-14.593-14a1 1 0 0 0-.062-.062A1 1 0 0 0 28 .708a1 1 0 0 0-.374-.157 1 1 0 0 0-.156 0 1 1 0 0 0-.03-.03l-.003-.003zM4.25 2.547h22.218v9.97c0 2.21 1.82 4.03 4.03 4.03h10.564v36.438a2.02 2.02 0 0 1-2.032 2.032H4.25c-1.13 0-2.032-.9-2.032-2.032V4.58c0-1.13.902-2.032 2.03-2.032zm24.218 1.345l10.375 9.937.75.718H30.5c-1.13 0-2.032-.9-2.032-2.03V3.89z" })
 	});
 }
-function Ct() {
-	return f("svg", {
+function St() {
+	return _("svg", {
 		"aria-hidden": "true",
 		focusable: "false",
 		className: "uppy-c-icon",
@@ -2084,11 +1985,11 @@ function Ct() {
 			marginRight: 3
 		},
 		viewBox: "0 0 276.157 276.157",
-		children: f("path", { d: "M273.08 101.378c-3.3-4.65-8.86-7.32-15.254-7.32h-24.34V67.59c0-10.2-8.3-18.5-18.5-18.5h-85.322c-3.63 0-9.295-2.875-11.436-5.805l-6.386-8.735c-4.982-6.814-15.104-11.954-23.546-11.954H58.73c-9.292 0-18.638 6.608-21.737 15.372l-2.033 5.752c-.958 2.71-4.72 5.37-7.596 5.37H18.5C8.3 49.09 0 57.39 0 67.59v167.07c0 .886.16 1.73.443 2.52.152 3.306 1.18 6.424 3.053 9.064 3.3 4.652 8.86 7.32 15.255 7.32h188.487c11.395 0 23.27-8.425 27.035-19.18l40.677-116.188c2.11-6.035 1.43-12.164-1.87-16.816zM18.5 64.088h8.864c9.295 0 18.64-6.607 21.738-15.37l2.032-5.75c.96-2.712 4.722-5.373 7.597-5.373h29.565c3.63 0 9.295 2.876 11.437 5.806l6.386 8.735c4.982 6.815 15.104 11.954 23.546 11.954h85.322c1.898 0 3.5 1.602 3.5 3.5v26.47H69.34c-11.395 0-23.27 8.423-27.035 19.178L15 191.23V67.59c0-1.898 1.603-3.5 3.5-3.5zm242.29 49.15l-40.676 116.188c-1.674 4.78-7.812 9.135-12.877 9.135H18.75c-1.447 0-2.576-.372-3.02-.997-.442-.625-.422-1.814.057-3.18l40.677-116.19c1.674-4.78 7.812-9.134 12.877-9.134h188.487c1.448 0 2.577.372 3.02.997.443.625.423 1.814-.056 3.18z" })
+		children: _("path", { d: "M273.08 101.378c-3.3-4.65-8.86-7.32-15.254-7.32h-24.34V67.59c0-10.2-8.3-18.5-18.5-18.5h-85.322c-3.63 0-9.295-2.875-11.436-5.805l-6.386-8.735c-4.982-6.814-15.104-11.954-23.546-11.954H58.73c-9.292 0-18.638 6.608-21.737 15.372l-2.033 5.752c-.958 2.71-4.72 5.37-7.596 5.37H18.5C8.3 49.09 0 57.39 0 67.59v167.07c0 .886.16 1.73.443 2.52.152 3.306 1.18 6.424 3.053 9.064 3.3 4.652 8.86 7.32 15.255 7.32h188.487c11.395 0 23.27-8.425 27.035-19.18l40.677-116.188c2.11-6.035 1.43-12.164-1.87-16.816zM18.5 64.088h8.864c9.295 0 18.64-6.607 21.738-15.37l2.032-5.75c.96-2.712 4.722-5.373 7.597-5.373h29.565c3.63 0 9.295 2.876 11.437 5.806l6.386 8.735c4.982 6.815 15.104 11.954 23.546 11.954h85.322c1.898 0 3.5 1.602 3.5 3.5v26.47H69.34c-11.395 0-23.27 8.423-27.035 19.178L15 191.23V67.59c0-1.898 1.603-3.5 3.5-3.5zm242.29 49.15l-40.676 116.188c-1.674 4.78-7.812 9.135-12.877 9.135H18.75c-1.447 0-2.576-.372-3.02-.997-.442-.625-.422-1.814.057-3.18l40.677-116.19c1.674-4.78 7.812-9.134 12.877-9.134h188.487c1.448 0 2.577.372 3.02.997.443.625.423 1.814-.056 3.18z" })
 	});
 }
-function wt() {
-	return f("svg", {
+function Ct() {
+	return _("svg", {
 		"aria-hidden": "true",
 		focusable: "false",
 		style: {
@@ -2096,16 +1997,16 @@ function wt() {
 			marginRight: 4
 		},
 		viewBox: "0 0 58 58",
-		children: [f("path", { d: "M36.537 28.156l-11-7a1.005 1.005 0 0 0-1.02-.033C24.2 21.3 24 21.635 24 22v14a1 1 0 0 0 1.537.844l11-7a1.002 1.002 0 0 0 0-1.688zM26 34.18V23.82L34.137 29 26 34.18z" }), f("path", { d: "M57 6H1a1 1 0 0 0-1 1v44a1 1 0 0 0 1 1h56a1 1 0 0 0 1-1V7a1 1 0 0 0-1-1zM10 28H2v-9h8v9zm-8 2h8v9H2v-9zm10 10V8h34v42H12V40zm44-12h-8v-9h8v9zm-8 2h8v9h-8v-9zm8-22v9h-8V8h8zM2 8h8v9H2V8zm0 42v-9h8v9H2zm54 0h-8v-9h8v9z" })]
+		children: [_("path", { d: "M36.537 28.156l-11-7a1.005 1.005 0 0 0-1.02-.033C24.2 21.3 24 21.635 24 22v14a1 1 0 0 0 1.537.844l11-7a1.002 1.002 0 0 0 0-1.688zM26 34.18V23.82L34.137 29 26 34.18z" }), _("path", { d: "M57 6H1a1 1 0 0 0-1 1v44a1 1 0 0 0 1 1h56a1 1 0 0 0 1-1V7a1 1 0 0 0-1-1zM10 28H2v-9h8v9zm-8 2h8v9H2v-9zm10 10V8h34v42H12V40zm44-12h-8v-9h8v9zm-8 2h8v9h-8v-9zm8-22v9h-8V8h8zM2 8h8v9H2V8zm0 42v-9h8v9H2zm54 0h-8v-9h8v9z" })]
 	});
 }
-function Tt({ itemIconString: e, alt: t = void 0 }) {
+function wt({ itemIconString: e, alt: t = void 0 }) {
 	if (e === null) return null;
 	switch (e) {
-		case "file": return f(St, {});
-		case "folder": return f(Ct, {});
-		case "video": return f(wt, {});
-		default: return f("img", {
+		case "file": return _(xt, {});
+		case "folder": return _(St, {});
+		case "video": return _(Ct, {});
+		default: return _("img", {
 			src: e,
 			alt: t,
 			referrerPolicy: "no-referrer",
@@ -2117,17 +2018,17 @@ function Tt({ itemIconString: e, alt: t = void 0 }) {
 }
 //#endregion
 //#region node_modules/@uppy/core/lib/provider-views/Item/components/GridItem.js
-function Et({ file: e, toggleCheckbox: t, className: n, isDisabled: r, restrictionError: i, showTitles: a, children: o = null, i18n: s, actionsMenu: c = null, selectable: l = !0, onFileClick: u }) {
-	let d = e.data.name ?? s("unnamed"), m = f(p, { children: [
-		f(Tt, { itemIconString: e.data.thumbnail || e.data.icon }),
+function Tt({ file: e, toggleCheckbox: t, className: n, isDisabled: r, restrictionError: i, showTitles: a, children: o = null, i18n: s, actionsMenu: c = null, selectable: l = !0, onFileClick: u }) {
+	let d = e.data.name ?? s("unnamed"), f = _(v, { children: [
+		_(wt, { itemIconString: e.data.thumbnail || e.data.icon }),
 		a && d,
 		o
 	] });
-	return f("li", {
+	return _("li", {
 		className: n,
 		title: r && i ? i : void 0,
 		children: [
-			l && f("input", {
+			l && _("input", {
 				type: "checkbox",
 				className: "uppy-u-reset uppy-ProviderBrowserItem-checkbox uppy-ProviderBrowserItem-checkbox--grid",
 				onChange: t,
@@ -2137,18 +2038,18 @@ function Et({ file: e, toggleCheckbox: t, className: n, isDisabled: r, restricti
 				disabled: r,
 				"data-uppy-super-focusable": !0
 			}),
-			!l && u && !e.data.isFolder ? f("button", {
+			!l && u && !e.data.isFolder ? _("button", {
 				type: "button",
 				"aria-label": s("openFileNamed", { name: d }),
 				"data-uppy-item-id": e.id,
 				className: "uppy-u-reset uppy-ProviderBrowserItem-inner",
 				onClick: () => u(e),
-				children: m
-			}) : f("label", {
+				children: f
+			}) : _("label", {
 				htmlFor: l ? e.id : void 0,
 				"aria-label": d,
 				className: "uppy-u-reset uppy-ProviderBrowserItem-inner",
-				children: m
+				children: f
 			}),
 			c
 		]
@@ -2156,19 +2057,19 @@ function Et({ file: e, toggleCheckbox: t, className: n, isDisabled: r, restricti
 }
 //#endregion
 //#region node_modules/@uppy/core/lib/provider-views/Item/components/ListItem.js
-function Dt({ file: e, openFolder: t, className: n, isDisabled: r, restrictionError: i, toggleCheckbox: a, showTitles: o, i18n: s, actionsMenu: c = null, selectable: l = !0, onFileClick: u }) {
-	let d = f(p, { children: [f("div", {
+function Et({ file: e, openFolder: t, className: n, isDisabled: r, restrictionError: i, toggleCheckbox: a, showTitles: o, i18n: s, actionsMenu: c = null, selectable: l = !0, onFileClick: u }) {
+	let d = _(v, { children: [_("div", {
 		className: "uppy-ProviderBrowserItem-iconWrap",
-		children: f(Tt, { itemIconString: e.data.icon })
-	}), o && f("span", {
+		children: _(wt, { itemIconString: e.data.icon })
+	}), o && _("span", {
 		className: "uppy-truncate-text",
 		children: e.data.name ?? s("unnamed")
 	})] });
-	return f("li", {
+	return _("li", {
 		className: n,
 		title: e.status !== "checked" && i ? i : void 0,
 		children: [
-			l && f("input", {
+			l && _("input", {
 				type: "checkbox",
 				className: "uppy-u-reset uppy-ProviderBrowserItem-checkbox",
 				onChange: a,
@@ -2179,23 +2080,23 @@ function Dt({ file: e, openFolder: t, className: n, isDisabled: r, restrictionEr
 				disabled: r,
 				"data-uppy-super-focusable": !0
 			}),
-			e.data.isFolder ? f("button", {
+			e.data.isFolder ? _("button", {
 				type: "button",
 				className: "uppy-u-reset uppy-c-btn uppy-ProviderBrowserItem-inner",
 				onClick: () => t(e.id),
 				"aria-label": s("openFolderNamed", { name: e.data.name ?? s("unnamed") }),
-				children: [f("div", {
+				children: [_("div", {
 					className: "uppy-ProviderBrowserItem-iconWrap",
-					children: f(Tt, { itemIconString: e.data.icon })
-				}), o && e.data.name ? f("span", {
+					children: _(wt, { itemIconString: e.data.icon })
+				}), o && e.data.name ? _("span", {
 					className: "uppy-truncate-text",
 					children: e.data.name
 				}) : s("unnamed")]
-			}) : l ? f("label", {
+			}) : l ? _("label", {
 				htmlFor: e.id,
 				className: "uppy-u-reset uppy-ProviderBrowserItem-inner",
 				children: d
-			}) : f("button", {
+			}) : _("button", {
 				type: "button",
 				className: "uppy-u-reset uppy-c-btn uppy-ProviderBrowserItem-inner",
 				onClick: () => u?.(e),
@@ -2209,14 +2110,14 @@ function Dt({ file: e, openFolder: t, className: n, isDisabled: r, restrictionEr
 }
 //#endregion
 //#region node_modules/@uppy/core/lib/provider-views/Item/index.js
-function Ot(e) {
-	let { viewType: t, toggleCheckbox: n, showTitles: r, i18n: i, openFolder: a, file: o, utmSource: s, actions: c = [], menuOpen: l = !1, toggleMenu: u, selectable: d = !0, onFileClick: p } = e, m = c.length > 0 && u ? f(ht, {
+function Dt(e) {
+	let { viewType: t, toggleCheckbox: n, showTitles: r, i18n: i, openFolder: a, file: o, utmSource: s, actions: c = [], menuOpen: l = !1, toggleMenu: u, selectable: d = !0, onFileClick: f } = e, p = c.length > 0 && u ? _(mt, {
 		file: o,
 		actions: c,
 		open: l,
 		onToggle: u,
 		i18n: i
-	}) : null, h = o.type === "folder" ? null : o.restrictionError, g = !!h && o.status !== "checked", _ = {
+	}) : null, m = o.type === "folder" ? null : o.restrictionError, h = !!m && o.status !== "checked", g = {
 		file: o,
 		openFolder: a,
 		toggleCheckbox: n,
@@ -2224,19 +2125,19 @@ function Ot(e) {
 		i18n: i,
 		viewType: t,
 		showTitles: r,
-		className: (0, L.default)("uppy-ProviderBrowserItem", { "uppy-ProviderBrowserItem--disabled": g }, { "uppy-ProviderBrowserItem--noPreview": o.data.icon === "video" }, { "uppy-ProviderBrowserItem--is-checked": o.status === "checked" }, { "uppy-ProviderBrowserItem--is-partial": o.status === "partial" }),
-		isDisabled: g,
-		restrictionError: h,
-		actionsMenu: m,
+		className: (0, R.default)("uppy-ProviderBrowserItem", { "uppy-ProviderBrowserItem--disabled": h }, { "uppy-ProviderBrowserItem--noPreview": o.data.icon === "video" }, { "uppy-ProviderBrowserItem--is-checked": o.status === "checked" }, { "uppy-ProviderBrowserItem--is-partial": o.status === "partial" }),
+		isDisabled: h,
+		restrictionError: m,
+		actionsMenu: p,
 		selectable: d,
-		onFileClick: p
+		onFileClick: f
 	};
 	switch (t) {
-		case "grid": return f(Et, { ..._ });
-		case "list": return f(Dt, { ..._ });
-		case "unsplash": return f(Et, {
-			..._,
-			children: f("a", {
+		case "grid": return _(Tt, { ...g });
+		case "list": return _(Et, { ...g });
+		case "unsplash": return _(Tt, {
+			...g,
+			children: _("a", {
 				href: `${o.data.author.url}?utm_source=${s}&utm_medium=referral`,
 				target: "_blank",
 				rel: "noopener noreferrer",
@@ -2250,95 +2151,95 @@ function Ot(e) {
 }
 //#endregion
 //#region node_modules/@uppy/core/lib/provider-views/Browser.js
-function kt(e) {
-	let { displayedPartialTree: t, viewType: n, toggleCheckbox: r, handleScroll: i, showTitles: a, i18n: o, isLoading: s, onCancelLoading: c, openFolder: l, noResultsLabel: u, virtualList: d, utmSource: p, actions: m = [], runAction: h, selectable: g = !0, onFileClick: _ } = e, [y, x] = v(!1), S = xt(t), w = C(null);
-	b(() => {
+function Ot(e) {
+	let { displayedPartialTree: t, viewType: n, toggleCheckbox: r, handleScroll: i, showTitles: a, i18n: o, isLoading: s, onCancelLoading: c, openFolder: l, noResultsLabel: u, virtualList: d, utmSource: f, actions: p = [], runAction: m, selectable: h = !0, onFileClick: g } = e, [v, y] = C(!1), b = bt(t), x = O(null);
+	T(() => {
 		let e = (e) => {
-			e.key === "Shift" && x(!1);
+			e.key === "Shift" && y(!1);
 		}, t = (e) => {
-			e.key === "Shift" && x(!0);
+			e.key === "Shift" && y(!0);
 		};
 		return document.addEventListener("keyup", e), document.addEventListener("keydown", t), () => {
 			document.removeEventListener("keyup", e), document.removeEventListener("keydown", t);
 		};
 	}, []);
-	let T = C(null), E = !!(s && c);
-	if (b(() => {
-		E && T.current?.focus();
-	}, [E]), s) return f("div", {
+	let S = O(null), w = !!(s && c);
+	if (T(() => {
+		w && S.current?.focus();
+	}, [w]), s) return _("div", {
 		className: "uppy-Provider-loading",
-		children: [f("span", {
+		children: [_("span", {
 			role: "status",
 			children: typeof s == "string" ? s : o("loading")
-		}), c && f("button", {
-			ref: T,
+		}), c && _("button", {
+			ref: S,
 			type: "button",
 			className: "uppy-u-reset uppy-c-btn uppy-c-btn-link uppy-Provider-loadingCancel",
 			onClick: c,
 			children: o("stopOperation")
 		})]
 	});
-	if (t.length === 0) return f("div", {
+	if (t.length === 0) return _("div", {
 		className: "uppy-Provider-empty",
 		children: u
 	});
-	let D = (e) => f(Ot, {
+	let E = (e) => _(Dt, {
 		viewType: n,
 		toggleCheckbox: (t) => {
-			t.stopPropagation(), t.preventDefault(), document.getSelection()?.removeAllRanges(), r(e, y);
+			t.stopPropagation(), t.preventDefault(), document.getSelection()?.removeAllRanges(), r(e, v);
 		},
 		showTitles: a,
 		i18n: o,
 		openFolder: l,
 		file: e,
-		utmSource: p,
-		actions: m,
-		menuOpen: S.open?.item.id === e.id,
-		toggleMenu: h ? (t) => S.toggle(e.id, t) : void 0,
-		selectable: g,
-		onFileClick: _
-	}, e.id), O = S.open && h ? f(bt, {
-		file: S.open.item,
-		actions: mt(m, S.open.item),
-		anchor: S.open.anchor,
-		containerRef: w,
-		runAction: h,
-		onClose: S.close,
+		utmSource: f,
+		actions: p,
+		menuOpen: b.open?.item.id === e.id,
+		toggleMenu: m ? (t) => b.toggle(e.id, t) : void 0,
+		selectable: h,
+		onFileClick: g
+	}, e.id), D = b.open && m ? _(yt, {
+		file: b.open.item,
+		actions: pt(p, b.open.item),
+		anchor: b.open.anchor,
+		containerRef: x,
+		runAction: m,
+		onClose: b.close,
 		i18n: o
-	}, S.open.item.id) : null;
-	return d ? f("div", {
+	}, b.open.item.id) : null;
+	return d ? _("div", {
 		className: "uppy-ProviderBrowser-body",
-		ref: w,
-		children: [f(Ce, {
+		ref: x,
+		children: [_(we, {
 			className: "uppy-ProviderBrowser-list",
 			data: t,
-			renderRow: D,
+			renderRow: E,
 			rowHeight: 35.5
-		}), O]
-	}) : f("div", {
+		}), D]
+	}) : _("div", {
 		className: "uppy-ProviderBrowser-body",
-		ref: w,
-		children: [f("ul", {
+		ref: x,
+		children: [_("ul", {
 			className: "uppy-ProviderBrowser-list",
 			onScroll: i,
 			tabIndex: -1,
-			children: t.map(D)
-		}), O]
+			children: t.map(E)
+		}), D]
 	});
 }
 //#endregion
 //#region node_modules/@uppy/core/lib/provider-views/BulkActions.js
-function At({ selectedCount: e, bulkActions: t, runBulkAction: n, i18n: r }) {
-	return e === 0 || t.length === 0 ? null : f("div", {
+function kt({ selectedCount: e, bulkActions: t, runBulkAction: n, i18n: r }) {
+	return e === 0 || t.length === 0 ? null : _("div", {
 		className: "uppy-ProviderBrowser-footer",
-		children: f("div", {
+		children: _("div", {
 			className: "uppy-ProviderBrowser-footer-buttons",
-			children: [f("span", {
+			children: [_("span", {
 				className: "uppy-ProviderBrowser-footer-count",
 				children: r("itemsSelected", { smart_count: e })
-			}), t.map((e) => f("button", {
+			}), t.map((e) => _("button", {
 				type: "button",
-				className: (0, L.default)("uppy-u-reset uppy-c-btn uppy-c-btn-primary", { "uppy-ProviderDialog-confirm--danger": e.danger }),
+				className: (0, R.default)("uppy-u-reset uppy-c-btn uppy-c-btn-primary", { "uppy-ProviderDialog-confirm--danger": e.danger }),
 				onClick: () => n(e),
 				children: e.label
 			}, e.id))]
@@ -2347,28 +2248,28 @@ function At({ selectedCount: e, bulkActions: t, runBulkAction: n, i18n: r }) {
 }
 //#endregion
 //#region node_modules/@uppy/core/lib/provider-views/utils/PartialTreeUtils/getNumberOfSelectedFiles.js
-var jt = (e) => e.filter((t) => t.type === "file" && t.status === "checked" || t.type === "folder" && t.status === "checked" && !e.some((e) => e.type !== "root" && e.parentId === t.id)).length;
+var At = (e) => e.filter((t) => t.type === "file" && t.status === "checked" || t.type === "folder" && t.status === "checked" && !e.some((e) => e.type !== "root" && e.parentId === t.id)).length;
 //#endregion
 //#region node_modules/@uppy/core/lib/provider-views/FooterActions.js
-function Mt({ cancelSelection: e, donePicking: t, i18n: n, partialTree: r, validateAggregateRestrictions: i }) {
-	let a = y(() => i(r), [r, i]), o = y(() => jt(r), [r]);
-	return o === 0 ? null : f("div", {
+function jt({ cancelSelection: e, donePicking: t, i18n: n, partialTree: r, validateAggregateRestrictions: i }) {
+	let a = w(() => i(r), [r, i]), o = w(() => At(r), [r]);
+	return o === 0 ? null : _("div", {
 		className: "uppy-ProviderBrowser-footer",
-		children: [f("div", {
+		children: [_("div", {
 			className: "uppy-ProviderBrowser-footer-buttons",
-			children: [f("button", {
-				className: (0, L.default)("uppy-u-reset uppy-c-btn uppy-c-btn-primary", { "uppy-c-btn--disabled": a }),
+			children: [_("button", {
+				className: (0, R.default)("uppy-u-reset uppy-c-btn uppy-c-btn-primary", { "uppy-c-btn--disabled": a }),
 				disabled: !!a,
 				onClick: t,
 				type: "button",
 				children: n("selectX", { smart_count: o })
-			}), f("button", {
+			}), _("button", {
 				className: "uppy-u-reset uppy-c-btn uppy-c-btn-link",
 				onClick: e,
 				type: "button",
 				children: n("cancel")
 			})]
-		}), a && f("div", {
+		}), a && _("div", {
 			className: "uppy-ProviderBrowser-footer-error",
 			children: a
 		})]
@@ -2376,9 +2277,9 @@ function Mt({ cancelSelection: e, donePicking: t, i18n: n, partialTree: r, valid
 }
 //#endregion
 //#region node_modules/@uppy/core/lib/provider-views/ItemDetailDialog.js
-function Nt({ item: e, actions: t, runAction: n, getPreviewUrl: r, onClose: i, i18n: a }) {
-	let [o, s] = v(null), c = _(), [l] = v(e);
-	b(() => {
+function Mt({ item: e, actions: t, runAction: n, getPreviewUrl: r, onClose: i, i18n: a }) {
+	let [o, s] = C(null), c = S(), [l] = C(e);
+	T(() => {
 		if (!r || l.data.isFolder) return;
 		let e = !1;
 		return Promise.resolve().then(() => r(l)).then((t) => {
@@ -2387,8 +2288,8 @@ function Nt({ item: e, actions: t, runAction: n, getPreviewUrl: r, onClose: i, i
 			e = !0;
 		};
 	}, [r, l]);
-	let u = e.data.name ?? a("unnamed"), d = mt(t, e), m = e.type === "file" ? e.data : void 0, h = m?.size, g = m?.mimeType, y = m?.modifiedDate;
-	return f(vt, {
+	let u = e.data.name ?? a("unnamed"), d = pt(t, e), f = e.type === "file" ? e.data : void 0, p = f?.size, m = f?.mimeType, h = f?.modifiedDate;
+	return _(_t, {
 		className: "uppy-ProviderDialog uppy-ItemDetail",
 		"aria-labelledby": c,
 		onDismiss: i,
@@ -2397,24 +2298,24 @@ function Nt({ item: e, actions: t, runAction: n, getPreviewUrl: r, onClose: i, i
 			return n?.querySelector(`[data-uppy-item-id="${CSS.escape(e.id)}"]`) ?? n?.querySelector(".uppy-ProviderBrowser-list");
 		},
 		children: [
-			f("header", {
+			_("header", {
 				className: "uppy-ItemDetail-header",
-				children: [f("h3", {
+				children: [_("h3", {
 					id: c,
 					className: "uppy-ItemDetail-name",
 					children: u
-				}), f("button", {
+				}), _("button", {
 					type: "button",
 					className: "uppy-u-reset uppy-c-btn uppy-ItemDetail-close",
 					"aria-label": a("close"),
 					onClick: i,
-					children: f("svg", {
+					children: _("svg", {
 						"aria-hidden": "true",
 						width: "14",
 						height: "14",
 						viewBox: "0 0 14 14",
 						fill: "none",
-						children: f("path", {
+						children: _("path", {
 							d: "M2 2l10 10M12 2L2 12",
 							stroke: "currentColor",
 							"stroke-width": "1.6",
@@ -2423,34 +2324,34 @@ function Nt({ item: e, actions: t, runAction: n, getPreviewUrl: r, onClose: i, i
 					})
 				})]
 			}),
-			f("div", {
+			_("div", {
 				className: "uppy-ItemDetail-body",
-				children: [f("div", {
+				children: [_("div", {
 					className: "uppy-ItemDetail-preview",
 					"data-testid": "file-detail-preview",
-					children: o ? f("img", {
+					children: o ? _("img", {
 						src: o,
 						alt: "",
 						className: "uppy-ItemDetail-previewImage"
-					}) : f("span", {
+					}) : _("span", {
 						className: "uppy-ItemDetail-previewIcon",
 						"aria-hidden": "true",
-						children: f(Tt, { itemIconString: e.data.icon })
+						children: _(wt, { itemIconString: e.data.icon })
 					})
-				}), f("dl", {
+				}), _("dl", {
 					className: "uppy-ItemDetail-facts",
 					children: [
-						typeof h == "number" ? f(p, { children: [f("dt", { children: a("detailSize") }), f("dd", { children: T(h) })] }) : null,
-						g ? f(p, { children: [f("dt", { children: a("detailType") }), f("dd", { children: g })] }) : null,
-						y ? f(p, { children: [f("dt", { children: a("detailModified") }), f("dd", { children: y })] }) : null
+						typeof p == "number" ? _(v, { children: [_("dt", { children: a("detailSize") }), _("dd", { children: k(p) })] }) : null,
+						m ? _(v, { children: [_("dt", { children: a("detailType") }), _("dd", { children: m })] }) : null,
+						h ? _(v, { children: [_("dt", { children: a("detailModified") }), _("dd", { children: h })] }) : null
 					]
 				})]
 			}),
-			f("footer", {
+			_("footer", {
 				className: "uppy-ItemDetail-actions",
-				children: d.map((t) => f("button", {
+				children: d.map((t) => _("button", {
 					type: "button",
-					className: (0, L.default)("uppy-u-reset uppy-c-btn uppy-ItemDetail-action", t.danger && "uppy-ItemDetail-action--danger"),
+					className: (0, R.default)("uppy-u-reset uppy-c-btn uppy-ItemDetail-action", t.danger && "uppy-ItemDetail-action--danger"),
 					onClick: () => {
 						i(), n(t, e);
 					},
@@ -2462,53 +2363,53 @@ function Nt({ item: e, actions: t, runAction: n, getPreviewUrl: r, onClose: i, i
 }
 //#endregion
 //#region node_modules/@uppy/core/lib/provider-views/ProviderDialog.js
-function Pt({ dialog: e, i18n: t, onConfirm: n, onCancel: r }) {
-	let [i, a] = v(e.kind === "prompt" ? e.defaultValue ?? "" : ""), o = C(null), s = C(null), c = C(null), l = _(), u = e.kind === "prompt", d = e.kind === "confirm" && e.danger === !0;
-	return b(() => {
+function Nt({ dialog: e, i18n: t, onConfirm: n, onCancel: r }) {
+	let [i, a] = C(e.kind === "prompt" ? e.defaultValue ?? "" : ""), o = O(null), s = O(null), c = O(null), l = S(), u = e.kind === "prompt", d = e.kind === "confirm" && e.danger === !0;
+	return T(() => {
 		(o.current ?? (d ? c : s).current)?.focus(), o.current?.select();
-	}, [d]), f(vt, {
+	}, [d]), _(_t, {
 		className: "uppy-ProviderDialog",
 		"aria-labelledby": l,
 		onDismiss: r,
-		children: f("form", {
+		children: _("form", {
 			className: "uppy-ProviderDialog-form",
 			onSubmit: (e) => {
 				e.preventDefault(), n(u ? i : void 0);
 			},
 			children: [
-				f("h3", {
+				_("h3", {
 					id: l,
 					className: "uppy-ProviderDialog-title",
 					children: e.title
 				}),
-				e.kind === "prompt" ? f("label", {
+				e.kind === "prompt" ? _("label", {
 					className: "uppy-ProviderDialog-label",
-					children: [e.label && f("span", {
+					children: [e.label && _("span", {
 						className: "uppy-ProviderDialog-labelText",
 						children: e.label
-					}), f("input", {
+					}), _("input", {
 						ref: o,
 						type: "text",
 						className: "uppy-u-reset uppy-c-textInput uppy-ProviderDialog-input",
 						value: i,
 						onInput: (e) => a(e.target.value)
 					})]
-				}) : e.message && f("p", {
+				}) : e.message && _("p", {
 					className: "uppy-ProviderDialog-message",
 					children: e.message
 				}),
-				f("div", {
+				_("div", {
 					className: "uppy-ProviderDialog-actions",
-					children: [f("button", {
+					children: [_("button", {
 						ref: c,
 						type: "button",
 						className: "uppy-u-reset uppy-c-btn uppy-c-btn-link",
 						onClick: r,
 						children: t("cancel")
-					}), f("button", {
+					}), _("button", {
 						ref: s,
 						type: "submit",
-						className: (0, L.default)("uppy-u-reset uppy-c-btn uppy-c-btn-primary", d && "uppy-ProviderDialog-confirm--danger"),
+						className: (0, R.default)("uppy-u-reset uppy-c-btn uppy-c-btn-primary", d && "uppy-ProviderDialog-confirm--danger"),
 						children: e.confirmLabel ?? t("dialogConfirm")
 					})]
 				})
@@ -2518,7 +2419,7 @@ function Pt({ dialog: e, i18n: t, onConfirm: n, onCancel: r }) {
 }
 //#endregion
 //#region node_modules/@uppy/core/lib/provider-views/ProviderDialogController.js
-var Ft = class {
+var Pt = class {
 	#e;
 	#t = null;
 	#n = 0;
@@ -2553,7 +2454,7 @@ var Ft = class {
 		let n = this.#t;
 		n && (this.#t = null, this.#e.setPluginState({ dialog: void 0 }), n(e, t));
 	}
-}, It = (e, t, n) => {
+}, Ft = (e, t, n) => {
 	let r = e.name || e.id;
 	return {
 		id: e.id,
@@ -2579,54 +2480,54 @@ var Ft = class {
 			requestClientId: n.provider
 		}
 	};
-}, Lt = (e, t, n) => {
-	let r = e.map((e) => It(e, t, n)), i = [], a = [];
+}, It = (e, t, n) => {
+	let r = e.map((e) => Ft(e, t, n)), i = [], a = [];
 	r.forEach((e) => {
-		t.uppy.checkIfFileAlreadyExists(M(e, t.uppy.getID())) ? a.push(e) : i.push(e);
+		t.uppy.checkIfFileAlreadyExists(se(e, t.uppy.getID())) ? a.push(e) : i.push(e);
 	}), i.length > 0 && t.uppy.info(t.uppy.i18n("addedNumFiles", { numFiles: i.length })), a.length > 0 && t.uppy.info(`Not adding ${a.length} files because they already exist`), t.uppy.addFiles(i);
-}, Rt = (e, t, n, r) => {
+}, Lt = (e, t, n, r) => {
 	let i = t.findIndex((e) => e.id === r);
 	if (i !== -1 && n) {
 		let n = t.findIndex((t) => t.id === e);
 		return t.slice(Math.min(i, n), Math.max(i, n) + 1).map((e) => e.id);
 	}
 	return [e];
-}, R = (e) => (t) => {
-	if (at(t)) return;
-	let r = n(t);
-	if (fe(r)) {
+}, z = (e) => (t) => {
+	if (i(t)) return;
+	let n = s(t);
+	if (r(n)) {
 		e.log("Aborting request", "warning");
 		return;
 	}
-	e.log(r, "error"), r.name === "UserFacingApiError" && e.info({
+	e.log(n, "error"), n.name === "UserFacingApiError" && e.info({
 		message: e.i18n("companionError"),
-		details: ft(e.i18n, r)
+		details: dt(e.i18n, n)
 	}, "warning", 5e3);
-}, zt = (e, t) => {
+}, Rt = (e, t) => {
 	let n = e.find((e) => e.id === t), r = [];
 	for (; r = [n, ...r], n.type !== "root";) {
 		let t = n.parentId;
 		n = e.find((e) => e.id === t);
 	}
 	return r;
-}, Bt = (e, t, n) => {
+}, zt = (e, t, n) => {
 	let r = t === null ? "null" : t;
 	if (n[r]) return n[r];
 	let i = e.find((e) => e.id === t);
 	if (i.type === "root") return [];
-	let a = [...Bt(e, i.parentId, n), i];
+	let a = [...zt(e, i.parentId, n), i];
 	return n[r] = a, a;
-}, Vt = (e) => {
+}, Bt = (e) => {
 	let t = Object.create(null);
 	return e.filter((e) => e.type === "file" && e.status === "checked").map((n) => {
-		let r = Bt(e, n.id, t), i = r.findIndex((e) => e.type === "folder" && e.status === "checked"), a = r.slice(i), o = `/${r.map((e) => e.data.name).join("/")}`, s = a.length === 1 ? void 0 : a.map((e) => e.data.name).join("/");
+		let r = zt(e, n.id, t), i = r.findIndex((e) => e.type === "folder" && e.status === "checked"), a = r.slice(i), o = `/${r.map((e) => e.data.name).join("/")}`, s = a.length === 1 ? void 0 : a.map((e) => e.data.name).join("/");
 		return {
 			...n.data,
 			absDirPath: o,
 			relDirPath: s
 		};
 	});
-}, Ht = /* @__PURE__ */ e((/* @__PURE__ */ t(((e, t) => {
+}, Vt = /* @__PURE__ */ e((/* @__PURE__ */ t(((e, t) => {
 	var n = Object.prototype.hasOwnProperty, r = "~";
 	function i() {}
 	Object.create && (i.prototype = Object.create(null), new i().__proto__ || (r = !1));
@@ -2713,26 +2614,26 @@ var Ft = class {
 		var t;
 		return e ? (t = r ? r + e : e, this._events[t] && s(this, t)) : (this._events = new i(), this._eventsCount = 0), this;
 	}, c.prototype.off = c.prototype.removeListener, c.prototype.addListener = c.prototype.on, c.prefixed = r, c.EventEmitter = c, t !== void 0 && (t.exports = c);
-})))(), 1), Ut = class e extends Error {
+})))(), 1), Ht = class e extends Error {
 	name = "TimeoutError";
 	constructor(t, n) {
 		super(t, n), Error.captureStackTrace?.(this, e);
 	}
-}, Wt = (e) => e.reason ?? new DOMException("This operation was aborted.", "AbortError");
-function Gt(e, t) {
+}, Ut = (e) => e.reason ?? new DOMException("This operation was aborted.", "AbortError");
+function Wt(e, t) {
 	let { milliseconds: n, fallback: r, message: i, customTimers: a = {
 		setTimeout,
 		clearTimeout
 	}, signal: o } = t, s, c, l = new Promise((t, l) => {
 		if (typeof n != "number" || Math.sign(n) !== 1) throw TypeError(`Expected \`milliseconds\` to be a positive number, got \`${n}\``);
 		if (o?.aborted) {
-			l(Wt(o)), e.then(t, l);
+			l(Ut(o)), e.then(t, l);
 			return;
 		}
 		if (o && (c = () => {
-			l(Wt(o));
+			l(Ut(o));
 		}, o.addEventListener("abort", c, { once: !0 })), e.then(t, l), n === Infinity) return;
-		let u = new Ut();
+		let u = new Ht();
 		s = a.setTimeout.call(void 0, () => {
 			if (r) {
 				try {
@@ -2753,7 +2654,7 @@ function Gt(e, t) {
 }
 //#endregion
 //#region node_modules/p-queue/dist/lower-bound.js
-function Kt(e, t, n) {
+function Gt(e, t, n) {
 	let r = 0, i = e.length;
 	for (; i > 0;) {
 		let a = Math.trunc(i / 2), o = r + a;
@@ -2763,7 +2664,7 @@ function Kt(e, t, n) {
 }
 //#endregion
 //#region node_modules/p-queue/dist/priority-queue.js
-var qt = 100, Jt = class {
+var Kt = 100, qt = class {
 	#e = [];
 	#t = 0;
 	enqueue(e, t) {
@@ -2781,7 +2682,7 @@ var qt = 100, Jt = class {
 			return;
 		}
 		this.#n();
-		let o = Kt(this.#e, a, (e, t) => t.priority - e.priority);
+		let o = Gt(this.#e, a, (e, t) => t.priority - e.priority);
 		this.#e.splice(o, 0, a);
 	}
 	setPriority(e, t) {
@@ -2800,7 +2701,7 @@ var qt = 100, Jt = class {
 	dequeue() {
 		if (this.#t === this.#e.length) return;
 		let e = this.#e[this.#t];
-		return this.#t++, this.#t === this.#e.length ? (this.#e.length = 0, this.#t = 0) : this.#t > qt && this.#t > this.#e.length / 2 && this.#n(), e?.run;
+		return this.#t++, this.#t === this.#e.length ? (this.#e.length = 0, this.#t = 0) : this.#t > Kt && this.#t > this.#e.length / 2 && this.#n(), e?.run;
 	}
 	filter(e) {
 		let t = [];
@@ -2816,7 +2717,7 @@ var qt = 100, Jt = class {
 	#n() {
 		this.#t !== 0 && (this.#e.splice(0, this.#t), this.#t = 0);
 	}
-}, Yt = class extends Ht.default {
+}, Jt = class extends Vt.default {
 	#e;
 	#t;
 	#n = 0;
@@ -2846,7 +2747,7 @@ var qt = 100, Jt = class {
 			interval: 0,
 			concurrency: Infinity,
 			autoStart: !0,
-			queueClass: Jt,
+			queueClass: qt,
 			strict: !1,
 			...e
 		}, !(typeof e.intervalCap == "number" && e.intervalCap >= 1)) throw TypeError(`Expected \`intervalCap\` to be a number from 1 and up, got \`${e.intervalCap?.toString() ?? ""}\` (${typeof e.intervalCap})`);
@@ -2976,7 +2877,7 @@ var qt = 100, Jt = class {
 						throw this.#B(), this.#y.delete(i), e;
 					}
 					let r = e({ signal: t.signal });
-					if (t.timeout !== void 0 && (r = Gt(Promise.resolve(r), {
+					if (t.timeout !== void 0 && (r = Wt(Promise.resolve(r), {
 						milliseconds: t.timeout,
 						message: `Task timed out after ${t.timeout}ms (queue has ${this.#h} running, ${this.#p.size} waiting)`
 					})), t.signal) {
@@ -2999,7 +2900,7 @@ var qt = 100, Jt = class {
 			};
 			this.#p.enqueue(o, t);
 			let s = () => {
-				if (this.#p instanceof Jt) {
+				if (this.#p instanceof qt) {
 					this.#p.remove(o);
 					return;
 				}
@@ -3124,7 +3025,7 @@ var qt = 100, Jt = class {
 			timeoutRemaining: e.timeout ? Math.max(0, e.startTime + e.timeout - Date.now()) : void 0
 		}));
 	}
-}, Xt = (e) => e.map((e) => ({ ...e })), Zt = async (e, t, n, r, i) => {
+}, Yt = (e) => e.map((e) => ({ ...e })), Xt = async (e, t, n, r, i) => {
 	let a = [], o = n.cached ? n.nextPagePath : n.id;
 	for (; o;) {
 		let e = await r(o);
@@ -3150,17 +3051,17 @@ var qt = 100, Jt = class {
 		};
 	});
 	n.cached = !0, n.nextPagePath = null, t.push(...u, ...l), l.forEach(async (n) => {
-		e.add(() => Zt(e, t, n, r, i));
+		e.add(() => Xt(e, t, n, r, i));
 	});
-}, Qt = async (e, t, n, r) => {
-	let i = new Yt({ concurrency: 6 }), a = Xt(e);
+}, Zt = async (e, t, n, r) => {
+	let i = new Jt({ concurrency: 6 }), a = Yt(e);
 	return a.filter((e) => e.type === "folder" && e.status === "checked" && (e.cached === !1 || e.nextPagePath)).forEach((e) => {
-		i.add(() => Zt(i, a, e, t, n));
+		i.add(() => Xt(i, a, e, t, n));
 	}), i.on("completed", () => {
 		let e = a.filter((e) => e.type === "file" && e.status === "checked").length;
 		r(e);
 	}), await i.onIdle(), a;
-}, $t = (e, t, n, r, i) => {
+}, Qt = (e, t, n, r, i) => {
 	let a = t.filter((t) => !e.find((e) => e.id === t.requestPath)), o = a.filter((e) => e.isFolder === !0), s = a.filter((e) => e.isFolder === !1), c = n.type === "folder" && n.status === "checked", l = o.map((e) => ({
 		type: "folder",
 		id: e.requestPath,
@@ -3189,7 +3090,7 @@ var qt = 100, Jt = class {
 		...l,
 		...u
 	];
-}, en = (e, t, n, r, i) => {
+}, $t = (e, t, n, r, i) => {
 	let a = e.find((e) => e.id === t), o = n.filter((e) => e.isFolder === !0), s = n.filter((e) => e.isFolder === !1), c = {
 		...a,
 		nextPagePath: r
@@ -3217,35 +3118,35 @@ var qt = 100, Jt = class {
 		...d,
 		...f
 	];
-}, tn = (e, t, n) => {
+}, en = (e, t, n) => {
 	e.filter((e) => e.type !== "root" && e.parentId === t).forEach((t) => {
-		t.status = n && !(t.type === "file" && t.restrictionError) ? "checked" : "unchecked", tn(e, t.id, n);
+		t.status = n && !(t.type === "file" && t.restrictionError) ? "checked" : "unchecked", en(e, t.id, n);
 	});
-}, nn = (e, t) => {
+}, tn = (e, t) => {
 	let n = e.find((e) => e.id === t);
 	if (n.type === "root") return;
 	let r = e.filter((e) => e.type !== "root" && e.parentId === n.id && !(e.type === "file" && e.restrictionError)), i = r.every((e) => e.status === "checked"), a = r.every((e) => e.status === "unchecked");
-	n.status = i && n.cached ? "checked" : a ? "unchecked" : "partial", nn(e, n.parentId);
-}, z = {
-	afterOpenFolder: $t,
-	afterScrollFolder: en,
+	n.status = i && n.cached ? "checked" : a ? "unchecked" : "partial", tn(e, n.parentId);
+}, nn = {
+	afterOpenFolder: Qt,
+	afterScrollFolder: $t,
 	afterToggleCheckbox: (e, t) => {
-		let n = Xt(e), r = n.filter((e) => e.type !== "root" && t.includes(e.id));
+		let n = Yt(e), r = n.filter((e) => e.type !== "root" && t.includes(e.id));
 		return r.forEach((e) => {
 			let t = e.status === "checked" ? "unchecked" : "checked";
-			e.status = e.type === "file" && e.restrictionError ? "unchecked" : t, tn(n, e.id, e.status === "checked");
-		}), nn(n, r[0].parentId), n;
+			e.status = e.type === "file" && e.restrictionError ? "unchecked" : t, en(n, e.id, e.status === "checked");
+		}), tn(n, r[0].parentId), n;
 	},
-	afterFill: Qt
+	afterFill: Zt
 }, rn = (e) => {
 	let { scrollHeight: t, scrollTop: n, offsetHeight: r } = e.target;
 	return t - (n + r) < 50;
 }, an = ({ i18n: e, item: t, toggleCheckbox: n, openFolder: r }) => {
 	let i = "restrictionError" in t && t.restrictionError != null && t.status !== "checked";
-	return f("li", {
-		className: (0, L.default)("uppy-ProviderBrowserItem", { "uppy-ProviderBrowserItem--disabled": i }, { "uppy-ProviderBrowserItem--noPreview": t.data.icon === "video" }, { "uppy-ProviderBrowserItem--is-checked": t.status === "checked" }, { "uppy-ProviderBrowserItem--is-partial": t.status === "partial" }),
+	return _("li", {
+		className: (0, R.default)("uppy-ProviderBrowserItem", { "uppy-ProviderBrowserItem--disabled": i }, { "uppy-ProviderBrowserItem--noPreview": t.data.icon === "video" }, { "uppy-ProviderBrowserItem--is-checked": t.status === "checked" }, { "uppy-ProviderBrowserItem--is-partial": t.status === "partial" }),
 		title: ("restrictionError" in t ? t.restrictionError : void 0) ?? void 0,
-		children: [f("input", {
+		children: [_("input", {
 			type: "checkbox",
 			className: "uppy-u-reset uppy-ProviderBrowserItem-checkbox",
 			onChange: () => n(t, !1),
@@ -3253,7 +3154,7 @@ var qt = 100, Jt = class {
 			"aria-label": t.data.name ?? e("unnamed"),
 			disabled: i,
 			"data-uppy-super-focusable": !0
-		}), f("button", {
+		}), _("button", {
 			type: "button",
 			className: "uppy-u-reset uppy-c-btn uppy-ProviderBrowserItem-inner",
 			disabled: i,
@@ -3261,20 +3162,20 @@ var qt = 100, Jt = class {
 			onClick: () => {
 				t.data.isFolder && r(t.id);
 			},
-			children: [f("div", {
+			children: [_("div", {
 				className: "uppy-ProviderBrowserItem-iconWrap",
-				children: f(Tt, { itemIconString: t.data.icon })
+				children: _(wt, { itemIconString: t.data.icon })
 			}), t.data.name ?? e("unnamed")]
 		})]
 	});
-}, on = ({ searchResults: e, toggleCheckbox: t, openFolder: n, i18n: r }) => e.length === 0 ? f("div", {
+}, on = ({ searchResults: e, toggleCheckbox: t, openFolder: n, i18n: r }) => e.length === 0 ? _("div", {
 	className: "uppy-Provider-empty",
 	children: r("noFilesFound")
-}) : f("div", {
+}) : _("div", {
 	className: "uppy-ProviderBrowser-body",
-	children: f("ul", {
+	children: _("ul", {
 		className: "uppy-ProviderBrowser-list",
-		children: e.map((e) => f(an, {
+		children: e.map((e) => _(an, {
 			i18n: r,
 			item: e,
 			toggleCheckbox: t,
@@ -3286,14 +3187,14 @@ var qt = 100, Jt = class {
 //#region node_modules/@uppy/core/lib/provider-views/Breadcrumbs.js
 function sn(e) {
 	let { openFolder: t, title: n, breadcrumbsIcon: r, breadcrumbs: i, i18n: a, disabled: o = !1 } = e;
-	return f("div", {
+	return _("div", {
 		className: "uppy-Provider-breadcrumbs",
-		children: [f("div", {
+		children: [_("div", {
 			className: "uppy-Provider-breadcrumbsIcon",
 			children: r
 		}), i.map((e, r) => {
 			let s = e.type === "root" ? n : e.data.name ?? a("unnamed"), c = i.length === r + 1;
-			return f(p, { children: [f("button", {
+			return _(v, { children: [_("button", {
 				type: "button",
 				className: "uppy-u-reset uppy-c-btn",
 				onClick: c ? void 0 : () => t(e.id),
@@ -3301,7 +3202,7 @@ function sn(e) {
 				disabled: !c && o,
 				title: s,
 				children: s
-			}), !c && f("span", {
+			}), !c && _("span", {
 				"aria-hidden": "true",
 				className: "uppy-Provider-breadcrumbsSeparator",
 				children: "/"
@@ -3312,10 +3213,10 @@ function sn(e) {
 //#endregion
 //#region node_modules/@uppy/core/lib/provider-views/ProviderView/User.js
 function cn({ i18n: e, logout: t, username: n, disabled: r = !1 }) {
-	return f(p, { children: [n && f("span", {
+	return _(v, { children: [n && _("span", {
 		className: "uppy-ProviderBrowser-user",
 		children: n
-	}, "username"), f("button", {
+	}, "username"), _("button", {
 		type: "button",
 		onClick: t,
 		disabled: r,
@@ -3327,12 +3228,12 @@ function cn({ i18n: e, logout: t, username: n, disabled: r = !1 }) {
 //#region node_modules/@uppy/core/lib/provider-views/ProviderView/Header.js
 function ln(e) {
 	let t = e.toolbarActions ?? [], n = e.busy ?? !1;
-	return f("div", {
+	return _("div", {
 		className: "uppy-ProviderBrowser-header",
-		children: f("div", {
-			className: (0, L.default)("uppy-ProviderBrowser-headerBar", !e.showBreadcrumbs && "uppy-ProviderBrowser-headerBar--simple"),
+		children: _("div", {
+			className: (0, R.default)("uppy-ProviderBrowser-headerBar", !e.showBreadcrumbs && "uppy-ProviderBrowser-headerBar--simple"),
 			children: [
-				e.showBreadcrumbs && f(sn, {
+				e.showBreadcrumbs && _(sn, {
 					openFolder: e.openFolder,
 					breadcrumbs: e.breadcrumbs,
 					breadcrumbsIcon: e.pluginIcon?.(),
@@ -3340,15 +3241,15 @@ function ln(e) {
 					i18n: e.i18n,
 					disabled: n
 				}),
-				(t.length > 0 || e.selectionToggle) && f("div", {
+				(t.length > 0 || e.selectionToggle) && _("div", {
 					className: "uppy-ProviderBrowser-toolbar",
-					children: [e.selectionToggle && f("button", {
+					children: [e.selectionToggle && _("button", {
 						type: "button",
 						className: "uppy-u-reset uppy-c-btn uppy-ProviderBrowser-toolbarBtn",
 						onClick: e.selectionToggle.onToggle,
 						disabled: n,
 						children: e.selectionToggle.active ? e.i18n("cancelSelection") : e.i18n("selectMultiple")
-					}), t.map((t) => f("button", {
+					}), t.map((t) => _("button", {
 						type: "button",
 						className: "uppy-u-reset uppy-c-btn uppy-ProviderBrowser-toolbarBtn",
 						onClick: () => e.runToolbarAction?.(t),
@@ -3356,7 +3257,7 @@ function ln(e) {
 						children: t.label
 					}, t.id))]
 				}),
-				!e.standalone && f(cn, {
+				!e.standalone && _(cn, {
 					logout: e.logout,
 					username: e.username,
 					i18n: e.i18n,
@@ -3368,15 +3269,15 @@ function ln(e) {
 }
 //#endregion
 //#region node_modules/@uppy/core/lib/provider-views/ProviderView/ProviderView.js
-var un = /* @__PURE__ */ e(Ue(), 1);
+var un = /* @__PURE__ */ e(We(), 1);
 function dn() {
-	return f("svg", {
+	return _("svg", {
 		"aria-hidden": "true",
 		focusable: "false",
 		width: "30",
 		height: "30",
 		viewBox: "0 0 30 30",
-		children: f("path", { d: "M15 30c8.284 0 15-6.716 15-15 0-8.284-6.716-15-15-15C6.716 0 0 6.716 0 15c0 8.284 6.716 15 15 15zm4.258-12.676v6.846h-8.426v-6.846H5.204l9.82-12.364 9.82 12.364H19.26z" })
+		children: _("path", { d: "M15 30c8.284 0 15-6.716 15-15 0-8.284-6.716-15-15-15C6.716 0 0 6.716 0 15c0 8.284 6.716 15 15 15zm4.258-12.676v6.846h-8.426v-6.846H5.204l9.82-12.364 9.82 12.364H19.26z" })
 	});
 }
 var fn = (e) => ({
@@ -3401,7 +3302,7 @@ function pn(e, t) {
 	return n;
 }
 (class e {
-	static VERSION = Je.version;
+	static VERSION = o.version;
 	static [Symbol.for("uppy test: searchDebounceMs")];
 	plugin;
 	provider;
@@ -3410,7 +3311,7 @@ function pn(e, t) {
 	previousCheckbox = null;
 	#e;
 	constructor(t, n) {
-		this.plugin = t, this.provider = n.provider, this.#c = new Ft(t);
+		this.plugin = t, this.provider = n.provider, this.#c = new Pt(t);
 		let r = {
 			viewType: "list",
 			showTitles: !0,
@@ -3435,7 +3336,7 @@ function pn(e, t) {
 	refreshCurrentFolder = async (e = !1) => {
 		let { partialTree: t, currentFolderId: n } = this.plugin.getPluginState();
 		if (t == null || this.#i) return;
-		let r = ++this.#o, i = t.flatMap((e) => e.type !== "root" && e.parentId === n && e.status === "checked" ? [e.id] : []), a = new Map(t.map((e) => [e.id, e])), o = (e) => pn(a, e).some(({ parentId: e }) => e === n), s = new Set(zt(t, n).map((e) => e.id)), c = t.filter((e) => e.type === "root" || !o(e)).filter((t) => !e || s.has(t.id)).map((t) => (e || t.id === n) && t.type !== "file" ? {
+		let r = ++this.#o, i = t.flatMap((e) => e.type !== "root" && e.parentId === n && e.status === "checked" ? [e.id] : []), a = new Map(t.map((e) => [e.id, e])), o = (e) => pn(a, e).some(({ parentId: e }) => e === n), s = new Set(Rt(t, n).map((e) => e.id)), c = t.filter((e) => e.type === "root" || !o(e)).filter((t) => !e || s.has(t.id)).map((t) => (e || t.id === n) && t.type !== "file" ? {
 			...t,
 			status: "unchecked",
 			cached: !1,
@@ -3447,7 +3348,7 @@ function pn(e, t) {
 		let d = l.some((e) => e.id === n && e.type !== "file" && e.cached);
 		r === this.#o && d && u && !l.some(({ id: e }) => e === u) && this.closeItemDetail();
 		let f = i.filter((e) => l.some((t) => t.type !== "root" && t.id === e && t.status !== "checked"));
-		f.length > 0 && this.plugin.setPluginState({ partialTree: z.afterToggleCheckbox(l, f) });
+		f.length > 0 && this.plugin.setPluginState({ partialTree: nn.afterToggleCheckbox(l, f) });
 	};
 	runAction = (e, t) => this.#n(e, () => e.run({
 		item: t,
@@ -3475,12 +3376,12 @@ function pn(e, t) {
 	}
 	#r(e) {
 		let { uppy: t } = this.plugin;
-		if (fe(e)) {
+		if (r(e)) {
 			t.log("[ProviderView] action cancelled", "warning");
 			return;
 		}
-		t.log(`[ProviderView] action failed: ${r(e)}`, "error");
-		let n = e instanceof Error && e.name === "UserFacingApiError" ? ft(t.i18n, e) : e instanceof O || at(e) ? t.i18n("companionError") : t.i18n("actionFailed");
+		t.log(`[ProviderView] action failed: ${c(e)}`, "error");
+		let n = e instanceof Error && e.name === "UserFacingApiError" ? dt(t.i18n, e) : e instanceof a || i(e) ? t.i18n("companionError") : t.i18n("actionFailed");
 		t.info(n, "error", 5e3);
 	}
 	#i;
@@ -3626,7 +3527,7 @@ function pn(e, t) {
 				partialTree: s,
 				searchResults: a.map((e) => e.requestPath)
 			});
-		}).catch(R(this.plugin.uppy)), this.#d();
+		}).catch(z(this.plugin.uppy)), this.#d();
 	}
 	onSearchInput = (e) => {
 		this.plugin.setPluginState({ searchString: e }), this.opts.supportsSearch && this.#e();
@@ -3650,13 +3551,13 @@ function pn(e, t) {
 				let { username: e, nextPagePath: t, items: n } = await this.provider.list(i, { signal: r });
 				this.plugin.setPluginState({ username: e }), i = t, a = a.concat(n), this.setLoading(this.plugin.uppy.i18n("loadedXFiles", { numFiles: a.length }));
 			} while (this.opts.loadAllFiles && i);
-			let o = z.afterOpenFolder(t, a, n, i, this.validateSingleFile);
+			let o = nn.afterOpenFolder(t, a, n, i, this.validateSingleFile);
 			this.plugin.setPluginState({
 				partialTree: o,
 				currentFolderId: e,
 				searchString: ""
 			});
-		}).catch(R(this.plugin.uppy)), this.#d();
+		}).catch(z(this.plugin.uppy)), this.#d();
 	}
 	async logout() {
 		this.#s.clear(), await this.#u(async (e) => {
@@ -3674,7 +3575,7 @@ function pn(e, t) {
 					authenticated: !1
 				});
 			}
-		}).catch(R(this.plugin.uppy));
+		}).catch(z(this.plugin.uppy));
 	}
 	async handleAuth(e) {
 		await this.#u(async (t) => {
@@ -3682,7 +3583,7 @@ function pn(e, t) {
 				authFormData: e,
 				signal: t
 			}), this.plugin.setPluginState({ authenticated: !0 }), await Promise.all([this.provider.fetchPreAuthToken(), this.openFolder(this.plugin.rootFolderId)]);
-		}).catch(R(this.plugin.uppy)), this.#d();
+		}).catch(z(this.plugin.uppy)), this.#d();
 	}
 	async handleScroll(e) {
 		rn(e) && await this.loadNextPage();
@@ -3700,31 +3601,31 @@ function pn(e, t) {
 			return this.isHandlingScroll = !0, await this.#u(async (n) => {
 				let { nextPagePath: i, items: a } = await this.provider.list(e, { signal: n }), o = this.plugin.getPluginState();
 				if (n.aborted || o.currentFolderId !== t) return;
-				let s = z.afterScrollFolder(o.partialTree, t, a, i, this.validateSingleFile);
+				let s = nn.afterScrollFolder(o.partialTree, t, a, i, this.validateSingleFile);
 				this.plugin.setPluginState({ partialTree: s }), r = !0;
-			}).catch(R(this.plugin.uppy)), this.isHandlingScroll = !1, r;
+			}).catch(z(this.plugin.uppy)), this.isHandlingScroll = !1, r;
 		}
 		return !1;
 	}
 	validateSingleFile = (e) => {
-		let t = ve(e);
+		let t = ye(e);
 		return this.plugin.uppy.validateSingleFile(t);
 	};
 	async donePicking() {
 		let { partialTree: e } = this.plugin.getPluginState();
 		this.isLoading || (this.setLoading(!0), await this.#u(async (t) => {
-			let n = await z.afterFill(e, (e) => this.provider.list(e, { signal: t }), this.validateSingleFile, (e) => {
+			let n = await nn.afterFill(e, (e) => this.provider.list(e, { signal: t }), this.validateSingleFile, (e) => {
 				this.setLoading(this.plugin.uppy.i18n("addedNumFiles", { numFiles: e }));
 			});
 			if (this.validateAggregateRestrictions(n)) {
 				this.plugin.setPluginState({ partialTree: n });
 				return;
 			}
-			Lt(Vt(n), this.plugin, this.provider), this.resetPluginState();
-		}).catch(R(this.plugin.uppy)), this.#d());
+			It(Bt(n), this.plugin, this.provider), this.resetPluginState();
+		}).catch(z(this.plugin.uppy)), this.#d());
 	}
 	toggleCheckbox(e, t) {
-		let { partialTree: n } = this.plugin.getPluginState(), r = Rt(e.id, this.getDisplayedPartialTree(), t, this.previousCheckbox), i = z.afterToggleCheckbox(n, r), a = new Map(i.map((e) => [e.id, e.type === "root" ? void 0 : e.status]));
+		let { partialTree: n } = this.plugin.getPluginState(), r = Lt(e.id, this.getDisplayedPartialTree(), t, this.previousCheckbox), i = nn.afterToggleCheckbox(n, r), a = new Map(i.map((e) => [e.id, e.type === "root" ? void 0 : e.status]));
 		for (let e of r) a.get(e) === "checked" && this.#s.add(e);
 		for (let e of this.#s) {
 			let t = a.get(e);
@@ -3738,11 +3639,11 @@ function pn(e, t) {
 	};
 	getBreadcrumbs = () => {
 		let { partialTree: e, currentFolderId: t } = this.plugin.getPluginState();
-		return zt(e, t);
+		return Rt(e, t);
 	};
 	getSelectedAmount = () => {
 		let { partialTree: e } = this.plugin.getPluginState();
-		return jt(e);
+		return At(e);
 	};
 	validateAggregateRestrictions = (e) => {
 		let t = e.filter((e) => e.type === "file" && e.status === "checked").map((e) => e.data);
@@ -3758,7 +3659,7 @@ function pn(e, t) {
 			if (t == null) throw Error("Partial tree not complete");
 			return t;
 		});
-		return f(on, {
+		return _(on, {
 			searchResults: i,
 			openFolder: this.openSearchResultFolder,
 			toggleCheckbox: this.toggleCheckbox,
@@ -3772,7 +3673,7 @@ function pn(e, t) {
 			...this.opts,
 			...t
 		}, { authenticated: a, loading: o } = this.plugin.getPluginState(), s = this.plugin.icon || dn;
-		if (a === !1) return f(lt, {
+		if (a === !1) return _(ct, {
 			pluginName: this.plugin.title,
 			pluginIcon: s,
 			handleAuth: this.handleAuth,
@@ -3780,16 +3681,16 @@ function pn(e, t) {
 			renderForm: i.renderAuthForm,
 			loading: o
 		});
-		let { partialTree: c, currentFolderId: l, username: u, searchString: d, searchResults: p, dialog: m, selectionActive: h = !1, detailItemId: g } = this.plugin.getPluginState(), _ = this.getBreadcrumbs(), v = i.mode === "manager", y = !v || h, b = this.#i !== void 0, x = c.find(({ id: e }) => e === l), S = x?.type !== "file" && x?.cached === !0 && !c.some((e) => e.type !== "root" && e.parentId === l);
-		g && (this.#a = c.find((e) => e.type !== "root" && e.id === g) ?? this.#a);
-		let C = this.#a?.id === g ? this.#a : void 0;
-		return f("div", {
-			className: (0, L.default)("uppy-ProviderBrowser", `uppy-ProviderBrowser-viewType--${i.viewType}`),
+		let { partialTree: c, currentFolderId: l, username: u, searchString: d, searchResults: f, dialog: p, selectionActive: m = !1, detailItemId: h } = this.plugin.getPluginState(), g = this.getBreadcrumbs(), v = i.mode === "manager", y = !v || m, b = this.#i !== void 0, x = c.find(({ id: e }) => e === l), S = x?.type !== "file" && x?.cached === !0 && !c.some((e) => e.type !== "root" && e.parentId === l);
+		h && (this.#a = c.find((e) => e.type !== "root" && e.id === h) ?? this.#a);
+		let C = this.#a?.id === h ? this.#a : void 0;
+		return _("div", {
+			className: (0, R.default)("uppy-ProviderBrowser", `uppy-ProviderBrowser-viewType--${i.viewType}`),
 			children: [
-				f(ln, {
+				_(ln, {
 					showBreadcrumbs: i.showBreadcrumbs,
 					openFolder: this.openFolder,
-					breadcrumbs: _,
+					breadcrumbs: g,
 					pluginIcon: s,
 					title: this.plugin.title,
 					logout: this.logout,
@@ -3798,13 +3699,13 @@ function pn(e, t) {
 					toolbarActions: i.toolbarActions ?? [],
 					runToolbarAction: this.runToolbarAction,
 					standalone: i.standalone ?? !1,
-					selectionToggle: v && (i.bulkActions?.length ?? 0) > 0 && (h || !S) ? {
-						active: h,
+					selectionToggle: v && (i.bulkActions?.length ?? 0) > 0 && (m || !S) ? {
+						active: m,
 						onToggle: this.toggleSelectionMode
 					} : void 0,
 					busy: b
 				}),
-				i.showFilter && f(it, {
+				i.showFilter && _(it, {
 					value: d,
 					onChange: (e) => this.onSearchInput(e),
 					onSubmit: () => {},
@@ -3812,7 +3713,7 @@ function pn(e, t) {
 					i18n: r,
 					disabled: b
 				}),
-				p ? this.#h() : f(kt, {
+				f ? this.#h() : _(Ot, {
 					toggleCheckbox: this.toggleCheckbox,
 					displayedPartialTree: this.getDisplayedPartialTree(),
 					openFolder: this.openFolder,
@@ -3828,21 +3729,21 @@ function pn(e, t) {
 					actions: i.actions ?? [],
 					runAction: this.runAction,
 					selectable: y,
-					onFileClick: v && !h ? this.openItemDetail : void 0
+					onFileClick: v && !m ? this.openItemDetail : void 0
 				}),
-				b ? null : v ? h && f(At, {
+				b ? null : v ? m && _(kt, {
 					selectedCount: this.getBulkActionItems().length,
 					bulkActions: i.bulkActions ?? [],
 					runBulkAction: this.runBulkAction,
 					i18n: r
-				}) : f(Mt, {
+				}) : _(jt, {
 					partialTree: c,
 					donePicking: this.donePicking,
 					cancelSelection: this.cancelSelection,
 					i18n: r,
 					validateAggregateRestrictions: this.validateAggregateRestrictions
 				}),
-				C && f(Nt, {
+				C && _(Mt, {
 					item: C,
 					actions: i.actions ?? [],
 					runAction: this.runAction,
@@ -3850,8 +3751,8 @@ function pn(e, t) {
 					onClose: this.closeItemDetail,
 					i18n: r
 				}, C.id),
-				m && f(Pt, {
-					dialog: m,
+				p && _(Nt, {
+					dialog: p,
 					i18n: r,
 					onConfirm: this.#c.submit,
 					onCancel: this.#c.cancel
@@ -4936,7 +4837,7 @@ function Sr(e, t, n) {
 	}).then((e) => {
 		if (e === null) throw Error("cannot read image, probably an svg with external resources");
 		return e;
-	}) : Promise.resolve().then(() => D(e.toDataURL(t, n), {})).then((e) => {
+	}) : Promise.resolve().then(() => ne(e.toDataURL(t, n), {})).then((e) => {
 		if (e === null) throw Error("could not extract blob, probably an old browser");
 		return e;
 	});
@@ -4963,7 +4864,7 @@ var Tr = {
 	thumbnailType: "image/jpeg",
 	waitForThumbnailsBeforeUpload: !1,
 	lazy: !1
-}, Er = class extends m {
+}, Er = class extends y {
 	static VERSION = br.version;
 	queue;
 	queueProcessing;
@@ -5035,14 +4936,14 @@ var Tr = {
 		return this.queueProcessing = !1, this.uppy.log("[ThumbnailGenerator] Emptied thumbnail queue"), this.uppy.emit("thumbnail:all-generated"), Promise.resolve();
 	}
 	requestThumbnail(e) {
-		return he(e.type) && !e.isRemote ? this.createThumbnail(e, this.opts.thumbnailWidth, this.opts.thumbnailHeight).then((t) => {
+		return ge(e.type) && !e.isRemote ? this.createThumbnail(e, this.opts.thumbnailWidth, this.opts.thumbnailHeight).then((t) => {
 			this.setPreviewURL(e.id, t), this.uppy.log(`[ThumbnailGenerator] Generated thumbnail for ${e.id}`), this.uppy.emit("thumbnail:generated", this.uppy.getFile(e.id), t);
 		}).catch((t) => {
 			this.uppy.log(`[ThumbnailGenerator] Failed thumbnail for ${e.id}:`, "warning"), this.uppy.log(t, "warning"), this.uppy.emit("thumbnail:error", this.uppy.getFile(e.id), t);
 		}) : Promise.resolve();
 	}
 	onFileAdded = (e) => {
-		!e.preview && e.data && he(e.type) && !e.isRemote && this.addToQueue(e.id);
+		!e.preview && e.data && ge(e.type) && !e.isRemote && this.addToQueue(e.id);
 	};
 	onCancelRequest = (e) => {
 		let t = this.queue.indexOf(e.id);
@@ -5050,11 +4951,11 @@ var Tr = {
 	};
 	onFileRemoved = (e) => {
 		let t = this.queue.indexOf(e.id);
-		t !== -1 && this.queue.splice(t, 1), e.preview && me(e.preview) && URL.revokeObjectURL(e.preview);
+		t !== -1 && this.queue.splice(t, 1), e.preview && he(e.preview) && URL.revokeObjectURL(e.preview);
 	};
 	onRestored = () => {
 		this.uppy.getFiles().filter((e) => e.isRestored).forEach((e) => {
-			(!e.preview || me(e.preview)) && this.addToQueue(e.id);
+			(!e.preview || he(e.preview)) && this.addToQueue(e.id);
 		});
 	};
 	onAllFilesRemoved = () => {
@@ -5156,7 +5057,7 @@ var Tr = {
 		vitest: "^4.1.11"
 	},
 	peerDependencies: { "@uppy/core": "^6.2.0" }
-}, Ar = class extends c {
+}, Ar = class extends p {
 	fileInput = null;
 	folderInput = null;
 	mobilePhotoFileInput = null;
@@ -5176,7 +5077,7 @@ var Tr = {
 	onFileInputChange = (e) => {
 		this.props.handleInputChange(e), e.currentTarget.value = "";
 	};
-	renderHiddenInput = (e, t) => f("input", {
+	renderHiddenInput = (e, t) => _("input", {
 		className: "uppy-Dashboard-input",
 		hidden: !0,
 		"aria-hidden": "true",
@@ -5194,7 +5095,7 @@ var Tr = {
 			photo: "image/*",
 			video: "video/*"
 		}[e];
-		return f("input", {
+		return _("input", {
 			className: "uppy-Dashboard-input",
 			hidden: !0,
 			"aria-hidden": "true",
@@ -5209,95 +5110,95 @@ var Tr = {
 	};
 	renderMyDeviceAcquirer = () => {
 		let e = this.props.fileManagerSelectionType === "folders" ? this.triggerFolderInputClick : this.triggerFileInputClick;
-		return f("div", {
+		return _("div", {
 			className: "uppy-DashboardTab",
 			role: "presentation",
 			"data-uppy-acquirer-id": "MyDevice",
-			children: f("button", {
+			children: _("button", {
 				type: "button",
 				className: "uppy-u-reset uppy-c-btn uppy-DashboardTab-btn",
 				role: "tab",
 				tabIndex: 0,
 				"data-uppy-super-focusable": !0,
 				onClick: e,
-				children: [f("div", {
+				children: [_("div", {
 					className: "uppy-DashboardTab-inner",
-					children: f("svg", {
+					children: _("svg", {
 						className: "uppy-DashboardTab-iconMyDevice",
 						"aria-hidden": "true",
 						focusable: "false",
 						width: "32",
 						height: "32",
 						viewBox: "0 0 32 32",
-						children: f("path", {
+						children: _("path", {
 							d: "M8.45 22.087l-1.305-6.674h17.678l-1.572 6.674H8.45zm4.975-12.412l1.083 1.765a.823.823 0 00.715.386h7.951V13.5H8.587V9.675h4.838zM26.043 13.5h-1.195v-2.598c0-.463-.336-.75-.798-.75h-8.356l-1.082-1.766A.823.823 0 0013.897 8H7.728c-.462 0-.815.256-.815.718V13.5h-.956a.97.97 0 00-.746.37.972.972 0 00-.19.81l1.724 8.565c.095.44.484.755.933.755H24c.44 0 .824-.3.929-.727l2.043-8.568a.972.972 0 00-.176-.825.967.967 0 00-.753-.38z",
 							fill: "currentcolor",
 							"fill-rule": "evenodd"
 						})
 					})
-				}), f("div", {
+				}), _("div", {
 					className: "uppy-DashboardTab-name",
 					children: this.props.i18n("myDevice")
 				})]
 			})
 		});
 	};
-	renderPhotoCamera = () => f("div", {
+	renderPhotoCamera = () => _("div", {
 		className: "uppy-DashboardTab",
 		role: "presentation",
 		"data-uppy-acquirer-id": "MobilePhotoCamera",
-		children: f("button", {
+		children: _("button", {
 			type: "button",
 			className: "uppy-u-reset uppy-c-btn uppy-DashboardTab-btn",
 			role: "tab",
 			tabIndex: 0,
 			"data-uppy-super-focusable": !0,
 			onClick: this.triggerPhotoCameraInputClick,
-			children: [f("div", {
+			children: [_("div", {
 				className: "uppy-DashboardTab-inner",
-				children: f("svg", {
+				children: _("svg", {
 					"aria-hidden": "true",
 					focusable: "false",
 					width: "32",
 					height: "32",
 					viewBox: "0 0 32 32",
-					children: f("path", {
+					children: _("path", {
 						d: "M23.5 9.5c1.417 0 2.5 1.083 2.5 2.5v9.167c0 1.416-1.083 2.5-2.5 2.5h-15c-1.417 0-2.5-1.084-2.5-2.5V12c0-1.417 1.083-2.5 2.5-2.5h2.917l1.416-2.167C13 7.167 13.25 7 13.5 7h5c.25 0 .5.167.667.333L20.583 9.5H23.5zM16 11.417a4.706 4.706 0 00-4.75 4.75 4.704 4.704 0 004.75 4.75 4.703 4.703 0 004.75-4.75c0-2.663-2.09-4.75-4.75-4.75zm0 7.825c-1.744 0-3.076-1.332-3.076-3.074 0-1.745 1.333-3.077 3.076-3.077 1.744 0 3.074 1.333 3.074 3.076s-1.33 3.075-3.074 3.075z",
 						fill: "#02B383",
 						"fill-rule": "nonzero"
 					})
 				})
-			}), f("div", {
+			}), _("div", {
 				className: "uppy-DashboardTab-name",
 				children: this.props.i18n("takePictureBtn")
 			})]
 		})
 	});
-	renderVideoCamera = () => f("div", {
+	renderVideoCamera = () => _("div", {
 		className: "uppy-DashboardTab",
 		role: "presentation",
 		"data-uppy-acquirer-id": "MobileVideoCamera",
-		children: f("button", {
+		children: _("button", {
 			type: "button",
 			className: "uppy-u-reset uppy-c-btn uppy-DashboardTab-btn",
 			role: "tab",
 			tabIndex: 0,
 			"data-uppy-super-focusable": !0,
 			onClick: this.triggerVideoCameraInputClick,
-			children: [f("div", {
+			children: [_("div", {
 				className: "uppy-DashboardTab-inner",
-				children: f("svg", {
+				children: _("svg", {
 					"aria-hidden": "true",
 					width: "32",
 					height: "32",
 					viewBox: "0 0 32 32",
-					children: f("path", {
+					children: _("path", {
 						fill: "#FF675E",
 						fillRule: "nonzero",
 						d: "m21.254 14.277 2.941-2.588c.797-.313 1.243.818 1.09 1.554-.01 2.094.02 4.189-.017 6.282-.126.915-1.145 1.08-1.58.34l-2.434-2.142c-.192.287-.504 1.305-.738.468-.104-1.293-.028-2.596-.05-3.894.047-.312.381.823.426 1.069.063-.384.206-.744.362-1.09zm-12.939-3.73c3.858.013 7.717-.025 11.574.02.912.129 1.492 1.237 1.351 2.217-.019 2.412.04 4.83-.03 7.239-.17 1.025-1.166 1.59-2.029 1.429-3.705-.012-7.41.025-11.114-.019-.913-.129-1.492-1.237-1.352-2.217.018-2.404-.036-4.813.029-7.214.136-.82.83-1.473 1.571-1.454z "
 					})
 				})
-			}), f("div", {
+			}), _("div", {
 				className: "uppy-DashboardTab-name",
 				children: this.props.i18n("recordVideoBtn")
 			})]
@@ -5305,7 +5206,7 @@ var Tr = {
 	});
 	renderBrowseButton = (e, t) => {
 		let n = this.props.acquirers.length;
-		return f("button", {
+		return _("button", {
 			type: "button",
 			className: "uppy-u-reset uppy-c-btn uppy-Dashboard-browse",
 			onClick: t,
@@ -5315,7 +5216,7 @@ var Tr = {
 	};
 	renderDropPasteBrowseTagline = (e) => {
 		let t = this.renderBrowseButton(this.props.i18n("browseFiles"), this.triggerFileInputClick), n = this.renderBrowseButton(this.props.i18n("browseFolders"), this.triggerFolderInputClick), r = this.props.fileManagerSelectionType, i = r.charAt(0).toUpperCase() + r.slice(1);
-		return f("div", {
+		return _("div", {
 			class: "uppy-Dashboard-AddFiles-title",
 			children: this.props.disableLocalFiles ? this.props.i18n("importFiles") : e > 0 ? this.props.i18nArray(`dropPasteImport${i}`, {
 				browseFiles: t,
@@ -5331,11 +5232,11 @@ var Tr = {
 	[Symbol.for("uppy test: disable unused locale key warning")]() {
 		this.props.i18nArray("dropPasteBoth"), this.props.i18nArray("dropPasteFiles"), this.props.i18nArray("dropPasteFolders"), this.props.i18nArray("dropPasteImportBoth"), this.props.i18nArray("dropPasteImportFiles"), this.props.i18nArray("dropPasteImportFolders");
 	}
-	renderAcquirer = (e) => f("div", {
+	renderAcquirer = (e) => _("div", {
 		className: "uppy-DashboardTab",
 		role: "presentation",
 		"data-uppy-acquirer-id": e.id,
-		children: f("button", {
+		children: _("button", {
 			type: "button",
 			className: "uppy-u-reset uppy-c-btn uppy-DashboardTab-btn",
 			role: "tab",
@@ -5345,10 +5246,10 @@ var Tr = {
 			"aria-selected": this.props.activePickerPanel?.id === e.id,
 			"data-uppy-super-focusable": !0,
 			onClick: () => this.props.showPanel(e.id),
-			children: [f("div", {
+			children: [_("div", {
 				className: "uppy-DashboardTab-inner",
 				children: e.icon()
-			}), f("div", {
+			}), _("div", {
 				className: "uppy-DashboardTab-name",
 				children: e.name
 			})]
@@ -5370,33 +5271,33 @@ var Tr = {
 			elements: this.renderAcquirer(e)
 		}))), i.length === 1 && i[0].key === a && (i = []);
 		let o = [...i], s = o.splice(i.length - 2, i.length);
-		return f(p, { children: [this.renderDropPasteBrowseTagline(i.length), f("div", {
+		return _(v, { children: [this.renderDropPasteBrowseTagline(i.length), _("div", {
 			className: "uppy-Dashboard-AddFiles-list",
 			role: "tablist",
-			children: [o.map(({ key: e, elements: t }) => f(p, { children: t }, e)), f("span", {
+			children: [o.map(({ key: e, elements: t }) => _(v, { children: t }, e)), _("span", {
 				role: "presentation",
 				style: { "white-space": "nowrap" },
-				children: s.map(({ key: e, elements: t }) => f(p, { children: t }, e))
+				children: s.map(({ key: e, elements: t }) => _(v, { children: t }, e))
 			})]
 		})] });
 	};
 	renderPoweredByUppy() {
-		let { i18nArray: e } = this.props, t = e("poweredBy", { uppy: f("span", { children: [f("svg", {
+		let { i18nArray: e } = this.props, t = e("poweredBy", { uppy: _("span", { children: [_("svg", {
 			"aria-hidden": "true",
 			focusable: "false",
 			className: "uppy-c-icon uppy-Dashboard-poweredByIcon",
 			width: "11",
 			height: "11",
 			viewBox: "0 0 11 11",
-			children: f("path", {
+			children: _("path", {
 				d: "M7.365 10.5l-.01-4.045h2.612L5.5.806l-4.467 5.65h2.604l.01 4.044h3.718z",
 				fillRule: "evenodd"
 			})
-		}), f("span", {
+		}), _("span", {
 			className: "uppy-Dashboard-poweredByUppy",
 			children: "Uppy"
 		})] }) });
-		return f("a", {
+		return _("a", {
 			tabIndex: -1,
 			href: "https://uppy.io",
 			rel: "noreferrer noopener",
@@ -5407,7 +5308,7 @@ var Tr = {
 	}
 	render() {
 		let { showNativePhotoCameraButton: e, showNativeVideoCameraButton: t, nativeCameraFacingMode: n } = this.props;
-		return f("div", {
+		return _("div", {
 			className: "uppy-Dashboard-AddFiles",
 			children: [
 				this.renderHiddenInput(!1, (e) => {
@@ -5423,9 +5324,9 @@ var Tr = {
 					this.mobileVideoFileInput = e;
 				}),
 				this.renderSourcesList(this.props.acquirers, this.props.disableLocalFiles),
-				f("div", {
+				_("div", {
 					className: "uppy-Dashboard-AddFiles-info",
-					children: [this.props.note && f("div", {
+					children: [this.props.note && _("div", {
 						className: "uppy-Dashboard-note",
 						children: this.props.note
 					}), this.props.proudlyDisplayPoweredByUppy && this.renderPoweredByUppy()]
@@ -5433,47 +5334,47 @@ var Tr = {
 			]
 		});
 	}
-}, jr = (e) => f("div", {
-	className: (0, L.default)("uppy-Dashboard-AddFilesPanel", e.className),
+}, jr = (e) => _("div", {
+	className: (0, R.default)("uppy-Dashboard-AddFilesPanel", e.className),
 	"data-uppy-panelType": "AddFiles",
 	"aria-hidden": !e.showAddFilesPanel,
-	children: [f("div", {
+	children: [_("div", {
 		className: "uppy-DashboardContent-bar",
-		children: [f("div", {
+		children: [_("div", {
 			className: "uppy-DashboardContent-title",
 			role: "heading",
 			"aria-level": 1,
 			children: e.i18n("addingMoreFiles")
-		}), f("button", {
+		}), _("button", {
 			className: "uppy-DashboardContent-back",
 			type: "button",
 			onClick: () => e.toggleAddFilesPanel(!1),
 			children: e.i18n("back")
 		})]
-	}), f(Ar, { ...e })]
+	}), _(Ar, { ...e })]
 });
 //#endregion
 //#region node_modules/@uppy/dashboard/lib/components/EditorPanel.js
 function Mr(e) {
 	let t = e.fileCardFor ? e.files[e.fileCardFor] : void 0;
-	return t ? f("div", {
-		className: (0, L.default)("uppy-DashboardContent-panel", e.className),
+	return t ? _("div", {
+		className: (0, R.default)("uppy-DashboardContent-panel", e.className),
 		role: "tabpanel",
 		"data-uppy-panelType": "FileEditor",
 		id: "uppy-DashboardContent-panel--editor",
-		children: [f("div", {
+		children: [_("div", {
 			className: "uppy-DashboardContent-bar",
 			children: [
-				f("div", {
+				_("div", {
 					className: "uppy-DashboardContent-title",
 					role: "heading",
 					"aria-level": 1,
-					children: e.i18nArray("editing", { file: f("span", {
+					children: e.i18nArray("editing", { file: _("span", {
 						className: "uppy-DashboardContent-titleFile",
 						children: t.meta ? t.meta.name : t.name
 					}) })
 				}),
-				f("button", {
+				_("button", {
 					className: "uppy-DashboardContent-back",
 					type: "button",
 					onClick: () => {
@@ -5481,14 +5382,14 @@ function Mr(e) {
 					},
 					children: e.i18n("cancel")
 				}),
-				f("button", {
+				_("button", {
 					className: "uppy-DashboardContent-save",
 					type: "button",
 					onClick: e.saveFileEditor,
 					children: e.i18n("save")
 				})
 			]
-		}), f("div", {
+		}), _("div", {
 			className: "uppy-DashboardContent-panelBody",
 			children: e.editors.map((t) => e.uppy.getPlugin(t.id).render(e.state))
 		})]
@@ -5497,25 +5398,25 @@ function Mr(e) {
 //#endregion
 //#region node_modules/@uppy/dashboard/lib/utils/getFileTypeIcon.js
 function Nr() {
-	return f("svg", {
+	return _("svg", {
 		"aria-hidden": "true",
 		focusable: "false",
 		width: "25",
 		height: "25",
 		viewBox: "0 0 25 25",
-		children: f("g", {
+		children: _("g", {
 			fill: "#686DE0",
 			fillRule: "evenodd",
 			children: [
-				f("path", {
+				_("path", {
 					d: "M5 7v10h15V7H5zm0-1h15a1 1 0 0 1 1 1v10a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1V7a1 1 0 0 1 1-1z",
 					fillRule: "nonzero"
 				}),
-				f("path", {
+				_("path", {
 					d: "M6.35 17.172l4.994-5.026a.5.5 0 0 1 .707 0l2.16 2.16 3.505-3.505a.5.5 0 0 1 .707 0l2.336 2.31-.707.72-1.983-1.97-3.505 3.505a.5.5 0 0 1-.707 0l-2.16-2.159-3.938 3.939-1.409.026z",
 					fillRule: "nonzero"
 				}),
-				f("circle", {
+				_("circle", {
 					cx: "7.5",
 					cy: "9.5",
 					r: "1.5"
@@ -5525,14 +5426,14 @@ function Nr() {
 	});
 }
 function Pr() {
-	return f("svg", {
+	return _("svg", {
 		"aria-hidden": "true",
 		focusable: "false",
 		className: "uppy-c-icon",
 		width: "25",
 		height: "25",
 		viewBox: "0 0 25 25",
-		children: f("path", {
+		children: _("path", {
 			d: "M9.5 18.64c0 1.14-1.145 2-2.5 2s-2.5-.86-2.5-2c0-1.14 1.145-2 2.5-2 .557 0 1.079.145 1.5.396V7.25a.5.5 0 0 1 .379-.485l9-2.25A.5.5 0 0 1 18.5 5v11.64c0 1.14-1.145 2-2.5 2s-2.5-.86-2.5-2c0-1.14 1.145-2 2.5-2 .557 0 1.079.145 1.5.396V8.67l-8 2v7.97zm8-11v-2l-8 2v2l8-2zM7 19.64c.855 0 1.5-.484 1.5-1s-.645-1-1.5-1-1.5.484-1.5 1 .645 1 1.5 1zm9-2c.855 0 1.5-.484 1.5-1s-.645-1-1.5-1-1.5.484-1.5 1 .645 1 1.5 1z",
 			fill: "#049BCF",
 			fillRule: "nonzero"
@@ -5540,14 +5441,14 @@ function Pr() {
 	});
 }
 function Fr() {
-	return f("svg", {
+	return _("svg", {
 		"aria-hidden": "true",
 		focusable: "false",
 		className: "uppy-c-icon",
 		width: "25",
 		height: "25",
 		viewBox: "0 0 25 25",
-		children: f("path", {
+		children: _("path", {
 			d: "M16 11.834l4.486-2.691A1 1 0 0 1 22 10v6a1 1 0 0 1-1.514.857L16 14.167V17a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1V9a1 1 0 0 1 1-1h10a1 1 0 0 1 1 1v2.834zM15 9H5v8h10V9zm1 4l5 3v-6l-5 3z",
 			fill: "#19AF67",
 			fillRule: "nonzero"
@@ -5555,14 +5456,14 @@ function Fr() {
 	});
 }
 function Ir() {
-	return f("svg", {
+	return _("svg", {
 		"aria-hidden": "true",
 		focusable: "false",
 		className: "uppy-c-icon",
 		width: "25",
 		height: "25",
 		viewBox: "0 0 25 25",
-		children: f("path", {
+		children: _("path", {
 			d: "M9.766 8.295c-.691-1.843-.539-3.401.747-3.726 1.643-.414 2.505.938 2.39 3.299-.039.79-.194 1.662-.537 3.148.324.49.66.967 1.055 1.51.17.231.382.488.629.757 1.866-.128 3.653.114 4.918.655 1.487.635 2.192 1.685 1.614 2.84-.566 1.133-1.839 1.084-3.416.249-1.141-.604-2.457-1.634-3.51-2.707a13.467 13.467 0 0 0-2.238.426c-1.392 4.051-4.534 6.453-5.707 4.572-.986-1.58 1.38-4.206 4.914-5.375.097-.322.185-.656.264-1.001.08-.353.306-1.31.407-1.737-.678-1.059-1.2-2.031-1.53-2.91zm2.098 4.87c-.033.144-.068.287-.104.427l.033-.01-.012.038a14.065 14.065 0 0 1 1.02-.197l-.032-.033.052-.004a7.902 7.902 0 0 1-.208-.271c-.197-.27-.38-.526-.555-.775l-.006.028-.002-.003c-.076.323-.148.632-.186.8zm5.77 2.978c1.143.605 1.832.632 2.054.187.26-.519-.087-1.034-1.113-1.473-.911-.39-2.175-.608-3.55-.608.845.766 1.787 1.459 2.609 1.894zM6.559 18.789c.14.223.693.16 1.425-.413.827-.648 1.61-1.747 2.208-3.206-2.563 1.064-4.102 2.867-3.633 3.62zm5.345-10.97c.088-1.793-.351-2.48-1.146-2.28-.473.119-.564 1.05-.056 2.405.213.566.52 1.188.908 1.859.18-.858.268-1.453.294-1.984z",
 			fill: "#E2514A",
 			fillRule: "nonzero"
@@ -5570,13 +5471,13 @@ function Ir() {
 	});
 }
 function Lr() {
-	return f("svg", {
+	return _("svg", {
 		"aria-hidden": "true",
 		focusable: "false",
 		width: "25",
 		height: "25",
 		viewBox: "0 0 25 25",
-		children: f("path", {
+		children: _("path", {
 			d: "M10.45 2.05h1.05a.5.5 0 0 1 .5.5v.024a.5.5 0 0 1-.5.5h-1.05a.5.5 0 0 1-.5-.5V2.55a.5.5 0 0 1 .5-.5zm2.05 1.024h1.05a.5.5 0 0 1 .5.5V3.6a.5.5 0 0 1-.5.5H12.5a.5.5 0 0 1-.5-.5v-.025a.5.5 0 0 1 .5-.5v-.001zM10.45 0h1.05a.5.5 0 0 1 .5.5v.025a.5.5 0 0 1-.5.5h-1.05a.5.5 0 0 1-.5-.5V.5a.5.5 0 0 1 .5-.5zm2.05 1.025h1.05a.5.5 0 0 1 .5.5v.024a.5.5 0 0 1-.5.5H12.5a.5.5 0 0 1-.5-.5v-.024a.5.5 0 0 1 .5-.5zm-2.05 3.074h1.05a.5.5 0 0 1 .5.5v.025a.5.5 0 0 1-.5.5h-1.05a.5.5 0 0 1-.5-.5v-.025a.5.5 0 0 1 .5-.5zm2.05 1.025h1.05a.5.5 0 0 1 .5.5v.024a.5.5 0 0 1-.5.5H12.5a.5.5 0 0 1-.5-.5v-.024a.5.5 0 0 1 .5-.5zm-2.05 1.024h1.05a.5.5 0 0 1 .5.5v.025a.5.5 0 0 1-.5.5h-1.05a.5.5 0 0 1-.5-.5v-.025a.5.5 0 0 1 .5-.5zm2.05 1.025h1.05a.5.5 0 0 1 .5.5v.025a.5.5 0 0 1-.5.5H12.5a.5.5 0 0 1-.5-.5v-.025a.5.5 0 0 1 .5-.5zm-2.05 1.025h1.05a.5.5 0 0 1 .5.5v.025a.5.5 0 0 1-.5.5h-1.05a.5.5 0 0 1-.5-.5v-.025a.5.5 0 0 1 .5-.5zm2.05 1.025h1.05a.5.5 0 0 1 .5.5v.024a.5.5 0 0 1-.5.5H12.5a.5.5 0 0 1-.5-.5v-.024a.5.5 0 0 1 .5-.5zm-1.656 3.074l-.82 5.946c.52.302 1.174.458 1.976.458.803 0 1.455-.156 1.975-.458l-.82-5.946h-2.311zm0-1.025h2.312c.512 0 .946.378 1.015.885l.82 5.946c.056.412-.142.817-.501 1.026-.686.398-1.515.597-2.49.597-.974 0-1.804-.199-2.49-.597a1.025 1.025 0 0 1-.5-1.026l.819-5.946c.07-.507.503-.885 1.015-.885zm.545 6.6a.5.5 0 0 1-.397-.561l.143-.999a.5.5 0 0 1 .495-.429h.74a.5.5 0 0 1 .495.43l.143.998a.5.5 0 0 1-.397.561c-.404.08-.819.08-1.222 0z",
 			fill: "#00C469",
 			fillRule: "nonzero"
@@ -5584,29 +5485,29 @@ function Lr() {
 	});
 }
 function Rr() {
-	return f("svg", {
+	return _("svg", {
 		"aria-hidden": "true",
 		focusable: "false",
 		className: "uppy-c-icon",
 		width: "25",
 		height: "25",
 		viewBox: "0 0 25 25",
-		children: f("g", {
+		children: _("g", {
 			fill: "#A7AFB7",
 			fillRule: "nonzero",
-			children: [f("path", { d: "M5.5 22a.5.5 0 0 1-.5-.5v-18a.5.5 0 0 1 .5-.5h10.719a.5.5 0 0 1 .367.16l3.281 3.556a.5.5 0 0 1 .133.339V21.5a.5.5 0 0 1-.5.5h-14zm.5-1h13V7.25L16 4H6v17z" }), f("path", { d: "M15 4v3a1 1 0 0 0 1 1h3V7h-3V4h-1z" })]
+			children: [_("path", { d: "M5.5 22a.5.5 0 0 1-.5-.5v-18a.5.5 0 0 1 .5-.5h10.719a.5.5 0 0 1 .367.16l3.281 3.556a.5.5 0 0 1 .133.339V21.5a.5.5 0 0 1-.5.5h-14zm.5-1h13V7.25L16 4H6v17z" }), _("path", { d: "M15 4v3a1 1 0 0 0 1 1h3V7h-3V4h-1z" })]
 		})
 	});
 }
 function zr() {
-	return f("svg", {
+	return _("svg", {
 		"aria-hidden": "true",
 		focusable: "false",
 		className: "uppy-c-icon",
 		width: "25",
 		height: "25",
 		viewBox: "0 0 25 25",
-		children: f("path", {
+		children: _("path", {
 			d: "M4.5 7h13a.5.5 0 1 1 0 1h-13a.5.5 0 0 1 0-1zm0 3h15a.5.5 0 1 1 0 1h-15a.5.5 0 1 1 0-1zm0 3h15a.5.5 0 1 1 0 1h-15a.5.5 0 1 1 0-1zm0 3h10a.5.5 0 1 1 0 1h-10a.5.5 0 1 1 0-1z",
 			fill: "#5A5E69",
 			fillRule: "nonzero"
@@ -5662,27 +5563,27 @@ function X(e) {
 //#region node_modules/@uppy/dashboard/lib/components/FilePreview.js
 function Vr(e) {
 	let { file: t } = e;
-	if (t.preview) return f("img", {
+	if (t.preview) return _("img", {
 		draggable: !1,
 		className: "uppy-Dashboard-Item-previewImg",
 		alt: t.name,
 		src: t.preview
 	});
 	let { color: n, icon: r } = Br(t.type);
-	return f("div", {
+	return _("div", {
 		className: "uppy-Dashboard-Item-previewIconWrap",
-		children: [f("span", {
+		children: [_("span", {
 			className: "uppy-Dashboard-Item-previewIcon",
 			style: { color: n },
 			children: r
-		}), f("svg", {
+		}), _("svg", {
 			"aria-hidden": "true",
 			focusable: "false",
 			className: "uppy-Dashboard-Item-previewIconBg",
 			width: "58",
 			height: "76",
 			viewBox: "0 0 58 76",
-			children: f("rect", {
+			children: _("rect", {
 				fill: "#FFF",
 				width: "58",
 				height: "76",
@@ -5698,13 +5599,13 @@ function Hr(e) {
 	let { computedMetaFields: t, requiredMetaFields: n, updateMeta: r, form: i, formState: a } = e, o = { text: "uppy-u-reset uppy-c-textInput uppy-Dashboard-FileCard-input" };
 	return t.map((e) => {
 		let t = `uppy-Dashboard-FileCard-input-${e.id}`, s = n.includes(e.id);
-		return f("fieldset", {
+		return _("fieldset", {
 			className: "uppy-Dashboard-FileCard-fieldset",
-			children: [f("label", {
+			children: [_("label", {
 				className: "uppy-Dashboard-FileCard-label",
 				htmlFor: t,
 				children: e.name
-			}), e.render === void 0 ? f("input", {
+			}), e.render === void 0 ? _("input", {
 				className: o.text,
 				id: t,
 				form: i.id,
@@ -5720,102 +5621,102 @@ function Hr(e) {
 				fieldCSSClasses: o,
 				required: s,
 				form: i.id
-			}, l)]
+			}, m)]
 		}, e.id);
 	});
 }
 //#endregion
 //#region node_modules/@uppy/dashboard/lib/components/FileCard/index.js
 function Ur(e) {
-	let { files: t, fileCardFor: n, toggleFileCard: r, saveFileCard: i, metaFields: a, requiredMetaFields: o, openFileEditor: s, i18n: c, i18nArray: l, className: u, canEditFile: d } = e, p = () => typeof a == "function" ? a(t[n]) : a, m = t[n], h = p() ?? [], g = d(m), _ = {};
-	h.forEach((e) => {
-		_[e.id] = m.meta[e.id] ?? "";
+	let { files: t, fileCardFor: n, toggleFileCard: r, saveFileCard: i, metaFields: a, requiredMetaFields: o, openFileEditor: s, i18n: c, i18nArray: l, className: u, canEditFile: d } = e, f = () => typeof a == "function" ? a(t[n]) : a, p = t[n], m = f() ?? [], h = d(p), g = {};
+	m.forEach((e) => {
+		g[e.id] = p.meta[e.id] ?? "";
 	});
-	let [y, x] = v(_), w = S((e) => {
-		e.preventDefault(), i(y, n);
+	let [v, y] = C(g), b = D((e) => {
+		e.preventDefault(), i(v, n);
 	}, [
 		i,
-		y,
+		v,
 		n
-	]), T = (e, t) => {
-		x({
-			...y,
+	]), x = (e, t) => {
+		y({
+			...v,
 			[t]: e
 		});
-	}, E = () => {
+	}, S = () => {
 		r(!1, n);
-	}, [D] = v(() => {
+	}, [w] = C(() => {
 		let e = document.createElement("form");
 		return e.setAttribute("tabindex", "-1"), e.id = Or(), e;
-	}), O = C(null);
-	return b(() => {
-		let e = O.current?.getRootNode() ?? document;
-		return e instanceof Document ? e.body.appendChild(D) : (e instanceof ShadowRoot, e.appendChild(D)), D.addEventListener("submit", w), () => {
-			D.removeEventListener("submit", w), D.parentNode && D.parentNode.removeChild(D);
+	}), E = O(null);
+	return T(() => {
+		let e = E.current?.getRootNode() ?? document;
+		return e instanceof Document ? e.body.appendChild(w) : (e instanceof ShadowRoot, e.appendChild(w)), w.addEventListener("submit", b), () => {
+			w.removeEventListener("submit", b), w.parentNode && w.parentNode.removeChild(w);
 		};
-	}, [D, w]), f("div", {
-		className: (0, L.default)("uppy-Dashboard-FileCard", u),
+	}, [w, b]), _("div", {
+		className: (0, R.default)("uppy-Dashboard-FileCard", u),
 		"data-uppy-panelType": "FileCard",
 		onDragOver: X,
 		onDragLeave: X,
 		onDrop: X,
 		onPaste: X,
-		ref: O,
-		children: [f("div", {
+		ref: E,
+		children: [_("div", {
 			className: "uppy-DashboardContent-bar",
-			children: [f("div", {
+			children: [_("div", {
 				className: "uppy-DashboardContent-title",
 				role: "heading",
 				"aria-level": 1,
-				children: l("editing", { file: f("span", {
+				children: l("editing", { file: _("span", {
 					className: "uppy-DashboardContent-titleFile",
-					children: m.meta ? m.meta.name : m.name
+					children: p.meta ? p.meta.name : p.name
 				}) })
-			}), f("button", {
+			}), _("button", {
 				className: "uppy-DashboardContent-back",
 				type: "button",
-				form: D.id,
+				form: w.id,
 				title: c("finishEditingFile"),
-				onClick: E,
+				onClick: S,
 				children: c("cancel")
 			})]
-		}), f("div", {
+		}), _("div", {
 			className: "uppy-Dashboard-FileCard-inner",
 			children: [
-				f("div", {
+				_("div", {
 					className: "uppy-Dashboard-FileCard-preview",
-					style: { backgroundColor: Br(m.type).color },
-					children: [f(Vr, { file: m }), g && f("button", {
+					style: { backgroundColor: Br(p.type).color },
+					children: [_(Vr, { file: p }), h && _("button", {
 						type: "button",
 						className: "uppy-u-reset uppy-c-btn uppy-Dashboard-FileCard-edit",
 						onClick: (e) => {
-							w(e), s(m);
+							b(e), s(p);
 						},
 						children: c("editImage")
 					})]
 				}),
-				f("div", {
+				_("div", {
 					className: "uppy-Dashboard-FileCard-info",
-					children: f(Hr, {
-						computedMetaFields: h,
+					children: _(Hr, {
+						computedMetaFields: m,
 						requiredMetaFields: o,
-						updateMeta: T,
-						form: D,
-						formState: y
+						updateMeta: x,
+						form: w,
+						formState: v
 					})
 				}),
-				f("div", {
+				_("div", {
 					className: "uppy-Dashboard-FileCard-actions",
-					children: [f("button", {
+					children: [_("button", {
 						className: "uppy-u-reset uppy-c-btn uppy-c-btn-primary uppy-Dashboard-FileCard-actionsBtn",
 						type: "submit",
-						form: D.id,
+						form: w.id,
 						children: c("saveChanges")
-					}), f("button", {
+					}), _("button", {
 						className: "uppy-u-reset uppy-c-btn uppy-c-btn-link uppy-Dashboard-FileCard-actionsBtn",
 						type: "button",
-						onClick: E,
-						form: D.id,
+						onClick: S,
+						form: w.id,
 						children: c("cancel")
 					})]
 				})
@@ -5856,34 +5757,34 @@ function Gr(e, t = "Copy the URL below") {
 //#endregion
 //#region node_modules/@uppy/dashboard/lib/components/FileItem/Buttons/index.js
 function Kr({ file: e, uploadInProgressOrComplete: t, metaFields: n, canEditFile: r, i18n: i, onClick: a }) {
-	return !t && n && n.length > 0 || !t && r(e) ? f("button", {
+	return !t && n && n.length > 0 || !t && r(e) ? _("button", {
 		className: "uppy-u-reset uppy-c-btn uppy-Dashboard-Item-action uppy-Dashboard-Item-action--edit",
 		type: "button",
 		"aria-label": i("editFileWithFilename", { file: e.meta.name }),
 		title: i("editFileWithFilename", { file: e.meta.name }),
 		onClick: () => a(),
-		children: f("svg", {
+		children: _("svg", {
 			"aria-hidden": "true",
 			focusable: "false",
 			className: "uppy-c-icon",
 			width: "14",
 			height: "14",
 			viewBox: "0 0 14 14",
-			children: f("g", {
+			children: _("g", {
 				fillRule: "evenodd",
 				children: [
-					f("path", {
+					_("path", {
 						d: "M1.5 10.793h2.793A1 1 0 0 0 5 10.5L11.5 4a1 1 0 0 0 0-1.414L9.707.793a1 1 0 0 0-1.414 0l-6.5 6.5A1 1 0 0 0 1.5 8v2.793zm1-1V8L9 1.5l1.793 1.793-6.5 6.5H2.5z",
 						fillRule: "nonzero"
 					}),
-					f("rect", {
+					_("rect", {
 						x: "1",
 						y: "12.293",
 						width: "11",
 						height: "1",
 						rx: ".5"
 					}),
-					f("path", {
+					_("path", {
 						fillRule: "nonzero",
 						d: "M6.793 2.5L9.5 5.207l.707-.707L7.5 1.793z"
 					})
@@ -5893,20 +5794,20 @@ function Kr({ file: e, uploadInProgressOrComplete: t, metaFields: n, canEditFile
 	}) : null;
 }
 function qr({ i18n: e, onClick: t, file: n }) {
-	return f("button", {
+	return _("button", {
 		className: "uppy-u-reset uppy-Dashboard-Item-action uppy-Dashboard-Item-action--remove",
 		type: "button",
 		"aria-label": e("removeFile", { file: n.meta.name }),
 		title: e("removeFile", { file: n.meta.name }),
 		onClick: () => t(),
-		children: f("svg", {
+		children: _("svg", {
 			"aria-hidden": "true",
 			focusable: "false",
 			className: "uppy-c-icon",
 			width: "18",
 			height: "18",
 			viewBox: "0 0 18 18",
-			children: [f("path", { d: "M9 0C4.034 0 0 4.034 0 9s4.034 9 9 9 9-4.034 9-9-4.034-9-9-9z" }), f("path", {
+			children: [_("path", { d: "M9 0C4.034 0 0 4.034 0 9s4.034 9 9 9 9-4.034 9-9-4.034-9-9-9z" }), _("path", {
 				fill: "#FFF",
 				d: "M13 12.222l-.778.778L9 9.778 5.778 13 5 12.222 8.222 9 5 5.778 5.778 5 9 8.222 12.222 5l.778.778L9.778 9z"
 			})]
@@ -5920,29 +5821,29 @@ function Jr({ file: e, uppy: t, i18n: n }) {
 			t.log("Link copied to clipboard."), t.info(n("copyLinkToClipboardSuccess"), "info", 3e3);
 		}).catch(t.log).then(() => i.focus({ preventScroll: !0 }));
 	};
-	return f("button", {
+	return _("button", {
 		className: "uppy-u-reset uppy-Dashboard-Item-action uppy-Dashboard-Item-action--copyLink",
 		type: "button",
 		"aria-label": n("copyLink"),
 		title: n("copyLink"),
 		onClick: (e) => r(e),
-		children: f("svg", {
+		children: _("svg", {
 			"aria-hidden": "true",
 			focusable: "false",
 			className: "uppy-c-icon",
 			width: "14",
 			height: "14",
 			viewBox: "0 0 14 12",
-			children: f("path", { d: "M7.94 7.703a2.613 2.613 0 0 1-.626 2.681l-.852.851a2.597 2.597 0 0 1-1.849.766A2.616 2.616 0 0 1 2.764 7.54l.852-.852a2.596 2.596 0 0 1 2.69-.625L5.267 7.099a1.44 1.44 0 0 0-.833.407l-.852.851a1.458 1.458 0 0 0 1.03 2.486c.39 0 .755-.152 1.03-.426l.852-.852c.231-.231.363-.522.406-.824l1.04-1.038zm4.295-5.937A2.596 2.596 0 0 0 10.387 1c-.698 0-1.355.272-1.849.766l-.852.851a2.614 2.614 0 0 0-.624 2.688l1.036-1.036c.041-.304.173-.6.407-.833l.852-.852c.275-.275.64-.426 1.03-.426a1.458 1.458 0 0 1 1.03 2.486l-.852.851a1.442 1.442 0 0 1-.824.406l-1.04 1.04a2.596 2.596 0 0 0 2.683-.628l.851-.85a2.616 2.616 0 0 0 0-3.697zm-6.88 6.883a.577.577 0 0 0 .82 0l3.474-3.474a.579.579 0 1 0-.819-.82L5.355 7.83a.579.579 0 0 0 0 .819z" })
+			children: _("path", { d: "M7.94 7.703a2.613 2.613 0 0 1-.626 2.681l-.852.851a2.597 2.597 0 0 1-1.849.766A2.616 2.616 0 0 1 2.764 7.54l.852-.852a2.596 2.596 0 0 1 2.69-.625L5.267 7.099a1.44 1.44 0 0 0-.833.407l-.852.851a1.458 1.458 0 0 0 1.03 2.486c.39 0 .755-.152 1.03-.426l.852-.852c.231-.231.363-.522.406-.824l1.04-1.038zm4.295-5.937A2.596 2.596 0 0 0 10.387 1c-.698 0-1.355.272-1.849.766l-.852.851a2.614 2.614 0 0 0-.624 2.688l1.036-1.036c.041-.304.173-.6.407-.833l.852-.852c.275-.275.64-.426 1.03-.426a1.458 1.458 0 0 1 1.03 2.486l-.852.851a1.442 1.442 0 0 1-.824.406l-1.04 1.04a2.596 2.596 0 0 0 2.683-.628l.851-.85a2.616 2.616 0 0 0 0-3.697zm-6.88 6.883a.577.577 0 0 0 .82 0l3.474-3.474a.579.579 0 1 0-.819-.82L5.355 7.83a.579.579 0 0 0 0 .819z" })
 		})
 	});
 }
 function Yr(e) {
 	let { uppy: t, file: n, uploadInProgressOrComplete: r, canEditFile: i, metaFields: a, showLinkToFileUploadResult: o, showRemoveButton: s, i18n: c, toggleFileCard: l, openFileEditor: u } = e;
-	return f("div", {
+	return _("div", {
 		className: "uppy-Dashboard-Item-actionWrapper",
 		children: [
-			f(Kr, {
+			_(Kr, {
 				i18n: c,
 				file: n,
 				uploadInProgressOrComplete: r,
@@ -5952,12 +5853,12 @@ function Yr(e) {
 					a && a.length > 0 ? l(!0, n.id) : u(n);
 				}
 			}),
-			o && n.uploadURL ? f(Jr, {
+			o && n.uploadURL ? _(Jr, {
 				file: n,
 				uppy: t,
 				i18n: c
 			}) : null,
-			s ? f(qr, {
+			s ? _(qr, {
 				i18n: c,
 				file: n,
 				onClick: () => t.removeFile(n.id)
@@ -5974,7 +5875,7 @@ function Zr(e) {
 	let { file: t, toggleFileCard: n, i18n: r, metaFields: i } = e, { missingRequiredMetaFields: a } = t;
 	if (!a?.length) return null;
 	let o = a.map((e) => Xr(e, i, t)).join(", ");
-	return f("div", {
+	return _("div", {
 		className: "uppy-Dashboard-Item-errorMessage",
 		children: [
 			r("missingRequiredMetaFields", {
@@ -5982,7 +5883,7 @@ function Zr(e) {
 				fields: o
 			}),
 			" ",
-			f("button", {
+			_("button", {
 				type: "button",
 				class: "uppy-u-reset uppy-Dashboard-Item-errorMessageBtn",
 				onClick: () => n(!0, t.id),
@@ -5998,35 +5899,35 @@ var Qr = (e) => {
 	function r() {
 		return e.isSingleFile && e.containerHeight >= 350 ? 90 : e.containerWidth <= 352 ? 35 : e.containerWidth <= 576 ? 60 : t ? 20 : 30;
 	}
-	return f("div", {
+	return _("div", {
 		className: "uppy-Dashboard-Item-name",
 		title: n,
-		children: be(n, r())
+		children: xe(n, r())
 	});
 }, $r = (e) => {
 	let { author: t } = e.file.meta, n = "remote" in e.file ? e.file.remote?.providerName : void 0;
-	return t ? f("div", {
+	return t ? _("div", {
 		className: "uppy-Dashboard-Item-author",
-		children: [f("a", {
+		children: [_("a", {
 			href: `${t.url}?utm_source=Companion&utm_medium=referral`,
 			target: "_blank",
 			rel: "noopener noreferrer",
-			children: be(t.name, 13)
-		}), n ? f(p, { children: [
+			children: xe(t.name, 13)
+		}), n ? _(v, { children: [
 			" · ",
 			n,
 			" · "
 		] }) : null]
 	}) : null;
-}, ei = (e) => e.file.size && f("div", {
+}, ei = (e) => e.file.size && _("div", {
 	className: "uppy-Dashboard-Item-statusSize",
-	children: T(e.file.size)
-}), ti = (e) => e.file.isGhost && f("span", { children: [" • ", f("button", {
+	children: k(e.file.size)
+}), ti = (e) => e.file.isGhost && _("span", { children: [" • ", _("button", {
 	className: "uppy-u-reset uppy-c-btn uppy-Dashboard-Item-reSelect",
 	type: "button",
 	onClick: () => e.toggleAddFilesPanel(!0),
 	children: e.i18n("reSelect")
-})] }), ni = ({ file: e, onClick: t }) => e.error ? f("button", {
+})] }), ni = ({ file: e, onClick: t }) => e.error ? _("button", {
 	className: "uppy-u-reset uppy-c-btn uppy-Dashboard-Item-errorDetails",
 	"aria-label": e.error,
 	"data-microtip-position": "bottom",
@@ -6037,23 +5938,23 @@ var Qr = (e) => {
 }) : null;
 function ri(e) {
 	let { file: t, i18n: n, toggleFileCard: r, metaFields: i, toggleAddFilesPanel: a, isSingleFile: o, containerHeight: s, containerWidth: c } = e;
-	return f("div", {
+	return _("div", {
 		className: "uppy-Dashboard-Item-fileInfo",
 		"data-uppy-file-source": t.source,
 		children: [
-			f("div", {
+			_("div", {
 				className: "uppy-Dashboard-Item-fileName",
 				children: [Qr({
 					file: t,
 					isSingleFile: o,
 					containerHeight: s,
 					containerWidth: c
-				}), f(ni, {
+				}), _(ni, {
 					file: t,
 					onClick: () => alert(t.error)
 				})]
 			}),
-			f("div", {
+			_("div", {
 				className: "uppy-Dashboard-Item-status",
 				children: [
 					$r({ file: t }),
@@ -6065,7 +5966,7 @@ function ri(e) {
 					})
 				]
 			}),
-			f(Zr, {
+			_(Zr, {
 				file: t,
 				i18n: n,
 				toggleFileCard: r,
@@ -6078,23 +5979,23 @@ function ri(e) {
 //#region node_modules/@uppy/dashboard/lib/components/FileItem/FilePreviewAndLink/index.js
 function ii(e) {
 	let { file: t, i18n: n, toggleFileCard: r, metaFields: i, showLinkToFileUploadResult: a } = e, o = t.preview ? "rgba(255, 255, 255, 0.5)" : Br(t.type).color;
-	return f("div", {
+	return _("div", {
 		className: "uppy-Dashboard-Item-previewInnerWrap",
 		style: { backgroundColor: o },
 		children: [
-			a && t.uploadURL && f("a", {
+			a && t.uploadURL && _("a", {
 				className: "uppy-Dashboard-Item-previewLink",
 				href: t.uploadURL,
 				rel: "noreferrer noopener",
 				target: "_blank",
 				"aria-label": t.meta.name,
-				children: f("span", {
+				children: _("span", {
 					hidden: !0,
 					children: t.meta.name
 				})
 			}),
-			f(Vr, { file: t }),
-			f(Zr, {
+			_(Vr, { file: t }),
+			_(Zr, {
 				file: t,
 				i18n: n,
 				toggleFileCard: r,
@@ -6118,9 +6019,9 @@ function oi(e) {
 	return e.isUploaded ? e.i18n("uploadComplete") : e.error ? e.i18n("retryUpload") : e.resumableUploads ? e.file.isPaused ? e.i18n("resumeUpload") : e.i18n("pauseUpload") : e.individualCancellation ? e.i18n("cancelUpload") : "";
 }
 function si(e) {
-	return f("div", {
+	return _("div", {
 		className: "uppy-Dashboard-Item-progress",
-		children: f("button", {
+		children: _("button", {
 			className: "uppy-u-reset uppy-c-btn uppy-Dashboard-Item-progressIndicator",
 			type: "button",
 			"aria-label": oi(e),
@@ -6131,7 +6032,7 @@ function si(e) {
 	});
 }
 function ci({ children: e }) {
-	return f("svg", {
+	return _("svg", {
 		"aria-hidden": "true",
 		focusable: "false",
 		width: "70",
@@ -6143,14 +6044,14 @@ function ci({ children: e }) {
 }
 function li({ progress: e }) {
 	let t = 2 * Math.PI * 15;
-	return f("g", { children: [f("circle", {
+	return _("g", { children: [_("circle", {
 		className: "uppy-Dashboard-Item-progressIcon--bg",
 		r: "15",
 		cx: "18",
 		cy: "18",
 		"stroke-width": "2",
 		fill: "none"
-	}), f("circle", {
+	}), _("circle", {
 		className: "uppy-Dashboard-Item-progressIcon--progress",
 		r: "15",
 		cx: "18",
@@ -6163,24 +6064,24 @@ function li({ progress: e }) {
 	})] });
 }
 function ui(e) {
-	return !e.file.progress.uploadStarted || e.file.progress.percentage === void 0 ? null : e.isUploaded ? f("div", {
+	return !e.file.progress.uploadStarted || e.file.progress.percentage === void 0 ? null : e.isUploaded ? _("div", {
 		className: "uppy-Dashboard-Item-progress",
-		children: f("div", {
+		children: _("div", {
 			className: "uppy-Dashboard-Item-progressIndicator",
-			children: f(ci, { children: [f("circle", {
+			children: _(ci, { children: [_("circle", {
 				r: "15",
 				cx: "18",
 				cy: "18",
 				fill: "#1bb240"
-			}), f("polygon", {
+			}), _("polygon", {
 				className: "uppy-Dashboard-Item-progressIcon--check",
 				transform: "translate(2, 3)",
 				points: "14 22.5 7 15.2457065 8.99985857 13.1732815 14 18.3547104 22.9729883 9 25 11.1005634"
 			})] })
 		})
-	}) : e.recoveredState ? null : e.error && !e.hideRetryButton ? f(si, {
+	}) : e.recoveredState ? null : e.error && !e.hideRetryButton ? _(si, {
 		...e,
-		children: f("svg", {
+		children: _("svg", {
 			"aria-hidden": "true",
 			focusable: "false",
 			className: "uppy-c-icon uppy-Dashboard-Item-progressIcon--retry",
@@ -6188,28 +6089,28 @@ function ui(e) {
 			height: "31",
 			viewBox: "0 0 16 19",
 			children: [
-				f("path", { d: "M16 11a8 8 0 1 1-8-8v2a6 6 0 1 0 6 6h2z" }),
-				f("path", { d: "M7.9 3H10v2H7.9z" }),
-				f("path", { d: "M8.536.5l3.535 3.536-1.414 1.414L7.12 1.914z" }),
-				f("path", { d: "M10.657 2.621l1.414 1.415L8.536 7.57 7.12 6.157z" })
+				_("path", { d: "M16 11a8 8 0 1 1-8-8v2a6 6 0 1 0 6 6h2z" }),
+				_("path", { d: "M7.9 3H10v2H7.9z" }),
+				_("path", { d: "M8.536.5l3.535 3.536-1.414 1.414L7.12 1.914z" }),
+				_("path", { d: "M10.657 2.621l1.414 1.415L8.536 7.57 7.12 6.157z" })
 			]
 		})
-	}) : e.resumableUploads && !e.hidePauseResumeButton ? f(si, {
+	}) : e.resumableUploads && !e.hidePauseResumeButton ? _(si, {
 		...e,
-		children: f(ci, { children: [f(li, { progress: e.file.progress.percentage }), e.file.isPaused ? f("polygon", {
+		children: _(ci, { children: [_(li, { progress: e.file.progress.percentage }), e.file.isPaused ? _("polygon", {
 			className: "uppy-Dashboard-Item-progressIcon--play",
 			transform: "translate(3, 3)",
 			points: "12 20 12 10 20 15"
-		}) : f("g", {
+		}) : _("g", {
 			className: "uppy-Dashboard-Item-progressIcon--pause",
 			transform: "translate(14.5, 13)",
-			children: [f("rect", {
+			children: [_("rect", {
 				x: "0",
 				y: "0",
 				width: "2",
 				height: "10",
 				rx: "0"
-			}), f("rect", {
+			}), _("rect", {
 				x: "5",
 				y: "0",
 				width: "2",
@@ -6217,24 +6118,24 @@ function ui(e) {
 				rx: "0"
 			})]
 		})] })
-	}) : !e.resumableUploads && e.individualCancellation && !e.hideCancelButton ? f(si, {
+	}) : !e.resumableUploads && e.individualCancellation && !e.hideCancelButton ? _(si, {
 		...e,
-		children: f(ci, { children: [f(li, { progress: e.file.progress.percentage }), f("polygon", {
+		children: _(ci, { children: [_(li, { progress: e.file.progress.percentage }), _("polygon", {
 			className: "cancel",
 			transform: "translate(2, 2)",
 			points: "19.8856516 11.0625 16 14.9481516 12.1019737 11.0625 11.0625 12.1143484 14.9481516 16 11.0625 19.8980263 12.1019737 20.9375 16 17.0518484 19.8856516 20.9375 20.9375 19.8980263 17.0518484 16 20.9375 12"
 		})] })
-	}) : f("div", {
+	}) : _("div", {
 		className: "uppy-Dashboard-Item-progress",
-		children: f("div", {
+		children: _("div", {
 			className: "uppy-Dashboard-Item-progressIndicator",
-			children: f(ci, { children: f(li, { progress: e.file.progress.percentage }) })
+			children: _(ci, { children: _(li, { progress: e.file.progress.percentage }) })
 		})
 	});
 }
 //#endregion
 //#region node_modules/@uppy/dashboard/lib/components/FileItem/index.js
-var di = class extends c {
+var di = class extends p {
 	componentDidMount() {
 		let { file: e } = this.props;
 		e.preview || this.props.handleRequestThumbnail(e);
@@ -6253,7 +6154,7 @@ var di = class extends c {
 	render() {
 		let { file: e } = this.props, t = e.progress.preprocess || e.progress.postprocess, n = !!e.progress.uploadComplete && !t && !e.error, r = !!e.progress.uploadStarted || !!t, i = e.progress.uploadStarted && !e.progress.uploadComplete || t, a = e.error || !1, { isGhost: o } = e, s = (this.props.individualCancellation || !i) && !n;
 		n && this.props.showRemoveButtonAfterComplete && (s = !0);
-		let c = (0, L.default)({
+		let c = (0, R.default)({
 			"uppy-Dashboard-Item": !0,
 			"is-inprogress": i && !this.props.recoveredState,
 			"is-processing": t,
@@ -6263,19 +6164,19 @@ var di = class extends c {
 			"is-noIndividualCancellation": !this.props.individualCancellation,
 			"is-ghost": o
 		});
-		return f("div", {
+		return _("div", {
 			className: c,
 			id: `uppy_${e.id}`,
 			role: this.props.role,
-			children: [f("div", {
+			children: [_("div", {
 				className: "uppy-Dashboard-Item-preview",
-				children: [f(ii, {
+				children: [_(ii, {
 					file: e,
 					showLinkToFileUploadResult: this.props.showLinkToFileUploadResult,
 					i18n: this.props.i18n,
 					toggleFileCard: this.props.toggleFileCard,
 					metaFields: this.props.metaFields
-				}), f(ui, {
+				}), _(ui, {
 					uppy: this.props.uppy,
 					file: e,
 					error: a,
@@ -6288,9 +6189,9 @@ var di = class extends c {
 					individualCancellation: this.props.individualCancellation,
 					i18n: this.props.i18n
 				})]
-			}), f("div", {
+			}), _("div", {
 				className: "uppy-Dashboard-Item-fileInfoAndButtons",
-				children: [f(ri, {
+				children: [_(ri, {
 					file: e,
 					containerWidth: this.props.containerWidth,
 					containerHeight: this.props.containerHeight,
@@ -6299,7 +6200,7 @@ var di = class extends c {
 					toggleFileCard: this.props.toggleFileCard,
 					metaFields: this.props.metaFields,
 					isSingleFile: this.props.isSingleFile
-				}), f(Yr, {
+				}), _(Yr, {
 					file: e,
 					metaFields: this.props.metaFields,
 					showLinkToFileUploadResult: this.props.showLinkToFileUploadResult,
@@ -6323,47 +6224,47 @@ function fi(e, t) {
 		r.length < t ? r.push(e) : (n.push(r), r = [e]);
 	}), r.length && n.push(r), n;
 }
-function pi({ id: e, i18n: t, uppy: n, files: r, resumableUploads: i, hideRetryButton: a, hidePauseResumeButton: o, hideCancelButton: s, showLinkToFileUploadResult: c, showRemoveButtonAfterComplete: l, metaFields: u, isSingleFile: d, toggleFileCard: p, handleRequestThumbnail: m, handleCancelThumbnail: h, recoveredState: g, individualCancellation: _, itemsPerRow: v, openFileEditor: b, canEditFile: x, toggleAddFilesPanel: S, containerWidth: C, containerHeight: w }) {
-	let T = v === 1 ? 71 : 200, E = y(() => {
+function pi({ id: e, i18n: t, uppy: n, files: r, resumableUploads: i, hideRetryButton: a, hidePauseResumeButton: o, hideCancelButton: s, showLinkToFileUploadResult: c, showRemoveButtonAfterComplete: l, metaFields: u, isSingleFile: d, toggleFileCard: f, handleRequestThumbnail: p, handleCancelThumbnail: m, recoveredState: h, individualCancellation: g, itemsPerRow: v, openFileEditor: y, canEditFile: b, toggleAddFilesPanel: x, containerWidth: S, containerHeight: C }) {
+	let T = v === 1 ? 71 : 200, E = w(() => {
 		let e = (e, t) => Number(r[t].isGhost) - Number(r[e].isGhost), t = Object.keys(r);
-		return g && t.sort(e), fi(t, v);
+		return h && t.sort(e), fi(t, v);
 	}, [
 		r,
 		v,
-		g
-	]), D = (v) => f("div", {
+		h
+	]), D = (v) => _("div", {
 		class: "uppy-Dashboard-filesInner",
 		role: "presentation",
-		children: v.map((v) => f(di, {
+		children: v.map((v) => _(di, {
 			uppy: n,
 			id: e,
 			i18n: t,
 			resumableUploads: i,
-			individualCancellation: _,
+			individualCancellation: g,
 			hideRetryButton: a,
 			hidePauseResumeButton: o,
 			hideCancelButton: s,
 			showLinkToFileUploadResult: c,
 			showRemoveButtonAfterComplete: l,
 			metaFields: u,
-			recoveredState: g,
+			recoveredState: h,
 			isSingleFile: d,
-			containerWidth: C,
-			containerHeight: w,
-			toggleFileCard: p,
-			handleRequestThumbnail: m,
-			handleCancelThumbnail: h,
+			containerWidth: S,
+			containerHeight: C,
+			toggleFileCard: f,
+			handleRequestThumbnail: p,
+			handleCancelThumbnail: m,
 			role: "listitem",
-			openFileEditor: b,
-			canEditFile: x,
-			toggleAddFilesPanel: S,
+			openFileEditor: y,
+			canEditFile: b,
+			toggleAddFilesPanel: x,
 			file: r[v]
 		}, v))
 	}, v[0]);
-	return d ? f("div", {
+	return d ? _("div", {
 		class: "uppy-Dashboard-files",
 		children: D(E[0])
-	}) : f(Ce, {
+	}) : _(we, {
 		class: "uppy-Dashboard-files",
 		role: "list",
 		data: E,
@@ -6373,8 +6274,8 @@ function pi({ id: e, i18n: t, uppy: n, files: r, resumableUploads: i, hideRetryB
 }
 //#endregion
 //#region node_modules/@uppy/dashboard/lib/components/Informer/FadeIn.js
-var mi = 300, hi = class extends c {
-	ref = d();
+var mi = 300, hi = class extends p {
+	ref = g();
 	componentWillEnter(e) {
 		this.ref.current.style.opacity = "1", this.ref.current.style.transform = "none", setTimeout(e, mi);
 	}
@@ -6383,7 +6284,7 @@ var mi = 300, hi = class extends c {
 	}
 	render() {
 		let { children: e } = this.props;
-		return f("div", {
+		return _("div", {
 			className: "uppy-Informer-animated",
 			ref: this.ref,
 			children: e
@@ -6427,9 +6328,9 @@ function bi(e, t) {
 	for (let e = 0; e < i.length; e++) a[i[e]] = n(i[e]);
 	return a;
 }
-var xi = (e) => e, Si = class extends c {
+var xi = (e) => e, Si = class extends p {
 	constructor(e, t) {
-		super(e, t), this.refs = {}, this.state = { children: yi(i(i(this.props.children)) || []) }, this.performAppear = this.performAppear.bind(this), this.performEnter = this.performEnter.bind(this), this.performLeave = this.performLeave.bind(this);
+		super(e, t), this.refs = {}, this.state = { children: yi(l(l(this.props.children)) || []) }, this.performAppear = this.performAppear.bind(this), this.performEnter = this.performEnter.bind(this), this.performLeave = this.performLeave.bind(this);
 	}
 	componentWillMount() {
 		this.currentlyTransitioningKeys = {}, this.keysToAbortLeave = [], this.keysToEnter = [], this.keysToLeave = [];
@@ -6439,7 +6340,7 @@ var xi = (e) => e, Si = class extends c {
 		for (let t in e) e[t] && this.performAppear(t);
 	}
 	componentWillReceiveProps(e) {
-		let t = yi(i(e.children) || []), n = this.state.children;
+		let t = yi(l(e.children) || []), n = this.state.children;
 		this.setState((e) => ({ children: bi(e.children, t) }));
 		let r;
 		for (r in t) if (Object.hasOwn(t, r)) {
@@ -6469,7 +6370,7 @@ var xi = (e) => e, Si = class extends c {
 	_handleDoneAppearing(e) {
 		let t = this.refs[e];
 		t?.componentDidAppear && t.componentDidAppear(), delete this.currentlyTransitioningKeys[e], this._finishAbort(e);
-		let n = yi(i(this.props.children) || []);
+		let n = yi(l(this.props.children) || []);
 		(!n || !Object.hasOwn(n, e)) && this.performLeave(e);
 	}
 	performEnter(e) {
@@ -6480,7 +6381,7 @@ var xi = (e) => e, Si = class extends c {
 	_handleDoneEntering(e) {
 		let t = this.refs[e];
 		t?.componentDidEnter && t.componentDidEnter(), delete this.currentlyTransitioningKeys[e], this._finishAbort(e);
-		let n = yi(i(this.props.children) || []);
+		let n = yi(l(this.props.children) || []);
 		(!n || !Object.hasOwn(n, e)) && this.performLeave(e);
 	}
 	performLeave(e) {
@@ -6493,23 +6394,23 @@ var xi = (e) => e, Si = class extends c {
 		if (this.keysToAbortLeave.indexOf(e) !== -1) return;
 		let t = this.refs[e];
 		t?.componentDidLeave && t.componentDidLeave(), delete this.currentlyTransitioningKeys[e];
-		let n = yi(i(this.props.children) || []);
+		let n = yi(l(this.props.children) || []);
 		if (n && Object.hasOwn(n, e)) this.performEnter(e);
 		else {
 			let t = gi({}, this.state.children);
 			delete t[e], this.setState({ children: t });
 		}
 	}
-	render({ childFactory: e, transitionLeave: t, transitionName: n, transitionAppear: r, transitionEnter: i, transitionLeaveTimeout: o, transitionEnterTimeout: s, transitionAppearTimeout: c, component: u, ...d }, { children: f }) {
-		let p = Object.entries(f).map(([t, n]) => {
+	render({ childFactory: e, transitionLeave: t, transitionName: n, transitionAppear: r, transitionEnter: i, transitionLeaveTimeout: a, transitionEnterTimeout: o, transitionAppearTimeout: s, component: c, ...l }, { children: d }) {
+		let f = Object.entries(d).map(([t, n]) => {
 			if (!n) return;
 			let r = vi(this, t);
-			return a(e(n), {
+			return u(e(n), {
 				ref: r,
 				key: t
 			});
 		}).filter(Boolean);
-		return l(u, d, p);
+		return m(c, l, f);
 	}
 };
 Si.defaultProps = {
@@ -6518,17 +6419,17 @@ Si.defaultProps = {
 };
 //#endregion
 //#region node_modules/@uppy/dashboard/lib/components/Informer/Informer.js
-var Ci = class extends c {
+var Ci = class extends p {
 	render() {
 		let { info: e } = this.props.uppy.getState();
-		return f("div", {
+		return _("div", {
 			className: "uppy uppy-Informer",
-			children: f(Si, { children: e.map((e) => f(hi, { children: f("p", {
+			children: _(Si, { children: e.map((e) => _(hi, { children: _("p", {
 				role: "alert",
 				children: [
 					e.message,
 					" ",
-					e.details && f("span", {
+					e.details && _("span", {
 						"aria-label": e.details,
 						"data-microtip-position": "top-left",
 						"data-microtip-size": "medium",
@@ -6544,14 +6445,14 @@ var Ci = class extends c {
 //#endregion
 //#region node_modules/@uppy/dashboard/lib/components/PickerPanelContent.js
 function wi({ activePickerPanel: e, className: t, hideAllPanels: n, i18n: r, state: i, uppy: a }) {
-	let o = C(null), s = a.getPlugin(e.id), c = !!s?.opts.standalone, l = (e) => {
+	let o = O(null), s = a.getPlugin(e.id), c = !!s?.opts.standalone, l = (e) => {
 		let t = e.target;
 		return !!s?.acceptsFileDrops && !!e.dataTransfer?.types.includes("Files") && t.closest("input, textarea, dialog") == null;
 	}, u = (e) => {
 		l(e) || (X(e), e.type === "dragover" && e.defaultPrevented && e.dataTransfer && (e.dataTransfer.dropEffect = "none"));
 	};
-	return f("div", {
-		className: (0, L.default)("uppy-DashboardContent-panel", t),
+	return _("div", {
+		className: (0, R.default)("uppy-DashboardContent-panel", t),
 		role: "tabpanel",
 		"data-uppy-panelType": "PickerPanel",
 		id: `uppy-DashboardContent-panel--${e.id}`,
@@ -6559,20 +6460,20 @@ function wi({ activePickerPanel: e, className: t, hideAllPanels: n, i18n: r, sta
 		onDragLeave: u,
 		onDrop: u,
 		onPaste: X,
-		children: [!c && f("div", {
+		children: [!c && _("div", {
 			className: "uppy-DashboardContent-bar",
-			children: [f("div", {
+			children: [_("div", {
 				className: "uppy-DashboardContent-title",
 				role: "heading",
 				"aria-level": 1,
 				children: r("importFrom", { name: e.name })
-			}), f("button", {
+			}), _("button", {
 				className: "uppy-DashboardContent-back",
 				type: "button",
 				onClick: n,
 				children: r("cancel")
 			})]
-		}), f("div", {
+		}), _("div", {
 			ref: o,
 			className: "uppy-DashboardContent-panelBody",
 			children: s?.render(i, o.current)
@@ -6615,38 +6516,38 @@ function Ei({ files: e, i18n: t, isAllComplete: n, isAllErrored: r, isAllPaused:
 }
 function Di(e) {
 	let { i18n: t, isAllComplete: n, hideCancelButton: r, maxNumberOfFiles: i, toggleAddFilesPanel: a, totalFileCount: o, uppy: s } = e, { allowNewUpload: c } = e;
-	return c && i && (c = o < i), f("div", {
+	return c && i && (c = o < i), _("div", {
 		className: "uppy-DashboardContent-bar",
 		children: [
-			!n && !r ? f("button", {
+			!n && !r ? _("button", {
 				className: "uppy-DashboardContent-back",
 				type: "button",
 				onClick: () => s.cancelAll(),
 				children: t("cancel")
-			}) : f("div", {}),
-			f("div", {
+			}) : _("div", {}),
+			_("div", {
 				className: "uppy-DashboardContent-title",
-				children: f(Ei, { ...e })
+				children: _(Ei, { ...e })
 			}),
-			c ? f("button", {
+			c ? _("button", {
 				className: "uppy-DashboardContent-addMore",
 				type: "button",
 				"aria-label": t("addMoreFiles"),
 				title: t("addMoreFiles"),
 				onClick: () => a(!0),
-				children: [f("svg", {
+				children: [_("svg", {
 					"aria-hidden": "true",
 					focusable: "false",
 					className: "uppy-c-icon",
 					width: "15",
 					height: "15",
 					viewBox: "0 0 15 15",
-					children: f("path", { d: "M8 6.5h6a.5.5 0 0 1 .5.5v.5a.5.5 0 0 1-.5.5H8v6a.5.5 0 0 1-.5.5H7a.5.5 0 0 1-.5-.5V8h-6a.5.5 0 0 1-.5-.5V7a.5.5 0 0 1 .5-.5h6v-6A.5.5 0 0 1 7 0h.5a.5.5 0 0 1 .5.5v6z" })
-				}), f("span", {
+					children: _("path", { d: "M8 6.5h6a.5.5 0 0 1 .5.5v.5a.5.5 0 0 1-.5.5H8v6a.5.5 0 0 1-.5.5H7a.5.5 0 0 1-.5-.5V8h-6a.5.5 0 0 1-.5-.5V7a.5.5 0 0 1 .5-.5h6v-6A.5.5 0 0 1 7 0h.5a.5.5 0 0 1 .5.5v6z" })
+				}), _("span", {
 					className: "uppy-DashboardContent-addMoreCaption",
 					children: t("addMore")
 				})]
-			}) : f("div", {})
+			}) : _("div", {})
 		]
 	});
 }
@@ -6654,30 +6555,30 @@ function Di(e) {
 //#region node_modules/@uppy/dashboard/lib/components/Slide.js
 var Q = "uppy-transition-slideDownUp", Oi = 250;
 function ki({ children: e }) {
-	let [t, n] = v(null), [r, o] = v(""), s = C(), c = C(), l = C(), u = S(() => {
-		o(`${Q}-enter`), cancelAnimationFrame(l.current), clearTimeout(c.current), c.current = void 0, l.current = requestAnimationFrame(() => {
-			o(`${Q}-enter ${Q}-enter-active`), s.current = setTimeout(() => {
-				o("");
+	let [t, n] = C(null), [r, i] = C(""), a = O(), o = O(), s = O(), c = D(() => {
+		i(`${Q}-enter`), cancelAnimationFrame(s.current), clearTimeout(o.current), o.current = void 0, s.current = requestAnimationFrame(() => {
+			i(`${Q}-enter ${Q}-enter-active`), a.current = setTimeout(() => {
+				i("");
 			}, Oi);
 		});
-	}, []), d = S(() => {
-		o(`${Q}-leave`), cancelAnimationFrame(l.current), clearTimeout(s.current), s.current = void 0, l.current = requestAnimationFrame(() => {
-			o(`${Q}-leave ${Q}-leave-active`), c.current = setTimeout(() => {
-				n(null), o("");
+	}, []), d = D(() => {
+		i(`${Q}-leave`), cancelAnimationFrame(s.current), clearTimeout(a.current), a.current = void 0, s.current = requestAnimationFrame(() => {
+			i(`${Q}-leave ${Q}-leave-active`), o.current = setTimeout(() => {
+				n(null), i("");
 			}, Oi);
 		});
 	}, []);
-	return b(() => {
-		let r = i(e)[0];
-		t !== r && (r && !t ? u() : t && !r && !c.current && d(), n(r));
+	return T(() => {
+		let r = l(e)[0];
+		t !== r && (r && !t ? c() : t && !r && !o.current && d(), n(r));
 	}, [
 		e,
 		t,
-		u,
+		c,
 		d
-	]), b(() => () => {
-		clearTimeout(s.current), clearTimeout(c.current), cancelAnimationFrame(l.current);
-	}, []), t ? a(t, { className: (0, L.default)(r, t.props.className) }) : null;
+	]), T(() => () => {
+		clearTimeout(a.current), clearTimeout(o.current), cancelAnimationFrame(s.current);
+	}, []), t ? u(t, { className: (0, R.default)(r, t.props.className) }) : null;
 }
 //#endregion
 //#region node_modules/@uppy/dashboard/lib/components/StatusBar/StatusBarStates.js
@@ -6690,8 +6591,8 @@ var $ = {
 	STATE_COMPLETE: "complete"
 }, Ai = "·", ji = () => ` ${Ai} `;
 function Mi(e) {
-	let { newFiles: t, isUploadStarted: n, recoveredState: r, i18n: i, uploadState: a, isSomeGhost: o, startUpload: s } = e, c = (0, L.default)("uppy-u-reset", "uppy-c-btn", "uppy-StatusBar-actionBtn", "uppy-StatusBar-actionBtn--upload", { "uppy-c-btn-primary": a === $.STATE_WAITING }, { "uppy-StatusBar-actionBtn--disabled": o }), l = i(t && n && !r ? "uploadXNewFiles" : "uploadXFiles", { smart_count: t });
-	return f("button", {
+	let { newFiles: t, isUploadStarted: n, recoveredState: r, i18n: i, uploadState: a, isSomeGhost: o, startUpload: s } = e, c = (0, R.default)("uppy-u-reset", "uppy-c-btn", "uppy-StatusBar-actionBtn", "uppy-StatusBar-actionBtn--upload", { "uppy-c-btn-primary": a === $.STATE_WAITING }, { "uppy-StatusBar-actionBtn--disabled": o }), l = i(t && n && !r ? "uploadXNewFiles" : "uploadXFiles", { smart_count: t });
+	return _("button", {
 		type: "button",
 		className: c,
 		"aria-label": i("uploadXFiles", { smart_count: t }),
@@ -6703,27 +6604,27 @@ function Mi(e) {
 }
 function Ni(e) {
 	let { i18n: t, uppy: n } = e;
-	return f("button", {
+	return _("button", {
 		type: "button",
 		className: "uppy-u-reset uppy-c-btn uppy-StatusBar-actionBtn uppy-StatusBar-actionBtn--retry",
 		"aria-label": t("retryUpload"),
 		onClick: () => n.retryAll().catch(() => {}),
 		"data-uppy-super-focusable": !0,
 		"data-cy": "retry",
-		children: [f("svg", {
+		children: [_("svg", {
 			"aria-hidden": "true",
 			focusable: "false",
 			className: "uppy-c-icon",
 			width: "8",
 			height: "10",
 			viewBox: "0 0 8 10",
-			children: f("path", { d: "M4 2.408a2.75 2.75 0 1 0 2.75 2.75.626.626 0 0 1 1.25.018v.023a4 4 0 1 1-4-4.041V.25a.25.25 0 0 1 .389-.208l2.299 1.533a.25.25 0 0 1 0 .416l-2.3 1.533A.25.25 0 0 1 4 3.316v-.908z" })
+			children: _("path", { d: "M4 2.408a2.75 2.75 0 1 0 2.75 2.75.626.626 0 0 1 1.25.018v.023a4 4 0 1 1-4-4.041V.25a.25.25 0 0 1 .389-.208l2.299 1.533a.25.25 0 0 1 0 .416l-2.3 1.533A.25.25 0 0 1 4 3.316v-.908z" })
 		}), t("retry")]
 	});
 }
 function Pi(e) {
 	let { i18n: t, uppy: n } = e;
-	return f("button", {
+	return _("button", {
 		type: "button",
 		className: "uppy-u-reset uppy-StatusBar-actionCircleBtn",
 		title: t("cancel"),
@@ -6731,22 +6632,22 @@ function Pi(e) {
 		onClick: () => n.cancelAll(),
 		"data-cy": "cancel",
 		"data-uppy-super-focusable": !0,
-		children: f("svg", {
+		children: _("svg", {
 			"aria-hidden": "true",
 			focusable: "false",
 			className: "uppy-c-icon",
 			width: "16",
 			height: "16",
 			viewBox: "0 0 16 16",
-			children: f("g", {
+			children: _("g", {
 				fill: "none",
 				fillRule: "evenodd",
-				children: [f("circle", {
+				children: [_("circle", {
 					fill: "#888",
 					cx: "8",
 					cy: "8",
 					r: "8"
-				}), f("path", {
+				}), _("path", {
 					fill: "#FFF",
 					d: "M9.283 8l2.567 2.567-1.283 1.283L8 9.283 5.433 11.85 4.15 10.567 6.717 8 4.15 5.433 5.433 4.15 8 6.717l2.567-2.567 1.283 1.283z"
 				})]
@@ -6769,7 +6670,7 @@ function Fi(e) {
 			a.pauseAll();
 		}
 	}
-	return f("button", {
+	return _("button", {
 		title: o,
 		"aria-label": o,
 		className: "uppy-u-reset uppy-StatusBar-actionCircleBtn",
@@ -6777,22 +6678,22 @@ function Fi(e) {
 		onClick: s,
 		"data-cy": "togglePauseResume",
 		"data-uppy-super-focusable": !0,
-		children: f("svg", {
+		children: _("svg", {
 			"aria-hidden": "true",
 			focusable: "false",
 			className: "uppy-c-icon",
 			width: "16",
 			height: "16",
 			viewBox: "0 0 16 16",
-			children: f("g", {
+			children: _("g", {
 				fill: "none",
 				fillRule: "evenodd",
-				children: [f("circle", {
+				children: [_("circle", {
 					fill: "#888",
 					cx: "8",
 					cy: "8",
 					r: "8"
-				}), f("path", {
+				}), _("path", {
 					fill: "#FFF",
 					d: t ? "M6 4.25L11.5 8 6 11.75z" : "M5 4.5h2v7H5v-7zm4 0h2v7H9v-7z"
 				})]
@@ -6802,7 +6703,7 @@ function Fi(e) {
 }
 function Ii(e) {
 	let { i18n: t, doneButtonHandler: n } = e;
-	return f("button", {
+	return _("button", {
 		type: "button",
 		className: "uppy-u-reset uppy-c-btn uppy-StatusBar-actionBtn uppy-StatusBar-actionBtn--done",
 		onClick: n,
@@ -6811,13 +6712,13 @@ function Ii(e) {
 	});
 }
 function Li() {
-	return f("svg", {
+	return _("svg", {
 		className: "uppy-StatusBar-spinner",
 		"aria-hidden": "true",
 		focusable: "false",
 		width: "14",
 		height: "14",
-		children: f("path", {
+		children: _("path", {
 			d: "M13.983 6.547c-.12-2.509-1.64-4.893-3.939-5.936-2.48-1.127-5.488-.656-7.556 1.094C.524 3.367-.398 6.048.162 8.562c.556 2.495 2.46 4.52 4.94 5.183 2.932.784 5.61-.602 7.256-3.015-1.493 1.993-3.745 3.309-6.298 2.868-2.514-.434-4.578-2.349-5.153-4.84a6.226 6.226 0 0 1 2.98-6.778C6.34.586 9.74 1.1 11.373 3.493c.407.596.693 1.282.842 1.988.127.598.073 1.197.161 1.794.078.525.543 1.257 1.15.864.525-.341.49-1.05.456-1.592-.007-.15.02.3 0 0",
 			fillRule: "evenodd"
 		})
@@ -6825,39 +6726,39 @@ function Li() {
 }
 function Ri(e) {
 	let { progress: t } = e, { value: n, mode: r, message: i } = t;
-	return f("div", {
+	return _("div", {
 		className: "uppy-StatusBar-content",
 		children: [
-			f(Li, {}),
+			_(Li, {}),
 			r === "determinate" ? `${Math.round(n * 100)}% · ` : "",
 			i
 		]
 	});
 }
 function zi(e) {
-	let { numUploads: t, complete: n, totalUploadedSize: r, totalSize: i, totalETA: a, i18n: o } = e, s = t > 1, c = T(r);
-	return f("div", {
+	let { numUploads: t, complete: n, totalUploadedSize: r, totalSize: i, totalETA: a, i18n: o } = e, s = t > 1, c = k(r);
+	return _("div", {
 		className: "uppy-StatusBar-statusSecondary",
 		children: [s && o("filesUploadedOfTotal", {
 			complete: n,
 			smart_count: t
-		}), f("span", {
+		}), _("span", {
 			className: "uppy-StatusBar-additionalInfo",
 			children: [
 				s && ji(),
 				i == null ? o("dataUploadedOfUnknown", { complete: c }) : o("dataUploadedOfTotal", {
 					complete: c,
-					total: T(i)
+					total: k(i)
 				}),
 				ji(),
-				a != null && o("xTimeLeft", { time: _e(a) })
+				a != null && o("xTimeLeft", { time: ve(a) })
 			]
 		})]
 	});
 }
 function Bi(e) {
 	let { i18n: t, complete: n, numUploads: r } = e;
-	return f("div", {
+	return _("div", {
 		className: "uppy-StatusBar-statusSecondary",
 		children: t("filesUploadedOfTotal", {
 			complete: n,
@@ -6866,13 +6767,13 @@ function Bi(e) {
 	});
 }
 function Vi(e) {
-	let { i18n: t, newFiles: n, startUpload: r } = e, i = (0, L.default)("uppy-u-reset", "uppy-c-btn", "uppy-StatusBar-actionBtn", "uppy-StatusBar-actionBtn--uploadNewlyAdded");
-	return f("div", {
+	let { i18n: t, newFiles: n, startUpload: r } = e, i = (0, R.default)("uppy-u-reset", "uppy-c-btn", "uppy-StatusBar-actionBtn", "uppy-StatusBar-actionBtn--uploadNewlyAdded");
+	return _("div", {
 		className: "uppy-StatusBar-statusSecondary",
-		children: [f("div", {
+		children: [_("div", {
 			className: "uppy-StatusBar-statusSecondaryHint",
 			children: t("xMoreFilesAdded", { smart_count: n })
-		}), f("button", {
+		}), _("button", {
 			type: "button",
 			className: i,
 			"aria-label": t("uploadXFiles", { smart_count: n }),
@@ -6882,38 +6783,38 @@ function Vi(e) {
 	});
 }
 function Hi(e) {
-	let { i18n: t, supportsUploadProgress: n, totalProgress: r, hideProgressDetails: i, isUploadStarted: a, isAllComplete: o, isAllPaused: s, newFiles: c, numUploads: l, complete: u, totalUploadedSize: d, totalSize: p, totalETA: m, startUpload: h } = e, g = c && a;
+	let { i18n: t, supportsUploadProgress: n, totalProgress: r, hideProgressDetails: i, isUploadStarted: a, isAllComplete: o, isAllPaused: s, newFiles: c, numUploads: l, complete: u, totalUploadedSize: d, totalSize: f, totalETA: p, startUpload: m } = e, h = c && a;
 	if (!a || o) return null;
-	let _ = t(s ? "paused" : "uploading");
+	let g = t(s ? "paused" : "uploading");
 	function v() {
-		return !s && !g && !i ? n ? f(zi, {
+		return !s && !h && !i ? n ? _(zi, {
 			numUploads: l,
 			complete: u,
 			totalUploadedSize: d,
-			totalSize: p,
-			totalETA: m,
+			totalSize: f,
+			totalETA: p,
 			i18n: t
-		}) : f(Bi, {
+		}) : _(Bi, {
 			i18n: t,
 			complete: u,
 			numUploads: l
 		}) : null;
 	}
-	return f("div", {
+	return _("div", {
 		className: "uppy-StatusBar-content",
-		title: _,
-		children: [s ? null : f(Li, {}), f("div", {
+		title: g,
+		children: [s ? null : _(Li, {}), _("div", {
 			className: "uppy-StatusBar-status",
 			children: [
-				f("div", {
+				_("div", {
 					className: "uppy-StatusBar-statusPrimary",
-					children: n && r !== 0 ? `${_}: ${r}%` : _
+					children: n && r !== 0 ? `${g}: ${r}%` : g
 				}),
 				v(),
-				g ? f(Vi, {
+				h ? _(Vi, {
 					i18n: t,
 					newFiles: c,
-					startUpload: h
+					startUpload: m
 				}) : null
 			]
 		})]
@@ -6921,22 +6822,22 @@ function Hi(e) {
 }
 function Ui(e) {
 	let { i18n: t } = e;
-	return f("div", {
+	return _("div", {
 		className: "uppy-StatusBar-content",
 		role: "status",
 		title: t("complete"),
-		children: f("div", {
+		children: _("div", {
 			className: "uppy-StatusBar-status",
-			children: f("div", {
+			children: _("div", {
 				className: "uppy-StatusBar-statusPrimary",
-				children: [f("svg", {
+				children: [_("svg", {
 					"aria-hidden": "true",
 					focusable: "false",
 					className: "uppy-StatusBar-statusIndicator uppy-c-icon",
 					width: "15",
 					height: "11",
 					viewBox: "0 0 15 11",
-					children: f("path", { d: "M.414 5.843L1.627 4.63l3.472 3.472L13.202 0l1.212 1.213L5.1 10.528z" })
+					children: _("path", { d: "M.414 5.843L1.627 4.63l3.472 3.472L13.202 0l1.212 1.213L5.1 10.528z" })
 				}), t("complete")]
 			})
 		})
@@ -6948,22 +6849,22 @@ function Wi(e) {
 		let e = `${n("uploadFailed")} \n\n ${t}`;
 		alert(e);
 	}
-	return f("div", {
+	return _("div", {
 		className: "uppy-StatusBar-content",
 		title: n("uploadFailed"),
-		children: [f("svg", {
+		children: [_("svg", {
 			"aria-hidden": "true",
 			focusable: "false",
 			className: "uppy-StatusBar-statusIndicator uppy-c-icon",
 			width: "11",
 			height: "11",
 			viewBox: "0 0 11 11",
-			children: f("path", { d: "M4.278 5.5L0 1.222 1.222 0 5.5 4.278 9.778 0 11 1.222 6.722 5.5 11 9.778 9.778 11 5.5 6.722 1.222 11 0 9.778z" })
-		}), f("div", {
+			children: _("path", { d: "M4.278 5.5L0 1.222 1.222 0 5.5 4.278 9.778 0 11 1.222 6.722 5.5 11 9.778 9.778 11 5.5 6.722 1.222 11 0 9.778z" })
+		}), _("div", {
 			className: "uppy-StatusBar-status",
-			children: [f("div", {
+			children: [_("div", {
 				className: "uppy-StatusBar-statusPrimary",
-				children: [n("uploadFailed"), f("button", {
+				children: [n("uploadFailed"), _("button", {
 					className: "uppy-u-reset uppy-StatusBar-details",
 					"aria-label": n("showErrorDetails"),
 					"data-microtip-position": "top-right",
@@ -6972,7 +6873,7 @@ function Wi(e) {
 					type: "button",
 					children: "?"
 				})]
-			}), f(Bi, {
+			}), _(Bi, {
 				i18n: n,
 				complete: r,
 				numUploads: i
@@ -6998,45 +6899,45 @@ function Gi(e) {
 //#endregion
 //#region node_modules/@uppy/dashboard/lib/components/StatusBar/StatusBarUI.js
 var { STATE_ERROR: Ki, STATE_WAITING: qi, STATE_PREPROCESSING: Ji, STATE_UPLOADING: Yi, STATE_POSTPROCESSING: Xi, STATE_COMPLETE: Zi } = $;
-function Qi({ newFiles: e, allowNewUpload: t, isUploadInProgress: n, isAllPaused: r, resumableUploads: i, error: a, hideUploadButton: o = void 0, hidePauseResumeButton: s = !1, hideCancelButton: c = !1, hideRetryButton: l = !1, recoveredState: u, uploadState: d, totalProgress: p, files: m, supportsUploadProgress: h, hideAfterFinish: g = !1, isSomeGhost: _, doneButtonHandler: v = void 0, isUploadStarted: y, i18n: b, startUpload: x, uppy: S, isAllComplete: C, hideProgressDetails: w = void 0, numUploads: T, complete: E, totalSize: D, totalETA: O, totalUploadedSize: ee }) {
+function Qi({ newFiles: e, allowNewUpload: t, isUploadInProgress: n, isAllPaused: r, resumableUploads: i, error: a, hideUploadButton: o = void 0, hidePauseResumeButton: s = !1, hideCancelButton: c = !1, hideRetryButton: l = !1, recoveredState: u, uploadState: d, totalProgress: f, files: p, supportsUploadProgress: m, hideAfterFinish: h = !1, isSomeGhost: g, doneButtonHandler: v = void 0, isUploadStarted: y, i18n: b, startUpload: x, uppy: S, isAllComplete: C, hideProgressDetails: w = void 0, numUploads: T, complete: E, totalSize: D, totalETA: O, totalUploadedSize: ee }) {
+	function k() {
+		switch (d) {
+			case Xi:
+			case Ji: {
+				let e = Gi(p);
+				return e.mode === "determinate" ? e.value * 100 : f;
+			}
+			case Ki: return null;
+			case Yi: return m ? f : null;
+			default: return f;
+		}
+	}
 	function te() {
 		switch (d) {
 			case Xi:
 			case Ji: {
-				let e = Gi(m);
-				return e.mode === "determinate" ? e.value * 100 : p;
-			}
-			case Ki: return null;
-			case Yi: return h ? p : null;
-			default: return p;
-		}
-	}
-	function ne() {
-		switch (d) {
-			case Xi:
-			case Ji: {
-				let { mode: e } = Gi(m);
+				let { mode: e } = Gi(p);
 				return e === "indeterminate";
 			}
-			case Yi: return !h;
+			case Yi: return !m;
 			default: return !1;
 		}
 	}
-	let k = te(), A = k ?? 100, re = !a && e && (!n && !r || u) && t && !o, ie = !c && d !== qi && d !== Zi, ae = i && !s && d === Yi, j = a && !C && !l, M = v && d === Zi, N = (0, L.default)("uppy-StatusBar-progress", { "is-indeterminate": ne() }), P = (0, L.default)("uppy-StatusBar", `is-${d}`, { "has-ghosts": _ }), F = (() => {
+	let ne = k(), A = ne ?? 100, re = !a && e && (!n && !r || u) && t && !o, ie = !c && d !== qi && d !== Zi, j = i && !s && d === Yi, M = a && !C && !l, ae = v && d === Zi, oe = (0, R.default)("uppy-StatusBar-progress", { "is-indeterminate": te() }), N = (0, R.default)("uppy-StatusBar", `is-${d}`, { "has-ghosts": g }), P = (() => {
 		switch (d) {
 			case Ji:
-			case Xi: return f(Ri, { progress: Gi(m) });
-			case Zi: return f(Ui, { i18n: b });
-			case Ki: return f(Wi, {
+			case Xi: return _(Ri, { progress: Gi(p) });
+			case Zi: return _(Ui, { i18n: b });
+			case Ki: return _(Wi, {
 				error: a,
 				i18n: b,
 				numUploads: T,
 				complete: E
 			});
-			case Yi: return f(Hi, {
+			case Yi: return _(Hi, {
 				i18n: b,
-				supportsUploadProgress: h,
-				totalProgress: p,
+				supportsUploadProgress: m,
+				totalProgress: f,
 				hideProgressDetails: w,
 				isUploadStarted: y,
 				isAllComplete: C,
@@ -7052,48 +6953,48 @@ function Qi({ newFiles: e, allowNewUpload: t, isUploadInProgress: n, isAllPaused
 			default: return null;
 		}
 	})();
-	return !(re || j || ae || ie || M) && !F || d === Zi && g ? null : f("div", {
-		className: P,
+	return !(re || M || j || ie || ae) && !P || d === Zi && h ? null : _("div", {
+		className: N,
 		children: [
-			f("div", {
-				className: N,
+			_("div", {
+				className: oe,
 				style: { width: `${A}%` },
 				role: "progressbar",
 				"aria-label": `${A}%`,
 				"aria-valuetext": `${A}%`,
 				"aria-valuemin": 0,
 				"aria-valuemax": 100,
-				"aria-valuenow": k
+				"aria-valuenow": ne
 			}),
-			F,
-			f("div", {
+			P,
+			_("div", {
 				className: "uppy-StatusBar-actions",
 				children: [
-					re ? f(Mi, {
+					re ? _(Mi, {
 						newFiles: e,
 						isUploadStarted: y,
 						recoveredState: u,
 						i18n: b,
-						isSomeGhost: _,
+						isSomeGhost: g,
 						startUpload: x,
 						uploadState: d
 					}) : null,
-					j ? f(Ni, {
+					M ? _(Ni, {
 						i18n: b,
 						uppy: S
 					}) : null,
-					ae ? f(Fi, {
+					j ? _(Fi, {
 						isAllPaused: r,
 						i18n: b,
 						isAllComplete: C,
 						resumableUploads: i,
 						uppy: S
 					}) : null,
-					ie ? f(Pi, {
+					ie ? _(Pi, {
 						i18n: b,
 						uppy: S
 					}) : null,
-					M ? f(Ii, {
+					ae ? _(Ii, {
 						i18n: b,
 						doneButtonHandler: v
 					}) : null
@@ -7117,7 +7018,7 @@ function ta(e, t, n, r) {
 	}
 	return i;
 }
-var na = class extends c {
+var na = class extends p {
 	#e;
 	#t;
 	#n;
@@ -7148,12 +7049,12 @@ var na = class extends c {
 		if (this.#t = e.uploaded, r <= 0) return Math.round((this.#r ?? 0) / 100) / 10;
 		let i = r / n;
 		if (!Number.isFinite(i) || i <= 0) return null;
-		let a = this.#n == null ? i : ee(i, this.#n, $i, n);
+		let a = this.#n == null ? i : A(i, this.#n, $i, n);
 		if (!Number.isFinite(a) || a <= 0) return null;
 		this.#n = a;
 		let o = t / a;
 		if (!Number.isFinite(o) || o < 0) return null;
-		let s = Math.max((this.#r ?? 0) - n, 0), c = this.#r == null ? o : ee(o, s, ea, n);
+		let s = Math.max((this.#r ?? 0) - n, 0), c = this.#r == null ? o : A(o, s, ea, n);
 		return !Number.isFinite(c) || c < 0 ? null : (this.#r = c, this.#e = performance.now(), Math.round(c / 100) / 10);
 	}
 	startUpload = () => {
@@ -7161,7 +7062,7 @@ var na = class extends c {
 		e ? this.props.uppy.emit("restore-confirmed") : this.props.uppy.upload().catch((() => {}));
 	};
 	render() {
-		let { capabilities: e, files: t, allowNewUpload: n, totalProgress: r, error: i, recoveredState: a } = this.props.uppy.getState(), { newFiles: o, startedFiles: s, completeFiles: c, isUploadStarted: l, isAllComplete: u, isAllPaused: d, isUploadInProgress: p, isSomeGhost: m } = this.props.uppy.getObjectOfFilesPerState(), h = a ? Object.values(t) : o, g = !!e.resumableUploads, _ = e.uploadProgress !== !1, v = null, y = 0;
+		let { capabilities: e, files: t, allowNewUpload: n, totalProgress: r, error: i, recoveredState: a } = this.props.uppy.getState(), { newFiles: o, startedFiles: s, completeFiles: c, isUploadStarted: l, isAllComplete: u, isAllPaused: d, isUploadInProgress: f, isSomeGhost: p } = this.props.uppy.getObjectOfFilesPerState(), m = a ? Object.values(t) : o, h = !!e.resumableUploads, g = e.uploadProgress !== !1, v = null, y = 0;
 		s.every((e) => e.progress.bytesTotal != null && e.progress.bytesTotal !== 0) ? (v = 0, s.forEach((e) => {
 			v += e.progress.bytesTotal || 0, y += e.progress.bytesUploaded || 0;
 		})) : s.forEach((e) => {
@@ -7171,7 +7072,7 @@ var na = class extends c {
 			uploaded: y,
 			total: v
 		});
-		return f(Qi, {
+		return _(Qi, {
 			error: i,
 			uploadState: ta(i, u, a, t || {}),
 			allowNewUpload: n,
@@ -7181,11 +7082,11 @@ var na = class extends c {
 			isAllComplete: u,
 			isAllPaused: d,
 			isUploadStarted: l,
-			isUploadInProgress: p,
-			isSomeGhost: m,
+			isUploadInProgress: f,
+			isSomeGhost: p,
 			recoveredState: a,
 			complete: c.length,
-			newFiles: h.length,
+			newFiles: m.length,
 			numUploads: s.length,
 			totalETA: b,
 			files: t,
@@ -7193,8 +7094,8 @@ var na = class extends c {
 			uppy: this.props.uppy,
 			startUpload: this.startUpload,
 			doneButtonHandler: this.props.doneButtonHandler,
-			resumableUploads: g,
-			supportsUploadProgress: _,
+			resumableUploads: h,
+			supportsUploadProgress: g,
 			hideProgressDetails: this.props.hideProgressDetails,
 			hideUploadButton: this.props.hideUploadButton,
 			hideRetryButton: this.props.hideRetryButton,
@@ -7205,7 +7106,7 @@ var na = class extends c {
 	}
 }, ra = 900, ia = 700, aa = 576, oa = 330;
 function sa(e) {
-	let { activePickerPanel: t, fileCardFor: n } = e, r = e.totalFileCount === 0, i = e.totalFileCount === 1, a = e.containerHeight > oa, o = (0, L.default)({
+	let { activePickerPanel: t, fileCardFor: n } = e, r = e.totalFileCount === 0, i = e.totalFileCount === 1, a = e.containerHeight > oa, o = (0, R.default)({
 		"uppy-Dashboard": !0,
 		"uppy-Dashboard--isDisabled": e.disabled,
 		"uppy-Dashboard--animateOpenClose": e.animateOpenClose,
@@ -7222,11 +7123,11 @@ function sa(e) {
 	}), s = 1;
 	e.containerWidth > ra ? s = 5 : e.containerWidth > ia ? s = 4 : e.containerWidth > aa && (s = 3);
 	let c = e.showSelectedFiles && !r, l = e.recoveredState ? Object.keys(e.recoveredState.files).length : null, u = e.files ? Object.keys(e.files).filter((t) => e.files[t].isGhost).length : 0, d = () => u > 0 ? e.i18n("recoveredXFiles", { smart_count: u }) : e.i18n("recoveredAllFiles");
-	return f("div", {
+	return _("div", {
 		className: o,
 		"data-uppy-theme": e.theme,
 		"data-uppy-num-acquirers": e.acquirers.length,
-		"data-uppy-drag-drop-supported": !e.disableLocalFiles && pe(),
+		"data-uppy-drag-drop-supported": !e.disableLocalFiles && me(),
 		"aria-hidden": e.inline ? "false" : e.isHidden,
 		"aria-disabled": e.disabled,
 		"aria-label": e.inline ? e.i18n("dashboardTitle") : e.i18n("dashboardWindowTitle"),
@@ -7234,60 +7135,60 @@ function sa(e) {
 		onDragOver: e.handleDragOver,
 		onDragLeave: e.handleDragLeave,
 		onDrop: e.handleDrop,
-		children: [f("div", {
+		children: [_("div", {
 			"aria-hidden": "true",
 			className: "uppy-Dashboard-overlay",
 			tabIndex: -1,
 			onClick: e.handleClickOutside
-		}), f("div", {
+		}), _("div", {
 			className: "uppy-Dashboard-inner",
 			role: e.inline ? void 0 : "dialog",
 			style: {
 				width: e.inline && e.width ? e.width : "",
 				height: e.inline && e.height ? e.height : ""
 			},
-			children: [e.inline ? null : f("button", {
+			children: [e.inline ? null : _("button", {
 				className: "uppy-u-reset uppy-Dashboard-close",
 				type: "button",
 				"aria-label": e.i18n("closeModal"),
 				title: e.i18n("closeModal"),
 				onClick: e.closeModal,
-				children: f("span", {
+				children: _("span", {
 					"aria-hidden": "true",
 					children: "×"
 				})
-			}), f("div", {
+			}), _("div", {
 				className: "uppy-Dashboard-innerWrap",
 				children: [
-					f("div", {
+					_("div", {
 						className: "uppy-Dashboard-dropFilesHereHint",
 						children: e.i18n("dropHint")
 					}),
-					c && f(Di, { ...e }),
-					l != null && l > 0 && f("div", {
+					c && _(Di, { ...e }),
+					l != null && l > 0 && _("div", {
 						className: "uppy-Dashboard-serviceMsg",
 						children: [
-							f("svg", {
+							_("svg", {
 								className: "uppy-Dashboard-serviceMsg-icon",
 								"aria-hidden": "true",
 								focusable: "false",
 								width: "21",
 								height: "16",
 								viewBox: "0 0 24 19",
-								children: f("g", {
+								children: _("g", {
 									transform: "translate(0 -1)",
 									fill: "none",
 									fillRule: "evenodd",
 									children: [
-										f("path", {
+										_("path", {
 											d: "M12.857 1.43l10.234 17.056A1 1 0 0122.234 20H1.766a1 1 0 01-.857-1.514L11.143 1.429a1 1 0 011.714 0z",
 											fill: "#FFD300"
 										}),
-										f("path", {
+										_("path", {
 											fill: "#000",
 											d: "M11 6h2l-.3 8h-1.4z"
 										}),
-										f("circle", {
+										_("circle", {
 											fill: "#000",
 											cx: "12",
 											cy: "17",
@@ -7296,17 +7197,17 @@ function sa(e) {
 									]
 								})
 							}),
-							f("strong", {
+							_("strong", {
 								className: "uppy-Dashboard-serviceMsg-title",
 								children: e.i18n("sessionRestored")
 							}),
-							f("div", {
+							_("div", {
 								className: "uppy-Dashboard-serviceMsg-text",
 								children: d()
 							})
 						]
 					}),
-					c ? f(pi, {
+					c ? _(pi, {
 						id: e.id,
 						i18n: e.i18n,
 						uppy: e.uppy,
@@ -7330,7 +7231,7 @@ function sa(e) {
 						itemsPerRow: s,
 						containerWidth: e.containerWidth,
 						containerHeight: e.containerHeight
-					}) : f(Ar, {
+					}) : _(Ar, {
 						i18n: e.i18n,
 						i18nArray: e.i18nArray,
 						acquirers: e.acquirers,
@@ -7347,21 +7248,21 @@ function sa(e) {
 						note: e.note,
 						proudlyDisplayPoweredByUppy: e.proudlyDisplayPoweredByUppy
 					}),
-					f(ki, { children: e.showAddFilesPanel ? f(jr, { ...e }, "AddFiles") : null }),
-					f(ki, { children: n ? f(Ur, {
+					_(ki, { children: e.showAddFilesPanel ? _(jr, { ...e }, "AddFiles") : null }),
+					_(ki, { children: n ? _(Ur, {
 						...e,
 						fileCardFor: n
 					}, "FileCard") : null }),
-					f(ki, { children: t ? f(wi, {
+					_(ki, { children: t ? _(wi, {
 						...e,
 						activePickerPanel: t
 					}, "Picker") : null }),
-					f(ki, { children: e.showFileEditor ? f(Mr, { ...e }, "Editor") : null }),
-					f("div", {
+					_(ki, { children: e.showFileEditor ? _(Mr, { ...e }, "Editor") : null }),
+					_("div", {
 						className: "uppy-Dashboard-progressindicators",
 						children: [
-							!e.disableInformer && f(Ci, { uppy: e.uppy }),
-							!e.disableStatusBar && f(na, {
+							!e.disableInformer && _(Ci, { uppy: e.uppy }),
+							!e.disableStatusBar && _(na, {
 								uppy: e.uppy,
 								i18n: e.i18n,
 								hideProgressDetails: e.hideProgressDetails,
@@ -7372,7 +7273,7 @@ function sa(e) {
 								hideAfterFinish: e.hideProgressAfterFinish,
 								doneButtonHandler: e.doneButtonHandler
 							}),
-							!e.disableInformer && f(Ci, { uppy: e.uppy }),
+							!e.disableInformer && _(Ci, { uppy: e.uppy }),
 							e.progressindicators.map((t) => e.uppy.getPlugin(t.id).render(e.state))
 						]
 					})
@@ -7495,7 +7396,7 @@ function ua() {
 		let r = la(t, n), i = r.contains(document.activeElement);
 		if (i && e) return;
 		let a = r.querySelector("[data-uppy-super-focusable]");
-		(!i || a) && (a ? (a.focus({ preventScroll: !0 }), e = !0) : (r.querySelector(te.join(","))?.focus({ preventScroll: !0 }), e = !1));
+		(!i || a) && (a ? (a.focus({ preventScroll: !0 }), e = !0) : (r.querySelector(re.join(","))?.focus({ preventScroll: !0 }), e = !1));
 	}, 260);
 }
 //#endregion
@@ -7511,9 +7412,9 @@ function fa(e, t) {
 function pa(e) {
 	return e.contains(document.activeElement);
 }
-function ma(e, t, n) {
-	let r = la(n, t), i = N(r.querySelectorAll(te.join(","))), a = i.indexOf(document.activeElement);
-	pa(r) ? e.shiftKey && a === 0 ? fa(e, i) : !e.shiftKey && a === i.length - 1 && da(e, i) : da(e, i);
+function ma(e, t, r) {
+	let i = la(r, t), a = n(i.querySelectorAll(re.join(","))), o = a.indexOf(document.activeElement);
+	pa(i) ? e.shiftKey && o === 0 ? fa(e, a) : !e.shiftKey && o === a.length - 1 && da(e, a) : da(e, a);
 }
 function ha(e, t, n) {
 	t === null || ma(e, t, n);
@@ -7572,7 +7473,7 @@ var ya = {
 	trigger: null,
 	width: 750,
 	height: 550
-}, ba = class extends m {
+}, ba = class extends y {
 	static VERSION = kr.version;
 	#e;
 	modalName = `uppy-Dashboard-${Or()}`;
@@ -7741,7 +7642,7 @@ var ya = {
 		this.el.contains(e.target) ? this.ifFocusedOnUppyRecently = !0 : (this.ifFocusedOnUppyRecently = !1, this.superFocus.cancel());
 	};
 	disableInteractiveElements = (e) => {
-		let t = this.#e ?? N(this.el.querySelectorAll([
+		let t = this.#e ?? n(this.el.querySelectorAll([
 			"a[href]",
 			"input:not([disabled])",
 			"select:not([disabled])",
@@ -7771,12 +7672,12 @@ var ya = {
 		this.uppy.iteratePlugins((t) => {
 			t.type === "acquirer" && t.handleRootPaste?.(e);
 		});
-		let t = N(e.clipboardData.files);
+		let t = n(e.clipboardData.files);
 		t.length > 0 && (this.uppy.log("[Dashboard] Files pasted"), this.addFiles(t));
 	};
 	handleInputChange = (e) => {
 		e.preventDefault();
-		let t = N(e.currentTarget.files || []);
+		let t = n(e.currentTarget.files || []);
 		t.length > 0 && (this.uppy.log("[Dashboard] Files selected through input"), this.addFiles(t));
 	};
 	handleDragOver = (e) => {
@@ -7807,7 +7708,7 @@ var ya = {
 			this.uppy.log(e, "error"), t ||= (this.uppy.info(e.message, "error"), !0);
 		};
 		this.uppy.log("[Dashboard] Processing dropped files");
-		let r = await le(e.dataTransfer, { logDropError: n });
+		let r = await de(e.dataTransfer, { logDropError: n });
 		r.length > 0 && (this.uppy.log("[Dashboard] Files dropped"), this.addFiles(r)), this.opts.onDrop(e);
 	};
 	handleRequestThumbnail = (e) => {
@@ -7846,7 +7747,7 @@ var ya = {
 	};
 	initEvents = () => {
 		if (this.opts.trigger && !this.opts.inline) {
-			let e = ne(this.opts.trigger);
+			let e = ie(this.opts.trigger);
 			e ? e.forEach((e) => {
 				e.addEventListener("click", this.openModal);
 			}) : this.uppy.log("Dashboard modal trigger not found. Make sure `trigger` is set in Dashboard options, unless you are planning to call `dashboard.openModal()` method yourself", "warning");
@@ -7854,7 +7755,7 @@ var ya = {
 		this.startListeningToResize(), document.addEventListener("paste", this.handlePasteOnBody), this.uppy.on("plugin-added", this.#u), this.uppy.on("plugin-remove", this.removeTarget), this.uppy.on("file-added", this.hideAllPanels), this.uppy.on("dashboard:modal-closed", this.hideAllPanels), this.uppy.on("complete", this.handleComplete), this.uppy.on("files-added", this.#t), this.uppy.on("file-removed", this.#t), document.addEventListener("focus", this.recordIfFocusedOnUppyRecently, !0), document.addEventListener("click", this.recordIfFocusedOnUppyRecently, !0), this.opts.inline && this.el.addEventListener("keydown", this.handleKeyDownInInline), this.opts.autoOpen && this.uppy.on("files-added", this.#n);
 	};
 	removeEvents = () => {
-		let e = ne(this.opts.trigger);
+		let e = ie(this.opts.trigger);
 		!this.opts.inline && e && e.forEach((e) => {
 			e.removeEventListener("click", this.openModal);
 		}), this.stopListeningToResize(), document.removeEventListener("paste", this.handlePasteOnBody), window.removeEventListener("popstate", this.handlePopState, !1), this.uppy.off("plugin-added", this.#u), this.uppy.off("plugin-remove", this.removeTarget), this.uppy.off("file-added", this.hideAllPanels), this.uppy.off("dashboard:modal-closed", this.hideAllPanels), this.uppy.off("complete", this.handleComplete), this.uppy.off("files-added", this.#t), this.uppy.off("file-removed", this.#t), document.removeEventListener("focus", this.recordIfFocusedOnUppyRecently, !0), document.removeEventListener("click", this.recordIfFocusedOnUppyRecently, !0), this.opts.inline && this.el.removeEventListener("keydown", this.handleKeyDownInInline), this.opts.autoOpen && this.uppy.off("files-added", this.#n);
@@ -8050,7 +7951,7 @@ var ya = {
 			t && t.unmount();
 		}), this.opts.theme === "auto" && this.darkModeMediaQuery?.removeListener(this.handleSystemDarkModeChange), this.opts.disablePageScrollWhenModalOpen && document.body.classList.remove("uppy-Dashboard-isFixed"), this.unmount(), this.removeEvents();
 	};
-}, xa = 3, Sa = 4, Ca = class extends Error {}, wa = class extends Error {}, Ta = class extends u {
+}, xa = 3, Sa = 4, Ca = class extends Error {}, wa = class extends Error {}, Ta = class extends h {
 	transfers = /* @__PURE__ */ new Map();
 	constructor(e, t) {
 		super(e, t), this.id = "LivewireUpload", this.type = "uploader";
@@ -8077,7 +7978,7 @@ var ya = {
 			let t = await this.plan(e);
 			if (!this.uppy.getFile(e.id)) return;
 			if (t.strategy === "reject") throw Error(t.message);
-			if (this.isInPieces(t) ? await this.uploadInPieces(e, t) : await this.uploadThroughLivewire(e), !this.uppy.getFile(e.id)) return;
+			if (this.isTransfer(t) ? await this.transfer(e, t) : await this.uploadThroughLivewire(e), !this.uppy.getFile(e.id)) return;
 			this.uppy.emit("upload-success", this.uppy.getFile(e.id), {
 				status: 200,
 				body: {}
@@ -8088,22 +7989,26 @@ var ya = {
 		}
 	}
 	plan(e) {
-		return this.opts.planUsing({
+		return e.isRemote ? this.opts.planRemoteUsing(e.source, e.remote.body) : this.opts.planUsing({
 			name: e.name,
 			size: e.size,
 			type: e.type ?? "",
 			lastModified: e.data.lastModified ?? 0
 		});
 	}
-	isInPieces(e) {
-		return e.strategy === "chunked" || e.strategy === "s3";
+	isTransfer(e) {
+		return [
+			"chunked",
+			"s3",
+			"remote"
+		].includes(e.strategy);
 	}
 	uploadThroughLivewire(e) {
 		return new Promise((t, n) => {
-			this.opts.uploadUsing(e.meta.fileKey, e.data instanceof File && e.data.name === e.name ? e.data : new File([e.data], e.name, { type: e.type }), t, () => n(this.failure()), (t) => this.reportProgress(e, e.size * t / 100));
+			this.opts.uploadUsing(e.meta.fileKey, e.data instanceof File && e.data.name === e.name ? e.data : new File([e.data], e.name, { type: e.type }), t, () => n(this.failure()), (t) => this.reportProgress(e, e.size * t / 100, e.size));
 		});
 	}
-	async uploadInPieces(e, t) {
+	async transfer(e, t) {
 		let n = {
 			isPaused: !1,
 			isCancelled: !1,
@@ -8118,12 +8023,12 @@ var ya = {
 				let { capability: i } = t;
 				n.abort = t.strategy === "s3" ? () => Promise.resolve().then(() => this.opts.abortUsing(i)).catch(() => {}) : null;
 				try {
-					r = t.strategy === "s3" ? await this.sendParts(e, t, n) : await this.sendChunks(e, t, n);
+					r = await this.send(e, t, n);
 				} catch (i) {
 					if (!(i instanceof Ca) && i.status !== 401) throw i;
 					for (; n.isPaused && !n.isCancelled;) await new Promise((e) => n.resume = e);
 					if (n.isCancelled) throw new wa();
-					if (t = await this.plan(e), !this.isInPieces(t)) throw this.failure(t.message);
+					if (t = await this.plan(e), !this.isTransfer(t)) throw this.failure(t.message);
 					r = t.completed;
 				}
 			}
@@ -8132,69 +8037,93 @@ var ya = {
 			this.transfers.delete(e.id);
 		}
 	}
-	async sendPieces(e, { missing: t, sizeOf: n, arrived: r, send: i }) {
-		let a = /* @__PURE__ */ new Map(), o = [...t], s = () => this.reportProgress(e, [...r].reduce((e, t) => e + n(t), 0) + [...a.values()].reduce((e, t) => e + t, 0));
-		s(), await Promise.all(Array.from({ length: xa }, async () => {
-			for (; o.length;) {
-				let e = o.shift(), t = await i(e, o, (t) => {
-					a.set(e, t), s();
+	send(e, t, n) {
+		return {
+			chunked: () => this.sendChunks(e, t, n),
+			s3: () => this.sendParts(e, t, n),
+			remote: () => this.fetchWhole(t, n)
+		}[t.strategy]();
+	}
+	async sendPieces(e, { missing: t, sizeOf: n, arrived: r, send: i, total: a }) {
+		let o = /* @__PURE__ */ new Map(), s = [...t], c = () => this.reportProgress(e, [...r].reduce((e, t) => e + n(t), 0) + [...o.values()].reduce((e, t) => e + t, 0), a);
+		c(), await Promise.all(Array.from({ length: xa }, async () => {
+			for (; s.length;) {
+				let e = s.shift(), t = await i(e, s, (t) => {
+					o.set(e, t), c();
 				});
-				a.delete(e), r.add(e), s(), t && (o.length = 0);
+				o.delete(e), r.add(e), c(), t && (s.length = 0);
 			}
 		}));
 	}
 	async sendChunks(e, t, n) {
-		let r = new Set(t.receivedChunks), i = (n) => e.data.slice(n * t.chunkSize, Math.min(e.size, (n + 1) * t.chunkSize)), a = (r, a) => {
-			let o = new FormData();
-			return o.append("capability", t.capability), o.append("index", r), o.append("name", e.name), o.append("type", e.type ?? ""), o.append("chunk", i(r), e.name), this.attempt(n, () => this.request(n, {
-				method: "POST",
-				url: t.url,
-				headers: {
-					Accept: "application/json",
-					"X-CSRF-TOKEN": this.opts.csrfToken
-				},
-				body: o,
-				onProgress: a
-			}));
-		}, o = null, s = t.totalChunks - 1;
+		let r = t.size ?? e.size, i = new Set(t.receivedChunks), a = (e) => [e * t.chunkSize, Math.min(r, (e + 1) * t.chunkSize)], o = (r, i) => this.attempt(n, () => this.post(n, t, t.sealed ? { index: r } : {
+			index: r,
+			name: e.name,
+			type: e.type ?? "",
+			chunk: [e.data.slice(...a(r)), e.name]
+		}, i)), s = null, c = t.totalChunks - 1;
 		await this.sendPieces(e, {
-			missing: this.range(0, t.totalChunks - 1).filter((e) => !r.has(e)),
-			sizeOf: (e) => i(e).size,
-			arrived: r,
+			missing: this.range(0, t.totalChunks - 1).filter((e) => !i.has(e)),
+			sizeOf: (e) => a(e)[1] - a(e)[0],
+			arrived: i,
+			total: r,
 			send: async (e, t, n) => {
-				s = e;
-				let r = await a(e, n);
-				return o = r?.complete ? r.reference : o, !!o;
+				c = e;
+				let r = await o(e, n);
+				return s = r?.complete ? r.reference : s, !!s;
 			}
 		});
-		for (let e = 0; !o && e < Sa; e++) {
+		for (let e = 0; !s && e < Sa; e++) {
 			await this.wait(1e3 * (e + 1));
-			let t = await a(s, () => {});
-			o = t?.complete ? t.reference : null;
+			let t = await o(c, () => {});
+			s = t?.complete ? t.reference : null;
 		}
-		if (!o) throw this.failure();
-		return o;
+		if (!s) throw this.failure();
+		return s;
 	}
 	async sendParts(e, t, n) {
-		let r = new Set(t.uploadedParts), i = /* @__PURE__ */ new Map(), a = (n) => e.data.slice((n - 1) * t.partSize, Math.min(e.size, n * t.partSize)), o = null, s = async (e, n) => {
-			if (await o, i.has(e) || (o = this.opts.signPartsUsing(t.capability, [e, ...n.slice(0, 9)]).then((e) => Object.entries(e ?? {}).forEach(([e, t]) => i.set(Number(e), t))).finally(() => o = null), await o), !i.has(e)) throw this.failure();
-			let r = i.get(e);
-			return i.delete(e), r;
+		let r = t.size ?? e.size, i = new Set(t.uploadedParts), a = /* @__PURE__ */ new Map(), o = (e) => [(e - 1) * t.partSize, Math.min(r, e * t.partSize)], s = null, c = async (e, n) => {
+			if (await s, a.has(e) || (s = this.opts.signPartsUsing(t.capability, [e, ...n.slice(0, 9)]).then((e) => Object.entries(e ?? {}).forEach(([e, t]) => a.set(Number(e), t))).finally(() => s = null), await s), !a.has(e)) throw this.failure();
+			let r = a.get(e);
+			return a.delete(e), r;
 		};
 		await this.sendPieces(e, {
-			missing: this.range(1, t.totalParts).filter((e) => !r.has(e)),
-			sizeOf: (e) => a(e).size,
-			arrived: r,
-			send: async (e, t, r) => (await this.attempt(n, async () => this.request(n, {
+			missing: this.range(1, t.totalParts).filter((e) => !i.has(e)),
+			sizeOf: (e) => o(e)[1] - o(e)[0],
+			arrived: i,
+			total: r,
+			send: async (r, i, a) => (await this.attempt(n, async () => t.sealed ? this.post(n, t, { part: r }, a) : this.request(n, {
 				method: "PUT",
-				url: await s(e, t),
-				body: a(e),
-				onProgress: r
-			}), { retryForbidden: !0 }), !1)
+				url: await c(r, i),
+				body: e.data.slice(...o(r)),
+				onProgress: a
+			}), { retryForbidden: !t.sealed }), !1)
 		});
-		let c = await this.opts.completeUsing(t.capability);
-		if (!c) throw this.failure();
-		return c;
+		let l = await this.opts.completeUsing(t.capability);
+		if (!l) throw this.failure();
+		return l;
+	}
+	async fetchWhole(e, t) {
+		let n = await this.attempt(t, () => this.post(t, e, {}, () => {}));
+		if (!n?.reference) throw this.failure();
+		return n.reference;
+	}
+	post(e, t, n, r) {
+		let i = new FormData();
+		return Object.entries({
+			capability: t.capability,
+			sealed: t.sealed,
+			...n
+		}).filter(([, e]) => e != null).forEach(([e, t]) => Array.isArray(t) ? i.append(e, ...t) : i.append(e, t)), this.request(e, {
+			method: "POST",
+			url: t.url,
+			headers: {
+				Accept: "application/json",
+				"X-CSRF-TOKEN": this.opts.csrfToken
+			},
+			body: i,
+			onProgress: r
+		});
 	}
 	async attempt(e, t, { retryForbidden: n = !1 } = {}) {
 		for (let r = 1;; r++) {
@@ -8237,12 +8166,12 @@ var ya = {
 	range(e, t) {
 		return Array.from({ length: t - e + 1 }, (t, n) => e + n);
 	}
-	reportProgress(e, t) {
-		let n = this.uppy.getFile(e.id);
-		n && this.uppy.emit("upload-progress", n, {
-			uploadStarted: n.progress.uploadStarted ?? Date.now(),
-			bytesUploaded: Math.min(t, e.size),
-			bytesTotal: e.size
+	reportProgress(e, t, n) {
+		let r = this.uppy.getFile(e.id);
+		r && n && this.uppy.emit("upload-progress", r, {
+			uploadStarted: r.progress.uploadStarted ?? Date.now(),
+			bytesUploaded: Math.min(t, n),
+			bytesTotal: n
 		});
 	}
 	wait(e) {
@@ -8373,8 +8302,35 @@ var Pa = {
 	camera: () => import("../fluppy-lib-CNdrJVl1.js"),
 	microphone: () => import("../fluppy-lib-BVk_BzRn.js"),
 	screenCapture: () => import("../fluppy-lib-DuQ2dm8L.js")
-}, Fa = (e, t) => !!e?.length && e.every((e) => e.startsWith(`${t}/`));
-async function Ia(e, t, { acceptedFileTypes: n }) {
+}, Fa = (e, t) => !!e?.length && e.every((e) => e.startsWith(`${t}/`)), Ia = { url: async (e, { label: t }, { describe: n, failedMessage: r }) => {
+	let { default: i } = await import("../fluppy-lib-H5Lu_IhK.js");
+	e.use(i, {
+		id: "url",
+		companionUrl: window.location.origin,
+		locale: { strings: { pluginNameUrl: t } }
+	}), e.getPlugin("url").addFile = async (t) => {
+		if (t.startsWith("blob")) return;
+		let i = /^[a-z0-9]+:\/\//i.test(t) ? t : `https://${t}`, a = await n("url", { url: i }).catch(() => null);
+		if (!a || a.error) {
+			e.info(a?.error ?? r, "error", 5e3);
+			return;
+		}
+		try {
+			return e.addFile({
+				source: "url",
+				name: a.name,
+				type: a.type,
+				data: { size: a.size },
+				isRemote: !0,
+				remote: { body: { url: i } }
+			});
+		} catch {}
+	};
+} };
+async function La(e, t, n) {
+	for (let [r, i] of Object.entries(t ?? {})) await Ia[r]?.(e, i, n);
+}
+async function Ra(e, t, { acceptedFileTypes: n }) {
 	for (let r of t.filter((e) => e in Pa)) {
 		let { default: t } = await Pa[r]();
 		e.use(t, r === "camera" && Fa(n, "image") ? { modes: ["picture"] } : r === "camera" && Fa(n, "video") ? { modes: ["video-audio"] } : {});
@@ -8382,43 +8338,43 @@ async function Ia(e, t, { acceptedFileTypes: n }) {
 }
 //#endregion
 //#region resources/js/index.js
-function La() {
+function za() {
 	return "10000000-1000-4000-8000-100000000000".replace(/[018]/g, (e) => (e ^ crypto.getRandomValues(/* @__PURE__ */ new Uint8Array(1))[0] & 15 >> e / 4).toString(16));
 }
-function Ra({ abortMultipartUploadUsing: e, acceptedFileTypes: t, adoptUploadUsing: n, cancelUploadUsing: r, completeMultipartUploadUsing: i, csrfToken: a, deleteUploadedFileUsing: o, downloadLabel: s, editLabel: c, getUploadedFilesUsing: l, height: u, imageEditor: d, isChunked: f, isDeletable: p, isDisabled: m, isDownloadable: h, isModal: g, isMultiple: _, isOpenable: v, isPreviewable: y, isReorderable: b, locale: x, maxFiles: S, maxParallelUploads: C, maxSize: w, minSize: E, placeUploadedFileUsing: D, planUploadUsing: O, removeUploadedFileUsing: ee, reorderUploadedFilesUsing: te, signUploadPartsUsing: ne, sources: k, state: A, uploadFailedMessage: re, uploadingMessage: ie, uploadUsing: ae }) {
-	let j = null, M = null, N = null, P = null, F = /* @__PURE__ */ new Map(), oe = null;
+function Ba({ abortMultipartUploadUsing: e, acceptedFileTypes: t, adoptUploadUsing: n, cancelUploadUsing: r, completeMultipartUploadUsing: i, csrfToken: a, deleteUploadedFileUsing: o, describeRemoteFileUsing: s, downloadLabel: c, editLabel: l, getUploadedFilesUsing: u, height: d, imageEditor: f, isChunked: p, isDeletable: m, isDisabled: h, isDownloadable: g, isModal: _, isMultiple: v, isOpenable: y, isPreviewable: b, isReorderable: x, locale: S, maxFiles: C, maxParallelUploads: w, maxSize: T, minSize: E, placeUploadedFileUsing: D, planRemoteUploadUsing: O, planUploadUsing: ee, remoteSources: te, removeUploadedFileUsing: ne, reorderUploadedFilesUsing: A, signUploadPartsUsing: re, sources: ie, state: j, uploadFailedMessage: M, uploadingMessage: ae, uploadUsing: oe }) {
+	let N = null, P = null, se = null, F = null, I = /* @__PURE__ */ new Map(), ce = null;
 	return {
-		state: A,
+		state: j,
 		isRemovingSilently: !1,
 		files: [],
 		async init() {
-			let l = await Na(x);
-			j = new nt({
+			let u = await Na(S);
+			N = new nt({
 				autoProceed: !0,
-				...l ? { locale: l } : {},
+				...u ? { locale: u } : {},
 				restrictions: {
 					allowedFileTypes: t?.length ? t : null,
-					maxFileSize: w,
-					maxNumberOfFiles: _ ? S : 1,
+					maxFileSize: T,
+					maxNumberOfFiles: v ? C : 1,
 					minFileSize: E
 				}
 			}).use(ba, {
 				target: this.getContainer(),
-				...g ? {
+				..._ ? {
 					inline: !1,
 					closeModalOnClickOutside: !0
 				} : {
 					inline: !0,
 					width: "100%",
-					height: u ?? 320
+					height: d ?? 320
 				},
-				disabled: m,
+				disabled: h,
 				hideUploadButton: !0,
 				hideCancelButton: !0,
 				doneButtonHandler: null,
-				showRemoveButtonAfterComplete: p && !m,
-				showLinkToFileUploadResult: v,
-				disableThumbnailGenerator: !y,
+				showRemoveButtonAfterComplete: m && !h,
+				showLinkToFileUploadResult: y,
+				disableThumbnailGenerator: !b,
 				proudlyDisplayPoweredByUppy: !1,
 				theme: this.getTheme()
 			}).use(Ta, {
@@ -8426,82 +8382,86 @@ function Ra({ abortMultipartUploadUsing: e, acceptedFileTypes: t, adoptUploadUsi
 				adoptUsing: n,
 				cancelUploadUsing: r,
 				completeUsing: i,
-				signPartsUsing: ne,
+				signPartsUsing: re,
 				csrfToken: a,
-				isChunked: f,
-				planUsing: O,
-				maxParallelUploads: C ?? 2,
-				uploadFailedMessage: re,
-				uploadUsing: ae
-			}), m || await Ia(j, k ?? [], { acceptedFileTypes: t }), j.on("file-added", (e) => {
-				j.setFileMeta(e.id, { fileKey: La() });
-			}), j.on("file-removed", (e) => {
-				j.getFiles().some((e) => e.error) || j.setState({ error: null }), !this.isRemovingSilently && e.meta.fileKey && (this.isStoredFile(e.meta.fileKey) ? o(e.meta.fileKey) : ee(e.meta.fileKey));
-			}), j.on("upload", () => {
-				this.dispatchFormEvent("form-processing-started", { message: ie });
-			}), j.on("complete", () => {
-				this.dispatchFormEvent("form-processing-finished"), b && !m && this.saveFileOrder();
-			}), b && !m && this.enableReordering(), d && !m && (await Da(j, d), j.on("file-editor:complete", (e) => this.replaceFile(e)), j.on("upload-success", (e) => {
-				F.has(e.id) && (D(e.meta.fileKey, F.get(e.id)), F.delete(e.id));
-			})), N = Aa(j, this.getContainer(), (e) => [...Oa(j, e) && !m ? [{
+				isChunked: p,
+				planRemoteUsing: O,
+				planUsing: ee,
+				maxParallelUploads: w ?? 2,
+				uploadFailedMessage: M,
+				uploadUsing: oe
+			}), h || (await Ra(N, ie ?? [], { acceptedFileTypes: t }), await La(N, te, {
+				describe: s,
+				failedMessage: M
+			})), N.on("file-added", (e) => {
+				N.setFileMeta(e.id, { fileKey: za() });
+			}), N.on("file-removed", (e) => {
+				N.getFiles().some((e) => e.error) || N.setState({ error: null }), !this.isRemovingSilently && e.meta.fileKey && (this.isStoredFile(e.meta.fileKey) ? o(e.meta.fileKey) : ne(e.meta.fileKey));
+			}), N.on("upload", () => {
+				this.dispatchFormEvent("form-processing-started", { message: ae });
+			}), N.on("complete", () => {
+				this.dispatchFormEvent("form-processing-finished"), x && !h && this.saveFileOrder();
+			}), x && !h && this.enableReordering(), f && !h && (await Da(N, f), N.on("file-editor:complete", (e) => this.replaceFile(e)), N.on("upload-success", (e) => {
+				I.has(e.id) && (D(e.meta.fileKey, I.get(e.id)), I.delete(e.id));
+			})), se = Aa(N, this.getContainer(), (e) => [...Oa(N, e) && !h ? [{
 				name: "edit",
-				label: c,
+				label: l,
 				onClick: (e) => this.editFile(e)
 			}] : [], ...e.meta.downloadUrl ? [{
 				name: "download",
-				label: s,
+				label: c,
 				href: e.meta.downloadUrl
-			}] : []]), g && j.on("state-update", () => this.summarize()), oe = () => j.getPlugin("Dashboard").setOptions({ theme: this.getTheme() }), window.addEventListener("theme-changed", oe), await this.syncFiles(), this.$watch("state", () => this.syncFiles());
+			}] : []]), _ && N.on("state-update", () => this.summarize()), ce = () => N.getPlugin("Dashboard").setOptions({ theme: this.getTheme() }), window.addEventListener("theme-changed", ce), await this.syncFiles(), this.$watch("state", () => this.syncFiles());
 		},
 		destroy() {
-			window.removeEventListener("theme-changed", oe), M?.disconnect(), N?.(), this.isRemovingSilently = !0, j?.destroy(), P?.remove();
+			window.removeEventListener("theme-changed", ce), P?.disconnect(), se?.(), this.isRemovingSilently = !0, N?.destroy(), F?.remove();
 		},
 		getUppy() {
-			return j;
+			return N;
 		},
 		getContainer() {
-			return g ? (P || (P = document.createElement("div"), P.className = "fi-fluppy fi-fluppy-modal", b && !m && P.classList.add("fi-fluppy-reorderable"), document.body.append(P)), P) : this.$refs.dashboard;
+			return _ ? (F || (F = document.createElement("div"), F.className = "fi-fluppy fi-fluppy-modal", x && !h && F.classList.add("fi-fluppy-reorderable"), document.body.append(F)), F) : this.$refs.dashboard;
 		},
 		openModal() {
-			j.getPlugin("Dashboard").openModal();
+			N.getPlugin("Dashboard").openModal();
 		},
 		removeFile(e) {
-			j.removeFile(e);
+			N.removeFile(e);
 		},
 		summarize() {
-			this.files = j.getFiles().map((e) => ({
+			this.files = N.getFiles().map((e) => ({
 				id: e.id,
 				name: e.name,
-				size: T(e.size ?? 0),
+				size: k(e.size ?? 0),
 				percentage: Math.round(e.progress.percentage ?? 0),
 				isComplete: !!e.progress.uploadComplete,
 				error: e.error ?? null
 			}));
 		},
 		async editFile(e) {
-			let t = j.getFile(e);
+			let t = N.getFile(e);
 			if (t.source === "Fluppy" && t.data.size === 0) try {
 				let n = await fetch(t.meta.url);
 				if (!n.ok) throw Error(n.statusText);
-				j.setFileState(e, { data: await n.blob() });
+				N.setFileState(e, { data: await n.blob() });
 			} catch {
-				j.info(re, "error");
+				N.info(M, "error");
 				return;
 			}
-			j.getPlugin("Dashboard").openFileEditor(j.getFile(e));
+			N.getPlugin("Dashboard").openFileEditor(N.getFile(e));
 		},
 		replaceFile(e) {
-			let t = Object.keys(j.getState().files).indexOf(e.id);
-			j.removeFile(e.id);
-			let n = e.type.split("/")[1].replace("jpeg", "jpg"), r = j.addFile({
+			let t = Object.keys(N.getState().files).indexOf(e.id);
+			N.removeFile(e.id);
+			let n = e.type.split("/")[1].replace("jpeg", "jpg"), r = N.addFile({
 				name: /\.\w+$/.test(e.name) ? e.name : `${e.name}.${n}`,
 				type: e.type,
 				data: e.data,
 				source: "ImageEditor"
-			}), { files: i } = j.getState(), a = Object.keys(i).filter((e) => e !== r);
-			a.splice(t, 0, r), j.setState({ files: Object.fromEntries(a.map((e) => [e, i[e]])) });
+			}), { files: i } = N.getState(), a = Object.keys(i).filter((e) => e !== r);
+			a.splice(t, 0, r), N.setState({ files: Object.fromEntries(a.map((e) => [e, i[e]])) });
 			let o = a[t + 1];
-			o && F.set(r, i[o].meta.fileKey);
+			o && I.set(r, i[o].meta.fileKey);
 		},
 		getTheme() {
 			return this.$store.theme === "dark" ? "dark" : "light";
@@ -8514,17 +8474,17 @@ function Ra({ abortMultipartUploadUsing: e, acceptedFileTypes: t, adoptUploadUsi
 			return typeof t == "string" && !t.startsWith("livewire-file:");
 		},
 		async syncFiles() {
-			let e = this.getFileKeysInState(), t = j.getFiles();
-			this.isRemovingSilently = !0, t.filter((t) => t.progress.uploadComplete && !e.includes(t.meta.fileKey)).forEach((e) => j.removeFile(e.id)), this.isRemovingSilently = !1;
-			let n = j.getFiles().map((e) => e.meta.fileKey);
+			let e = this.getFileKeysInState(), t = N.getFiles();
+			this.isRemovingSilently = !0, t.filter((t) => t.progress.uploadComplete && !e.includes(t.meta.fileKey)).forEach((e) => N.removeFile(e.id)), this.isRemovingSilently = !1;
+			let n = N.getFiles().map((e) => e.meta.fileKey);
 			if (e.every((e) => n.includes(e))) return;
-			let r = await l() ?? {};
-			Object.entries(r).filter(([e, t]) => t && !n.includes(e)).forEach(([e, t]) => this.showStoredFile(e, t)), j.getFiles().every((e) => e.progress.uploadComplete) && j.setState({ totalProgress: 100 });
+			let r = await u() ?? {};
+			Object.entries(r).filter(([e, t]) => t && !n.includes(e)).forEach(([e, t]) => this.showStoredFile(e, t)), N.getFiles().every((e) => e.progress.uploadComplete) && N.setState({ totalProgress: 100 });
 		},
 		showStoredFile(e, { name: t, size: n, type: r, url: i, openableUrl: a, downloadableUrl: o }) {
 			let s = `fluppy-${e}`;
-			j.setState({ files: {
-				...j.getState().files,
+			N.setState({ files: {
+				...N.getState().files,
 				[s]: {
 					id: s,
 					name: t,
@@ -8537,12 +8497,12 @@ function Ra({ abortMultipartUploadUsing: e, acceptedFileTypes: t, adoptUploadUsi
 						type: r,
 						fileKey: e,
 						url: i,
-						downloadUrl: h ? o ?? i : null
+						downloadUrl: g ? o ?? i : null
 					},
 					source: "Fluppy",
 					isRemote: !1,
 					isGhost: !1,
-					preview: y && r?.startsWith("image/") ? i : void 0,
+					preview: b && r?.startsWith("image/") ? i : void 0,
 					uploadURL: a ?? i,
 					progress: {
 						percentage: 100,
@@ -8558,9 +8518,9 @@ function Ra({ abortMultipartUploadUsing: e, acceptedFileTypes: t, adoptUploadUsi
 			let e = this.getContainer(), t = (e) => e.target.closest?.(".uppy-Dashboard-Item"), n = (e) => e.id.replace(/^uppy_/, ""), r = null, i = null, a = (e) => {
 				i?.removeAttribute("data-fluppy-drop-target"), i = e, i?.setAttribute("data-fluppy-drop-target", "");
 			};
-			M = new MutationObserver(() => {
+			P = new MutationObserver(() => {
 				e.querySelectorAll(".uppy-Dashboard-Item:not([draggable])").forEach((e) => e.draggable = !0);
-			}), M.observe(e, {
+			}), P.observe(e, {
 				childList: !0,
 				subtree: !0
 			}), e.addEventListener("dragstart", (e) => {
@@ -8581,12 +8541,12 @@ function Ra({ abortMultipartUploadUsing: e, acceptedFileTypes: t, adoptUploadUsi
 			});
 		},
 		moveFile(e, t) {
-			let { files: n } = j.getState(), r = Object.keys(n), i = r.indexOf(e), a = r.indexOf(t);
-			i !== -1 && a !== -1 && i !== a && (r.splice(a, 0, r.splice(i, 1)[0]), j.setState({ files: Object.fromEntries(r.map((e) => [e, n[e]])) }), this.saveFileOrder());
+			let { files: n } = N.getState(), r = Object.keys(n), i = r.indexOf(e), a = r.indexOf(t);
+			i !== -1 && a !== -1 && i !== a && (r.splice(a, 0, r.splice(i, 1)[0]), N.setState({ files: Object.fromEntries(r.map((e) => [e, n[e]])) }), this.saveFileOrder());
 		},
 		saveFileOrder() {
-			let e = j.getFiles().map((e) => e.meta.fileKey);
-			e.join() !== this.getFileKeysInState().filter((t) => e.includes(t)).join() && te(e);
+			let e = N.getFiles().map((e) => e.meta.fileKey);
+			e.join() !== this.getFileKeysInState().filter((t) => e.includes(t)).join() && A(e);
 		},
 		dispatchFormEvent(e, t = {}) {
 			this.$el.closest("form")?.dispatchEvent(new CustomEvent(e, {
@@ -8598,4 +8558,4 @@ function Ra({ abortMultipartUploadUsing: e, acceptedFileTypes: t, adoptUploadUsi
 	};
 }
 //#endregion
-export { Ra as default };
+export { Ba as default };

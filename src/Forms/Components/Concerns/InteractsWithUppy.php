@@ -8,9 +8,14 @@ use Illuminate\Support\Number;
 use Livewire\Attributes\Renderless;
 use Livewire\Features\SupportFileUploads\FileUploadConfiguration;
 use Livewire\Features\SupportFileUploads\TemporaryUploadedFile;
+use Saade\Fluppy\Sources\Source;
+use Saade\Fluppy\Sources\SourceException;
+use Saade\Fluppy\Sources\SourceManager;
 use Saade\Fluppy\Uploads\ChunkedUpload;
+use Saade\Fluppy\Uploads\RemoteTransfer;
 use Saade\Fluppy\Uploads\S3Copy;
 use Saade\Fluppy\Uploads\S3MultipartUpload;
+use Saade\Fluppy\Uploads\TemporaryUpload;
 use Throwable;
 
 /**
@@ -36,6 +41,11 @@ trait InteractsWithUppy
     protected bool | Closure $hasMicrophone = false;
 
     protected bool | Closure $hasScreenCapture = false;
+
+    /**
+     * @var array<string, bool | Closure>
+     */
+    protected array $remoteSources = [];
 
     /**
      * In pixels. A field shown as a modal takes its size from the window.
@@ -112,6 +122,94 @@ trait InteractsWithUppy
             'microphone' => $this->evaluate($this->hasMicrophone),
             'screenCapture' => $this->evaluate($this->hasScreenCapture),
         ]));
+    }
+
+    public function importFromUrl(bool | Closure $condition = true): static
+    {
+        return $this->remoteSource('url', $condition);
+    }
+
+    /**
+     * Turns on a remote source by the id it is registered under in the
+     * `SourceManager`, for the ones the field has no method of its own for.
+     */
+    public function remoteSource(string $id, bool | Closure $condition = true): static
+    {
+        $this->remoteSources[$id] = $condition;
+
+        return $this;
+    }
+
+    /**
+     * @return array<string, array<string, mixed>> What the browser needs to offer each remote source that is on, by id.
+     */
+    public function getRemoteSources(): array
+    {
+        $sources = app(SourceManager::class);
+
+        return collect($this->remoteSources)
+            ->filter(fn (bool | Closure $condition, string $id): bool => $this->evaluate($condition) && $sources->has($id))
+            ->map(fn (bool | Closure $condition, string $id): array => [
+                'label' => $sources->get($id)->getLabel(),
+                ...$sources->get($id)->getClientOptions(),
+            ])
+            ->all();
+    }
+
+    /**
+     * @param  array<string, mixed>  $reference
+     * @return array<string, mixed>
+     */
+    #[ExposedLivewireMethod]
+    #[Renderless]
+    public function describeRemoteFile(string $source, array $reference): array
+    {
+        try {
+            $file = $this->getRemoteSource($source)->describe($reference);
+        } catch (SourceException $exception) {
+            return ['error' => $exception->getMessage()];
+        }
+
+        return ['name' => $file->name, 'size' => $file->size, 'type' => $file->type];
+    }
+
+    /**
+     * Decides how a file is fetched from a remote source, as `planUpload()`
+     * decides how one is sent from the device. The server finds out for
+     * itself what the file is: the browser only says which.
+     *
+     * @param  array<string, mixed>  $reference
+     * @return array<string, mixed>
+     */
+    #[ExposedLivewireMethod]
+    #[Renderless]
+    public function planRemoteUpload(string $source, array $reference): array
+    {
+        try {
+            $source = $this->getRemoteSource($source);
+
+            $file = $source->describe($reference);
+        } catch (SourceException $exception) {
+            return ['strategy' => 'reject', 'message' => $exception->getMessage()];
+        }
+
+        if ($file->size !== null && ($message = $this->getUploadRejectionMessage($file->size))) {
+            return ['strategy' => 'reject', 'message' => $message];
+        }
+
+        return RemoteTransfer::plan($source, $reference, $file, $this->getUploadSizeLimit(), $this->isChunked());
+    }
+
+    /**
+     * @throws SourceException When the field does not offer that source.
+     */
+    protected function getRemoteSource(string $id): Source
+    {
+        if ($this->isDisabled() || ! array_key_exists($id, $this->getRemoteSources())) {
+            throw SourceException::notAllowed();
+        }
+
+        return app(SourceManager::class)->get($id);
     }
 
     /**
@@ -243,7 +341,7 @@ trait InteractsWithUppy
             return false;
         }
 
-        $file = ChunkedUpload::fileFromReference($reference);
+        $file = TemporaryUpload::fromReference($reference);
 
         if (! $file) {
             return false;
@@ -352,13 +450,10 @@ trait InteractsWithUppy
             return __('fluppy::fluppy.upload_failed');
         }
 
-        $maxSizes = array_filter([
-            $this->getMaxSize(),
-            $this->getTemporaryUploadMaxSize(),
-        ]);
+        $limit = $this->getUploadSizeLimit();
 
-        if ($maxSizes && $size > min($maxSizes) * 1024) {
-            return __('fluppy::fluppy.file_too_large', ['max' => Number::fileSize(min($maxSizes) * 1024)]);
+        if ($limit !== null && $size > $limit) {
+            return __('fluppy::fluppy.file_too_large', ['max' => Number::fileSize($limit)]);
         }
 
         if (($minSize = $this->getMinSize()) && $size < $minSize * 1024) {
@@ -366,6 +461,20 @@ trait InteractsWithUppy
         }
 
         return null;
+    }
+
+    /**
+     * The largest a file may be, in bytes: the smaller of what the field
+     * and what Livewire allow. Null when neither sets a limit.
+     */
+    protected function getUploadSizeLimit(): ?int
+    {
+        $limits = array_filter([
+            $this->getMaxSize(),
+            $this->getTemporaryUploadMaxSize(),
+        ]);
+
+        return $limits ? min($limits) * 1024 : null;
     }
 
     /**

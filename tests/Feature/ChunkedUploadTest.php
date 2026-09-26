@@ -9,6 +9,7 @@ use Livewire\Features\SupportTesting\Testable;
 use Livewire\Livewire;
 use Saade\Fluppy\Forms\Components\FluppyField;
 use Saade\Fluppy\Tests\Fixtures\FluppyForm;
+use Saade\Fluppy\Uploads\ChunkedUpload;
 use Saade\Fluppy\Uploads\Signer;
 
 beforeEach(function () {
@@ -177,6 +178,36 @@ it('refuses a chunk that is not the size that was planned', function () {
 
     sendChunk($plan, $contents, 0, str_repeat('a', 2000))->assertStatus(422);
     sendChunk($plan, $contents, 2, str_repeat('a', 1024))->assertStatus(422);
+});
+
+it('does not count a chunk that is still being written', function () {
+    $contents = str_repeat('a', 1500);
+
+    $plan = planChunkedUpload(chunkedForm(), $contents);
+
+    $directory = ChunkedUpload::fromCapability($plan['capability'])->directory();
+
+    FileUploadConfiguration::storage()->put("{$directory}/1.abcdefgh.incoming", str_repeat('a', 100));
+
+    sendChunk($plan, $contents, 0)
+        ->assertOk()
+        ->assertJson(['complete' => false, 'received' => [0]]);
+
+    expect(FileUploadConfiguration::storage()->files($directory))->toContain("{$directory}/0.part");
+});
+
+it('does not assemble chunks that do not add up to the file', function () {
+    $contents = str_repeat('a', 1500);
+
+    $plan = planChunkedUpload(chunkedForm(), $contents);
+
+    $directory = ChunkedUpload::fromCapability($plan['capability'])->directory();
+
+    FileUploadConfiguration::storage()->put("{$directory}/1.part", str_repeat('a', 100));
+
+    sendChunk($plan, $contents, 0)->assertStatus(422);
+
+    expect(FileUploadConfiguration::storage()->files(FileUploadConfiguration::path('', false)))->toBeEmpty();
 });
 
 it('refuses a chunk beyond the ones that were planned', function () {

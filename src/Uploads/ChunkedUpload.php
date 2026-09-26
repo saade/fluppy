@@ -3,12 +3,15 @@
 namespace Saade\Fluppy\Uploads;
 
 use DateTimeInterface;
+use Illuminate\Contracts\Cache\Lock;
+use Illuminate\Contracts\Cache\LockTimeoutException;
 use Illuminate\Contracts\Filesystem\Filesystem;
 use Illuminate\Http\UploadedFile;
+use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\URL;
-use Illuminate\Support\Facades\Validator;
+use Illuminate\Support\Str;
 use Livewire\Features\SupportFileUploads\FileUploadConfiguration;
-use Livewire\Features\SupportFileUploads\TemporaryUploadedFile;
+use Throwable;
 
 /**
  * A file sent to Livewire's temporary disk in chunks.
@@ -61,9 +64,10 @@ class ChunkedUpload
 
     /**
      * The same for the same file chosen again, and impossible to work out
-     * from another session.
+     * from another session. `origin` tells apart files that only a remote
+     * source can tell apart: which source, and which file there.
      *
-     * @param  array{name: string, size: int, type: string, lastModified: int}  $file
+     * @param  array{name: string, size: int, type: string, lastModified: int, origin?: string}  $file
      */
     public static function fingerprint(array $file, int $chunkSize): string
     {
@@ -74,6 +78,7 @@ class ChunkedUpload
             $file['type'],
             $file['lastModified'],
             $chunkSize,
+            $file['origin'] ?? '',
         ]));
     }
 
@@ -83,14 +88,16 @@ class ChunkedUpload
      */
     public static function plan(array $file, ?int $chunkSizeInKilobytes = null): array
     {
-        $chunkSize = static::chunkSizeFor($file['size'], $chunkSizeInKilobytes);
+        return static::planInChunksOf($file, static::chunkSizeFor($file['size'], $chunkSizeInKilobytes));
+    }
 
-        $upload = new static(
-            fingerprint: static::fingerprint($file, $chunkSize),
-            totalChunks: max(1, (int) ceil($file['size'] / $chunkSize)),
-            chunkSize: $chunkSize,
-            size: $file['size'],
-        );
+    /**
+     * @param  array{name: string, size: int, type: string, lastModified: int, origin?: string}  $file
+     * @return array<string, mixed>
+     */
+    public static function planInChunksOf(array $file, int $chunkSize): array
+    {
+        $upload = static::for($file, $chunkSize);
 
         return [
             'strategy' => 'chunked',
@@ -105,6 +112,21 @@ class ChunkedUpload
             'receivedChunks' => $upload->receivedChunks(),
             'completed' => $upload->completedReference(),
         ];
+    }
+
+    /**
+     * @param  array{name: string, size: int, type: string, lastModified: int, origin?: string}  $file
+     */
+    public static function for(array $file, int $chunkSize): static
+    {
+        $chunkSize = max($chunkSize, (int) ceil($file['size'] / static::MAX_CHUNKS));
+
+        return new static(
+            fingerprint: static::fingerprint($file, $chunkSize),
+            totalChunks: max(1, (int) ceil($file['size'] / $chunkSize)),
+            chunkSize: $chunkSize,
+            size: $file['size'],
+        );
     }
 
     /**
@@ -154,6 +176,16 @@ class ChunkedUpload
             : $this->size - $this->chunkSize * ($this->totalChunks - 1);
     }
 
+    /**
+     * @return array{int, int} The first and the last byte of a chunk in the file.
+     */
+    public function rangeOfChunk(int $index): array
+    {
+        $from = $index * $this->chunkSize;
+
+        return [$from, $from + $this->expectedChunkSize($index) - 1];
+    }
+
     public function directory(): string
     {
         return FileUploadConfiguration::path("fluppy/chunks/{$this->fingerprint}", false);
@@ -178,9 +210,41 @@ class ChunkedUpload
         return $this->receivedChunks() === range(0, $this->totalChunks - 1);
     }
 
-    public function storeChunk(int $index, UploadedFile $chunk): void
+    public function storeChunk(int $index, UploadedFile $chunk): bool
     {
-        $this->storage()->putFileAs($this->directory(), $chunk, "{$index}.part");
+        $stream = fopen($chunk->getRealPath(), 'rb');
+
+        try {
+            return $this->storeChunkFromStream($index, $stream);
+        } finally {
+            fclose($stream);
+        }
+    }
+
+    /**
+     * Stores a chunk from wherever its bytes are being read, and keeps it
+     * only if exactly as many arrived as the chunk was planned to have.
+     *
+     * @param  resource  $stream
+     */
+    public function storeChunkFromStream(int $index, $stream): bool
+    {
+        // Written under another name first. A chunk counts as received as
+        // soon as its file is there, and chunks arrive side by side: one
+        // still being written would be assembled as it is, short.
+        $incoming = "{$this->directory()}/{$index}." . Str::random(16) . '.incoming';
+
+        $this->storage()->writeStream($incoming, $stream);
+
+        if ($this->storage()->size($incoming) !== $this->expectedChunkSize($index)) {
+            $this->storage()->delete($incoming);
+
+            return false;
+        }
+
+        $this->storage()->move($incoming, "{$this->directory()}/{$index}.part");
+
+        return true;
     }
 
     /**
@@ -193,6 +257,42 @@ class ChunkedUpload
         $path = "{$this->directory()}.done";
 
         return $this->storage()->exists($path) ? $this->storage()->get($path) : null;
+    }
+
+    /**
+     * What a request that brought a chunk is told: which chunks there are
+     * now, or, once they are all there, where the assembled file is.
+     *
+     * @return array<string, mixed>
+     */
+    public function answer(string $name, ?string $type): array
+    {
+        if (count($received = $this->receivedChunks()) < $this->totalChunks) {
+            return ['complete' => false, 'received' => $received];
+        }
+
+        // Two requests can each believe they brought the last chunk
+        // (parallel chunks, a second tab). Only one may assemble: the other
+        // would find the chunks half deleted.
+        $lock = $this->lock();
+
+        try {
+            $lock?->block(15);
+        } catch (LockTimeoutException) {
+            return ['complete' => false, 'received' => $this->receivedChunks()];
+        }
+
+        try {
+            if ($reference = $this->completedReference()) {
+                return ['complete' => true, 'reference' => $reference];
+            }
+
+            abort_unless($this->hasAllChunks(), 422, 'The chunked upload is incomplete.');
+
+            return ['complete' => true, 'reference' => $this->assemble($name, $type)];
+        } finally {
+            $lock?->release();
+        }
     }
 
     /**
@@ -221,11 +321,9 @@ class ChunkedUpload
 
             fclose($assembled);
 
-            $file = new UploadedFile($assembledPath, $name, $type ?: null, null, true);
+            abort_unless(filesize($assembledPath) === $this->size, 422, 'The chunked upload is incomplete.');
 
-            Validator::make(['file' => $file], ['file' => FileUploadConfiguration::rules()])->validate();
-
-            $reference = static::referenceTo(static::storeTemporaryFile($file));
+            $reference = TemporaryUpload::store($assembledPath, $name, $type);
 
             $this->storage()->put("{$this->directory()}.done", $reference);
         } finally {
@@ -261,38 +359,17 @@ class ChunkedUpload
         return count($abandoned);
     }
 
-    public static function referenceTo(string $filename): string
-    {
-        return Signer::sign('file', $filename);
-    }
-
     /**
-     * The temporary upload a reference points to, when the reference is one
-     * this application signed and the file is still there.
+     * Not every cache store has locks. Without one, the remembered answer
+     * and the check for missing chunks are what is left.
      */
-    public static function fileFromReference(mixed $reference): ?TemporaryUploadedFile
+    protected function lock(): ?Lock
     {
-        $filename = Signer::verify('file', $reference);
-
-        if ($filename === null || ! FileUploadConfiguration::storage()->exists(FileUploadConfiguration::path($filename, false))) {
+        try {
+            return Cache::lock("fluppy-assemble:{$this->fingerprint}", 60);
+        } catch (Throwable) {
             return null;
         }
-
-        return TemporaryUploadedFile::createFromLivewire($filename);
-    }
-
-    /**
-     * Stored the way Livewire 3 stores a temporary upload, with the original
-     * name inside the file's name. Livewire 4 writes the details to a file
-     * beside it instead, and still reads the name from here without one.
-     */
-    protected static function storeTemporaryFile(UploadedFile $file): string
-    {
-        $filename = TemporaryUploadedFile::generateHashNameWithOriginalNameEmbedded($file);
-
-        $file->storeAs('/' . FileUploadConfiguration::path('/'), $filename, ['disk' => FileUploadConfiguration::disk()]);
-
-        return $filename;
     }
 
     protected function storage(): Filesystem

@@ -9,4 +9,10 @@ return [
     'remove' => 'Remove',
     'choose_files' => 'Choose files',
     'view_files' => 'View files',
+    'sources' => [
+        'url' => 'Link',
+        'not_allowed' => 'Files cannot be fetched from there.',
+        'unreachable' => 'The file could not be fetched from where it is.',
+        'failed' => 'The file could not be fetched: its server answered :status.',
+    ],
 ];

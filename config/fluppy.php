@@ -32,4 +32,33 @@ return [
         'throttle' => '600,1',
     ],
 
+    /*
+    |--------------------------------------------------------------------------
+    | Remote sources
+    |--------------------------------------------------------------------------
+    |
+    | A file from a remote source (a link, a cloud drive) is fetched by the
+    | server, one part for each request the browser makes, into Livewire's
+    | temporary disk. `part_size` is in kilobytes. No part is uploaded to
+    | PHP, so its limits on uploads do not apply; what does is how long a
+    | request may run, and `timeout`, the seconds one request to a source
+    | may take.
+    |
+    | `url` is for files imported from a link. The server only fetches from
+    | addresses on the public internet, on these `ports`. Set `hosts` to a
+    | list of names (`*.example.com` matches any name under it) to fetch
+    | from those and no others.
+    |
+    */
+
+    'remote' => [
+        'part_size' => 5120,
+        'timeout' => 60,
+        'throttle' => '600,1',
+        'url' => [
+            'ports' => [80, 443],
+            'hosts' => null,
+        ],
+    ],
+
 ];
