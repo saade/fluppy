@@ -87,8 +87,18 @@
     @apply rounded-lg border-gray-950/10 bg-white text-sm text-gray-950 shadow-xs placeholder:text-gray-400 focus:border-primary-600 focus:ring-1 focus:ring-primary-600 dark:border-white/20 dark:bg-white/5 dark:text-white dark:placeholder:text-gray-500 dark:focus:border-primary-500 dark:focus:ring-primary-500;
 }
 
-.fi-fluppy .uppy-Url-importButton {
+.fi-fluppy .uppy-Provider-authTitle {
+    @apply text-gray-700 dark:text-gray-200;
+}
+
+/* Not Google's own sign-in button, which is drawn the way Google asks. */
+.fi-fluppy .uppy-c-btn-primary:not(.uppy-Provider-btn-google) {
     @apply rounded-lg bg-primary-600 text-sm font-semibold text-white shadow-xs hover:bg-primary-500 focus:ring-2 focus:ring-primary-600/50 dark:bg-primary-500 dark:hover:bg-primary-400;
+}
+
+/* "Log out", under the button that opens Google's Picker. */
+.fi-fluppy .uppy-DashboardContent-panelBody > div > .uppy-c-btn:not(.uppy-c-btn-primary) {
+    @apply mx-auto text-sm text-gray-500 hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-200;
 }
 
 .fi-fluppy .uppy-Dashboard-Item {
@@ -218,6 +228,29 @@
 
 .fi-fluppy-summary-file-failed .fi-fluppy-summary-file-status {
     @apply text-danger-600 dark:text-danger-400;
+}
+
+/*
+ * Google's Picker is not drawn inside the field. Google puts it at the end
+ * of the page, as tall as the page and placed where the page happened to be
+ * scrolled to, so it scrolls away with the content. On a page with a field
+ * it is kept over the viewport instead, as a Filament modal is. Google sets
+ * its place in the element's own style, hence `!important`.
+ */
+body:has(.fi-fluppy) > .picker-dialog-bg {
+    position: fixed !important;
+    inset: 0 !important;
+    width: 100% !important;
+    height: 100% !important;
+}
+
+body:has(.fi-fluppy) > .picker-dialog {
+    position: fixed !important;
+    top: 50% !important;
+    left: 50% !important;
+    max-width: 100vw;
+    max-height: 100dvh;
+    transform: translate(-50%, -50%);
 }
 
 /* Above Filament's own modals, which a field can be inside of. */

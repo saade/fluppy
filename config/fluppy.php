@@ -49,6 +49,10 @@ return [
     | list of names (`*.example.com` matches any name under it) to fetch
     | from those and no others.
     |
+    | `google_drive` is for files picked in Google's Picker. All three come
+    | from a project in the Google Cloud console and are sent to the page:
+    | none of them is a secret.
+    |
     */
 
     'remote' => [
@@ -58,6 +62,11 @@ return [
         'url' => [
             'ports' => [80, 443],
             'hosts' => null,
+        ],
+        'google_drive' => [
+            'client_id' => env('FLUPPY_GOOGLE_CLIENT_ID'),
+            'api_key' => env('FLUPPY_GOOGLE_API_KEY'),
+            'app_id' => env('FLUPPY_GOOGLE_APP_ID'),
         ],
     ],
 

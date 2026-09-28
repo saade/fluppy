@@ -4,11 +4,9 @@ use Illuminate\Http\Client\Factory;
 use Illuminate\Http\Client\Request;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Storage;
-use Illuminate\Testing\TestResponse;
 use Livewire\Features\SupportFileUploads\FileUploadConfiguration;
 use Livewire\Features\SupportFileUploads\TemporaryUploadedFile;
 use Livewire\Features\SupportTesting\Testable;
-use Livewire\Livewire;
 use Saade\Fluppy\Forms\Components\FluppyField;
 use Saade\Fluppy\Sources\Support\UrlGuard;
 use Saade\Fluppy\Tests\Fixtures\FakeS3MultipartUpload;
@@ -49,51 +47,12 @@ function fileServer(string $contents, bool $acceptsRanges = true, array $headers
     });
 }
 
-function remoteForm(?Closure $configureUsing = null): Testable
-{
-    FluppyForm::$configureUsing = $configureUsing ?? fn (FluppyField $field) => $field->importFromUrl();
-
-    return Livewire::test(FluppyForm::class);
-}
-
-function callRemoteField(Testable $component, string $method, array $arguments = []): mixed
-{
-    $field = $component->instance()->form->getComponent(fn ($field): bool => $field instanceof FluppyField);
-
-    $component->call('callSchemaComponentMethod', $field->getKey(), $method, $arguments);
-
-    return data_get($component->effects, 'returns.0');
-}
-
 /**
  * @return array<string, mixed>
  */
 function planRemoteFile(Testable $component, string $url = A_LINK): array
 {
     return callRemoteField($component, 'planRemoteUpload', ['source' => 'url', 'reference' => ['url' => $url]]);
-}
-
-/**
- * @param  array<string, mixed>  $plan
- * @param  array<string, mixed>  $input
- */
-function askForPart(array $plan, array $input = []): TestResponse
-{
-    return test()
-        ->withCookie(session()->getName(), session()->getId())
-        ->post($plan['url'], ['sealed' => $plan['sealed'], ...$input], ['Accept' => 'application/json']);
-}
-
-/**
- * @param  array<string, mixed>  $plan
- */
-function fetchInChunks(array $plan): string
-{
-    foreach (range(0, $plan['totalChunks'] - 1) as $index) {
-        $response = askForPart($plan, ['capability' => $plan['capability'], 'index' => $index])->assertOk();
-    }
-
-    return $response->json('reference');
 }
 
 it('offers no remote source unless the field turns one on', function () {

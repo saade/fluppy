@@ -134,6 +134,40 @@ To only allow some hosts, list them in `fluppy.remote.url.hosts`; `*` matches an
 
 The route that fetches is only of use to the session a field planned an import for, and is throttled (`fluppy.remote.throttle`).
 
+## Google Drive
+
+```php
+FluppyField::make('attachments')
+    ->multiple()
+    ->googleDrive()
+```
+
+This adds a "Google Drive" button that opens [Google's own Picker](https://developers.google.com/workspace/drive/picker/guides/overview). The person signs in to Google in a window Google opens, picks files, and your server fetches each one from Google, in parts when it is large.
+
+It needs three values from a project in the [Google Cloud console](https://console.cloud.google.com/):
+
+1. Enable the **Google Picker API** and the **Google Drive API** for the project.
+2. Set up the OAuth consent screen with the scope `https://www.googleapis.com/auth/drive.file`.
+3. Create an **OAuth client ID** of the type "Web application", with your app's origin (`https://your-app.com`) under "Authorized JavaScript origins". Google only signs a person in from an origin listed there, so every address the app is opened at needs its own entry. No redirect address is needed.
+4. Create an **API key**. If you restrict it to some APIs, the Picker API has to be one of them. Check the key's restrictions first when the Picker opens saying "The API developer key is invalid".
+5. The **app ID** is the project number, shown on the project's dashboard.
+
+```dotenv
+FLUPPY_GOOGLE_CLIENT_ID=1234567890-abc.apps.googleusercontent.com
+FLUPPY_GOOGLE_API_KEY=AIza...
+FLUPPY_GOOGLE_APP_ID=1234567890
+```
+
+None of the three is a secret: Google's scripts need them in the page. A field with `googleDrive()` on raises an exception while any of them is missing.
+
+What to know:
+
+- **Your app only ever reaches the files a person picks.** That is what the `drive.file` scope means, and why this uses the Picker and not a file browser of Uppy's own, which would need access to the whole Drive.
+- There is no client secret and nothing is stored. The access token Google gives the browser is kept there for the tab's session, sent to your server with each picked file, and used to fetch that file. What your server sends back of it is encrypted. It lasts about an hour: a file still being fetched after that fails, saying access expired.
+- Documents made in Google's editors have no file of their own and are exported: Docs as `.docx`, Sheets as `.xlsx`, Slides as `.pptx`, Drawings as `.png`, anything else as a PDF. An export is fetched whole, in one request, and Google does not export documents larger than 10 MB.
+- How large a picked file is only shows once its upload starts: the Picker does not say. A file larger than the field or Livewire allows is turned away then.
+- The Picker and Google's sign-in are loaded from `apis.google.com` and `accounts.google.com`. If your app sends a `Content-Security-Policy` header, it has to allow those scripts and the frames Google opens.
+
 ## Editing images
 
 ```php

@@ -12,6 +12,7 @@ use Saade\Fluppy\Commands\PruneCommand;
 use Saade\Fluppy\Http\Controllers\ChunkController;
 use Saade\Fluppy\Http\Controllers\DoctorController;
 use Saade\Fluppy\Http\Controllers\RemoteController;
+use Saade\Fluppy\Sources\GoogleDriveSource;
 use Saade\Fluppy\Sources\SourceManager;
 use Saade\Fluppy\Sources\Support\UrlGuard;
 use Saade\Fluppy\Sources\UrlSource;
@@ -39,7 +40,8 @@ class FluppyServiceProvider extends PackageServiceProvider
         $this->app->singleton(UrlGuard::class, fn (): UrlGuard => new UrlGuard);
 
         $this->app->singleton(SourceManager::class, fn (): SourceManager => (new SourceManager)
-            ->extend('url', fn (): UrlSource => app(UrlSource::class)));
+            ->extend('url', fn (): UrlSource => app(UrlSource::class))
+            ->extend('google-drive', fn (): GoogleDriveSource => app(GoogleDriveSource::class)));
     }
 
     public function packageBooted(): void

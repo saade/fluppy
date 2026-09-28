@@ -4,13 +4,17 @@ use Illuminate\Http\Client\Request;
 use Illuminate\Support\Facades\Http;
 use Saade\Fluppy\Forms\Components\FluppyField;
 use Saade\Fluppy\Sources\Support\UrlGuard;
+use Saade\Fluppy\Tests\Fixtures\FakeGoogleDrive;
 use Saade\Fluppy\Tests\Fixtures\FluppyForm;
 
 const A_LINK_TO_IMPORT = 'https://files.example.com/videos/holiday.mp4';
 
 beforeEach(function () {
-    // 64 KB, so that a file of a few hundred is fetched in several parts.
-    config(['fluppy.remote.part_size' => 64]);
+    config([
+        // 64 KB, so that a file of a few hundred is fetched in several parts.
+        'fluppy.remote.part_size' => 64,
+        'fluppy.remote.google_drive' => ['client_id' => 'client.apps.googleusercontent.com', 'api_key' => 'AIza-key', 'app_id' => '1234567890'],
+    ]);
 
     app(UrlGuard::class)->resolveHostsUsing(fn (string $host): array => ['93.184.216.34']);
 
@@ -94,6 +98,97 @@ it('says why a link is turned away, and fetches nothing from it', function () {
         ->assertScript(UPPY . '.getFiles().length', 0);
 
     Http::assertNothingSent();
+});
+
+/**
+ * Adds files to Uppy as its Google Drive plugin does once they are picked.
+ * The Picker itself is Google's, and only opens for a real account.
+ *
+ * @param  array<string, string>  $files  Names as the Picker gives them, by file id.
+ */
+function pickFromGoogleDrive(mixed $page, array $files): mixed
+{
+    $page->assertSee('Google Drive');
+
+    $files = json_encode(array_map(
+        fn (string $id, string $name): array => ['id' => $id, 'name' => $name],
+        array_keys($files),
+        $files,
+    ));
+
+    $token = json_encode(FakeGoogleDrive::TOKEN);
+
+    $page->script(<<<JS
+        (() => {
+            const uppy = window.Alpine.\$data(document.querySelector('.fi-fluppy')).getUppy()
+            const { requestClientId } = uppy.getPlugin('GoogleDrivePicker')
+
+            uppy.addFiles({$files}.map(({ id, name }) => ({
+                name,
+                data: { size: null },
+                isRemote: true,
+                remote: { requestClientId, body: { fileId: id, accessToken: {$token}, platform: 'drive' } },
+            })))
+        })()
+    JS);
+
+    return $page;
+}
+
+it('offers Google Drive only on a field that has it, with what the Picker needs', function () {
+    visit('/fluppy-tests')
+        ->assertDontSee('Google Drive')
+        ->assertScript('Boolean(' . UPPY . ".getPlugin('GoogleDrivePicker'))", false);
+
+    FluppyForm::$configureUsing = fn (FluppyField $field) => $field->googleDrive();
+
+    visit('/fluppy-tests')
+        ->assertSee('My Device')
+        ->assertSee('Google Drive')
+        ->assertScript(UPPY . ".getPlugin('GoogleDrivePicker').opts.clientId", 'client.apps.googleusercontent.com')
+        ->assertScript(UPPY . ".getPlugin('GoogleDrivePicker').opts.appId", '1234567890');
+});
+
+it('fetches a file picked in Google Drive in parts, and shows the size the server found', function () {
+    $contents = random_bytes(300 * 1024);
+
+    FakeGoogleDrive::serve(['abc' => ['name' => 'holiday.mp4', 'mimeType' => 'video/mp4', 'size' => (string) strlen($contents), 'md5Checksum' => 'd41d8', 'contents' => $contents]]);
+
+    FluppyForm::$configureUsing = fn (FluppyField $field) => $field->googleDrive();
+
+    $page = pickFromGoogleDrive(visit('/fluppy-tests'), ['abc' => 'holiday.mp4'])
+        ->assertSee('Upload complete')
+        ->assertSee('300 KB')
+        ->assertScript(UPPY . '.getFiles()[0].source', 'google-drive')
+        ->press('Save')
+        ->assertSee('Saved:');
+
+    expect(storedFile($page) === $contents)->toBeTrue();
+});
+
+it('stores a Google document under the name it is exported with', function () {
+    FakeGoogleDrive::serve(['doc' => ['name' => 'Plan', 'mimeType' => 'application/vnd.google-apps.document', 'modifiedTime' => '2026-10-01T10:00:00Z']]);
+
+    FluppyForm::$configureUsing = fn (FluppyField $field) => $field->googleDrive();
+
+    $page = pickFromGoogleDrive(visit('/fluppy-tests'), ['doc' => 'Plan'])
+        ->assertSee('Upload complete')
+        ->assertSee('Plan.docx')
+        ->assertScript(UPPY . '.getFiles()[0].size', strlen('exported as application/vnd.openxmlformats-officedocument.wordprocessingml.document'))
+        ->press('Save')
+        ->assertSee('Saved:');
+
+    expect(storedFile($page))->toBe('exported as application/vnd.openxmlformats-officedocument.wordprocessingml.document');
+});
+
+it('says on the file why Google Drive would not give it', function () {
+    FakeGoogleDrive::serve(['abc' => ['name' => 'a.txt', 'mimeType' => 'text/plain', 'size' => '1']]);
+
+    FluppyForm::$configureUsing = fn (FluppyField $field) => $field->googleDrive();
+
+    pickFromGoogleDrive(visit('/fluppy-tests'), ['gone' => 'gone.txt'])
+        ->assertSee('Upload failed')
+        ->assertScript(UPPY . '.getFiles()[0].error', 'The file could not be fetched: its server answered 404.');
 });
 
 it('turns a linked file away when it is larger than the field allows', function () {

@@ -11,8 +11,10 @@ return [
     'view_files' => 'Ver arquivos',
     'sources' => [
         'url' => 'Link',
+        'google_drive' => 'Google Drive',
         'not_allowed' => 'Não é possível buscar arquivos desse endereço.',
         'unreachable' => 'Não foi possível buscar o arquivo de onde ele está.',
+        'expired' => 'O acesso ao arquivo foi recusado ou expirou. Conecte novamente e adicione o arquivo outra vez.',
         'failed' => 'Não foi possível buscar o arquivo: o servidor respondeu :status.',
     ],
 ];

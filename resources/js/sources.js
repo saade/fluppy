@@ -54,6 +54,37 @@ const remoteSources = {
             }
         }
     },
+
+    'google-drive': async (uppy, { label, clientId, apiKey, appId }) => {
+        const { default: GoogleDrivePicker } = await import(
+            '@uppy/google-drive-picker'
+        )
+
+        // Not given an id of its own: the Picker's view only hears of its
+        // state under the plugin's default one.
+        uppy.use(GoogleDrivePicker, {
+            companionUrl: window.location.origin,
+            clientId,
+            apiKey,
+            appId,
+            // The plugin keeps Google's access token in `localStorage` by
+            // default, where it outlives the tab and the session.
+            storage: {
+                getItem: async (key) => sessionStorage.getItem(key),
+                setItem: async (key, value) => sessionStorage.setItem(key, value),
+                removeItem: async (key) => sessionStorage.removeItem(key),
+            },
+            locale: { strings: { pluginNameGoogleDrivePicker: label } },
+        })
+
+        // A picked file says nothing of where it came from but the client
+        // it was meant to be fetched through.
+        uppy.on('file-added', (file) => {
+            if (file.remote?.requestClientId === GoogleDrivePicker.requestClientId) {
+                uppy.setFileState(file.id, { source: 'google-drive' })
+            }
+        })
+    },
 }
 
 export async function useRemoteSources(uppy, enabled, context) {

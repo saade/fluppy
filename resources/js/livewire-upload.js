@@ -83,6 +83,10 @@ export default class LivewireUpload extends BasePlugin {
                 throw new Error(plan.message)
             }
 
+            if (file.isRemote) {
+                this.showAsPlanned(file, plan)
+            }
+
             if (this.isTransfer(plan)) {
                 await this.transfer(file, plan)
             } else {
@@ -118,6 +122,22 @@ export default class LivewireUpload extends BasePlugin {
             size: file.size,
             type: file.type ?? '',
             lastModified: file.data.lastModified ?? 0,
+        })
+    }
+
+    // What a remote file is called and how large it is, the server found out
+    // while planning. Its source's plugin may not have known: Google's
+    // Picker gives no size, and a document it exports gets another name.
+    showAsPlanned(file, plan) {
+        const name = plan.name ?? file.name
+        const type = plan.type ?? file.type
+
+        this.uppy.setFileState(file.id, {
+            name,
+            type,
+            size: plan.size ?? file.size,
+            extension: name.includes('.') ? name.split('.').pop() : '',
+            meta: { ...this.uppy.getFile(file.id).meta, name, type },
         })
     }
 
@@ -213,7 +233,7 @@ export default class LivewireUpload extends BasePlugin {
         return {
             chunked: () => this.sendChunks(file, plan, transfer),
             s3: () => this.sendParts(file, plan, transfer),
-            remote: () => this.fetchWhole(plan, transfer),
+            remote: () => this.fetchWhole(file, plan, transfer),
         }[plan.strategy]()
     }
 
@@ -401,13 +421,19 @@ export default class LivewireUpload extends BasePlugin {
         return reference
     }
 
-    async fetchWhole(plan, transfer) {
+    async fetchWhole(file, plan, transfer) {
         const response = await this.attempt(transfer, () =>
             this.post(transfer, plan, {}, () => {}),
         )
 
         if (!response?.reference) {
             throw this.failure()
+        }
+
+        // Only now is it known how large a file was that its source could
+        // not say the size of, such as a document Google exports.
+        if (this.uppy.getFile(file.id) && response.size) {
+            this.uppy.setFileState(file.id, { size: response.size })
         }
 
         return response.reference

@@ -8,6 +8,7 @@ class RemoteFile
      * @param  string  $identity  What tells this file apart from every other of its source, and from an earlier version of itself where the source can tell.
      * @param  int | null  $size  In bytes. Null when the source does not say.
      * @param  bool  $acceptsRanges  Whether a part of the file can be asked for by itself.
+     * @param  array<string, mixed> | null  $reference  What `read()` is given in place of what the browser sent, when describing the file found out something reading it would otherwise have to find out again.
      */
     public function __construct(
         public readonly string $identity,
@@ -15,5 +16,6 @@ class RemoteFile
         public readonly ?int $size = null,
         public readonly ?string $type = null,
         public readonly bool $acceptsRanges = false,
+        public readonly ?array $reference = null,
     ) {}
 }

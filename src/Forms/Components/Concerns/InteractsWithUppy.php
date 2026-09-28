@@ -129,6 +129,11 @@ trait InteractsWithUppy
         return $this->remoteSource('url', $condition);
     }
 
+    public function googleDrive(bool | Closure $condition = true): static
+    {
+        return $this->remoteSource('google-drive', $condition);
+    }
+
     /**
      * Turns on a remote source by the id it is registered under in the
      * `SourceManager`, for the ones the field has no method of its own for.

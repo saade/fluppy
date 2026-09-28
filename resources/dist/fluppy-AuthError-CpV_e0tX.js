@@ -4,13 +4,13 @@ var e = class extends Error {
 	constructor(e, t) {
 		super(e), this.cause = t?.cause, this.isNetworkError = this.cause && Object.hasOwn(this.cause, "isNetworkError") ? this.cause.isNetworkError : !1;
 	}
-}, t = Array.from;
+};
 //#endregion
 //#region node_modules/@uppy/core/lib/utils/isAbortError.js
-function n(e) {
+function t(e) {
 	return typeof e == "object" && !!e && "name" in e && e.name === "AbortError";
 }
-var r = {
+var n = {
 	name: "@uppy/core",
 	description: "Core module for the extensible JavaScript file upload widget with support for drag&drop, resumable uploads, previews, restrictions, file processing/encoding, remote providers like Dropbox, Google Drive, S3 and more :dog:",
 	version: "6.2.0",
@@ -89,14 +89,14 @@ var r = {
 		vite: "^8.2.2",
 		vitest: "^4.1.11"
 	}
-}, i = class extends Error {
+}, r = class extends Error {
 	isAuthError;
 	constructor() {
 		super("Authorization required"), this.name = "AuthError", this.isAuthError = !0;
 	}
 };
-function a(e) {
+function i(e) {
 	return e instanceof Error && "isAuthError" in e && e.isAuthError === !0;
 }
 //#endregion
-export { t as a, n as i, a as n, e as o, r, i as t };
+export { e as a, t as i, i as n, n as r, r as t };

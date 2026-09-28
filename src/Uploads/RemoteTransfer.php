@@ -50,7 +50,7 @@ class RemoteTransfer
      */
     public static function plan(Source $source, array $reference, RemoteFile $file, ?int $limit, bool $inParts = true): array
     {
-        $transfer = new static($source->getId(), $reference, $file->identity, $file->name, $file->type, $file->size, $limit);
+        $transfer = new static($source->getId(), $file->reference ?? $reference, $file->identity, $file->name, $file->type, $file->size, $limit);
 
         $plan = [
             'sealed' => $transfer->seal(),
@@ -203,7 +203,7 @@ class RemoteTransfer
 
             fclose($file);
 
-            return ['complete' => true, 'reference' => TemporaryUpload::store($path, $this->name, $this->type)];
+            return ['complete' => true, 'reference' => TemporaryUpload::store($path, $this->name, $this->type), 'size' => $written];
         } finally {
             is_resource($file) && fclose($file);
             $stream->close();

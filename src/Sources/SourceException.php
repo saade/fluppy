@@ -21,6 +21,11 @@ class SourceException extends RuntimeException
         return new self(__('fluppy::fluppy.sources.unreachable'));
     }
 
+    public static function expired(): self
+    {
+        return new self(__('fluppy::fluppy.sources.expired'));
+    }
+
     public static function failed(int $status): self
     {
         return new self(__('fluppy::fluppy.sources.failed', ['status' => $status]));

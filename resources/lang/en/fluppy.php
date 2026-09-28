@@ -11,8 +11,10 @@ return [
     'view_files' => 'View files',
     'sources' => [
         'url' => 'Link',
+        'google_drive' => 'Google Drive',
         'not_allowed' => 'Files cannot be fetched from there.',
         'unreachable' => 'The file could not be fetched from where it is.',
+        'expired' => 'Access to the file was refused or has expired. Connect again and add the file once more.',
         'failed' => 'The file could not be fetched: its server answered :status.',
     ],
 ];
