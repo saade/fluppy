@@ -39,8 +39,9 @@ interface Source
      * file accepts them.
      *
      * @param  array<string, mixed>  $reference
+     * @param  int | null  $limit  The most bytes a file read whole may have. A source stops there, whatever it was told of the file's size.
      *
      * @throws SourceException
      */
-    public function read(array $reference, ?int $from = null, ?int $to = null): StreamInterface;
+    public function read(array $reference, ?int $from = null, ?int $to = null, ?int $limit = null): StreamInterface;
 }

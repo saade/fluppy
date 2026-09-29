@@ -4,6 +4,7 @@ namespace Saade\Fluppy\Sources;
 
 use Illuminate\Http\Client\Response;
 use Psr\Http\Message\StreamInterface;
+use Saade\Fluppy\Sources\Support\Download;
 use Saade\Fluppy\Sources\Support\GuardedHttp;
 
 /**
@@ -35,10 +36,10 @@ class UrlSource implements Source
     {
         $url = $this->url($reference);
 
-        // One byte is asked for. A server that takes ranges answers with
-        // that byte and the size of the whole file; one that does not
-        // starts sending the file, which is left unread.
-        $response = $this->http->get($url, ['Range' => 'bytes=0-0']);
+        // One byte is asked for. A server that takes ranges says so in its
+        // answer, with the size of the whole file; one that does not would
+        // send the file, which is not waited for.
+        $response = $this->http->probe($url, ['Range' => 'bytes=0-0']);
 
         if (! in_array($response->status(), [200, 206], true)) {
             throw SourceException::failed($response->status());
@@ -55,11 +56,16 @@ class UrlSource implements Source
         );
     }
 
-    public function read(array $reference, ?int $from = null, ?int $to = null): StreamInterface
+    public function read(array $reference, ?int $from = null, ?int $to = null, ?int $limit = null): StreamInterface
     {
         $isRange = $from !== null && $to !== null;
 
-        $response = $this->http->get($this->url($reference), $isRange ? ['Range' => "bytes={$from}-{$to}"] : []);
+        $response = $this->http->download(
+            $this->url($reference),
+            $isRange ? ['Range' => "bytes={$from}-{$to}"] : [],
+            $isRange ? $to - $from + 1 : $limit,
+            $isRange,
+        );
 
         // A server that ignores the range sends the whole file with a 200,
         // which is not the part that was asked for.
@@ -67,7 +73,7 @@ class UrlSource implements Source
             throw SourceException::failed($response->status());
         }
 
-        return $response->toPsrResponse()->getBody();
+        return Download::bodyOf($response);
     }
 
     /**

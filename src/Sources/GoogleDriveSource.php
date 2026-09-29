@@ -8,6 +8,7 @@ use Illuminate\Http\Client\Response;
 use Illuminate\Support\Facades\Http;
 use LogicException;
 use Psr\Http\Message\StreamInterface;
+use Saade\Fluppy\Sources\Support\Download;
 
 /**
  * A file the person picked in Google's own Picker. The Picker runs in the
@@ -85,7 +86,7 @@ class GoogleDriveSource implements Source
         );
     }
 
-    public function read(array $reference, ?int $from = null, ?int $to = null): StreamInterface
+    public function read(array $reference, ?int $from = null, ?int $to = null, ?int $limit = null): StreamInterface
     {
         $fileId = $this->fileId($reference['fileId'] ?? null);
 
@@ -97,19 +98,22 @@ class GoogleDriveSource implements Source
 
         $isRange = ! $export && $from !== null && $to !== null;
 
-        $response = $this->send(
-            $this->request($reference)
-                ->withOptions(['stream' => true])
-                ->withHeaders($isRange ? ['Range' => "bytes={$from}-{$to}"] : []),
-            $export ? static::API . "/{$fileId}/export" : static::API . "/{$fileId}",
-            $export ? ['mimeType' => $export] : ['alt' => 'media', 'supportsAllDrives' => 'true'],
+        $request = $this->request($reference)->withHeaders($isRange ? ['Range' => "bytes={$from}-{$to}"] : []);
+
+        $response = Download::upTo(
+            $isRange ? $to - $from + 1 : $limit,
+            fn (array $options): Response => $request->withOptions($options)->get(
+                $export ? static::API . "/{$fileId}/export" : static::API . "/{$fileId}",
+                $export ? ['mimeType' => $export] : ['alt' => 'media', 'supportsAllDrives' => 'true'],
+            ),
+            $isRange,
         );
 
         if ($response->status() !== ($isRange ? 206 : 200)) {
             throw $this->failure($response);
         }
 
-        return $response->toPsrResponse()->getBody();
+        return Download::bodyOf($response);
     }
 
     /**

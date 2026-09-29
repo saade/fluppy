@@ -5,7 +5,6 @@ namespace Saade\Fluppy\Uploads;
 use GuzzleHttp\Psr7\StreamWrapper;
 use Illuminate\Contracts\Encryption\DecryptException;
 use Illuminate\Support\Facades\URL;
-use Illuminate\Support\Number;
 use Livewire\Features\SupportFileUploads\FileUploadConfiguration;
 use Saade\Fluppy\Sources\RemoteFile;
 use Saade\Fluppy\Sources\Source;
@@ -184,7 +183,7 @@ class RemoteTransfer
      */
     public function fetchWhole(): array
     {
-        $stream = $this->source()->read($this->reference);
+        $stream = $this->source()->read($this->reference, limit: $this->limit);
         $path = tempnam(sys_get_temp_dir(), 'fluppy');
         $file = fopen($path, 'wb');
 
@@ -197,7 +196,7 @@ class RemoteTransfer
                 // What a source says of a file's size is not to be relied
                 // on, and often it says nothing.
                 if ($this->limit !== null && $written > $this->limit) {
-                    throw new SourceException(__('fluppy::fluppy.file_too_large', ['max' => Number::fileSize($this->limit)]));
+                    throw SourceException::tooLarge($this->limit);
                 }
             }
 

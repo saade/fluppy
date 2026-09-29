@@ -2,6 +2,7 @@
 
 namespace Saade\Fluppy\Sources;
 
+use Illuminate\Support\Number;
 use RuntimeException;
 
 /**
@@ -19,6 +20,11 @@ class SourceException extends RuntimeException
     public static function unreachable(): self
     {
         return new self(__('fluppy::fluppy.sources.unreachable'));
+    }
+
+    public static function tooLarge(int $limit): self
+    {
+        return new self(__('fluppy::fluppy.file_too_large', ['max' => Number::fileSize($limit)]));
     }
 
     public static function expired(): self
