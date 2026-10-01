@@ -55,6 +55,15 @@ const remoteSources = {
         }
     },
 
+    dropbox: async (uppy, options, context) => {
+        const [{ default: Dropbox }, { useBrowsableSource }] = await Promise.all([
+            import('@uppy/dropbox'),
+            import('./browsable-source.js'),
+        ])
+
+        useBrowsableSource(uppy, Dropbox, 'dropbox', options, context)
+    },
+
     'google-drive': async (uppy, { label, clientId, apiKey, appId }) => {
         const { default: GoogleDrivePicker } = await import(
             '@uppy/google-drive-picker'

@@ -2,10 +2,14 @@
 
 use Illuminate\Http\Client\Request;
 use Illuminate\Support\Facades\Http;
+use Illuminate\Support\Facades\Storage;
 use Saade\Fluppy\Forms\Components\FluppyField;
+use Saade\Fluppy\Sources\SourceManager;
 use Saade\Fluppy\Sources\Support\UrlGuard;
+use Saade\Fluppy\Tests\Fixtures\FakeDropbox;
 use Saade\Fluppy\Tests\Fixtures\FakeGoogleDrive;
 use Saade\Fluppy\Tests\Fixtures\FluppyForm;
+use Saade\Fluppy\Tests\Fixtures\LocalDropboxSource;
 
 const A_LINK_TO_IMPORT = 'https://files.example.com/videos/holiday.mp4';
 
@@ -189,6 +193,76 @@ it('says on the file why Google Drive would not give it', function () {
     pickFromGoogleDrive(visit('/fluppy-tests'), ['gone' => 'gone.txt'])
         ->assertSee('Upload failed')
         ->assertScript(UPPY . '.getFiles()[0].error', 'The file could not be fetched: its server answered 404.');
+});
+
+/**
+ * A field with Dropbox on, and a Dropbox whose page for letting the
+ * application in is one of the test application's.
+ */
+function withDropbox(): void
+{
+    config(['fluppy.remote.dropbox' => ['client_id' => 'app-key', 'client_secret' => 'app-secret']]);
+
+    app(SourceManager::class)->extend('dropbox', fn (): LocalDropboxSource => app(LocalDropboxSource::class));
+
+    FakeDropbox::serve([
+        '' => [
+            'id:folder' => ['name' => 'Holidays'],
+            'id:report' => ['name' => 'report.pdf', 'contents' => random_bytes(300 * 1024)],
+        ],
+        'id:folder' => [
+            'id:beach' => ['name' => 'beach.jpg', 'contents' => 'a picture'],
+        ],
+    ]);
+
+    FluppyForm::$configureUsing = fn (FluppyField $field) => $field->dropbox()->multiple();
+}
+
+it('connects to Dropbox in a window, then lists the files of the person and opens a folder', function () {
+    withDropbox();
+
+    visit('/fluppy-tests')
+        ->click('Dropbox')
+        ->assertSee('Please authenticate with Dropbox')
+        ->click('.uppy-Provider-authBtn')
+        ->assertSee('Holidays')
+        ->assertSee('report.pdf')
+        ->assertSee('person@example.com')
+        ->click('Holidays')
+        ->assertSee('beach.jpg')
+        ->assertDontSee('report.pdf');
+});
+
+it('fetches a file picked in Dropbox', function () {
+    withDropbox();
+
+    $page = visit('/fluppy-tests')
+        ->click('Dropbox')
+        ->click('.uppy-Provider-authBtn')
+        ->assertSee('report.pdf');
+
+    $page->script("[...document.querySelectorAll('.uppy-ProviderBrowserItem')].find((item) => item.textContent.includes('report.pdf')).querySelector('input').click()");
+
+    $page->click('.uppy-ProviderBrowser-footer .uppy-c-btn-primary')
+        ->assertSee('Upload complete')
+        ->assertScript(UPPY . '.getFiles()[0].source', 'dropbox')
+        ->assertScript(UPPY . '.getFiles()[0].size', 300 * 1024)
+        ->press('Save')
+        ->assertSee('Saved:');
+
+    expect(Storage::disk('uploads')->size(json_decode($page->text('#saved'))[0]))->toBe(300 * 1024);
+});
+
+it('asks to connect again once the person has disconnected', function () {
+    withDropbox();
+
+    visit('/fluppy-tests')
+        ->click('Dropbox')
+        ->click('.uppy-Provider-authBtn')
+        ->assertSee('report.pdf')
+        ->click('Log out')
+        ->assertSee('Please authenticate with Dropbox')
+        ->assertDontSee('report.pdf');
 });
 
 it('turns a linked file away when it is larger than the field allows', function () {

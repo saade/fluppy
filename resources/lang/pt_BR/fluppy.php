@@ -12,6 +12,11 @@ return [
     'sources' => [
         'url' => 'Link',
         'google_drive' => 'Google Drive',
+        'dropbox' => 'Dropbox',
+        'not_connected' => 'Conecte-se ao :source para buscar arquivos de lá.',
+        'connected' => ':source foi conectado.',
+        'connection_failed' => 'Não foi possível conectar ao :source.',
+        'close_window' => 'Você pode fechar esta janela.',
         'not_allowed' => 'Não é possível buscar arquivos desse endereço.',
         'unreachable' => 'Não foi possível buscar o arquivo de onde ele está.',
         'expired' => 'O acesso ao arquivo foi recusado ou expirou. Conecte novamente e adicione o arquivo outra vez.',

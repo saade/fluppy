@@ -6,12 +6,16 @@ use Illuminate\Http\Client\Request;
 use Illuminate\Http\Client\Response;
 use Illuminate\Support\Facades\Http;
 use Psr\Http\Message\RequestInterface;
+use Saade\Fluppy\Sources\DropboxSource;
 use Saade\Fluppy\Sources\GoogleDriveSource;
 use Saade\Fluppy\Sources\SourceException;
 use Saade\Fluppy\Sources\Support\Download;
 use Saade\Fluppy\Sources\Support\LimitedSink;
+use Saade\Fluppy\Sources\Support\Token;
+use Saade\Fluppy\Sources\Support\TokenStore;
 use Saade\Fluppy\Sources\Support\UrlGuard;
 use Saade\Fluppy\Sources\UrlSource;
+use Saade\Fluppy\Tests\Fixtures\FakeDropbox;
 use Saade\Fluppy\Tests\Fixtures\FakeGoogleDrive;
 
 /**
@@ -111,6 +115,21 @@ it('sends what it fetches from Google Drive through cURL too, into a sink', func
     $options = recordedRequestOptions();
 
     app(GoogleDriveSource::class)->read(['fileId' => 'abc', 'accessToken' => FakeGoogleDrive::TOKEN], 0, 3);
+
+    expect($options)->toHaveCount(1)
+        ->and($options[0])->not->toHaveKey('stream')->sink->toBeInstanceOf(LimitedSink::class);
+});
+
+it('sends what it fetches from Dropbox through cURL too, into a sink', function () {
+    config(['fluppy.remote.dropbox' => ['client_id' => 'app-key', 'client_secret' => 'app-secret']]);
+
+    FakeDropbox::serve(['' => ['id:a' => ['name' => 'a.txt', 'contents' => 'contents']]]);
+
+    app(TokenStore::class)->put('dropbox', new Token(FakeDropbox::accessToken(), null, time() + 3600));
+
+    $options = recordedRequestOptions();
+
+    app(DropboxSource::class)->read(['fileId' => 'id:a'], 0, 3);
 
     expect($options)->toHaveCount(1)
         ->and($options[0])->not->toHaveKey('stream')->sink->toBeInstanceOf(LimitedSink::class);

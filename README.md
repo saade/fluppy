@@ -120,6 +120,7 @@ Fetching an address someone typed is a way to make your server reach places only
 - The connection is made to the address that was checked, so the name cannot answer differently a moment later.
 - A redirect is checked the same way before it is followed, five at most.
 - Only IPv4 is looked up: a file on a host with no IPv4 address cannot be imported.
+- It needs PHP's cURL extension, which is what lets a connection be made to a chosen address.
 
 To only allow some hosts, list them in `fluppy.remote.url.hosts`; `*` matches any part of a name:
 
@@ -167,6 +168,37 @@ What to know:
 - Documents made in Google's editors have no file of their own and are exported: Docs as `.docx`, Sheets as `.xlsx`, Slides as `.pptx`, Drawings as `.png`, anything else as a PDF. An export is fetched whole, in one request, and Google does not export documents larger than 10 MB.
 - How large a picked file is only shows once its upload starts: the Picker does not say. A file larger than the field or Livewire allows is turned away then.
 - The Picker and Google's sign-in are loaded from `apis.google.com` and `accounts.google.com`. If your app sends a `Content-Security-Policy` header, it has to allow those scripts and the frames Google opens.
+
+## Dropbox
+
+```php
+FluppyField::make('attachments')
+    ->multiple()
+    ->dropbox()
+```
+
+This adds a "Dropbox" button. The first time, it asks the person to connect: a window opens on Dropbox, they let your app in, and the window closes. From then on the button opens a browser of their files, inside the field, where they pick files or whole folders. Your server fetches what they pick from Dropbox, in parts when a file is large.
+
+It needs an app in the [Dropbox App Console](https://www.dropbox.com/developers/apps):
+
+1. Create an app with scoped access.
+2. Under "Permissions", turn on `account_info.read`, `files.metadata.read` and `files.content.read`.
+3. Under "Settings", add the redirect address `https://your-app.com/fluppy/sources/dropbox/callback`. Dropbox only sends a person back to an address listed there, so every address the app is opened at needs its own entry.
+4. Copy the app key and the app secret:
+
+```dotenv
+FLUPPY_DROPBOX_CLIENT_ID=your-app-key
+FLUPPY_DROPBOX_CLIENT_SECRET=your-app-secret
+```
+
+A field with `dropbox()` on raises an exception while either is missing.
+
+What to know:
+
+- **The tokens stay on your server.** Dropbox's answer is traded for tokens by your server, which keeps them in the person's session, encrypted with your app's key. Nothing of them reaches the browser, and they are gone when the session ends. "Log out", in the file browser, also tells Dropbox to stop honoring them.
+- To keep a connection longer than a session, bind your own `Saade\Fluppy\Sources\Support\TokenStore` in a service provider: three methods, `get()`, `put()` and `forget()`, each given the id of the source.
+- Connecting is OAuth's authorization code flow with PKCE. The answer has to carry a random value your server put in the session when the window was opened, so a link cannot connect somebody's session to an account of another person's choosing.
+- Dropbox does not say what type a file is, so the type is worked out from the file's name. That is what a field that only accepts some types goes by when it greys files out in the browser. The file itself is still checked by your rules once it is fetched.
 
 ## Editing images
 

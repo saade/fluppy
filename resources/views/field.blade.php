@@ -42,6 +42,9 @@
             describeRemoteFileUsing: async (source, reference) => {
                 return await $wire.callSchemaComponentMethod(@js($key), 'describeRemoteFile', { source, reference })
             },
+            disconnectRemoteSourceUsing: async (source) => {
+                return await $wire.callSchemaComponentMethod(@js($key), 'disconnectRemoteSource', { source })
+            },
             downloadLabel: @js(__('fluppy::fluppy.download')),
             editLabel: @js(__('fluppy::fluppy.edit')),
             height: @js($getHeight()),
@@ -55,6 +58,9 @@
             isOpenable: @js($isOpenable()),
             isPreviewable: @js($isPreviewable()),
             isReorderable: @js($isReorderable),
+            listRemoteFilesUsing: async (source, path) => {
+                return await $wire.callSchemaComponentMethod(@js($key), 'listRemoteFiles', { source, path })
+            },
             locale: @js(app()->getLocale()),
             maxFiles: @js($getMaxFiles()),
             maxParallelUploads: @js($getMaxParallelUploads()),

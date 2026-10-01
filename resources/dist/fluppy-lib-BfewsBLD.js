@@ -1,4 +1,4 @@
-import { t as e } from "./fluppy-RequestClient-Df9M7aiv.js";
+import { t as e } from "./fluppy-RequestClient-B3NweaQs.js";
 import { i as t, r as n, t as r } from "./fluppy-UIPlugin-ihypjxg2.js";
 import { t as i } from "./fluppy-toArray-C4ZyUyu-.js";
 import { t as a } from "./fluppy-getErrorMessage-DxiQuxng.js";

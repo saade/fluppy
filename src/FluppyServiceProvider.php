@@ -12,8 +12,12 @@ use Saade\Fluppy\Commands\PruneCommand;
 use Saade\Fluppy\Http\Controllers\ChunkController;
 use Saade\Fluppy\Http\Controllers\DoctorController;
 use Saade\Fluppy\Http\Controllers\RemoteController;
+use Saade\Fluppy\Http\Controllers\SourceConnectionController;
+use Saade\Fluppy\Sources\DropboxSource;
 use Saade\Fluppy\Sources\GoogleDriveSource;
 use Saade\Fluppy\Sources\SourceManager;
+use Saade\Fluppy\Sources\Support\SessionTokenStore;
+use Saade\Fluppy\Sources\Support\TokenStore;
 use Saade\Fluppy\Sources\Support\UrlGuard;
 use Saade\Fluppy\Sources\UrlSource;
 use Spatie\LaravelPackageTools\Package;
@@ -39,9 +43,12 @@ class FluppyServiceProvider extends PackageServiceProvider
     {
         $this->app->singleton(UrlGuard::class, fn (): UrlGuard => new UrlGuard);
 
+        $this->app->bindIf(TokenStore::class, SessionTokenStore::class);
+
         $this->app->singleton(SourceManager::class, fn (): SourceManager => (new SourceManager)
             ->extend('url', fn (): UrlSource => app(UrlSource::class))
-            ->extend('google-drive', fn (): GoogleDriveSource => app(GoogleDriveSource::class)));
+            ->extend('google-drive', fn (): GoogleDriveSource => app(GoogleDriveSource::class))
+            ->extend('dropbox', fn (): DropboxSource => app(DropboxSource::class)));
     }
 
     public function packageBooted(): void
@@ -58,6 +65,14 @@ class FluppyServiceProvider extends PackageServiceProvider
         Route::post('fluppy/remote', RemoteController::class)
             ->middleware(['web', 'throttle:' . config('fluppy.remote.throttle', '600,1')])
             ->name('fluppy.remote');
+
+        Route::middleware(['web', 'throttle:60,1'])->group(function (): void {
+            Route::get('fluppy/sources/{source}/connect', [SourceConnectionController::class, 'connect'])
+                ->name('fluppy.sources.connect');
+
+            Route::get('fluppy/sources/{source}/callback', [SourceConnectionController::class, 'callback'])
+                ->name('fluppy.sources.callback');
+        });
 
         // Called by `fluppy:doctor`, which has no session to pass the `web`
         // group with.

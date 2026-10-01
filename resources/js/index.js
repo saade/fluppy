@@ -27,6 +27,7 @@ export default function fluppy({
     csrfToken,
     deleteUploadedFileUsing,
     describeRemoteFileUsing,
+    disconnectRemoteSourceUsing,
     downloadLabel,
     editLabel,
     getUploadedFilesUsing,
@@ -41,6 +42,7 @@ export default function fluppy({
     isOpenable,
     isPreviewable,
     isReorderable,
+    listRemoteFilesUsing,
     locale,
     maxFiles,
     maxParallelUploads,
@@ -136,7 +138,9 @@ export default function fluppy({
                 await useSources(uppy, sources ?? [], { acceptedFileTypes })
                 await useRemoteSources(uppy, remoteSources, {
                     describe: describeRemoteFileUsing,
+                    disconnect: disconnectRemoteSourceUsing,
                     failedMessage: uploadFailedMessage,
+                    list: listRemoteFilesUsing,
                 })
             }
 

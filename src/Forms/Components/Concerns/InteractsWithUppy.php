@@ -8,9 +8,12 @@ use Illuminate\Support\Number;
 use Livewire\Attributes\Renderless;
 use Livewire\Features\SupportFileUploads\FileUploadConfiguration;
 use Livewire\Features\SupportFileUploads\TemporaryUploadedFile;
+use Saade\Fluppy\Sources\BrowsableSource;
+use Saade\Fluppy\Sources\ListedItem;
 use Saade\Fluppy\Sources\Source;
 use Saade\Fluppy\Sources\SourceException;
 use Saade\Fluppy\Sources\SourceManager;
+use Saade\Fluppy\Sources\SourceNotConnectedException;
 use Saade\Fluppy\Uploads\ChunkedUpload;
 use Saade\Fluppy\Uploads\RemoteTransfer;
 use Saade\Fluppy\Uploads\S3Copy;
@@ -134,6 +137,11 @@ trait InteractsWithUppy
         return $this->remoteSource('google-drive', $condition);
     }
 
+    public function dropbox(bool | Closure $condition = true): static
+    {
+        return $this->remoteSource('dropbox', $condition);
+    }
+
     /**
      * Turns on a remote source by the id it is registered under in the
      * `SourceManager`, for the ones the field has no method of its own for.
@@ -203,6 +211,69 @@ trait InteractsWithUppy
         }
 
         return RemoteTransfer::plan($source, $reference, $file, $this->getUploadSizeLimit(), $this->isChunked());
+    }
+
+    /**
+     * What is in a folder of a source the person has connected, the way
+     * Uppy's file browser takes it. `authenticated` is false when they have
+     * yet to connect, which the browser answers by offering to.
+     *
+     * @return array<string, mixed>
+     */
+    #[ExposedLivewireMethod]
+    #[Renderless]
+    public function listRemoteFiles(string $source, ?string $path = null): array
+    {
+        try {
+            $listing = $this->getBrowsableSource($source)->list($path);
+        } catch (SourceNotConnectedException) {
+            return ['authenticated' => false];
+        } catch (SourceException $exception) {
+            return ['authenticated' => true, 'error' => $exception->getMessage()];
+        }
+
+        return [
+            'authenticated' => true,
+            'username' => $listing->account,
+            'nextPagePath' => $listing->nextPath,
+            'items' => array_map(fn (ListedItem $item): array => [
+                'id' => $item->id,
+                'requestPath' => $item->id,
+                'name' => $item->name,
+                'isFolder' => $item->isFolder,
+                'icon' => match (true) {
+                    $item->isFolder => 'folder',
+                    str_starts_with((string) $item->type, 'video/') => 'video',
+                    default => 'file',
+                },
+                'mimeType' => $item->type,
+                'size' => $item->size,
+                'modifiedDate' => $item->modifiedAt,
+            ], $listing->items),
+        ];
+    }
+
+    #[ExposedLivewireMethod]
+    #[Renderless]
+    public function disconnectRemoteSource(string $source): bool
+    {
+        try {
+            $this->getBrowsableSource($source)->disconnect();
+        } catch (SourceException) {
+            return false;
+        }
+
+        return true;
+    }
+
+    /**
+     * @throws SourceException When the field does not offer that source.
+     */
+    protected function getBrowsableSource(string $id): BrowsableSource
+    {
+        $source = $this->getRemoteSource($id);
+
+        return $source instanceof BrowsableSource ? $source : throw SourceException::notAllowed();
     }
 
     /**

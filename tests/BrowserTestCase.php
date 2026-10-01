@@ -3,10 +3,12 @@
 namespace Saade\Fluppy\Tests;
 
 use Illuminate\Contracts\Http\Kernel;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Artisan;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Storage;
 use Livewire\Livewire;
+use Saade\Fluppy\Tests\Fixtures\FakeDropbox;
 use Saade\Fluppy\Tests\Fixtures\FluppyForm;
 use Saade\Fluppy\Tests\Fixtures\FluppyPage;
 use Saade\Fluppy\Tests\Fixtures\ParseMultipartBody;
@@ -74,6 +76,12 @@ class BrowserTestCase extends TestCase
             Route::get('storage/{path}', fn (string $path) => response(Storage::disk('uploads')->get($path))
                 ->header('Content-Type', Storage::disk('uploads')->mimeType($path)))
                 ->where('path', '.*');
+
+            // Stands in for the page of a provider where a person lets the
+            // application in: it sends them straight back, as one who agreed.
+            Route::get('fluppy-tests/authorize', fn (Request $request) => redirect()->away(
+                $request->query('redirect_uri') . '?' . http_build_query(['code' => FakeDropbox::CODE, 'state' => $request->query('state')]),
+            ));
 
             // There is no compiled theme here, and Uppy's own stylesheet is
             // enough for its interface to be laid out and clickable.
