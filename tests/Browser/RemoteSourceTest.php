@@ -6,10 +6,12 @@ use Illuminate\Support\Facades\Storage;
 use Saade\Fluppy\Forms\Components\FluppyField;
 use Saade\Fluppy\Sources\SourceManager;
 use Saade\Fluppy\Sources\Support\UrlGuard;
+use Saade\Fluppy\Tests\Fixtures\FakeBox;
 use Saade\Fluppy\Tests\Fixtures\FakeDropbox;
 use Saade\Fluppy\Tests\Fixtures\FakeGoogleDrive;
 use Saade\Fluppy\Tests\Fixtures\FakeOneDrive;
 use Saade\Fluppy\Tests\Fixtures\FluppyForm;
+use Saade\Fluppy\Tests\Fixtures\LocalBoxSource;
 use Saade\Fluppy\Tests\Fixtures\LocalDropboxSource;
 use Saade\Fluppy\Tests\Fixtures\LocalOneDriveSource;
 
@@ -112,12 +114,12 @@ it('says why a link is turned away, and fetches nothing from it', function () {
  *
  * @param  array<string, string>  $files  Names as the Picker gives them, by file id.
  */
-function pickFromGoogleDrive(mixed $page, array $files): mixed
+function pickFromGoogleDrive(mixed $page, array $files, ?string $type = null): mixed
 {
     $page->assertSee('Google Drive');
 
     $files = json_encode(array_map(
-        fn (string $id, string $name): array => ['id' => $id, 'name' => $name],
+        fn (string $id, string $name): array => ['id' => $id, 'name' => $name, 'type' => $type],
         array_keys($files),
         $files,
     ));
@@ -129,8 +131,9 @@ function pickFromGoogleDrive(mixed $page, array $files): mixed
             const uppy = window.Alpine.\$data(document.querySelector('.fi-fluppy')).getUppy()
             const { requestClientId } = uppy.getPlugin('GoogleDrivePicker')
 
-            uppy.addFiles({$files}.map(({ id, name }) => ({
+            uppy.addFiles({$files}.map(({ id, name, type }) => ({
                 name,
+                type,
                 data: { size: null },
                 isRemote: true,
                 remote: { requestClientId, body: { fileId: id, accessToken: {$token}, platform: 'drive' } },
@@ -185,6 +188,25 @@ it('stores a Google document under the name it is exported with', function () {
         ->assertSee('Saved:');
 
     expect(storedFile($page))->toBe('exported as application/vnd.openxmlformats-officedocument.wordprocessingml.document');
+});
+
+it('holds a Google document to the accepted types as the file it is exported to', function () {
+    FakeGoogleDrive::serve(['doc' => ['name' => 'Plan', 'mimeType' => 'application/vnd.google-apps.document', 'modifiedTime' => '2026-10-01T10:00:00Z']]);
+
+    FluppyForm::$configureUsing = fn (FluppyField $field) => $field
+        ->googleDrive()
+        ->acceptedFileTypes(['application/vnd.openxmlformats-officedocument.wordprocessingml.document']);
+
+    pickFromGoogleDrive(visit('/fluppy-tests'), ['doc' => 'Plan'], 'application/vnd.google-apps.document')
+        ->assertSee('Upload complete')
+        ->assertSee('Plan.docx')
+        ->assertScript(UPPY . '.getFiles()[0].type', 'application/vnd.openxmlformats-officedocument.wordprocessingml.document');
+
+    FluppyForm::$configureUsing = fn (FluppyField $field) => $field->googleDrive()->image();
+
+    pickFromGoogleDrive(visit('/fluppy-tests'), ['doc' => 'Plan'], 'application/vnd.google-apps.document')
+        ->assertSee('You can only upload: image/*')
+        ->assertScript(UPPY . '.getFiles().length', 0);
 });
 
 it('says on the file why Google Drive would not give it', function () {
@@ -297,6 +319,42 @@ it('connects to OneDrive, lists its files and fetches the one that is picked', f
     $page->click('.uppy-ProviderBrowser-footer .uppy-c-btn-primary')
         ->assertSee('Upload complete')
         ->assertScript(UPPY . '.getFiles()[0].source', 'onedrive')
+        ->press('Save')
+        ->assertSee('Saved:');
+
+    expect(storedFile($page) === $contents)->toBeTrue();
+});
+
+it('connects to Box, lists its files and fetches the one that is picked', function () {
+    config(['fluppy.remote.box' => ['client_id' => 'client-id', 'client_secret' => 'client-secret']]);
+
+    app(SourceManager::class)->extend('box', fn (): LocalBoxSource => app(LocalBoxSource::class));
+
+    $contents = random_bytes(300 * 1024);
+
+    FakeBox::serve([
+        '0' => [
+            '101' => ['name' => 'Holidays'],
+            '103' => ['name' => 'report.pdf', 'contents' => $contents],
+        ],
+        '101' => [],
+    ]);
+
+    FluppyForm::$configureUsing = fn (FluppyField $field) => $field->box();
+
+    $page = visit('/fluppy-tests')
+        ->click('Box')
+        ->assertSee('Please authenticate with Box')
+        ->click('.uppy-Provider-authBtn')
+        ->assertSee('Holidays')
+        ->assertSee('person@example.com')
+        ->assertSee('report.pdf');
+
+    $page->script("[...document.querySelectorAll('.uppy-ProviderBrowserItem')].find((item) => item.textContent.includes('report.pdf')).querySelector('input').click()");
+
+    $page->click('.uppy-ProviderBrowser-footer .uppy-c-btn-primary')
+        ->assertSee('Upload complete')
+        ->assertScript(UPPY . '.getFiles()[0].source', 'box')
         ->press('Save')
         ->assertSee('Saved:');
 

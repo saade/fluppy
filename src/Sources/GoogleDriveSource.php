@@ -35,6 +35,8 @@ class GoogleDriveSource implements Source
         'application/vnd.google-apps.drawing' => ['image/png', 'png'],
     ];
 
+    protected const EXPORTED_BY_DEFAULT = ['application/pdf', 'pdf'];
+
     public function getId(): string
     {
         return 'google-drive';
@@ -57,7 +59,13 @@ class GoogleDriveSource implements Source
             throw new LogicException('Google Drive needs a client ID, an API key and an app ID. Set `fluppy.remote.google_drive` in the configuration.');
         }
 
-        return array_map(strval(...), $options);
+        return [
+            ...array_map(strval(...), $options),
+            // What a document made in Google's editors will come out as, so
+            // that the browser holds it to the field's accepted types as the
+            // file it is going to be, not as the document it is now.
+            'exports' => [...static::EXPORTS, '*' => static::EXPORTED_BY_DEFAULT],
+        ];
     }
 
     public function describe(array $reference): RemoteFile
@@ -92,7 +100,7 @@ class GoogleDriveSource implements Source
 
         $export = $reference['export'] ?? null;
 
-        if ($export !== null && ! in_array($export, ['application/pdf', ...array_column(static::EXPORTS, 0)], true)) {
+        if ($export !== null && ! in_array($export, [static::EXPORTED_BY_DEFAULT[0], ...array_column(static::EXPORTS, 0)], true)) {
             throw SourceException::notAllowed();
         }
 
@@ -185,7 +193,7 @@ class GoogleDriveSource implements Source
             return null;
         }
 
-        return static::EXPORTS[$type] ?? ['application/pdf', 'pdf'];
+        return static::EXPORTS[$type] ?? static::EXPORTED_BY_DEFAULT;
     }
 
     /**

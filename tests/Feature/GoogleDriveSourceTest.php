@@ -144,6 +144,13 @@ it('gives the browser what the Picker needs, and says what is missing when it is
             'clientId' => 'client.apps.googleusercontent.com',
             'apiKey' => 'AIza-key',
             'appId' => '1234567890',
+            'exports' => [
+                'application/vnd.google-apps.document' => ['application/vnd.openxmlformats-officedocument.wordprocessingml.document', 'docx'],
+                'application/vnd.google-apps.spreadsheet' => ['application/vnd.openxmlformats-officedocument.spreadsheetml.sheet', 'xlsx'],
+                'application/vnd.google-apps.presentation' => ['application/vnd.openxmlformats-officedocument.presentationml.presentation', 'pptx'],
+                'application/vnd.google-apps.drawing' => ['image/png', 'png'],
+                '*' => ['application/pdf', 'pdf'],
+            ],
         ],
     ]);
 

@@ -148,6 +148,11 @@ trait InteractsWithUppy
         return $this->remoteSource('onedrive', $condition);
     }
 
+    public function box(bool | Closure $condition = true): static
+    {
+        return $this->remoteSource('box', $condition);
+    }
+
     /**
      * Turns on a remote source by the id it is registered under in the
      * `SourceManager`, for the ones the field has no method of its own for.

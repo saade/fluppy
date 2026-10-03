@@ -9,8 +9,18 @@ const isOnly = (acceptedFileTypes, kind) =>
     Boolean(acceptedFileTypes?.length) &&
     acceptedFileTypes.every((type) => type.startsWith(`${kind}/`))
 
+// Uppy's own plugin for each account a person connects and then browses, by
+// the id its source is registered with on the server. They are all set up
+// the same way.
+const browsableSources = {
+    box: () => import('@uppy/box'),
+    dropbox: () => import('@uppy/dropbox'),
+    onedrive: () => import('@uppy/onedrive'),
+}
+
 // A remote source's plugin only says which file: the server fetches it. How
-// each is set up to ask the field, rather than Uppy's Companion, is here.
+// each of the others is set up to ask the field, rather than Uppy's
+// Companion, is here.
 const remoteSources = {
     url: async (uppy, { label }, { describe, failedMessage }) => {
         const { default: Url } = await import('@uppy/url')
@@ -55,25 +65,7 @@ const remoteSources = {
         }
     },
 
-    dropbox: async (uppy, options, context) => {
-        const [{ default: Dropbox }, { useBrowsableSource }] = await Promise.all([
-            import('@uppy/dropbox'),
-            import('./browsable-source.js'),
-        ])
-
-        useBrowsableSource(uppy, Dropbox, 'dropbox', options, context)
-    },
-
-    onedrive: async (uppy, options, context) => {
-        const [{ default: OneDrive }, { useBrowsableSource }] = await Promise.all([
-            import('@uppy/onedrive'),
-            import('./browsable-source.js'),
-        ])
-
-        useBrowsableSource(uppy, OneDrive, 'onedrive', options, context)
-    },
-
-    'google-drive': async (uppy, { label, clientId, apiKey, appId }) => {
+    'google-drive': async (uppy, { label, clientId, apiKey, appId, exports }) => {
         const { default: GoogleDrivePicker } = await import(
             '@uppy/google-drive-picker'
         )
@@ -95,6 +87,40 @@ const remoteSources = {
             locale: { strings: { pluginNameGoogleDrivePicker: label } },
         })
 
+        // A document made in Google's editors is picked as what it is in
+        // Drive, and fetched as what it is exported to. Uppy holds a file to
+        // the field's accepted types as it is added, so it is shown the
+        // file the document is going to be.
+        uppy.setOptions({
+            onBeforeFileAdded: (file) => {
+                // Not a shortcut: what it leads to is only known once the
+                // server has followed it.
+                const isDocument =
+                    file.remote?.requestClientId === GoogleDrivePicker.requestClientId &&
+                    file.type?.startsWith('application/vnd.google-apps.') &&
+                    file.type !== 'application/vnd.google-apps.shortcut'
+
+                // Left to Uppy when it has the file already: a changed file
+                // is added without being checked for that.
+                if (!isDocument || uppy.checkIfFileAlreadyExists(file.id)) {
+                    return undefined
+                }
+
+                const [type, extension] = exports[file.type] ?? exports['*']
+                const name = file.name.toLowerCase().endsWith(`.${extension}`)
+                    ? file.name
+                    : `${file.name}.${extension}`
+
+                return {
+                    ...file,
+                    name,
+                    type,
+                    extension,
+                    meta: { ...file.meta, name, type },
+                }
+            },
+        })
+
         // A picked file says nothing of where it came from but the client
         // it was meant to be fetched through.
         uppy.on('file-added', (file) => {
@@ -107,6 +133,17 @@ const remoteSources = {
 
 export async function useRemoteSources(uppy, enabled, context) {
     for (const [id, options] of Object.entries(enabled ?? {})) {
+        if (id in browsableSources) {
+            const [{ default: Plugin }, { useBrowsableSource }] = await Promise.all([
+                browsableSources[id](),
+                import('./browsable-source.js'),
+            ])
+
+            useBrowsableSource(uppy, Plugin, id, options, context)
+
+            continue
+        }
+
         await remoteSources[id]?.(uppy, options, context)
     }
 }

@@ -167,7 +167,7 @@ What to know:
 
 - **Your app only ever reaches the files a person picks.** That is what the `drive.file` scope means, and why this uses the Picker and not a file browser of Uppy's own, which would need access to the whole Drive.
 - There is no client secret and nothing is stored. The access token Google gives the browser is kept there for the tab's session, sent to your server with each picked file, and used to fetch that file. What your server sends back of it is encrypted. It lasts about an hour: a file still being fetched after that fails, saying access expired.
-- Documents made in Google's editors have no file of their own and are exported: Docs as `.docx`, Sheets as `.xlsx`, Slides as `.pptx`, Drawings as `.png`, anything else as a PDF. An export is fetched whole, in one request, and Google does not export documents larger than 10 MB.
+- Documents made in Google's editors have no file of their own and are exported: Docs as `.docx`, Sheets as `.xlsx`, Slides as `.pptx`, Drawings as `.png`, anything else as a PDF. An export is fetched whole, in one request, and Google does not export documents larger than 10 MB. A field that only accepts some types holds a document to them as the file it will be exported to: one that accepts `.docx` takes a Google Doc, and one that only accepts images does not.
 - How large a picked file is only shows once its upload starts: the Picker does not say. A file larger than the field or Livewire allows is turned away then.
 - The Picker and Google's sign-in are loaded from `apis.google.com` and `accounts.google.com`. If your app sends a `Content-Security-Policy` header, it has to allow those scripts and the frames Google opens.
 
@@ -233,6 +233,34 @@ What to know:
 - Microsoft does not send a file from the place it is asked at. It answers with an address that is good for a few minutes, on a host of its choosing, and your server fetches the file from there. That address is checked like a link a person typed (public internet only, the connection made to the address that was checked) and is never sent the person's token. The hosts you allow links from in `fluppy.remote.url.hosts` do not apply to it.
 - A client secret in Entra expires (the portal offers up to two years). When it has, connecting fails until you set a new one.
 - Only what is in the person's own OneDrive is listed. Notebooks and other items that are neither a file nor a folder are left out.
+
+## Box
+
+```php
+FluppyField::make('attachments')
+    ->multiple()
+    ->box()
+```
+
+Box works the way Dropbox and OneDrive do: a button, a window to connect the first time, then a browser of the person's files inside the field, with the tokens kept on your server.
+
+It needs a custom app in the [Box Developer Console](https://app.box.com/developers/console):
+
+1. Press "New App" and choose the app type "User", the one for apps where people link their own Box accounts. A "Server" app, which is what a new developer account starts with, has nowhere to put a redirect address and cannot be used for this.
+2. Under "Configuration", add the redirect address `https://your-app.com/fluppy/sources/box/callback`.
+3. Under "Application Scopes", "Content Actions", keep both "Read all files and folders stored in Box" and "Write all files and folders stored in Box" ticked. Box's console says of the second that it is needed to download files. Fluppy never writes to a person's Box.
+4. Copy the client ID and the client secret:
+
+```dotenv
+FLUPPY_BOX_CLIENT_ID=your-client-id
+FLUPPY_BOX_CLIENT_SECRET=your-client-secret
+```
+
+What to know:
+
+- Like Microsoft, Box answers a download with a short-lived address on another host. Your server fetches from there, through the same guard as a link a person typed, and does not send the person's token along.
+- Box does not say what type a file is, so the type is worked out from the file's name, as for Dropbox.
+- Bookmarks, which Box lists among files, are left out.
 
 ## Editing images
 

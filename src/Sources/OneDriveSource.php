@@ -4,22 +4,12 @@ namespace Saade\Fluppy\Sources;
 
 use Illuminate\Http\Client\Response;
 use Psr\Http\Message\StreamInterface;
-use Saade\Fluppy\Sources\Support\Download;
-use Saade\Fluppy\Sources\Support\GuardedHttp;
-use Saade\Fluppy\Sources\Support\TokenStore;
 
 class OneDriveSource extends OAuthSource
 {
     protected const API = 'https://graph.microsoft.com/v1.0';
 
     protected const NEXT_PAGE = 'next:';
-
-    public function __construct(
-        TokenStore $tokens,
-        protected GuardedHttp $http,
-    ) {
-        parent::__construct($tokens);
-    }
 
     public function getId(): string
     {
@@ -128,8 +118,6 @@ class OneDriveSource extends OAuthSource
     {
         $fileId = $this->id($reference['fileId'] ?? null);
 
-        $isRange = $from !== null && $to !== null;
-
         // Microsoft does not send the file from here. It answers with an
         // address that is good for a few minutes and needs no token, on a
         // host of its own choosing.
@@ -141,18 +129,7 @@ class OneDriveSource extends OAuthSource
             throw SourceException::notAllowed();
         }
 
-        $download = $this->http->forProvider()->download(
-            $address,
-            $isRange ? ['Range' => "bytes={$from}-{$to}"] : [],
-            $isRange ? $to - $from + 1 : $limit,
-            $isRange,
-        );
-
-        if ($download->status() !== ($isRange ? 206 : 200)) {
-            throw SourceException::failed($download->status());
-        }
-
-        return Download::bodyOf($download);
+        return $this->downloadFrom($address, $from, $to, $limit);
     }
 
     /**

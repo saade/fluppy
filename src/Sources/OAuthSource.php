@@ -8,6 +8,9 @@ use Illuminate\Http\Client\PendingRequest;
 use Illuminate\Http\Client\Response;
 use Illuminate\Support\Facades\Http;
 use LogicException;
+use Psr\Http\Message\StreamInterface;
+use Saade\Fluppy\Sources\Support\Download;
+use Saade\Fluppy\Sources\Support\GuardedHttp;
 use Saade\Fluppy\Sources\Support\Token;
 use Saade\Fluppy\Sources\Support\TokenStore;
 
@@ -20,11 +23,21 @@ abstract class OAuthSource implements BrowsableSource
 {
     public function __construct(
         protected TokenStore $tokens,
+        protected GuardedHttp $http,
     ) {}
 
     abstract protected function getAuthorizationEndpoint(): string;
 
     abstract protected function getTokenEndpoint(): string;
+
+    /**
+     * Whether the provider takes PKCE. One that does not may refuse an
+     * address or a token request that carries what it does not know.
+     */
+    protected function usesPkce(): bool
+    {
+        return true;
+    }
 
     /**
      * What the authorization address carries besides what every provider
@@ -59,8 +72,7 @@ abstract class OAuthSource implements BrowsableSource
             'response_type' => 'code',
             'redirect_uri' => $redirectUrl,
             'state' => $state,
-            'code_challenge' => $codeChallenge,
-            'code_challenge_method' => 'S256',
+            ...($this->usesPkce() ? ['code_challenge' => $codeChallenge, 'code_challenge_method' => 'S256'] : []),
             ...$this->getAuthorizationParameters(),
         ]);
     }
@@ -71,7 +83,7 @@ abstract class OAuthSource implements BrowsableSource
             'grant_type' => 'authorization_code',
             'code' => $code,
             'redirect_uri' => $redirectUrl,
-            'code_verifier' => $codeVerifier,
+            ...($this->usesPkce() ? ['code_verifier' => $codeVerifier] : []),
         ]));
     }
 
@@ -155,6 +167,34 @@ abstract class OAuthSource implements BrowsableSource
         }
 
         return $response;
+    }
+
+    /**
+     * Fetches a file, or a part of one, from an address the provider handed
+     * out for it. The address is guarded like a link a person typed, and is
+     * not sent the person's token unless the headers carry it: the token is
+     * for the provider's own API, and the address may be anywhere.
+     *
+     * @param  array<string, string>  $headers
+     *
+     * @throws SourceException
+     */
+    protected function downloadFrom(string $address, ?int $from, ?int $to, ?int $limit, array $headers = []): StreamInterface
+    {
+        $isRange = $from !== null && $to !== null;
+
+        $response = $this->http->forProvider()->download(
+            $address,
+            [...$headers, ...($isRange ? ['Range' => "bytes={$from}-{$to}"] : [])],
+            $isRange ? $to - $from + 1 : $limit,
+            $isRange,
+        );
+
+        if ($response->status() !== ($isRange ? 206 : 200)) {
+            throw SourceException::failed($response->status());
+        }
+
+        return Download::bodyOf($response);
     }
 
     protected function refresh(Token $token): Token

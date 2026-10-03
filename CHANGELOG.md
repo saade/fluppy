@@ -14,6 +14,7 @@ All notable changes to `fluppy` will be documented in this file.
 - `SpatieMediaLibraryFluppyField`, the upload field of Filament's media library plugin with Uppy as its interface. It adds files to the library without reading them into memory.
 - `imageEditor()` lets an uploaded or stored image be cropped, rotated and flipped, with Uppy's image editor.
 - `openable()`, `downloadable()` and `previewable()` are respected.
+- `box()` does the same for Box.
 - `oneDrive()` does the same for OneDrive, for personal, work and school accounts.
 - `dropbox()` lets a person connect their Dropbox and pick files from it, in a file browser inside the field. The tokens are kept on the server, in the session.
 - `googleDrive()` lets files be picked from Google Drive, in Google's own Picker. The server fetches them from Google, and only ever reaches the files a person picks.

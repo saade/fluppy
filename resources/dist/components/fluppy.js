@@ -5880,6 +5880,10 @@ var $r = {
 	microphone: () => import("../fluppy-lib-TQ9qpZbC.js"),
 	screenCapture: () => import("../fluppy-lib-DuQ2dm8L.js")
 }, ei = (e, t) => !!e?.length && e.every((e) => e.startsWith(`${t}/`)), ti = {
+	box: () => import("../fluppy-lib-D5D4e5pC.js"),
+	dropbox: () => import("../fluppy-lib-DAMwpQ2y.js"),
+	onedrive: () => import("../fluppy-lib-CF8wSfHt.js")
+}, ni = {
 	url: async (e, { label: t }, { describe: n, failedMessage: r }) => {
 		let { default: i } = await import("../fluppy-lib-BfewsBLD.js");
 		e.use(i, {
@@ -5905,17 +5909,9 @@ var $r = {
 			} catch {}
 		};
 	},
-	dropbox: async (e, t, n) => {
-		let [{ default: r }, { useBrowsableSource: i }] = await Promise.all([import("../fluppy-lib-DAMwpQ2y.js"), import("../fluppy-browsable-source-DdhkK874.js")]);
-		i(e, r, "dropbox", t, n);
-	},
-	onedrive: async (e, t, n) => {
-		let [{ default: r }, { useBrowsableSource: i }] = await Promise.all([import("../fluppy-lib-CF8wSfHt.js"), import("../fluppy-browsable-source-DdhkK874.js")]);
-		i(e, r, "onedrive", t, n);
-	},
-	"google-drive": async (e, { label: t, clientId: n, apiKey: r, appId: i }) => {
-		let { default: a } = await import("../fluppy-lib-V6JdPVyR.js");
-		e.use(a, {
+	"google-drive": async (e, { label: t, clientId: n, apiKey: r, appId: i, exports: a }) => {
+		let { default: o } = await import("../fluppy-lib-V6JdPVyR.js");
+		e.use(o, {
 			companionUrl: window.location.origin,
 			clientId: n,
 			apiKey: r,
@@ -5926,15 +5922,36 @@ var $r = {
 				removeItem: async (e) => sessionStorage.removeItem(e)
 			},
 			locale: { strings: { pluginNameGoogleDrivePicker: t } }
-		}), e.on("file-added", (t) => {
-			t.remote?.requestClientId === a.requestClientId && e.setFileState(t.id, { source: "google-drive" });
+		}), e.setOptions({ onBeforeFileAdded: (t) => {
+			if (!(t.remote?.requestClientId === o.requestClientId && t.type?.startsWith("application/vnd.google-apps.") && t.type !== "application/vnd.google-apps.shortcut") || e.checkIfFileAlreadyExists(t.id)) return;
+			let [n, r] = a[t.type] ?? a["*"], i = t.name.toLowerCase().endsWith(`.${r}`) ? t.name : `${t.name}.${r}`;
+			return {
+				...t,
+				name: i,
+				type: n,
+				extension: r,
+				meta: {
+					...t.meta,
+					name: i,
+					type: n
+				}
+			};
+		} }), e.on("file-added", (t) => {
+			t.remote?.requestClientId === o.requestClientId && e.setFileState(t.id, { source: "google-drive" });
 		});
 	}
 };
-async function ni(e, t, n) {
-	for (let [r, i] of Object.entries(t ?? {})) await ti[r]?.(e, i, n);
+async function ri(e, t, n) {
+	for (let [r, i] of Object.entries(t ?? {})) {
+		if (r in ti) {
+			let [{ default: t }, { useBrowsableSource: a }] = await Promise.all([ti[r](), import("../fluppy-browsable-source-DdhkK874.js")]);
+			a(e, t, r, i, n);
+			continue;
+		}
+		await ni[r]?.(e, i, n);
+	}
 }
-async function ri(e, t, { acceptedFileTypes: n }) {
+async function ii(e, t, { acceptedFileTypes: n }) {
 	for (let r of t.filter((e) => e in $r)) {
 		let { default: t } = await $r[r]();
 		e.use(t, r === "camera" && ei(n, "image") ? { modes: ["picture"] } : r === "camera" && ei(n, "video") ? { modes: ["video-audio"] } : {});
@@ -5942,10 +5959,10 @@ async function ri(e, t, { acceptedFileTypes: n }) {
 }
 //#endregion
 //#region resources/js/index.js
-function ii() {
+function ai() {
 	return "10000000-1000-4000-8000-100000000000".replace(/[018]/g, (e) => (e ^ crypto.getRandomValues(/* @__PURE__ */ new Uint8Array(1))[0] & 15 >> e / 4).toString(16));
 }
-function ai({ abortMultipartUploadUsing: e, acceptedFileTypes: t, adoptUploadUsing: n, cancelUploadUsing: r, completeMultipartUploadUsing: a, csrfToken: o, deleteUploadedFileUsing: s, describeRemoteFileUsing: c, disconnectRemoteSourceUsing: l, downloadLabel: u, editLabel: d, getUploadedFilesUsing: f, height: p, imageEditor: m, isChunked: h, isDeletable: g, isDisabled: _, isDownloadable: v, isModal: y, isMultiple: b, isOpenable: x, isPreviewable: S, isReorderable: C, listRemoteFilesUsing: w, locale: T, maxFiles: E, maxParallelUploads: ee, maxSize: D, minSize: te, placeUploadedFileUsing: ne, planRemoteUploadUsing: re, planUploadUsing: O, remoteSources: k, removeUploadedFileUsing: ie, reorderUploadedFilesUsing: A, signUploadPartsUsing: ae, sources: oe, state: se, uploadFailedMessage: j, uploadingMessage: ce, uploadUsing: le }) {
+function oi({ abortMultipartUploadUsing: e, acceptedFileTypes: t, adoptUploadUsing: n, cancelUploadUsing: r, completeMultipartUploadUsing: a, csrfToken: o, deleteUploadedFileUsing: s, describeRemoteFileUsing: c, disconnectRemoteSourceUsing: l, downloadLabel: u, editLabel: d, getUploadedFilesUsing: f, height: p, imageEditor: m, isChunked: h, isDeletable: g, isDisabled: _, isDownloadable: v, isModal: y, isMultiple: b, isOpenable: x, isPreviewable: S, isReorderable: C, listRemoteFilesUsing: w, locale: T, maxFiles: E, maxParallelUploads: ee, maxSize: D, minSize: te, placeUploadedFileUsing: ne, planRemoteUploadUsing: re, planUploadUsing: O, remoteSources: k, removeUploadedFileUsing: ie, reorderUploadedFilesUsing: A, signUploadPartsUsing: ae, sources: oe, state: se, uploadFailedMessage: j, uploadingMessage: ce, uploadUsing: le }) {
 	let M = null, ue = null, de = null, N = null, fe = /* @__PURE__ */ new Map(), pe = null;
 	return {
 		state: se,
@@ -5994,13 +6011,13 @@ function ai({ abortMultipartUploadUsing: e, acceptedFileTypes: t, adoptUploadUsi
 				maxParallelUploads: ee ?? 2,
 				uploadFailedMessage: j,
 				uploadUsing: le
-			}), _ || (await ri(M, oe ?? [], { acceptedFileTypes: t }), await ni(M, k, {
+			}), _ || (await ii(M, oe ?? [], { acceptedFileTypes: t }), await ri(M, k, {
 				describe: c,
 				disconnect: l,
 				failedMessage: j,
 				list: w
 			})), M.on("file-added", (e) => {
-				M.setFileMeta(e.id, { fileKey: ii() });
+				M.setFileMeta(e.id, { fileKey: ai() });
 			}), M.on("file-removed", (e) => {
 				M.getFiles().some((e) => e.error) || M.setState({ error: null }), !this.isRemovingSilently && e.meta.fileKey && (this.isStoredFile(e.meta.fileKey) ? s(e.meta.fileKey) : ie(e.meta.fileKey));
 			}), M.on("upload", () => {
@@ -6164,4 +6181,4 @@ function ai({ abortMultipartUploadUsing: e, acceptedFileTypes: t, adoptUploadUsi
 	};
 }
 //#endregion
-export { ai as default };
+export { oi as default };

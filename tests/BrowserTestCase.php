@@ -8,6 +8,7 @@ use Illuminate\Support\Facades\Artisan;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Storage;
 use Livewire\Livewire;
+use Saade\Fluppy\Tests\Fixtures\FakeBox;
 use Saade\Fluppy\Tests\Fixtures\FakeDropbox;
 use Saade\Fluppy\Tests\Fixtures\FakeOneDrive;
 use Saade\Fluppy\Tests\Fixtures\FluppyForm;
@@ -82,7 +83,11 @@ class BrowserTestCase extends TestCase
             // application in: it sends them straight back, as one who agreed.
             Route::get('fluppy-tests/authorize', fn (Request $request) => redirect()->away(
                 $request->query('redirect_uri') . '?' . http_build_query([
-                    'code' => str_contains($request->query('redirect_uri'), '/onedrive/') ? FakeOneDrive::CODE : FakeDropbox::CODE,
+                    'code' => match (true) {
+                        str_contains($request->query('redirect_uri'), '/onedrive/') => FakeOneDrive::CODE,
+                        str_contains($request->query('redirect_uri'), '/box/') => FakeBox::CODE,
+                        default => FakeDropbox::CODE,
+                    },
                     'state' => $request->query('state'),
                 ]),
             ));

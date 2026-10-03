@@ -5,8 +5,8 @@ namespace Saade\Fluppy\Sources;
 use Illuminate\Http\Client\Response;
 use Psr\Http\Message\StreamInterface;
 use Saade\Fluppy\Sources\Support\Download;
+use Saade\Fluppy\Sources\Support\FileType;
 use Saade\Fluppy\Sources\Support\Token;
-use Symfony\Component\Mime\MimeTypes;
 
 class DropboxSource extends OAuthSource
 {
@@ -64,7 +64,7 @@ class DropboxSource extends OAuthSource
                 name: (string) $entry['name'],
                 isFolder: $entry['.tag'] === 'folder',
                 size: isset($entry['size']) ? (int) $entry['size'] : null,
-                type: $entry['.tag'] === 'file' ? $this->typeOf((string) $entry['name']) : null,
+                type: $entry['.tag'] === 'file' ? FileType::ofName((string) $entry['name']) : null,
                 modifiedAt: $entry['server_modified'] ?? null,
             ))
             ->values()
@@ -89,7 +89,7 @@ class DropboxSource extends OAuthSource
             identity: $file['id'] . '|' . ($file['rev'] ?? ''),
             name: mb_substr(basename(str_replace('\\', '/', (string) $file['name'])), 0, 255) ?: 'file',
             size: isset($file['size']) ? (int) $file['size'] : null,
-            type: $this->typeOf((string) $file['name']),
+            type: FileType::ofName((string) $file['name']),
             acceptsRanges: true,
         );
     }
@@ -153,19 +153,5 @@ class DropboxSource extends OAuthSource
 
             return $account['email'] ?? ($account['name']['display_name'] ?? null);
         });
-    }
-
-    // Dropbox does not say what kind of file a file is, and a field that
-    // only takes some kinds has to know before the file is fetched.
-    protected function typeOf(string $name): ?string
-    {
-        $types = MimeTypes::getDefault()->getMimeTypes(strtolower(pathinfo($name, PATHINFO_EXTENSION)));
-
-        // An extension can stand for several types, and the first is not
-        // always the one a field asks for: `.mp4` is `application/mp4`
-        // before it is `video/mp4`.
-        return collect($types)->first(fn (string $type): bool => (bool) preg_match('#^(video|audio)/#', $type))
-            ?? $types[0]
-            ?? null;
     }
 }

@@ -13,6 +13,7 @@ use Saade\Fluppy\Http\Controllers\ChunkController;
 use Saade\Fluppy\Http\Controllers\DoctorController;
 use Saade\Fluppy\Http\Controllers\RemoteController;
 use Saade\Fluppy\Http\Controllers\SourceConnectionController;
+use Saade\Fluppy\Sources\BoxSource;
 use Saade\Fluppy\Sources\DropboxSource;
 use Saade\Fluppy\Sources\GoogleDriveSource;
 use Saade\Fluppy\Sources\OneDriveSource;
@@ -50,7 +51,8 @@ class FluppyServiceProvider extends PackageServiceProvider
             ->extend('url', fn (): UrlSource => app(UrlSource::class))
             ->extend('google-drive', fn (): GoogleDriveSource => app(GoogleDriveSource::class))
             ->extend('dropbox', fn (): DropboxSource => app(DropboxSource::class))
-            ->extend('onedrive', fn (): OneDriveSource => app(OneDriveSource::class)));
+            ->extend('onedrive', fn (): OneDriveSource => app(OneDriveSource::class))
+            ->extend('box', fn (): BoxSource => app(BoxSource::class)));
     }
 
     public function packageBooted(): void
