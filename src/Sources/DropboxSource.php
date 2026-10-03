@@ -51,13 +51,6 @@ class DropboxSource extends OAuthSource
         $this->rpc('auth/token/revoke');
     }
 
-    protected function forget(): void
-    {
-        parent::forget();
-
-        session()->forget('fluppy.sources.dropbox.account');
-    }
-
     public function list(?string $path = null): Listing
     {
         $folder = str_starts_with((string) $path, static::NEXT_PAGE)
@@ -155,7 +148,7 @@ class DropboxSource extends OAuthSource
 
     protected function account(): ?string
     {
-        return session()->remember('fluppy.sources.dropbox.account', function (): ?string {
+        return $this->rememberAccount(function (): ?string {
             $account = $this->rpc('users/get_current_account');
 
             return $account['email'] ?? ($account['name']['display_name'] ?? null);

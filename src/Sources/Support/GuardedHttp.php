@@ -25,9 +25,26 @@ class GuardedHttp
 {
     protected const MAX_REDIRECTS = 5;
 
+    protected bool $isForProvider = false;
+
     public function __construct(
         protected UrlGuard $guard,
     ) {}
+
+    /**
+     * For an address a provider hands out as where to download a file from.
+     * It is guarded like one a person typed, since a provider's answer is
+     * not to be trusted with where the server connects either, but the
+     * hosts an application allows links from do not apply to it.
+     */
+    public function forProvider(): static
+    {
+        $http = clone $this;
+
+        $http->isForProvider = true;
+
+        return $http;
+    }
 
     /**
      * What a server answers before it sends a file: its status and its
@@ -94,7 +111,7 @@ class GuardedHttp
         }
 
         for ($redirects = 0; $redirects <= static::MAX_REDIRECTS; $redirects++) {
-            $checked = $this->guard->check($url);
+            $checked = $this->guard->check($url, $this->isForProvider);
 
             $response = $send(
                 Http::withHeaders($headers)

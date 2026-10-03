@@ -13,6 +13,7 @@ return [
         'url' => 'Link',
         'google_drive' => 'Google Drive',
         'dropbox' => 'Dropbox',
+        'onedrive' => 'OneDrive',
         'not_connected' => 'Conecte-se ao :source para buscar arquivos de lá.',
         'connected' => ':source foi conectado.',
         'connection_failed' => 'Não foi possível conectar ao :source.',

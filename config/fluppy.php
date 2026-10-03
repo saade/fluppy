@@ -56,6 +56,11 @@ return [
     | `dropbox` is the app key and the app secret of an app in Dropbox's App
     | Console. The secret never leaves the server.
     |
+    | `onedrive` is the client ID and a client secret of an app registered in
+    | Microsoft Entra. `tenant` says which accounts may connect: `common` for
+    | personal, work and school ones alike, `consumers` or `organizations`
+    | for one kind, or the ID of one organization.
+    |
     */
 
     'remote' => [
@@ -74,6 +79,11 @@ return [
         'dropbox' => [
             'client_id' => env('FLUPPY_DROPBOX_CLIENT_ID'),
             'client_secret' => env('FLUPPY_DROPBOX_CLIENT_SECRET'),
+        ],
+        'onedrive' => [
+            'client_id' => env('FLUPPY_ONEDRIVE_CLIENT_ID'),
+            'client_secret' => env('FLUPPY_ONEDRIVE_CLIENT_SECRET'),
+            'tenant' => env('FLUPPY_ONEDRIVE_TENANT', 'common'),
         ],
     ],
 

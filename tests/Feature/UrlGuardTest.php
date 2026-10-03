@@ -115,3 +115,24 @@ it('only fetches from the hosts the configuration lists, when it lists any', fun
         ->and($guard->check('https://cdn.example.org/'))->toMatchArray(['host' => 'cdn.example.org'])
         ->and(fn () => $guard->check('https://elsewhere.test.net/'))->toThrow(SourceException::class);
 });
+
+it('lets an address a provider hands out through whatever hosts and ports links are allowed on', function () {
+    config(['fluppy.remote.url.hosts' => ['files.example.com'], 'fluppy.remote.url.ports' => [8443]]);
+
+    expect(urlGuard(['download.provider.net' => ['93.184.216.34']])->check('https://download.provider.net/a?token=b', isFromProvider: true))
+        ->toBe(['host' => 'download.provider.net', 'port' => 443, 'address' => '93.184.216.34']);
+});
+
+it('still refuses an address a provider hands out that is not HTTPS on its own port, or not public', function (string $url) {
+    config(['fluppy.remote.url.ports' => [80, 443, 8443]]);
+
+    $guard = urlGuard(['download.provider.net' => ['93.184.216.34'], 'inside.provider.net' => ['10.0.0.5']]);
+
+    expect(fn () => $guard->check($url, isFromProvider: true))->toThrow(SourceException::class);
+})->with([
+    'plain HTTP' => ['http://download.provider.net/a'],
+    'another port' => ['https://download.provider.net:8443/a'],
+    'a private address' => ['https://inside.provider.net/a'],
+    'this machine' => ['https://127.0.0.1/a'],
+    'a user name' => ['https://user@download.provider.net/a'],
+]);

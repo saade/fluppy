@@ -8,8 +8,10 @@ use Saade\Fluppy\Sources\SourceManager;
 use Saade\Fluppy\Sources\Support\UrlGuard;
 use Saade\Fluppy\Tests\Fixtures\FakeDropbox;
 use Saade\Fluppy\Tests\Fixtures\FakeGoogleDrive;
+use Saade\Fluppy\Tests\Fixtures\FakeOneDrive;
 use Saade\Fluppy\Tests\Fixtures\FluppyForm;
 use Saade\Fluppy\Tests\Fixtures\LocalDropboxSource;
+use Saade\Fluppy\Tests\Fixtures\LocalOneDriveSource;
 
 const A_LINK_TO_IMPORT = 'https://files.example.com/videos/holiday.mp4';
 
@@ -263,6 +265,42 @@ it('asks to connect again once the person has disconnected', function () {
         ->click('Log out')
         ->assertSee('Please authenticate with Dropbox')
         ->assertDontSee('report.pdf');
+});
+
+it('connects to OneDrive, lists its files and fetches the one that is picked', function () {
+    config(['fluppy.remote.onedrive' => ['client_id' => 'client-id', 'client_secret' => 'client-secret', 'tenant' => 'common']]);
+
+    app(SourceManager::class)->extend('onedrive', fn (): LocalOneDriveSource => app(LocalOneDriveSource::class));
+
+    $contents = random_bytes(300 * 1024);
+
+    FakeOneDrive::serve([
+        'root' => [
+            'FOLDER!101' => ['name' => 'Holidays'],
+            'REPORT!103' => ['name' => 'report.pdf', 'type' => 'application/pdf', 'contents' => $contents],
+        ],
+        'FOLDER!101' => [],
+    ]);
+
+    FluppyForm::$configureUsing = fn (FluppyField $field) => $field->oneDrive();
+
+    $page = visit('/fluppy-tests')
+        ->click('OneDrive')
+        ->assertSee('Please authenticate with OneDrive')
+        ->click('.uppy-Provider-authBtn')
+        ->assertSee('Holidays')
+        ->assertSee('person@example.com')
+        ->assertSee('report.pdf');
+
+    $page->script("[...document.querySelectorAll('.uppy-ProviderBrowserItem')].find((item) => item.textContent.includes('report.pdf')).querySelector('input').click()");
+
+    $page->click('.uppy-ProviderBrowser-footer .uppy-c-btn-primary')
+        ->assertSee('Upload complete')
+        ->assertScript(UPPY . '.getFiles()[0].source', 'onedrive')
+        ->press('Save')
+        ->assertSee('Saved:');
+
+    expect(storedFile($page) === $contents)->toBeTrue();
 });
 
 it('turns a linked file away when it is larger than the field allows', function () {

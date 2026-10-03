@@ -1,34 +1,31 @@
-import { t as e } from "./fluppy-ProviderView-DVSZQmbQ.js";
-import { n as t } from "./fluppy-AuthError-CpV_e0tX.js";
-import { n, t as r } from "./fluppy-RequestClient-B3NweaQs.js";
-import { r as i, t as a } from "./fluppy-UIPlugin-ihypjxg2.js";
-import { t as o } from "./fluppy-getErrorMessage-DxiQuxng.js";
-import { t as s } from "./fluppy-tokenStorage-CoxIVt8_.js";
+import { n as e } from "./fluppy-AuthError-CpV_e0tX.js";
+import { n as t, t as n } from "./fluppy-RequestClient-B3NweaQs.js";
+import { t as r } from "./fluppy-getErrorMessage-DxiQuxng.js";
 //#region node_modules/@uppy/core/lib/companion-client/getAllowedHosts.js
-function c(e) {
+function i(e) {
 	return e.replace(/[/\-\\^$*+?.()|[\]{}]/g, "\\$&");
 }
-function l(e) {
+function a(e) {
 	if (typeof e == "string") return new RegExp(e);
 	if (e instanceof RegExp) return e;
 }
-function u(e, t) {
+function o(e, t) {
 	if (e) {
 		let t = (e) => {
-			if (!(typeof e == "string" && l(e)) && !(e instanceof RegExp)) throw TypeError("The option \"companionAllowedHosts\" must be one of string, Array, RegExp");
+			if (!(typeof e == "string" && a(e)) && !(e instanceof RegExp)) throw TypeError("The option \"companionAllowedHosts\" must be one of string, Array, RegExp");
 		};
 		return Array.isArray(e) ? e.every(t) : t(e), e;
 	}
 	let n = t;
-	return /^(?!https?:\/\/).*$/i.test(n) && (n = `https://${t.replace(/^\/\//, "")}`), n = new URL(n).origin, n = c(n), n;
+	return /^(?!https?:\/\/).*$/i.test(n) && (n = `https://${t.replace(/^\/\//, "")}`), n = new URL(n).origin, n = i(n), n;
 }
 //#endregion
 //#region node_modules/@uppy/core/lib/companion-client/Provider.js
-var d = (e) => e.split("-").map((e) => e.charAt(0).toUpperCase() + e.slice(1)).join(" ");
-function f() {
+var s = (e) => e.split("-").map((e) => e.charAt(0).toUpperCase() + e.slice(1)).join(" ");
+function c() {
 	return location.origin;
 }
-var p = class extends r {
+var l = class extends n {
 	#e;
 	provider;
 	id;
@@ -39,7 +36,7 @@ var p = class extends r {
 	preAuthToken;
 	supportsRefreshToken;
 	constructor(e, t) {
-		super(e, t), this.provider = t.provider, this.id = this.provider, this.name = t.name || d(this.id), this.pluginId = t.pluginId, this.tokenKey = `companion-${this.pluginId}-auth-token`, this.companionKeysParams = this.opts.companionKeysParams, this.preAuthToken = null, this.supportsRefreshToken = !!t.supportsRefreshToken;
+		super(e, t), this.provider = t.provider, this.id = this.provider, this.name = t.name || s(this.id), this.pluginId = t.pluginId, this.tokenKey = `companion-${this.pluginId}-auth-token`, this.companionKeysParams = this.opts.companionKeysParams, this.preAuthToken = null, this.supportsRefreshToken = !!t.supportsRefreshToken;
 	}
 	async headers() {
 		let [e, t] = await Promise.all([super.headers(), this.#t()]), n = {};
@@ -76,7 +73,7 @@ var p = class extends r {
 	authUrl({ authFormData: e, query: t, authCallbackToken: n }) {
 		let r = new URLSearchParams({
 			...t,
-			state: btoa(JSON.stringify({ origin: f() })),
+			state: btoa(JSON.stringify({ origin: c() })),
 			...this.authQuery({ authFormData: e })
 		});
 		return this.preAuthToken && r.set("uppyPreAuthToken", this.preAuthToken), n && r.set("authCallbackToken", n), `${this.hostname}/${this.id}/connect?${r}`;
@@ -88,16 +85,16 @@ var p = class extends r {
 		});
 		n.throwIfAborted(), await this.setAuthToken(r.uppyAuthToken), n.throwIfAborted();
 	}
-	async loginOAuth({ uppyVersions: e, authFormData: t, signal: r }) {
-		await this.ensurePreAuth(), r.throwIfAborted();
-		let i = crypto.randomUUID(), a = this.authUrl({
+	async loginOAuth({ uppyVersions: e, authFormData: n, signal: i }) {
+		await this.ensurePreAuth(), i.throwIfAborted();
+		let a = crypto.randomUUID(), o = this.authUrl({
 			query: { uppyVersions: e },
-			authFormData: t,
-			authCallbackToken: i
-		}), s = window.open(a, "_blank"), c, l;
+			authFormData: n,
+			authCallbackToken: a
+		}), s = window.open(o, "_blank"), c, l;
 		try {
-			let e = n(this.opts.companionUrl), t = await new Promise((t, n) => {
-				l = new WebSocket(`${e}/api2/auth-callback/token/${i}`), l.addEventListener("close", () => {
+			let e = t(this.opts.companionUrl), n = await new Promise((t, n) => {
+				l = new WebSocket(`${e}/api2/auth-callback/token/${a}`), l.addEventListener("close", () => {
 					n(/* @__PURE__ */ Error("Socket closed"));
 				}), l.addEventListener("error", (e) => {
 					this.uppy.log(`Companion socket error ${JSON.stringify(e)}, closing socket`, "warning"), l?.close();
@@ -108,16 +105,16 @@ var p = class extends r {
 					} catch (e) {
 						n(e);
 					}
-				}), r.addEventListener("abort", () => n(/* @__PURE__ */ Error("Authentication was aborted"))), s && (c = window.setInterval(() => {
+				}), i.addEventListener("abort", () => n(/* @__PURE__ */ Error("Authentication was aborted"))), s && (c = window.setInterval(() => {
 					s.closed && n(/* @__PURE__ */ Error("Auth window was closed by the user"));
 				}, 500));
 			});
-			this.setAuthToken(t);
+			this.setAuthToken(n);
 		} catch (e) {
 			let t = this.uppy.i18n("authAborted");
-			throw this.uppy.info({ message: t }, "warning", 5e3), this.uppy.log(`Authentication failed: ${o(e)}`, "warning"), e;
+			throw this.uppy.info({ message: t }, "warning", 5e3), this.uppy.log(`Authentication failed: ${r(e)}`, "warning"), e;
 		} finally {
-			setTimeout(() => s?.close(), 1), this.uppy.log(`Closing auth callback socket ${i}`), l?.close(), clearInterval(c);
+			setTimeout(() => s?.close(), 1), this.uppy.log(`Closing auth callback socket ${a}`), l?.close(), clearInterval(c);
 		}
 	}
 	async login({ uppyVersions: e = "", authFormData: t, signal: n }) {
@@ -133,14 +130,14 @@ var p = class extends r {
 	fileUrl(e) {
 		return `${this.hostname}/${this.id}/get/${e}`;
 	}
-	async request(...e) {
+	async request(...t) {
 		await this.#e;
 		try {
-			return await super.request(...e);
+			return await super.request(...t);
 		} catch (n) {
 			if (!this.supportsRefreshToken) throw n;
 			let r = await this.#t();
-			if (!t(n) || !r) throw n;
+			if (!e(n) || !r) throw n;
 			return this.#e ??= (async () => {
 				try {
 					this.uppy.log("[CompanionClient] Refreshing expired auth token");
@@ -149,12 +146,12 @@ var p = class extends r {
 						method: "POST"
 					});
 					await this.setAuthToken(e.uppyAuthToken);
-				} catch (e) {
-					throw t(e) && await this.removeAuthToken(), n;
+				} catch (t) {
+					throw e(t) && await this.removeAuthToken(), n;
 				} finally {
 					this.#e = void 0;
 				}
-			})(), await this.#e, super.request(...e);
+			})(), await this.#e, super.request(...t);
 		}
 	}
 	async fetchPreAuthToken() {
@@ -193,92 +190,6 @@ var p = class extends r {
 			name: t
 		}, n);
 	}
-}, m = {
-	name: "@uppy/dropbox",
-	description: "Import files from Dropbox, into Uppy.",
-	version: "6.0.0",
-	license: "MIT",
-	type: "module",
-	sideEffects: !1,
-	scripts: {
-		build: "tsc --build tsconfig.build.json",
-		typecheck: "tsc --build"
-	},
-	keywords: [
-		"file uploader",
-		"uppy",
-		"uppy-plugin",
-		"dropbox"
-	],
-	homepage: "https://uppy.io",
-	bugs: { url: "https://github.com/transloadit/uppy/issues" },
-	repository: {
-		type: "git",
-		url: "git+https://github.com/transloadit/uppy.git"
-	},
-	files: [
-		"src",
-		"lib",
-		"dist",
-		"CHANGELOG.md"
-	],
-	exports: {
-		".": "./lib/index.js",
-		"./package.json": "./package.json"
-	},
-	dependencies: { preact: "^10.29.2" },
-	peerDependencies: { "@uppy/core": "^6.0.0" },
-	devDependencies: {
-		"@uppy/core": "^6.0.0",
-		typescript: "^6.0.3"
-	}
-}, h = { strings: { pluginNameDropbox: "Dropbox" } }, g = class extends a {
-	static VERSION = m.version;
-	icon;
-	provider;
-	view;
-	storage;
-	files;
-	rootFolderId = null;
-	constructor(e, t) {
-		super(e, t), this.id = this.opts.id || "Dropbox", this.type = "acquirer", this.storage = this.opts.storage || s, this.files = [], this.icon = () => i("svg", {
-			className: "uppy-DashboardTab-iconDropbox",
-			"aria-hidden": "true",
-			focusable: "false",
-			width: "32",
-			height: "32",
-			viewBox: "0 0 32 32",
-			children: i("path", {
-				d: "M10.5 7.5L5 10.955l5.5 3.454 5.5-3.454 5.5 3.454 5.5-3.454L21.5 7.5 16 10.955zM10.5 21.319L5 17.864l5.5-3.455 5.5 3.455zM16 17.864l5.5-3.455 5.5 3.455-5.5 3.455zM16 25.925l-5.5-3.455 5.5-3.454 5.5 3.454z",
-				fill: "currentcolor",
-				fillRule: "nonzero"
-			})
-		}), this.opts.companionAllowedHosts = u(this.opts.companionAllowedHosts, this.opts.companionUrl), this.provider = new p(e, {
-			companionUrl: this.opts.companionUrl,
-			companionHeaders: this.opts.companionHeaders,
-			companionKeysParams: this.opts.companionKeysParams,
-			companionCookiesRule: this.opts.companionCookiesRule,
-			provider: "dropbox",
-			pluginId: this.id,
-			supportsRefreshToken: !0
-		}), this.defaultLocale = h, this.i18nInit(), this.title = this.i18n("pluginNameDropbox"), this.render = this.render.bind(this);
-	}
-	install() {
-		this.view = new e(this, {
-			provider: this.provider,
-			loadAllFiles: !0,
-			virtualList: !0,
-			supportsSearch: !0
-		});
-		let { target: t } = this.opts;
-		t && this.mount(t, this);
-	}
-	uninstall() {
-		this.view.tearDown(), this.unmount();
-	}
-	render(e) {
-		return this.view.render(e);
-	}
 };
 //#endregion
-export { g as default };
+export { o as n, l as t };

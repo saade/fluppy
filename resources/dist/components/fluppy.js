@@ -5906,8 +5906,12 @@ var $r = {
 		};
 	},
 	dropbox: async (e, t, n) => {
-		let [{ default: r }, { useBrowsableSource: i }] = await Promise.all([import("../fluppy-lib-BGf8T43R.js"), import("../fluppy-browsable-source-DdhkK874.js")]);
+		let [{ default: r }, { useBrowsableSource: i }] = await Promise.all([import("../fluppy-lib-DAMwpQ2y.js"), import("../fluppy-browsable-source-DdhkK874.js")]);
 		i(e, r, "dropbox", t, n);
+	},
+	onedrive: async (e, t, n) => {
+		let [{ default: r }, { useBrowsableSource: i }] = await Promise.all([import("../fluppy-lib-CF8wSfHt.js"), import("../fluppy-browsable-source-DdhkK874.js")]);
+		i(e, r, "onedrive", t, n);
 	},
 	"google-drive": async (e, { label: t, clientId: n, apiKey: r, appId: i }) => {
 		let { default: a } = await import("../fluppy-lib-V6JdPVyR.js");

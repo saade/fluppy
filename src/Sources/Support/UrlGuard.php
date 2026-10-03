@@ -78,11 +78,12 @@ class UrlGuard
     }
 
     /**
+     * @param  bool  $isFromProvider  Whether a provider handed the address out, as where to download a file from, instead of a person typing it. The ports and hosts an application allows links on are not for those: they have to be HTTPS on its own port, and public like any other.
      * @return array{host: string, port: int, address: string} The host, its port, and the checked address to connect to.
      *
      * @throws SourceException
      */
-    public function check(string $url): array
+    public function check(string $url, bool $isFromProvider = false): array
     {
         $parts = parse_url($url);
 
@@ -100,11 +101,11 @@ class UrlGuard
         $host = strtolower(trim($parts['host'], '[]'));
         $port = $parts['port'] ?? ($scheme === 'https' ? 443 : 80);
 
-        if (! in_array($port, array_map(intval(...), (array) config('fluppy.remote.url.ports', [80, 443])), true)) {
-            throw SourceException::notAllowed();
-        }
+        $isAllowed = $isFromProvider
+            ? $scheme === 'https' && $port === 443
+            : in_array($port, array_map(intval(...), (array) config('fluppy.remote.url.ports', [80, 443])), true) && $this->isAllowedHost($host);
 
-        if (! $this->isAllowedHost($host)) {
+        if (! $isAllowed) {
             throw SourceException::notAllowed();
         }
 

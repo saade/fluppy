@@ -2,6 +2,7 @@
 
 namespace Saade\Fluppy\Sources;
 
+use Closure;
 use Illuminate\Http\Client\ConnectionException;
 use Illuminate\Http\Client\PendingRequest;
 use Illuminate\Http\Client\Response;
@@ -91,6 +92,20 @@ abstract class OAuthSource implements BrowsableSource
     protected function forget(): void
     {
         $this->tokens->forget($this->getId());
+
+        session()->forget("fluppy.sources.{$this->getId()}.account");
+    }
+
+    /**
+     * Whose account is connected, as the person would know it. Asked of the
+     * provider once and kept in the session, since the file browser shows it
+     * with every folder it lists.
+     *
+     * @param  Closure(): ?string  $ask
+     */
+    protected function rememberAccount(Closure $ask): ?string
+    {
+        return session()->remember("fluppy.sources.{$this->getId()}.account", $ask);
     }
 
     /**

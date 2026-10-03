@@ -9,6 +9,7 @@ use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Storage;
 use Livewire\Livewire;
 use Saade\Fluppy\Tests\Fixtures\FakeDropbox;
+use Saade\Fluppy\Tests\Fixtures\FakeOneDrive;
 use Saade\Fluppy\Tests\Fixtures\FluppyForm;
 use Saade\Fluppy\Tests\Fixtures\FluppyPage;
 use Saade\Fluppy\Tests\Fixtures\ParseMultipartBody;
@@ -80,7 +81,10 @@ class BrowserTestCase extends TestCase
             // Stands in for the page of a provider where a person lets the
             // application in: it sends them straight back, as one who agreed.
             Route::get('fluppy-tests/authorize', fn (Request $request) => redirect()->away(
-                $request->query('redirect_uri') . '?' . http_build_query(['code' => FakeDropbox::CODE, 'state' => $request->query('state')]),
+                $request->query('redirect_uri') . '?' . http_build_query([
+                    'code' => str_contains($request->query('redirect_uri'), '/onedrive/') ? FakeOneDrive::CODE : FakeDropbox::CODE,
+                    'state' => $request->query('state'),
+                ]),
             ));
 
             // There is no compiled theme here, and Uppy's own stylesheet is

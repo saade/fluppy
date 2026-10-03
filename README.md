@@ -200,6 +200,37 @@ What to know:
 - Connecting is OAuth's authorization code flow with PKCE. The answer has to carry a random value your server put in the session when the window was opened, so a link cannot connect somebody's session to an account of another person's choosing.
 - Dropbox does not say what type a file is, so the type is worked out from the file's name. That is what a field that only accepts some types goes by when it greys files out in the browser. The file itself is still checked by your rules once it is fetched.
 
+## OneDrive
+
+```php
+FluppyField::make('attachments')
+    ->multiple()
+    ->oneDrive()
+```
+
+OneDrive works the way Dropbox does: a "OneDrive" button, a window to connect the first time, then a browser of the person's files inside the field. Everything said above about where the tokens are kept applies to it too.
+
+It needs an app registered in [Microsoft Entra](https://entra.microsoft.com/) (App registrations, New registration):
+
+1. Choose which accounts may sign in. That choice has to agree with the tenant below.
+2. Add a redirect address of the type "Web": `https://your-app.com/fluppy/sources/onedrive/callback`.
+3. Under "API permissions", add the delegated Microsoft Graph permissions `Files.Read`, `User.Read` and `offline_access`.
+4. Under "Certificates & secrets", create a client secret, and copy its value. Copy the application (client) ID from the overview.
+
+```dotenv
+FLUPPY_ONEDRIVE_CLIENT_ID=00000000-0000-0000-0000-000000000000
+FLUPPY_ONEDRIVE_CLIENT_SECRET=the-value-of-the-secret
+FLUPPY_ONEDRIVE_TENANT=common
+```
+
+The tenant is `common` unless you set it: personal, work and school accounts alike. Use `consumers` for personal accounts only, `organizations` for work and school ones, or the ID or domain of one organization to let only its people in.
+
+What to know:
+
+- Microsoft does not send a file from the place it is asked at. It answers with an address that is good for a few minutes, on a host of its choosing, and your server fetches the file from there. That address is checked like a link a person typed (public internet only, the connection made to the address that was checked) and is never sent the person's token. The hosts you allow links from in `fluppy.remote.url.hosts` do not apply to it.
+- A client secret in Entra expires (the portal offers up to two years). When it has, connecting fails until you set a new one.
+- Only what is in the person's own OneDrive is listed. Notebooks and other items that are neither a file nor a folder are left out.
+
 ## Editing images
 
 ```php
