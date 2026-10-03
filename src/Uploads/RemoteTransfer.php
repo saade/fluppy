@@ -77,6 +77,9 @@ class RemoteTransfer
     public function seal(): string
     {
         return encrypt([
+            // So that nothing else the application encrypts, were it ever
+            // handed back to a browser, could pass for one of these.
+            'sealed' => static::class,
             'source' => $this->source,
             'reference' => $this->reference,
             'identity' => $this->identity,
@@ -96,7 +99,11 @@ class RemoteTransfer
             return null;
         }
 
-        if (! is_array($payload) || ! hash_equals(sha1(session()->getId()), (string) ($payload['session'] ?? ''))) {
+        if (
+            ! is_array($payload) ||
+            ($payload['sealed'] ?? null) !== static::class ||
+            ! hash_equals(sha1(session()->getId()), (string) ($payload['session'] ?? ''))
+        ) {
             return null;
         }
 

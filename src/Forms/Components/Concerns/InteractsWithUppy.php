@@ -4,6 +4,7 @@ namespace Saade\Fluppy\Forms\Components\Concerns;
 
 use Closure;
 use Filament\Support\Components\Attributes\ExposedLivewireMethod;
+use Illuminate\Support\Facades\RateLimiter;
 use Illuminate\Support\Number;
 use Livewire\Attributes\Renderless;
 use Livewire\Features\SupportFileUploads\FileUploadConfiguration;
@@ -289,6 +290,19 @@ trait InteractsWithUppy
         if ($this->isDisabled() || ! array_key_exists($id, $this->getRemoteSources())) {
             throw SourceException::notAllowed();
         }
+
+        // Whatever asks for a source goes on to make the server ask it, or
+        // a link, something. A route has a rate limit for that; a field's
+        // methods, called through Livewire, have this one, of the same size.
+        [$attempts, $minutes] = array_map(intval(...), [...explode(',', (string) config('fluppy.remote.throttle', '600,1')), 1]);
+
+        $key = 'fluppy-remote-sources:' . sha1(session()->getId());
+
+        if (RateLimiter::tooManyAttempts($key, $attempts)) {
+            throw SourceException::tooManyRequests();
+        }
+
+        RateLimiter::hit($key, max(1, $minutes) * 60);
 
         return app(SourceManager::class)->get($id);
     }

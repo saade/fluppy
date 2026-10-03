@@ -101,7 +101,8 @@ it('sends what it fetches from a link through cURL, to the address the guard che
     expect($options)->toHaveCount(3)
         ->each(fn ($request) => $request
             ->not->toHaveKey('stream')
-            ->allow_redirects->toBeFalse())
+            ->allow_redirects->toBeFalse()
+            ->decode_content->toBeFalse())
         ->and($options[0]['curl'])->toBe([CURLOPT_RESOLVE => ['files.example.com:443:93.184.216.34']])
         ->and($options[2]['curl'])->toBe([CURLOPT_RESOLVE => ['files.example.com:80:93.184.216.34']])
         ->and($options[0])->toHaveKey('on_headers')->not->toHaveKey('sink')
@@ -117,7 +118,11 @@ it('sends what it fetches from Google Drive through cURL too, into a sink', func
     app(GoogleDriveSource::class)->read(['fileId' => 'abc', 'accessToken' => FakeGoogleDrive::TOKEN], 0, 3);
 
     expect($options)->toHaveCount(1)
-        ->and($options[0])->not->toHaveKey('stream')->sink->toBeInstanceOf(LimitedSink::class);
+        ->and($options[0])
+        ->not->toHaveKey('stream')
+        ->sink->toBeInstanceOf(LimitedSink::class)
+        ->decode_content->toBeFalse()
+        ->allow_redirects->toMatchArray(['max' => 3, 'protocols' => ['https']]);
 });
 
 it('sends what it fetches from Dropbox through cURL too, into a sink', function () {
@@ -132,5 +137,9 @@ it('sends what it fetches from Dropbox through cURL too, into a sink', function 
     app(DropboxSource::class)->read(['fileId' => 'id:a'], 0, 3);
 
     expect($options)->toHaveCount(1)
-        ->and($options[0])->not->toHaveKey('stream')->sink->toBeInstanceOf(LimitedSink::class);
+        ->and($options[0])
+        ->not->toHaveKey('stream')
+        ->sink->toBeInstanceOf(LimitedSink::class)
+        ->decode_content->toBeFalse()
+        ->allow_redirects->toMatchArray(['max' => 3, 'protocols' => ['https']]);
 });

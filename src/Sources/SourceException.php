@@ -27,6 +27,11 @@ class SourceException extends RuntimeException
         return new SourceNotConnectedException(__('fluppy::fluppy.sources.not_connected', ['source' => $source]));
     }
 
+    public static function tooManyRequests(): self
+    {
+        return new self(__('fluppy::fluppy.sources.too_many_requests'));
+    }
+
     public static function tooLarge(int $limit): self
     {
         return new self(__('fluppy::fluppy.file_too_large', ['max' => Number::fileSize($limit)]));

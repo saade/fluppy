@@ -133,7 +133,9 @@ To only allow some hosts, list them in `fluppy.remote.url.hosts`; `*` matches an
 ],
 ```
 
-The route that fetches is only of use to the session a field planned an import for, and is throttled (`fluppy.remote.throttle`).
+The route that fetches is only of use to the session a field planned an import for, and is throttled (`fluppy.remote.throttle`, 600 requests a minute). The same limit holds what one session can make a field ask of sources, and a file fetched whole is held to 60 a minute, the rate Livewire allows uploads at.
+
+One thing to weigh before opening a field with remote sources to people you do not know: a part is fetched while a request waits, so a slow host keeps one of your PHP workers busy for up to `fluppy.remote.timeout` seconds. Lower the timeout, or list the hosts you allow, if that matters to you.
 
 ## Google Drive
 
@@ -198,6 +200,7 @@ What to know:
 - **The tokens stay on your server.** Dropbox's answer is traded for tokens by your server, which keeps them in the person's session, encrypted with your app's key. Nothing of them reaches the browser, and they are gone when the session ends. "Log out", in the file browser, also tells Dropbox to stop honoring them.
 - To keep a connection longer than a session, bind your own `Saade\Fluppy\Sources\Support\TokenStore` in a service provider: three methods, `get()`, `put()` and `forget()`, each given the id of the source.
 - Connecting is OAuth's authorization code flow with PKCE. The answer has to carry a random value your server put in the session when the window was opened, so a link cannot connect somebody's session to an account of another person's choosing.
+- The two addresses a person connects through (`fluppy/sources/{source}/connect` and `/callback`) are open to guests, because a field can be on a public form. All a guest can do there is connect their own account to their own session, where nothing uses it. To keep them to people who are signed in, set `fluppy.remote.connect_middleware` to `['auth']`, or `['auth:admin']` for another guard.
 - Dropbox does not say what type a file is, so the type is worked out from the file's name. That is what a field that only accepts some types goes by when it greys files out in the browser. The file itself is still checked by your rules once it is fetched.
 
 ## OneDrive

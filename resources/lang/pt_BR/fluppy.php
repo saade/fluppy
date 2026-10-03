@@ -15,6 +15,7 @@ return [
         'dropbox' => 'Dropbox',
         'onedrive' => 'OneDrive',
         'not_connected' => 'Conecte-se ao :source para buscar arquivos de lá.',
+        'too_many_requests' => 'Muitos arquivos foram pedidos de uma vez. Aguarde um momento e tente novamente.',
         'connected' => ':source foi conectado.',
         'connection_failed' => 'Não foi possível conectar ao :source.',
         'close_window' => 'Você pode fechar esta janela.',

@@ -117,6 +117,9 @@ class GuardedHttp
                 Http::withHeaders($headers)
                     ->withOptions([
                         'allow_redirects' => false,
+                        // So that the size a server says a file has is the
+                        // size of the file, not of a compressed copy.
+                        'decode_content' => false,
                         'curl' => [
                             // The name was looked up once, by the guard. The
                             // connection is made to what it found, whatever

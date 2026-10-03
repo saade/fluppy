@@ -68,7 +68,7 @@ class FluppyServiceProvider extends PackageServiceProvider
             ->middleware(['web', 'throttle:' . config('fluppy.remote.throttle', '600,1')])
             ->name('fluppy.remote');
 
-        Route::middleware(['web', 'throttle:60,1'])->group(function (): void {
+        Route::middleware(['web', 'throttle:60,1', ...(array) config('fluppy.remote.connect_middleware', [])])->group(function (): void {
             Route::get('fluppy/sources/{source}/connect', [SourceConnectionController::class, 'connect'])
                 ->name('fluppy.sources.connect');
 

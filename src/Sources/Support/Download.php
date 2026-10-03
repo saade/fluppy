@@ -32,7 +32,10 @@ class Download
         $sink = new LimitedSink($limit);
 
         try {
-            $response = $send(['sink' => $sink]);
+            // The bytes are wanted as the source keeps them. Left to itself
+            // the client asks for a compressed answer and unpacks it, and
+            // the part of a compressed answer is not that part of the file.
+            $response = $send(['sink' => $sink, 'decode_content' => false]);
         } catch (ConnectionException | RequestException) {
             $response = null;
         }

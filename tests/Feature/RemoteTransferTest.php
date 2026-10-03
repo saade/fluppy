@@ -3,6 +3,7 @@
 use Illuminate\Http\Client\Factory;
 use Illuminate\Http\Client\Request;
 use Illuminate\Support\Facades\Http;
+use Illuminate\Support\Facades\RateLimiter;
 use Illuminate\Support\Facades\Storage;
 use Livewire\Features\SupportFileUploads\FileUploadConfiguration;
 use Livewire\Features\SupportFileUploads\TemporaryUploadedFile;
@@ -326,6 +327,73 @@ it('refuses a sealed file it did not seal, or sealed for another session', funct
 
     askForPart($plan, ['capability' => $plan['capability'], 'index' => 0])->assertForbidden();
 });
+
+it('does not take for a sealed file something else the application encrypted for the same session', function () {
+    fileServer('small contents');
+
+    $plan = planRemoteFile(remoteForm());
+
+    $lookalike = encrypt([
+        'source' => 'url',
+        'reference' => ['url' => A_LINK],
+        'identity' => A_LINK,
+        'name' => 'holiday.mp4',
+        'type' => 'video/mp4',
+        'size' => 14,
+        'limit' => null,
+        'session' => sha1(session()->getId()),
+    ]);
+
+    askForPart([...$plan, 'sealed' => $lookalike])->assertForbidden();
+
+    Http::assertSentCount(1);
+});
+
+it('holds files fetched whole to the rate Livewire holds its uploads to', function () {
+    fileServer('small contents');
+
+    $plan = planRemoteFile(remoteForm());
+
+    foreach (range(1, 60) as $fetch) {
+        RateLimiter::hit('fluppy-remote-whole:' . sha1(session()->getId()), 60);
+    }
+
+    askForPart($plan)->assertStatus(429)->assertHeader('Retry-After');
+
+    RateLimiter::clear('fluppy-remote-whole:' . sha1(session()->getId()));
+
+    askForPart($plan)->assertOk()->assertJson(['complete' => true]);
+});
+
+it('stops asking sources on behalf of a session that asks too much', function () {
+    fileServer('small contents');
+
+    config(['fluppy.remote.throttle' => '2,1']);
+
+    $component = remoteForm();
+
+    expect(planRemoteFile($component))->strategy->toBe('remote')
+        ->and(callRemoteField($component, 'describeRemoteFile', ['source' => 'url', 'reference' => ['url' => A_LINK]]))->toHaveKey('name')
+        ->and(planRemoteFile($component))
+        ->strategy->toBe('reject')
+        ->message->toBe('Too many files were asked for at once. Wait a moment and try again.')
+        ->and(callRemoteField($component, 'describeRemoteFile', ['source' => 'url', 'reference' => ['url' => A_LINK]]))->toHaveKey('error');
+
+    Http::assertSentCount(2);
+});
+
+it('only takes from a server what has the shape of a type', function (string $header, ?string $type) {
+    fileServer('contents', headers: ['Content-Type' => $header]);
+
+    expect(callRemoteField(remoteForm(), 'describeRemoteFile', ['source' => 'url', 'reference' => ['url' => A_LINK]]))
+        ->type->toBe($type);
+})->with([
+    ['Text/HTML; charset=utf-8', 'text/html'],
+    ['application/vnd.ms-excel', 'application/vnd.ms-excel'],
+    ['<script>alert(1)</script>', null],
+    ['video/' . str_repeat('a', 300), null],
+    ['', null],
+]);
 
 it('refuses the capability of one file with the sealed description of another', function () {
     fileServer(random_bytes(2500));

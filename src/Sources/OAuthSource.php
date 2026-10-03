@@ -123,6 +123,7 @@ abstract class OAuthSource implements BrowsableSource
         }
 
         return Http::withToken($token->accessToken)
+            ->withOptions(['allow_redirects' => ['max' => 3, 'protocols' => ['https']]])
             ->connectTimeout(5)
             ->timeout((int) config('fluppy.remote.timeout', 60));
     }

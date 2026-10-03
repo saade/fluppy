@@ -61,12 +61,19 @@ return [
     | personal, work and school ones alike, `consumers` or `organizations`
     | for one kind, or the ID of one organization.
     |
+    | `connect_middleware` is added, after `web`, to the two routes a person
+    | connects a Dropbox or OneDrive account through. They are open to
+    | guests by default, since a field can be on a public form: a guest can
+    | connect their own account to their own session, where nothing uses
+    | it. Set it to `['auth']` when only people who are signed in should.
+    |
     */
 
     'remote' => [
         'part_size' => 5120,
         'timeout' => 60,
         'throttle' => '600,1',
+        'connect_middleware' => [],
         'url' => [
             'ports' => [80, 443],
             'hosts' => null,

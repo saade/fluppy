@@ -1,10 +1,13 @@
 <?php
 
+use Illuminate\Foundation\Auth\User;
 use Illuminate\Http\Client\Request;
 use Illuminate\Support\Facades\Http;
+use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Testing\TestResponse;
 use Livewire\Features\SupportTesting\Testable;
+use Saade\Fluppy\FluppyServiceProvider;
 use Saade\Fluppy\Forms\Components\FluppyField;
 use Saade\Fluppy\Sources\DropboxSource;
 use Saade\Fluppy\Sources\SourceException;
@@ -99,6 +102,28 @@ it('only connects sources that are connected that way', function () {
     visitInSession('/fluppy/sources/url/connect')->assertNotFound();
     visitInSession('/fluppy/sources/google-drive/connect')->assertNotFound();
     visitInSession('/fluppy/sources/nowhere/callback?code=a&state=b')->assertNotFound();
+});
+
+it('lets guests connect by default, and only who the configured middleware lets through otherwise', function () {
+    expect(Route::getRoutes()->getByName('fluppy.sources.connect')->gatherMiddleware())->toBe(['web', 'throttle:60,1']);
+
+    test()->getJson('/fluppy/sources/dropbox/connect')->assertRedirect();
+
+    config(['fluppy.remote.connect_middleware' => ['auth']]);
+
+    // The routes are registered when the application boots, with the
+    // configuration as it is then.
+    app()->getProvider(FluppyServiceProvider::class)->packageBooted();
+
+    Route::getRoutes()->refreshNameLookups();
+
+    expect(Route::getRoutes()->getByName('fluppy.sources.connect')->gatherMiddleware())->toBe(['web', 'throttle:60,1', 'auth'])
+        ->and(Route::getRoutes()->getByName('fluppy.sources.callback')->gatherMiddleware())->toBe(['web', 'throttle:60,1', 'auth']);
+
+    test()->getJson('/fluppy/sources/dropbox/connect')->assertUnauthorized();
+    test()->getJson('/fluppy/sources/dropbox/callback?code=a&state=b')->assertUnauthorized();
+
+    test()->actingAs(new User)->getJson('/fluppy/sources/dropbox/connect')->assertRedirect();
 });
 
 it('trades the code for a token and keeps it in the session, encrypted', function () {

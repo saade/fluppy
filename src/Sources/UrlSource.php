@@ -51,7 +51,7 @@ class UrlSource implements Source
             identity: $url,
             name: $this->name($response, $url),
             size: $this->size($response, $acceptsRanges),
-            type: trim(explode(';', (string) $response->header('Content-Type'))[0]) ?: null,
+            type: $this->type($response),
             acceptsRanges: $acceptsRanges,
         );
     }
@@ -88,6 +88,15 @@ class UrlSource implements Source
         }
 
         return $url;
+    }
+
+    // Whatever server the link leads to wrote this header: only what has
+    // the shape of a type is taken from it.
+    protected function type(Response $response): ?string
+    {
+        $type = strtolower(trim(explode(';', (string) $response->header('Content-Type'))[0]));
+
+        return preg_match('#^[a-z0-9][a-z0-9.+_-]{0,99}/[a-z0-9][a-z0-9.+_-]{0,99}$#', $type) ? $type : null;
     }
 
     protected function size(Response $response, bool $acceptsRanges): ?int
