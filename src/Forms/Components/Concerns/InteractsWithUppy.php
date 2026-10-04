@@ -138,6 +138,11 @@ trait InteractsWithUppy
         return $this->remoteSource('google-drive', $condition);
     }
 
+    public function googlePhotos(bool | Closure $condition = true): static
+    {
+        return $this->remoteSource('google-photos', $condition);
+    }
+
     public function dropbox(bool | Closure $condition = true): static
     {
         return $this->remoteSource('dropbox', $condition);

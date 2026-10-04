@@ -9,6 +9,7 @@ use Saade\Fluppy\Sources\Support\UrlGuard;
 use Saade\Fluppy\Tests\Fixtures\FakeBox;
 use Saade\Fluppy\Tests\Fixtures\FakeDropbox;
 use Saade\Fluppy\Tests\Fixtures\FakeGoogleDrive;
+use Saade\Fluppy\Tests\Fixtures\FakeGooglePhotos;
 use Saade\Fluppy\Tests\Fixtures\FakeOneDrive;
 use Saade\Fluppy\Tests\Fixtures\FluppyForm;
 use Saade\Fluppy\Tests\Fixtures\LocalBoxSource;
@@ -319,6 +320,49 @@ it('connects to OneDrive, lists its files and fetches the one that is picked', f
     $page->click('.uppy-ProviderBrowser-footer .uppy-c-btn-primary')
         ->assertSee('Upload complete')
         ->assertScript(UPPY . '.getFiles()[0].source', 'onedrive')
+        ->press('Save')
+        ->assertSee('Saved:');
+
+    expect(storedFile($page) === $contents)->toBeTrue();
+});
+
+it('fetches a video picked in Google Photos, by the name the picker gave it', function () {
+    $contents = random_bytes(300 * 1024);
+
+    FakeGooglePhotos::serve(['abc' => ['type' => 'video/mp4', 'contents' => $contents]]);
+
+    config(['fluppy.remote.google_photos' => ['client_id' => 'client.apps.googleusercontent.com']]);
+
+    FluppyForm::$configureUsing = fn (FluppyField $field) => $field->googlePhotos();
+
+    $page = visit('/fluppy-tests')
+        ->assertSee('Google Photos')
+        ->assertScript(UPPY . ".getPlugin('GooglePhotosPicker').opts.clientId", 'client.apps.googleusercontent.com');
+
+    $address = json_encode(FakeGooglePhotos::address('abc'));
+    $token = json_encode(FakeGooglePhotos::TOKEN);
+
+    // As Uppy's plugin adds what was picked: the picker itself is Google's,
+    // and only opens for a real account.
+    $page->script(<<<JS
+        (() => {
+            const uppy = window.Alpine.\$data(document.querySelector('.fi-fluppy')).getUppy()
+            const { requestClientId } = uppy.getPlugin('GooglePhotosPicker').constructor
+
+            uppy.addFiles([{
+                name: 'holiday.mp4',
+                type: 'video/mp4',
+                data: { size: null },
+                isRemote: true,
+                remote: { requestClientId, body: { fileId: 'abc', accessToken: {$token}, platform: 'photos', url: {$address} } },
+            }])
+        })()
+    JS);
+
+    $page->assertSee('Upload complete')
+        ->assertSee('holiday.mp4')
+        ->assertSee('300 KB')
+        ->assertScript(UPPY . '.getFiles()[0].source', 'google-photos')
         ->press('Save')
         ->assertSee('Saved:');
 

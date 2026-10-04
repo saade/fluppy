@@ -16,6 +16,7 @@ use Saade\Fluppy\Http\Controllers\SourceConnectionController;
 use Saade\Fluppy\Sources\BoxSource;
 use Saade\Fluppy\Sources\DropboxSource;
 use Saade\Fluppy\Sources\GoogleDriveSource;
+use Saade\Fluppy\Sources\GooglePhotosSource;
 use Saade\Fluppy\Sources\OneDriveSource;
 use Saade\Fluppy\Sources\SourceManager;
 use Saade\Fluppy\Sources\Support\SessionTokenStore;
@@ -50,6 +51,7 @@ class FluppyServiceProvider extends PackageServiceProvider
         $this->app->singleton(SourceManager::class, fn (): SourceManager => (new SourceManager)
             ->extend('url', fn (): UrlSource => app(UrlSource::class))
             ->extend('google-drive', fn (): GoogleDriveSource => app(GoogleDriveSource::class))
+            ->extend('google-photos', fn (): GooglePhotosSource => app(GooglePhotosSource::class))
             ->extend('dropbox', fn (): DropboxSource => app(DropboxSource::class))
             ->extend('onedrive', fn (): OneDriveSource => app(OneDriveSource::class))
             ->extend('box', fn (): BoxSource => app(BoxSource::class)));

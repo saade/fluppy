@@ -53,6 +53,10 @@ return [
     | from a project in the Google Cloud console and are sent to the page:
     | none of them is a secret.
     |
+    | `google_photos` is for photos and videos picked in Google's Photos
+    | picker. It takes the client ID alone, the same one unless you set
+    | another, of a project that has the Photos Picker API on.
+    |
     | `dropbox` is the app key and the app secret of an app in Dropbox's App
     | Console. The secret never leaves the server.
     |
@@ -85,6 +89,9 @@ return [
             'client_id' => env('FLUPPY_GOOGLE_CLIENT_ID'),
             'api_key' => env('FLUPPY_GOOGLE_API_KEY'),
             'app_id' => env('FLUPPY_GOOGLE_APP_ID'),
+        ],
+        'google_photos' => [
+            'client_id' => env('FLUPPY_GOOGLE_CLIENT_ID'),
         ],
         'dropbox' => [
             'client_id' => env('FLUPPY_DROPBOX_CLIENT_ID'),

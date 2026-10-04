@@ -110,8 +110,18 @@ class GuardedHttp
             throw new LogicException('Fetching a file from a link needs the cURL extension of PHP.');
         }
 
+        $firstHost = null;
+
         for ($redirects = 0; $redirects <= static::MAX_REDIRECTS; $redirects++) {
             $checked = $this->guard->check($url, $this->isForProvider);
+
+            $firstHost ??= $checked['host'];
+
+            // What lets the server in at one host is not for another that
+            // the first redirects to.
+            if ($checked['host'] !== $firstHost) {
+                $headers = array_filter($headers, fn (string $name): bool => strtolower($name) !== 'authorization', ARRAY_FILTER_USE_KEY);
+            }
 
             $response = $send(
                 Http::withHeaders($headers)

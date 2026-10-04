@@ -5910,17 +5910,11 @@ var $r = {
 		};
 	},
 	"google-drive": async (e, { label: t, clientId: n, apiKey: r, appId: i, exports: a }) => {
-		let { default: o } = await import("../fluppy-lib-V6JdPVyR.js");
-		e.use(o, {
-			companionUrl: window.location.origin,
+		let { default: o } = await import("../fluppy-lib-Dt5eVrDy.js");
+		ri(e, o, "google-drive", {
 			clientId: n,
 			apiKey: r,
 			appId: i,
-			storage: {
-				getItem: async (e) => sessionStorage.getItem(e),
-				setItem: async (e, t) => sessionStorage.setItem(e, t),
-				removeItem: async (e) => sessionStorage.removeItem(e)
-			},
 			locale: { strings: { pluginNameGoogleDrivePicker: t } }
 		}), e.setOptions({ onBeforeFileAdded: (t) => {
 			if (!(t.remote?.requestClientId === o.requestClientId && t.type?.startsWith("application/vnd.google-apps.") && t.type !== "application/vnd.google-apps.shortcut") || e.checkIfFileAlreadyExists(t.id)) return;
@@ -5936,12 +5930,42 @@ var $r = {
 					type: n
 				}
 			};
-		} }), e.on("file-added", (t) => {
-			t.remote?.requestClientId === o.requestClientId && e.setFileState(t.id, { source: "google-drive" });
-		});
+		} });
+	},
+	"google-photos": async (e, { label: t, clientId: n }) => {
+		let { default: r } = await import("../fluppy-lib-BSP0y7N7.js");
+		ri(e, r, "google-photos", {
+			clientId: n,
+			locale: { strings: { pluginNameGooglePhotosPicker: t } }
+		}, (e) => ({
+			name: e.name,
+			type: e.type
+		}));
 	}
 };
-async function ri(e, t, n) {
+function ri(e, t, n, r, i = () => ({})) {
+	e.use(t, {
+		companionUrl: window.location.origin,
+		storage: {
+			getItem: async (e) => sessionStorage.getItem(e),
+			setItem: async (e, t) => sessionStorage.setItem(e, t),
+			removeItem: async (e) => sessionStorage.removeItem(e)
+		},
+		...r
+	}), e.on("file-added", (r) => {
+		r.remote?.requestClientId === t.requestClientId && e.setFileState(r.id, {
+			source: n,
+			remote: {
+				...r.remote,
+				body: {
+					...r.remote.body,
+					...i(r)
+				}
+			}
+		});
+	});
+}
+async function ii(e, t, n) {
 	for (let [r, i] of Object.entries(t ?? {})) {
 		if (r in ti) {
 			let [{ default: t }, { useBrowsableSource: a }] = await Promise.all([ti[r](), import("../fluppy-browsable-source-DdhkK874.js")]);
@@ -5951,7 +5975,7 @@ async function ri(e, t, n) {
 		await ni[r]?.(e, i, n);
 	}
 }
-async function ii(e, t, { acceptedFileTypes: n }) {
+async function ai(e, t, { acceptedFileTypes: n }) {
 	for (let r of t.filter((e) => e in $r)) {
 		let { default: t } = await $r[r]();
 		e.use(t, r === "camera" && ei(n, "image") ? { modes: ["picture"] } : r === "camera" && ei(n, "video") ? { modes: ["video-audio"] } : {});
@@ -5959,10 +5983,10 @@ async function ii(e, t, { acceptedFileTypes: n }) {
 }
 //#endregion
 //#region resources/js/index.js
-function ai() {
+function oi() {
 	return "10000000-1000-4000-8000-100000000000".replace(/[018]/g, (e) => (e ^ crypto.getRandomValues(/* @__PURE__ */ new Uint8Array(1))[0] & 15 >> e / 4).toString(16));
 }
-function oi({ abortMultipartUploadUsing: e, acceptedFileTypes: t, adoptUploadUsing: n, cancelUploadUsing: r, completeMultipartUploadUsing: a, csrfToken: o, deleteUploadedFileUsing: s, describeRemoteFileUsing: c, disconnectRemoteSourceUsing: l, downloadLabel: u, editLabel: d, getUploadedFilesUsing: f, height: p, imageEditor: m, isChunked: h, isDeletable: g, isDisabled: _, isDownloadable: v, isModal: y, isMultiple: b, isOpenable: x, isPreviewable: S, isReorderable: C, listRemoteFilesUsing: w, locale: T, maxFiles: E, maxParallelUploads: ee, maxSize: D, minSize: te, placeUploadedFileUsing: ne, planRemoteUploadUsing: re, planUploadUsing: O, remoteSources: k, removeUploadedFileUsing: ie, reorderUploadedFilesUsing: A, signUploadPartsUsing: ae, sources: oe, state: se, uploadFailedMessage: j, uploadingMessage: ce, uploadUsing: le }) {
+function si({ abortMultipartUploadUsing: e, acceptedFileTypes: t, adoptUploadUsing: n, cancelUploadUsing: r, completeMultipartUploadUsing: a, csrfToken: o, deleteUploadedFileUsing: s, describeRemoteFileUsing: c, disconnectRemoteSourceUsing: l, downloadLabel: u, editLabel: d, getUploadedFilesUsing: f, height: p, imageEditor: m, isChunked: h, isDeletable: g, isDisabled: _, isDownloadable: v, isModal: y, isMultiple: b, isOpenable: x, isPreviewable: S, isReorderable: C, listRemoteFilesUsing: w, locale: T, maxFiles: E, maxParallelUploads: ee, maxSize: D, minSize: te, placeUploadedFileUsing: ne, planRemoteUploadUsing: re, planUploadUsing: O, remoteSources: k, removeUploadedFileUsing: ie, reorderUploadedFilesUsing: A, signUploadPartsUsing: ae, sources: oe, state: se, uploadFailedMessage: j, uploadingMessage: ce, uploadUsing: le }) {
 	let M = null, ue = null, de = null, N = null, fe = /* @__PURE__ */ new Map(), pe = null;
 	return {
 		state: se,
@@ -6011,13 +6035,13 @@ function oi({ abortMultipartUploadUsing: e, acceptedFileTypes: t, adoptUploadUsi
 				maxParallelUploads: ee ?? 2,
 				uploadFailedMessage: j,
 				uploadUsing: le
-			}), _ || (await ii(M, oe ?? [], { acceptedFileTypes: t }), await ri(M, k, {
+			}), _ || (await ai(M, oe ?? [], { acceptedFileTypes: t }), await ii(M, k, {
 				describe: c,
 				disconnect: l,
 				failedMessage: j,
 				list: w
 			})), M.on("file-added", (e) => {
-				M.setFileMeta(e.id, { fileKey: ai() });
+				M.setFileMeta(e.id, { fileKey: oi() });
 			}), M.on("file-removed", (e) => {
 				M.getFiles().some((e) => e.error) || M.setState({ error: null }), !this.isRemovingSilently && e.meta.fileKey && (this.isStoredFile(e.meta.fileKey) ? s(e.meta.fileKey) : ie(e.meta.fileKey));
 			}), M.on("upload", () => {
@@ -6181,4 +6205,4 @@ function oi({ abortMultipartUploadUsing: e, acceptedFileTypes: t, adoptUploadUsi
 	};
 }
 //#endregion
-export { oi as default };
+export { si as default };

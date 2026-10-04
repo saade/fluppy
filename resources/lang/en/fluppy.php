@@ -12,6 +12,7 @@ return [
     'sources' => [
         'url' => 'Link',
         'google_drive' => 'Google Drive',
+        'google_photos' => 'Google Photos',
         'dropbox' => 'Dropbox',
         'onedrive' => 'OneDrive',
         'box' => 'Box',

@@ -171,6 +171,33 @@ What to know:
 - How large a picked file is only shows once its upload starts: the Picker does not say. A file larger than the field or Livewire allows is turned away then.
 - The Picker and Google's sign-in are loaded from `apis.google.com` and `accounts.google.com`. If your app sends a `Content-Security-Policy` header, it has to allow those scripts and the frames Google opens.
 
+## Google Photos
+
+```php
+FluppyField::make('photos')
+    ->multiple()
+    ->googlePhotos()
+```
+
+This adds a "Google Photos" button that opens [Google's own Photos picker](https://developers.google.com/photos/picker/guides/get-started-picker) in a window. The person signs in, picks photos and videos there, and your server fetches each one from Google, in parts when it is large.
+
+It uses the same Google Cloud project and OAuth client as Google Drive, with two additions:
+
+1. Enable the **Google Photos Picker API** for the project.
+2. Add the scope `https://www.googleapis.com/auth/photospicker.mediaitems.readonly` to the OAuth consent screen.
+
+```dotenv
+FLUPPY_GOOGLE_CLIENT_ID=1234567890-abc.apps.googleusercontent.com
+```
+
+It needs the client ID alone: no API key, no app ID. To use another client than Google Drive's, set `fluppy.remote.google_photos.client_id`.
+
+What to know:
+
+- As with Google Drive, your app only reaches what a person picks, there is no client secret, and nothing is stored: the token Google gives the browser comes to your server with each item and is used to fetch it.
+- Google serves a picked item from an address that comes with it and is good for an hour. Your server only asks at an address on Google's own host for what people upload, through the same guard as a link a person typed, and does not send the token on if Google redirects elsewhere.
+- Photos come as the original file. What an item is called and what type it is are what the picker says, where Google's answer for the file does not say.
+
 ## Dropbox
 
 ```php

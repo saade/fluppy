@@ -2,10 +2,10 @@
 
 namespace Saade\Fluppy\Sources;
 
-use Illuminate\Http\Client\Response;
 use Psr\Http\Message\StreamInterface;
 use Saade\Fluppy\Sources\Support\Download;
 use Saade\Fluppy\Sources\Support\GuardedHttp;
+use Saade\Fluppy\Sources\Support\ProbedFile;
 
 /**
  * A file at a link the person gives. Every request goes through the guard:
@@ -39,20 +39,10 @@ class UrlSource implements Source
         // One byte is asked for. A server that takes ranges says so in its
         // answer, with the size of the whole file; one that does not would
         // send the file, which is not waited for.
-        $response = $this->http->probe($url, ['Range' => 'bytes=0-0']);
-
-        if (! in_array($response->status(), [200, 206], true)) {
-            throw SourceException::failed($response->status());
-        }
-
-        $acceptsRanges = $response->status() === 206;
-
-        return new RemoteFile(
+        return ProbedFile::describe(
+            $this->http->probe($url, ProbedFile::FIRST_BYTE),
             identity: $url,
-            name: $this->name($response, $url),
-            size: $this->size($response, $acceptsRanges),
-            type: $this->type($response),
-            acceptsRanges: $acceptsRanges,
+            name: rawurldecode(basename((string) parse_url($url, PHP_URL_PATH))),
         );
     }
 
@@ -88,38 +78,5 @@ class UrlSource implements Source
         }
 
         return $url;
-    }
-
-    // Whatever server the link leads to wrote this header: only what has
-    // the shape of a type is taken from it.
-    protected function type(Response $response): ?string
-    {
-        $type = strtolower(trim(explode(';', (string) $response->header('Content-Type'))[0]));
-
-        return preg_match('#^[a-z0-9][a-z0-9.+_-]{0,99}/[a-z0-9][a-z0-9.+_-]{0,99}$#', $type) ? $type : null;
-    }
-
-    protected function size(Response $response, bool $acceptsRanges): ?int
-    {
-        if ($acceptsRanges) {
-            return preg_match('/\/(\d+)\s*$/', (string) $response->header('Content-Range'), $total) ? (int) $total[1] : null;
-        }
-
-        return is_numeric($length = $response->header('Content-Length')) ? (int) $length : null;
-    }
-
-    protected function name(Response $response, string $url): string
-    {
-        $disposition = (string) $response->header('Content-Disposition');
-
-        if (preg_match("/filename\\*=UTF-8''([^;]+)/i", $disposition, $name)) {
-            $name = rawurldecode($name[1]);
-        } elseif (preg_match('/filename="?([^";]+)"?/i', $disposition, $name)) {
-            $name = $name[1];
-        } else {
-            $name = rawurldecode(basename((string) parse_url($url, PHP_URL_PATH)));
-        }
-
-        return mb_substr(basename(str_replace('\\', '/', $name)), 0, 255) ?: 'file';
     }
 }

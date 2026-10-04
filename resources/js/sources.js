@@ -70,20 +70,10 @@ const remoteSources = {
             '@uppy/google-drive-picker'
         )
 
-        // Not given an id of its own: the Picker's view only hears of its
-        // state under the plugin's default one.
-        uppy.use(GoogleDrivePicker, {
-            companionUrl: window.location.origin,
+        useGooglePicker(uppy, GoogleDrivePicker, 'google-drive', {
             clientId,
             apiKey,
             appId,
-            // The plugin keeps Google's access token in `localStorage` by
-            // default, where it outlives the tab and the session.
-            storage: {
-                getItem: async (key) => sessionStorage.getItem(key),
-                setItem: async (key, value) => sessionStorage.setItem(key, value),
-                removeItem: async (key) => sessionStorage.removeItem(key),
-            },
             locale: { strings: { pluginNameGoogleDrivePicker: label } },
         })
 
@@ -120,15 +110,64 @@ const remoteSources = {
                 }
             },
         })
-
-        // A picked file says nothing of where it came from but the client
-        // it was meant to be fetched through.
-        uppy.on('file-added', (file) => {
-            if (file.remote?.requestClientId === GoogleDrivePicker.requestClientId) {
-                uppy.setFileState(file.id, { source: 'google-drive' })
-            }
-        })
     },
+
+    'google-photos': async (uppy, { label, clientId }) => {
+        const { default: GooglePhotosPicker } = await import(
+            '@uppy/google-photos-picker'
+        )
+
+        // The server asks Google for an item at the address the picker
+        // gave with it. What the item is called and what kind of file it
+        // is, only the picker said, so that goes along too.
+        useGooglePicker(
+            uppy,
+            GooglePhotosPicker,
+            'google-photos',
+            {
+                clientId,
+                locale: { strings: { pluginNameGooglePhotosPicker: label } },
+            },
+            (file) => ({ name: file.name, type: file.type }),
+        )
+    },
+}
+
+/**
+ * Adds one of Uppy's plugins for a picker of Google's own, where the person
+ * signs in to Google in the browser and the token they are given comes with
+ * each item they pick.
+ */
+function useGooglePicker(uppy, Plugin, source, options, describe = () => ({})) {
+    // Not given an id of its own: the picker's view only hears of its state
+    // under the plugin's default one.
+    uppy.use(Plugin, {
+        companionUrl: window.location.origin,
+        // The plugin keeps Google's access token in `localStorage` by
+        // default, where it outlives the tab and the session.
+        storage: {
+            getItem: async (key) => sessionStorage.getItem(key),
+            setItem: async (key, value) => sessionStorage.setItem(key, value),
+            removeItem: async (key) => sessionStorage.removeItem(key),
+        },
+        ...options,
+    })
+
+    // A picked file says nothing of where it came from but the client it
+    // was meant to be fetched through.
+    uppy.on('file-added', (file) => {
+        if (file.remote?.requestClientId !== Plugin.requestClientId) {
+            return
+        }
+
+        uppy.setFileState(file.id, {
+            source,
+            remote: {
+                ...file.remote,
+                body: { ...file.remote.body, ...describe(file) },
+            },
+        })
+    })
 }
 
 export async function useRemoteSources(uppy, enabled, context) {
