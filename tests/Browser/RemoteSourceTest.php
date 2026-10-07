@@ -11,10 +11,12 @@ use Saade\Fluppy\Tests\Fixtures\FakeDropbox;
 use Saade\Fluppy\Tests\Fixtures\FakeGoogleDrive;
 use Saade\Fluppy\Tests\Fixtures\FakeGooglePhotos;
 use Saade\Fluppy\Tests\Fixtures\FakeOneDrive;
+use Saade\Fluppy\Tests\Fixtures\FakeZoom;
 use Saade\Fluppy\Tests\Fixtures\FluppyForm;
 use Saade\Fluppy\Tests\Fixtures\LocalBoxSource;
 use Saade\Fluppy\Tests\Fixtures\LocalDropboxSource;
 use Saade\Fluppy\Tests\Fixtures\LocalOneDriveSource;
+use Saade\Fluppy\Tests\Fixtures\LocalZoomSource;
 
 const A_LINK_TO_IMPORT = 'https://files.example.com/videos/holiday.mp4';
 
@@ -399,6 +401,45 @@ it('connects to Box, lists its files and fetches the one that is picked', functi
     $page->click('.uppy-ProviderBrowser-footer .uppy-c-btn-primary')
         ->assertSee('Upload complete')
         ->assertScript(UPPY . '.getFiles()[0].source', 'box')
+        ->press('Save')
+        ->assertSee('Saved:');
+
+    expect(storedFile($page) === $contents)->toBeTrue();
+});
+
+it('connects to Zoom, opens a month and fetches the recording that is picked', function () {
+    config(['fluppy.remote.zoom' => ['client_id' => 'client-id', 'client_secret' => 'client-secret']]);
+
+    app(SourceManager::class)->extend('zoom', fn (): LocalZoomSource => app(LocalZoomSource::class));
+
+    $contents = random_bytes(300 * 1024);
+
+    FakeZoom::serve([
+        'aB3dEf+gH1jKlMnOpQrStU==' => [
+            'topic' => 'Weekly sync',
+            'start_time' => now()->startOfMonth()->addDays(2)->format('Y-m-d\T14:00:00\Z'),
+            'recording_files' => [
+                ['id' => 'f1e2d3c4-0001', 'file_type' => 'MP4', 'recording_type' => 'speaker_view', 'contents' => $contents],
+            ],
+        ],
+    ]);
+
+    FluppyForm::$configureUsing = fn (FluppyField $field) => $field->zoom();
+
+    $page = visit('/fluppy-tests')
+        ->click('Zoom')
+        ->assertSee('Please authenticate with Zoom')
+        ->click('.uppy-Provider-authBtn')
+        ->assertSee('person@example.com')
+        ->assertSee(now()->translatedFormat('F Y'))
+        ->click(now()->translatedFormat('F Y'))
+        ->assertSee('speaker view.mp4');
+
+    $page->script("[...document.querySelectorAll('.uppy-ProviderBrowserItem')].find((item) => item.textContent.includes('speaker view.mp4')).querySelector('input').click()");
+
+    $page->click('.uppy-ProviderBrowser-footer .uppy-c-btn-primary')
+        ->assertSee('Upload complete')
+        ->assertScript(UPPY . '.getFiles()[0].source', 'zoom')
         ->press('Save')
         ->assertSee('Saved:');
 

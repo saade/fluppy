@@ -23,6 +23,7 @@ use Saade\Fluppy\Sources\Support\SessionTokenStore;
 use Saade\Fluppy\Sources\Support\TokenStore;
 use Saade\Fluppy\Sources\Support\UrlGuard;
 use Saade\Fluppy\Sources\UrlSource;
+use Saade\Fluppy\Sources\ZoomSource;
 use Spatie\LaravelPackageTools\Package;
 use Spatie\LaravelPackageTools\PackageServiceProvider;
 
@@ -54,7 +55,8 @@ class FluppyServiceProvider extends PackageServiceProvider
             ->extend('google-photos', fn (): GooglePhotosSource => app(GooglePhotosSource::class))
             ->extend('dropbox', fn (): DropboxSource => app(DropboxSource::class))
             ->extend('onedrive', fn (): OneDriveSource => app(OneDriveSource::class))
-            ->extend('box', fn (): BoxSource => app(BoxSource::class)));
+            ->extend('box', fn (): BoxSource => app(BoxSource::class))
+            ->extend('zoom', fn (): ZoomSource => app(ZoomSource::class)));
     }
 
     public function packageBooted(): void

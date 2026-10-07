@@ -289,6 +289,36 @@ What to know:
 - Box does not say what type a file is, so the type is worked out from the file's name, as for Dropbox.
 - Bookmarks, which Box lists among files, are left out.
 
+## Zoom
+
+```php
+FluppyField::make('recordings')
+    ->multiple()
+    ->zoom()
+```
+
+This lets a person connect their Zoom account and pick from its cloud recordings: the videos, the audio, the chats and the transcripts of the meetings they recorded. It connects like Dropbox does, and the tokens are kept the same way.
+
+Zoom has no folders. It gives the recordings of a span of time, a month at most, so the file browser shows the months since the account was made, and inside each, the recordings of that month, named after the meeting, its time and what kind of file each is.
+
+It needs an app in the [Zoom App Marketplace](https://marketplace.zoom.us/) (Develop, Build App, "General App"):
+
+1. Under "Basic Information", choose how the app is managed, and add the redirect address `https://your-app.com/fluppy/sources/zoom/callback` as the OAuth redirect URL, and to the allow list.
+2. Under "Scopes", add what lets the app see a person's own recordings and who they are: `cloud_recording:read:list_user_recordings`, `cloud_recording:read:list_recording_files` and `user:read:user`.
+3. Copy the client ID and the client secret:
+
+```dotenv
+FLUPPY_ZOOM_CLIENT_ID=your-client-id
+FLUPPY_ZOOM_CLIENT_SECRET=your-client-secret
+```
+
+What to know:
+
+- Cloud recording is a feature of Zoom's paid plans. An account without it connects and has nothing to list.
+- A recording Zoom is still processing is not listed.
+- Zoom's download address takes the person's token, so the server only sends it to a host of `zoom.us`, and drops it when Zoom passes the request on to where the file is kept.
+- Until Zoom has reviewed and published your app, only people of your own Zoom account can connect it.
+
 ## Editing images
 
 ```php

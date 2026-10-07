@@ -13,6 +13,7 @@
         "@uppy/core": "^6.2.0",
         "@uppy/dashboard": "^6.0.1",
         "@uppy/dropbox": "^6.0.0",
+        "@uppy/facebook": "^6.0.0",
         "@uppy/google-drive-picker": "^2.0.0",
         "@uppy/google-photos-picker": "^2.0.0",
         "@uppy/image-editor": "^5.0.0",
@@ -21,6 +22,7 @@
         "@uppy/screen-capture": "^6.0.1",
         "@uppy/url": "^6.0.1",
         "@uppy/webcam": "^6.0.1",
+        "@uppy/zoom": "^5.0.0",
         "playwright": "^1.63.0",
         "prettier": "^3.9.9",
         "vite": "^8.3.2"

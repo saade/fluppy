@@ -16,6 +16,7 @@ const browsableSources = {
     box: () => import('@uppy/box'),
     dropbox: () => import('@uppy/dropbox'),
     onedrive: () => import('@uppy/onedrive'),
+    zoom: () => import('@uppy/zoom'),
 }
 
 // A remote source's plugin only says which file: the server fetches it. How

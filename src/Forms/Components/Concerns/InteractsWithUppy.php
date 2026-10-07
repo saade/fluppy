@@ -158,6 +158,11 @@ trait InteractsWithUppy
         return $this->remoteSource('box', $condition);
     }
 
+    public function zoom(bool | Closure $condition = true): static
+    {
+        return $this->remoteSource('zoom', $condition);
+    }
+
     /**
      * Turns on a remote source by the id it is registered under in the
      * `SourceManager`, for the ones the field has no method of its own for.

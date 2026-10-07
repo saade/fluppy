@@ -5882,7 +5882,8 @@ var $r = {
 }, ei = (e, t) => !!e?.length && e.every((e) => e.startsWith(`${t}/`)), ti = {
 	box: () => import("../fluppy-lib-D5D4e5pC.js"),
 	dropbox: () => import("../fluppy-lib-DAMwpQ2y.js"),
-	onedrive: () => import("../fluppy-lib-CF8wSfHt.js")
+	onedrive: () => import("../fluppy-lib-CF8wSfHt.js"),
+	zoom: () => import("../fluppy-lib-Bx2bOway.js")
 }, ni = {
 	url: async (e, { label: t }, { describe: n, failedMessage: r }) => {
 		let { default: i } = await import("../fluppy-lib-BfewsBLD.js");

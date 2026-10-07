@@ -128,16 +128,39 @@ abstract class OAuthSource implements BrowsableSource
      */
     protected function request(): PendingRequest
     {
+        return Http::withToken($this->getAccessToken())
+            ->withOptions(['allow_redirects' => ['max' => 3, 'protocols' => ['https']]])
+            ->connectTimeout(5)
+            ->timeout((int) config('fluppy.remote.timeout', 60));
+    }
+
+    /**
+     * @throws SourceNotConnectedException
+     */
+    protected function getAccessToken(): string
+    {
         $token = $this->tokens->get($this->getId()) ?? throw SourceException::notConnected($this->getLabel());
 
         if ($token->hasExpired()) {
             $token = $this->refresh($token);
         }
 
-        return Http::withToken($token->accessToken)
-            ->withOptions(['allow_redirects' => ['max' => 3, 'protocols' => ['https']]])
+        return $token->accessToken;
+    }
+
+    /**
+     * Asks the provider for a token. The application's credentials go in
+     * the body, which is what most providers take.
+     *
+     * @param  array<string, string>  $parameters
+     */
+    protected function postForToken(array $parameters): Response
+    {
+        return Http::asForm()
+            ->acceptJson()
             ->connectTimeout(5)
-            ->timeout((int) config('fluppy.remote.timeout', 60));
+            ->timeout(15)
+            ->post($this->getTokenEndpoint(), [...$this->getCredentials(), ...$parameters]);
     }
 
     /**
@@ -229,11 +252,7 @@ abstract class OAuthSource implements BrowsableSource
     protected function requestToken(array $parameters, ?Token $previous = null): Token
     {
         try {
-            $response = Http::asForm()
-                ->acceptJson()
-                ->connectTimeout(5)
-                ->timeout(15)
-                ->post($this->getTokenEndpoint(), [...$this->getCredentials(), ...$parameters]);
+            $response = $this->postForToken($parameters);
         } catch (ConnectionException) {
             throw SourceException::unreachable();
         }

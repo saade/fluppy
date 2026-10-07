@@ -11,6 +11,7 @@ use Livewire\Livewire;
 use Saade\Fluppy\Tests\Fixtures\FakeBox;
 use Saade\Fluppy\Tests\Fixtures\FakeDropbox;
 use Saade\Fluppy\Tests\Fixtures\FakeOneDrive;
+use Saade\Fluppy\Tests\Fixtures\FakeZoom;
 use Saade\Fluppy\Tests\Fixtures\FluppyForm;
 use Saade\Fluppy\Tests\Fixtures\FluppyPage;
 use Saade\Fluppy\Tests\Fixtures\ParseMultipartBody;
@@ -86,6 +87,7 @@ class BrowserTestCase extends TestCase
                     'code' => match (true) {
                         str_contains($request->query('redirect_uri'), '/onedrive/') => FakeOneDrive::CODE,
                         str_contains($request->query('redirect_uri'), '/box/') => FakeBox::CODE,
+                        str_contains($request->query('redirect_uri'), '/zoom/') => FakeZoom::CODE,
                         default => FakeDropbox::CODE,
                     },
                     'state' => $request->query('state'),

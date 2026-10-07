@@ -68,8 +68,11 @@ return [
     | `box` is the client ID and the client secret of an app of the type
     | "User" in Box's Developer Console. A "Server" app cannot be used.
     |
+    | `zoom` is the client ID and the client secret of an OAuth app in the
+    | Zoom App Marketplace, for the cloud recordings of a person's account.
+    |
     | `connect_middleware` is added, after `web`, to the two routes a person
-    | connects a Dropbox, OneDrive or Box account through. They are open to
+    | connects a Dropbox, OneDrive, Box or Zoom account through. They are open to
     | guests by default, since a field can be on a public form: a guest can
     | connect their own account to their own session, where nothing uses
     | it. Set it to `['auth']` when only people who are signed in should.
@@ -105,6 +108,10 @@ return [
         'box' => [
             'client_id' => env('FLUPPY_BOX_CLIENT_ID'),
             'client_secret' => env('FLUPPY_BOX_CLIENT_SECRET'),
+        ],
+        'zoom' => [
+            'client_id' => env('FLUPPY_ZOOM_CLIENT_ID'),
+            'client_secret' => env('FLUPPY_ZOOM_CLIENT_SECRET'),
         ],
     ],
 
