@@ -10,6 +10,7 @@ use Illuminate\Support\Facades\Storage;
 use Livewire\Livewire;
 use Saade\Fluppy\Tests\Fixtures\FakeBox;
 use Saade\Fluppy\Tests\Fixtures\FakeDropbox;
+use Saade\Fluppy\Tests\Fixtures\FakeFacebook;
 use Saade\Fluppy\Tests\Fixtures\FakeOneDrive;
 use Saade\Fluppy\Tests\Fixtures\FakeZoom;
 use Saade\Fluppy\Tests\Fixtures\FluppyForm;
@@ -88,6 +89,7 @@ class BrowserTestCase extends TestCase
                         str_contains($request->query('redirect_uri'), '/onedrive/') => FakeOneDrive::CODE,
                         str_contains($request->query('redirect_uri'), '/box/') => FakeBox::CODE,
                         str_contains($request->query('redirect_uri'), '/zoom/') => FakeZoom::CODE,
+                        str_contains($request->query('redirect_uri'), '/facebook/') => FakeFacebook::CODE,
                         default => FakeDropbox::CODE,
                     },
                     'state' => $request->query('state'),

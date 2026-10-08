@@ -71,8 +71,11 @@ return [
     | `zoom` is the client ID and the client secret of an OAuth app in the
     | Zoom App Marketplace, for the cloud recordings of a person's account.
     |
+    | `facebook` is the app ID and the app secret of an app at Meta for
+    | Developers, for the photos a person has on Facebook.
+    |
     | `connect_middleware` is added, after `web`, to the two routes a person
-    | connects a Dropbox, OneDrive, Box or Zoom account through. They are open to
+    | connects a Dropbox, OneDrive, Box, Zoom or Facebook account through. They are open to
     | guests by default, since a field can be on a public form: a guest can
     | connect their own account to their own session, where nothing uses
     | it. Set it to `['auth']` when only people who are signed in should.
@@ -112,6 +115,10 @@ return [
         'zoom' => [
             'client_id' => env('FLUPPY_ZOOM_CLIENT_ID'),
             'client_secret' => env('FLUPPY_ZOOM_CLIENT_SECRET'),
+        ],
+        'facebook' => [
+            'client_id' => env('FLUPPY_FACEBOOK_CLIENT_ID'),
+            'client_secret' => env('FLUPPY_FACEBOOK_CLIENT_SECRET'),
         ],
     ],
 

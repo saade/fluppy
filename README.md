@@ -319,6 +319,38 @@ What to know:
 - Zoom's download address takes the person's token, so the server only sends it to a host of `zoom.us`, and drops it when Zoom passes the request on to where the file is kept.
 - Until Zoom has reviewed and published your app, only people of your own Zoom account can connect it.
 
+## Facebook
+
+```php
+FluppyField::make('photos')
+    ->image()
+    ->multiple()
+    ->facebook()
+```
+
+This lets a person connect their Facebook account and pick from their photos. Their albums are the folders; inside one, the photos are shown as a grid of small pictures. A picked photo is fetched at the largest size Facebook keeps of it.
+
+It needs an app at [Meta for Developers](https://developers.facebook.com/apps/):
+
+1. Create an app. When it asks what the app is for, choose the use case "Authenticate and request data from users with Facebook Login".
+2. Open "Use cases" in the app's menu and press "Customize" on that use case. It has two pages that matter, listed on its left: "Permissions and features" and "Settings".
+3. On "Settings", under "Valid OAuth Redirect URIs", type `https://your-app.com/fluppy/sources/facebook/callback` and **pick it from the list that opens under the field**, so that it becomes an entry of its own. Then press "Save changes" at the bottom. Pressing Enter instead saves the page without the address, and Facebook goes on refusing it with "The domain of this URL isn't included in the app's domains".
+4. On "Permissions and features", find `user_photos`. It has to say "Ready for testing"; press "Add" on its row if it does not.
+5. Open "App settings", "Basic", and copy the app ID and the app secret:
+
+```dotenv
+FLUPPY_FACEBOOK_CLIENT_ID=your-app-id
+FLUPPY_FACEBOOK_CLIENT_SECRET=your-app-secret
+```
+
+What to know:
+
+- While the app is unpublished, only people with a role on it (admins, developers, testers) can connect. For anyone else, Meta has to approve `user_photos` in App Review, and the app has to be published.
+- Facebook gives nothing to renew a connection with. The server trades the token it gets for one that lasts about sixty days, and asks the person to connect again after that, or sooner if the session ends first.
+- A photo on Facebook has no file name. It is called after the day it was put there and its id, as in `2026-09-03 1234567890.jpg`.
+- The small pictures in the grid are loaded by the browser straight from Facebook's own host for photos. If your app sends a `Content-Security-Policy` header, its `img-src` has to allow `*.fbcdn.net`.
+- Photos are fetched from that same host by your server, through the guard and without the person's token.
+
 ## Editing images
 
 ```php

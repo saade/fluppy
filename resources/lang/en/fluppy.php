@@ -17,6 +17,7 @@ return [
         'onedrive' => 'OneDrive',
         'box' => 'Box',
         'zoom' => 'Zoom',
+        'facebook' => 'Facebook',
         'not_connected' => 'Connect to :source to fetch files from it.',
         'too_many_requests' => 'Too many files were asked for at once. Wait a moment and try again.',
         'connected' => ':source is connected.',

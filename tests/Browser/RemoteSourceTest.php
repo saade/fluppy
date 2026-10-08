@@ -8,6 +8,7 @@ use Saade\Fluppy\Sources\SourceManager;
 use Saade\Fluppy\Sources\Support\UrlGuard;
 use Saade\Fluppy\Tests\Fixtures\FakeBox;
 use Saade\Fluppy\Tests\Fixtures\FakeDropbox;
+use Saade\Fluppy\Tests\Fixtures\FakeFacebook;
 use Saade\Fluppy\Tests\Fixtures\FakeGoogleDrive;
 use Saade\Fluppy\Tests\Fixtures\FakeGooglePhotos;
 use Saade\Fluppy\Tests\Fixtures\FakeOneDrive;
@@ -15,6 +16,7 @@ use Saade\Fluppy\Tests\Fixtures\FakeZoom;
 use Saade\Fluppy\Tests\Fixtures\FluppyForm;
 use Saade\Fluppy\Tests\Fixtures\LocalBoxSource;
 use Saade\Fluppy\Tests\Fixtures\LocalDropboxSource;
+use Saade\Fluppy\Tests\Fixtures\LocalFacebookSource;
 use Saade\Fluppy\Tests\Fixtures\LocalOneDriveSource;
 use Saade\Fluppy\Tests\Fixtures\LocalZoomSource;
 
@@ -440,6 +442,41 @@ it('connects to Zoom, opens a month and fetches the recording that is picked', f
     $page->click('.uppy-ProviderBrowser-footer .uppy-c-btn-primary')
         ->assertSee('Upload complete')
         ->assertScript(UPPY . '.getFiles()[0].source', 'zoom')
+        ->press('Save')
+        ->assertSee('Saved:');
+
+    expect(storedFile($page) === $contents)->toBeTrue();
+});
+
+it('connects to Facebook, opens an album as a grid of pictures and fetches the photo that is picked', function () {
+    config(['fluppy.remote.facebook' => ['client_id' => 'app-id', 'client_secret' => 'app-secret']]);
+
+    app(SourceManager::class)->extend('facebook', fn (): LocalFacebookSource => app(LocalFacebookSource::class));
+
+    $contents = random_bytes(300 * 1024);
+
+    FakeFacebook::serve([
+        '1001' => ['name' => 'Holidays', 'photos' => ['2001' => $contents, '2002' => 'another']],
+    ]);
+
+    FluppyForm::$configureUsing = fn (FluppyField $field) => $field->facebook();
+
+    $page = visit('/fluppy-tests')
+        ->click('Facebook')
+        ->assertSee('Please authenticate with Facebook')
+        ->click('.uppy-Provider-authBtn')
+        ->assertSee('A Person')
+        ->click('Holidays')
+        ->assertScript("document.querySelectorAll('.uppy-ProviderBrowser-viewType--grid .uppy-ProviderBrowserItem').length", 2)
+        ->assertScript("document.querySelector('.uppy-ProviderBrowserItem img').getAttribute('src')", FakeFacebook::addressOf('2001', 320));
+
+    $page->script("document.querySelector('.uppy-ProviderBrowserItem input').click()");
+
+    $page->click('.uppy-ProviderBrowser-footer .uppy-c-btn-primary')
+        ->assertSee('Upload complete')
+        ->assertSee('2026-09-03 2001.jpg')
+        ->assertScript(UPPY . '.getFiles()[0].source', 'facebook')
+        ->assertScript(UPPY . '.getFiles()[0].size', 300 * 1024)
         ->press('Save')
         ->assertSee('Saved:');
 

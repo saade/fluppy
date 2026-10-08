@@ -17,6 +17,7 @@ return [
         'onedrive' => 'OneDrive',
         'box' => 'Box',
         'zoom' => 'Zoom',
+        'facebook' => 'Facebook',
         'not_connected' => 'Conecte-se ao :source para buscar arquivos de lá.',
         'too_many_requests' => 'Muitos arquivos foram pedidos de uma vez. Aguarde um momento e tente novamente.',
         'connected' => ':source foi conectado.',

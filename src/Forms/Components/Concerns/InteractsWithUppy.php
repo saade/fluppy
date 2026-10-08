@@ -163,6 +163,11 @@ trait InteractsWithUppy
         return $this->remoteSource('zoom', $condition);
     }
 
+    public function facebook(bool | Closure $condition = true): static
+    {
+        return $this->remoteSource('facebook', $condition);
+    }
+
     /**
      * Turns on a remote source by the id it is registered under in the
      * `SourceManager`, for the ones the field has no method of its own for.
@@ -270,6 +275,7 @@ trait InteractsWithUppy
                 'mimeType' => $item->type,
                 'size' => $item->size,
                 'modifiedDate' => $item->modifiedAt,
+                ...($item->thumbnail === null ? [] : ['thumbnail' => $item->thumbnail]),
             ], $listing->items),
         ];
     }

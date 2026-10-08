@@ -15,6 +15,7 @@ use Saade\Fluppy\Http\Controllers\RemoteController;
 use Saade\Fluppy\Http\Controllers\SourceConnectionController;
 use Saade\Fluppy\Sources\BoxSource;
 use Saade\Fluppy\Sources\DropboxSource;
+use Saade\Fluppy\Sources\FacebookSource;
 use Saade\Fluppy\Sources\GoogleDriveSource;
 use Saade\Fluppy\Sources\GooglePhotosSource;
 use Saade\Fluppy\Sources\OneDriveSource;
@@ -56,7 +57,8 @@ class FluppyServiceProvider extends PackageServiceProvider
             ->extend('dropbox', fn (): DropboxSource => app(DropboxSource::class))
             ->extend('onedrive', fn (): OneDriveSource => app(OneDriveSource::class))
             ->extend('box', fn (): BoxSource => app(BoxSource::class))
-            ->extend('zoom', fn (): ZoomSource => app(ZoomSource::class)));
+            ->extend('zoom', fn (): ZoomSource => app(ZoomSource::class))
+            ->extend('facebook', fn (): FacebookSource => app(FacebookSource::class)));
     }
 
     public function packageBooted(): void

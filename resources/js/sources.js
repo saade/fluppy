@@ -15,6 +15,7 @@ const isOnly = (acceptedFileTypes, kind) =>
 const browsableSources = {
     box: () => import('@uppy/box'),
     dropbox: () => import('@uppy/dropbox'),
+    facebook: () => import('@uppy/facebook'),
     onedrive: () => import('@uppy/onedrive'),
     zoom: () => import('@uppy/zoom'),
 }
