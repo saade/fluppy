@@ -175,11 +175,14 @@
     @apply inline-flex items-center justify-center;
 }
 
-/* Light in both themes, so that a dark drawing on nothing can be seen. */
+/*
+ * Light in both themes, so that a dark drawing on nothing can be seen.
+ * `content-box` keeps it off the padding around a picture shown alone.
+ */
 .fi-fluppy img.uppy-Dashboard-Item-previewImg,
 .fi-fluppy .uppy-ProviderBrowserItem-inner img {
     background: repeating-conic-gradient(var(--gray-200) 0 25%, white 0 50%)
-        50% / 12px 12px;
+        50% / 12px 12px content-box;
 }
 
 .fi-fluppy .uppy-Dashboard-Item-previewLink:focus {
