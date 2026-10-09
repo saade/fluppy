@@ -105,7 +105,7 @@ it('only connects sources that are connected that way', function () {
 });
 
 it('lets guests connect by default, and only who the configured middleware lets through otherwise', function () {
-    expect(Route::getRoutes()->getByName('fluppy.sources.connect')->gatherMiddleware())->toBe(['web', 'throttle:60,1']);
+    expect(Route::getRoutes()->getByName('fluppy.sources.connect')->gatherMiddleware())->toBe(['web', 'throttle:60,1,fluppy-connect:']);
 
     test()->getJson('/fluppy/sources/dropbox/connect')->assertRedirect();
 
@@ -117,8 +117,8 @@ it('lets guests connect by default, and only who the configured middleware lets 
 
     Route::getRoutes()->refreshNameLookups();
 
-    expect(Route::getRoutes()->getByName('fluppy.sources.connect')->gatherMiddleware())->toBe(['web', 'throttle:60,1', 'auth'])
-        ->and(Route::getRoutes()->getByName('fluppy.sources.callback')->gatherMiddleware())->toBe(['web', 'throttle:60,1', 'auth']);
+    expect(Route::getRoutes()->getByName('fluppy.sources.connect')->gatherMiddleware())->toBe(['web', 'throttle:60,1,fluppy-connect:', 'auth'])
+        ->and(Route::getRoutes()->getByName('fluppy.sources.callback')->gatherMiddleware())->toBe(['web', 'throttle:60,1,fluppy-connect:', 'auth']);
 
     test()->getJson('/fluppy/sources/dropbox/connect')->assertUnauthorized();
     test()->getJson('/fluppy/sources/dropbox/callback?code=a&state=b')->assertUnauthorized();

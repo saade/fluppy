@@ -1,6 +1,7 @@
 <?php
 
 use Illuminate\Http\UploadedFile;
+use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Testing\TestResponse;
 use Livewire\Features\SupportFileUploads\FileUploadConfiguration;
@@ -307,4 +308,18 @@ it('checks the assembled file against the rules Livewire has for temporary uploa
     sendChunk($plan, $contents, 0);
     sendChunk($plan, $contents, 1);
     sendChunk($plan, $contents, 2)->assertStatus(422)->assertJsonValidationErrors('file');
+});
+
+it('does not count its chunks against the other rate limits of the application', function () {
+    Route::get('throttled-elsewhere', fn (): string => 'ok')->middleware('throttle:2,1');
+
+    $contents = str_repeat('a', 2500);
+
+    $plan = planChunkedUpload(chunkedForm(), $contents);
+
+    foreach ([0, 1, 2] as $index) {
+        sendChunk($plan, $contents, $index)->assertOk();
+    }
+
+    test()->get('throttled-elsewhere')->assertOk();
 });

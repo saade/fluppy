@@ -463,7 +463,7 @@ Each chunk still has to fit in one request:
 - It is lowered automatically to what PHP's `upload_max_filesize` and `post_max_size` allow.
 - The web server's limit cannot be read from PHP. nginx allows 1 MB unless `client_max_body_size` says otherwise, which is why the default is just under it. If you raise the chunk size, raise that limit with it, and the limit of any proxy or CDN in front.
 
-Larger chunks mean fewer requests. With the default throttle of 600 chunks a minute, 900 KB chunks top out at about 9 MB per second.
+Larger chunks mean fewer requests. With the default throttle of 600 chunks a minute, 900 KB chunks top out at about 9 MB per second. Chunks are counted on their own: a large upload does not use up the 60 requests a minute Livewire allows its uploads, or the limit of any other route.
 
 A file no larger than one chunk goes to Livewire in a single request, as with `FileUpload`.
 

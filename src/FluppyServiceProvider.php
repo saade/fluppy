@@ -69,14 +69,14 @@ class FluppyServiceProvider extends PackageServiceProvider
         );
 
         Route::post('fluppy/chunks', ChunkController::class)
-            ->middleware(['web', 'throttle:' . config('fluppy.chunking.throttle', '600,1')])
+            ->middleware(['web', $this->throttle('chunks', (string) config('fluppy.chunking.throttle', '600,1'))])
             ->name('fluppy.chunks');
 
         Route::post('fluppy/remote', RemoteController::class)
-            ->middleware(['web', 'throttle:' . config('fluppy.remote.throttle', '600,1')])
+            ->middleware(['web', $this->throttle('remote', (string) config('fluppy.remote.throttle', '600,1'))])
             ->name('fluppy.remote');
 
-        Route::middleware(['web', 'throttle:60,1', ...(array) config('fluppy.remote.connect_middleware', [])])->group(function (): void {
+        Route::middleware(['web', $this->throttle('connect', '60,1'), ...(array) config('fluppy.remote.connect_middleware', [])])->group(function (): void {
             Route::get('fluppy/sources/{source}/connect', [SourceConnectionController::class, 'connect'])
                 ->name('fluppy.sources.connect');
 
@@ -87,8 +87,19 @@ class FluppyServiceProvider extends PackageServiceProvider
         // Called by `fluppy:doctor`, which has no session to pass the `web`
         // group with.
         Route::post('fluppy/doctor', DoctorController::class)
-            ->middleware('throttle:10,1')
+            ->middleware($this->throttle('doctor', '10,1'))
             ->name('fluppy.doctor');
+    }
+
+    /**
+     * Laravel counts every unnamed `throttle:` together, Livewire's uploads
+     * included, so each of these is named.
+     */
+    protected function throttle(string $name, string $limit): string
+    {
+        [$attempts, $minutes] = array_map(intval(...), [...explode(',', $limit), 1]);
+
+        return "throttle:{$attempts},{$minutes},fluppy-{$name}:";
     }
 
     protected function getAssetPackageName(): ?string
