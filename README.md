@@ -18,6 +18,8 @@ Fluppy for Filament
 - [Usage](#usage)
 - [Options](#options)
 - [Large files](#large-files)
+- [Troubleshooting](#troubleshooting)
+- [Security](#security)
 - [Styling](#styling)
 - [Translations](#translations)
 - [Testing](#testing)
@@ -559,6 +561,92 @@ When the temporary disk and the field's `disk()` are both S3, `FluppyField` has 
 - for files of any size: above 5 GB, the most S3 copies in one request, the copy is made in parts.
 
 For a copy between two buckets, both disks have to be on the same S3 service (the same `endpoint`), and the credentials of the field's disk have to be allowed to read the temporary bucket. If S3 refuses the copy, the error is reported and the file is saved the usual way.
+
+# Troubleshooting
+
+Start with `php artisan fluppy:doctor`, which checks most of what follows on the server it runs on. See [Checking your setup](#checking-your-setup).
+
+## Which limit is which
+
+An upload passes through several layers, each with a limit of its own. Sending a file in chunks takes it under all of them but one:
+
+| A file fails at about | The limit | With `FluppyField` |
+| --------------------- | --------- | ------------------ |
+| 1 MB | nginx, `client_max_body_size` | Not reached: a chunk is 900 KB. |
+| 2 MB or 8 MB | PHP, `upload_max_filesize` and `post_max_size` | Not reached: the chunk size is lowered to fit them. |
+| 12 MB | Livewire, the `max:12288` rule for temporary uploads | **Still applies**, to the whole file. Raise it in `config/livewire.php`, as shown under [Large files](#large-files). |
+| 100 MB | Cloudflare, on its Free and Pro plans (200 MB on Business) | Not reached: each request carries one chunk. |
+| the field's `maxSize()` | The field | Applies. |
+
+Apache's `LimitRequestBody`, and the limit of any other proxy in front of the app, work like nginx's: they only matter when they are lower than a chunk.
+
+## What a failure says
+
+A file that fails shows the reason on the file itself.
+
+- **"The file is larger than the 12 MB allowed."** (or another size) The file was turned away before any of it was sent, by the smaller of the field's `maxSize()` and Livewire's rule. 12 MB is Livewire's default.
+- **"The file could not be uploaded."** and nothing more. A request did not get an answer from the app. Open the browser's network tab and look at the status of the request to `fluppy/chunks` (a file sent in chunks) or `livewire/upload-file` (a file small enough to go in one request):
+  - **413.** The web server or a proxy refused a request as too large. This only happens when `chunk_size` was raised above what they accept, or a proxy accepts less than 1 MB. Lower the one or raise the other.
+  - **429 on `livewire/upload-file`.** Livewire's own limit of 60 uploads a minute for one person was passed (`livewire.temporary_file_upload.middleware`).
+  - **No status at all.** The connection dropped. A file sent in chunks has already tried each one four times, waiting longer each time; retrying the file continues from the chunks that arrived.
+- **"Too Many Attempts."** The chunk route's limit (`fluppy.chunking.throttle`, 600 a minute) was passed and still was after the upload waited and tried again. Raise it if people upload several large files at once.
+- **"CSRF token mismatch."** The session ended while the page was open. Reloading the page and choosing the file again starts a new upload.
+- **"Invalid chunked upload reference."** The upload was planned for another session: the person signed in again in another tab, for instance. Choosing the file again plans a new one.
+- **"The chunked upload is incomplete."** Chunks that had arrived were gone when the file was put together. See [Several servers](#several-servers) and [Cleaning up](#cleaning-up).
+
+A request to `fluppy/chunks` answered with **401** during a long upload is expected and is not shown: the address of the route is signed for as long as Livewire's `max_upload_time` (5 minutes), and the upload asks for a new one and carries on.
+
+For a file a [remote source](#importing-from-a-link) fetches:
+
+- **"Files cannot be fetched from there."** The address did not pass the checks listed under [Importing from a link](#importing-from-a-link), is not among `fluppy.remote.url.hosts`, or the source is not one the field offers.
+- **"The file could not be fetched from where it is."** Its server could not be reached, or did not answer within `fluppy.remote.timeout`.
+- **"Access to the file was refused or has expired."** The source no longer honors the person's token. Connecting again and adding the file once more is all there is to do.
+- **"The file could not be fetched: its server answered 404."** (or another status) What the other server said.
+
+## Resuming
+
+A file chosen again continues from what already arrived when it is the same file (name, size, type and date), chosen in the same session, within the 24 hours [`fluppy:prune`](#cleaning-up) leaves unfinished uploads for. Signing out, or anything else that starts a new session, starts the upload over.
+
+## Several servers
+
+Chunks wait on Livewire's temporary disk until the last one arrives. When that disk is a folder on the server and requests are spread over several servers, the chunks of one file end up on different machines and never come together. This is the same for Livewire's own uploads, and the answers are the same: a temporary disk they all share, [S3](#s3-as-the-temporary-disk) for one, or a load balancer that keeps a session on one server. The cache store should be one they share too, since a lock in it keeps two requests from putting the same file together.
+
+The addresses the package signs are signed without the host, so an app that is reached under another name or scheme than it believes, behind a proxy, does not get "invalid signature" from them.
+
+## Disk space and time
+
+The request that brings the last chunk puts the file together, so it takes longer the larger the file is, and has to finish within PHP's `max_execution_time` and the web server's own timeouts. While it does, the file is written once to the system's temporary directory (`sys_get_temp_dir()`) before it is stored on the temporary disk, and both need room for it. With S3 as the temporary disk none of this happens: the bucket puts the parts together.
+
+## S3
+
+- **The browser's console reports a CORS error on a `PUT` to the bucket.** The bucket has no rule that allows `PUT` from the app's origin. The rule is under [S3 as the temporary disk](#s3-as-the-temporary-disk), and `fluppy:doctor` reads the bucket's rules when its key is allowed to.
+- **A part is answered with 403.** Once in a while this is an address that expired, and the part is sent again to a new one. When every part is refused, the credentials of the temporary disk lack one of the permissions listed in the same place.
+- **S3's limit of 5 GB for one `PUT`** is not reached: a file larger than one part is always sent in parts.
+
+## The field looks unstyled, or a source does nothing
+
+- **Unstyled.** The package's stylesheet is not in the panel's theme, or the theme was not rebuilt since. See [Installation](#installation).
+- **The camera, the microphone or the screen does nothing.** Browsers only give access to them on HTTPS and on `localhost`, and a `Permissions-Policy` header can take it away. See [Camera, microphone and screen](#camera-microphone-and-screen).
+- **Google's picker does not open.** A `Content-Security-Policy` header has to allow Google's scripts and frames, and the origin has to be listed in the OAuth client. See [Google Drive](#google-drive).
+
+## Not tried yet
+
+Laravel Vapor, Laravel Cloud and Octane. On Vapor, where a request through Lambda is limited to roughly 4.5 MB and a server's disk is not kept, expect to need S3 as the temporary disk. If you run the field on any of the three, an issue saying how it went is welcome.
+
+# Security
+
+What to know before a form with the field is open to people you do not know.
+
+- **Who can upload.** Whoever can use a form the field is on, as with `FileUpload`. The two routes the package adds for uploads, `fluppy/chunks` and `fluppy/remote`, only answer an address the app signed, with a reference a field handed to that same session: they are of no use to anyone the form was not shown to. A field on a public form lets guests fill temporary storage, as `FileUpload` there does. Nothing is stored for good until the form is saved.
+- **What the browser does not decide.** The disk, the directory and the name a file is stored under are the field's, set on the server. What a field hands the browser to send back (how large the file is, how many chunks, which session) is signed with your `APP_KEY`, and a chunk has to be exactly as large as was planned, the assembled file exactly as large as was announced. The package refuses to sign anything while the app has no key.
+- **One set of rules.** A file put together on your server, from chunks or by fetching it from a remote source, is checked against Livewire's rules for temporary uploads once it is whole. One that goes to S3 in parts has to be exactly as large as was planned, and what was planned was held to the same size limits. From there each is an ordinary temporary upload: `acceptedFileTypes()`, `maxSize()` and your own rules apply to it on save exactly as they do to any other.
+- **Rate limits.** Each is counted on its own, per signed-in person, or per address for a guest: 600 chunks a minute (`fluppy.chunking.throttle`), 600 requests a minute to fetch remote files (`fluppy.remote.throttle`), and 60 a minute to connect an account.
+- **Temporary files.** Unfinished uploads stay until something removes them. Schedule [`fluppy:prune`](#cleaning-up), and on S3 add the lifecycle rule described under [S3 as the temporary disk](#s3-as-the-temporary-disk).
+- **Remote sources are off until a field turns one on.** With one on, your server makes requests on behalf of whoever uses the form. The checks that keep it to the public internet are listed under [Importing from a link](#importing-from-a-link), where the tokens of connected accounts are kept under [Dropbox](#dropbox), and how to keep connecting to people who are signed in, with `fluppy.remote.connect_middleware`, there too.
+- **S3.** Give the temporary disk's credentials no more than the policy under [S3 as the temporary disk](#s3-as-the-temporary-disk), and allow your own origin in the bucket's CORS rules rather than every one.
+- **`fluppy/doctor`** only answers an address `fluppy:doctor` signed in the five minutes before, and all it says is PHP's two upload limits and the chunk size.
+
+To report a vulnerability, see [Security Vulnerabilities](#security-vulnerabilities).
 
 # Styling
 
