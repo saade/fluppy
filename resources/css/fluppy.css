@@ -175,6 +175,13 @@
     @apply inline-flex items-center justify-center;
 }
 
+/* Light in both themes, so that a dark drawing on nothing can be seen. */
+.fi-fluppy img.uppy-Dashboard-Item-previewImg,
+.fi-fluppy .uppy-ProviderBrowserItem-inner img {
+    background: repeating-conic-gradient(var(--gray-200) 0 25%, white 0 50%)
+        50% / 12px 12px;
+}
+
 .fi-fluppy .uppy-Dashboard-Item-previewLink:focus {
     box-shadow: inset 0 0 0 3px var(--primary-500);
 }

@@ -115,6 +115,9 @@ export default function fluppy({
                     showRemoveButtonAfterComplete: isDeletable && !isDisabled,
                     showLinkToFileUploadResult: isOpenable,
                     disableThumbnailGenerator: !isPreviewable,
+                    // Uppy's own is JPEG, which has no transparency: what
+                    // an image leaves empty comes out black.
+                    thumbnailType: 'image/png',
                     proudlyDisplayPoweredByUppy: false,
                     theme: this.getTheme(),
                 })

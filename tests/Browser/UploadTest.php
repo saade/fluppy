@@ -283,6 +283,41 @@ it('shows no picture of an image when it is not previewable', function () {
         ->assertScript('document.querySelectorAll(".uppy-Dashboard-Item-previewImg").length', 0);
 });
 
+it('keeps what an image leaves empty empty in its picture', function () {
+    $image = imagecreatetruecolor(60, 60);
+
+    imagealphablending($image, false);
+    imagesavealpha($image, true);
+    imagefill($image, 0, 0, imagecolorallocatealpha($image, 0, 0, 0, 127));
+    imagefilledrectangle($image, 20, 20, 40, 40, imagecolorallocate($image, 0, 0, 0));
+
+    ob_start();
+    imagepng($image);
+
+    $page = chooseFiles(visit('/fluppy-tests'), ['icon.png' => ob_get_clean()])
+        ->assertSee('Upload complete');
+
+    // The opacity of the picture's first pixel, which a JPEG would have
+    // made black and opaque.
+    waitUntil($page, <<<'JS'
+        (() => {
+            const picture = document.querySelector('.uppy-Dashboard-Item-previewImg')
+
+            if (!picture?.complete || !picture.naturalWidth) {
+                return false
+            }
+
+            const canvas = document.createElement('canvas')
+
+            canvas.width = picture.naturalWidth
+            canvas.height = picture.naturalHeight
+            canvas.getContext('2d').drawImage(picture, 0, 0)
+
+            return canvas.getContext('2d').getImageData(0, 0, 1, 1).data[3] === 0
+        })()
+    JS);
+});
+
 /**
  * A PNG of the given size, for the image editor to work on.
  */
