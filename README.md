@@ -257,6 +257,7 @@ The tenant is `common` unless you set it: personal, work and school accounts ali
 
 What to know:
 
+- This source has been tested against a stand-in for Microsoft's service, and not yet against Microsoft itself. If it does not work with your registration, please open an issue.
 - Microsoft does not send a file from the place it is asked at. It answers with an address that is good for a few minutes, on a host of its choosing, and your server fetches the file from there. That address is checked like a link a person typed (public internet only, the connection made to the address that was checked) and is never sent the person's token. The hosts you allow links from in `fluppy.remote.url.hosts` do not apply to it.
 - A client secret in Entra expires (the portal offers up to two years). When it has, connecting fails until you set a new one.
 - Only what is in the person's own OneDrive is listed. Notebooks and other items that are neither a file nor a folder are left out.
@@ -314,6 +315,7 @@ FLUPPY_ZOOM_CLIENT_SECRET=your-client-secret
 
 What to know:
 
+- This source has been tested against a stand-in for Zoom's service, and not yet against Zoom itself. If it does not work with your app, please open an issue.
 - Cloud recording is a feature of Zoom's paid plans. An account without it connects and has nothing to list.
 - A recording Zoom is still processing is not listed.
 - Zoom's download address takes the person's token, so the server only sends it to a host of `zoom.us`, and drops it when Zoom passes the request on to where the file is kept.
