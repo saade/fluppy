@@ -105,6 +105,12 @@
     @apply mx-auto text-sm text-gray-500 hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-200;
 }
 
+/* Uppy paints its list a gray of its own, which is not one of the panel's.
+   Its grid has none, so without this the two views differ. */
+.fi-fluppy .uppy-ProviderBrowser-viewType--list {
+    @apply bg-transparent;
+}
+
 .fi-fluppy .uppy-ProviderBrowser-headerBar {
     @apply border-gray-950/5 bg-gray-50 text-gray-500 dark:border-white/10 dark:bg-white/5 dark:text-gray-400;
 }
@@ -145,6 +151,63 @@
     @apply border-primary-600 bg-primary-600 dark:border-primary-500 dark:bg-primary-500;
 }
 
+.fi-fluppy .uppy-ProviderBrowser-toolbarBtn {
+    @apply rounded-lg border-gray-950/10 bg-white text-xs text-gray-700 hover:bg-gray-50 dark:border-white/10 dark:bg-white/5 dark:text-gray-200 dark:hover:bg-white/10;
+}
+
+/*
+ * Uppy's grid is square tiles of pictures, and all it has for a folder, or
+ * for a file with no picture, is an icon drawn across the whole tile. Here
+ * it is cards in columns instead: a small picture or an icon, and the name
+ * beside it.
+ */
+.fi-fluppy .uppy-ProviderBrowser-viewType--grid ul.uppy-ProviderBrowser-list {
+    @apply grid grid-cols-1 gap-2 p-2;
+}
+
+.fi-fluppy .uppy-size--md .uppy-ProviderBrowser-viewType--grid ul.uppy-ProviderBrowser-list {
+    @apply grid-cols-2;
+}
+
+.fi-fluppy .uppy-size--lg .uppy-ProviderBrowser-viewType--grid ul.uppy-ProviderBrowser-list {
+    @apply grid-cols-3;
+}
+
+.fi-fluppy .uppy-ProviderBrowser-viewType--grid ul.uppy-ProviderBrowser-list::after,
+.fi-fluppy .uppy-ProviderBrowser-viewType--grid li.uppy-ProviderBrowserItem::before {
+    @apply hidden;
+}
+
+.fi-fluppy .uppy-ProviderBrowser-viewType--grid li.uppy-ProviderBrowserItem {
+    @apply w-auto min-w-0;
+}
+
+/* A block and not a flex row: only a block cuts a name that is too long
+   short with an ellipsis. */
+.fi-fluppy .uppy-ProviderBrowser-viewType--grid .uppy-ProviderBrowserItem-inner {
+    @apply static block h-auto w-full truncate rounded-lg bg-white p-2 text-start text-xs font-medium leading-10 shadow-none ring-1 ring-gray-950/5 dark:bg-white/5 dark:ring-white/10;
+}
+
+.fi-fluppy .uppy-ProviderBrowser-viewType--grid .uppy-ProviderBrowserItem-inner img,
+.fi-fluppy .uppy-ProviderBrowser-viewType--grid .uppy-ProviderBrowserItem-inner svg {
+    @apply m-0 me-3 inline-block size-10 min-w-0 rounded-md align-middle;
+}
+
+/* Uppy sets the width and the margin of some of its icons on the icon
+   itself, the folder's among them, which only `!important` overrides. */
+.fi-fluppy .uppy-ProviderBrowser-viewType--grid .uppy-ProviderBrowserItem-inner svg {
+    @apply ms-0! me-3! size-10! min-w-0! bg-gray-100 fill-gray-400 p-2.5 dark:bg-white/10 dark:fill-gray-400;
+}
+
+.fi-fluppy .uppy-ProviderBrowser-viewType--grid .uppy-ProviderBrowserItem-checkbox {
+    @apply end-3 top-1/2 size-5 -translate-y-1/2;
+}
+
+.fi-fluppy .uppy-ProviderBrowser-viewType--grid .uppy-ProviderBrowserItem-checkbox--grid:focus + label,
+.fi-fluppy .uppy-ProviderBrowser-viewType--grid .uppy-ProviderBrowserItem--is-checked .uppy-ProviderBrowserItem-inner {
+    @apply shadow-none ring-2 ring-primary-600 dark:ring-primary-500;
+}
+
 .fi-fluppy .uppy-ProviderBrowser-footer .uppy-c-btn-link {
     @apply text-sm text-gray-700 hover:text-gray-950 dark:text-gray-200 dark:hover:text-white;
 }
@@ -172,6 +235,10 @@
 .fi-fluppy .uppy-Dashboard-Item-action,
 .fi-fluppy .uppy-Dashboard-Item-action--remove {
     @apply text-gray-400 hover:text-gray-500 focus:ring-2 focus:ring-primary-600 dark:text-gray-500 dark:hover:text-gray-400 dark:focus:ring-primary-500;
+}
+
+.fi-fluppy .fi-fluppy-source-icon {
+    @apply flex items-center justify-center text-gray-500 dark:text-gray-400;
 }
 
 /* The buttons the field adds to a file itself: edit and download. */

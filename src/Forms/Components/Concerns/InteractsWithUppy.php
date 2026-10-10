@@ -12,7 +12,11 @@ use Livewire\Features\SupportFileUploads\FileUploadConfiguration;
 use Livewire\Features\SupportFileUploads\TemporaryUploadedFile;
 use LogicException;
 use Saade\Fluppy\Sources\BrowsableSource;
+use Saade\Fluppy\Sources\DiskSource;
+use Saade\Fluppy\Sources\ListableSource;
 use Saade\Fluppy\Sources\ListedItem;
+use Saade\Fluppy\Sources\Listing;
+use Saade\Fluppy\Sources\SearchableSource;
 use Saade\Fluppy\Sources\Source;
 use Saade\Fluppy\Sources\SourceException;
 use Saade\Fluppy\Sources\SourceManager;
@@ -52,6 +56,14 @@ trait InteractsWithUppy
      * @var array<string, bool | Closure>
      */
     protected array $remoteSources = [];
+
+    protected string | Closure | null $importDisk = null;
+
+    protected string | Closure | null $importDirectory = null;
+
+    protected string | Closure | null $importDiskLabel = null;
+
+    protected ?Closure $filterImportDiskUsing = null;
 
     /**
      * In pixels. A field shown as a modal takes its size from the window.
@@ -135,6 +147,22 @@ trait InteractsWithUppy
         return $this->remoteSource('url', $condition);
     }
 
+    /**
+     * Lets files be picked from one of the application's own disks, from
+     * the given folder down. A null disk turns it off. `$filterUsing` is
+     * given the `$path` of each file and folder, and whether it
+     * `$isDirectory`, and returns whether it is listed.
+     */
+    public function importFromDisk(string | Closure | null $disk, string | Closure | null $directory = null, string | Closure | null $label = null, ?Closure $filterUsing = null): static
+    {
+        $this->importDisk = $disk;
+        $this->importDirectory = $directory;
+        $this->importDiskLabel = $label;
+        $this->filterImportDiskUsing = $filterUsing;
+
+        return $this->remoteSource('disk', fn (): bool => filled($this->evaluate($this->importDisk)));
+    }
+
     public function googleDrive(bool | Closure $condition = true): static
     {
         return $this->remoteSource('google-drive', $condition);
@@ -191,7 +219,7 @@ trait InteractsWithUppy
         return collect($this->remoteSources)
             ->filter(fn (bool | Closure $condition, string $id): bool => $this->evaluate($condition) && $sources->has($id))
             ->map(fn (bool | Closure $condition, string $id): array => [
-                'label' => $sources->get($id)->getLabel(),
+                'label' => ($id === 'disk' ? $this->evaluate($this->importDiskLabel) : null) ?? $sources->get($id)->getLabel(),
                 ...$sources->get($id)->getClientOptions(),
             ])
             ->all();
@@ -252,8 +280,31 @@ trait InteractsWithUppy
     #[Renderless]
     public function listRemoteFiles(string $source, ?string $path = null): array
     {
+        return $this->getRemoteListing($source, fn (Source $source): Listing => $source instanceof ListableSource
+            ? $source->list($path)
+            : throw SourceException::notAllowed());
+    }
+
+    /**
+     * @return array<string, mixed>
+     */
+    #[ExposedLivewireMethod]
+    #[Renderless]
+    public function searchRemoteFiles(string $source, string $term, ?string $path = null): array
+    {
+        return $this->getRemoteListing($source, fn (Source $source): Listing => $source instanceof SearchableSource
+            ? $source->search(mb_substr($term, 0, 100), $path)
+            : throw SourceException::notAllowed());
+    }
+
+    /**
+     * @param  Closure(Source): Listing  $using
+     * @return array<string, mixed>
+     */
+    protected function getRemoteListing(string $source, Closure $using): array
+    {
         try {
-            $listing = $this->getBrowsableSource($source)->list($path);
+            $listing = $using($this->getRemoteSource($source));
         } catch (SourceNotConnectedException) {
             return ['authenticated' => false];
         } catch (SourceException $exception) {
@@ -329,8 +380,19 @@ trait InteractsWithUppy
 
         // The route that fetches the parts has no field to ask, so it finds
         // every source in the manager.
-        return app(SourceManager::class)->get($id)
+        $source = app(SourceManager::class)->get($id)
             ?? throw new LogicException("The source [{$id}] fetches files on the server, so it has to be registered: `app(SourceManager::class)->extend('{$id}', fn () => …)`.");
+
+        // Which disk and folder a disk source is of, only the field knows.
+        return $source instanceof DiskSource
+            ? $source->in(
+                $this->evaluate($this->importDisk),
+                $this->evaluate($this->importDirectory),
+                $this->filterImportDiskUsing
+                    ? fn (string $path, bool $isDirectory): bool => (bool) $this->evaluate($this->filterImportDiskUsing, ['path' => $path, 'isDirectory' => $isDirectory])
+                    : null,
+            )
+            : $source;
     }
 
     protected function offersRemoteSource(string $id): bool

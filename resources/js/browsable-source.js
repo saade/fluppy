@@ -1,3 +1,5 @@
+import { h } from 'preact'
+
 const CONNECTING_WINDOW = 'popup,width=640,height=760'
 
 // How long a closed window is given for its last word to arrive.
@@ -13,9 +15,25 @@ export function useBrowsableSource(
     uppy,
     Plugin,
     id,
-    { label, connectUrl },
-    { list, disconnect, failedMessage },
+    { label, connectUrl, icon, isSearchable, views },
+    { list, search, disconnect, failedMessage },
 ) {
+    const recallView = () => {
+        try {
+            return localStorage.getItem(`fluppy:view:${id}`) === 'grid' ? 'grid' : 'list'
+        } catch {
+            return null
+        }
+    }
+
+    const rememberView = (type) => {
+        try {
+            localStorage.setItem(`fluppy:view:${id}`, type)
+        } catch {
+            // Kept for as long as the page is open, then.
+        }
+    }
+
     const notConnected = () =>
         Object.assign(new Error('Authorization required'), { isAuthError: true })
 
@@ -83,6 +101,21 @@ export function useBrowsableSource(
             return listing
         },
 
+        // Only asked of a source the server says can be searched.
+        async search(term, { path } = {}) {
+            const listing = await search(id, term, path ?? null)
+
+            if (!listing || listing.error) {
+                const message = listing?.error ?? failedMessage
+
+                uppy.info(message, 'error', 5000)
+
+                throw new Error(message)
+            }
+
+            return listing
+        },
+
         login({ signal } = {}) {
             // Opened here and now: a browser only lets a window open in
             // answer to a click.
@@ -136,20 +169,101 @@ export function useBrowsableSource(
 
             this.provider = provider
             this.title = label
+
+            if (icon) {
+                this.icon = () =>
+                    h('span', {
+                        class: 'fi-fluppy-source-icon',
+                        dangerouslySetInnerHTML: { __html: icon },
+                    })
+            }
         }
 
         install() {
             super.install()
 
-            // Uppy would ask the provider to search. Without it, the box
-            // above the files filters the ones that are listed.
-            this.view.opts.supportsSearch = false
+            // Uppy would ask every provider to search. Where the server
+            // cannot, the box above the files filters the ones that are
+            // listed.
+            this.view.opts.supportsSearch = Boolean(isSearchable)
+
+            // A source with nothing to connect has nobody to log out.
+            this.view.opts.standalone = !connectUrl
+
+            if (views) {
+                this.showAs(recallView() ?? 'list')
+            }
+        }
+
+        // Where the Dashboard puts the plugin, which it does after
+        // `install()`: there is no element to listen on before.
+        mount(target, plugin) {
+            const element = super.mount(target, plugin)
+
+            if (views) {
+                element?.addEventListener('click', this.openGridFolder)
+            }
+
+            return element
         }
 
         uninstall() {
             channel.close()
 
+            this.el?.removeEventListener('click', this.openGridFolder)
+
             super.uninstall()
+        }
+
+        showAs(type) {
+            const other = type === 'grid' ? 'list' : 'grid'
+
+            this.view.opts.viewType = type
+
+            // Uppy's virtual list lays its items out one to a row.
+            this.view.opts.virtualList = type !== 'grid'
+
+            this.view.opts.toolbarActions = [
+                {
+                    id: 'fluppy-view',
+                    label: views[other],
+                    refresh: false,
+                    run: () => {
+                        rememberView(other)
+
+                        this.showAs(other)
+
+                        // Uppy only draws again when the state changes.
+                        this.setPluginState({})
+
+                        return false
+                    },
+                },
+            ]
+        }
+
+        // Uppy's grid ticks a folder that is clicked, as it does a file,
+        // and so has no way into one. Its box is still there to tick.
+        openGridFolder = (event) => {
+            if (this.view.opts.viewType !== 'grid') {
+                return
+            }
+
+            const folder = event.target
+                .closest?.('.uppy-ProviderBrowserItem-inner')
+                ?.getAttribute('for')
+
+            if (
+                !folder ||
+                uppy.getPlugin('Dashboard')?.getPluginState().activePickerPanel?.id !== id ||
+                this.getPluginState().partialTree?.find((node) => node.id === folder)?.type !== 'folder'
+            ) {
+                return
+            }
+
+            event.preventDefault()
+
+            this.view.openFolder(folder)
         }
     }
 

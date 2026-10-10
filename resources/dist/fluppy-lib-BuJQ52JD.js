@@ -1,11 +1,11 @@
-import { t as e } from "./fluppy-ProviderView-Cp05_uoc.js";
-import { r as t, t as n } from "./fluppy-UIPlugin-ihypjxg2.js";
+import { t as e } from "./fluppy-ProviderView-DAG8U-25.js";
+import { r as t, t as n } from "./fluppy-UIPlugin-Dz_uZBpD.js";
 import { n as r, t as i } from "./fluppy-Provider-BJXhls7x.js";
 import { t as a } from "./fluppy-tokenStorage-CoxIVt8_.js";
 var o = {
-	name: "@uppy/box",
-	description: "Import files from Box, into Uppy.",
-	version: "5.0.0",
+	name: "@uppy/onedrive",
+	description: "Import files from OneDrive, into Uppy.",
+	version: "6.0.0",
 	license: "MIT",
 	type: "module",
 	sideEffects: !1,
@@ -17,7 +17,7 @@ var o = {
 		"file uploader",
 		"uppy",
 		"uppy-plugin",
-		"box"
+		"onedrive"
 	],
 	homepage: "https://uppy.io",
 	bugs: { url: "https://github.com/transloadit/uppy/issues" },
@@ -37,12 +37,11 @@ var o = {
 	},
 	dependencies: { preact: "^10.29.2" },
 	peerDependencies: { "@uppy/core": "^6.0.0" },
-	publishConfig: { access: "public" },
 	devDependencies: {
 		"@uppy/core": "^6.0.0",
 		typescript: "^6.0.3"
 	}
-}, s = { strings: { pluginNameBox: "Box" } }, c = class extends n {
+}, s = { strings: { pluginNameOneDrive: "OneDrive" } }, c = class extends n {
 	static VERSION = o.version;
 	icon;
 	provider;
@@ -51,27 +50,43 @@ var o = {
 	files;
 	rootFolderId = null;
 	constructor(e, n) {
-		super(e, n), this.id = this.opts.id || "Box", this.type = "acquirer", this.storage = this.opts.storage || a, this.files = [], this.icon = () => t("svg", {
-			className: "uppy-DashboardTab-iconBox",
+		super(e, n), this.type = "acquirer", this.files = [], this.storage = this.opts.storage || a, this.id = this.opts.id || "OneDrive", this.icon = () => t("svg", {
 			"aria-hidden": "true",
 			focusable: "false",
 			width: "32",
 			height: "32",
 			viewBox: "0 0 32 32",
 			children: t("g", {
-				fill: "currentcolor",
+				fill: "none",
 				fillRule: "nonzero",
-				children: [t("path", { d: "m16.4 13.5c-1.6 0-3 0.9-3.7 2.2-0.7-1.3-2.1-2.2-3.7-2.2-1 0-1.8 0.3-2.5 0.8v-3.6c-0.1-0.3-0.5-0.7-1-0.7s-0.8 0.4-0.8 0.8v7c0 2.3 1.9 4.2 4.2 4.2 1.6 0 3-0.9 3.7-2.2 0.7 1.3 2.1 2.2 3.7 2.2 2.3 0 4.2-1.9 4.2-4.2 0.1-2.4-1.8-4.3-4.1-4.3m-7.5 6.8c-1.4 0-2.5-1.1-2.5-2.5s1.1-2.5 2.5-2.5 2.5 1.1 2.5 2.5-1.1 2.5-2.5 2.5m7.5 0c-1.4 0-2.5-1.1-2.5-2.5s1.1-2.5 2.5-2.5 2.5 1.1 2.5 2.5-1.1 2.5-2.5 2.5" }), t("path", { d: "m27.2 20.6l-2.3-2.8 2.3-2.8c0.3-0.4 0.2-0.9-0.2-1.2s-1-0.2-1.3 0.2l-2 2.4-2-2.4c-0.3-0.4-0.9-0.4-1.3-0.2-0.4 0.3-0.5 0.8-0.2 1.2l2.3 2.8-2.3 2.8c-0.3 0.4-0.2 0.9 0.2 1.2s1 0.2 1.3-0.2l2-2.4 2 2.4c0.3 0.4 0.9 0.4 1.3 0.2 0.4-0.3 0.4-0.8 0.2-1.2" })]
+				children: [
+					t("path", {
+						d: "M13.39 12.888l4.618 2.747 2.752-1.15a4.478 4.478 0 012.073-.352 6.858 6.858 0 00-5.527-5.04 6.895 6.895 0 00-6.876 2.982l.07-.002a5.5 5.5 0 012.89.815z",
+						fill: "#0364B8"
+					}),
+					t("path", {
+						d: "M13.39 12.887v.001a5.5 5.5 0 00-2.89-.815l-.07.002a5.502 5.502 0 00-4.822 2.964 5.43 5.43 0 00.38 5.62l4.073-1.702 1.81-.757 4.032-1.685 2.105-.88-4.619-2.748z",
+						fill: "#0078D4"
+					}),
+					t("path", {
+						d: "M22.833 14.133a4.479 4.479 0 00-2.073.352l-2.752 1.15.798.475 2.616 1.556 1.141.68 3.902 2.321a4.413 4.413 0 00-.022-4.25 4.471 4.471 0 00-3.61-2.284z",
+						fill: "#1490DF"
+					}),
+					t("path", {
+						d: "M22.563 18.346l-1.141-.68-2.616-1.556-.798-.475-2.105.88L11.87 18.2l-1.81.757-4.073 1.702A5.503 5.503 0 0010.5 23h12.031a4.472 4.472 0 003.934-2.333l-3.902-2.321z",
+						fill: "#28A8EA"
+					})
+				]
 			})
 		}), this.opts.companionAllowedHosts = r(this.opts.companionAllowedHosts, this.opts.companionUrl), this.provider = new i(e, {
 			companionUrl: this.opts.companionUrl,
 			companionHeaders: this.opts.companionHeaders,
 			companionKeysParams: this.opts.companionKeysParams,
 			companionCookiesRule: this.opts.companionCookiesRule,
-			provider: "box",
+			provider: "onedrive",
 			pluginId: this.id,
-			supportsRefreshToken: !1
-		}), this.defaultLocale = s, this.i18nInit(), this.title = this.i18n("pluginNameBox"), this.render = this.render.bind(this);
+			supportsRefreshToken: !0
+		}), this.defaultLocale = s, this.i18nInit(), this.title = this.i18n("pluginNameOneDrive"), this.render = this.render.bind(this);
 	}
 	install() {
 		this.view = new e(this, {

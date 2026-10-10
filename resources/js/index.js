@@ -66,6 +66,7 @@ export default function fluppy({
     remoteSources,
     removeUploadedFileUsing,
     reorderUploadedFilesUsing,
+    searchRemoteFilesUsing,
     signUploadPartsUsing,
     sources,
     state,
@@ -156,6 +157,7 @@ export default function fluppy({
                     disconnect: disconnectRemoteSourceUsing,
                     failedMessage: uploadFailedMessage,
                     list: listRemoteFilesUsing,
+                    search: searchRemoteFilesUsing,
                 })
             }
 

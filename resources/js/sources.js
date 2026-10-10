@@ -11,8 +11,10 @@ const isOnly = (acceptedFileTypes, kind) =>
 
 // Uppy's own plugin for each account a person connects and then browses, by
 // the id its source is registered with on the server. They are all set up
-// the same way.
+// the same way, and so is the one for a disk of the application, which is
+// nobody's account.
 const browsableSources = {
+    disk: () => import('./disk-plugin.js'),
     box: () => import('@uppy/box'),
     dropbox: () => import('@uppy/dropbox'),
     facebook: () => import('@uppy/facebook'),

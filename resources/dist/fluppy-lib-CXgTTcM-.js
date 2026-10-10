@@ -1,8 +1,8 @@
-import { r as e, t } from "./fluppy-UIPlugin-ihypjxg2.js";
+import { r as e, t } from "./fluppy-UIPlugin-Dz_uZBpD.js";
 import { t as n } from "./fluppy-getErrorMessage-DxiQuxng.js";
 import { t as r } from "./fluppy-getFileTypeExtension-ZfAAaqva.js";
 import { t as i } from "./fluppy-isRestrictionError-Dq8RAQXC.js";
-import { o as a, t as o } from "./fluppy-hooks.module-DqAiOXxL.js";
+import { o as a, t as o } from "./fluppy-hooks.module-B-kaEFKj.js";
 var s = {
 	name: "@uppy/audio",
 	description: "Uppy plugin that records audio using the device’s microphone.",

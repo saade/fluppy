@@ -1,6 +1,7 @@
-import { i as e, r as t, s as n, t as r } from "./fluppy-UIPlugin-ihypjxg2.js";
-import { t as i } from "./fluppy-getFileTypeExtension-ZfAAaqva.js";
-import { t as a } from "./fluppy-isRestrictionError-Dq8RAQXC.js";
+import { r as e, t } from "./fluppy-UIPlugin-Dz_uZBpD.js";
+import { t as n } from "./fluppy-getFileTypeExtension-ZfAAaqva.js";
+import { t as r } from "./fluppy-isRestrictionError-Dq8RAQXC.js";
+import { a as i, t as a } from "./fluppy-preact.module-CfEGNJFi.js";
 var o = {
 	name: "@uppy/screen-capture",
 	description: "Uppy plugin that captures video from display or application.",
@@ -67,15 +68,15 @@ var o = {
 } };
 //#endregion
 //#region node_modules/@uppy/screen-capture/lib/DiscardButton.js
-function c({ onDiscard: e, i18n: n }) {
-	return t("button", {
+function c({ onDiscard: t, i18n: n }) {
+	return e("button", {
 		className: "uppy-u-reset uppy-c-btn uppy-ScreenCapture-button uppy-ScreenCapture-button--discard",
 		type: "button",
 		title: n("discardMediaFile"),
 		"aria-label": n("discardMediaFile"),
-		onClick: e,
+		onClick: t,
 		"data-uppy-super-focusable": !0,
-		children: t("svg", {
+		children: e("svg", {
 			"aria-hidden": "true",
 			focusable: "false",
 			className: "uppy-c-icon",
@@ -87,12 +88,12 @@ function c({ onDiscard: e, i18n: n }) {
 			"stroke-width": "2",
 			"stroke-linecap": "round",
 			"stroke-linejoin": "round",
-			children: [t("line", {
+			children: [e("line", {
 				x1: "18",
 				y1: "6",
 				x2: "6",
 				y2: "18"
-			}), t("line", {
+			}), e("line", {
 				x1: "6",
 				y1: "6",
 				x2: "18",
@@ -103,36 +104,36 @@ function c({ onDiscard: e, i18n: n }) {
 }
 //#endregion
 //#region node_modules/@uppy/screen-capture/lib/RecordButton.js
-function l({ recording: e, onStartRecording: n, onStopRecording: r, i18n: i }) {
-	return e ? t("button", {
+function l({ recording: t, onStartRecording: n, onStopRecording: r, i18n: i }) {
+	return t ? e("button", {
 		className: "uppy-u-reset uppy-c-btn uppy-ScreenCapture-button uppy-ScreenCapture-button--video uppy-ScreenCapture-button--stop-rec",
 		type: "button",
 		title: i("stopCapturing"),
 		"aria-label": i("stopCapturing"),
 		onClick: r,
 		"data-uppy-super-focusable": !0,
-		children: t("svg", {
+		children: e("svg", {
 			"aria-hidden": "true",
 			focusable: "false",
 			className: "uppy-c-icon",
 			width: "100",
 			height: "100",
 			viewBox: "0 0 100 100",
-			children: t("rect", {
+			children: e("rect", {
 				x: "15",
 				y: "15",
 				width: "70",
 				height: "70"
 			})
 		})
-	}) : t("button", {
+	}) : e("button", {
 		className: "uppy-u-reset uppy-c-btn uppy-ScreenCapture-button uppy-ScreenCapture-button--video",
 		type: "button",
 		title: i("startCapturing"),
 		"aria-label": i("startCapturing"),
 		onClick: n,
 		"data-uppy-super-focusable": !0,
-		children: t("svg", {
+		children: e("svg", {
 			"aria-hidden": "true",
 			focusable: "false",
 			className: "uppy-c-icon",
@@ -140,21 +141,21 @@ function l({ recording: e, onStartRecording: n, onStopRecording: r, i18n: i }) {
 			height: "24",
 			viewBox: "0 0 24 24",
 			fill: "currentColor",
-			children: t("path", { d: "M4.5 4.5a3 3 0 0 0-3 3v9a3 3 0 0 0 3 3h8.25a3 3 0 0 0 3-3v-9a3 3 0 0 0-3-3H4.5ZM19.94 18.75l-2.69-2.69V7.94l2.69-2.69c.944-.945 2.56-.276 2.56 1.06v11.38c0 1.336-1.616 2.005-2.56 1.06Z" })
+			children: e("path", { d: "M4.5 4.5a3 3 0 0 0-3 3v9a3 3 0 0 0 3 3h8.25a3 3 0 0 0 3-3v-9a3 3 0 0 0-3-3H4.5ZM19.94 18.75l-2.69-2.69V7.94l2.69-2.69c.944-.945 2.56-.276 2.56 1.06v11.38c0 1.336-1.616 2.005-2.56 1.06Z" })
 		})
 	});
 }
 //#endregion
 //#region node_modules/@uppy/screen-capture/lib/ScreenshotButton.js
-function u({ onScreenshot: e, i18n: n }) {
-	return t("button", {
+function u({ onScreenshot: t, i18n: n }) {
+	return e("button", {
 		className: "uppy-u-reset uppy-c-btn uppy-ScreenCapture-button uppy-ScreenCapture-button--screenshot",
 		type: "button",
 		title: n("takeScreenshot"),
 		"aria-label": n("takeScreenshot"),
-		onClick: e,
+		onClick: t,
 		"data-uppy-super-focusable": !0,
-		children: t("svg", {
+		children: e("svg", {
 			"aria-hidden": "true",
 			focusable: "false",
 			className: "uppy-c-icon",
@@ -162,7 +163,7 @@ function u({ onScreenshot: e, i18n: n }) {
 			height: "24",
 			viewBox: "0 0 24 24",
 			fill: "currentColor",
-			children: [t("path", { d: "M12 9a3.75 3.75 0 1 0 0 7.5A3.75 3.75 0 0 0 12 9Z" }), t("path", {
+			children: [e("path", { d: "M12 9a3.75 3.75 0 1 0 0 7.5A3.75 3.75 0 0 0 12 9Z" }), e("path", {
 				"fill-rule": "evenodd",
 				d: "M9.344 3.071a49.52 49.52 0 0 1 5.312 0c.967.052 1.83.585 2.332 1.39l.821 1.317c.24.383.645.643 1.11.71.386.054.77.113 1.152.177 1.432.239 2.429 1.493 2.429 2.909V18a3 3 0 0 1-3 3h-15a3 3 0 0 1-3-3V9.574c0-1.416.997-2.67 2.429-2.909.382-.064.766-.123 1.151-.178a1.56 1.56 0 0 0 1.11-.71l.822-1.315a2.942 2.942 0 0 1 2.332-1.39ZM6.75 12.75a5.25 5.25 0 1 1 10.5 0 5.25 5.25 0 0 1-10.5 0Zm12-1.5a.75.75 0 1 0 0-1.5.75.75 0 0 0 0 1.5Z",
 				"clip-rule": "evenodd"
@@ -175,7 +176,7 @@ function u({ onScreenshot: e, i18n: n }) {
 function d(e) {
 	return (e - (e %= 60)) / 60 + (e > 9 ? ":" : ":0") + e;
 }
-var f = class extends e {
+var f = class extends a {
 	wrapperStyle = {
 		width: "100%",
 		height: "100%",
@@ -227,15 +228,15 @@ var f = class extends e {
 		}, 1e3);
 	}
 	render() {
-		let { recording: e, i18n: n } = { ...this.props }, { elapsedTime: r } = this.state, i = d(r);
-		return e && !this.timerRunning && this.startTimer(), !e && this.timerRunning && this.resetTimer(), e ? t("div", {
+		let { recording: t, i18n: n } = { ...this.props }, { elapsedTime: r } = this.state, i = d(r);
+		return t && !this.timerRunning && this.startTimer(), !t && this.timerRunning && this.resetTimer(), t ? e("div", {
 			style: this.wrapperStyle,
-			children: [t("div", { style: this.overlayStyle }), t("div", {
+			children: [e("div", { style: this.overlayStyle }), e("div", {
 				style: this.infoContainerStyle,
-				children: [t("div", {
+				children: [e("div", {
 					style: this.infotextStyle,
 					children: n("recording")
-				}), t("div", {
+				}), e("div", {
 					style: this.timeStyle,
 					children: i
 				})]
@@ -245,64 +246,64 @@ var f = class extends e {
 };
 //#endregion
 //#region node_modules/@uppy/screen-capture/lib/StreamStatus.js
-function p({ streamActive: e, i18n: n }) {
-	return e ? t("div", {
+function p({ streamActive: t, i18n: n }) {
+	return t ? e("div", {
 		title: n("streamActive"),
 		className: "uppy-ScreenCapture-icon--stream uppy-ScreenCapture-icon--streamActive",
-		children: t("svg", {
+		children: e("svg", {
 			"aria-hidden": "true",
 			focusable: "false",
 			width: "24",
 			height: "24",
 			viewBox: "0 0 24 24",
 			children: [
-				t("path", {
+				e("path", {
 					d: "M0 0h24v24H0z",
 					opacity: ".1",
 					fill: "none"
 				}),
-				t("path", {
+				e("path", {
 					d: "M0 0h24v24H0z",
 					fill: "none"
 				}),
-				t("path", { d: "M1 18v3h3c0-1.66-1.34-3-3-3zm0-4v2c2.76 0 5 2.24 5 5h2c0-3.87-3.13-7-7-7zm18-7H5v1.63c3.96 1.28 7.09 4.41 8.37 8.37H19V7zM1 10v2c4.97 0 9 4.03 9 9h2c0-6.08-4.93-11-11-11zm20-7H3c-1.1 0-2 .9-2 2v3h2V5h18v14h-7v2h7c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2z" })
+				e("path", { d: "M1 18v3h3c0-1.66-1.34-3-3-3zm0-4v2c2.76 0 5 2.24 5 5h2c0-3.87-3.13-7-7-7zm18-7H5v1.63c3.96 1.28 7.09 4.41 8.37 8.37H19V7zM1 10v2c4.97 0 9 4.03 9 9h2c0-6.08-4.93-11-11-11zm20-7H3c-1.1 0-2 .9-2 2v3h2V5h18v14h-7v2h7c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2z" })
 			]
 		})
-	}) : t("div", {
+	}) : e("div", {
 		title: n("streamPassive"),
 		className: "uppy-ScreenCapture-icon--stream",
-		children: t("svg", {
+		children: e("svg", {
 			"aria-hidden": "true",
 			focusable: "false",
 			width: "24",
 			height: "24",
 			viewBox: "0 0 24 24",
 			children: [
-				t("path", {
+				e("path", {
 					d: "M0 0h24v24H0z",
 					opacity: ".1",
 					fill: "none"
 				}),
-				t("path", {
+				e("path", {
 					d: "M0 0h24v24H0z",
 					fill: "none"
 				}),
-				t("path", { d: "M21 3H3c-1.1 0-2 .9-2 2v3h2V5h18v14h-7v2h7c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zM1 18v3h3c0-1.66-1.34-3-3-3zm0-4v2c2.76 0 5 2.24 5 5h2c0-3.87-3.13-7-7-7zm0-4v2c4.97 0 9 4.03 9 9h2c0-6.08-4.93-11-11-11z" })
+				e("path", { d: "M21 3H3c-1.1 0-2 .9-2 2v3h2V5h18v14h-7v2h7c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zM1 18v3h3c0-1.66-1.34-3-3-3zm0-4v2c2.76 0 5 2.24 5 5h2c0-3.87-3.13-7-7-7zm0-4v2c4.97 0 9 4.03 9 9h2c0-6.08-4.93-11-11-11z" })
 			]
 		})
 	});
 }
 //#endregion
 //#region node_modules/@uppy/screen-capture/lib/SubmitButton.js
-function m({ recording: e, recordedVideo: n, onSubmit: r, capturedScreenshotUrl: i, i18n: a }) {
-	return (n || i) && !e ? t("button", {
+function m({ recording: t, recordedVideo: n, onSubmit: r, capturedScreenshotUrl: i, i18n: a }) {
+	return (n || i) && !t ? e("button", {
 		className: "uppy-u-reset uppy-c-btn uppy-ScreenCapture-button uppy-ScreenCapture-button--submit",
 		type: "button",
 		title: a("submitRecordedFile"),
 		"aria-label": a("submitRecordedFile"),
 		onClick: r,
 		"data-uppy-super-focusable": !0,
-		children: t("svg", {
+		children: e("svg", {
 			width: "12",
 			height: "9",
 			viewBox: "0 0 12 9",
@@ -310,7 +311,7 @@ function m({ recording: e, recordedVideo: n, onSubmit: r, capturedScreenshotUrl:
 			"aria-hidden": "true",
 			focusable: "false",
 			className: "uppy-c-icon",
-			children: t("path", {
+			children: e("path", {
 				fill: "#fff",
 				fillRule: "nonzero",
 				d: "M10.66 0L12 1.31 4.136 9 0 4.956l1.34-1.31L4.136 6.38z"
@@ -320,39 +321,39 @@ function m({ recording: e, recordedVideo: n, onSubmit: r, capturedScreenshotUrl:
 }
 //#endregion
 //#region node_modules/@uppy/screen-capture/lib/RecorderScreen.js
-var h = class extends e {
+var h = class extends a {
 	videoElement = null;
 	componentWillUnmount() {
 		let { onStop: e } = this.props;
 		e();
 	}
 	render() {
-		let { recording: e, stream: r, recordedVideo: i, enableScreenshots: a, capturedScreenshotUrl: o } = this.props, s = { playsinline: !0 };
-		return (e || !i && !e) && (s.muted = !0, s.autoplay = !0, s.srcObject = r), i && !e && (s.muted = !1, s.controls = !0, s.src = i, this.videoElement && (this.videoElement.srcObject = null)), t("div", {
+		let { recording: t, stream: n, recordedVideo: r, enableScreenshots: a, capturedScreenshotUrl: o } = this.props, s = { playsinline: !0 };
+		return (t || !r && !t) && (s.muted = !0, s.autoplay = !0, s.srcObject = n), r && !t && (s.muted = !1, s.controls = !0, s.src = r, this.videoElement && (this.videoElement.srcObject = null)), e("div", {
 			className: "uppy uppy-ScreenCapture-container",
-			children: [t("div", {
+			children: [e("div", {
 				className: "uppy-ScreenCapture-mediaContainer",
 				children: [
-					t(p, { ...this.props }),
-					o && !e && !i ? t("div", {
+					e(p, { ...this.props }),
+					o && !t && !r ? e("div", {
 						className: "uppy-ScreenCapture-imageContainer",
-						children: t("img", {
+						children: e("img", {
 							src: o,
 							className: "uppy-ScreenCapture-media",
 							alt: "screenshotPreview"
 						})
-					}) : t("video", {
+					}) : e("video", {
 						ref: (e) => {
 							this.videoElement = e;
 						},
 						className: "uppy-ScreenCapture-media",
 						...s
 					}),
-					t("div", { children: t(f, { ...this.props }) })
+					e("div", { children: e(f, { ...this.props }) })
 				]
-			}), t("div", {
+			}), e("div", {
 				className: "uppy-ScreenCapture-buttonContainer",
-				children: i || o ? t(n, { children: [t(m, { ...this.props }), t(c, { ...this.props })] }) : t(n, { children: [a && !e && t(u, { ...this.props }), t(l, { ...this.props })] })
+				children: r || o ? e(i, { children: [e(m, { ...this.props }), e(c, { ...this.props })] }) : e(i, { children: [a && !t && e(u, { ...this.props }), e(l, { ...this.props })] })
 			})]
 		});
 	}
@@ -360,17 +361,17 @@ var h = class extends e {
 //#endregion
 //#region node_modules/@uppy/screen-capture/lib/ScreenRecIcon.js
 function g() {
-	return t("svg", {
+	return e("svg", {
 		className: "uppy-DashboardTab-iconScreenRec",
 		"aria-hidden": "true",
 		focusable: "false",
 		width: "32",
 		height: "32",
 		viewBox: "0 0 32 32",
-		children: t("g", {
+		children: e("g", {
 			fill: "currentcolor",
 			fillRule: "evenodd",
-			children: [t("path", { d: "M24.182 9H7.818C6.81 9 6 9.742 6 10.667v10c0 .916.81 1.666 1.818 1.666h4.546V24h7.272v-1.667h4.546c1 0 1.809-.75 1.809-1.666l.009-10C26 9.742 25.182 9 24.182 9zM24 21H8V11h16v10z" }), t("circle", {
+			children: [e("path", { d: "M24.182 9H7.818C6.81 9 6 9.742 6 10.667v10c0 .916.81 1.666 1.818 1.666h4.546V24h7.272v-1.667h4.546c1 0 1.809-.75 1.809-1.666l.009-10C26 9.742 25.182 9 24.182 9zM24 21H8V11h16v10z" }), e("circle", {
 				cx: "16",
 				cy: "16",
 				r: "2"
@@ -405,7 +406,7 @@ var y = [
 	preferredVideoMimeType: "video/webm",
 	preferredImageMimeType: "image/png",
 	enableScreenshots: !0
-}, x = class extends r {
+}, x = class extends t {
 	static VERSION = o.version;
 	mediaDevices;
 	protocol;
@@ -472,11 +473,11 @@ var y = [
 		let e = {};
 		this.capturedMediaFile = null, this.recordingChunks = [];
 		let { preferredVideoMimeType: t } = this.opts;
-		this.selectVideoStreamSource().then((n) => {
-			if (n === !1) throw Error("No video stream available");
-			t && MediaRecorder.isTypeSupported(t) && i(t) && (e.mimeType = t);
-			let r = [n.getVideoTracks()[0]];
-			this.audioStream && r.push(this.audioStream.getAudioTracks()[0]), this.outputStream = new MediaStream(r), this.recorder = new MediaRecorder(this.outputStream, e), this.recorder.addEventListener("dataavailable", (e) => {
+		this.selectVideoStreamSource().then((r) => {
+			if (r === !1) throw Error("No video stream available");
+			t && MediaRecorder.isTypeSupported(t) && n(t) && (e.mimeType = t);
+			let i = [r.getVideoTracks()[0]];
+			this.audioStream && i.push(this.audioStream.getAudioTracks()[0]), this.outputStream = new MediaStream(i), this.recorder = new MediaRecorder(this.outputStream, e), this.recorder.addEventListener("dataavailable", (e) => {
 				this.recordingChunks.push(e.data);
 			}), this.recorder.start(), this.setPluginState({
 				recording: !0,
@@ -524,7 +525,7 @@ var y = [
 		try {
 			this.capturedMediaFile && this.uppy.addFile(this.capturedMediaFile);
 		} catch (e) {
-			a(e) || this.uppy.log(e, "warning");
+			r(e) || this.uppy.log(e, "warning");
 		}
 	}
 	stop() {
@@ -552,12 +553,12 @@ var y = [
 		}), this.captureActive = !1;
 	}
 	getVideo() {
-		let e = this.recordingChunks[0].type, t = i(e);
+		let e = this.recordingChunks[0].type, t = n(e);
 		if (!t) return Promise.reject(/* @__PURE__ */ Error(`Could not retrieve recording: Unsupported media type "${e}"`));
-		let n = `screencap-${Date.now()}.${t}`, r = new Blob(this.recordingChunks, { type: e }), a = {
+		let r = `screencap-${Date.now()}.${t}`, i = new Blob(this.recordingChunks, { type: e }), a = {
 			source: this.id,
-			name: n,
-			data: new Blob([r], { type: e }),
+			name: r,
+			data: new Blob([i], { type: e }),
 			type: e
 		};
 		return Promise.resolve(a);
@@ -577,19 +578,19 @@ var y = [
 					t.play(), e(null);
 				};
 			});
-			let n = document.createElement("canvas");
-			n.width = t.videoWidth, n.height = t.videoHeight;
-			let r = n.getContext("2d");
-			if (!r) throw Error("Failed to get canvas context");
-			r.drawImage(t, 0, 0, n.width, n.height);
+			let i = document.createElement("canvas");
+			i.width = t.videoWidth, i.height = t.videoHeight;
+			let a = i.getContext("2d");
+			if (!a) throw Error("Failed to get canvas context");
+			a.drawImage(t, 0, 0, i.width, i.height);
 			let o = this.opts.preferredImageMimeType;
-			return (!o || !y.includes(o)) && (this.uppy.log(`Unsupported image type "${o}", falling back to image/png`, "warning"), o = "image/png"), new Promise((e, r) => {
-				n.toBlob((s) => {
+			return (!o || !y.includes(o)) && (this.uppy.log(`Unsupported image type "${o}", falling back to image/png`, "warning"), o = "image/png"), new Promise((e, a) => {
+				i.toBlob((s) => {
 					if (!s) {
-						r(/* @__PURE__ */ Error("Failed to create screenshot blob"));
+						a(/* @__PURE__ */ Error("Failed to create screenshot blob"));
 						return;
 					}
-					let c = i(o) || "png", l = {
+					let c = n(o) || "png", l = {
 						source: this.id,
 						name: `Screenshot ${(/* @__PURE__ */ new Date()).toISOString()}.${c}`,
 						type: o,
@@ -603,9 +604,9 @@ var y = [
 							status: "captured"
 						}), e();
 					} catch (e) {
-						this.getPluginState().capturedScreenshotUrl && this.setPluginState({ capturedScreenshotUrl: null }), a(e) || this.uppy.log(e, "error"), r(e);
+						this.getPluginState().capturedScreenshotUrl && this.setPluginState({ capturedScreenshotUrl: null }), r(e) || this.uppy.log(e, "error"), a(e);
 					} finally {
-						t.srcObject = null, n.remove(), t.remove();
+						t.srcObject = null, i.remove(), t.remove();
 					}
 				}, o, 1);
 			});
@@ -614,9 +615,9 @@ var y = [
 		}
 	}
 	render() {
-		let e = this.getPluginState();
-		return !e.streamActive && !this.captureActive && !this.userDenied && this.start(), t(h, {
-			...e,
+		let t = this.getPluginState();
+		return !t.streamActive && !this.captureActive && !this.userDenied && this.start(), e(h, {
+			...t,
 			onStartRecording: this.startRecording,
 			onStopRecording: this.stopRecording,
 			enableScreenshots: this.opts.enableScreenshots,

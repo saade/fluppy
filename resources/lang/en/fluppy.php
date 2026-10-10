@@ -11,6 +11,9 @@ return [
     'view_files' => 'View files',
     'sources' => [
         'url' => 'Link',
+        'disk' => 'Files',
+        'grid_view' => 'Grid',
+        'list_view' => 'List',
         'google_drive' => 'Google Drive',
         'google_photos' => 'Google Photos',
         'dropbox' => 'Dropbox',

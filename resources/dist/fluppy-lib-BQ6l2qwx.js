@@ -2,8 +2,8 @@ import { r as e, t } from "./fluppy-rolldown-runtime-B0aSnxlc.js";
 import { t as n } from "./fluppy-ErrorWithCause-C1-jdBfU.js";
 import { n as r, t as i } from "./fluppy-fetchWithNetworkError-DVypO93t.js";
 import { n as a } from "./fluppy-toError-DlxtQOs3.js";
-import { n as o, r as s, t as c } from "./fluppy-UIPlugin-ihypjxg2.js";
-import { n as l, t as u } from "./fluppy-FilterInput-CB8h947h.js";
+import { n as o, r as s, t as c } from "./fluppy-UIPlugin-Dz_uZBpD.js";
+import { n as l, t as u } from "./fluppy-FilterInput-2_ga2mAY.js";
 //#region node_modules/@uppy/core/lib/utils/fileFilters.js
 var d = (e) => "error" in e && !!e.error, f = (e) => e.progress.uploadComplete;
 function p(e) {

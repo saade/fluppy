@@ -1,8 +1,9 @@
-import { i as e, r as t, t as n } from "./fluppy-UIPlugin-ihypjxg2.js";
-import { t as r } from "./fluppy-toArray-C4ZyUyu-.js";
-import { t as i } from "./fluppy-getErrorMessage-DxiQuxng.js";
-import { t as a } from "./fluppy-RequestClient-CHna867h.js";
-import { t as o } from "./fluppy-isRestrictionError-Dq8RAQXC.js";
+import { r as e, t } from "./fluppy-UIPlugin-Dz_uZBpD.js";
+import { t as n } from "./fluppy-toArray-C4ZyUyu-.js";
+import { t as r } from "./fluppy-getErrorMessage-DxiQuxng.js";
+import { t as i } from "./fluppy-RequestClient-CHna867h.js";
+import { t as a } from "./fluppy-isRestrictionError-Dq8RAQXC.js";
+import { t as o } from "./fluppy-preact.module-CfEGNJFi.js";
 var s = {
 	name: "@uppy/url",
 	description: "The Url plugin lets users import files from the Internet. Paste any URL and it’ll be added!",
@@ -72,7 +73,7 @@ var s = {
 	let t = "", n = e | 0;
 	for (; n-- > 0;) t += l[Math.random() * 64 | 0];
 	return t;
-}, d = class extends e {
+}, d = class extends o {
 	form = document.createElement("form");
 	input;
 	constructor(e) {
@@ -90,32 +91,32 @@ var s = {
 		t(this.input.value.trim());
 	};
 	render() {
-		let { i18n: e } = this.props;
-		return t("div", {
+		let { i18n: t } = this.props;
+		return e("div", {
 			className: "uppy-Url",
-			children: [t("input", {
+			children: [e("input", {
 				className: "uppy-u-reset uppy-c-textInput uppy-Url-input",
 				type: "text",
-				"aria-label": e("enterUrlToImport"),
-				placeholder: e("enterUrlToImport"),
+				"aria-label": t("enterUrlToImport"),
+				placeholder: t("enterUrlToImport"),
 				ref: (e) => {
 					this.input = e;
 				},
 				"data-uppy-super-focusable": !0,
 				form: this.form.id
-			}), t("button", {
+			}), e("button", {
 				className: "uppy-u-reset uppy-c-btn uppy-c-btn-primary uppy-Url-importButton",
 				type: "submit",
 				form: this.form.id,
-				children: e("import")
+				children: t("import")
 			})]
 		});
 	}
 };
 //#endregion
 //#region node_modules/@uppy/url/lib/utils/forEachDroppedOrPastedUrl.js
-function f(e, t, n) {
-	let i = r(e.items), a;
+function f(e, t, r) {
+	let i = n(e.items), a;
 	switch (t) {
 		case "paste":
 			if (i.some((e) => e.kind === "file")) return;
@@ -127,19 +128,19 @@ function f(e, t, n) {
 		default: throw Error(`isDropOrPaste must be either 'drop' or 'paste', but it's ${t}`);
 	}
 	a.forEach((e) => {
-		e.getAsString((e) => n(e));
+		e.getAsString((e) => r(e));
 	});
 }
 //#endregion
 //#region node_modules/@uppy/url/lib/Url.js
 function p() {
-	return t("svg", {
+	return e("svg", {
 		"aria-hidden": "true",
 		focusable: "false",
 		width: "32",
 		height: "32",
 		viewBox: "0 0 32 32",
-		children: t("path", {
+		children: e("path", {
 			d: "M23.637 15.312l-2.474 2.464a3.582 3.582 0 01-.577.491c-.907.657-1.897.986-2.968.986a4.925 4.925 0 01-3.959-1.971c-.248-.329-.164-.902.165-1.149.33-.247.907-.164 1.155.164 1.072 1.478 3.133 1.724 4.618.656a.642.642 0 00.33-.328l2.473-2.463c1.238-1.313 1.238-3.366-.082-4.597a3.348 3.348 0 00-4.618 0l-1.402 1.395a.799.799 0 01-1.154 0 .79.79 0 010-1.15l1.402-1.394a4.843 4.843 0 016.843 0c2.062 1.805 2.144 5.007.248 6.896zm-8.081 5.664l-1.402 1.395a3.348 3.348 0 01-4.618 0c-1.319-1.23-1.319-3.365-.082-4.596l2.475-2.464.328-.328c.743-.492 1.567-.739 2.475-.657.906.165 1.648.574 2.143 1.314.248.329.825.411 1.155.165.33-.248.412-.822.165-1.15-.825-1.068-1.98-1.724-3.216-1.888-1.238-.247-2.556.082-3.628.902l-.495.493-2.474 2.464c-1.897 1.969-1.814 5.09.083 6.977.99.904 2.226 1.396 3.463 1.396s2.473-.492 3.463-1.395l1.402-1.396a.79.79 0 000-1.15c-.33-.328-.908-.41-1.237-.082z",
 			fill: "#FF753E",
 			"fill-rule": "nonzero"
@@ -150,7 +151,7 @@ function m(e) {
 	return /^[a-z0-9]+:\/\//.test(e) ? e : "http://" + e;
 }
 function h(e) {
-	return r(e.dataTransfer.items).filter((e) => e.kind === "string" && e.type === "text/uri-list").length > 0;
+	return n(e.dataTransfer.items).filter((e) => e.kind === "string" && e.type === "text/uri-list").length > 0;
 }
 function g(e) {
 	return e?.startsWith("http://") || e?.startsWith("https://");
@@ -159,60 +160,60 @@ function _(e) {
 	let { pathname: t } = new URL(e);
 	return t.substring(t.lastIndexOf("/") + 1);
 }
-var v = class e extends n {
+var v = class n extends t {
 	static VERSION = s.version;
-	static requestClientId = e.name;
+	static requestClientId = n.name;
 	icon;
 	hostname;
 	client;
 	canHandleRootDrop;
-	constructor(n, r) {
-		if (super(n, r), this.id = this.opts.id || "Url", this.type = "acquirer", this.icon = () => t(p, {}), this.defaultLocale = c, this.i18nInit(), this.title = this.i18n("pluginNameUrl"), this.hostname = this.opts.companionUrl, !this.hostname) throw Error("Companion hostname is required, please consult https://uppy.io/docs/companion");
-		this.client = new a(n, {
+	constructor(t, r) {
+		if (super(t, r), this.id = this.opts.id || "Url", this.type = "acquirer", this.icon = () => e(p, {}), this.defaultLocale = c, this.i18nInit(), this.title = this.i18n("pluginNameUrl"), this.hostname = this.opts.companionUrl, !this.hostname) throw Error("Companion hostname is required, please consult https://uppy.io/docs/companion");
+		this.client = new i(t, {
 			companionUrl: this.opts.companionUrl,
 			companionHeaders: this.opts.companionHeaders,
 			companionCookiesRule: this.opts.companionCookiesRule
-		}), this.uppy.registerRequestClient(e.requestClientId, this.client);
+		}), this.uppy.registerRequestClient(n.requestClientId, this.client);
 	}
 	getMeta = (e) => this.client.post("url/meta", { url: e });
-	addFile = async (t, n) => {
-		if (t.startsWith("blob")) return;
-		let r = m(t);
-		if (!g(r)) {
-			this.uppy.log(`[URL] Incorrect URL entered: ${r}`), this.uppy.info(this.i18n("enterCorrectUrl"), "error", 4e3);
+	addFile = async (e, t) => {
+		if (e.startsWith("blob")) return;
+		let i = m(e);
+		if (!g(i)) {
+			this.uppy.log(`[URL] Incorrect URL entered: ${i}`), this.uppy.info(this.i18n("enterCorrectUrl"), "error", 4e3);
 			return;
 		}
-		this.uppy.log(`[URL] Adding file from dropped/pasted url: ${r}`);
+		this.uppy.log(`[URL] Adding file from dropped/pasted url: ${i}`);
 		try {
-			let t = await this.getMeta(r), i = {
-				meta: n,
+			let e = await this.getMeta(i), r = {
+				meta: t,
 				source: this.id,
-				name: t.name || _(r),
-				type: t.type,
-				data: { size: t.size },
+				name: e.name || _(i),
+				type: e.type,
+				data: { size: e.size },
 				isRemote: !0,
-				body: { url: r },
+				body: { url: i },
 				remote: {
 					companionUrl: this.opts.companionUrl,
 					url: `${this.hostname}/url/get`,
 					body: {
-						fileId: r,
-						url: r
+						fileId: i,
+						url: i
 					},
-					requestClientId: e.requestClientId
+					requestClientId: n.requestClientId
 				}
 			};
 			this.uppy.log("[Url] Adding remote file");
 			try {
-				return this.uppy.addFile(i);
+				return this.uppy.addFile(r);
 			} catch (e) {
-				o(e) || this.uppy.log(e);
+				a(e) || this.uppy.log(e);
 				return;
 			}
 		} catch (e) {
 			this.uppy.log(e), this.uppy.info({
 				message: this.i18n("failedToFetch"),
-				details: i(e)
+				details: r(e)
 			}, "error", 4e3);
 			return;
 		}
@@ -228,7 +229,7 @@ var v = class e extends n {
 		});
 	};
 	render() {
-		return t(d, {
+		return e(d, {
 			i18n: this.i18n,
 			addFile: this.addFile
 		});

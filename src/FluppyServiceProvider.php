@@ -14,6 +14,7 @@ use Saade\Fluppy\Http\Controllers\DoctorController;
 use Saade\Fluppy\Http\Controllers\RemoteController;
 use Saade\Fluppy\Http\Controllers\SourceConnectionController;
 use Saade\Fluppy\Sources\BoxSource;
+use Saade\Fluppy\Sources\DiskSource;
 use Saade\Fluppy\Sources\DropboxSource;
 use Saade\Fluppy\Sources\FacebookSource;
 use Saade\Fluppy\Sources\GoogleDriveSource;
@@ -52,6 +53,7 @@ class FluppyServiceProvider extends PackageServiceProvider
 
         $this->app->singleton(SourceManager::class, fn (): SourceManager => (new SourceManager)
             ->extend('url', fn (): UrlSource => app(UrlSource::class))
+            ->extend('disk', fn (): DiskSource => app(DiskSource::class))
             ->extend('google-drive', fn (): GoogleDriveSource => app(GoogleDriveSource::class))
             ->extend('google-photos', fn (): GooglePhotosSource => app(GooglePhotosSource::class))
             ->extend('dropbox', fn (): DropboxSource => app(DropboxSource::class))

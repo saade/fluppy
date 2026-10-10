@@ -1,5 +1,6 @@
 import { r as e, t } from "./fluppy-rolldown-runtime-B0aSnxlc.js";
-import { i as n, r, t as i } from "./fluppy-UIPlugin-ihypjxg2.js";
+import { r as n, t as r } from "./fluppy-UIPlugin-Dz_uZBpD.js";
+import { t as i } from "./fluppy-preact.module-CfEGNJFi.js";
 //#endregion
 //#region node_modules/@uppy/image-editor/package.json
 var a = /* @__PURE__ */ e((/* @__PURE__ */ t(((e, t) => {
@@ -1242,7 +1243,7 @@ var a = /* @__PURE__ */ e((/* @__PURE__ */ t(((e, t) => {
 		sass: "^1.89.2",
 		typescript: "^6.0.3"
 	}
-}, s = class extends n {
+}, s = class extends i {
 	imgElement;
 	componentDidMount() {
 		let { initCropper: e } = this.props;
@@ -1257,12 +1258,12 @@ var a = /* @__PURE__ */ e((/* @__PURE__ */ t(((e, t) => {
 	};
 	renderGranularRotate() {
 		let { i18n: e } = this.props, { angleGranular: t } = this.props;
-		return r("label", {
+		return n("label", {
 			role: "tooltip",
 			"aria-label": `${t}º`,
 			"data-microtip-position": "top",
 			className: "uppy-ImageCropper-rangeWrapper",
-			children: r("input", {
+			children: n("input", {
 				className: "uppy-ImageCropper-range uppy-u-reset",
 				type: "range",
 				onInput: this.onRotateGranular,
@@ -1276,7 +1277,7 @@ var a = /* @__PURE__ */ e((/* @__PURE__ */ t(((e, t) => {
 	}
 	renderRevert() {
 		let { i18n: e } = this.props;
-		return r("button", {
+		return n("button", {
 			"data-microtip-position": "top",
 			type: "button",
 			className: "uppy-u-reset uppy-c-btn",
@@ -1284,143 +1285,143 @@ var a = /* @__PURE__ */ e((/* @__PURE__ */ t(((e, t) => {
 			onClick: () => {
 				this.props.reset();
 			},
-			children: r("svg", {
+			children: n("svg", {
 				"aria-hidden": "true",
 				className: "uppy-c-icon",
 				width: "24",
 				height: "24",
 				viewBox: "0 0 24 24",
-				children: [r("path", {
+				children: [n("path", {
 					d: "M0 0h24v24H0z",
 					fill: "none"
-				}), r("path", { d: "M13 3c-4.97 0-9 4.03-9 9H1l3.89 3.89.07.14L9 12H6c0-3.87 3.13-7 7-7s7 3.13 7 7-3.13 7-7 7c-1.93 0-3.68-.79-4.94-2.06l-1.42 1.42C8.27 19.99 10.51 21 13 21c4.97 0 9-4.03 9-9s-4.03-9-9-9zm-1 5v5l4.28 2.54.72-1.21-3.5-2.08V8H12z" })]
+				}), n("path", { d: "M13 3c-4.97 0-9 4.03-9 9H1l3.89 3.89.07.14L9 12H6c0-3.87 3.13-7 7-7s7 3.13 7 7-3.13 7-7 7c-1.93 0-3.68-.79-4.94-2.06l-1.42 1.42C8.27 19.99 10.51 21 13 21c4.97 0 9-4.03 9-9s-4.03-9-9-9zm-1 5v5l4.28 2.54.72-1.21-3.5-2.08V8H12z" })]
 			})
 		});
 	}
 	renderRotate() {
 		let { i18n: e } = this.props;
-		return r("button", {
+		return n("button", {
 			"data-microtip-position": "top",
 			type: "button",
 			className: "uppy-u-reset uppy-c-btn",
 			"aria-label": e("rotate"),
 			onClick: this.onRotate90Deg,
-			children: r("svg", {
+			children: n("svg", {
 				"aria-hidden": "true",
 				className: "uppy-c-icon",
 				width: "24",
 				height: "24",
 				viewBox: "0 0 24 24",
-				children: [r("path", {
+				children: [n("path", {
 					d: "M0 0h24v24H0V0zm0 0h24v24H0V0z",
 					fill: "none"
-				}), r("path", { d: "M14 10a2 2 0 012 2v7a2 2 0 01-2 2H6a2 2 0 01-2-2v-7a2 2 0 012-2h8zm0 1.75H6a.25.25 0 00-.243.193L5.75 12v7a.25.25 0 00.193.243L6 19.25h8a.25.25 0 00.243-.193L14.25 19v-7a.25.25 0 00-.193-.243L14 11.75zM12 .76V4c2.3 0 4.61.88 6.36 2.64a8.95 8.95 0 012.634 6.025L21 13a1 1 0 01-1.993.117L19 13h-.003a6.979 6.979 0 00-2.047-4.95 6.97 6.97 0 00-4.652-2.044L12 6v3.24L7.76 5 12 .76z" })]
+				}), n("path", { d: "M14 10a2 2 0 012 2v7a2 2 0 01-2 2H6a2 2 0 01-2-2v-7a2 2 0 012-2h8zm0 1.75H6a.25.25 0 00-.243.193L5.75 12v7a.25.25 0 00.193.243L6 19.25h8a.25.25 0 00.243-.193L14.25 19v-7a.25.25 0 00-.193-.243L14 11.75zM12 .76V4c2.3 0 4.61.88 6.36 2.64a8.95 8.95 0 012.634 6.025L21 13a1 1 0 01-1.993.117L19 13h-.003a6.979 6.979 0 00-2.047-4.95 6.97 6.97 0 00-4.652-2.044L12 6v3.24L7.76 5 12 .76z" })]
 			})
 		});
 	}
 	renderFlip() {
 		let { i18n: e } = this.props;
-		return r("button", {
+		return n("button", {
 			"data-microtip-position": "top",
 			type: "button",
 			className: "uppy-u-reset uppy-c-btn",
 			"aria-label": e("flipHorizontal"),
 			onClick: () => this.props.flipHorizontal(),
-			children: r("svg", {
+			children: n("svg", {
 				"aria-hidden": "true",
 				className: "uppy-c-icon",
 				width: "24",
 				height: "24",
 				viewBox: "0 0 24 24",
-				children: [r("path", {
+				children: [n("path", {
 					d: "M0 0h24v24H0z",
 					fill: "none"
-				}), r("path", { d: "M15 21h2v-2h-2v2zm4-12h2V7h-2v2zM3 5v14c0 1.1.9 2 2 2h4v-2H5V5h4V3H5c-1.1 0-2 .9-2 2zm16-2v2h2c0-1.1-.9-2-2-2zm-8 20h2V1h-2v22zm8-6h2v-2h-2v2zM15 5h2V3h-2v2zm4 8h2v-2h-2v2zm0 8c1.1 0 2-.9 2-2h-2v2z" })]
+				}), n("path", { d: "M15 21h2v-2h-2v2zm4-12h2V7h-2v2zM3 5v14c0 1.1.9 2 2 2h4v-2H5V5h4V3H5c-1.1 0-2 .9-2 2zm16-2v2h2c0-1.1-.9-2-2-2zm-8 20h2V1h-2v22zm8-6h2v-2h-2v2zM15 5h2V3h-2v2zm4 8h2v-2h-2v2zm0 8c1.1 0 2-.9 2-2h-2v2z" })]
 			})
 		});
 	}
 	renderZoomIn() {
 		let { i18n: e } = this.props;
-		return r("button", {
+		return n("button", {
 			"data-microtip-position": "top",
 			type: "button",
 			className: "uppy-u-reset uppy-c-btn",
 			"aria-label": e("zoomIn"),
 			onClick: () => this.props.zoom(.1),
-			children: r("svg", {
+			children: n("svg", {
 				"aria-hidden": "true",
 				className: "uppy-c-icon",
 				height: "24",
 				viewBox: "0 0 24 24",
 				width: "24",
 				children: [
-					r("path", {
+					n("path", {
 						d: "M0 0h24v24H0V0z",
 						fill: "none"
 					}),
-					r("path", { d: "M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19l-4.99-5zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z" }),
-					r("path", { d: "M12 10h-2v2H9v-2H7V9h2V7h1v2h2v1z" })
+					n("path", { d: "M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19l-4.99-5zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z" }),
+					n("path", { d: "M12 10h-2v2H9v-2H7V9h2V7h1v2h2v1z" })
 				]
 			})
 		});
 	}
 	renderZoomOut() {
 		let { i18n: e } = this.props;
-		return r("button", {
+		return n("button", {
 			"data-microtip-position": "top",
 			type: "button",
 			className: "uppy-u-reset uppy-c-btn",
 			"aria-label": e("zoomOut"),
 			onClick: () => this.props.zoom(-.1),
-			children: r("svg", {
+			children: n("svg", {
 				"aria-hidden": "true",
 				className: "uppy-c-icon",
 				width: "24",
 				height: "24",
 				viewBox: "0 0 24 24",
-				children: [r("path", {
+				children: [n("path", {
 					d: "M0 0h24v24H0V0z",
 					fill: "none"
-				}), r("path", { d: "M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19l-4.99-5zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14zM7 9h5v1H7z" })]
+				}), n("path", { d: "M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19l-4.99-5zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14zM7 9h5v1H7z" })]
 			})
 		});
 	}
 	renderCropSquare() {
 		let { i18n: e } = this.props;
-		return r("button", {
+		return n("button", {
 			"data-microtip-position": "top",
 			type: "button",
 			className: "uppy-u-reset uppy-c-btn",
 			"aria-label": e("aspectRatioSquare"),
 			onClick: () => this.props.setAspectRatio("1:1"),
-			children: r("svg", {
+			children: n("svg", {
 				"aria-hidden": "true",
 				className: "uppy-c-icon",
 				width: "24",
 				height: "24",
 				viewBox: "0 0 24 24",
-				children: [r("path", {
+				children: [n("path", {
 					d: "M0 0h24v24H0z",
 					fill: "none"
-				}), r("path", { d: "M19 5v14H5V5h14m0-2H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2z" })]
+				}), n("path", { d: "M19 5v14H5V5h14m0-2H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2z" })]
 			})
 		});
 	}
 	renderCropWidescreen() {
 		let { i18n: e } = this.props;
-		return r("button", {
+		return n("button", {
 			"data-microtip-position": "top",
 			type: "button",
 			className: "uppy-u-reset uppy-c-btn",
 			"aria-label": e("aspectRatioLandscape"),
 			onClick: () => this.props.setAspectRatio("16:9"),
-			children: r("svg", {
+			children: n("svg", {
 				"aria-hidden": "true",
 				className: "uppy-c-icon",
 				width: "24",
 				height: "24",
 				viewBox: "0 0 24 24",
-				children: [r("path", { d: "M 19,4.9999992 V 17.000001 H 4.9999998 V 6.9999992 H 19 m 0,-2 H 4.9999998 c -1.0999999,0 -1.9999999,0.9000001 -1.9999999,2 V 17.000001 c 0,1.1 0.9,2 1.9999999,2 H 19 c 1.1,0 2,-0.9 2,-2 V 6.9999992 c 0,-1.0999999 -0.9,-2 -2,-2 z" }), r("path", {
+				children: [n("path", { d: "M 19,4.9999992 V 17.000001 H 4.9999998 V 6.9999992 H 19 m 0,-2 H 4.9999998 c -1.0999999,0 -1.9999999,0.9000001 -1.9999999,2 V 17.000001 c 0,1.1 0.9,2 1.9999999,2 H 19 c 1.1,0 2,-0.9 2,-2 V 6.9999992 c 0,-1.0999999 -0.9,-2 -2,-2 z" }), n("path", {
 					fill: "none",
 					d: "M0 0h24v24H0z"
 				})]
@@ -1429,19 +1430,19 @@ var a = /* @__PURE__ */ e((/* @__PURE__ */ t(((e, t) => {
 	}
 	renderCropWidescreenVertical() {
 		let { i18n: e } = this.props;
-		return r("button", {
+		return n("button", {
 			"data-microtip-position": "top",
 			type: "button",
 			"aria-label": e("aspectRatioPortrait"),
 			className: "uppy-u-reset uppy-c-btn",
 			onClick: () => this.props.setAspectRatio("9:16"),
-			children: r("svg", {
+			children: n("svg", {
 				"aria-hidden": "true",
 				className: "uppy-c-icon",
 				width: "24",
 				height: "24",
 				viewBox: "0 0 24 24",
-				children: [r("path", { d: "M 19.000001,19 H 6.999999 V 5 h 10.000002 v 14 m 2,0 V 5 c 0,-1.0999999 -0.9,-1.9999999 -2,-1.9999999 H 6.999999 c -1.1,0 -2,0.9 -2,1.9999999 v 14 c 0,1.1 0.9,2 2,2 h 10.000002 c 1.1,0 2,-0.9 2,-2 z" }), r("path", {
+				children: [n("path", { d: "M 19.000001,19 H 6.999999 V 5 h 10.000002 v 14 m 2,0 V 5 c 0,-1.0999999 -0.9,-1.9999999 -2,-1.9999999 H 6.999999 c -1.1,0 -2,0.9 -2,1.9999999 v 14 c 0,1.1 0.9,2 2,2 h 10.000002 c 1.1,0 2,-0.9 2,-2 z" }), n("path", {
 					d: "M0 0h24v24H0z",
 					fill: "none"
 				})]
@@ -1449,12 +1450,12 @@ var a = /* @__PURE__ */ e((/* @__PURE__ */ t(((e, t) => {
 		});
 	}
 	render() {
-		let { currentImage: e, objectUrl: t, opts: n } = this.props, { actions: i } = n;
-		return r("div", {
+		let { currentImage: e, objectUrl: t, opts: r } = this.props, { actions: i } = r;
+		return n("div", {
 			className: "uppy-ImageCropper",
-			children: [r("div", {
+			children: [n("div", {
 				className: "uppy-ImageCropper-container",
-				children: r("img", {
+				children: n("img", {
 					className: "uppy-ImageCropper-image",
 					alt: e.name,
 					src: t,
@@ -1462,7 +1463,7 @@ var a = /* @__PURE__ */ e((/* @__PURE__ */ t(((e, t) => {
 						this.imgElement = e;
 					}
 				})
-			}), r("div", {
+			}), n("div", {
 				className: "uppy-ImageCropper-controls",
 				children: [
 					i.revert && this.renderRevert(),
@@ -1573,7 +1574,7 @@ var m = {
 	quality: .8,
 	actions: g,
 	cropperOptions: h
-}, v = class extends i {
+}, v = class extends r {
 	static VERSION = o.version;
 	cropper = null;
 	objectUrl = null;
@@ -1718,7 +1719,7 @@ var m = {
 	}
 	render() {
 		let { currentImage: e, angleGranular: t } = this.getPluginState();
-		return e === null || e.isRemote ? null : r(s, {
+		return e === null || e.isRemote ? null : n(s, {
 			currentImage: e,
 			objectUrl: this.objectUrl ?? "",
 			initCropper: this.initCropper,

@@ -1,6 +1,6 @@
-import { r as e, t } from "./fluppy-UIPlugin-ihypjxg2.js";
+import { r as e, t } from "./fluppy-UIPlugin-Dz_uZBpD.js";
 import { t as n } from "./fluppy-RequestClient-CHna867h.js";
-import { r, t as i } from "./fluppy-GooglePickerView-CznqOqVm.js";
+import { r, t as i } from "./fluppy-GooglePickerView-BqF7C-t-.js";
 import { t as a } from "./fluppy-tokenStorage-CoxIVt8_.js";
 var o = {
 	name: "@uppy/google-photos-picker",

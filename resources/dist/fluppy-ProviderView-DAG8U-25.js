@@ -1,13 +1,14 @@
 import { r as e, t } from "./fluppy-rolldown-runtime-B0aSnxlc.js";
 import { t as n } from "./fluppy-ErrorWithCause-C1-jdBfU.js";
 import { n as r } from "./fluppy-toError-DlxtQOs3.js";
-import { r as i, s as a } from "./fluppy-UIPlugin-ihypjxg2.js";
-import { t as o } from "./fluppy-mimeTypes-CcSLKirE.js";
-import { t as s } from "./fluppy-getErrorMessage-DxiQuxng.js";
-import { i as c, n as l, r as u } from "./fluppy-AuthError-BgrGWmji.js";
-import { a as d, i as f, n as p, o as m, r as h, s as g, t as _ } from "./fluppy-hooks.module-DqAiOXxL.js";
-import { t as v } from "./fluppy-FilterInput-CB8h947h.js";
-import { t as y } from "./fluppy-AuthView-CI-CoxsO.js";
+import { r as i } from "./fluppy-UIPlugin-Dz_uZBpD.js";
+import { t as a } from "./fluppy-mimeTypes-CcSLKirE.js";
+import { t as o } from "./fluppy-getErrorMessage-DxiQuxng.js";
+import { i as s, n as c, r as l } from "./fluppy-AuthError-BgrGWmji.js";
+import { a as u } from "./fluppy-preact.module-CfEGNJFi.js";
+import { a as d, i as f, n as p, o as m, r as h, s as g, t as _ } from "./fluppy-hooks.module-B-kaEFKj.js";
+import { t as v } from "./fluppy-FilterInput-2_ga2mAY.js";
+import { t as y } from "./fluppy-AuthView-8kwqE5w1.js";
 //#region node_modules/@transloadit/prettier-bytes/dist/prettierBytes.js
 var b = [
 	"B",
@@ -44,7 +45,7 @@ function S(e) {
 function C(e) {
 	if (e.type) return e.type;
 	let t = e.name ? S(e.name).extension?.toLowerCase() : null;
-	return t && t in o ? o[t] : "application/octet-stream";
+	return t && t in a ? a[t] : "application/octet-stream";
 }
 //#endregion
 //#region node_modules/@uppy/core/lib/utils/generateFileID.js
@@ -555,15 +556,15 @@ function H({ itemIconString: e, alt: t = void 0 }) {
 }
 //#endregion
 //#region node_modules/@uppy/core/lib/provider-views/Item/components/GridItem.js
-function U({ file: e, toggleCheckbox: t, className: n, isDisabled: r, restrictionError: o, showTitles: s, children: c = null, i18n: l, actionsMenu: u = null, selectable: d = !0, onFileClick: f }) {
-	let p = e.data.name ?? l("unnamed"), m = i(a, { children: [
+function U({ file: e, toggleCheckbox: t, className: n, isDisabled: r, restrictionError: a, showTitles: o, children: s = null, i18n: c, actionsMenu: l = null, selectable: d = !0, onFileClick: f }) {
+	let p = e.data.name ?? c("unnamed"), m = i(u, { children: [
 		i(H, { itemIconString: e.data.thumbnail || e.data.icon }),
-		s && p,
-		c
+		o && p,
+		s
 	] });
 	return i("li", {
 		className: n,
-		title: r && o ? o : void 0,
+		title: r && a ? a : void 0,
 		children: [
 			d && i("input", {
 				type: "checkbox",
@@ -577,7 +578,7 @@ function U({ file: e, toggleCheckbox: t, className: n, isDisabled: r, restrictio
 			}),
 			!d && f && !e.data.isFolder ? i("button", {
 				type: "button",
-				"aria-label": l("openFileNamed", { name: p }),
+				"aria-label": c("openFileNamed", { name: p }),
 				"data-uppy-item-id": e.id,
 				className: "uppy-u-reset uppy-ProviderBrowserItem-inner",
 				onClick: () => f(e),
@@ -588,32 +589,32 @@ function U({ file: e, toggleCheckbox: t, className: n, isDisabled: r, restrictio
 				className: "uppy-u-reset uppy-ProviderBrowserItem-inner",
 				children: m
 			}),
-			u
+			l
 		]
 	});
 }
 //#endregion
 //#region node_modules/@uppy/core/lib/provider-views/Item/components/ListItem.js
-function Se({ file: e, openFolder: t, className: n, isDisabled: r, restrictionError: o, toggleCheckbox: s, showTitles: c, i18n: l, actionsMenu: u = null, selectable: d = !0, onFileClick: f }) {
-	let p = i(a, { children: [i("div", {
+function Se({ file: e, openFolder: t, className: n, isDisabled: r, restrictionError: a, toggleCheckbox: o, showTitles: s, i18n: c, actionsMenu: l = null, selectable: d = !0, onFileClick: f }) {
+	let p = i(u, { children: [i("div", {
 		className: "uppy-ProviderBrowserItem-iconWrap",
 		children: i(H, { itemIconString: e.data.icon })
-	}), c && i("span", {
+	}), s && i("span", {
 		className: "uppy-truncate-text",
-		children: e.data.name ?? l("unnamed")
+		children: e.data.name ?? c("unnamed")
 	})] });
 	return i("li", {
 		className: n,
-		title: e.status !== "checked" && o ? o : void 0,
+		title: e.status !== "checked" && a ? a : void 0,
 		children: [
 			d && i("input", {
 				type: "checkbox",
 				className: "uppy-u-reset uppy-ProviderBrowserItem-checkbox",
-				onChange: s,
+				onChange: o,
 				name: "listitem",
 				id: e.id,
 				checked: e.status === "checked",
-				"aria-label": e.data.isFolder ? l("allFilesFromFolderNamed", { name: e.data.name ?? l("unnamed") }) : null,
+				"aria-label": e.data.isFolder ? c("allFilesFromFolderNamed", { name: e.data.name ?? c("unnamed") }) : null,
 				disabled: r,
 				"data-uppy-super-focusable": !0
 			}),
@@ -621,14 +622,14 @@ function Se({ file: e, openFolder: t, className: n, isDisabled: r, restrictionEr
 				type: "button",
 				className: "uppy-u-reset uppy-c-btn uppy-ProviderBrowserItem-inner",
 				onClick: () => t(e.id),
-				"aria-label": l("openFolderNamed", { name: e.data.name ?? l("unnamed") }),
+				"aria-label": c("openFolderNamed", { name: e.data.name ?? c("unnamed") }),
 				children: [i("div", {
 					className: "uppy-ProviderBrowserItem-iconWrap",
 					children: i(H, { itemIconString: e.data.icon })
-				}), c && e.data.name ? i("span", {
+				}), s && e.data.name ? i("span", {
 					className: "uppy-truncate-text",
 					children: e.data.name
-				}) : l("unnamed")]
+				}) : c("unnamed")]
 			}) : d ? i("label", {
 				htmlFor: e.id,
 				className: "uppy-u-reset uppy-ProviderBrowserItem-inner",
@@ -638,10 +639,10 @@ function Se({ file: e, openFolder: t, className: n, isDisabled: r, restrictionEr
 				className: "uppy-u-reset uppy-c-btn uppy-ProviderBrowserItem-inner",
 				onClick: () => f?.(e),
 				"data-uppy-item-id": e.id,
-				"aria-label": l("openFileNamed", { name: e.data.name ?? l("unnamed") }),
+				"aria-label": c("openFileNamed", { name: e.data.name ?? c("unnamed") }),
 				children: p
 			}),
-			u
+			l
 		]
 	});
 }
@@ -814,22 +815,22 @@ function Ee({ cancelSelection: e, donePicking: t, i18n: n, partialTree: r, valid
 }
 //#endregion
 //#region node_modules/@uppy/core/lib/provider-views/ItemDetailDialog.js
-function De({ item: e, actions: t, runAction: n, getPreviewUrl: r, onClose: o, i18n: s }) {
-	let [c, l] = f(null), u = d(), [p] = f(e);
+function De({ item: e, actions: t, runAction: n, getPreviewUrl: r, onClose: a, i18n: o }) {
+	let [s, c] = f(null), l = d(), [p] = f(e);
 	m(() => {
 		if (!r || p.data.isFolder) return;
 		let e = !1;
 		return Promise.resolve().then(() => r(p)).then((t) => {
-			e || l(t);
+			e || c(t);
 		}).catch(() => {}), () => {
 			e = !0;
 		};
 	}, [r, p]);
-	let h = e.data.name ?? s("unnamed"), g = R(t, e), _ = e.type === "file" ? e.data : void 0, v = _?.size, y = _?.mimeType, b = _?.modifiedDate;
+	let h = e.data.name ?? o("unnamed"), g = R(t, e), _ = e.type === "file" ? e.data : void 0, v = _?.size, y = _?.mimeType, b = _?.modifiedDate;
 	return i(B, {
 		className: "uppy-ProviderDialog uppy-ItemDetail",
-		"aria-labelledby": u,
-		onDismiss: o,
+		"aria-labelledby": l,
+		onDismiss: a,
 		restoreFocus: (t) => {
 			let n = t.closest(".uppy-ProviderBrowser");
 			return n?.querySelector(`[data-uppy-item-id="${CSS.escape(e.id)}"]`) ?? n?.querySelector(".uppy-ProviderBrowser-list");
@@ -838,14 +839,14 @@ function De({ item: e, actions: t, runAction: n, getPreviewUrl: r, onClose: o, i
 			i("header", {
 				className: "uppy-ItemDetail-header",
 				children: [i("h3", {
-					id: u,
+					id: l,
 					className: "uppy-ItemDetail-name",
 					children: h
 				}), i("button", {
 					type: "button",
 					className: "uppy-u-reset uppy-c-btn uppy-ItemDetail-close",
-					"aria-label": s("close"),
-					onClick: o,
+					"aria-label": o("close"),
+					onClick: a,
 					children: i("svg", {
 						"aria-hidden": "true",
 						width: "14",
@@ -866,8 +867,8 @@ function De({ item: e, actions: t, runAction: n, getPreviewUrl: r, onClose: o, i
 				children: [i("div", {
 					className: "uppy-ItemDetail-preview",
 					"data-testid": "file-detail-preview",
-					children: c ? i("img", {
-						src: c,
+					children: s ? i("img", {
+						src: s,
 						alt: "",
 						className: "uppy-ItemDetail-previewImage"
 					}) : i("span", {
@@ -878,9 +879,9 @@ function De({ item: e, actions: t, runAction: n, getPreviewUrl: r, onClose: o, i
 				}), i("dl", {
 					className: "uppy-ItemDetail-facts",
 					children: [
-						typeof v == "number" ? i(a, { children: [i("dt", { children: s("detailSize") }), i("dd", { children: x(v) })] }) : null,
-						y ? i(a, { children: [i("dt", { children: s("detailType") }), i("dd", { children: y })] }) : null,
-						b ? i(a, { children: [i("dt", { children: s("detailModified") }), i("dd", { children: b })] }) : null
+						typeof v == "number" ? i(u, { children: [i("dt", { children: o("detailSize") }), i("dd", { children: x(v) })] }) : null,
+						y ? i(u, { children: [i("dt", { children: o("detailType") }), i("dd", { children: y })] }) : null,
+						b ? i(u, { children: [i("dt", { children: o("detailModified") }), i("dd", { children: b })] }) : null
 					]
 				})]
 			}),
@@ -890,7 +891,7 @@ function De({ item: e, actions: t, runAction: n, getPreviewUrl: r, onClose: o, i
 					type: "button",
 					className: (0, P.default)("uppy-u-reset uppy-c-btn uppy-ItemDetail-action", t.danger && "uppy-ItemDetail-action--danger"),
 					onClick: () => {
-						o(), n(t, e);
+						a(), n(t, e);
 					},
 					children: t.label
 				}, t.id))
@@ -1030,9 +1031,9 @@ var ke = class {
 	}
 	return [e];
 }, G = (e) => (t) => {
-	if (l(t)) return;
+	if (c(t)) return;
 	let n = r(t);
-	if (c(n)) {
+	if (s(n)) {
 		e.log("Aborting request", "warning");
 		return;
 	}
@@ -1723,23 +1724,23 @@ var Re = 100, Y = class {
 //#endregion
 //#region node_modules/@uppy/core/lib/provider-views/Breadcrumbs.js
 function Ye(e) {
-	let { openFolder: t, title: n, breadcrumbsIcon: r, breadcrumbs: o, i18n: s, disabled: c = !1 } = e;
+	let { openFolder: t, title: n, breadcrumbsIcon: r, breadcrumbs: a, i18n: o, disabled: s = !1 } = e;
 	return i("div", {
 		className: "uppy-Provider-breadcrumbs",
 		children: [i("div", {
 			className: "uppy-Provider-breadcrumbsIcon",
 			children: r
-		}), o.map((e, r) => {
-			let l = e.type === "root" ? n : e.data.name ?? s("unnamed"), u = o.length === r + 1;
-			return i(a, { children: [i("button", {
+		}), a.map((e, r) => {
+			let c = e.type === "root" ? n : e.data.name ?? o("unnamed"), l = a.length === r + 1;
+			return i(u, { children: [i("button", {
 				type: "button",
 				className: "uppy-u-reset uppy-c-btn",
-				onClick: u ? void 0 : () => t(e.id),
-				"aria-current": u ? "page" : void 0,
-				disabled: !u && c,
-				title: l,
-				children: l
-			}), !u && i("span", {
+				onClick: l ? void 0 : () => t(e.id),
+				"aria-current": l ? "page" : void 0,
+				disabled: !l && s,
+				title: c,
+				children: c
+			}), !l && i("span", {
 				"aria-hidden": "true",
 				className: "uppy-Provider-breadcrumbsSeparator",
 				children: "/"
@@ -1750,7 +1751,7 @@ function Ye(e) {
 //#endregion
 //#region node_modules/@uppy/core/lib/provider-views/ProviderView/User.js
 function Xe({ i18n: e, logout: t, username: n, disabled: r = !1 }) {
-	return i(a, { children: [n && i("span", {
+	return i(u, { children: [n && i("span", {
 		className: "uppy-ProviderBrowser-user",
 		children: n
 	}, "username"), i("button", {
@@ -1838,7 +1839,7 @@ function $(e, t) {
 	return n;
 }
 var $e = class e {
-	static VERSION = u.version;
+	static VERSION = l.version;
 	static [Symbol.for("uppy test: searchDebounceMs")];
 	plugin;
 	provider;
@@ -1912,12 +1913,12 @@ var $e = class e {
 	}
 	#r(e) {
 		let { uppy: t } = this.plugin;
-		if (c(e)) {
+		if (s(e)) {
 			t.log("[ProviderView] action cancelled", "warning");
 			return;
 		}
-		t.log(`[ProviderView] action failed: ${s(e)}`, "error");
-		let r = e instanceof Error && e.name === "UserFacingApiError" ? I(t.i18n, e) : e instanceof n || l(e) ? t.i18n("companionError") : t.i18n("actionFailed");
+		t.log(`[ProviderView] action failed: ${o(e)}`, "error");
+		let r = e instanceof Error && e.name === "UserFacingApiError" ? I(t.i18n, e) : e instanceof n || c(e) ? t.i18n("companionError") : t.i18n("actionFailed");
 		t.info(r, "error", 5e3);
 	}
 	#i;

@@ -13,7 +13,7 @@ Fluppy is an upload field for [Filament](https://filamentphp.com) forms, built o
 - Chunked uploads for large files, which can be paused, resumed and retried
 - Multipart uploads directly to S3
 - Uploads from the camera, the microphone and the screen
-- Imports from a URL, Google Drive, Google Photos, Dropbox, OneDrive, Box, Zoom and Facebook, without [Companion](https://uppy.io/docs/companion/)
+- Imports from a URL, your application's own disks, Google Drive, Google Photos, Dropbox, OneDrive, Box, Zoom and Facebook, without [Companion](https://uppy.io/docs/companion/)
 
 [Fluppy Pro](#fluppy-pro) adds an AI image generator and custom sources.
 
@@ -32,6 +32,7 @@ Fluppy is an upload field for [Filament](https://filamentphp.com) forms, built o
 - [Adding sources](#adding-sources)
     - [Using the camera, microphone and screen](#using-the-camera-microphone-and-screen)
     - [Importing files from a URL](#importing-files-from-a-url)
+    - [Importing files from a disk](#importing-files-from-a-disk)
     - [Google Drive](#google-drive)
     - [Google Photos](#google-photos)
     - [Dropbox](#dropbox)
@@ -143,7 +144,7 @@ Fluppy also adds its own methods, which are documented in the following sections
 | Method | Section |
 | ------ | ------- |
 | `camera()`, `microphone()`, `screenCapture()` | [Using the camera, microphone and screen](#using-the-camera-microphone-and-screen) |
-| `importFromUrl()`, `googleDrive()`, `googlePhotos()`, `dropbox()`, `oneDrive()`, `box()`, `zoom()`, `facebook()` | [Adding sources](#adding-sources) |
+| `importFromUrl()`, `importFromDisk()`, `googleDrive()`, `googlePhotos()`, `dropbox()`, `oneDrive()`, `box()`, `zoom()`, `facebook()` | [Adding sources](#adding-sources) |
 | `height()`, `modal()` | [Changing the layout](#changing-the-layout) |
 | `chunked()`, `chunkSize()` | [Uploading large files](#uploading-large-files) |
 
@@ -246,6 +247,61 @@ The route that downloads files only accepts requests from the session that a fie
 
 > [!WARNING]
 > A part is downloaded while a request waits, so a slow host can keep one of your PHP workers busy for up to `fluppy.remote.timeout` seconds. Before enabling remote sources on a publicly accessible form, you should consider lowering the timeout or restricting the allowed hosts.
+
+### Importing files from a disk
+
+You can allow users to select files that are already stored on one of your application's disks using the `importFromDisk()` method:
+
+```php
+use Saade\Fluppy\Forms\Components\FluppyField;
+
+FluppyField::make('attachments')
+    ->multiple()
+    ->importFromDisk('s3', directory: 'brand-assets')
+```
+
+This adds a "Files" button to the field, which opens a file browser inside the field. The user can browse the directory and its subdirectories, and select files or entire folders. The selected files are copied by your server, in parts if they are large, so they never pass through the user's device.
+
+The first argument is the name of any disk in `config/filesystems.php`. If you omit the directory, the entire disk can be browsed. You may change the label of the button using the `label` argument:
+
+```php
+use Saade\Fluppy\Forms\Components\FluppyField;
+
+FluppyField::make('attachments')
+    ->multiple()
+    ->importFromDisk('s3', directory: 'brand-assets', label: 'Brand assets')
+```
+
+Each of these arguments accepts a closure as well as a static value. If the disk is `null`, the button is not shown.
+
+The search input above the files searches by name on your server, in the open folder and all of its subfolders, and shows up to 200 results.
+
+By default, files are shown as a list. The user can switch to a grid, which shows a preview of each image, using the button in the top right corner of the file browser. Their choice is remembered in their browser.
+
+> [!WARNING]
+> Anyone who can see the form can browse the directory and copy any file inside it, including the files in its subdirectories. You should use a directory that only contains files those users are allowed to see, or restrict what is listed.
+
+#### Restricting which files are listed
+
+If you'd like to decide which files and folders are listed, you can pass a closure as the `filterUsing` argument. You can inject the `$path` of each file or folder on the disk, and whether it `$isDirectory`, into the closure as parameters, along with anything else that Filament injects into a field's closures:
+
+```php
+use Saade\Fluppy\Forms\Components\FluppyField;
+
+FluppyField::make('attachments')
+    ->multiple()
+    ->importFromDisk(
+        's3',
+        directory: 'contracts',
+        filterUsing: fn (string $path, bool $isDirectory): bool => $isDirectory || auth()->user()->can('view', Contract::forPath($path)),
+    )
+```
+
+The closure is called for folders as well as files, so it should return `true` for the folders that users may open. A file or folder that it excludes is not listed, is not found by a search, and cannot be opened or imported, even by a request that names it directly.
+
+Files and folders whose names start with a dot are not listed. In the grid, images are shown with a preview if the disk supports temporary URLs, such as S3, or if its `visibility` is `public` in `config/filesystems.php`. The preview is the image itself, loaded by the browser, so a folder of large images will be slow to show as a grid.
+
+All of the files in a folder are listed at once, so a folder with thousands of files will be slow to open.
 
 ### Google Drive
 
@@ -887,6 +943,8 @@ Unfinished uploads remain in temporary storage until they are removed. You shoul
 ### Remote sources
 
 Remote sources are disabled until a field enables one. When one is enabled, your server makes requests on behalf of anyone who uses the form. See [Protecting against server-side request forgery](#protecting-against-server-side-request-forgery) for the checks that restrict those requests to the public internet, and [Storing tokens](#storing-tokens) for where the tokens of connected accounts are stored.
+
+A field that uses `importFromDisk()` lets anyone who can see the form browse and copy the files of its directory. See [Importing files from a disk](#importing-files-from-a-disk).
 
 Accounts are connected using OAuth's authorization code flow with PKCE. The callback must carry the random `state` value that your server stored in the session when the window was opened, so a link cannot be used to connect a user's session to somebody else's account. If you wish to only allow authenticated users to connect an account, you can use the `fluppy.remote.connect_middleware` configuration option, as described in [Restricting who can connect](#restricting-who-can-connect).
 

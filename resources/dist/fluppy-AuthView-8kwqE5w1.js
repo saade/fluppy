@@ -1,5 +1,5 @@
-import { r as e } from "./fluppy-UIPlugin-ihypjxg2.js";
-import { s as t } from "./fluppy-hooks.module-DqAiOXxL.js";
+import { r as e } from "./fluppy-UIPlugin-Dz_uZBpD.js";
+import { s as t } from "./fluppy-hooks.module-B-kaEFKj.js";
 //#region node_modules/@uppy/core/lib/provider-views/ProviderView/AuthView.js
 function n() {
 	return e("svg", {

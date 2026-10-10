@@ -91,6 +91,9 @@
             reorderUploadedFilesUsing: async (fileKeys) => {
                 return await $wire.callSchemaComponentMethod(@js($key), 'reorderUploadedFiles', { fileKeys })
             },
+            searchRemoteFilesUsing: async (source, term, path) => {
+                return await $wire.callSchemaComponentMethod(@js($key), 'searchRemoteFiles', { source, term, path })
+            },
             signUploadPartsUsing: async (capability, partNumbers) => {
                 return await $wire.callSchemaComponentMethod(@js($key), 'signUploadParts', { capability, partNumbers })
             },

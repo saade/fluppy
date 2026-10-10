@@ -22,6 +22,7 @@ All notable changes to `fluppy` will be documented in this file.
 - `box()` and `oneDrive()` do for Box and OneDrive what `dropbox()` does for Dropbox. OneDrive takes personal, work and school accounts.
 - `dropbox()` lets a person connect their Dropbox and pick files from it, in a file browser inside the field. The tokens are kept on the server, in the session.
 - `googleDrive()` lets files be picked from Google Drive, in Google's own Picker. The server fetches them from Google, and only ever reaches the files a person picks.
+- `importFromDisk()` lets files be picked from one of the application's own disks, in a file browser inside the field. Its search looks through the folders below the open one, on the server, and `filterUsing` decides which files and folders are listed. A button changes the list into a grid with a picture of each image. The server copies what is picked, in parts when a file is large.
 - `importFromUrl()` lets a file be imported from a link. The server fetches it, in parts when the file is large, after checking that the address is on the public internet.
 - `camera()`, `microphone()` and `screenCapture()` let a file be taken or recorded on the spot.
 - `php artisan fluppy:doctor` checks everything a large upload passes through: Livewire's limit, PHP's and the web server's, and the bucket's CORS and lifecycle rules.

@@ -1,7 +1,8 @@
-import { a as e, i as t, l as n, r, s as i, u as a } from "./fluppy-UIPlugin-ihypjxg2.js";
-import { i as o, n as s, o as c, r as l, t as u } from "./fluppy-hooks.module-DqAiOXxL.js";
+import { r as e } from "./fluppy-UIPlugin-Dz_uZBpD.js";
+import { a as t, c as n, n as r, s as i, t as a } from "./fluppy-preact.module-CfEGNJFi.js";
+import { i as o, n as s, o as c, r as l, t as u } from "./fluppy-hooks.module-B-kaEFKj.js";
 import { t as d } from "./fluppy-tokenStorage-CoxIVt8_.js";
-import { t as f } from "./fluppy-AuthView-CI-CoxsO.js";
+import { t as f } from "./fluppy-AuthView-8kwqE5w1.js";
 //#region node_modules/preact/compat/dist/compat.module.js
 function p(e, t) {
 	for (var n in t) e[n] = t[n];
@@ -40,21 +41,21 @@ function g(e) {
 function _(e, t) {
 	this.props = e, this.context = t;
 }
-(_.prototype = new t()).isPureReactComponent = !0, _.prototype.shouldComponentUpdate = function(e, t) {
+(_.prototype = new a()).isPureReactComponent = !0, _.prototype.shouldComponentUpdate = function(e, t) {
 	return m(this.props, e) || m(this.state, t);
 };
-var v = a.__b;
-a.__b = function(e) {
+var v = n.__b;
+n.__b = function(e) {
 	e.type && e.type.__f && e.ref && (e.props.ref = e.ref, e.ref = null), v && v(e);
 }, typeof Symbol < "u" && Symbol.for;
-var y = a.__e;
-a.__e = function(e, t, n, r) {
+var y = n.__e;
+n.__e = function(e, t, n, r) {
 	if (e.then) {
 		for (var i, a = t; a = a.__;) if ((i = a.__c) && i.__c) return t.__e ?? (t.__e = n.__e, t.__k = n.__k || []), i.__c(e, t);
 	}
 	y(e, t, n, r);
 };
-var b = a.unmount;
+var b = n.unmount;
 function x(e, t, n) {
 	return e && (e.__c && e.__c.__H && (e.__c.__H.__.forEach(function(e) {
 		typeof e.__c == "function" && e.__c();
@@ -77,10 +78,10 @@ function w(e) {
 function T() {
 	this.i = null, this.l = null;
 }
-a.unmount = function(e) {
+n.unmount = function(e) {
 	var t = e.__c;
 	t && (t.__z = !0), t && t.__R && t.__R(), t && 32 & e.__u && (e.type = null), b && b(e);
-}, (C.prototype = new t()).__c = function(e, t) {
+}, (C.prototype = new a()).__c = function(e, t) {
 	var n = t.__c, r = this;
 	r.o ??= [], r.o.push(n);
 	var i = w(r.__v), a = !1, o = function() {
@@ -102,7 +103,7 @@ a.unmount = function(e) {
 	r.__u++ || 32 & t.__u || r.setState({ __a: r.__b = r.__v.__k[0] }), e.then(o, o);
 }, C.prototype.componentWillUnmount = function() {
 	this.o = [];
-}, C.prototype.render = function(e, t) {
+}, C.prototype.render = function(e, n) {
 	if (this.__b) {
 		if (this.__v.__k) {
 			var r = document.createElement("div"), a = this.__v.__k[0].__c;
@@ -110,8 +111,8 @@ a.unmount = function(e) {
 		}
 		this.__b = null;
 	}
-	var o = t.__a && n(i, null, e.fallback);
-	return o && (o.__u &= -33), [n(i, null, t.__a ? null : e.children), o];
+	var o = n.__a && i(t, null, e.fallback);
+	return o && (o.__u &= -33), [i(t, null, n.__a ? null : e.children), o];
 };
 var E = function(e, t, n) {
 	if (++n[1] === n[0] && e.l.delete(t), e.props.revealOrder && (e.props.revealOrder[0] !== "t" || !e.l.size)) for (n = e.i; n;) {
@@ -120,7 +121,7 @@ var E = function(e, t, n) {
 		e.i = n = n[2];
 	}
 };
-(T.prototype = new t()).__a = function(e) {
+(T.prototype = new a()).__a = function(e) {
 	var t = this, n = w(t.__v), r = t.l.get(e);
 	return r[0]++, function(i) {
 		var a = function() {
@@ -128,16 +129,16 @@ var E = function(e, t, n) {
 		};
 		n ? n(a) : a();
 	};
-}, T.prototype.render = function(t) {
+}, T.prototype.render = function(e) {
 	this.i = null, this.l = /* @__PURE__ */ new Map();
-	var n = e(t.children);
-	t.revealOrder && t.revealOrder[0] === "b" && n.reverse();
-	for (var r = n.length; r--;) this.l.set(n[r], this.i = [
+	var t = r(e.children);
+	e.revealOrder && e.revealOrder[0] === "b" && t.reverse();
+	for (var n = t.length; n--;) this.l.set(t[n], this.i = [
 		1,
 		0,
 		this.i
 	]);
-	return t.children;
+	return e.children;
 }, T.prototype.componentDidUpdate = T.prototype.componentDidMount = function() {
 	var e = this;
 	this.l.forEach(function(t, n) {
@@ -147,12 +148,12 @@ var E = function(e, t, n) {
 var ee = typeof Symbol < "u" && Symbol.for && Symbol.for("react.element") || 60103, D = /^(?:accent|alignment|arabic|baseline|cap|clip(?!PathU)|color|dominant|fill|flood|font|glyph(?!R)|horiz|image(!S)|letter|lighting|marker(?!H|W|U)|overline|paint|pointer|shape|stop|strikethrough|stroke|text(?!L)|transform|underline|unicode|units|v|vector|vert|word|writing|x(?!C))[A-Z]/, O = /^on(Ani|Tra|Tou|BeforeInp|Compo)/, k = /[A-Z0-9]/g, A = typeof document < "u", te = function(e) {
 	return (typeof Symbol < "u" && typeof Symbol() == "symbol" ? /fil|che|rad/ : /fil|che|ra/).test(e);
 };
-t.prototype.isReactComponent = !0, [
+a.prototype.isReactComponent = !0, [
 	"componentWillMount",
 	"componentWillReceiveProps",
 	"componentWillUpdate"
 ].forEach(function(e) {
-	Object.defineProperty(t.prototype, e, {
+	Object.defineProperty(a.prototype, e, {
 		configurable: !0,
 		get: function() {
 			return this["UNSAFE_" + e];
@@ -166,8 +167,8 @@ t.prototype.isReactComponent = !0, [
 		}
 	});
 });
-var j = a.event;
-a.event = function(e) {
+var j = n.event;
+n.event = function(e) {
 	return j && (e = j(e)), e.persist = function() {}, e.isPropagationStopped = function() {
 		return this.cancelBubble;
 	}, e.isDefaultPrevented = function() {
@@ -179,30 +180,30 @@ var M = {
 	get: function() {
 		return this.class;
 	}
-}, N = a.vnode;
-a.vnode = function(t) {
-	typeof t.type == "string" && function(t) {
-		var n = t.props, r = t.type, i = {}, a = r.indexOf("-") == -1;
-		for (var o in n) {
-			var s = n[o];
-			if (!(o === "value" && "defaultValue" in n && s == null || A && o === "children" && r === "noscript" || o === "class" || o === "className")) {
+}, N = n.vnode;
+n.vnode = function(e) {
+	typeof e.type == "string" && function(e) {
+		var t = e.props, n = e.type, i = {}, a = n.indexOf("-") == -1;
+		for (var o in t) {
+			var s = t[o];
+			if (!(o === "value" && "defaultValue" in t && s == null || A && o === "children" && n === "noscript" || o === "class" || o === "className")) {
 				var c = o.toLowerCase();
-				o === "defaultValue" && "value" in n && n.value == null ? o = "value" : o === "download" && !0 === s ? s = "" : c === "translate" && s === "no" ? s = !1 : c[0] === "o" && c[1] === "n" ? c === "ondoubleclick" ? o = "ondblclick" : c !== "onchange" || r !== "input" && r !== "textarea" || te(n.type) ? c === "onfocus" ? o = "onfocusin" : c === "onblur" ? o = "onfocusout" : O.test(o) && (o = c) : c = o = "oninput" : a && D.test(o) ? o = o.replace(k, "-$&").toLowerCase() : s === null && (s = void 0), c === "oninput" && i[o = c] && (o = "oninputCapture"), i[o] = s;
+				o === "defaultValue" && "value" in t && t.value == null ? o = "value" : o === "download" && !0 === s ? s = "" : c === "translate" && s === "no" ? s = !1 : c[0] === "o" && c[1] === "n" ? c === "ondoubleclick" ? o = "ondblclick" : c !== "onchange" || n !== "input" && n !== "textarea" || te(t.type) ? c === "onfocus" ? o = "onfocusin" : c === "onblur" ? o = "onfocusout" : O.test(o) && (o = c) : c = o = "oninput" : a && D.test(o) ? o = o.replace(k, "-$&").toLowerCase() : s === null && (s = void 0), c === "oninput" && i[o = c] && (o = "oninputCapture"), i[o] = s;
 			}
 		}
-		r == "select" && (i.multiple && Array.isArray(i.value) && (i.value = e(n.children).forEach(function(e) {
+		n == "select" && (i.multiple && Array.isArray(i.value) && (i.value = r(t.children).forEach(function(e) {
 			e.props.selected = i.value.indexOf(e.props.value) != -1;
-		})), i.defaultValue != null && (i.value = e(n.children).forEach(function(e) {
+		})), i.defaultValue != null && (i.value = r(t.children).forEach(function(e) {
 			e.props.selected = i.multiple ? i.defaultValue.indexOf(e.props.value) != -1 : i.defaultValue == e.props.value;
-		}))), n.class && !n.className ? (i.class = n.class, Object.defineProperty(i, "className", M)) : n.className && (i.class = i.className = n.className), t.props = i;
-	}(t), t.$$typeof = ee, N && N(t);
+		}))), t.class && !t.className ? (i.class = t.class, Object.defineProperty(i, "className", M)) : t.className && (i.class = i.className = t.className), e.props = i;
+	}(e), e.$$typeof = ee, N && N(e);
 };
-var P = a.__r;
-a.__r = function(e) {
+var P = n.__r;
+n.__r = function(e) {
 	P && P(e), e.__c;
 };
-var F = a.diffed;
-a.diffed = function(e) {
+var F = n.diffed;
+n.diffed = function(e) {
 	F && F(e);
 	var t = e.props, n = e.__e;
 	n != null && e.type === "textarea" && "value" in t && t.value !== n.value && (n.value = t.value == null ? "" : t.value);
@@ -528,68 +529,68 @@ function ne({ uppy: e, store: t, storage: n = d, pickerType: r, companionUrl: i,
 }
 //#endregion
 //#region node_modules/@uppy/core/lib/provider-views/GooglePicker/icons.js
-var Q = () => r("svg", {
+var Q = () => e("svg", {
 	"aria-hidden": "true",
 	focusable: "false",
 	width: "32",
 	height: "32",
 	viewBox: "-7 -7 73 73",
-	children: r("g", {
+	children: e("g", {
 		fill: "none",
 		"fill-rule": "evenodd",
-		children: [r("path", { d: "M-3-3h64v64H-3z" }), r("g", {
+		children: [e("path", { d: "M-3-3h64v64H-3z" }), e("g", {
 			"fill-rule": "nonzero",
 			children: [
-				r("path", {
+				e("path", {
 					fill: "#FBBC04",
 					d: "M14.8 13.4c8.1 0 14.7 6.6 14.7 14.8v1.3H1.3c-.7 0-1.3-.6-1.3-1.3C0 20 6.6 13.4 14.8 13.4z"
 				}),
-				r("path", {
+				e("path", {
 					fill: "#EA4335",
 					d: "M45.6 14.8c0 8.1-6.6 14.7-14.8 14.7h-1.3V1.3c0-.7.6-1.3 1.3-1.3C39 0 45.6 6.6 45.6 14.8z"
 				}),
-				r("path", {
+				e("path", {
 					fill: "#4285F4",
 					d: "M44.3 45.6c-8.2 0-14.8-6.6-14.8-14.8v-1.3h28.2c.7 0 1.3.6 1.3 1.3 0 8.2-6.6 14.8-14.8 14.8z"
 				}),
-				r("path", {
+				e("path", {
 					fill: "#34A853",
 					d: "M13.4 44.3c0-8.2 6.6-14.8 14.8-14.8h1.3v28.2c0 .7-.6 1.3-1.3 1.3-8.2 0-14.8-6.6-14.8-14.8z"
 				})
 			]
 		})]
 	})
-}), $ = () => r("svg", {
+}), $ = () => e("svg", {
 	"aria-hidden": "true",
 	focusable: "false",
 	width: "32",
 	height: "32",
 	viewBox: "0 0 32 32",
-	children: r("g", {
+	children: e("g", {
 		fillRule: "nonzero",
 		fill: "none",
 		children: [
-			r("path", {
+			e("path", {
 				d: "M6.663 22.284l.97 1.62c.202.34.492.609.832.804l3.465-5.798H5c0 .378.1.755.302 1.096l1.361 2.278z",
 				fill: "#0066DA"
 			}),
-			r("path", {
+			e("path", {
 				d: "M16 12.09l-3.465-5.798c-.34.195-.63.463-.832.804l-6.4 10.718A2.15 2.15 0 005 18.91h6.93L16 12.09z",
 				fill: "#00AC47"
 			}),
-			r("path", {
+			e("path", {
 				d: "M23.535 24.708c.34-.195.63-.463.832-.804l.403-.67 1.928-3.228c.201-.34.302-.718.302-1.096h-6.93l1.474 2.802 1.991 2.996z",
 				fill: "#EA4335"
 			}),
-			r("path", {
+			e("path", {
 				d: "M16 12.09l3.465-5.798A2.274 2.274 0 0018.331 6h-4.662c-.403 0-.794.11-1.134.292L16 12.09z",
 				fill: "#00832D"
 			}),
-			r("path", {
+			e("path", {
 				d: "M20.07 18.91h-8.14l-3.465 5.798c.34.195.73.292 1.134.292h12.802c.403 0 .794-.11 1.134-.292L20.07 18.91z",
 				fill: "#2684FC"
 			}),
-			r("path", {
+			e("path", {
 				d: "M23.497 12.455l-3.2-5.359a2.252 2.252 0 00-.832-.804L16 12.09l4.07 6.82h6.917c0-.377-.1-.755-.302-1.096l-3.188-5.359z",
 				fill: "#FFBA00"
 			})
@@ -627,9 +628,9 @@ function re({ uppy: e, requestClientId: t, companionUrl: n, pickerType: r, clien
 		...g
 	};
 }
-function ie({ getPluginState: e, setPluginState: t, uppy: n, i18n: i, clientId: a, pickerType: o, apiKey: l, appId: d, storage: p, requestClientId: m, companionUrl: h }) {
+function ie({ getPluginState: t, setPluginState: n, uppy: r, i18n: i, clientId: a, pickerType: o, apiKey: l, appId: d, storage: p, requestClientId: m, companionUrl: h }) {
 	let g = re({
-		uppy: n,
+		uppy: r,
 		requestClientId: m,
 		companionUrl: h,
 		pickerType: o,
@@ -638,26 +639,26 @@ function ie({ getPluginState: e, setPluginState: t, uppy: n, i18n: i, clientId: 
 		appId: d,
 		storage: p,
 		store: s(() => Z({
-			uppy: n,
-			getPluginState: e,
-			setPluginState: t
+			uppy: r,
+			getPluginState: t,
+			setPluginState: n
 		}), [
-			n,
-			e,
-			t
+			r,
+			t,
+			n
 		])
 	}), _ = u(!1);
 	return c(() => {
 		g.accessToken === void 0 || _.current || (_.current = !0, g.show());
-	}, [g.show, g.accessToken]), g.loading ? r("div", { children: [i("pleaseWait"), "..."] }) : g.accessToken == null ? r(f, {
+	}, [g.show, g.accessToken]), g.loading ? e("div", { children: [i("pleaseWait"), "..."] }) : g.accessToken == null ? e(f, {
 		pluginName: i(o === "drive" ? "pluginNameGoogleDrivePicker" : "pluginNameGooglePhotosPicker"),
 		pluginIcon: o === "drive" ? $ : Q,
 		handleAuth: g.show,
 		i18n: i,
 		loading: g.loading
-	}) : r("div", {
+	}) : e("div", {
 		style: { textAlign: "center" },
-		children: [r("button", {
+		children: [e("button", {
 			type: "button",
 			className: "uppy-u-reset uppy-c-btn uppy-c-btn-primary",
 			style: {
@@ -667,7 +668,7 @@ function ie({ getPluginState: e, setPluginState: t, uppy: n, i18n: i, clientId: 
 			disabled: g.loading,
 			onClick: g.show,
 			children: i(o === "drive" ? "pickFiles" : "pickPhotos")
-		}), r("button", {
+		}), e("button", {
 			type: "button",
 			className: "uppy-u-reset uppy-c-btn",
 			disabled: g.loading,
