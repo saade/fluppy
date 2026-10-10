@@ -161,8 +161,10 @@
  * it is cards in columns instead: a small picture or an icon, and the name
  * beside it.
  */
+/* The list is as tall as the panel, and a grid shares out what its rows
+   leave over between them unless it is told to start at the top. */
 .fi-fluppy .uppy-ProviderBrowser-viewType--grid ul.uppy-ProviderBrowser-list {
-    @apply grid grid-cols-1 gap-2 p-2;
+    @apply grid grid-cols-1 content-start gap-2 p-2;
 }
 
 .fi-fluppy .uppy-size--md .uppy-ProviderBrowser-viewType--grid ul.uppy-ProviderBrowser-list {
