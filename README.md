@@ -21,6 +21,10 @@ Fluppy is an upload field for [Filament](https://filamentphp.com) forms, built o
 - Custom sources, written as a class and a Blade view
 - Ready-made sources for AI image editing, stock photos, icons, GIFs, signatures, QR codes, maps, templates and text to speech
 
+<p align="center">
+    <a href="https://github.com/saade/fluppy-pro"><img src="art/pro.png" alt="Fluppy Pro: AI image generation, ready-made sources and your own" style="width: 100%; max-width: 800px; border-radius: 10px" /></a>
+</p>
+
 ## Version compatibility
 
 | Plugin | Filament | Install                                |
