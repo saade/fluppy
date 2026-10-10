@@ -1,13 +1,15 @@
 import { r as e, t } from "./fluppy-rolldown-runtime-B0aSnxlc.js";
-import { a as n, i as r, n as i, r as a } from "./fluppy-AuthError-CpV_e0tX.js";
-import { n as o } from "./fluppy-toError-DlxtQOs3.js";
-import { r as s, s as c } from "./fluppy-UIPlugin-ihypjxg2.js";
-import { t as l } from "./fluppy-mimeTypes-CcSLKirE.js";
-import { t as u } from "./fluppy-getErrorMessage-DxiQuxng.js";
+import { t as n } from "./fluppy-ErrorWithCause-C1-jdBfU.js";
+import { n as r } from "./fluppy-toError-DlxtQOs3.js";
+import { r as i, s as a } from "./fluppy-UIPlugin-ihypjxg2.js";
+import { t as o } from "./fluppy-mimeTypes-CcSLKirE.js";
+import { t as s } from "./fluppy-getErrorMessage-DxiQuxng.js";
+import { i as c, n as l, r as u } from "./fluppy-AuthError-BgrGWmji.js";
 import { a as d, i as f, n as p, o as m, r as h, s as g, t as _ } from "./fluppy-hooks.module-DqAiOXxL.js";
-import { t as v } from "./fluppy-AuthView-CI-CoxsO.js";
+import { t as v } from "./fluppy-FilterInput-CB8h947h.js";
+import { t as y } from "./fluppy-AuthView-CI-CoxsO.js";
 //#region node_modules/@transloadit/prettier-bytes/dist/prettierBytes.js
-var y = [
+var b = [
 	"B",
 	"KB",
 	"MB",
@@ -18,16 +20,16 @@ var y = [
 	"ZB",
 	"YB"
 ];
-function b(e, t) {
+function x(e, t) {
 	if (typeof e != "number" || Number.isNaN(e)) throw TypeError(`Expected a number, got ${typeof e}`);
 	let n = e < 0, r = Math.abs(e);
 	if (n && (r = -r), r === 0) return "0 B";
-	let i = t ? y.indexOf(t) : Math.min(Math.floor(Math.log(r) / Math.log(1024)), y.length - 1), a = Number(r / 1024 ** i), o = y[i];
+	let i = t ? b.indexOf(t) : Math.min(Math.floor(Math.log(r) / Math.log(1024)), b.length - 1), a = Number(r / 1024 ** i), o = b[i];
 	return i >= 3 ? a % 1 == 0 ? `${Math.round(a)} ${o}` : `${a.toFixed(2)} ${o}` : `${a >= 10 || a % 1 == 0 ? Math.round(a) : a.toFixed(1)} ${o}`;
 }
 //#endregion
 //#region node_modules/@uppy/core/lib/utils/getFileNameAndExtension.js
-function x(e) {
+function S(e) {
 	let t = e.lastIndexOf(".");
 	return t === -1 || t === e.length - 1 ? {
 		name: e,
@@ -39,25 +41,25 @@ function x(e) {
 }
 //#endregion
 //#region node_modules/@uppy/core/lib/utils/getFileType.js
-function S(e) {
+function C(e) {
 	if (e.type) return e.type;
-	let t = e.name ? x(e.name).extension?.toLowerCase() : null;
-	return t && t in l ? l[t] : "application/octet-stream";
+	let t = e.name ? S(e.name).extension?.toLowerCase() : null;
+	return t && t in o ? o[t] : "application/octet-stream";
 }
 //#endregion
 //#region node_modules/@uppy/core/lib/utils/generateFileID.js
-function C(e) {
+function w(e) {
 	return e.charCodeAt(0).toString(32);
 }
-function w(e) {
+function T(e) {
 	let t = "";
-	return e.replace(/[^A-Z0-9]/gi, (e) => (t += `-${C(e)}`, "/")) + t;
+	return e.replace(/[^A-Z0-9]/gi, (e) => (t += `-${w(e)}`, "/")) + t;
 }
-function T(e, t) {
+function E(e, t) {
 	let n = t || "uppy";
-	return typeof e.name == "string" && (n += `-${w(e.name.toLowerCase())}`), e.type !== void 0 && (n += `-${e.type}`), e.meta && typeof e.meta.relativePath == "string" && (n += `-${w(e.meta.relativePath.toLowerCase())}`), e.data?.size !== void 0 && (n += `-${e.data.size}`), e.data.lastModified !== void 0 && (n += `-${e.data.lastModified}`), n;
+	return typeof e.name == "string" && (n += `-${T(e.name.toLowerCase())}`), e.type !== void 0 && (n += `-${e.type}`), e.meta && typeof e.meta.relativePath == "string" && (n += `-${T(e.meta.relativePath.toLowerCase())}`), e.data?.size !== void 0 && (n += `-${e.data.size}`), e.data.lastModified !== void 0 && (n += `-${e.data.lastModified}`), n;
 }
-function E(e) {
+function D(e) {
 	return !e.isRemote || !e.remote ? !1 : (/* @__PURE__ */ new Set([
 		"box",
 		"dropbox",
@@ -66,65 +68,65 @@ function E(e) {
 		"unsplash"
 	])).has(e.remote.provider);
 }
-function D(e, t) {
-	if (E(e)) return e.id;
-	let n = S(e);
-	return T({
+function O(e, t) {
+	if (D(e)) return e.id;
+	let n = C(e);
+	return E({
 		...e,
 		type: n
 	}, t);
 }
 //#endregion
 //#region node_modules/@uppy/core/lib/utils/remoteFileObjToLocal.js
-function O(e) {
+function ee(e) {
 	return {
 		...e,
 		type: e.mimeType,
-		extension: e.name ? x(e.name).extension : null
+		extension: e.name ? S(e.name).extension : null
 	};
 }
 //#endregion
 //#region node_modules/@uppy/core/lib/utils/VirtualList.js
-var ee = {
+var te = {
 	position: "relative",
 	width: "100%",
 	minHeight: "100%"
-}, te = {
+}, ne = {
 	position: "absolute",
 	top: 0,
 	left: 0,
 	width: "100%",
 	overflow: "visible"
 };
-function k({ data: e, rowHeight: t, renderRow: n, overscanCount: r = 10, padding: i = 4, ...a }) {
-	let o = _(null), [c, l] = f(0), [u, d] = f(0);
+function k({ data: e, rowHeight: t, renderRow: n, overscanCount: r = 10, padding: a = 4, ...o }) {
+	let s = _(null), [c, l] = f(0), [u, d] = f(0);
 	m(() => {
 		function e() {
-			o.current != null && u !== o.current.offsetHeight && d(o.current.offsetHeight);
+			s.current != null && u !== s.current.offsetHeight && d(s.current.offsetHeight);
 		}
 		return e(), window.addEventListener("resize", e), () => {
 			window.removeEventListener("resize", e);
 		};
 	}, [u]);
 	let p = g(() => {
-		o.current && l(o.current.scrollTop);
+		s.current && l(s.current.scrollTop);
 	}, []), h = Math.floor(c / t), v = Math.floor(u / t);
 	r && (h = Math.max(0, h - h % r), v += r);
-	let y = h + v + i, b = e.slice(h, y), x = {
-		...ee,
+	let y = h + v + a, b = e.slice(h, y), x = {
+		...te,
 		height: e.length * t
 	}, S = {
-		...te,
+		...ne,
 		top: h * t
 	};
-	return s("div", {
+	return i("div", {
 		onScroll: p,
-		ref: o,
-		...a,
-		children: s("div", {
+		ref: s,
+		...o,
+		children: i("div", {
 			role: "presentation",
 			style: x,
-			children: s("div", {
+			children: i("div", {
 				role: "presentation",
 				style: S,
 				children: b.map(n)
@@ -140,33 +142,33 @@ var A = /* @__PURE__ */ t(((e, t) => {
 		return e != null && (t == "object" || t == "function");
 	}
 	t.exports = n;
-})), ne = /* @__PURE__ */ t(((e, t) => {
-	t.exports = typeof global == "object" && global && global.Object === Object && global;
-})), j = /* @__PURE__ */ t(((e, t) => {
-	var n = ne(), r = typeof self == "object" && self && self.Object === Object && self;
-	t.exports = n || r || Function("return this")();
 })), re = /* @__PURE__ */ t(((e, t) => {
-	var n = j();
+	t.exports = typeof global == "object" && global && global.Object === Object && global;
+})), ie = /* @__PURE__ */ t(((e, t) => {
+	var n = re(), r = typeof self == "object" && self && self.Object === Object && self;
+	t.exports = n || r || Function("return this")();
+})), ae = /* @__PURE__ */ t(((e, t) => {
+	var n = ie();
 	t.exports = function() {
 		return n.Date.now();
 	};
-})), ie = /* @__PURE__ */ t(((e, t) => {
+})), oe = /* @__PURE__ */ t(((e, t) => {
 	var n = /\s/;
 	function r(e) {
 		for (var t = e.length; t-- && n.test(e.charAt(t)););
 		return t;
 	}
 	t.exports = r;
-})), ae = /* @__PURE__ */ t(((e, t) => {
-	var n = ie(), r = /^\s+/;
+})), se = /* @__PURE__ */ t(((e, t) => {
+	var n = oe(), r = /^\s+/;
 	function i(e) {
 		return e && e.slice(0, n(e) + 1).replace(r, "");
 	}
 	t.exports = i;
-})), M = /* @__PURE__ */ t(((e, t) => {
-	t.exports = j().Symbol;
-})), oe = /* @__PURE__ */ t(((e, t) => {
-	var n = M(), r = Object.prototype, i = r.hasOwnProperty, a = r.toString, o = n ? n.toStringTag : void 0;
+})), j = /* @__PURE__ */ t(((e, t) => {
+	t.exports = ie().Symbol;
+})), ce = /* @__PURE__ */ t(((e, t) => {
+	var n = j(), r = Object.prototype, i = r.hasOwnProperty, a = r.toString, o = n ? n.toStringTag : void 0;
 	function s(e) {
 		var t = i.call(e, o), n = e[o];
 		try {
@@ -177,31 +179,31 @@ var A = /* @__PURE__ */ t(((e, t) => {
 		return r && (t ? e[o] = n : delete e[o]), s;
 	}
 	t.exports = s;
-})), se = /* @__PURE__ */ t(((e, t) => {
+})), le = /* @__PURE__ */ t(((e, t) => {
 	var n = Object.prototype.toString;
 	function r(e) {
 		return n.call(e);
 	}
 	t.exports = r;
-})), ce = /* @__PURE__ */ t(((e, t) => {
-	var n = M(), r = oe(), i = se(), a = "[object Null]", o = "[object Undefined]", s = n ? n.toStringTag : void 0;
+})), ue = /* @__PURE__ */ t(((e, t) => {
+	var n = j(), r = ce(), i = le(), a = "[object Null]", o = "[object Undefined]", s = n ? n.toStringTag : void 0;
 	function c(e) {
 		return e == null ? e === void 0 ? o : a : s && s in Object(e) ? r(e) : i(e);
 	}
 	t.exports = c;
-})), le = /* @__PURE__ */ t(((e, t) => {
+})), de = /* @__PURE__ */ t(((e, t) => {
 	function n(e) {
 		return typeof e == "object" && !!e;
 	}
 	t.exports = n;
-})), ue = /* @__PURE__ */ t(((e, t) => {
-	var n = ce(), r = le(), i = "[object Symbol]";
+})), fe = /* @__PURE__ */ t(((e, t) => {
+	var n = ue(), r = de(), i = "[object Symbol]";
 	function a(e) {
 		return typeof e == "symbol" || r(e) && n(e) == i;
 	}
 	t.exports = a;
-})), de = /* @__PURE__ */ t(((e, t) => {
-	var n = ae(), r = A(), i = ue(), a = NaN, o = /^[-+]0x[0-9a-f]+$/i, s = /^0b[01]+$/i, c = /^0o[0-7]+$/i, l = parseInt;
+})), pe = /* @__PURE__ */ t(((e, t) => {
+	var n = se(), r = A(), i = fe(), a = NaN, o = /^[-+]0x[0-9a-f]+$/i, s = /^0b[01]+$/i, c = /^0o[0-7]+$/i, l = parseInt;
 	function u(e) {
 		if (typeof e == "number") return e;
 		if (i(e)) return a;
@@ -215,8 +217,8 @@ var A = /* @__PURE__ */ t(((e, t) => {
 		return u || c.test(e) ? l(e.slice(2), u ? 2 : 8) : o.test(e) ? a : +e;
 	}
 	t.exports = u;
-})), N = /* @__PURE__ */ t(((e, t) => {
-	var n = A(), r = re(), i = de(), a = "Expected a function", o = Math.max, s = Math.min;
+})), M = /* @__PURE__ */ t(((e, t) => {
+	var n = A(), r = ae(), i = pe(), a = "Expected a function", o = Math.max, s = Math.min;
 	function c(e, t, c) {
 		var l, u, d, f, p, m, h = 0, g = !1, _ = !1, v = !0;
 		if (typeof e != "function") throw TypeError(a);
@@ -261,71 +263,7 @@ var A = /* @__PURE__ */ t(((e, t) => {
 		return D.cancel = T, D.flush = E, D;
 	}
 	t.exports = c;
-})), fe = /* @__PURE__ */ e(N(), 1), pe = "57X6y3wQZNzYjJB2L_10pxbackgroundhimselfUTF-8DEMOGRAPHICSVqvt4KW9", P = (e = 21) => {
-	let t = "", n = e | 0;
-	for (; n-- > 0;) t += pe[Math.random() * 64 | 0];
-	return t;
-};
-//#endregion
-//#region node_modules/@uppy/core/lib/provider-views/useSearchForm.js
-function me(e) {
-	let t = g((t) => {
-		t.preventDefault(), e();
-	}, [e]), [n] = f(() => {
-		let e = document.createElement("form");
-		return e.setAttribute("tabindex", "-1"), e.id = P(), e;
-	});
-	return m(() => (document.body.appendChild(n), n.addEventListener("submit", t), () => {
-		n.removeEventListener("submit", t), n.remove();
-	}), [n, t]), { formId: n.id };
-}
-//#endregion
-//#region node_modules/@uppy/core/lib/provider-views/FilterInput.js
-function he({ value: e, onChange: t, onSubmit: n, inputLabel: r, i18n: i, disabled: a = !1 }) {
-	let { formId: o } = me(n);
-	return s("section", {
-		className: "uppy-ProviderBrowser-searchFilter",
-		children: [
-			s("input", {
-				className: "uppy-u-reset uppy-ProviderBrowser-searchFilterInput",
-				type: "search",
-				"aria-label": r,
-				placeholder: r,
-				value: e,
-				onInput: (e) => t(e.target.value),
-				form: o,
-				disabled: a,
-				"data-uppy-super-focusable": !0
-			}),
-			s("svg", {
-				"aria-hidden": "true",
-				focusable: "false",
-				className: "uppy-c-icon uppy-ProviderBrowser-searchFilterIcon",
-				width: "12",
-				height: "12",
-				viewBox: "0 0 12 12",
-				children: s("path", { d: "M8.638 7.99l3.172 3.172a.492.492 0 1 1-.697.697L7.91 8.656a4.977 4.977 0 0 1-2.983.983C2.206 9.639 0 7.481 0 4.819 0 2.158 2.206 0 4.927 0c2.721 0 4.927 2.158 4.927 4.82a4.74 4.74 0 0 1-1.216 3.17zm-3.71.685c2.176 0 3.94-1.726 3.94-3.856 0-2.129-1.764-3.855-3.94-3.855C2.75.964.984 2.69.984 4.819c0 2.13 1.765 3.856 3.942 3.856z" })
-			}),
-			e && s("button", {
-				className: "uppy-u-reset uppy-ProviderBrowser-searchFilterReset",
-				type: "button",
-				"aria-label": i("resetFilter"),
-				disabled: a,
-				onClick: () => t(""),
-				children: s("svg", {
-					"aria-hidden": "true",
-					focusable: "false",
-					className: "uppy-c-icon",
-					viewBox: "0 0 19 19",
-					children: s("path", { d: "M17.318 17.232L9.94 9.854 9.586 9.5l-.354.354-7.378 7.378h.707l-.62-.62v.706L9.318 9.94l.354-.354-.354-.354L1.94 1.854v.707l.62-.62h-.706l7.378 7.378.354.354.354-.354 7.378-7.378h-.707l.622.62v-.706L9.854 9.232l-.354.354.354.354 7.378 7.378.708-.707-7.38-7.378v.708l7.38-7.38.353-.353-.353-.353-.622-.622-.353-.353-.354.352-7.378 7.38h.708L2.56 1.23 2.208.88l-.353.353-.622.62-.353.355.352.353 7.38 7.38v-.708l-7.38 7.38-.353.353.352.353.622.622.353.353.354-.353 7.38-7.38h-.708l7.38 7.38z" })
-				})
-			})
-		]
-	});
-}
-//#endregion
-//#region node_modules/classnames/index.js
-var F = /* @__PURE__ */ t(((e, t) => {
+})), N = /* @__PURE__ */ t(((e, t) => {
 	(function() {
 		var e = {}.hasOwnProperty;
 		function n() {
@@ -351,7 +289,7 @@ var F = /* @__PURE__ */ t(((e, t) => {
 			return n;
 		}) : window.classNames = n;
 	})();
-})), I = /* @__PURE__ */ e(F(), 1), L = {
+})), me = /* @__PURE__ */ e(M(), 1), P = /* @__PURE__ */ e(N(), 1), F = {
 	S3_ALREADY_EXISTS: "s3AlreadyExists",
 	S3_CONFLICT: "s3Conflict",
 	S3_DESTINATION_MUST_BE_FILE: "s3DestinationMustBeFile",
@@ -369,48 +307,48 @@ var F = /* @__PURE__ */ t(((e, t) => {
 	S3_SELECTED_IN_OTHER_SESSION: "s3SelectedInOtherSession",
 	WEBDAV_CANNOT_CONNECT: "webdavCannotConnect"
 };
-function R(e, t) {
+function I(e, t) {
 	let { code: n } = t;
-	return n && Object.hasOwn(L, n) ? e(L[n]) : n && t.message === n ? e("companionError") : t.message;
+	return n && Object.hasOwn(F, n) ? e(F[n]) : n && t.message === n ? e("companionError") : t.message;
 }
 //#endregion
 //#region node_modules/@uppy/core/lib/provider-views/Item/components/ItemActionsMenu.js
-var z = ({ appliesTo: e = "all" }, t) => e === "all" || e === (t.data.isFolder ? "folder" : "file");
-function B(e, t) {
-	return e.filter((e) => z(e, t));
+var L = ({ appliesTo: e = "all" }, t) => e === "all" || e === (t.data.isFolder ? "folder" : "file");
+function R(e, t) {
+	return e.filter((e) => L(e, t));
 }
-function ge({ file: e, actions: t, open: n, onToggle: r, i18n: i }) {
-	return t.some((t) => z(t, e)) ? s("div", {
+function he({ file: e, actions: t, open: n, onToggle: r, i18n: a }) {
+	return t.some((t) => L(t, e)) ? i("div", {
 		className: "uppy-ProviderBrowserItem-actions",
-		children: s("button", {
+		children: i("button", {
 			type: "button",
 			className: "uppy-u-reset uppy-c-btn uppy-ProviderBrowserItem-actionsBtn",
-			"aria-label": i("itemActionsNamed", { name: e.data.name ?? i("unnamed") }),
+			"aria-label": a("itemActionsNamed", { name: e.data.name ?? a("unnamed") }),
 			"aria-haspopup": "menu",
 			"aria-expanded": n,
 			onClick: (e) => {
 				e.stopPropagation(), e.preventDefault(), r(e.currentTarget);
 			},
-			children: s("svg", {
+			children: i("svg", {
 				"aria-hidden": "true",
 				width: "16",
 				height: "16",
 				viewBox: "0 0 16 16",
 				focusable: "false",
 				children: [
-					s("circle", {
+					i("circle", {
 						cx: "3",
 						cy: "8",
 						r: "1.5",
 						fill: "currentColor"
 					}),
-					s("circle", {
+					i("circle", {
 						cx: "8",
 						cy: "8",
 						r: "1.5",
 						fill: "currentColor"
 					}),
-					s("circle", {
+					i("circle", {
 						cx: "13",
 						cy: "8",
 						r: "1.5",
@@ -423,37 +361,37 @@ function ge({ file: e, actions: t, open: n, onToggle: r, i18n: i }) {
 }
 //#endregion
 //#region node_modules/@uppy/core/lib/provider-views/ModalDialog.js
-function _e(e) {
+function ge(e) {
 	e.key === "Escape" && e.stopPropagation();
 }
-var V = (e) => {
+var z = (e) => {
 	let t = e.currentTarget;
 	if (e.target !== t) return !1;
 	let n = t.getBoundingClientRect();
 	return e.clientX < n.left || e.clientX > n.right || e.clientY < n.top || e.clientY > n.bottom;
 };
-function H({ onDismiss: e, restoreFocus: t, children: n, ...r }) {
-	let i = _(null), a = _(!1), o = _(t);
-	return o.current = t, m(() => {
-		let e = i.current;
+function B({ onDismiss: e, restoreFocus: t, children: n, ...r }) {
+	let a = _(null), o = _(!1), s = _(t);
+	return s.current = t, m(() => {
+		let e = a.current;
 		if (!e) return;
 		let t = document.activeElement instanceof HTMLElement ? document.activeElement : null;
 		return typeof e.showModal == "function" ? e.showModal() : (e.setAttribute("open", ""), e.querySelector("button")?.focus()), () => {
 			e.open && typeof e.close == "function" && e.close();
 			let { activeElement: n } = document;
-			(n === document.body || e.contains(n)) && (t?.isConnected ? t : o.current?.(e))?.focus();
+			(n === document.body || e.contains(n)) && (t?.isConnected ? t : s.current?.(e))?.focus();
 		};
-	}, []), s("dialog", {
+	}, []), i("dialog", {
 		...r,
-		ref: i,
+		ref: a,
 		onCancel: (t) => {
 			t.preventDefault(), e();
 		},
 		onPointerDown: (e) => {
-			a.current = V(e);
+			o.current = z(e);
 		},
 		onClick: (t) => {
-			a.current && V(t) && e(), a.current = !1;
+			o.current && z(t) && e(), o.current = !1;
 		},
 		onKeyDown: (t) => {
 			t.key !== "Escape" || t.isComposing || (t.preventDefault(), t.stopPropagation(), e());
@@ -463,12 +401,12 @@ function H({ onDismiss: e, restoreFocus: t, children: n, ...r }) {
 }
 //#endregion
 //#region node_modules/@uppy/core/lib/provider-views/Item/components/ItemActionsPopover.js
-var U = 4;
-function ve({ file: e, actions: t, anchor: n, containerRef: r, runAction: i, onClose: a, i18n: o }) {
+var V = 4;
+function _e({ file: e, actions: t, anchor: n, containerRef: r, runAction: a, onClose: o, i18n: s }) {
 	let c = _(null), [l, u] = f(null), d = g(() => {
 		let e = c.current;
 		if (!e) return;
-		let t = n.getBoundingClientRect(), r = e.offsetHeight, i = t.bottom + U + r <= window.innerHeight ? t.bottom + U : Math.max(0, t.top - U - r);
+		let t = n.getBoundingClientRect(), r = e.offsetHeight, i = t.bottom + V + r <= window.innerHeight ? t.bottom + V : Math.max(0, t.top - V - r);
 		u(getComputedStyle(n).direction === "rtl" ? {
 			top: i,
 			left: Math.max(0, t.left)
@@ -481,32 +419,32 @@ function ve({ file: e, actions: t, anchor: n, containerRef: r, runAction: i, onC
 		let e = c.current, t = r.current;
 		if (!e) return;
 		let n = (e) => {
-			e.newState === "closed" && a();
-		}, i = new AbortController(), { signal: o } = i;
-		return e.addEventListener("toggle", n, { signal: o }), typeof e.showPopover == "function" && e.showPopover(), d(), window.addEventListener("scroll", (e) => {
+			e.newState === "closed" && o();
+		}, i = new AbortController(), { signal: a } = i;
+		return e.addEventListener("toggle", n, { signal: a }), typeof e.showPopover == "function" && e.showPopover(), d(), window.addEventListener("scroll", (e) => {
 			if (t && e.target instanceof Node && t.contains(e.target)) {
-				a();
+				o();
 				return;
 			}
 			d();
 		}, {
 			capture: !0,
-			signal: o
-		}), window.addEventListener("resize", d, { signal: o }), e.querySelector("[role=\"menuitem\"]")?.focus({ preventScroll: !0 }), () => i.abort();
+			signal: a
+		}), window.addEventListener("resize", d, { signal: a }), e.querySelector("[role=\"menuitem\"]")?.focus({ preventScroll: !0 }), () => i.abort();
 	}, [
 		r,
-		a,
+		o,
 		d
 	]);
 	let p = () => {
-		a(), n.focus({ preventScroll: !0 });
+		o(), n.focus({ preventScroll: !0 });
 	}, v = (e) => {
 		let t = Array.from(c.current?.querySelectorAll("[role=\"menuitem\"]") ?? []), n = t.indexOf(document.activeElement), r = (n) => {
 			e.preventDefault(), t[(n + t.length) % t.length]?.focus({ preventScroll: !0 });
 		};
 		switch (e.key) {
 			case "Escape":
-				_e(e), typeof c.current?.hidePopover != "function" && p();
+				ge(e), typeof c.current?.hidePopover != "function" && p();
 				break;
 			case "ArrowDown":
 				r(n + 1);
@@ -520,26 +458,26 @@ function ve({ file: e, actions: t, anchor: n, containerRef: r, runAction: i, onC
 			case "End":
 				r(t.length - 1);
 				break;
-			case "Tab": a();
+			case "Tab": o();
 		}
 	};
-	return s("div", {
+	return i("div", {
 		ref: c,
 		className: "uppy-ProviderBrowserItem-actionsMenu",
 		popover: "auto",
 		role: "menu",
-		"aria-label": o("itemActionsNamed", { name: e.data.name ?? o("unnamed") }),
+		"aria-label": s("itemActionsNamed", { name: e.data.name ?? s("unnamed") }),
 		style: l ? {
 			top: `${l.top}px`,
 			..."left" in l ? { left: `${l.left}px` } : { right: `${l.right}px` }
 		} : { visibility: "hidden" },
 		onKeyDown: v,
-		children: t.map((t) => s("button", {
+		children: t.map((t) => i("button", {
 			type: "button",
 			role: "menuitem",
-			className: (0, I.default)("uppy-u-reset uppy-c-btn uppy-ProviderBrowserItem-actionsMenuItem", t.danger && "uppy-ProviderBrowserItem-actionsMenuItem--danger"),
+			className: (0, P.default)("uppy-u-reset uppy-c-btn uppy-ProviderBrowserItem-actionsMenuItem", t.danger && "uppy-ProviderBrowserItem-actionsMenuItem--danger"),
 			onClick: (n) => {
-				n.stopPropagation(), n.preventDefault(), p(), i(t, e);
+				n.stopPropagation(), n.preventDefault(), p(), a(t, e);
 			},
 			children: t.label
 		}, t.id))
@@ -547,7 +485,7 @@ function ve({ file: e, actions: t, anchor: n, containerRef: r, runAction: i, onC
 }
 //#endregion
 //#region node_modules/@uppy/core/lib/provider-views/Item/components/useItemMenu.js
-function ye(e) {
+function ve(e) {
 	let [t, n] = f(null), r = t ? e.find(({ id: e }) => e === t.id) : void 0;
 	return {
 		open: t && r ? {
@@ -563,19 +501,19 @@ function ye(e) {
 }
 //#endregion
 //#region node_modules/@uppy/core/lib/provider-views/Item/components/ItemIcon.js
-function be() {
-	return s("svg", {
+function ye() {
+	return i("svg", {
 		"aria-hidden": "true",
 		focusable: "false",
 		className: "uppy-c-icon",
 		width: 11,
 		height: 14.5,
 		viewBox: "0 0 44 58",
-		children: s("path", { d: "M27.437.517a1 1 0 0 0-.094.03H4.25C2.037.548.217 2.368.217 4.58v48.405c0 2.212 1.82 4.03 4.03 4.03H39.03c2.21 0 4.03-1.818 4.03-4.03V15.61a1 1 0 0 0-.03-.28 1 1 0 0 0 0-.093 1 1 0 0 0-.03-.032 1 1 0 0 0 0-.03 1 1 0 0 0-.032-.063 1 1 0 0 0-.03-.063 1 1 0 0 0-.032 0 1 1 0 0 0-.03-.063 1 1 0 0 0-.032-.03 1 1 0 0 0-.03-.063 1 1 0 0 0-.063-.062l-14.593-14a1 1 0 0 0-.062-.062A1 1 0 0 0 28 .708a1 1 0 0 0-.374-.157 1 1 0 0 0-.156 0 1 1 0 0 0-.03-.03l-.003-.003zM4.25 2.547h22.218v9.97c0 2.21 1.82 4.03 4.03 4.03h10.564v36.438a2.02 2.02 0 0 1-2.032 2.032H4.25c-1.13 0-2.032-.9-2.032-2.032V4.58c0-1.13.902-2.032 2.03-2.032zm24.218 1.345l10.375 9.937.75.718H30.5c-1.13 0-2.032-.9-2.032-2.03V3.89z" })
+		children: i("path", { d: "M27.437.517a1 1 0 0 0-.094.03H4.25C2.037.548.217 2.368.217 4.58v48.405c0 2.212 1.82 4.03 4.03 4.03H39.03c2.21 0 4.03-1.818 4.03-4.03V15.61a1 1 0 0 0-.03-.28 1 1 0 0 0 0-.093 1 1 0 0 0-.03-.032 1 1 0 0 0 0-.03 1 1 0 0 0-.032-.063 1 1 0 0 0-.03-.063 1 1 0 0 0-.032 0 1 1 0 0 0-.03-.063 1 1 0 0 0-.032-.03 1 1 0 0 0-.03-.063 1 1 0 0 0-.063-.062l-14.593-14a1 1 0 0 0-.062-.062A1 1 0 0 0 28 .708a1 1 0 0 0-.374-.157 1 1 0 0 0-.156 0 1 1 0 0 0-.03-.03l-.003-.003zM4.25 2.547h22.218v9.97c0 2.21 1.82 4.03 4.03 4.03h10.564v36.438a2.02 2.02 0 0 1-2.032 2.032H4.25c-1.13 0-2.032-.9-2.032-2.032V4.58c0-1.13.902-2.032 2.03-2.032zm24.218 1.345l10.375 9.937.75.718H30.5c-1.13 0-2.032-.9-2.032-2.03V3.89z" })
 	});
 }
-function xe() {
-	return s("svg", {
+function be() {
+	return i("svg", {
 		"aria-hidden": "true",
 		focusable: "false",
 		className: "uppy-c-icon",
@@ -584,11 +522,11 @@ function xe() {
 			marginRight: 3
 		},
 		viewBox: "0 0 276.157 276.157",
-		children: s("path", { d: "M273.08 101.378c-3.3-4.65-8.86-7.32-15.254-7.32h-24.34V67.59c0-10.2-8.3-18.5-18.5-18.5h-85.322c-3.63 0-9.295-2.875-11.436-5.805l-6.386-8.735c-4.982-6.814-15.104-11.954-23.546-11.954H58.73c-9.292 0-18.638 6.608-21.737 15.372l-2.033 5.752c-.958 2.71-4.72 5.37-7.596 5.37H18.5C8.3 49.09 0 57.39 0 67.59v167.07c0 .886.16 1.73.443 2.52.152 3.306 1.18 6.424 3.053 9.064 3.3 4.652 8.86 7.32 15.255 7.32h188.487c11.395 0 23.27-8.425 27.035-19.18l40.677-116.188c2.11-6.035 1.43-12.164-1.87-16.816zM18.5 64.088h8.864c9.295 0 18.64-6.607 21.738-15.37l2.032-5.75c.96-2.712 4.722-5.373 7.597-5.373h29.565c3.63 0 9.295 2.876 11.437 5.806l6.386 8.735c4.982 6.815 15.104 11.954 23.546 11.954h85.322c1.898 0 3.5 1.602 3.5 3.5v26.47H69.34c-11.395 0-23.27 8.423-27.035 19.178L15 191.23V67.59c0-1.898 1.603-3.5 3.5-3.5zm242.29 49.15l-40.676 116.188c-1.674 4.78-7.812 9.135-12.877 9.135H18.75c-1.447 0-2.576-.372-3.02-.997-.442-.625-.422-1.814.057-3.18l40.677-116.19c1.674-4.78 7.812-9.134 12.877-9.134h188.487c1.448 0 2.577.372 3.02.997.443.625.423 1.814-.056 3.18z" })
+		children: i("path", { d: "M273.08 101.378c-3.3-4.65-8.86-7.32-15.254-7.32h-24.34V67.59c0-10.2-8.3-18.5-18.5-18.5h-85.322c-3.63 0-9.295-2.875-11.436-5.805l-6.386-8.735c-4.982-6.814-15.104-11.954-23.546-11.954H58.73c-9.292 0-18.638 6.608-21.737 15.372l-2.033 5.752c-.958 2.71-4.72 5.37-7.596 5.37H18.5C8.3 49.09 0 57.39 0 67.59v167.07c0 .886.16 1.73.443 2.52.152 3.306 1.18 6.424 3.053 9.064 3.3 4.652 8.86 7.32 15.255 7.32h188.487c11.395 0 23.27-8.425 27.035-19.18l40.677-116.188c2.11-6.035 1.43-12.164-1.87-16.816zM18.5 64.088h8.864c9.295 0 18.64-6.607 21.738-15.37l2.032-5.75c.96-2.712 4.722-5.373 7.597-5.373h29.565c3.63 0 9.295 2.876 11.437 5.806l6.386 8.735c4.982 6.815 15.104 11.954 23.546 11.954h85.322c1.898 0 3.5 1.602 3.5 3.5v26.47H69.34c-11.395 0-23.27 8.423-27.035 19.178L15 191.23V67.59c0-1.898 1.603-3.5 3.5-3.5zm242.29 49.15l-40.676 116.188c-1.674 4.78-7.812 9.135-12.877 9.135H18.75c-1.447 0-2.576-.372-3.02-.997-.442-.625-.422-1.814.057-3.18l40.677-116.19c1.674-4.78 7.812-9.134 12.877-9.134h188.487c1.448 0 2.577.372 3.02.997.443.625.423 1.814-.056 3.18z" })
 	});
 }
-function Se() {
-	return s("svg", {
+function xe() {
+	return i("svg", {
 		"aria-hidden": "true",
 		focusable: "false",
 		style: {
@@ -596,16 +534,16 @@ function Se() {
 			marginRight: 4
 		},
 		viewBox: "0 0 58 58",
-		children: [s("path", { d: "M36.537 28.156l-11-7a1.005 1.005 0 0 0-1.02-.033C24.2 21.3 24 21.635 24 22v14a1 1 0 0 0 1.537.844l11-7a1.002 1.002 0 0 0 0-1.688zM26 34.18V23.82L34.137 29 26 34.18z" }), s("path", { d: "M57 6H1a1 1 0 0 0-1 1v44a1 1 0 0 0 1 1h56a1 1 0 0 0 1-1V7a1 1 0 0 0-1-1zM10 28H2v-9h8v9zm-8 2h8v9H2v-9zm10 10V8h34v42H12V40zm44-12h-8v-9h8v9zm-8 2h8v9h-8v-9zm8-22v9h-8V8h8zM2 8h8v9H2V8zm0 42v-9h8v9H2zm54 0h-8v-9h8v9z" })]
+		children: [i("path", { d: "M36.537 28.156l-11-7a1.005 1.005 0 0 0-1.02-.033C24.2 21.3 24 21.635 24 22v14a1 1 0 0 0 1.537.844l11-7a1.002 1.002 0 0 0 0-1.688zM26 34.18V23.82L34.137 29 26 34.18z" }), i("path", { d: "M57 6H1a1 1 0 0 0-1 1v44a1 1 0 0 0 1 1h56a1 1 0 0 0 1-1V7a1 1 0 0 0-1-1zM10 28H2v-9h8v9zm-8 2h8v9H2v-9zm10 10V8h34v42H12V40zm44-12h-8v-9h8v9zm-8 2h8v9h-8v-9zm8-22v9h-8V8h8zM2 8h8v9H2V8zm0 42v-9h8v9H2zm54 0h-8v-9h8v9z" })]
 	});
 }
-function W({ itemIconString: e, alt: t = void 0 }) {
+function H({ itemIconString: e, alt: t = void 0 }) {
 	if (e === null) return null;
 	switch (e) {
-		case "file": return s(be, {});
-		case "folder": return s(xe, {});
-		case "video": return s(Se, {});
-		default: return s("img", {
+		case "file": return i(ye, {});
+		case "folder": return i(be, {});
+		case "video": return i(xe, {});
+		default: return i("img", {
 			src: e,
 			alt: t,
 			referrerPolicy: "no-referrer",
@@ -617,17 +555,17 @@ function W({ itemIconString: e, alt: t = void 0 }) {
 }
 //#endregion
 //#region node_modules/@uppy/core/lib/provider-views/Item/components/GridItem.js
-function G({ file: e, toggleCheckbox: t, className: n, isDisabled: r, restrictionError: i, showTitles: a, children: o = null, i18n: l, actionsMenu: u = null, selectable: d = !0, onFileClick: f }) {
-	let p = e.data.name ?? l("unnamed"), m = s(c, { children: [
-		s(W, { itemIconString: e.data.thumbnail || e.data.icon }),
-		a && p,
-		o
+function U({ file: e, toggleCheckbox: t, className: n, isDisabled: r, restrictionError: o, showTitles: s, children: c = null, i18n: l, actionsMenu: u = null, selectable: d = !0, onFileClick: f }) {
+	let p = e.data.name ?? l("unnamed"), m = i(a, { children: [
+		i(H, { itemIconString: e.data.thumbnail || e.data.icon }),
+		s && p,
+		c
 	] });
-	return s("li", {
+	return i("li", {
 		className: n,
-		title: r && i ? i : void 0,
+		title: r && o ? o : void 0,
 		children: [
-			d && s("input", {
+			d && i("input", {
 				type: "checkbox",
 				className: "uppy-u-reset uppy-ProviderBrowserItem-checkbox uppy-ProviderBrowserItem-checkbox--grid",
 				onChange: t,
@@ -637,14 +575,14 @@ function G({ file: e, toggleCheckbox: t, className: n, isDisabled: r, restrictio
 				disabled: r,
 				"data-uppy-super-focusable": !0
 			}),
-			!d && f && !e.data.isFolder ? s("button", {
+			!d && f && !e.data.isFolder ? i("button", {
 				type: "button",
 				"aria-label": l("openFileNamed", { name: p }),
 				"data-uppy-item-id": e.id,
 				className: "uppy-u-reset uppy-ProviderBrowserItem-inner",
 				onClick: () => f(e),
 				children: m
-			}) : s("label", {
+			}) : i("label", {
 				htmlFor: d ? e.id : void 0,
 				"aria-label": p,
 				className: "uppy-u-reset uppy-ProviderBrowserItem-inner",
@@ -656,22 +594,22 @@ function G({ file: e, toggleCheckbox: t, className: n, isDisabled: r, restrictio
 }
 //#endregion
 //#region node_modules/@uppy/core/lib/provider-views/Item/components/ListItem.js
-function Ce({ file: e, openFolder: t, className: n, isDisabled: r, restrictionError: i, toggleCheckbox: a, showTitles: o, i18n: l, actionsMenu: u = null, selectable: d = !0, onFileClick: f }) {
-	let p = s(c, { children: [s("div", {
+function Se({ file: e, openFolder: t, className: n, isDisabled: r, restrictionError: o, toggleCheckbox: s, showTitles: c, i18n: l, actionsMenu: u = null, selectable: d = !0, onFileClick: f }) {
+	let p = i(a, { children: [i("div", {
 		className: "uppy-ProviderBrowserItem-iconWrap",
-		children: s(W, { itemIconString: e.data.icon })
-	}), o && s("span", {
+		children: i(H, { itemIconString: e.data.icon })
+	}), c && i("span", {
 		className: "uppy-truncate-text",
 		children: e.data.name ?? l("unnamed")
 	})] });
-	return s("li", {
+	return i("li", {
 		className: n,
-		title: e.status !== "checked" && i ? i : void 0,
+		title: e.status !== "checked" && o ? o : void 0,
 		children: [
-			d && s("input", {
+			d && i("input", {
 				type: "checkbox",
 				className: "uppy-u-reset uppy-ProviderBrowserItem-checkbox",
-				onChange: a,
+				onChange: s,
 				name: "listitem",
 				id: e.id,
 				checked: e.status === "checked",
@@ -679,23 +617,23 @@ function Ce({ file: e, openFolder: t, className: n, isDisabled: r, restrictionEr
 				disabled: r,
 				"data-uppy-super-focusable": !0
 			}),
-			e.data.isFolder ? s("button", {
+			e.data.isFolder ? i("button", {
 				type: "button",
 				className: "uppy-u-reset uppy-c-btn uppy-ProviderBrowserItem-inner",
 				onClick: () => t(e.id),
 				"aria-label": l("openFolderNamed", { name: e.data.name ?? l("unnamed") }),
-				children: [s("div", {
+				children: [i("div", {
 					className: "uppy-ProviderBrowserItem-iconWrap",
-					children: s(W, { itemIconString: e.data.icon })
-				}), o && e.data.name ? s("span", {
+					children: i(H, { itemIconString: e.data.icon })
+				}), c && e.data.name ? i("span", {
 					className: "uppy-truncate-text",
 					children: e.data.name
 				}) : l("unnamed")]
-			}) : d ? s("label", {
+			}) : d ? i("label", {
 				htmlFor: e.id,
 				className: "uppy-u-reset uppy-ProviderBrowserItem-inner",
 				children: p
-			}) : s("button", {
+			}) : i("button", {
 				type: "button",
 				className: "uppy-u-reset uppy-c-btn uppy-ProviderBrowserItem-inner",
 				onClick: () => f?.(e),
@@ -709,22 +647,22 @@ function Ce({ file: e, openFolder: t, className: n, isDisabled: r, restrictionEr
 }
 //#endregion
 //#region node_modules/@uppy/core/lib/provider-views/Item/index.js
-function we(e) {
-	let { viewType: t, toggleCheckbox: n, showTitles: r, i18n: i, openFolder: a, file: o, utmSource: c, actions: l = [], menuOpen: u = !1, toggleMenu: d, selectable: f = !0, onFileClick: p } = e, m = l.length > 0 && d ? s(ge, {
-		file: o,
+function Ce(e) {
+	let { viewType: t, toggleCheckbox: n, showTitles: r, i18n: a, openFolder: o, file: s, utmSource: c, actions: l = [], menuOpen: u = !1, toggleMenu: d, selectable: f = !0, onFileClick: p } = e, m = l.length > 0 && d ? i(he, {
+		file: s,
 		actions: l,
 		open: u,
 		onToggle: d,
-		i18n: i
-	}) : null, h = o.type === "folder" ? null : o.restrictionError, g = !!h && o.status !== "checked", _ = {
-		file: o,
-		openFolder: a,
+		i18n: a
+	}) : null, h = s.type === "folder" ? null : s.restrictionError, g = !!h && s.status !== "checked", _ = {
+		file: s,
+		openFolder: o,
 		toggleCheckbox: n,
 		utmSource: c,
-		i18n: i,
+		i18n: a,
 		viewType: t,
 		showTitles: r,
-		className: (0, I.default)("uppy-ProviderBrowserItem", { "uppy-ProviderBrowserItem--disabled": g }, { "uppy-ProviderBrowserItem--noPreview": o.data.icon === "video" }, { "uppy-ProviderBrowserItem--is-checked": o.status === "checked" }, { "uppy-ProviderBrowserItem--is-partial": o.status === "partial" }),
+		className: (0, P.default)("uppy-ProviderBrowserItem", { "uppy-ProviderBrowserItem--disabled": g }, { "uppy-ProviderBrowserItem--noPreview": s.data.icon === "video" }, { "uppy-ProviderBrowserItem--is-checked": s.status === "checked" }, { "uppy-ProviderBrowserItem--is-partial": s.status === "partial" }),
 		isDisabled: g,
 		restrictionError: h,
 		actionsMenu: m,
@@ -732,17 +670,17 @@ function we(e) {
 		onFileClick: p
 	};
 	switch (t) {
-		case "grid": return s(G, { ..._ });
-		case "list": return s(Ce, { ..._ });
-		case "unsplash": return s(G, {
+		case "grid": return i(U, { ..._ });
+		case "list": return i(Se, { ..._ });
+		case "unsplash": return i(U, {
 			..._,
-			children: s("a", {
-				href: `${o.data.author.url}?utm_source=${c}&utm_medium=referral`,
+			children: i("a", {
+				href: `${s.data.author.url}?utm_source=${c}&utm_medium=referral`,
 				target: "_blank",
 				rel: "noopener noreferrer",
 				className: "uppy-ProviderBrowserItem-author",
 				tabIndex: -1,
-				children: o.data.author.name
+				children: s.data.author.name
 			})
 		});
 		default: throw Error(`There is no such type ${t}`);
@@ -750,8 +688,8 @@ function we(e) {
 }
 //#endregion
 //#region node_modules/@uppy/core/lib/provider-views/Browser.js
-function Te(e) {
-	let { displayedPartialTree: t, viewType: n, toggleCheckbox: r, handleScroll: i, showTitles: a, i18n: o, isLoading: c, onCancelLoading: l, openFolder: u, noResultsLabel: d, virtualList: p, utmSource: h, actions: g = [], runAction: v, selectable: y = !0, onFileClick: b } = e, [x, S] = f(!1), C = ye(t), w = _(null);
+function we(e) {
+	let { displayedPartialTree: t, viewType: n, toggleCheckbox: r, handleScroll: a, showTitles: o, i18n: s, isLoading: c, onCancelLoading: l, openFolder: u, noResultsLabel: d, virtualList: p, utmSource: h, actions: g = [], runAction: v, selectable: y = !0, onFileClick: b } = e, [x, S] = f(!1), C = ve(t), w = _(null);
 	m(() => {
 		let e = (e) => {
 			e.key === "Shift" && S(!1);
@@ -765,30 +703,30 @@ function Te(e) {
 	let T = _(null), E = !!(c && l);
 	if (m(() => {
 		E && T.current?.focus();
-	}, [E]), c) return s("div", {
+	}, [E]), c) return i("div", {
 		className: "uppy-Provider-loading",
-		children: [s("span", {
+		children: [i("span", {
 			role: "status",
-			children: typeof c == "string" ? c : o("loading")
-		}), l && s("button", {
+			children: typeof c == "string" ? c : s("loading")
+		}), l && i("button", {
 			ref: T,
 			type: "button",
 			className: "uppy-u-reset uppy-c-btn uppy-c-btn-link uppy-Provider-loadingCancel",
 			onClick: l,
-			children: o("stopOperation")
+			children: s("stopOperation")
 		})]
 	});
-	if (t.length === 0) return s("div", {
+	if (t.length === 0) return i("div", {
 		className: "uppy-Provider-empty",
 		children: d
 	});
-	let D = (e) => s(we, {
+	let D = (e) => i(Ce, {
 		viewType: n,
 		toggleCheckbox: (t) => {
 			t.stopPropagation(), t.preventDefault(), document.getSelection()?.removeAllRanges(), r(e, x);
 		},
-		showTitles: a,
-		i18n: o,
+		showTitles: o,
+		i18n: s,
 		openFolder: u,
 		file: e,
 		utmSource: h,
@@ -797,30 +735,30 @@ function Te(e) {
 		toggleMenu: v ? (t) => C.toggle(e.id, t) : void 0,
 		selectable: y,
 		onFileClick: b
-	}, e.id), O = C.open && v ? s(ve, {
+	}, e.id), O = C.open && v ? i(_e, {
 		file: C.open.item,
-		actions: B(g, C.open.item),
+		actions: R(g, C.open.item),
 		anchor: C.open.anchor,
 		containerRef: w,
 		runAction: v,
 		onClose: C.close,
-		i18n: o
+		i18n: s
 	}, C.open.item.id) : null;
-	return p ? s("div", {
+	return p ? i("div", {
 		className: "uppy-ProviderBrowser-body",
 		ref: w,
-		children: [s(k, {
+		children: [i(k, {
 			className: "uppy-ProviderBrowser-list",
 			data: t,
 			renderRow: D,
 			rowHeight: 35.5
 		}), O]
-	}) : s("div", {
+	}) : i("div", {
 		className: "uppy-ProviderBrowser-body",
 		ref: w,
-		children: [s("ul", {
+		children: [i("ul", {
 			className: "uppy-ProviderBrowser-list",
-			onScroll: i,
+			onScroll: a,
 			tabIndex: -1,
 			children: t.map(D)
 		}), O]
@@ -828,17 +766,17 @@ function Te(e) {
 }
 //#endregion
 //#region node_modules/@uppy/core/lib/provider-views/BulkActions.js
-function Ee({ selectedCount: e, bulkActions: t, runBulkAction: n, i18n: r }) {
-	return e === 0 || t.length === 0 ? null : s("div", {
+function Te({ selectedCount: e, bulkActions: t, runBulkAction: n, i18n: r }) {
+	return e === 0 || t.length === 0 ? null : i("div", {
 		className: "uppy-ProviderBrowser-footer",
-		children: s("div", {
+		children: i("div", {
 			className: "uppy-ProviderBrowser-footer-buttons",
-			children: [s("span", {
+			children: [i("span", {
 				className: "uppy-ProviderBrowser-footer-count",
 				children: r("itemsSelected", { smart_count: e })
-			}), t.map((e) => s("button", {
+			}), t.map((e) => i("button", {
 				type: "button",
-				className: (0, I.default)("uppy-u-reset uppy-c-btn uppy-c-btn-primary", { "uppy-ProviderDialog-confirm--danger": e.danger }),
+				className: (0, P.default)("uppy-u-reset uppy-c-btn uppy-c-btn-primary", { "uppy-ProviderDialog-confirm--danger": e.danger }),
 				onClick: () => n(e),
 				children: e.label
 			}, e.id))]
@@ -847,37 +785,37 @@ function Ee({ selectedCount: e, bulkActions: t, runBulkAction: n, i18n: r }) {
 }
 //#endregion
 //#region node_modules/@uppy/core/lib/provider-views/utils/PartialTreeUtils/getNumberOfSelectedFiles.js
-var K = (e) => e.filter((t) => t.type === "file" && t.status === "checked" || t.type === "folder" && t.status === "checked" && !e.some((e) => e.type !== "root" && e.parentId === t.id)).length;
+var W = (e) => e.filter((t) => t.type === "file" && t.status === "checked" || t.type === "folder" && t.status === "checked" && !e.some((e) => e.type !== "root" && e.parentId === t.id)).length;
 //#endregion
 //#region node_modules/@uppy/core/lib/provider-views/FooterActions.js
-function De({ cancelSelection: e, donePicking: t, i18n: n, partialTree: r, validateAggregateRestrictions: i }) {
-	let a = p(() => i(r), [r, i]), o = p(() => K(r), [r]);
-	return o === 0 ? null : s("div", {
+function Ee({ cancelSelection: e, donePicking: t, i18n: n, partialTree: r, validateAggregateRestrictions: a }) {
+	let o = p(() => a(r), [r, a]), s = p(() => W(r), [r]);
+	return s === 0 ? null : i("div", {
 		className: "uppy-ProviderBrowser-footer",
-		children: [s("div", {
+		children: [i("div", {
 			className: "uppy-ProviderBrowser-footer-buttons",
-			children: [s("button", {
-				className: (0, I.default)("uppy-u-reset uppy-c-btn uppy-c-btn-primary", { "uppy-c-btn--disabled": a }),
-				disabled: !!a,
+			children: [i("button", {
+				className: (0, P.default)("uppy-u-reset uppy-c-btn uppy-c-btn-primary", { "uppy-c-btn--disabled": o }),
+				disabled: !!o,
 				onClick: t,
 				type: "button",
-				children: n("selectX", { smart_count: o })
-			}), s("button", {
+				children: n("selectX", { smart_count: s })
+			}), i("button", {
 				className: "uppy-u-reset uppy-c-btn uppy-c-btn-link",
 				onClick: e,
 				type: "button",
 				children: n("cancel")
 			})]
-		}), a && s("div", {
+		}), o && i("div", {
 			className: "uppy-ProviderBrowser-footer-error",
-			children: a
+			children: o
 		})]
 	});
 }
 //#endregion
 //#region node_modules/@uppy/core/lib/provider-views/ItemDetailDialog.js
-function Oe({ item: e, actions: t, runAction: n, getPreviewUrl: r, onClose: i, i18n: a }) {
-	let [o, l] = f(null), u = d(), [p] = f(e);
+function De({ item: e, actions: t, runAction: n, getPreviewUrl: r, onClose: o, i18n: s }) {
+	let [c, l] = f(null), u = d(), [p] = f(e);
 	m(() => {
 		if (!r || p.data.isFolder) return;
 		let e = !1;
@@ -887,34 +825,34 @@ function Oe({ item: e, actions: t, runAction: n, getPreviewUrl: r, onClose: i, i
 			e = !0;
 		};
 	}, [r, p]);
-	let h = e.data.name ?? a("unnamed"), g = B(t, e), _ = e.type === "file" ? e.data : void 0, v = _?.size, y = _?.mimeType, x = _?.modifiedDate;
-	return s(H, {
+	let h = e.data.name ?? s("unnamed"), g = R(t, e), _ = e.type === "file" ? e.data : void 0, v = _?.size, y = _?.mimeType, b = _?.modifiedDate;
+	return i(B, {
 		className: "uppy-ProviderDialog uppy-ItemDetail",
 		"aria-labelledby": u,
-		onDismiss: i,
+		onDismiss: o,
 		restoreFocus: (t) => {
 			let n = t.closest(".uppy-ProviderBrowser");
 			return n?.querySelector(`[data-uppy-item-id="${CSS.escape(e.id)}"]`) ?? n?.querySelector(".uppy-ProviderBrowser-list");
 		},
 		children: [
-			s("header", {
+			i("header", {
 				className: "uppy-ItemDetail-header",
-				children: [s("h3", {
+				children: [i("h3", {
 					id: u,
 					className: "uppy-ItemDetail-name",
 					children: h
-				}), s("button", {
+				}), i("button", {
 					type: "button",
 					className: "uppy-u-reset uppy-c-btn uppy-ItemDetail-close",
-					"aria-label": a("close"),
-					onClick: i,
-					children: s("svg", {
+					"aria-label": s("close"),
+					onClick: o,
+					children: i("svg", {
 						"aria-hidden": "true",
 						width: "14",
 						height: "14",
 						viewBox: "0 0 14 14",
 						fill: "none",
-						children: s("path", {
+						children: i("path", {
 							d: "M2 2l10 10M12 2L2 12",
 							stroke: "currentColor",
 							"stroke-width": "1.6",
@@ -923,36 +861,36 @@ function Oe({ item: e, actions: t, runAction: n, getPreviewUrl: r, onClose: i, i
 					})
 				})]
 			}),
-			s("div", {
+			i("div", {
 				className: "uppy-ItemDetail-body",
-				children: [s("div", {
+				children: [i("div", {
 					className: "uppy-ItemDetail-preview",
 					"data-testid": "file-detail-preview",
-					children: o ? s("img", {
-						src: o,
+					children: c ? i("img", {
+						src: c,
 						alt: "",
 						className: "uppy-ItemDetail-previewImage"
-					}) : s("span", {
+					}) : i("span", {
 						className: "uppy-ItemDetail-previewIcon",
 						"aria-hidden": "true",
-						children: s(W, { itemIconString: e.data.icon })
+						children: i(H, { itemIconString: e.data.icon })
 					})
-				}), s("dl", {
+				}), i("dl", {
 					className: "uppy-ItemDetail-facts",
 					children: [
-						typeof v == "number" ? s(c, { children: [s("dt", { children: a("detailSize") }), s("dd", { children: b(v) })] }) : null,
-						y ? s(c, { children: [s("dt", { children: a("detailType") }), s("dd", { children: y })] }) : null,
-						x ? s(c, { children: [s("dt", { children: a("detailModified") }), s("dd", { children: x })] }) : null
+						typeof v == "number" ? i(a, { children: [i("dt", { children: s("detailSize") }), i("dd", { children: x(v) })] }) : null,
+						y ? i(a, { children: [i("dt", { children: s("detailType") }), i("dd", { children: y })] }) : null,
+						b ? i(a, { children: [i("dt", { children: s("detailModified") }), i("dd", { children: b })] }) : null
 					]
 				})]
 			}),
-			s("footer", {
+			i("footer", {
 				className: "uppy-ItemDetail-actions",
-				children: g.map((t) => s("button", {
+				children: g.map((t) => i("button", {
 					type: "button",
-					className: (0, I.default)("uppy-u-reset uppy-c-btn uppy-ItemDetail-action", t.danger && "uppy-ItemDetail-action--danger"),
+					className: (0, P.default)("uppy-u-reset uppy-c-btn uppy-ItemDetail-action", t.danger && "uppy-ItemDetail-action--danger"),
 					onClick: () => {
-						i(), n(t, e);
+						o(), n(t, e);
 					},
 					children: t.label
 				}, t.id))
@@ -962,53 +900,53 @@ function Oe({ item: e, actions: t, runAction: n, getPreviewUrl: r, onClose: i, i
 }
 //#endregion
 //#region node_modules/@uppy/core/lib/provider-views/ProviderDialog.js
-function ke({ dialog: e, i18n: t, onConfirm: n, onCancel: r }) {
-	let [i, a] = f(e.kind === "prompt" ? e.defaultValue ?? "" : ""), o = _(null), c = _(null), l = _(null), u = d(), p = e.kind === "prompt", h = e.kind === "confirm" && e.danger === !0;
+function Oe({ dialog: e, i18n: t, onConfirm: n, onCancel: r }) {
+	let [a, o] = f(e.kind === "prompt" ? e.defaultValue ?? "" : ""), s = _(null), c = _(null), l = _(null), u = d(), p = e.kind === "prompt", h = e.kind === "confirm" && e.danger === !0;
 	return m(() => {
-		(o.current ?? (h ? l : c).current)?.focus(), o.current?.select();
-	}, [h]), s(H, {
+		(s.current ?? (h ? l : c).current)?.focus(), s.current?.select();
+	}, [h]), i(B, {
 		className: "uppy-ProviderDialog",
 		"aria-labelledby": u,
 		onDismiss: r,
-		children: s("form", {
+		children: i("form", {
 			className: "uppy-ProviderDialog-form",
 			onSubmit: (e) => {
-				e.preventDefault(), n(p ? i : void 0);
+				e.preventDefault(), n(p ? a : void 0);
 			},
 			children: [
-				s("h3", {
+				i("h3", {
 					id: u,
 					className: "uppy-ProviderDialog-title",
 					children: e.title
 				}),
-				e.kind === "prompt" ? s("label", {
+				e.kind === "prompt" ? i("label", {
 					className: "uppy-ProviderDialog-label",
-					children: [e.label && s("span", {
+					children: [e.label && i("span", {
 						className: "uppy-ProviderDialog-labelText",
 						children: e.label
-					}), s("input", {
-						ref: o,
+					}), i("input", {
+						ref: s,
 						type: "text",
 						className: "uppy-u-reset uppy-c-textInput uppy-ProviderDialog-input",
-						value: i,
-						onInput: (e) => a(e.target.value)
+						value: a,
+						onInput: (e) => o(e.target.value)
 					})]
-				}) : e.message && s("p", {
+				}) : e.message && i("p", {
 					className: "uppy-ProviderDialog-message",
 					children: e.message
 				}),
-				s("div", {
+				i("div", {
 					className: "uppy-ProviderDialog-actions",
-					children: [s("button", {
+					children: [i("button", {
 						ref: l,
 						type: "button",
 						className: "uppy-u-reset uppy-c-btn uppy-c-btn-link",
 						onClick: r,
 						children: t("cancel")
-					}), s("button", {
+					}), i("button", {
 						ref: c,
 						type: "submit",
-						className: (0, I.default)("uppy-u-reset uppy-c-btn uppy-c-btn-primary", h && "uppy-ProviderDialog-confirm--danger"),
+						className: (0, P.default)("uppy-u-reset uppy-c-btn uppy-c-btn-primary", h && "uppy-ProviderDialog-confirm--danger"),
 						children: e.confirmLabel ?? t("dialogConfirm")
 					})]
 				})
@@ -1018,7 +956,7 @@ function ke({ dialog: e, i18n: t, onConfirm: n, onCancel: r }) {
 }
 //#endregion
 //#region node_modules/@uppy/core/lib/provider-views/ProviderDialogController.js
-var Ae = class {
+var ke = class {
 	#e;
 	#t = null;
 	#n = 0;
@@ -1053,7 +991,7 @@ var Ae = class {
 		let n = this.#t;
 		n && (this.#t = null, this.#e.setPluginState({ dialog: void 0 }), n(e, t));
 	}
-}, je = (e, t, n) => {
+}, Ae = (e, t, n) => {
 	let r = e.name || e.id;
 	return {
 		id: e.id,
@@ -1079,54 +1017,54 @@ var Ae = class {
 			requestClientId: n.provider
 		}
 	};
-}, Me = (e, t, n) => {
-	let r = e.map((e) => je(e, t, n)), i = [], a = [];
+}, je = (e, t, n) => {
+	let r = e.map((e) => Ae(e, t, n)), i = [], a = [];
 	r.forEach((e) => {
-		t.uppy.checkIfFileAlreadyExists(D(e, t.uppy.getID())) ? a.push(e) : i.push(e);
+		t.uppy.checkIfFileAlreadyExists(O(e, t.uppy.getID())) ? a.push(e) : i.push(e);
 	}), i.length > 0 && t.uppy.info(t.uppy.i18n("addedNumFiles", { numFiles: i.length })), a.length > 0 && t.uppy.info(`Not adding ${a.length} files because they already exist`), t.uppy.addFiles(i);
-}, Ne = (e, t, n, r) => {
+}, Me = (e, t, n, r) => {
 	let i = t.findIndex((e) => e.id === r);
 	if (i !== -1 && n) {
 		let n = t.findIndex((t) => t.id === e);
 		return t.slice(Math.min(i, n), Math.max(i, n) + 1).map((e) => e.id);
 	}
 	return [e];
-}, q = (e) => (t) => {
-	if (i(t)) return;
-	let n = o(t);
-	if (r(n)) {
+}, G = (e) => (t) => {
+	if (l(t)) return;
+	let n = r(t);
+	if (c(n)) {
 		e.log("Aborting request", "warning");
 		return;
 	}
 	e.log(n, "error"), n.name === "UserFacingApiError" && e.info({
 		message: e.i18n("companionError"),
-		details: R(e.i18n, n)
+		details: I(e.i18n, n)
 	}, "warning", 5e3);
-}, J = (e, t) => {
+}, K = (e, t) => {
 	let n = e.find((e) => e.id === t), r = [];
 	for (; r = [n, ...r], n.type !== "root";) {
 		let t = n.parentId;
 		n = e.find((e) => e.id === t);
 	}
 	return r;
-}, Y = (e, t, n) => {
+}, q = (e, t, n) => {
 	let r = t === null ? "null" : t;
 	if (n[r]) return n[r];
 	let i = e.find((e) => e.id === t);
 	if (i.type === "root") return [];
-	let a = [...Y(e, i.parentId, n), i];
+	let a = [...q(e, i.parentId, n), i];
 	return n[r] = a, a;
-}, Pe = (e) => {
+}, Ne = (e) => {
 	let t = Object.create(null);
 	return e.filter((e) => e.type === "file" && e.status === "checked").map((n) => {
-		let r = Y(e, n.id, t), i = r.findIndex((e) => e.type === "folder" && e.status === "checked"), a = r.slice(i), o = `/${r.map((e) => e.data.name).join("/")}`, s = a.length === 1 ? void 0 : a.map((e) => e.data.name).join("/");
+		let r = q(e, n.id, t), i = r.findIndex((e) => e.type === "folder" && e.status === "checked"), a = r.slice(i), o = `/${r.map((e) => e.data.name).join("/")}`, s = a.length === 1 ? void 0 : a.map((e) => e.data.name).join("/");
 		return {
 			...n.data,
 			absDirPath: o,
 			relDirPath: s
 		};
 	});
-}, Fe = /* @__PURE__ */ e((/* @__PURE__ */ t(((e, t) => {
+}, Pe = /* @__PURE__ */ e((/* @__PURE__ */ t(((e, t) => {
 	var n = Object.prototype.hasOwnProperty, r = "~";
 	function i() {}
 	Object.create && (i.prototype = Object.create(null), new i().__proto__ || (r = !1));
@@ -1213,26 +1151,26 @@ var Ae = class {
 		var t;
 		return e ? (t = r ? r + e : e, this._events[t] && s(this, t)) : (this._events = new i(), this._eventsCount = 0), this;
 	}, c.prototype.off = c.prototype.removeListener, c.prototype.addListener = c.prototype.on, c.prefixed = r, c.EventEmitter = c, t !== void 0 && (t.exports = c);
-})))(), 1), Ie = class e extends Error {
+})))(), 1), Fe = class e extends Error {
 	name = "TimeoutError";
 	constructor(t, n) {
 		super(t, n), Error.captureStackTrace?.(this, e);
 	}
-}, X = (e) => e.reason ?? new DOMException("This operation was aborted.", "AbortError");
-function Le(e, t) {
+}, J = (e) => e.reason ?? new DOMException("This operation was aborted.", "AbortError");
+function Ie(e, t) {
 	let { milliseconds: n, fallback: r, message: i, customTimers: a = {
 		setTimeout,
 		clearTimeout
 	}, signal: o } = t, s, c, l = new Promise((t, l) => {
 		if (typeof n != "number" || Math.sign(n) !== 1) throw TypeError(`Expected \`milliseconds\` to be a positive number, got \`${n}\``);
 		if (o?.aborted) {
-			l(X(o)), e.then(t, l);
+			l(J(o)), e.then(t, l);
 			return;
 		}
 		if (o && (c = () => {
-			l(X(o));
+			l(J(o));
 		}, o.addEventListener("abort", c, { once: !0 })), e.then(t, l), n === Infinity) return;
-		let u = new Ie();
+		let u = new Fe();
 		s = a.setTimeout.call(void 0, () => {
 			if (r) {
 				try {
@@ -1253,7 +1191,7 @@ function Le(e, t) {
 }
 //#endregion
 //#region node_modules/p-queue/dist/lower-bound.js
-function Re(e, t, n) {
+function Le(e, t, n) {
 	let r = 0, i = e.length;
 	for (; i > 0;) {
 		let a = Math.trunc(i / 2), o = r + a;
@@ -1263,7 +1201,7 @@ function Re(e, t, n) {
 }
 //#endregion
 //#region node_modules/p-queue/dist/priority-queue.js
-var ze = 100, Z = class {
+var Re = 100, Y = class {
 	#e = [];
 	#t = 0;
 	enqueue(e, t) {
@@ -1281,7 +1219,7 @@ var ze = 100, Z = class {
 			return;
 		}
 		this.#n();
-		let o = Re(this.#e, a, (e, t) => t.priority - e.priority);
+		let o = Le(this.#e, a, (e, t) => t.priority - e.priority);
 		this.#e.splice(o, 0, a);
 	}
 	setPriority(e, t) {
@@ -1300,7 +1238,7 @@ var ze = 100, Z = class {
 	dequeue() {
 		if (this.#t === this.#e.length) return;
 		let e = this.#e[this.#t];
-		return this.#t++, this.#t === this.#e.length ? (this.#e.length = 0, this.#t = 0) : this.#t > ze && this.#t > this.#e.length / 2 && this.#n(), e?.run;
+		return this.#t++, this.#t === this.#e.length ? (this.#e.length = 0, this.#t = 0) : this.#t > Re && this.#t > this.#e.length / 2 && this.#n(), e?.run;
 	}
 	filter(e) {
 		let t = [];
@@ -1316,7 +1254,7 @@ var ze = 100, Z = class {
 	#n() {
 		this.#t !== 0 && (this.#e.splice(0, this.#t), this.#t = 0);
 	}
-}, Be = class extends Fe.default {
+}, ze = class extends Pe.default {
 	#e;
 	#t;
 	#n = 0;
@@ -1346,7 +1284,7 @@ var ze = 100, Z = class {
 			interval: 0,
 			concurrency: Infinity,
 			autoStart: !0,
-			queueClass: Z,
+			queueClass: Y,
 			strict: !1,
 			...e
 		}, !(typeof e.intervalCap == "number" && e.intervalCap >= 1)) throw TypeError(`Expected \`intervalCap\` to be a number from 1 and up, got \`${e.intervalCap?.toString() ?? ""}\` (${typeof e.intervalCap})`);
@@ -1476,7 +1414,7 @@ var ze = 100, Z = class {
 						throw this.#B(), this.#y.delete(i), e;
 					}
 					let r = e({ signal: t.signal });
-					if (t.timeout !== void 0 && (r = Le(Promise.resolve(r), {
+					if (t.timeout !== void 0 && (r = Ie(Promise.resolve(r), {
 						milliseconds: t.timeout,
 						message: `Task timed out after ${t.timeout}ms (queue has ${this.#h} running, ${this.#p.size} waiting)`
 					})), t.signal) {
@@ -1499,7 +1437,7 @@ var ze = 100, Z = class {
 			};
 			this.#p.enqueue(o, t);
 			let s = () => {
-				if (this.#p instanceof Z) {
+				if (this.#p instanceof Y) {
 					this.#p.remove(o);
 					return;
 				}
@@ -1624,7 +1562,7 @@ var ze = 100, Z = class {
 			timeoutRemaining: e.timeout ? Math.max(0, e.startTime + e.timeout - Date.now()) : void 0
 		}));
 	}
-}, Ve = (e) => e.map((e) => ({ ...e })), He = async (e, t, n, r, i) => {
+}, Be = (e) => e.map((e) => ({ ...e })), X = async (e, t, n, r, i) => {
 	let a = [], o = n.cached ? n.nextPagePath : n.id;
 	for (; o;) {
 		let e = await r(o);
@@ -1650,17 +1588,17 @@ var ze = 100, Z = class {
 		};
 	});
 	n.cached = !0, n.nextPagePath = null, t.push(...u, ...l), l.forEach(async (n) => {
-		e.add(() => He(e, t, n, r, i));
+		e.add(() => X(e, t, n, r, i));
 	});
-}, Ue = async (e, t, n, r) => {
-	let i = new Be({ concurrency: 6 }), a = Ve(e);
+}, Ve = async (e, t, n, r) => {
+	let i = new ze({ concurrency: 6 }), a = Be(e);
 	return a.filter((e) => e.type === "folder" && e.status === "checked" && (e.cached === !1 || e.nextPagePath)).forEach((e) => {
-		i.add(() => He(i, a, e, t, n));
+		i.add(() => X(i, a, e, t, n));
 	}), i.on("completed", () => {
 		let e = a.filter((e) => e.type === "file" && e.status === "checked").length;
 		r(e);
 	}), await i.onIdle(), a;
-}, We = (e, t, n, r, i) => {
+}, He = (e, t, n, r, i) => {
 	let a = t.filter((t) => !e.find((e) => e.id === t.requestPath)), o = a.filter((e) => e.isFolder === !0), s = a.filter((e) => e.isFolder === !1), c = n.type === "folder" && n.status === "checked", l = o.map((e) => ({
 		type: "folder",
 		id: e.requestPath,
@@ -1689,7 +1627,7 @@ var ze = 100, Z = class {
 		...l,
 		...u
 	];
-}, Ge = (e, t, n, r, i) => {
+}, Ue = (e, t, n, r, i) => {
 	let a = e.find((e) => e.id === t), o = n.filter((e) => e.isFolder === !0), s = n.filter((e) => e.isFolder === !1), c = {
 		...a,
 		nextPagePath: r
@@ -1717,64 +1655,64 @@ var ze = 100, Z = class {
 		...d,
 		...f
 	];
-}, Ke = (e, t, n) => {
+}, We = (e, t, n) => {
 	e.filter((e) => e.type !== "root" && e.parentId === t).forEach((t) => {
-		t.status = n && !(t.type === "file" && t.restrictionError) ? "checked" : "unchecked", Ke(e, t.id, n);
+		t.status = n && !(t.type === "file" && t.restrictionError) ? "checked" : "unchecked", We(e, t.id, n);
 	});
-}, qe = (e, t) => {
+}, Ge = (e, t) => {
 	let n = e.find((e) => e.id === t);
 	if (n.type === "root") return;
 	let r = e.filter((e) => e.type !== "root" && e.parentId === n.id && !(e.type === "file" && e.restrictionError)), i = r.every((e) => e.status === "checked"), a = r.every((e) => e.status === "unchecked");
-	n.status = i && n.cached ? "checked" : a ? "unchecked" : "partial", qe(e, n.parentId);
-}, Q = {
-	afterOpenFolder: We,
-	afterScrollFolder: Ge,
+	n.status = i && n.cached ? "checked" : a ? "unchecked" : "partial", Ge(e, n.parentId);
+}, Z = {
+	afterOpenFolder: He,
+	afterScrollFolder: Ue,
 	afterToggleCheckbox: (e, t) => {
-		let n = Ve(e), r = n.filter((e) => e.type !== "root" && t.includes(e.id));
+		let n = Be(e), r = n.filter((e) => e.type !== "root" && t.includes(e.id));
 		return r.forEach((e) => {
 			let t = e.status === "checked" ? "unchecked" : "checked";
-			e.status = e.type === "file" && e.restrictionError ? "unchecked" : t, Ke(n, e.id, e.status === "checked");
-		}), qe(n, r[0].parentId), n;
+			e.status = e.type === "file" && e.restrictionError ? "unchecked" : t, We(n, e.id, e.status === "checked");
+		}), Ge(n, r[0].parentId), n;
 	},
-	afterFill: Ue
-}, Je = (e) => {
+	afterFill: Ve
+}, Ke = (e) => {
 	let { scrollHeight: t, scrollTop: n, offsetHeight: r } = e.target;
 	return t - (n + r) < 50;
-}, Ye = ({ i18n: e, item: t, toggleCheckbox: n, openFolder: r }) => {
-	let i = "restrictionError" in t && t.restrictionError != null && t.status !== "checked";
-	return s("li", {
-		className: (0, I.default)("uppy-ProviderBrowserItem", { "uppy-ProviderBrowserItem--disabled": i }, { "uppy-ProviderBrowserItem--noPreview": t.data.icon === "video" }, { "uppy-ProviderBrowserItem--is-checked": t.status === "checked" }, { "uppy-ProviderBrowserItem--is-partial": t.status === "partial" }),
+}, qe = ({ i18n: e, item: t, toggleCheckbox: n, openFolder: r }) => {
+	let a = "restrictionError" in t && t.restrictionError != null && t.status !== "checked";
+	return i("li", {
+		className: (0, P.default)("uppy-ProviderBrowserItem", { "uppy-ProviderBrowserItem--disabled": a }, { "uppy-ProviderBrowserItem--noPreview": t.data.icon === "video" }, { "uppy-ProviderBrowserItem--is-checked": t.status === "checked" }, { "uppy-ProviderBrowserItem--is-partial": t.status === "partial" }),
 		title: ("restrictionError" in t ? t.restrictionError : void 0) ?? void 0,
-		children: [s("input", {
+		children: [i("input", {
 			type: "checkbox",
 			className: "uppy-u-reset uppy-ProviderBrowserItem-checkbox",
 			onChange: () => n(t, !1),
 			checked: t.status === "checked",
 			"aria-label": t.data.name ?? e("unnamed"),
-			disabled: i,
+			disabled: a,
 			"data-uppy-super-focusable": !0
-		}), s("button", {
+		}), i("button", {
 			type: "button",
 			className: "uppy-u-reset uppy-c-btn uppy-ProviderBrowserItem-inner",
-			disabled: i,
+			disabled: a,
 			"aria-label": t.data.name,
 			onClick: () => {
 				t.data.isFolder && r(t.id);
 			},
-			children: [s("div", {
+			children: [i("div", {
 				className: "uppy-ProviderBrowserItem-iconWrap",
-				children: s(W, { itemIconString: t.data.icon })
+				children: i(H, { itemIconString: t.data.icon })
 			}), t.data.name ?? e("unnamed")]
 		})]
 	});
-}, Xe = ({ searchResults: e, toggleCheckbox: t, openFolder: n, i18n: r }) => e.length === 0 ? s("div", {
+}, Je = ({ searchResults: e, toggleCheckbox: t, openFolder: n, i18n: r }) => e.length === 0 ? i("div", {
 	className: "uppy-Provider-empty",
 	children: r("noFilesFound")
-}) : s("div", {
+}) : i("div", {
 	className: "uppy-ProviderBrowser-body",
-	children: s("ul", {
+	children: i("ul", {
 		className: "uppy-ProviderBrowser-list",
-		children: e.map((e) => s(Ye, {
+		children: e.map((e) => i(qe, {
 			i18n: r,
 			item: e,
 			toggleCheckbox: t,
@@ -1784,24 +1722,24 @@ var ze = 100, Z = class {
 });
 //#endregion
 //#region node_modules/@uppy/core/lib/provider-views/Breadcrumbs.js
-function Ze(e) {
-	let { openFolder: t, title: n, breadcrumbsIcon: r, breadcrumbs: i, i18n: a, disabled: o = !1 } = e;
-	return s("div", {
+function Ye(e) {
+	let { openFolder: t, title: n, breadcrumbsIcon: r, breadcrumbs: o, i18n: s, disabled: c = !1 } = e;
+	return i("div", {
 		className: "uppy-Provider-breadcrumbs",
-		children: [s("div", {
+		children: [i("div", {
 			className: "uppy-Provider-breadcrumbsIcon",
 			children: r
-		}), i.map((e, r) => {
-			let l = e.type === "root" ? n : e.data.name ?? a("unnamed"), u = i.length === r + 1;
-			return s(c, { children: [s("button", {
+		}), o.map((e, r) => {
+			let l = e.type === "root" ? n : e.data.name ?? s("unnamed"), u = o.length === r + 1;
+			return i(a, { children: [i("button", {
 				type: "button",
 				className: "uppy-u-reset uppy-c-btn",
 				onClick: u ? void 0 : () => t(e.id),
 				"aria-current": u ? "page" : void 0,
-				disabled: !u && o,
+				disabled: !u && c,
 				title: l,
 				children: l
-			}), !u && s("span", {
+			}), !u && i("span", {
 				"aria-hidden": "true",
 				className: "uppy-Provider-breadcrumbsSeparator",
 				children: "/"
@@ -1811,11 +1749,11 @@ function Ze(e) {
 }
 //#endregion
 //#region node_modules/@uppy/core/lib/provider-views/ProviderView/User.js
-function Qe({ i18n: e, logout: t, username: n, disabled: r = !1 }) {
-	return s(c, { children: [n && s("span", {
+function Xe({ i18n: e, logout: t, username: n, disabled: r = !1 }) {
+	return i(a, { children: [n && i("span", {
 		className: "uppy-ProviderBrowser-user",
 		children: n
-	}, "username"), s("button", {
+	}, "username"), i("button", {
 		type: "button",
 		onClick: t,
 		disabled: r,
@@ -1825,14 +1763,14 @@ function Qe({ i18n: e, logout: t, username: n, disabled: r = !1 }) {
 }
 //#endregion
 //#region node_modules/@uppy/core/lib/provider-views/ProviderView/Header.js
-function $e(e) {
+function Ze(e) {
 	let t = e.toolbarActions ?? [], n = e.busy ?? !1;
-	return s("div", {
+	return i("div", {
 		className: "uppy-ProviderBrowser-header",
-		children: s("div", {
-			className: (0, I.default)("uppy-ProviderBrowser-headerBar", !e.showBreadcrumbs && "uppy-ProviderBrowser-headerBar--simple"),
+		children: i("div", {
+			className: (0, P.default)("uppy-ProviderBrowser-headerBar", !e.showBreadcrumbs && "uppy-ProviderBrowser-headerBar--simple"),
 			children: [
-				e.showBreadcrumbs && s(Ze, {
+				e.showBreadcrumbs && i(Ye, {
 					openFolder: e.openFolder,
 					breadcrumbs: e.breadcrumbs,
 					breadcrumbsIcon: e.pluginIcon?.(),
@@ -1840,15 +1778,15 @@ function $e(e) {
 					i18n: e.i18n,
 					disabled: n
 				}),
-				(t.length > 0 || e.selectionToggle) && s("div", {
+				(t.length > 0 || e.selectionToggle) && i("div", {
 					className: "uppy-ProviderBrowser-toolbar",
-					children: [e.selectionToggle && s("button", {
+					children: [e.selectionToggle && i("button", {
 						type: "button",
 						className: "uppy-u-reset uppy-c-btn uppy-ProviderBrowser-toolbarBtn",
 						onClick: e.selectionToggle.onToggle,
 						disabled: n,
 						children: e.selectionToggle.active ? e.i18n("cancelSelection") : e.i18n("selectMultiple")
-					}), t.map((t) => s("button", {
+					}), t.map((t) => i("button", {
 						type: "button",
 						className: "uppy-u-reset uppy-c-btn uppy-ProviderBrowser-toolbarBtn",
 						onClick: () => e.runToolbarAction?.(t),
@@ -1856,7 +1794,7 @@ function $e(e) {
 						children: t.label
 					}, t.id))]
 				}),
-				!e.standalone && s(Qe, {
+				!e.standalone && i(Xe, {
 					logout: e.logout,
 					username: e.username,
 					i18n: e.i18n,
@@ -1868,17 +1806,17 @@ function $e(e) {
 }
 //#endregion
 //#region node_modules/@uppy/core/lib/provider-views/ProviderView/ProviderView.js
-function et() {
-	return s("svg", {
+function Qe() {
+	return i("svg", {
 		"aria-hidden": "true",
 		focusable: "false",
 		width: "30",
 		height: "30",
 		viewBox: "0 0 30 30",
-		children: s("path", { d: "M15 30c8.284 0 15-6.716 15-15 0-8.284-6.716-15-15-15C6.716 0 0 6.716 0 15c0 8.284 6.716 15 15 15zm4.258-12.676v6.846h-8.426v-6.846H5.204l9.82-12.364 9.82 12.364H19.26z" })
+		children: i("path", { d: "M15 30c8.284 0 15-6.716 15-15 0-8.284-6.716-15-15-15C6.716 0 0 6.716 0 15c0 8.284 6.716 15 15 15zm4.258-12.676v6.846h-8.426v-6.846H5.204l9.82-12.364 9.82 12.364H19.26z" })
 	});
 }
-var tt = (e) => ({
+var Q = (e) => ({
 	authenticated: void 0,
 	partialTree: [{
 		type: "root",
@@ -1899,8 +1837,8 @@ function $(e, t) {
 	for (; r && r.type !== "root";) n.push(r), r = e.get(r.parentId);
 	return n;
 }
-var nt = class e {
-	static VERSION = a.version;
+var $e = class e {
+	static VERSION = u.version;
 	static [Symbol.for("uppy test: searchDebounceMs")];
 	plugin;
 	provider;
@@ -1909,7 +1847,7 @@ var nt = class e {
 	previousCheckbox = null;
 	#e;
 	constructor(t, n) {
-		this.plugin = t, this.provider = n.provider, this.#c = new Ae(t);
+		this.plugin = t, this.provider = n.provider, this.#c = new ke(t);
 		let r = {
 			viewType: "list",
 			showTitles: !0,
@@ -1926,15 +1864,15 @@ var nt = class e {
 			leading: !0,
 			trailing: !0
 		} : void 0;
-		this.#e = (0, fe.default)(this.#f, a, o);
+		this.#e = (0, me.default)(this.#f, a, o);
 	}
 	resetPluginState() {
-		this.#s.clear(), this.#c.cancel(), this.plugin.setPluginState(tt(this.plugin.rootFolderId));
+		this.#s.clear(), this.#c.cancel(), this.plugin.setPluginState(Q(this.plugin.rootFolderId));
 	}
 	refreshCurrentFolder = async (e = !1) => {
 		let { partialTree: t, currentFolderId: n } = this.plugin.getPluginState();
 		if (t == null || this.#i) return;
-		let r = ++this.#o, i = t.flatMap((e) => e.type !== "root" && e.parentId === n && e.status === "checked" ? [e.id] : []), a = new Map(t.map((e) => [e.id, e])), o = (e) => $(a, e).some(({ parentId: e }) => e === n), s = new Set(J(t, n).map((e) => e.id)), c = t.filter((e) => e.type === "root" || !o(e)).filter((t) => !e || s.has(t.id)).map((t) => (e || t.id === n) && t.type !== "file" ? {
+		let r = ++this.#o, i = t.flatMap((e) => e.type !== "root" && e.parentId === n && e.status === "checked" ? [e.id] : []), a = new Map(t.map((e) => [e.id, e])), o = (e) => $(a, e).some(({ parentId: e }) => e === n), s = new Set(K(t, n).map((e) => e.id)), c = t.filter((e) => e.type === "root" || !o(e)).filter((t) => !e || s.has(t.id)).map((t) => (e || t.id === n) && t.type !== "file" ? {
 			...t,
 			status: "unchecked",
 			cached: !1,
@@ -1946,7 +1884,7 @@ var nt = class e {
 		let d = l.some((e) => e.id === n && e.type !== "file" && e.cached);
 		r === this.#o && d && u && !l.some(({ id: e }) => e === u) && this.closeItemDetail();
 		let f = i.filter((e) => l.some((t) => t.type !== "root" && t.id === e && t.status !== "checked"));
-		f.length > 0 && this.plugin.setPluginState({ partialTree: Q.afterToggleCheckbox(l, f) });
+		f.length > 0 && this.plugin.setPluginState({ partialTree: Z.afterToggleCheckbox(l, f) });
 	};
 	runAction = (e, t) => this.#n(e, () => e.run({
 		item: t,
@@ -1974,13 +1912,13 @@ var nt = class e {
 	}
 	#r(e) {
 		let { uppy: t } = this.plugin;
-		if (r(e)) {
+		if (c(e)) {
 			t.log("[ProviderView] action cancelled", "warning");
 			return;
 		}
-		t.log(`[ProviderView] action failed: ${u(e)}`, "error");
-		let a = e instanceof Error && e.name === "UserFacingApiError" ? R(t.i18n, e) : e instanceof n || i(e) ? t.i18n("companionError") : t.i18n("actionFailed");
-		t.info(a, "error", 5e3);
+		t.log(`[ProviderView] action failed: ${s(e)}`, "error");
+		let r = e instanceof Error && e.name === "UserFacingApiError" ? I(t.i18n, e) : e instanceof n || l(e) ? t.i18n("companionError") : t.i18n("actionFailed");
+		t.info(r, "error", 5e3);
 	}
 	#i;
 	async runWithProgress(e) {
@@ -2125,7 +2063,7 @@ var nt = class e {
 				partialTree: s,
 				searchResults: a.map((e) => e.requestPath)
 			});
-		}).catch(q(this.plugin.uppy)), this.#d();
+		}).catch(G(this.plugin.uppy)), this.#d();
 	}
 	onSearchInput = (e) => {
 		this.plugin.setPluginState({ searchString: e }), this.opts.supportsSearch && this.#e();
@@ -2149,13 +2087,13 @@ var nt = class e {
 				let { username: e, nextPagePath: t, items: n } = await this.provider.list(i, { signal: r });
 				this.plugin.setPluginState({ username: e }), i = t, a = a.concat(n), this.setLoading(this.plugin.uppy.i18n("loadedXFiles", { numFiles: a.length }));
 			} while (this.opts.loadAllFiles && i);
-			let o = Q.afterOpenFolder(t, a, n, i, this.validateSingleFile);
+			let o = Z.afterOpenFolder(t, a, n, i, this.validateSingleFile);
 			this.plugin.setPluginState({
 				partialTree: o,
 				currentFolderId: e,
 				searchString: ""
 			});
-		}).catch(q(this.plugin.uppy)), this.#d();
+		}).catch(G(this.plugin.uppy)), this.#d();
 	}
 	async logout() {
 		this.#s.clear(), await this.#u(async (e) => {
@@ -2169,11 +2107,11 @@ var nt = class e {
 					this.plugin.uppy.info(e, "info", 7e3);
 				}
 				this.plugin.setPluginState({
-					...tt(this.plugin.rootFolderId),
+					...Q(this.plugin.rootFolderId),
 					authenticated: !1
 				});
 			}
-		}).catch(q(this.plugin.uppy));
+		}).catch(G(this.plugin.uppy));
 	}
 	async handleAuth(e) {
 		await this.#u(async (t) => {
@@ -2181,10 +2119,10 @@ var nt = class e {
 				authFormData: e,
 				signal: t
 			}), this.plugin.setPluginState({ authenticated: !0 }), await Promise.all([this.provider.fetchPreAuthToken(), this.openFolder(this.plugin.rootFolderId)]);
-		}).catch(q(this.plugin.uppy)), this.#d();
+		}).catch(G(this.plugin.uppy)), this.#d();
 	}
 	async handleScroll(e) {
-		Je(e) && await this.loadNextPage();
+		Ke(e) && await this.loadNextPage();
 	}
 	#p;
 	loadNextPage() {
@@ -2199,31 +2137,31 @@ var nt = class e {
 			return this.isHandlingScroll = !0, await this.#u(async (n) => {
 				let { nextPagePath: i, items: a } = await this.provider.list(e, { signal: n }), o = this.plugin.getPluginState();
 				if (n.aborted || o.currentFolderId !== t) return;
-				let s = Q.afterScrollFolder(o.partialTree, t, a, i, this.validateSingleFile);
+				let s = Z.afterScrollFolder(o.partialTree, t, a, i, this.validateSingleFile);
 				this.plugin.setPluginState({ partialTree: s }), r = !0;
-			}).catch(q(this.plugin.uppy)), this.isHandlingScroll = !1, r;
+			}).catch(G(this.plugin.uppy)), this.isHandlingScroll = !1, r;
 		}
 		return !1;
 	}
 	validateSingleFile = (e) => {
-		let t = O(e);
+		let t = ee(e);
 		return this.plugin.uppy.validateSingleFile(t);
 	};
 	async donePicking() {
 		let { partialTree: e } = this.plugin.getPluginState();
 		this.isLoading || (this.setLoading(!0), await this.#u(async (t) => {
-			let n = await Q.afterFill(e, (e) => this.provider.list(e, { signal: t }), this.validateSingleFile, (e) => {
+			let n = await Z.afterFill(e, (e) => this.provider.list(e, { signal: t }), this.validateSingleFile, (e) => {
 				this.setLoading(this.plugin.uppy.i18n("addedNumFiles", { numFiles: e }));
 			});
 			if (this.validateAggregateRestrictions(n)) {
 				this.plugin.setPluginState({ partialTree: n });
 				return;
 			}
-			Me(Pe(n), this.plugin, this.provider), this.resetPluginState();
-		}).catch(q(this.plugin.uppy)), this.#d());
+			je(Ne(n), this.plugin, this.provider), this.resetPluginState();
+		}).catch(G(this.plugin.uppy)), this.#d());
 	}
 	toggleCheckbox(e, t) {
-		let { partialTree: n } = this.plugin.getPluginState(), r = Ne(e.id, this.getDisplayedPartialTree(), t, this.previousCheckbox), i = Q.afterToggleCheckbox(n, r), a = new Map(i.map((e) => [e.id, e.type === "root" ? void 0 : e.status]));
+		let { partialTree: n } = this.plugin.getPluginState(), r = Me(e.id, this.getDisplayedPartialTree(), t, this.previousCheckbox), i = Z.afterToggleCheckbox(n, r), a = new Map(i.map((e) => [e.id, e.type === "root" ? void 0 : e.status]));
 		for (let e of r) a.get(e) === "checked" && this.#s.add(e);
 		for (let e of this.#s) {
 			let t = a.get(e);
@@ -2237,11 +2175,11 @@ var nt = class e {
 	};
 	getBreadcrumbs = () => {
 		let { partialTree: e, currentFolderId: t } = this.plugin.getPluginState();
-		return J(e, t);
+		return K(e, t);
 	};
 	getSelectedAmount = () => {
 		let { partialTree: e } = this.plugin.getPluginState();
-		return K(e);
+		return W(e);
 	};
 	validateAggregateRestrictions = (e) => {
 		let t = e.filter((e) => e.type === "file" && e.status === "checked").map((e) => e.data);
@@ -2252,13 +2190,13 @@ var nt = class e {
 		n.forEach((e) => {
 			e.type !== "root" && r.set(e.id, e);
 		});
-		let i = t.map((e) => {
+		let a = t.map((e) => {
 			let t = r.get(e);
 			if (t == null) throw Error("Partial tree not complete");
 			return t;
 		});
-		return s(Xe, {
-			searchResults: i,
+		return i(Je, {
+			searchResults: a,
 			openFolder: this.openSearchResultFolder,
 			toggleCheckbox: this.toggleCheckbox,
 			i18n: e
@@ -2267,26 +2205,26 @@ var nt = class e {
 	render(e, t = {}) {
 		let { didFirstRender: n } = this.plugin.getPluginState(), { i18n: r } = this.plugin.uppy;
 		n || (this.plugin.setPluginState({ didFirstRender: !0 }), this.provider.fetchPreAuthToken(), this.openFolder(this.plugin.rootFolderId));
-		let i = {
+		let a = {
 			...this.opts,
 			...t
-		}, { authenticated: a, loading: o } = this.plugin.getPluginState(), c = this.plugin.icon || et;
-		if (a === !1) return s(v, {
+		}, { authenticated: o, loading: s } = this.plugin.getPluginState(), c = this.plugin.icon || Qe;
+		if (o === !1) return i(y, {
 			pluginName: this.plugin.title,
 			pluginIcon: c,
 			handleAuth: this.handleAuth,
 			i18n: this.plugin.uppy.i18n,
-			renderForm: i.renderAuthForm,
-			loading: o
+			renderForm: a.renderAuthForm,
+			loading: s
 		});
-		let { partialTree: l, currentFolderId: u, username: d, searchString: f, searchResults: p, dialog: m, selectionActive: h = !1, detailItemId: g } = this.plugin.getPluginState(), _ = this.getBreadcrumbs(), y = i.mode === "manager", b = !y || h, x = this.#i !== void 0, S = l.find(({ id: e }) => e === u), C = S?.type !== "file" && S?.cached === !0 && !l.some((e) => e.type !== "root" && e.parentId === u);
+		let { partialTree: l, currentFolderId: u, username: d, searchString: f, searchResults: p, dialog: m, selectionActive: h = !1, detailItemId: g } = this.plugin.getPluginState(), _ = this.getBreadcrumbs(), b = a.mode === "manager", x = !b || h, S = this.#i !== void 0, C = l.find(({ id: e }) => e === u), w = C?.type !== "file" && C?.cached === !0 && !l.some((e) => e.type !== "root" && e.parentId === u);
 		g && (this.#a = l.find((e) => e.type !== "root" && e.id === g) ?? this.#a);
-		let w = this.#a?.id === g ? this.#a : void 0;
-		return s("div", {
-			className: (0, I.default)("uppy-ProviderBrowser", `uppy-ProviderBrowser-viewType--${i.viewType}`),
+		let T = this.#a?.id === g ? this.#a : void 0;
+		return i("div", {
+			className: (0, P.default)("uppy-ProviderBrowser", `uppy-ProviderBrowser-viewType--${a.viewType}`),
 			children: [
-				s($e, {
-					showBreadcrumbs: i.showBreadcrumbs,
+				i(Ze, {
+					showBreadcrumbs: a.showBreadcrumbs,
 					openFolder: this.openFolder,
 					breadcrumbs: _,
 					pluginIcon: c,
@@ -2294,62 +2232,62 @@ var nt = class e {
 					logout: this.logout,
 					username: d,
 					i18n: r,
-					toolbarActions: i.toolbarActions ?? [],
+					toolbarActions: a.toolbarActions ?? [],
 					runToolbarAction: this.runToolbarAction,
-					standalone: i.standalone ?? !1,
-					selectionToggle: y && (i.bulkActions?.length ?? 0) > 0 && (h || !C) ? {
+					standalone: a.standalone ?? !1,
+					selectionToggle: b && (a.bulkActions?.length ?? 0) > 0 && (h || !w) ? {
 						active: h,
 						onToggle: this.toggleSelectionMode
 					} : void 0,
-					busy: x
+					busy: S
 				}),
-				i.showFilter && s(he, {
+				a.showFilter && i(v, {
 					value: f,
 					onChange: (e) => this.onSearchInput(e),
 					onSubmit: () => {},
 					inputLabel: r("filter"),
 					i18n: r,
-					disabled: x
+					disabled: S
 				}),
-				p ? this.#h() : s(Te, {
+				p ? this.#h() : i(we, {
 					toggleCheckbox: this.toggleCheckbox,
 					displayedPartialTree: this.getDisplayedPartialTree(),
 					openFolder: this.openFolder,
-					virtualList: i.virtualList,
+					virtualList: a.virtualList,
 					noResultsLabel: r("noFilesFound"),
 					handleScroll: this.handleScroll,
-					viewType: i.viewType,
-					showTitles: i.showTitles,
+					viewType: a.viewType,
+					showTitles: a.showTitles,
 					i18n: this.plugin.uppy.i18n,
-					isLoading: o,
+					isLoading: s,
 					onCancelLoading: this.#i,
 					utmSource: "Companion",
-					actions: i.actions ?? [],
+					actions: a.actions ?? [],
 					runAction: this.runAction,
-					selectable: b,
-					onFileClick: y && !h ? this.openItemDetail : void 0
+					selectable: x,
+					onFileClick: b && !h ? this.openItemDetail : void 0
 				}),
-				x ? null : y ? h && s(Ee, {
+				S ? null : b ? h && i(Te, {
 					selectedCount: this.getBulkActionItems().length,
-					bulkActions: i.bulkActions ?? [],
+					bulkActions: a.bulkActions ?? [],
 					runBulkAction: this.runBulkAction,
 					i18n: r
-				}) : s(De, {
+				}) : i(Ee, {
 					partialTree: l,
 					donePicking: this.donePicking,
 					cancelSelection: this.cancelSelection,
 					i18n: r,
 					validateAggregateRestrictions: this.validateAggregateRestrictions
 				}),
-				w && s(Oe, {
-					item: w,
-					actions: i.actions ?? [],
+				T && i(De, {
+					item: T,
+					actions: a.actions ?? [],
 					runAction: this.runAction,
-					getPreviewUrl: i.getPreviewUrl,
+					getPreviewUrl: a.getPreviewUrl,
 					onClose: this.closeItemDetail,
 					i18n: r
-				}, w.id),
-				m && s(ke, {
+				}, T.id),
+				m && i(Oe, {
 					dialog: m,
 					i18n: r,
 					onConfirm: this.#c.submit,
@@ -2360,4 +2298,4 @@ var nt = class e {
 	}
 };
 //#endregion
-export { N as a, D as c, b as d, P as i, S as l, et as n, A as o, F as r, k as s, nt as t, x as u };
+export { A as a, C as c, M as i, S as l, Qe as n, k as o, N as r, O as s, $e as t, x as u };

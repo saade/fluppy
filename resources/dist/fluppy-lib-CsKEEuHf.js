@@ -1,11 +1,11 @@
-import { t as e } from "./fluppy-ProviderView-DVSZQmbQ.js";
+import { t as e } from "./fluppy-ProviderView-Cp05_uoc.js";
 import { r as t, t as n } from "./fluppy-UIPlugin-ihypjxg2.js";
-import { n as r, t as i } from "./fluppy-Provider-CmieJZza.js";
+import { n as r, t as i } from "./fluppy-Provider-BJXhls7x.js";
 import { t as a } from "./fluppy-tokenStorage-CoxIVt8_.js";
 var o = {
-	name: "@uppy/zoom",
-	description: "Import files from zoom, into Uppy.",
-	version: "5.0.0",
+	name: "@uppy/facebook",
+	description: "Import files from Facebook, into Uppy.",
+	version: "6.0.0",
 	license: "MIT",
 	type: "module",
 	sideEffects: !1,
@@ -17,7 +17,7 @@ var o = {
 		"file uploader",
 		"uppy",
 		"uppy-plugin",
-		"zoom"
+		"facebook"
 	],
 	homepage: "https://uppy.io",
 	bugs: { url: "https://github.com/transloadit/uppy/issues" },
@@ -37,12 +37,11 @@ var o = {
 	},
 	dependencies: { preact: "^10.29.2" },
 	peerDependencies: { "@uppy/core": "^6.0.0" },
-	publishConfig: { access: "public" },
 	devDependencies: {
 		"@uppy/core": "^6.0.0",
 		typescript: "^6.0.3"
 	}
-}, s = { strings: { pluginNameZoom: "Zoom" } }, c = class extends n {
+}, s = { strings: { pluginNameFacebook: "Facebook" } }, c = class extends n {
 	static VERSION = o.version;
 	icon;
 	provider;
@@ -51,26 +50,32 @@ var o = {
 	files;
 	rootFolderId = null;
 	constructor(e, n) {
-		super(e, n), this.type = "acquirer", this.files = [], this.storage = this.opts.storage || a, this.id = this.opts.id || "Zoom", this.icon = () => t("svg", {
+		super(e, n), this.id = this.opts.id || "Facebook", this.type = "acquirer", this.storage = this.opts.storage || a, this.files = [], this.icon = () => t("svg", {
 			"aria-hidden": "true",
 			focusable: "false",
 			width: "32",
 			height: "32",
 			viewBox: "0 0 32 32",
-			children: t("path", {
-				d: "M24.5 11.125l-2.75 2.063c-.473.353-.75.91-.75 1.5v3.124c0 .59.277 1.147.75 1.5l2.75 2.063a.938.938 0 001.5-.75v-8.75a.938.938 0 00-1.5-.75zm-4.75 9.5c0 1.035-.84 1.875-1.875 1.875H9.75A3.75 3.75 0 016 18.75v-6.875C6 10.84 6.84 10 7.875 10H16a3.75 3.75 0 013.75 3.75v6.875z",
-				fill: "#2E8CFF",
-				"fill-rule": "evenodd"
+			children: t("g", {
+				fill: "none",
+				fillRule: "evenodd",
+				children: [t("path", {
+					d: "M27 16c0-6.075-4.925-11-11-11S5 9.925 5 16c0 5.49 4.023 10.041 9.281 10.866V19.18h-2.793V16h2.793v-2.423c0-2.757 1.642-4.28 4.155-4.28 1.204 0 2.462.215 2.462.215v2.707h-1.387c-1.366 0-1.792.848-1.792 1.718V16h3.05l-.487 3.18h-2.563v7.686C22.977 26.041 27 21.49 27 16",
+					fill: "#1777F2"
+				}), t("path", {
+					d: "M20.282 19.18L20.77 16h-3.051v-2.063c0-.87.426-1.718 1.792-1.718h1.387V9.512s-1.258-.215-2.462-.215c-2.513 0-4.155 1.523-4.155 4.28V16h-2.793v3.18h2.793v7.686a11.082 11.082 0 003.438 0V19.18h2.563",
+					fill: "#FFFFFE"
+				})]
 			})
 		}), this.opts.companionAllowedHosts = r(this.opts.companionAllowedHosts, this.opts.companionUrl), this.provider = new i(e, {
 			companionUrl: this.opts.companionUrl,
 			companionHeaders: this.opts.companionHeaders,
 			companionKeysParams: this.opts.companionKeysParams,
 			companionCookiesRule: this.opts.companionCookiesRule,
-			provider: "zoom",
+			provider: "facebook",
 			pluginId: this.id,
 			supportsRefreshToken: !1
-		}), this.defaultLocale = s, this.i18nInit(), this.title = this.i18n("pluginNameZoom"), this.render = this.render.bind(this);
+		}), this.defaultLocale = s, this.i18nInit(), this.title = this.i18n("pluginNameFacebook"), this.render = this.render.bind(this);
 	}
 	install() {
 		this.view = new e(this, { provider: this.provider });
@@ -81,7 +86,12 @@ var o = {
 		this.view.tearDown(), this.unmount();
 	}
 	render(e) {
-		return this.view.render(e);
+		let { partialTree: t, currentFolderId: n } = this.getPluginState();
+		return t.filter((e) => e.type === "folder" && e.parentId === n).length === 0 ? this.view.render(e, {
+			viewType: "grid",
+			showFilter: !1,
+			showTitles: !1
+		}) : this.view.render(e);
 	}
 };
 //#endregion

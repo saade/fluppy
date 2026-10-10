@@ -30,3 +30,6 @@
 /* @uppy/url 6.0.1 */
 .uppy-Url{display:flex;flex:1;flex-direction:column;align-items:center;justify-content:center;width:100%;height:100%}[data-uppy-theme=dark] .uppy-Url{background-color:#1f1f1f}.uppy-Url-input{width:90%;max-width:650px;margin-bottom:15px}.uppy-size--md .uppy-Url-input{margin-bottom:20px}.uppy-Url-importButton{padding:13px 25px}.uppy-size--md .uppy-Url-importButton{padding:13px 30px}
 
+/* @uppy/image-generator 2.0.0 */
+.uppy-ImageGenerator-generating{background:linear-gradient(90deg,#fafafa,#cfcfcf,#fafafa);background-size:200% 100%;background-clip:text;-webkit-background-clip:text}.uppy-ImageGenerator-generating,.uppy-ImageGenerator-generating--darker{-webkit-text-fill-color:#0000;animation:uppy-gradient-slide 3s ease-in-out infinite}.uppy-ImageGenerator-generating--darker{background:linear-gradient(90deg,#939393,#333,#939393);background-size:200% 100%;background-clip:text;-webkit-background-clip:text}@keyframes uppy-gradient-slide{0%{background-position:-200% 0}to{background-position:200% 0}}
+

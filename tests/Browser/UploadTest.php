@@ -42,24 +42,6 @@ function chooseFiles(mixed $page, array $files): mixed
     return $page;
 }
 
-/**
- * Waits for something in the page that no text on it tells apart, such as
- * an upload that replaces another: "Upload complete" is shown before and
- * after.
- */
-function waitUntil(mixed $page, string $expression): mixed
-{
-    for ($attempt = 0; $attempt < 100; $attempt++) {
-        if ($page->script($expression) === true) {
-            return $page;
-        }
-
-        usleep(100_000);
-    }
-
-    test()->fail("Waited 10 seconds for [{$expression}].");
-}
-
 it('uploads a small file through Livewire and stores it', function () {
     $contents = random_bytes(2000);
 
@@ -317,21 +299,6 @@ it('keeps what an image leaves empty empty in its picture', function () {
         })()
     JS);
 });
-
-/**
- * A PNG of the given size, for the image editor to work on.
- */
-function picture(int $width, int $height): string
-{
-    $image = imagecreatetruecolor($width, $height);
-
-    imagefill($image, 0, 0, imagecolorallocate($image, 200, 60, 60));
-
-    ob_start();
-    imagepng($image);
-
-    return ob_get_clean();
-}
 
 it('gives a stored file a download link, only when it is downloadable', function () {
     Storage::disk('uploads')->put('existing/report.pdf', 'contents');

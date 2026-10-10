@@ -75,6 +75,10 @@
 
     /* Not `text-sm`: Uppy centers the title with its line height. */
     font-size: var(--text-sm);
+
+    /* Uppy gives it 170px, which cuts "Import from" a longer source short.
+       This leaves room for the button at each end of the bar. */
+    max-width: calc(100% - 9rem);
 }
 
 .fi-fluppy .uppy-DashboardContent-addMore,

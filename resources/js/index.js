@@ -1,11 +1,21 @@
 import { prettierBytes } from '@transloadit/prettier-bytes'
-import Uppy from '@uppy/core'
+import Uppy, { UIPlugin } from '@uppy/core'
 import Dashboard from '@uppy/dashboard'
+import { Component, h } from 'preact'
 import LivewireUpload from './livewire-upload.js'
 import { isEditable, useImageEditor } from './image-editor.js'
 import { useItemActions } from './item-actions.js'
 import { loadUppyLocale } from './locale.js'
 import { useRemoteSources, useSources } from './sources.js'
+
+// An extension is built apart from this file, and Uppy only works with one
+// copy of itself and of Preact in the page. So what an extension needs of
+// them is handed to it from here.
+const modules = { Component, h, UIPlugin }
+
+const plugins = {
+    imageGenerator: () => import('@uppy/image-generator'),
+}
 
 // The same generator Filament's own upload field uses, which also works on
 // pages served without HTTPS, where `crypto.randomUUID()` is not available.
@@ -22,6 +32,7 @@ export default function fluppy({
     abortMultipartUploadUsing,
     acceptedFileTypes,
     adoptUploadUsing,
+    callMethodUsing,
     cancelUploadUsing,
     completeMultipartUploadUsing,
     csrfToken,
@@ -30,6 +41,7 @@ export default function fluppy({
     disconnectRemoteSourceUsing,
     downloadLabel,
     editLabel,
+    extensions,
     getUploadedFilesUsing,
     height,
     imageEditor,
@@ -183,6 +195,23 @@ export default function fluppy({
 
             if (isReorderable && !isDisabled) {
                 this.enableReordering()
+            }
+
+            if (!isDisabled) {
+                for (const { script, options } of extensions ?? []) {
+                    const { default: extend } = await import(
+                        /* @vite-ignore */ script
+                    )
+
+                    await extend({
+                        uppy,
+                        options,
+                        root: this.$el,
+                        call: callMethodUsing,
+                        modules,
+                        plugins,
+                    })
+                }
             }
 
             if (imageEditor && !isDisabled) {

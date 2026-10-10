@@ -10,6 +10,11 @@
     $isReorderable = $isReorderable();
     $maxSize = $getMaxSize();
     $minSize = $getMinSize();
+    $extensions = $isDisabled ? [] : $getExtensions();
+    $extensionOptions = array_map(fn (array $extension): array => [
+        'script' => $extension['script'],
+        'options' => $extension['options'] ?? [],
+    ], $extensions);
 @endphp
 
 <x-dynamic-component :component="$getFieldWrapperView()" :field="$field">
@@ -25,6 +30,9 @@
             acceptedFileTypes: @js($getAcceptedFileTypes()),
             adoptUploadUsing: async (fileKey, reference) => {
                 return await $wire.callSchemaComponentMethod(@js($key), 'adoptUpload', { fileKey, reference })
+            },
+            callMethodUsing: async (method, parameters = {}) => {
+                return await $wire.callSchemaComponentMethod(@js($key), method, parameters)
             },
             cancelUploadUsing: (fileKey) => {
                 $wire.cancelUpload(`{{ $statePath }}.${fileKey}`)
@@ -47,6 +55,7 @@
             },
             downloadLabel: @js(__('fluppy::fluppy.download')),
             editLabel: @js(__('fluppy::fluppy.edit')),
+            extensions: @js($extensionOptions),
             height: @js($getHeight()),
             imageEditor: @js($getImageEditorOptions()),
             isChunked: @js($isChunked()),
@@ -146,5 +155,9 @@
         @else
             <div x-ref="dashboard"></div>
         @endif
+
+        @foreach ($extensions as $extension)
+            {{ $extension['view'] ?? null }}
+        @endforeach
     </div>
 </x-dynamic-component>

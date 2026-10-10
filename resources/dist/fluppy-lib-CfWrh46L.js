@@ -1,10 +1,10 @@
-import { t as e } from "./fluppy-RequestClient-B3NweaQs.js";
-import { r as t, t as n } from "./fluppy-UIPlugin-ihypjxg2.js";
-import { n as r, t as i } from "./fluppy-GooglePickerView-CznqOqVm.js";
+import { r as e, t } from "./fluppy-UIPlugin-ihypjxg2.js";
+import { t as n } from "./fluppy-RequestClient-CHna867h.js";
+import { r, t as i } from "./fluppy-GooglePickerView-CznqOqVm.js";
 import { t as a } from "./fluppy-tokenStorage-CoxIVt8_.js";
 var o = {
-	name: "@uppy/google-drive-picker",
-	description: "The Google Drive Picker plugin for Uppy lets users import files from their Google Drive account",
+	name: "@uppy/google-photos-picker",
+	description: "The Google Photos Picker plugin for Uppy lets users import files from their Google Photos account",
 	version: "2.0.0",
 	license: "MIT",
 	type: "module",
@@ -15,7 +15,7 @@ var o = {
 	},
 	keywords: [
 		"file uploader",
-		"google drive",
+		"google photos",
 		"google picker",
 		"cloud storage",
 		"uppy",
@@ -43,7 +43,7 @@ var o = {
 		"@uppy/core": "^6.0.0",
 		typescript: "^6.0.3"
 	}
-}, s = { strings: { pluginNameGoogleDrivePicker: "Google Drive" } }, c = class c extends n {
+}, s = { strings: { pluginNameGooglePhotosPicker: "Google Photos" } }, c = class c extends t {
 	static VERSION = o.version;
 	static requestClientId = c.name;
 	type = "acquirer";
@@ -51,12 +51,12 @@ var o = {
 	storage;
 	defaultLocale = s;
 	requestClientId = c.requestClientId;
-	constructor(t, n) {
-		super(t, n), this.id = this.opts.id || "GoogleDrivePicker", this.storage = this.opts.storage || a, this.defaultLocale = s, this.i18nInit(), this.title = this.i18n("pluginNameGoogleDrivePicker"), this.setPluginState({
+	constructor(e, t) {
+		super(e, t), this.id = this.opts.id || "GooglePhotosPicker", this.storage = this.opts.storage || a, this.defaultLocale = s, this.i18nInit(), this.title = this.i18n("pluginNameGooglePhotosPicker"), this.setPluginState({
 			loading: !1,
 			accessToken: void 0
 		}), this.getPluginState = this.getPluginState.bind(this), this.setPluginState = this.setPluginState.bind(this);
-		let r = new e(t, {
+		let r = new n(e, {
 			companionUrl: this.opts.companionUrl,
 			companionHeaders: this.opts.companionHeaders,
 			companionCookiesRule: this.opts.companionCookiesRule,
@@ -71,16 +71,14 @@ var o = {
 	uninstall() {
 		this.unmount();
 	}
-	render = () => t(i, {
+	render = () => e(i, {
 		getPluginState: this.getPluginState,
 		setPluginState: this.setPluginState,
 		storage: this.storage,
-		pickerType: "drive",
+		pickerType: "photos",
 		uppy: this.uppy,
 		i18n: this.i18n,
 		clientId: this.opts.clientId,
-		apiKey: this.opts.apiKey,
-		appId: this.opts.appId,
 		requestClientId: c.requestClientId,
 		companionUrl: this.opts.companionUrl
 	});

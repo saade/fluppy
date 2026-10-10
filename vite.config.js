@@ -18,6 +18,7 @@ function uppyStyles() {
                 '@uppy/audio',
                 '@uppy/image-editor',
                 '@uppy/url',
+                '@uppy/image-generator',
             ].map((name) => {
                 const { version } = require(`${name}/package.json`)
                 const css = readFileSync(

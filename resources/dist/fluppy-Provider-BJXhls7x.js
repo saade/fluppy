@@ -1,6 +1,6 @@
-import { n as e } from "./fluppy-AuthError-CpV_e0tX.js";
-import { n as t, t as n } from "./fluppy-RequestClient-B3NweaQs.js";
-import { t as r } from "./fluppy-getErrorMessage-DxiQuxng.js";
+import { t as e } from "./fluppy-getErrorMessage-DxiQuxng.js";
+import { n as t, t as n } from "./fluppy-RequestClient-CHna867h.js";
+import { n as r } from "./fluppy-AuthError-BgrGWmji.js";
 //#region node_modules/@uppy/core/lib/companion-client/getAllowedHosts.js
 function i(e) {
 	return e.replace(/[/\-\\^$*+?.()|[\]{}]/g, "\\$&");
@@ -85,11 +85,11 @@ var l = class extends n {
 		});
 		n.throwIfAborted(), await this.setAuthToken(r.uppyAuthToken), n.throwIfAborted();
 	}
-	async loginOAuth({ uppyVersions: e, authFormData: n, signal: i }) {
+	async loginOAuth({ uppyVersions: n, authFormData: r, signal: i }) {
 		await this.ensurePreAuth(), i.throwIfAborted();
 		let a = crypto.randomUUID(), o = this.authUrl({
-			query: { uppyVersions: e },
-			authFormData: n,
+			query: { uppyVersions: n },
+			authFormData: r,
 			authCallbackToken: a
 		}), s = window.open(o, "_blank"), c, l;
 		try {
@@ -110,9 +110,9 @@ var l = class extends n {
 				}, 500));
 			});
 			this.setAuthToken(n);
-		} catch (e) {
-			let t = this.uppy.i18n("authAborted");
-			throw this.uppy.info({ message: t }, "warning", 5e3), this.uppy.log(`Authentication failed: ${r(e)}`, "warning"), e;
+		} catch (t) {
+			let n = this.uppy.i18n("authAborted");
+			throw this.uppy.info({ message: n }, "warning", 5e3), this.uppy.log(`Authentication failed: ${e(t)}`, "warning"), t;
 		} finally {
 			setTimeout(() => s?.close(), 1), this.uppy.log(`Closing auth callback socket ${a}`), l?.close(), clearInterval(c);
 		}
@@ -130,14 +130,14 @@ var l = class extends n {
 	fileUrl(e) {
 		return `${this.hostname}/${this.id}/get/${e}`;
 	}
-	async request(...t) {
+	async request(...e) {
 		await this.#e;
 		try {
-			return await super.request(...t);
-		} catch (n) {
-			if (!this.supportsRefreshToken) throw n;
-			let r = await this.#t();
-			if (!e(n) || !r) throw n;
+			return await super.request(...e);
+		} catch (t) {
+			if (!this.supportsRefreshToken) throw t;
+			let n = await this.#t();
+			if (!r(t) || !n) throw t;
 			return this.#e ??= (async () => {
 				try {
 					this.uppy.log("[CompanionClient] Refreshing expired auth token");
@@ -146,12 +146,12 @@ var l = class extends n {
 						method: "POST"
 					});
 					await this.setAuthToken(e.uppyAuthToken);
-				} catch (t) {
-					throw e(t) && await this.removeAuthToken(), n;
+				} catch (e) {
+					throw r(e) && await this.removeAuthToken(), t;
 				} finally {
 					this.#e = void 0;
 				}
-			})(), await this.#e, super.request(...t);
+			})(), await this.#e, super.request(...e);
 		}
 	}
 	async fetchPreAuthToken() {

@@ -4,11 +4,13 @@ namespace Saade\Fluppy\Forms\Components\Concerns;
 
 use Closure;
 use Filament\Support\Components\Attributes\ExposedLivewireMethod;
+use Illuminate\Contracts\Support\Htmlable;
 use Illuminate\Support\Facades\RateLimiter;
 use Illuminate\Support\Number;
 use Livewire\Attributes\Renderless;
 use Livewire\Features\SupportFileUploads\FileUploadConfiguration;
 use Livewire\Features\SupportFileUploads\TemporaryUploadedFile;
+use LogicException;
 use Saade\Fluppy\Sources\BrowsableSource;
 use Saade\Fluppy\Sources\ListedItem;
 use Saade\Fluppy\Sources\Source;
@@ -308,7 +310,7 @@ trait InteractsWithUppy
      */
     protected function getRemoteSource(string $id): Source
     {
-        if ($this->isDisabled() || ! array_key_exists($id, $this->getRemoteSources())) {
+        if ($this->isDisabled() || ! $this->offersRemoteSource($id)) {
             throw SourceException::notAllowed();
         }
 
@@ -325,7 +327,28 @@ trait InteractsWithUppy
 
         RateLimiter::hit($key, max(1, $minutes) * 60);
 
-        return app(SourceManager::class)->get($id);
+        // The route that fetches the parts has no field to ask, so it finds
+        // every source in the manager.
+        return app(SourceManager::class)->get($id)
+            ?? throw new LogicException("The source [{$id}] fetches files on the server, so it has to be registered: `app(SourceManager::class)->extend('{$id}', fn () => …)`.");
+    }
+
+    protected function offersRemoteSource(string $id): bool
+    {
+        return array_key_exists($id, $this->getRemoteSources());
+    }
+
+    /**
+     * What a package that extends the field adds to it in the browser. The
+     * script's default export is called with the Uppy instance, the options
+     * and a way to call the field's methods; the view is rendered inside
+     * the field.
+     *
+     * @return array<array{script: string, options?: array<string, mixed>, view?: Htmlable | null}>
+     */
+    public function getExtensions(): array
+    {
+        return [];
     }
 
     /**
@@ -583,7 +606,7 @@ trait InteractsWithUppy
      * The largest a file may be, in bytes: the smaller of what the field
      * and what Livewire allow. Null when neither sets a limit.
      */
-    protected function getUploadSizeLimit(): ?int
+    public function getUploadSizeLimit(): ?int
     {
         $limits = array_filter([
             $this->getMaxSize(),
