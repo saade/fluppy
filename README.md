@@ -4,21 +4,65 @@
 [![Total Downloads](https://img.shields.io/packagist/dt/saade/fluppy.svg?style=flat-square)](https://packagist.org/packages/saade/fluppy)
 [![Tests](https://img.shields.io/github/actions/workflow/status/saade/fluppy/run-tests.yml?branch=1.x&label=tests&style=flat-square)](https://github.com/saade/fluppy/actions/workflows/run-tests.yml)
 
-Fluppy for Filament
+<p align="center">
+    <img src="art/cover.png" alt="Fluppy: the last upload field your Filament app will need" style="width: 100%; max-width: 800px; border-radius: 10px" />
+</p>
 
-# Version compatibility
+Fluppy is an upload field for [Filament](https://filamentphp.com) forms, built on [Uppy](https://uppy.io). It extends Filament's own `FileUpload` field, so files are validated, stored and configured in the same way, and it adds:
 
-| Plugin | Filament | Install                                            |
-| ------ | -------- | -------------------------------------------------- |
+- Chunked uploads for large files, which can be paused, resumed and retried
+- Multipart uploads directly to S3
+- Uploads from the camera, the microphone and the screen
+- Imports from a URL, Google Drive, Google Photos, Dropbox, OneDrive, Box, Zoom and Facebook, without [Companion](https://uppy.io/docs/companion/)
+
+[Fluppy Pro](#fluppy-pro) adds an AI image generator and custom sources.
+
+## Version compatibility
+
+| Plugin | Filament | Install                                |
+| ------ | -------- | -------------------------------------- |
 | 1.x    | 4.x, 5.x | `composer require saade/fluppy:"^1.0"` |
 
-# Table of contents
+## Table of contents
 
 - [Installation](#installation)
 - [Usage](#usage)
-- [Options](#options)
-- [Large files](#large-files)
+    - [Supported `FileUpload` methods](#supported-fileupload-methods)
+    - [Unsupported `FileUpload` methods](#unsupported-fileupload-methods)
+- [Adding sources](#adding-sources)
+    - [Using the camera, microphone and screen](#using-the-camera-microphone-and-screen)
+    - [Importing files from a URL](#importing-files-from-a-url)
+    - [Google Drive](#google-drive)
+    - [Google Photos](#google-photos)
+    - [Dropbox](#dropbox)
+    - [OneDrive](#onedrive)
+    - [Box](#box)
+    - [Zoom](#zoom)
+    - [Facebook](#facebook)
+    - [Storing tokens](#storing-tokens)
+    - [Restricting who can connect](#restricting-who-can-connect)
+- [Editing images](#editing-images)
+- [Opening and downloading files](#opening-and-downloading-files)
+- [Changing the layout](#changing-the-layout)
+    - [Setting the height](#setting-the-height)
+    - [Opening the uploader in a modal](#opening-the-uploader-in-a-modal)
+- [Using Spatie's media library](#using-spaties-media-library)
+- [Fluppy Pro](#fluppy-pro)
+- [Uploading large files](#uploading-large-files)
+    - [Configuring chunked uploads](#configuring-chunked-uploads)
+    - [Choosing a chunk size](#choosing-a-chunk-size)
+    - [Checking your setup](#checking-your-setup)
+    - [Cleaning up unfinished uploads](#cleaning-up-unfinished-uploads)
+    - [Using S3 as the temporary disk](#using-s3-as-the-temporary-disk)
 - [Troubleshooting](#troubleshooting)
+    - [Understanding upload limits](#understanding-upload-limits)
+    - [Error messages](#error-messages)
+    - [Resuming uploads](#resuming-uploads)
+    - [Using multiple servers](#using-multiple-servers)
+    - [Disk space and timeouts](#disk-space-and-timeouts)
+    - [S3 errors](#s3-errors)
+    - [The field is unstyled, or a source does nothing](#the-field-is-unstyled-or-a-source-does-nothing)
+    - [Untested platforms](#untested-platforms)
 - [Security](#security)
 - [Styling](#styling)
 - [Translations](#translations)
@@ -29,15 +73,15 @@ Fluppy for Filament
 - [Credits](#credits)
 - [License](#license)
 
-# Installation
+## Installation
 
-1. Install the package via composer:
+Fluppy requires PHP 8.2 or later. First, install the package via Composer:
 
 ```bash
 composer require saade/fluppy:"^1.0"
 ```
 
-2. Add the plugin's styles to your panel's [custom theme](https://filamentphp.com/docs/5.x/styling/overview#creating-a-custom-theme). If the panel does not have a custom theme yet, create one first by following the Filament docs.
+Fluppy's styles are compiled by your panel's [custom theme](https://filamentphp.com/docs/5.x/styling/overview#creating-a-custom-theme). If your panel doesn't have a custom theme yet, follow Filament's documentation to create one first. Then, add the following lines to the theme's CSS file, which is `resources/css/filament/admin/theme.css` for a panel with the ID `admin`:
 
 ```css
 @import '../../../../vendor/saade/fluppy/resources/css/fluppy.css';
@@ -45,11 +89,23 @@ composer require saade/fluppy:"^1.0"
 @source '../../../../vendor/saade/fluppy/resources/views/**/*.blade.php';
 ```
 
-Then rebuild your assets with `npm run build`.
+Finally, rebuild your assets:
 
-# Usage
+```bash
+npm run build
+```
 
-`FluppyField` is Filament's [file upload field](https://filamentphp.com/docs/5.x/forms/file-upload) with [Uppy](https://uppy.io) as its interface. Use it where you would use `FileUpload`:
+There is no plugin to register in your panel. The field is ready to be used in any form.
+
+Optionally, you can publish the configuration file, which this documentation refers to as `config/fluppy.php`:
+
+```bash
+php artisan vendor:publish --tag="fluppy-config"
+```
+
+## Usage
+
+`FluppyField` is Filament's [file upload field](https://filamentphp.com/docs/5.x/forms/file-upload) with [Uppy](https://uppy.io) as its interface. You can use it anywhere you would use `FileUpload`:
 
 ```php
 use Saade\Fluppy\Forms\Components\FluppyField;
@@ -60,71 +116,118 @@ FluppyField::make('attachments')
     ->multiple()
 ```
 
-Files are uploaded through Livewire, validated and stored the same way as with `FileUpload`.
+Files are uploaded through Livewire, and are validated and stored exactly like `FileUpload`'s.
 
-# Options
+The field works everywhere `FileUpload` does, including pages, modals and slide-overs, repeaters and builder blocks, relation managers, table actions, live forms and panels in SPA mode.
 
-`FluppyField` extends `FileUpload`, so its options are the same and each accepts a closure. These are the ones the field acts on so far:
+### Supported `FileUpload` methods
+
+Since `FluppyField` extends `FileUpload`, you configure it using the same methods. As well as allowing static values, these methods also accept closures to dynamically calculate them. The following methods are supported:
 
 | Method | Description |
 | ------ | ----------- |
-| `disk()`, `directory()`, `visibility()` and the other storage options | Where and how files are stored. |
-| `multiple()`, `maxFiles(int \| Closure $count)` | Whether several files can be chosen, and how many. |
-| `acceptedFileTypes(array \| Closure $types)`, `image()` | The types of file that can be chosen. |
-| `maxSize(int \| Closure $size)`, `minSize(int \| Closure $size)` | The size a file can have, in kilobytes. |
-| `maxParallelUploads(int \| Closure $count)` | How many files are uploaded at once. 2 by default. |
-| `reorderable(bool \| Closure $condition)` | Lets files be put in order by dragging one onto another. |
-| `camera(bool \| Closure $condition)` | Lets a picture or a video be taken with the device's camera. |
-| `microphone(bool \| Closure $condition)` | Lets audio be recorded with the device's microphone. |
-| `screenCapture(bool \| Closure $condition)` | Lets the screen, a window or a browser tab be recorded. |
-| `imageEditor(bool \| Closure $condition)` | Lets an uploaded image be cropped, rotated and flipped. See [Editing images](#editing-images). |
-| `openable(bool \| Closure $condition)` | Makes the picture of a stored file a link that opens it in a new tab. |
-| `downloadable(bool \| Closure $condition)` | Gives a stored file a download button. |
-| `previewable(bool \| Closure $condition)` | Whether images are shown as pictures. On by default. |
-| `height(int \| Closure $height)` | How tall the field is, in pixels. 320 by default. |
-| `modal(bool \| Closure $condition)` | Shows a button and a list of files in the form, and opens Uppy over the page. See [Layout](#layout). |
-| `deletable(bool \| Closure $condition)` | Whether a file can be removed. |
-| `disabled()` | Shows the files without letting them change. |
+| `disk()`, `directory()`, `visibility()` and the other storage methods | Configure where and how files are stored |
+| `multiple()`, `maxFiles()` | Allow multiple files to be uploaded, and limit how many |
+| `acceptedFileTypes()`, `image()` | Restrict the types of files that can be uploaded |
+| `maxSize()`, `minSize()` | Restrict the size of files, in kilobytes |
+| `maxParallelUploads()` | Limit the number of parallel uploads, which is `2` by default |
+| `reorderable()` | Allow users to reorder files by dragging them |
+| `imageEditor()` | Allow users to crop, rotate and flip images. See [Editing images](#editing-images) |
+| `openable()`, `downloadable()` | Allow stored files to be opened and downloaded. See [Opening and downloading files](#opening-and-downloading-files) |
+| `previewable()` | Show previews of images, which is enabled by default |
+| `deletable()` | Allow users to remove files |
+| `disabled()` | Show the files without allowing them to be changed |
 
-It works where `FileUpload` does: pages, modals and slide-overs, repeaters and builder blocks, relation managers, table actions, live forms and panels in SPA mode.
+Fluppy also adds its own methods, which are documented in the following sections:
 
-## Camera, microphone and screen
+| Method | Section |
+| ------ | ------- |
+| `camera()`, `microphone()`, `screenCapture()` | [Using the camera, microphone and screen](#using-the-camera-microphone-and-screen) |
+| `importFromUrl()`, `googleDrive()`, `googlePhotos()`, `dropbox()`, `oneDrive()`, `box()`, `zoom()`, `facebook()` | [Adding sources](#adding-sources) |
+| `height()`, `modal()` | [Changing the layout](#changing-the-layout) |
+| `chunked()`, `chunkSize()` | [Uploading large files](#uploading-large-files) |
+
+These methods accept closures too. If a method enables a feature, you can also pass a boolean to it, to enable the feature conditionally:
 
 ```php
+use Saade\Fluppy\Forms\Components\FluppyField;
+
+FluppyField::make('attachments')
+    ->camera(fn (): bool => auth()->user()->isAdmin())
+```
+
+### Unsupported `FileUpload` methods
+
+The following `FileUpload` options belong to FilePond's interface, and have no effect on `FluppyField`:
+
+- Automatic cropping and resizing of images, and the image editor methods listed in [Editing images](#editing-images).
+- `avatar()`, `panelLayout()`, `appendFiles()`, `prependFiles()` and the methods that position buttons and indicators.
+
+## Adding sources
+
+A source is a button in the field that gives users another way to add files, apart from selecting them from their device. Each source is enabled using a method on the field, and its script is only loaded by the fields that use it.
+
+Sources that import files from a URL or from another service are referred to as remote sources, since their files are downloaded by your server.
+
+### Using the camera, microphone and screen
+
+You may allow users to take a picture or record a video with their device's camera using the `camera()` method:
+
+```php
+use Saade\Fluppy\Forms\Components\FluppyField;
+
 FluppyField::make('photo')
     ->image()
     ->camera()
 ```
 
-Each one adds a button next to "My Device". What is taken or recorded is uploaded like any other file, and has to pass the same rules.
-
-- A field that only accepts images takes pictures and does not record videos; one that only accepts videos does the opposite.
-- The script of a source is loaded only by fields that have it on.
-- Browsers give access to the camera, the microphone and the screen on HTTPS pages only (and on `localhost`), and ask the person for it the first time. If your app sends a `Permissions-Policy` header, it has to allow `camera`, `microphone` and `display-capture` for your own origin.
-
-## Importing from a link
+Similarly, the `microphone()` method allows users to record audio with their device's microphone, and the `screenCapture()` method allows them to record their screen, a window or a browser tab:
 
 ```php
+use Saade\Fluppy\Forms\Components\FluppyField;
+
+FluppyField::make('recording')
+    ->microphone()
+    ->screenCapture()
+```
+
+Each method adds a button next to "My Device". Anything that is captured or recorded is uploaded like any other file, and must pass the same validation rules. If the field only accepts images, the camera will only take pictures, and if it only accepts videos, the camera will only record videos.
+
+> [!NOTE]
+> Browsers only grant access to the camera, the microphone and the screen on HTTPS pages and on `localhost`, and ask the user for permission the first time. If your app sends a `Permissions-Policy` header, it must allow `camera`, `microphone` and `display-capture` for your own origin.
+
+### Importing files from a URL
+
+You can allow users to import a file from a URL using the `importFromUrl()` method:
+
+```php
+use Saade\Fluppy\Forms\Components\FluppyField;
+
 FluppyField::make('video')
     ->importFromUrl()
 ```
 
-This adds a "Link" button. The person pastes the address of a file, and **your server fetches it**: the file never passes through their device. Once fetched it is a temporary upload like any other, and has to pass the field's rules and Livewire's.
+This adds a "Link" button to the field. When a user pastes a URL, the file is downloaded by your server, so it never passes through the user's device. Once it has been downloaded, it is treated like any other temporary upload, and must pass the field's validation rules as well as Livewire's.
 
-- A large file is fetched in parts of 5 MB, each in a short request the browser asks for, so neither a queue nor a long-running request is needed, and the import shows its progress and can be paused. Set the size of a part with `fluppy.remote.part_size`, in kilobytes.
-- A server that does not answer range requests, or does not say how large the file is, gives the file whole, in one request. That request has to finish within PHP's `max_execution_time` and within `fluppy.remote.timeout` (60 seconds), and shows no progress until it is done.
-- With S3 as the temporary disk, each part goes from your server to the bucket as a part of a multipart upload.
+A large file is downloaded in parts of 5 MB. The browser makes a short request to your server for each part, so you don't need a queue or a long-running request, and the user can see the progress of the import and pause it. You can change the size of a part, in kilobytes, using the `fluppy.remote.part_size` configuration option.
 
-Fetching an address someone typed is a way to make your server reach places only it can reach, so the address is checked before anything is requested from it:
+If the remote server does not support range requests, or does not report the size of the file, the file is downloaded in a single request instead. That request must finish within PHP's `max_execution_time` and within `fluppy.remote.timeout`, which is 60 seconds by default, and it shows no progress until it is done.
 
-- Only `http` and `https`, on ports 80 and 443 (`fluppy.remote.url.ports`), and without a user name or password in the address.
-- Every address the host name resolves to has to be on the public internet. Loopback, private and link-local addresses are refused, which includes the metadata address of cloud providers.
-- The connection is made to the address that was checked, so the name cannot answer differently a moment later.
-- A redirect is checked the same way before it is followed, five at most.
-- Only IPv4 is looked up: a file on a host with no IPv4 address cannot be imported.
-- It needs PHP's cURL extension, which is what lets a connection be made to a chosen address.
+When S3 is the temporary disk, each part is sent from your server to the bucket as a part of a multipart upload.
 
-To only allow some hosts, list them in `fluppy.remote.url.hosts`; `*` matches any part of a name:
+#### Protecting against server-side request forgery
+
+Since files are downloaded by your server, a malicious user could use this feature to make requests to your internal network. To prevent this, the URL is checked before anything is requested from it:
+
+- Only `http` and `https` URLs are accepted, on ports 80 and 443 (`fluppy.remote.url.ports`), and without a username or password.
+- Every IP address that the host name resolves to must be on the public internet. Loopback, private and link-local addresses are rejected, which includes the metadata endpoints of cloud providers.
+- The connection is made to the IP address that was checked, which protects against DNS rebinding.
+- Each redirect is checked in the same way before it is followed, up to a maximum of five.
+- Only IPv4 addresses are resolved, so a file that is hosted on an IPv6-only server cannot be imported.
+
+These checks require PHP's cURL extension, since it allows a connection to be made to a specific IP address.
+
+If you wish to only allow certain hosts, you can list them in the `fluppy.remote.url.hosts` configuration option. A `*` matches any part of a host name:
 
 ```php
 // config/fluppy.php
@@ -135,27 +238,38 @@ To only allow some hosts, list them in `fluppy.remote.url.hosts`; `*` matches an
 ],
 ```
 
-The route that fetches is only of use to the session a field planned an import for, and is throttled (`fluppy.remote.throttle`, 600 requests a minute). The same limit holds what one session can make a field ask of sources, and a file fetched whole is held to 60 a minute, the rate Livewire allows uploads at.
+#### Rate limiting imports
 
-One thing to weigh before opening a field with remote sources to people you do not know: a part is fetched while a request waits, so a slow host keeps one of your PHP workers busy for up to `fluppy.remote.timeout` seconds. Lower the timeout, or list the hosts you allow, if that matters to you.
+By default, imports are rate limited to 600 requests per minute. You can change this using the `fluppy.remote.throttle` configuration option. The same limit applies to the requests that a field sends to a source for one session, such as listing the files in a folder. Files that are downloaded in a single request are limited to 60 per minute, which is the same limit that Livewire applies to uploads.
 
-## Google Drive
+The route that downloads files only accepts requests from the session that a field prepared the import for.
+
+> [!WARNING]
+> A part is downloaded while a request waits, so a slow host can keep one of your PHP workers busy for up to `fluppy.remote.timeout` seconds. Before enabling remote sources on a publicly accessible form, you should consider lowering the timeout or restricting the allowed hosts.
+
+### Google Drive
+
+The `googleDrive()` method allows users to select files from their Google Drive:
 
 ```php
+use Saade\Fluppy\Forms\Components\FluppyField;
+
 FluppyField::make('attachments')
     ->multiple()
     ->googleDrive()
 ```
 
-This adds a "Google Drive" button that opens [Google's own Picker](https://developers.google.com/workspace/drive/picker/guides/overview). The person signs in to Google in a window Google opens, picks files, and your server fetches each one from Google, in parts when it is large.
+This adds a "Google Drive" button that opens the [Google Picker](https://developers.google.com/workspace/drive/picker/guides/overview). The user signs in to Google in a window that Google opens, and selects their files. Your server then downloads each file from Google, in parts if it is large.
 
-It needs three values from a project in the [Google Cloud console](https://console.cloud.google.com/):
+To use Google Drive, you need a client ID, an API key and an app ID from a project in the [Google Cloud console](https://console.cloud.google.com/):
 
 1. Enable the **Google Picker API** and the **Google Drive API** for the project.
-2. Set up the OAuth consent screen with the scope `https://www.googleapis.com/auth/drive.file`.
-3. Create an **OAuth client ID** of the type "Web application", with your app's origin (`https://your-app.com`) under "Authorized JavaScript origins". Google only signs a person in from an origin listed there, so every address the app is opened at needs its own entry. No redirect address is needed.
-4. Create an **API key**. If you restrict it to some APIs, the Picker API has to be one of them. Check the key's restrictions first when the Picker opens saying "The API developer key is invalid".
-5. The **app ID** is the project number, shown on the project's dashboard.
+2. Set up the OAuth consent screen with the `https://www.googleapis.com/auth/drive.file` scope.
+3. Create an **OAuth client ID** of the type "Web application", with your app's origin (`https://your-app.com`) under "Authorized JavaScript origins". Google only signs a user in from an origin that is listed there, so every URL your app is served from needs its own entry. No redirect URI is needed.
+4. Create an **API key**. If you restrict the key to certain APIs, the Picker API must be one of them. If the Picker opens with the message "The API developer key is invalid", check the key's restrictions first.
+5. Copy the project number from the project's dashboard, which is the **app ID**.
+
+Then, add the three values to your `.env` file:
 
 ```dotenv
 FLUPPY_GOOGLE_CLIENT_ID=1234567890-abc.apps.googleusercontent.com
@@ -163,91 +277,113 @@ FLUPPY_GOOGLE_API_KEY=AIza...
 FLUPPY_GOOGLE_APP_ID=1234567890
 ```
 
-None of the three is a secret: Google's scripts need them in the page. A field with `googleDrive()` on raises an exception while any of them is missing.
+None of these values are secret, since Google's scripts need them in the page. If any of them is missing, a field that uses `googleDrive()` will throw an exception.
 
-What to know:
+Your app only ever has access to the files that a user selects. This is what the `drive.file` scope means, and it is why Fluppy uses Google's Picker instead of Uppy's file browser, which would need access to the user's entire Drive.
 
-- **Your app only ever reaches the files a person picks.** That is what the `drive.file` scope means, and why this uses the Picker and not a file browser of Uppy's own, which would need access to the whole Drive.
-- There is no client secret and nothing is stored. The access token Google gives the browser is kept there for the tab's session, sent to your server with each picked file, and used to fetch that file. What your server sends back of it is encrypted. It lasts about an hour: a file still being fetched after that fails, saying access expired.
-- Documents made in Google's editors have no file of their own and are exported: Docs as `.docx`, Sheets as `.xlsx`, Slides as `.pptx`, Drawings as `.png`, anything else as a PDF. An export is fetched whole, in one request, and Google does not export documents larger than 10 MB. A field that only accepts some types holds a document to them as the file it will be exported to: one that accepts `.docx` takes a Google Doc, and one that only accepts images does not.
-- How large a picked file is only shows once its upload starts: the Picker does not say. A file larger than the field or Livewire allows is turned away then.
-- The Picker and Google's sign-in are loaded from `apis.google.com` and `accounts.google.com`. If your app sends a `Content-Security-Policy` header, it has to allow those scripts and the frames Google opens.
+There is no client secret, and nothing is stored on your server. The access token that Google gives the browser is kept there for the duration of the tab's session, and is sent to your server with each selected file to download it. Anything your server sends back that contains the token is encrypted. The token expires after about an hour, so if a file is still being downloaded by then, it will fail with a message that access has expired.
 
-## Google Photos
+The Picker does not report the size of a file, so its size is only known once the upload starts. If the file is larger than the field or Livewire allows, it is rejected at that point.
+
+> [!NOTE]
+> The Picker and Google's sign-in are loaded from `apis.google.com` and `accounts.google.com`. If your app sends a `Content-Security-Policy` header, it must allow those scripts and the frames that Google opens.
+
+#### Exporting Google Docs, Sheets and Slides
+
+Documents that are created in Google's editors are not stored as files, so they are exported instead: Docs as `.docx`, Sheets as `.xlsx`, Slides as `.pptx`, Drawings as `.png`, and anything else as a PDF. An export is downloaded in a single request, and Google does not export documents larger than 10 MB.
+
+If the field only accepts certain file types, a document is matched against the type that it will be exported to. For example, a field that accepts `.docx` files accepts a Google Doc, and a field that only accepts images does not.
+
+### Google Photos
+
+To allow users to select photos and videos from Google Photos, use the `googlePhotos()` method:
 
 ```php
+use Saade\Fluppy\Forms\Components\FluppyField;
+
 FluppyField::make('photos')
     ->multiple()
     ->googlePhotos()
 ```
 
-This adds a "Google Photos" button that opens [Google's own Photos picker](https://developers.google.com/photos/picker/guides/get-started-picker) in a window. The person signs in, picks photos and videos there, and your server fetches each one from Google, in parts when it is large.
+This adds a "Google Photos" button that opens Google's [Photos picker](https://developers.google.com/photos/picker/guides/get-started-picker) in a new window. The user signs in and selects photos and videos there. Your server then downloads each one from Google, in parts if it is large.
 
-It uses the same Google Cloud project and OAuth client as Google Drive, with two additions:
+Google Photos uses the same Google Cloud project and OAuth client as [Google Drive](#google-drive), with two additions:
 
 1. Enable the **Google Photos Picker API** for the project.
-2. Add the scope `https://www.googleapis.com/auth/photospicker.mediaitems.readonly` to the OAuth consent screen.
+2. Add the `https://www.googleapis.com/auth/photospicker.mediaitems.readonly` scope to the OAuth consent screen.
+
+Only the client ID is required in your `.env` file. There is no API key and no app ID:
 
 ```dotenv
 FLUPPY_GOOGLE_CLIENT_ID=1234567890-abc.apps.googleusercontent.com
 ```
 
-It needs the client ID alone: no API key, no app ID. To use another client than Google Drive's, set `fluppy.remote.google_photos.client_id`.
+If you wish to use a different client from the one that Google Drive uses, you can set the `fluppy.remote.google_photos.client_id` configuration option.
 
-What to know:
+Like Google Drive, your app only has access to what a user selects, there is no client secret, and nothing is stored on your server. The token that Google gives the browser is sent to your server with each item, and is used to download it.
 
-- As with Google Drive, your app only reaches what a person picks, there is no client secret, and nothing is stored: the token Google gives the browser comes to your server with each item and is used to fetch it.
-- Google serves a picked item from an address that comes with it and is good for an hour. Your server only asks at an address on Google's own host for what people upload, through the same guard as a link a person typed, and does not send the token on if Google redirects elsewhere.
-- Photos come as the original file. What an item is called and what type it is are what the picker says, where Google's answer for the file does not say.
+Each selected item is downloaded from a URL that Google returns with it, which expires after an hour. Your server only requests that URL if it is on the host that Google uses for user uploads, applies the same [SSRF protection](#protecting-against-server-side-request-forgery) as it does for a user-supplied URL, and does not forward the token if Google redirects to another host.
 
-## Dropbox
+Photos are downloaded as the original file. If Google's response for the file does not include a name or a type, the ones that the picker reported are used.
+
+### Dropbox
+
+You can allow users to select files from their Dropbox using the `dropbox()` method:
 
 ```php
+use Saade\Fluppy\Forms\Components\FluppyField;
+
 FluppyField::make('attachments')
     ->multiple()
     ->dropbox()
 ```
 
-This adds a "Dropbox" button. The first time, it asks the person to connect: a window opens on Dropbox, they let your app in, and the window closes. From then on the button opens a browser of their files, inside the field, where they pick files or whole folders. Your server fetches what they pick from Dropbox, in parts when a file is large.
+This adds a "Dropbox" button. The first time a user clicks it, they are asked to connect their account: a window opens on Dropbox, they authorize your app, and the window closes. After that, the button opens a file browser inside the field, where they can select files or entire folders. Your server downloads what they select from Dropbox, in parts if a file is large.
 
-It needs an app in the [Dropbox App Console](https://www.dropbox.com/developers/apps):
+To use Dropbox, you need an app in the [Dropbox App Console](https://www.dropbox.com/developers/apps):
 
 1. Create an app with scoped access.
-2. Under "Permissions", turn on `account_info.read`, `files.metadata.read` and `files.content.read`.
-3. Under "Settings", add the redirect address `https://your-app.com/fluppy/sources/dropbox/callback`. Dropbox only sends a person back to an address listed there, so every address the app is opened at needs its own entry.
-4. Copy the app key and the app secret:
+2. Under "Permissions", enable `account_info.read`, `files.metadata.read` and `files.content.read`.
+3. Under "Settings", add the redirect URI `https://your-app.com/fluppy/sources/dropbox/callback`. Dropbox only redirects a user back to a URI that is listed there, so every URL your app is served from needs its own entry.
+4. Copy the app key and the app secret to your `.env` file:
 
 ```dotenv
 FLUPPY_DROPBOX_CLIENT_ID=your-app-key
 FLUPPY_DROPBOX_CLIENT_SECRET=your-app-secret
 ```
 
-A field with `dropbox()` on raises an exception while either is missing.
+If either of them is missing, a field that uses `dropbox()` will throw an exception.
 
-What to know:
+Dropbox does not return the MIME type of a file, so the type is guessed from the file's extension. If the field only accepts certain file types, the files that don't match are disabled in the file browser based on that guess. The file itself is still validated against your rules once it has been downloaded.
 
-- **The tokens stay on your server.** Dropbox's answer is traded for tokens by your server, which keeps them in the person's session, encrypted with your app's key. Nothing of them reaches the browser, and they are gone when the session ends. "Log out", in the file browser, also tells Dropbox to stop honoring them.
-- To keep a connection longer than a session, bind your own `Saade\Fluppy\Sources\Support\TokenStore` in a service provider: three methods, `get()`, `put()` and `forget()`, each given the id of the source.
-- Connecting is OAuth's authorization code flow with PKCE. The answer has to carry a random value your server put in the session when the window was opened, so a link cannot connect somebody's session to an account of another person's choosing.
-- The two addresses a person connects through (`fluppy/sources/{source}/connect` and `/callback`) are open to guests, because a field can be on a public form. All a guest can do there is connect their own account to their own session, where nothing uses it. To keep them to people who are signed in, set `fluppy.remote.connect_middleware` to `['auth']`, or `['auth:admin']` for another guard.
-- Dropbox does not say what type a file is, so the type is worked out from the file's name. That is what a field that only accepts some types goes by when it greys files out in the browser. The file itself is still checked by your rules once it is fetched.
+The user's tokens are [stored on your server](#storing-tokens), and you can [restrict who can connect](#restricting-who-can-connect) an account.
 
-## OneDrive
+### OneDrive
+
+The `oneDrive()` method allows users to select files from their OneDrive:
 
 ```php
+use Saade\Fluppy\Forms\Components\FluppyField;
+
 FluppyField::make('attachments')
     ->multiple()
     ->oneDrive()
 ```
 
-OneDrive works the way Dropbox does: a "OneDrive" button, a window to connect the first time, then a browser of the person's files inside the field. Everything said above about where the tokens are kept applies to it too.
+OneDrive works like [Dropbox](#dropbox): a "OneDrive" button, a window to connect the first time, and then a file browser inside the field. The user's tokens are also [stored on your server](#storing-tokens).
 
-It needs an app registered in [Microsoft Entra](https://entra.microsoft.com/) (App registrations, New registration):
+> [!WARNING]
+> OneDrive has been tested against a mock of Microsoft's API, and not yet against Microsoft itself. If it does not work with your app registration, please open an issue.
 
-1. Choose which accounts may sign in. That choice has to agree with the tenant below.
-2. Add a redirect address of the type "Web": `https://your-app.com/fluppy/sources/onedrive/callback`.
+To use OneDrive, you need an app registered in [Microsoft Entra](https://entra.microsoft.com/) (App registrations > New registration):
+
+1. Choose which accounts may sign in. This choice must match the tenant that you configure below.
+2. Add a redirect URI of the type "Web": `https://your-app.com/fluppy/sources/onedrive/callback`.
 3. Under "API permissions", add the delegated Microsoft Graph permissions `Files.Read`, `User.Read` and `offline_access`.
 4. Under "Certificates & secrets", create a client secret, and copy its value. Copy the application (client) ID from the overview.
+
+Then, add them to your `.env` file, along with the tenant:
 
 ```dotenv
 FLUPPY_ONEDRIVE_CLIENT_ID=00000000-0000-0000-0000-000000000000
@@ -255,159 +391,223 @@ FLUPPY_ONEDRIVE_CLIENT_SECRET=the-value-of-the-secret
 FLUPPY_ONEDRIVE_TENANT=common
 ```
 
-The tenant is `common` unless you set it: personal, work and school accounts alike. Use `consumers` for personal accounts only, `organizations` for work and school ones, or the ID or domain of one organization to let only its people in.
+By default, the tenant is `common`, which allows personal, work and school accounts. You can use `consumers` for personal accounts only, `organizations` for work and school accounts only, or the ID or domain of a single organization to only allow its users.
 
-What to know:
+> [!NOTE]
+> A client secret in Entra expires, and the portal offers a lifetime of up to two years. Once it has expired, connecting fails until you set a new one.
 
-- This source has been tested against a stand-in for Microsoft's service, and not yet against Microsoft itself. If it does not work with your registration, please open an issue.
-- Microsoft does not send a file from the place it is asked at. It answers with an address that is good for a few minutes, on a host of its choosing, and your server fetches the file from there. That address is checked like a link a person typed (public internet only, the connection made to the address that was checked) and is never sent the person's token. The hosts you allow links from in `fluppy.remote.url.hosts` do not apply to it.
-- A client secret in Entra expires (the portal offers up to two years). When it has, connecting fails until you set a new one.
-- Only what is in the person's own OneDrive is listed. Notebooks and other items that are neither a file nor a folder are left out.
+When your server requests a file, Microsoft responds with a URL on another host, which is valid for a few minutes, and your server downloads the file from there. That URL goes through the same [SSRF protection](#protecting-against-server-side-request-forgery) as a user-supplied URL, and the user's token is never sent to it. The hosts that you allow in `fluppy.remote.url.hosts` do not apply to it.
 
-## Box
+Only the contents of the user's own OneDrive are listed. Notebooks, and other items that are neither a file nor a folder, are excluded.
+
+### Box
+
+To allow users to select files from their Box account, use the `box()` method:
 
 ```php
+use Saade\Fluppy\Forms\Components\FluppyField;
+
 FluppyField::make('attachments')
     ->multiple()
     ->box()
 ```
 
-Box works the way Dropbox and OneDrive do: a button, a window to connect the first time, then a browser of the person's files inside the field, with the tokens kept on your server.
+Box works like [Dropbox](#dropbox) and OneDrive: a button, a window to connect the first time, and then a file browser inside the field, with the user's tokens [stored on your server](#storing-tokens).
 
-It needs a custom app in the [Box Developer Console](https://app.box.com/developers/console):
+To use Box, you need a custom app in the [Box Developer Console](https://app.box.com/developers/console):
 
-1. Press "New App" and choose the app type "User", the one for apps where people link their own Box accounts. A "Server" app, which is what a new developer account starts with, has nowhere to put a redirect address and cannot be used for this.
-2. Under "Configuration", add the redirect address `https://your-app.com/fluppy/sources/box/callback`.
-3. Under "Application Scopes", "Content Actions", keep both "Read all files and folders stored in Box" and "Write all files and folders stored in Box" ticked. Box's console says of the second that it is needed to download files. Fluppy never writes to a person's Box.
-4. Copy the client ID and the client secret:
+1. Click "New App" and choose the "User" app type, which is the one for apps where users link their own Box accounts. A "Server" app, which is what a new developer account starts with, has no place to enter a redirect URI and cannot be used.
+2. Under "Configuration", add the redirect URI `https://your-app.com/fluppy/sources/box/callback`.
+3. Under "Application Scopes" > "Content Actions", keep both "Read all files and folders stored in Box" and "Write all files and folders stored in Box" checked. According to Box's console, the second is required to download files. Fluppy never writes to a user's Box.
+4. Copy the client ID and the client secret to your `.env` file:
 
 ```dotenv
 FLUPPY_BOX_CLIENT_ID=your-client-id
 FLUPPY_BOX_CLIENT_SECRET=your-client-secret
 ```
 
-What to know:
+Like Microsoft, Box responds to a download request with a short-lived URL on another host. Your server downloads the file from there, with the same [SSRF protection](#protecting-against-server-side-request-forgery) as a user-supplied URL, and does not forward the user's token.
 
-- Like Microsoft, Box answers a download with a short-lived address on another host. Your server fetches from there, through the same guard as a link a person typed, and does not send the person's token along.
-- Box does not say what type a file is, so the type is worked out from the file's name, as for Dropbox.
-- Bookmarks, which Box lists among files, are left out.
+Like Dropbox, Box does not return the MIME type of a file, so the type is guessed from the file's extension. Bookmarks, which Box lists alongside files, are excluded.
 
-## Zoom
+### Zoom
+
+You can allow users to select from their Zoom cloud recordings using the `zoom()` method:
 
 ```php
+use Saade\Fluppy\Forms\Components\FluppyField;
+
 FluppyField::make('recordings')
     ->multiple()
     ->zoom()
 ```
 
-This lets a person connect their Zoom account and pick from its cloud recordings: the videos, the audio, the chats and the transcripts of the meetings they recorded. It connects like Dropbox does, and the tokens are kept the same way.
+This allows a user to connect their Zoom account and select from its cloud recordings, which are the videos, audio, chats and transcripts of the meetings they recorded. Connecting works like [Dropbox](#dropbox), and the user's tokens are also [stored on your server](#storing-tokens).
 
-Zoom has no folders. It gives the recordings of a span of time, a month at most, so the file browser shows the months since the account was made, and inside each, the recordings of that month, named after the meeting, its time and what kind of file each is.
+> [!WARNING]
+> Zoom has been tested against a mock of Zoom's API, and not yet against Zoom itself. If it does not work with your app, please open an issue.
 
-It needs an app in the [Zoom App Marketplace](https://marketplace.zoom.us/) (Develop, Build App, "General App"):
+Zoom has no folders, and only returns recordings for up to one month at a time, so the file browser shows a folder for each month since the account was created. Each recording is named after the meeting, its time and the type of the file.
 
-1. Under "Basic Information", choose how the app is managed, and add the redirect address `https://your-app.com/fluppy/sources/zoom/callback` as the OAuth redirect URL, and to the allow list.
-2. Under "Scopes", add what lets the app see a person's own recordings and who they are: `cloud_recording:read:list_user_recordings`, `cloud_recording:read:list_recording_files` and `user:read:user`.
-3. Copy the client ID and the client secret:
+To use Zoom, you need an app in the [Zoom App Marketplace](https://marketplace.zoom.us/) (Develop > Build App > General App):
+
+1. Under "Basic Information", choose how the app is managed, and add `https://your-app.com/fluppy/sources/zoom/callback` as the OAuth redirect URL and to the allow list.
+2. Under "Scopes", add the scopes that allow the app to read a user's own recordings and profile: `cloud_recording:read:list_user_recordings`, `cloud_recording:read:list_recording_files` and `user:read:user`.
+3. Copy the client ID and the client secret to your `.env` file:
 
 ```dotenv
 FLUPPY_ZOOM_CLIENT_ID=your-client-id
 FLUPPY_ZOOM_CLIENT_SECRET=your-client-secret
 ```
 
-What to know:
+> [!NOTE]
+> Until Zoom has reviewed and published your app, only users of your own Zoom account can connect to it.
 
-- This source has been tested against a stand-in for Zoom's service, and not yet against Zoom itself. If it does not work with your app, please open an issue.
-- Cloud recording is a feature of Zoom's paid plans. An account without it connects and has nothing to list.
-- A recording Zoom is still processing is not listed.
-- Zoom's download address takes the person's token, so the server only sends it to a host of `zoom.us`, and drops it when Zoom passes the request on to where the file is kept.
-- Until Zoom has reviewed and published your app, only people of your own Zoom account can connect it.
+Cloud recording is only available on Zoom's paid plans. An account without it can connect, but will have nothing to list. Recordings that Zoom is still processing are not listed either.
 
-## Facebook
+Zoom's download URL requires the user's token, so your server only sends the token to a `zoom.us` host, and drops it when Zoom redirects the request to where the file is stored.
+
+### Facebook
+
+The `facebook()` method allows users to select from their Facebook photos:
 
 ```php
+use Saade\Fluppy\Forms\Components\FluppyField;
+
 FluppyField::make('photos')
     ->image()
     ->multiple()
     ->facebook()
 ```
 
-This lets a person connect their Facebook account and pick from their photos. Their albums are the folders; inside one, the photos are shown as a grid of small pictures. A picked photo is fetched at the largest size Facebook keeps of it.
+This allows a user to connect their Facebook account and select from their photos. Their albums are shown as folders, and the photos inside an album are shown as a grid of thumbnails. Each selected photo is downloaded at the largest size that Facebook stores.
 
-It needs an app at [Meta for Developers](https://developers.facebook.com/apps/):
+To use Facebook, you need an app at [Meta for Developers](https://developers.facebook.com/apps/):
 
-1. Create an app. When it asks what the app is for, choose the use case "Authenticate and request data from users with Facebook Login".
-2. Open "Use cases" in the app's menu and press "Customize" on that use case. It has two pages that matter, listed on its left: "Permissions and features" and "Settings".
-3. On "Settings", under "Valid OAuth Redirect URIs", type `https://your-app.com/fluppy/sources/facebook/callback` and **pick it from the list that opens under the field**, so that it becomes an entry of its own. Then press "Save changes" at the bottom. Pressing Enter instead saves the page without the address, and Facebook goes on refusing it with "The domain of this URL isn't included in the app's domains".
-4. On "Permissions and features", find `user_photos`. It has to say "Ready for testing"; press "Add" on its row if it does not.
-5. Open "App settings", "Basic", and copy the app ID and the app secret:
+1. Create an app. When you are asked what the app is for, choose the use case "Authenticate and request data from users with Facebook Login".
+2. Open "Use cases" in the app's menu and click "Customize" on that use case. Two of its pages matter, both listed on the left: "Permissions and features" and "Settings".
+3. On "Settings", under "Valid OAuth Redirect URIs", type `https://your-app.com/fluppy/sources/facebook/callback` and **select it from the dropdown that opens below the field**, so that it is added as its own entry. Then click "Save changes" at the bottom of the page. If you press Enter instead, the page is saved without the URI, and Facebook keeps rejecting it with "The domain of this URL isn't included in the app's domains".
+4. On "Permissions and features", find `user_photos`. Its status must be "Ready for testing". If it is not, click "Add" on its row.
+5. Open "App settings" > "Basic", and copy the app ID and the app secret to your `.env` file:
 
 ```dotenv
 FLUPPY_FACEBOOK_CLIENT_ID=your-app-id
 FLUPPY_FACEBOOK_CLIENT_SECRET=your-app-secret
 ```
 
-What to know:
+> [!NOTE]
+> While the app is unpublished, only users with a role on it (admins, developers and testers) can connect. For anyone else, Meta must approve `user_photos` in App Review, and the app must be published.
 
-- While the app is unpublished, only people with a role on it (admins, developers, testers) can connect. For anyone else, Meta has to approve `user_photos` in App Review, and the app has to be published.
-- Facebook gives nothing to renew a connection with. The server trades the token it gets for one that lasts about sixty days, and asks the person to connect again after that, or sooner if the session ends first.
-- A photo on Facebook has no file name. It is called after the day it was put there and its id, as in `2026-09-03 1234567890.jpg`.
-- The small pictures in the grid are loaded by the browser straight from Facebook's own host for photos. If your app sends a `Content-Security-Policy` header, its `img-src` has to allow `*.fbcdn.net`.
-- Photos are fetched from that same host by your server, through the guard and without the person's token.
+The user's tokens are [stored on your server](#storing-tokens). Facebook does not provide a refresh token, so your server exchanges the token it receives for one that lasts about sixty days, and asks the user to connect again after that, or sooner if their session ends first.
+
+A photo on Facebook has no file name, so it is named after the date it was uploaded and its ID, for example `2026-09-03 1234567890.jpg`.
+
+Your server downloads photos from Facebook's CDN, with [SSRF protection](#protecting-against-server-side-request-forgery) and without the user's token.
+
+> [!NOTE]
+> The thumbnails in the grid are loaded by the browser directly from the same CDN. If your app sends a `Content-Security-Policy` header, its `img-src` directive must allow `*.fbcdn.net`.
+
+### Storing tokens
+
+When a user connects their Dropbox, OneDrive, Box, Zoom or Facebook account, the tokens never reach the browser. Your server exchanges the provider's response for them and stores them in the user's session, encrypted using your application key.
+
+The tokens are discarded when the session ends. They are also discarded when the user clicks "Log out" in the file browser, which revokes them with Dropbox, Box, Zoom and Facebook as well.
+
+If you'd like a connection to outlive the session, you can bind your own implementation of the `TokenStore` interface in a service provider. It has three methods, `get()`, `put()` and `forget()`, and each of them receives the ID of the source:
+
+```php
+use App\Support\DatabaseTokenStore;
+use Saade\Fluppy\Sources\Support\TokenStore;
+
+$this->app->bind(TokenStore::class, DatabaseTokenStore::class);
+```
+
+### Restricting who can connect
+
+By default, the two routes that a user connects through, `fluppy/sources/{source}/connect` and `fluppy/sources/{source}/callback`, are accessible to guests, since a field may be used on a public form. A guest can only connect their own account to their own session, and a connection does nothing until a field uses it.
+
+If you wish to restrict these routes to authenticated users, you can set the `fluppy.remote.connect_middleware` configuration option to `['auth']`, or to `['auth:admin']` for a different guard.
 
 ## Editing images
 
+You can allow users to edit images using the `imageEditor()` method:
+
 ```php
+use Saade\Fluppy\Forms\Components\FluppyField;
+
 FluppyField::make('photos')
     ->image()
     ->multiple()
     ->imageEditor()
 ```
 
-An uploaded image gets an edit button, which opens [Uppy's image editor](https://uppy.io/docs/image-editor/): crop, rotate, flip and zoom. Saving uploads the edited image in the place of the one it was made from. An image that was already stored can be edited too; it is fetched into the browser first, so its address has to be readable from your app's origin.
+Each uploaded image gets an edit button, which opens [Uppy's image editor](https://uppy.io/docs/image-editor/), where the user can crop, rotate, flip and zoom the image. Saving uploads the edited image in place of the original. Images that have already been stored can be edited too. Since the browser downloads them first, they must be served from the same domain as your app, or the appropriate CORS headers need to be present.
 
-The editor is Uppy's, not the one `FileUpload` has, so only part of Filament's editor options carry over:
+The editor is Uppy's and not the one that `FileUpload` uses, so only some of Filament's image editor methods are supported:
 
-| Option | Effect |
-| ------ | ------ |
-| `imageEditor()` | Turns the editor on. Its script is loaded only by fields that have it. |
-| `imageEditorAspectRatioOptions()` | Limits the crop shapes offered. Uppy has three: a square (`1:1`), `16:9` and `9:16`. Any other ratio in the list is left out. |
-| `automaticallyCropImagesToAspectRatio()` | The editor only crops to that ratio. The image is not cropped by itself: the person has to open the editor. |
+| Method | Description |
+| ------ | ----------- |
+| `imageEditor()` | Enable the editor. Its script is only loaded by the fields that use it |
+| `imageEditorAspectRatioOptions()` | Limit the aspect ratios that are offered. Uppy supports three: `1:1`, `16:9` and `9:16`. Any other ratio is ignored |
+| `automaticallyCropImagesToAspectRatio()` | Restrict the editor to the given aspect ratio. The image is not cropped automatically, so the user must open the editor |
 
-These have no effect: `imageEditorMode()`, `imageEditorViewportWidth()` and `imageEditorViewportHeight()`, `imageEditorEmptyFillColor()`, `circleCropper()`, and automatic resizing.
+The `imageEditorMode()`, `imageEditorViewportWidth()`, `imageEditorViewportHeight()`, `imageEditorEmptyFillColor()` and `circleCropper()` methods have no effect, and automatic resizing is not supported.
 
-## Opening and downloading
+## Opening and downloading files
 
-`openable()` makes the picture of a stored file a link that opens it in a new tab, and `downloadable()` gives it a download button. Both use the file's address on its disk, or the one you give with `getOpenableFileUrlUsing()` and `getDownloadableFileUrlUsing()`.
-
-## Layout
-
-By default Uppy is drawn in the form, 320 pixels tall. `height()` changes that, which gives the image editor more room:
+You can turn the preview of a stored file into a link that opens it in a new tab using the `openable()` method, and add a download button using the `downloadable()` method:
 
 ```php
+use Saade\Fluppy\Forms\Components\FluppyField;
+
+FluppyField::make('attachments')
+    ->multiple()
+    ->openable()
+    ->downloadable()
+```
+
+Both use the URL of the file on its disk, or the URL that you return from `getOpenableFileUrlUsing()` and `getDownloadableFileUrlUsing()`.
+
+## Changing the layout
+
+### Setting the height
+
+By default, the uploader is rendered inside the form and is 320 pixels tall. You may change its height using the `height()` method, which is useful to give the image editor more room:
+
+```php
+use Saade\Fluppy\Forms\Components\FluppyField;
+
 FluppyField::make('photo')
     ->image()
     ->imageEditor()
     ->height(480)
 ```
 
-`modal()` keeps the field small instead. The form shows a button and the list of the field's files, each with its size or its progress and a button to remove it; the button opens Uppy over the page, where files are added, edited and put in order:
+### Opening the uploader in a modal
+
+If you'd like the field to take up less space, you can use the `modal()` method:
 
 ```php
+use Saade\Fluppy\Forms\Components\FluppyField;
+
 FluppyField::make('attachments')
     ->multiple()
     ->modal()
 ```
 
-The modal closes with its close button, the Escape key or a click outside it, and can be opened from a field that is itself inside one of Filament's modals.
+The form then shows a button and a list of the field's files, each with its size or upload progress and a button to remove it. Clicking the button opens the uploader in a modal, where files can be added, edited and reordered.
 
-## Spatie's media library
+The modal can be closed using its close button, by pressing the Escape key or by clicking away, and it can be opened from a field that is itself inside a Filament modal.
 
-With [Filament's media library plugin](https://filamentphp.com/plugins/filament-spatie-media-library) installed, use `SpatieMediaLibraryFluppyField` where you would use `SpatieMediaLibraryFileUpload`. It is that field, with the same options, and everything on this page applies to it:
+## Using Spatie's media library
+
+If you're using [Filament's media library plugin](https://filamentphp.com/plugins/filament-spatie-media-library), you can use `SpatieMediaLibraryFluppyField` anywhere you would use `SpatieMediaLibraryFileUpload`. It extends that field, so it has the same options, and everything in this documentation applies to it. First, make sure that the plugin is installed:
 
 ```bash
 composer require filament/spatie-laravel-media-library-plugin
 ```
+
+Then, use the field in your form:
 
 ```php
 use Saade\Fluppy\Forms\Components\SpatieMediaLibraryFluppyField;
@@ -417,20 +617,22 @@ SpatieMediaLibraryFluppyField::make('attachments')
     ->multiple()
 ```
 
-One thing differs. The plugin's field reads each uploaded file into memory to hand it to the media library, which a large file does not fit in. This one points the media library at the file on the temporary disk, and the library copies it from there as a stream.
+There is one difference. The plugin's field reads each uploaded file into memory to pass it to the media library, which does not work for a large file. `SpatieMediaLibraryFluppyField` points the media library at the file on the temporary disk instead, and the library copies it from there as a stream.
 
-## Not supported yet
+## Fluppy Pro
 
-These `FileUpload` options belong to FilePond's interface and have no effect on `FluppyField`:
+Fluppy Pro is a paid package that adds two features to the field:
 
-- Automatic cropping and resizing of images, and the editor options listed above.
-- `avatar()`, `panelLayout()`, `appendFiles()`, `prependFiles()` and the options that position buttons and indicators.
+- An AI image generator. Users describe the image they want, and the images are generated by your application, using the Laravel AI SDK or your own generator.
+- Custom sources. You can add your own sources next to "My Device", such as a library of approved images or a search in another system. Each one is written as a class and a Blade view, and requires no JavaScript build step.
 
-# Large files
+Fluppy Pro installs this package with it, and its field extends `FluppyField`, so everything in this documentation applies to it.
 
-A file larger than one chunk (900 KB by default) is sent in chunks, each in a request of its own, and put together on Livewire's temporary disk. From there it is an ordinary temporary upload: it is validated and stored the same way as any other. So a file can be larger than PHP or the web server accept in one request, and an upload can be paused, resumed and retried. A file chosen again after the page was reloaded continues from the chunks that already arrived.
+## Uploading large files
 
-Nothing has to be set up for this, but one limit is yours to raise: **Livewire's rule for temporary uploads allows 12 MB by default**, and it applies to the assembled file. Set it in `config/livewire.php` to the largest file your app should accept:
+A file that is larger than one chunk (900 KB by default) is uploaded in chunks, each in its own request, and assembled on Livewire's temporary disk. From there, it is an ordinary temporary upload, which is validated and stored in the same way as any other. This means that a file can be larger than PHP or your web server accept in a single request, and that an upload can be paused, resumed and retried. If the same file is selected again after the page is reloaded, the upload continues from the chunks that have already arrived.
+
+Chunked uploads work without any configuration. However, **Livewire's validation rules for temporary uploads only allow files of up to 12 MB by default**, and they apply to the assembled file. You should raise this limit in `config/livewire.php` to the largest file that your app should accept:
 
 ```php
 'temporary_file_upload' => [
@@ -438,18 +640,20 @@ Nothing has to be set up for this, but one limit is yours to raise: **Livewire's
 ],
 ```
 
-A file over that limit, or outside the field's `maxSize()` and `minSize()`, is turned away before any of it is sent, with the reason shown on the file.
+If a file is over that limit, or outside the field's `maxSize()` and `minSize()`, it is rejected before any of it is uploaded, and the reason is shown on the file.
 
-| Method | Description |
-| ------ | ----------- |
-| `chunked(bool \| Closure $condition)` | Whether large files are sent in chunks. On by default. |
-| `chunkSize(int \| Closure $size)` | The size of a chunk, in kilobytes. |
+### Configuring chunked uploads
 
-To change the defaults for every field, publish the configuration:
+By default, large files are uploaded in chunks. You can disable this for a field by passing `false` to the `chunked()` method, or change the size of its chunks, in kilobytes, using the `chunkSize()` method:
 
-```bash
-php artisan vendor:publish --tag="fluppy-config"
+```php
+use Saade\Fluppy\Forms\Components\FluppyField;
+
+FluppyField::make('video')
+    ->chunkSize(512)
 ```
+
+If you wish to change the defaults for every field, you can [publish the configuration file](#installation) and change its `chunking` options:
 
 ```php
 'chunking' => [
@@ -460,41 +664,43 @@ php artisan vendor:publish --tag="fluppy-config"
 ],
 ```
 
-## Choosing a chunk size
+### Choosing a chunk size
 
-Each chunk still has to fit in one request:
+Each chunk must still fit in a single request:
 
-- It is lowered automatically to what PHP's `upload_max_filesize` and `post_max_size` allow.
-- The web server's limit cannot be read from PHP. nginx allows 1 MB unless `client_max_body_size` says otherwise, which is why the default is just under it. If you raise the chunk size, raise that limit with it, and the limit of any proxy or CDN in front.
+- The chunk size is lowered automatically to what PHP's `upload_max_filesize` and `post_max_size` allow.
+- Your web server's limit cannot be read from PHP. By default, nginx allows 1 MB (`client_max_body_size`), which is why the default chunk size is just under that. If you raise the chunk size, you should raise that limit as well, along with the limit of any proxy or CDN in front of your app.
 
-Larger chunks mean fewer requests. With the default throttle of 600 chunks a minute, 900 KB chunks top out at about 9 MB per second. Chunks are counted on their own: a large upload does not use up the 60 requests a minute Livewire allows its uploads, or the limit of any other route.
+Larger chunks mean fewer requests. With the default rate limit of 600 chunks per minute, 900 KB chunks top out at about 9 MB per second. Chunks have their own rate limit, so a large upload does not use up the 60 requests per minute that Livewire allows for its own uploads, or the rate limit of any other route.
 
-A file no larger than one chunk goes to Livewire in a single request, as with `FileUpload`.
+A file that is no larger than one chunk is sent to Livewire in a single request, like `FileUpload` does.
 
-## Checking your setup
+### Checking your setup
+
+You can check everything that a large upload passes through using the `fluppy:doctor` Artisan command:
 
 ```bash
 php artisan fluppy:doctor
 ```
 
-It looks at everything a large upload passes through and says what would stop one:
+The command reports anything that would prevent an upload from succeeding:
 
-- the largest file Livewire's rules allow, and whether that is still the 12 MB default;
-- the chunk size, and whether it was lowered to fit PHP. It asks the running app for PHP's limits, since PHP on the command line can be configured differently;
-- whether a chunk of that size reaches the app, or the web server refuses it. It sends one to find out;
-- with S3 as the temporary disk: that the bucket can be reached, how many multipart uploads are open, whether CORS allows `PUT` from your app, and whether a lifecycle rule aborts incomplete uploads;
-- whether `fluppy:prune` is scheduled.
+- The largest file that Livewire's rules allow, and whether that is still the 12 MB default.
+- The chunk size, and whether it was lowered to fit PHP's limits. Since PHP may be configured differently on the command line, the command asks the running app for them.
+- Whether a chunk of that size reaches your app, or is rejected by the web server. It sends one to find out.
+- When S3 is the temporary disk, whether the bucket can be reached, how many multipart uploads are open, whether CORS allows `PUT` requests from your app, and whether a lifecycle rule aborts incomplete uploads.
+- Whether `fluppy:prune` is scheduled.
 
-It exits with an error when something would make uploads fail, so it can run in a deployment.
+The command exits with an error if something would cause uploads to fail, so you can run it as part of your deployment.
 
 | Option | Description |
 | ------ | ----------- |
-| `--disk=` | A disk your fields store files on, to see whether saving to it [copies inside S3](#saving-without-the-file-passing-through-the-server). Can be given more than once. |
-| `--url=` | The address of the app as a browser reaches it, when it is not `APP_URL`. |
+| `--disk=` | A disk that your fields store files on, to check whether saving to it [copies the file within S3](#saving-files-without-passing-them-through-your-server). May be passed more than once |
+| `--url=` | The URL of your app as a browser reaches it, if it is not `APP_URL` |
 
-## Cleaning up
+### Cleaning up unfinished uploads
 
-An upload that is never finished leaves its chunks on the temporary disk, or an open multipart upload in the bucket. Schedule the command that removes them:
+An upload that is never finished leaves its chunks on the temporary disk, or an open multipart upload in the bucket. To remove them, you should schedule the `fluppy:prune` Artisan command:
 
 ```php
 use Illuminate\Support\Facades\Schedule;
@@ -502,157 +708,203 @@ use Illuminate\Support\Facades\Schedule;
 Schedule::command('fluppy:prune')->daily();
 ```
 
-It removes what has not changed for 24 hours (`--hours=` to change that): chunks, multipart uploads that were opened and never completed, and, off S3, temporary uploads that were never saved, the way Livewire removes its own.
+By default, the command removes anything that has not changed in 24 hours, which you can change using the `--hours` option. This includes chunks, multipart uploads that were started and never completed, and, when S3 is not the temporary disk, temporary uploads that were never saved, like Livewire does for its own.
 
-## S3 as the temporary disk
+### Using S3 as the temporary disk
 
-When [Livewire's temporary disk is S3](https://livewire.laravel.com/docs/uploads#storing-uploaded-files-on-s3), the browser sends files straight to the bucket. A file larger than one part (5 MB, the least S3 accepts) is sent as a multipart upload: the server opens it and signs an address for each part, the browser sends the parts, and the server completes it. Pause, resume and retry work the same, and a file chosen again continues from the parts the bucket already has.
+When [Livewire's temporary disk is S3](https://livewire.laravel.com/docs/uploads#storing-uploaded-files-on-s3), the browser uploads files directly to the bucket. A file that is larger than one part (5 MB, which is the minimum that S3 accepts) is sent as a multipart upload: your server starts the upload and signs a URL for each part, the browser uploads the parts, and your server completes the upload. Pausing, resuming and retrying work as they do for chunked uploads, and a file that is selected again continues from the parts that the bucket already has.
 
-- **CORS.** The bucket has to accept `PUT` from your app's origin, as it already does for Livewire's own uploads to S3. It does not have to expose the `ETag` header: the parts are read back from S3 when the upload is completed. Allow your own origin rather than every one:
+This requires the `league/flysystem-aws-s3-v3` package, as all S3 disks do.
 
-  ```json
-  [
-      {
-          "AllowedOrigins": ["https://your-app.com"],
-          "AllowedMethods": ["PUT"],
-          "AllowedHeaders": ["*"],
-          "MaxAgeSeconds": 3000
-      }
-  ]
-  ```
+#### Configuring CORS
 
-- **Permissions.** The credentials of the temporary disk need no more than this on the temporary bucket. `s3:ListBucketMultipartUploads`, on the bucket itself, is only used by `fluppy:doctor`.
+The bucket must accept `PUT` requests from your app's origin, as it already must for Livewire's own uploads to S3. It does not need to expose the `ETag` header, since the parts are read back from S3 when the upload is completed. You should allow your own origin instead of every origin:
 
-  ```json
-  {
-      "Effect": "Allow",
-      "Action": [
-          "s3:PutObject",
-          "s3:GetObject",
-          "s3:DeleteObject",
-          "s3:AbortMultipartUpload",
-          "s3:ListMultipartUploadParts"
-      ],
-      "Resource": "arn:aws:s3:::your-temporary-bucket/livewire-tmp/*"
-  }
-  ```
-- **Part size.** `fluppy.chunking.s3_part_size`, in kilobytes. `chunkSize()` and `chunk_size` are for chunks that go through PHP and do not apply here.
-- **Abandoned uploads.** Removing a file aborts its upload in S3. One that is abandoned (the tab was closed) stays in the bucket, and is billed, until it is aborted. [`fluppy:prune`](#cleaning-up) aborts the ones it knows about; also add a lifecycle rule to the bucket that aborts incomplete multipart uploads after a day or so, which catches the rest and removes temporary files nobody saved.
-- Requires `league/flysystem-aws-s3-v3`, as S3 disks do.
+```json
+[
+    {
+        "AllowedOrigins": ["https://your-app.com"],
+        "AllowedMethods": ["PUT"],
+        "AllowedHeaders": ["*"],
+        "MaxAgeSeconds": 3000
+    }
+]
+```
 
-### S3-compatible services
+#### Granting permissions
 
-Anything Laravel's `s3` driver talks to should work, since only standard multipart calls and presigned addresses are used. Tried so far:
+The credentials of the temporary disk need no more than the following permissions on the temporary bucket:
+
+```json
+{
+    "Effect": "Allow",
+    "Action": [
+        "s3:PutObject",
+        "s3:GetObject",
+        "s3:DeleteObject",
+        "s3:AbortMultipartUpload",
+        "s3:ListMultipartUploadParts"
+    ],
+    "Resource": "arn:aws:s3:::your-temporary-bucket/livewire-tmp/*"
+}
+```
+
+The `s3:ListBucketMultipartUploads` permission, on the bucket itself, is only used by the `fluppy:doctor` command.
+
+#### Setting the part size
+
+You can change the size of a part, in kilobytes, using the `fluppy.chunking.s3_part_size` configuration option. The `chunkSize()` method and the `chunk_size` option only apply to chunks that are sent through PHP.
+
+#### Aborting abandoned uploads
+
+Removing a file aborts its multipart upload in S3. However, an upload that is abandoned, for example by closing the tab, stays in the bucket and is billed until it is aborted. The [`fluppy:prune`](#cleaning-up-unfinished-uploads) command aborts the ones that it knows about. You should also add a lifecycle rule to the bucket that aborts incomplete multipart uploads after about a day, which catches the rest and removes temporary files that were never saved.
+
+#### Using S3-compatible services
+
+Any service that Laravel's `s3` driver supports should work, since Fluppy only uses standard multipart requests and presigned URLs. The following services have been tested:
 
 | Service | Notes |
 | ------- | ----- |
-| Cloudflare R2 | Works, including the copy on save. Use `'region' => 'auto'` and `'use_path_style_endpoint' => true`. A new bucket has no CORS rules: add the one above. R2 already aborts incomplete multipart uploads after 7 days. |
-| MinIO | Works, including the copy on save. It allows every origin by itself, and has no per-bucket CORS or lifecycle rules to read. |
+| Cloudflare R2 | Works, including the copy on save. Use `'region' => 'auto'` and `'use_path_style_endpoint' => true`. A new bucket has no CORS rules, so you must add the one above. R2 already aborts incomplete multipart uploads after 7 days |
+| MinIO | Works, including the copy on save. It allows every origin by default, and has no per-bucket CORS or lifecycle rules to read |
 
-`fluppy:doctor` cannot read a bucket's CORS and lifecycle rules with a key that may only read and write objects. It says so, and uploads are not affected.
+The `fluppy:doctor` command cannot read a bucket's CORS and lifecycle rules with a key that is only allowed to read and write objects. It reports this, and uploads are not affected.
 
-### Saving without the file passing through the server
+#### Saving files without passing them through your server
 
-`FileUpload` saves a file by reading it from the temporary disk and writing it to the final one, so the whole file passes through PHP. On a server with a time limit, such as a serverless function, a large file does not survive that.
+`FileUpload` saves a file by reading it from the temporary disk and writing it to the final disk, so the entire file passes through PHP. On a server with a time limit, such as a serverless function, a large file does not survive that.
 
-When the temporary disk and the field's `disk()` are both S3, `FluppyField` has S3 copy the file itself, and nothing passes through your server, during the upload or on save. This needs no option, and works:
+When the temporary disk and the field's `disk()` are both S3, `FluppyField` has S3 copy the file instead, so nothing passes through your server, either during the upload or when the form is saved. This requires no configuration, and works:
 
-- within one bucket, and from one bucket to another;
-- for files of any size: above 5 GB, the most S3 copies in one request, the copy is made in parts.
+- Within a bucket, and from one bucket to another.
+- For files of any size. Above 5 GB, which is the most that S3 copies in a single request, the file is copied in parts.
 
-For a copy between two buckets, both disks have to be on the same S3 service (the same `endpoint`), and the credentials of the field's disk have to be allowed to read the temporary bucket. If S3 refuses the copy, the error is reported and the file is saved the usual way.
+To copy between two buckets, both disks must use the same S3 service (the same `endpoint`), and the credentials of the field's disk must be allowed to read the temporary bucket. If S3 rejects the copy, the error is reported and the file is saved in the usual way.
 
-# Troubleshooting
+## Troubleshooting
 
-Start with `php artisan fluppy:doctor`, which checks most of what follows on the server it runs on. See [Checking your setup](#checking-your-setup).
+If uploads are failing, start by running `php artisan fluppy:doctor`, which checks most of the following on the server it runs on. See [Checking your setup](#checking-your-setup).
 
-## Which limit is which
+### Understanding upload limits
 
-An upload passes through several layers, each with a limit of its own. Sending a file in chunks takes it under all of them but one:
+An upload passes through several layers, and each has its own limit. Uploading in chunks keeps a file under all of them except one:
 
 | A file fails at about | The limit | With `FluppyField` |
 | --------------------- | --------- | ------------------ |
-| 1 MB | nginx, `client_max_body_size` | Not reached: a chunk is 900 KB. |
-| 2 MB or 8 MB | PHP, `upload_max_filesize` and `post_max_size` | Not reached: the chunk size is lowered to fit them. |
-| 12 MB | Livewire, the `max:12288` rule for temporary uploads | **Still applies**, to the whole file. Raise it in `config/livewire.php`, as shown under [Large files](#large-files). |
-| 100 MB | Cloudflare, on its Free and Pro plans (200 MB on Business) | Not reached: each request carries one chunk. |
-| the field's `maxSize()` | The field | Applies. |
+| 1 MB | nginx, `client_max_body_size` | Not reached, since a chunk is 900 KB |
+| 2 MB or 8 MB | PHP, `upload_max_filesize` and `post_max_size` | Not reached, since the chunk size is lowered to fit them |
+| 12 MB | Livewire, the `max:12288` rule for temporary uploads | **Still applies**, to the whole file. Raise it in `config/livewire.php`, as shown in [Uploading large files](#uploading-large-files) |
+| 100 MB | Cloudflare, on its Free and Pro plans (200 MB on Business) | Not reached, since each request carries one chunk |
+| the field's `maxSize()` | The field | Applies |
 
-Apache's `LimitRequestBody`, and the limit of any other proxy in front of the app, work like nginx's: they only matter when they are lower than a chunk.
+Apache's `LimitRequestBody` directive, and the limit of any other proxy in front of your app, behave like nginx's: they only matter if they are lower than the size of a chunk.
 
-## What a failure says
+### Error messages
 
-A file that fails shows the reason on the file itself.
+When a file fails to upload, the reason is shown on the file itself.
 
-- **"The file is larger than the 12 MB allowed."** (or another size) The file was turned away before any of it was sent, by the smaller of the field's `maxSize()` and Livewire's rule. 12 MB is Livewire's default.
-- **"The file could not be uploaded."** and nothing more. A request did not get an answer from the app. Open the browser's network tab and look at the status of the request to `fluppy/chunks` (a file sent in chunks) or `livewire/upload-file` (a file small enough to go in one request):
-  - **413.** The web server or a proxy refused a request as too large. This only happens when `chunk_size` was raised above what they accept, or a proxy accepts less than 1 MB. Lower the one or raise the other.
-  - **429 on `livewire/upload-file`.** Livewire's own limit of 60 uploads a minute for one person was passed (`livewire.temporary_file_upload.middleware`).
-  - **No status at all.** The connection dropped. A file sent in chunks has already tried each one four times, waiting longer each time; retrying the file continues from the chunks that arrived.
-- **"Too Many Attempts."** The chunk route's limit (`fluppy.chunking.throttle`, 600 a minute) was passed and still was after the upload waited and tried again. Raise it if people upload several large files at once.
-- **"CSRF token mismatch."** The session ended while the page was open. Reloading the page and choosing the file again starts a new upload.
-- **"Invalid chunked upload reference."** The upload was planned for another session: the person signed in again in another tab, for instance. Choosing the file again plans a new one.
-- **"The chunked upload is incomplete."** Chunks that had arrived were gone when the file was put together. See [Several servers](#several-servers) and [Cleaning up](#cleaning-up).
+- **"The file is larger than the 12 MB allowed."** (or another size) The file was rejected before any of it was uploaded, by the lower of the field's `maxSize()` and Livewire's validation rule. 12 MB is Livewire's default.
+- **"The file could not be uploaded."**, with no other message. A request did not receive a response from your app. Open your browser's network tab and check the status of the request to `fluppy/chunks` (for a chunked upload) or `livewire/upload-file` (for a file that is small enough to be sent in a single request):
+  - **413.** Your web server or a proxy rejected the request as too large. This only happens if `chunk_size` was raised above what they accept, or if a proxy accepts less than 1 MB. Lower the chunk size, or raise the limit.
+  - **429 on `livewire/upload-file`.** Livewire's own rate limit of 60 uploads per minute per user was exceeded (`livewire.temporary_file_upload.middleware`).
+  - **No status.** The connection dropped. A chunked upload has already tried each chunk four times, waiting longer each time. Retrying the file continues from the chunks that arrived.
+- **"Too Many Attempts."** The rate limit of the chunk route (`fluppy.chunking.throttle`, 600 per minute by default) was exceeded, and was still exceeded after the upload waited and retried. You can raise it if your users upload several large files at once.
+- **"CSRF token mismatch."** The session expired while the page was open. Reloading the page and selecting the file again starts a new upload.
+- **"Invalid chunked upload reference."** The upload was started in a different session, for example if the user signed in again in another tab. Selecting the file again starts a new upload.
+- **"The chunked upload is incomplete."** Chunks that had arrived were missing when the file was assembled. See [Using multiple servers](#using-multiple-servers) and [Cleaning up unfinished uploads](#cleaning-up-unfinished-uploads).
 
-A request to `fluppy/chunks` answered with **401** during a long upload is expected and is not shown: the address of the route is signed for as long as Livewire's `max_upload_time` (5 minutes), and the upload asks for a new one and carries on.
+A `401` response from `fluppy/chunks` during a long upload is expected, and is not shown to the user. The route's URL is signed for as long as Livewire's `max_upload_time` (5 minutes by default), and the upload requests a new one and continues.
 
-For a file a [remote source](#importing-from-a-link) fetches:
+The following messages are shown for files that are downloaded by a [source](#adding-sources):
 
-- **"Files cannot be fetched from there."** The address did not pass the checks listed under [Importing from a link](#importing-from-a-link), is not among `fluppy.remote.url.hosts`, or the source is not one the field offers.
-- **"The file could not be fetched from where it is."** Its server could not be reached, or did not answer within `fluppy.remote.timeout`.
-- **"Access to the file was refused or has expired."** The source no longer honors the person's token. Connecting again and adding the file once more is all there is to do.
-- **"The file could not be fetched: its server answered 404."** (or another status) What the other server said.
+- **"Files cannot be fetched from there."** The URL did not pass the [SSRF protection](#protecting-against-server-side-request-forgery), is not allowed by `fluppy.remote.url.hosts`, or the source is not one that the field offers.
+- **"The file could not be fetched from where it is."** The remote server could not be reached, or did not respond within `fluppy.remote.timeout`.
+- **"Access to the file was refused or has expired. Connect again and add the file once more."** The source no longer accepts the user's token.
+- **"The file could not be fetched: its server answered 404."** (or another status) The remote server responded with an error.
 
-## Resuming
+### Resuming uploads
 
-A file chosen again continues from what already arrived when it is the same file (name, size, type and date), chosen in the same session, within the 24 hours [`fluppy:prune`](#cleaning-up) leaves unfinished uploads for. Signing out, or anything else that starts a new session, starts the upload over.
+If a file is selected again, its upload continues from what has already arrived, as long as it is the same file (name, size, type and last modified date), it is selected in the same session, and its chunks have not been removed by [`fluppy:prune`](#cleaning-up-unfinished-uploads) yet, which keeps unfinished uploads for 24 hours by default. Signing out, or anything else that starts a new session, restarts the upload from the beginning.
 
-## Several servers
+### Using multiple servers
 
-Chunks wait on Livewire's temporary disk until the last one arrives. When that disk is a folder on the server and requests are spread over several servers, the chunks of one file end up on different machines and never come together. This is the same for Livewire's own uploads, and the answers are the same: a temporary disk they all share, [S3](#s3-as-the-temporary-disk) for one, or a load balancer that keeps a session on one server. The cache store should be one they share too, since a lock in it keeps two requests from putting the same file together.
+Chunks are stored on Livewire's temporary disk until the last one arrives. If that disk is a local directory and requests are distributed over multiple servers, the chunks of a file end up on different machines and are never assembled. This is also the case for Livewire's own uploads, and the solutions are the same: use a temporary disk that all of the servers share, such as [S3](#using-s3-as-the-temporary-disk), or a load balancer with sticky sessions. The cache store should be shared as well, since a lock in it prevents two requests from assembling the same file.
 
-The addresses the package signs are signed without the host, so an app that is reached under another name or scheme than it believes, behind a proxy, does not get "invalid signature" from them.
+The URLs that Fluppy signs do not include the host. If your app is behind a proxy, and is reached under a different host or scheme than it expects, they remain valid instead of failing with "invalid signature".
 
-## Disk space and time
+### Disk space and timeouts
 
-The request that brings the last chunk puts the file together, so it takes longer the larger the file is, and has to finish within PHP's `max_execution_time` and the web server's own timeouts. While it does, the file is written once to the system's temporary directory (`sys_get_temp_dir()`) before it is stored on the temporary disk, and both need room for it. With S3 as the temporary disk none of this happens: the bucket puts the parts together.
+The request that delivers the last chunk assembles the file, so it takes longer for larger files, and must finish within PHP's `max_execution_time` and your web server's timeouts. During assembly, the file is first written to the system's temporary directory (`sys_get_temp_dir()`) and then stored on the temporary disk, so both need enough free space for it. None of this applies when S3 is the temporary disk, since the bucket assembles the parts.
 
-## S3
+### S3 errors
 
-- **The browser's console reports a CORS error on a `PUT` to the bucket.** The bucket has no rule that allows `PUT` from the app's origin. The rule is under [S3 as the temporary disk](#s3-as-the-temporary-disk), and `fluppy:doctor` reads the bucket's rules when its key is allowed to.
-- **A part is answered with 403.** Once in a while this is an address that expired, and the part is sent again to a new one. When every part is refused, the credentials of the temporary disk lack one of the permissions listed in the same place.
-- **S3's limit of 5 GB for one `PUT`** is not reached: a file larger than one part is always sent in parts.
+- **The browser console reports a CORS error for a `PUT` request to the bucket.** The bucket has no rule that allows `PUT` requests from your app's origin. See [Configuring CORS](#configuring-cors). The `fluppy:doctor` command reads the bucket's rules if its key is allowed to.
+- **A part receives a `403` response.** Occasionally, this is a presigned URL that has expired, and the part is retried with a new one. If every part is rejected, the credentials of the temporary disk are missing one of the [required permissions](#granting-permissions).
+- **S3's limit of 5 GB for a single `PUT` request** is never reached, since a file that is larger than one part is always uploaded in parts.
 
-## The field looks unstyled, or a source does nothing
+### The field is unstyled, or a source does nothing
 
-- **Unstyled.** The package's stylesheet is not in the panel's theme, or the theme was not rebuilt since. See [Installation](#installation).
-- **The camera, the microphone or the screen does nothing.** Browsers only give access to them on HTTPS and on `localhost`, and a `Permissions-Policy` header can take it away. See [Camera, microphone and screen](#camera-microphone-and-screen).
-- **Google's picker does not open.** A `Content-Security-Policy` header has to allow Google's scripts and frames, and the origin has to be listed in the OAuth client. See [Google Drive](#google-drive).
+- **The field is unstyled.** The plugin's stylesheet is not imported in the panel's theme, or the theme has not been rebuilt since it was. See [Installation](#installation).
+- **The camera, microphone or screen source does nothing.** Browsers only grant access to them on HTTPS pages and on `localhost`, and a `Permissions-Policy` header can deny it. See [Using the camera, microphone and screen](#using-the-camera-microphone-and-screen).
+- **Google's Picker does not open.** A `Content-Security-Policy` header must allow Google's scripts and frames, and your app's origin must be listed in the OAuth client. See [Google Drive](#google-drive).
 
-## Not tried yet
+### Untested platforms
 
-Laravel Vapor, Laravel Cloud and Octane. On Vapor, where a request through Lambda is limited to roughly 4.5 MB and a server's disk is not kept, expect to need S3 as the temporary disk. If you run the field on any of the three, an issue saying how it went is welcome.
+Fluppy has not been tested on Laravel Vapor, Laravel Cloud or Octane yet. On Vapor, where requests through Lambda are limited to roughly 4.5 MB and the server's disk is not persistent, you should expect to need S3 as the temporary disk. If you run the field on any of these, please open an issue to share how it went.
 
-# Security
+## Security
 
-What to know before a form with the field is open to people you do not know.
+Before using the field on a publicly accessible form, you should be aware of the following.
 
-- **Who can upload.** Whoever can use a form the field is on, as with `FileUpload`. The two routes the package adds for uploads, `fluppy/chunks` and `fluppy/remote`, only answer an address the app signed, with a reference a field handed to that same session: they are of no use to anyone the form was not shown to. A field on a public form lets guests fill temporary storage, as `FileUpload` there does. Nothing is stored for good until the form is saved.
-- **What the browser does not decide.** The disk, the directory and the name a file is stored under are the field's, set on the server. What a field hands the browser to send back (how large the file is, how many chunks, which session) is signed with your `APP_KEY`, and a chunk has to be exactly as large as was planned, the assembled file exactly as large as was announced. The package refuses to sign anything while the app has no key.
-- **One set of rules.** A file put together on your server, from chunks or by fetching it from a remote source, is checked against Livewire's rules for temporary uploads once it is whole. One that goes to S3 in parts has to be exactly as large as was planned, and what was planned was held to the same size limits. From there each is an ordinary temporary upload: `acceptedFileTypes()`, `maxSize()` and your own rules apply to it on save exactly as they do to any other.
-- **Rate limits.** Each is counted on its own, per signed-in person, or per address for a guest: 600 chunks a minute (`fluppy.chunking.throttle`), 600 requests a minute to fetch remote files (`fluppy.remote.throttle`), and 60 a minute to connect an account.
-- **Temporary files.** Unfinished uploads stay until something removes them. Schedule [`fluppy:prune`](#cleaning-up), and on S3 add the lifecycle rule described under [S3 as the temporary disk](#s3-as-the-temporary-disk).
-- **Remote sources are off until a field turns one on.** With one on, your server makes requests on behalf of whoever uses the form. The checks that keep it to the public internet are listed under [Importing from a link](#importing-from-a-link), where the tokens of connected accounts are kept under [Dropbox](#dropbox), and how to keep connecting to people who are signed in, with `fluppy.remote.connect_middleware`, there too.
-- **S3.** Give the temporary disk's credentials no more than the policy under [S3 as the temporary disk](#s3-as-the-temporary-disk), and allow your own origin in the bucket's CORS rules rather than every one.
-- **`fluppy/doctor`** only answers an address `fluppy:doctor` signed in the five minutes before, and all it says is PHP's two upload limits and the chunk size.
+### Access to the upload routes
+
+Anyone who can use a form that contains the field can upload files, like with `FileUpload`. The two routes that Fluppy adds for uploads, `fluppy/chunks` and `fluppy/remote`, only respond to a URL that your app signed, with a reference that a field issued to the same session, so they cannot be used by anyone who was not shown the form.
+
+A field on a public form allows guests to fill your temporary storage, like `FileUpload` does. Nothing is stored permanently until the form is saved.
+
+### Signed upload data
+
+The disk, the directory and the name that a file is stored under are determined by the field, on the server. Everything that a field gives the browser to send back, such as the size of the file, the number of chunks and the session, is signed using your `APP_KEY`. Each chunk must be exactly the expected size, and the assembled file must be exactly the size that was declared when the upload started. If your app has no key, Fluppy refuses to sign anything.
+
+### File validation
+
+A file that is assembled on your server, either from chunks or by downloading it from a source, is validated against Livewire's rules for temporary uploads once it is complete. A file that is uploaded to S3 in parts must be exactly the size that was declared when the upload started, and that size is subject to the same size limits.
+
+From there, each is an ordinary temporary upload, so `acceptedFileTypes()`, `maxSize()` and your own rules are applied to it when the form is saved, exactly like they are for any other file.
+
+### Rate limits
+
+Each of Fluppy's rate limits is counted separately, per authenticated user, or per IP address for guests:
+
+- 600 chunks per minute (`fluppy.chunking.throttle`)
+- 600 requests per minute to download remote files (`fluppy.remote.throttle`)
+- 60 requests per minute to connect an account
+
+### Temporary files
+
+Unfinished uploads remain in temporary storage until they are removed. You should schedule the [`fluppy:prune`](#cleaning-up-unfinished-uploads) command and, when using S3, add the lifecycle rule described in [Aborting abandoned uploads](#aborting-abandoned-uploads).
+
+### Remote sources
+
+Remote sources are disabled until a field enables one. When one is enabled, your server makes requests on behalf of anyone who uses the form. See [Protecting against server-side request forgery](#protecting-against-server-side-request-forgery) for the checks that restrict those requests to the public internet, and [Storing tokens](#storing-tokens) for where the tokens of connected accounts are stored.
+
+Accounts are connected using OAuth's authorization code flow with PKCE. The callback must carry the random `state` value that your server stored in the session when the window was opened, so a link cannot be used to connect a user's session to somebody else's account. If you wish to only allow authenticated users to connect an account, you can use the `fluppy.remote.connect_middleware` configuration option, as described in [Restricting who can connect](#restricting-who-can-connect).
+
+### S3 permissions
+
+You should give the credentials of the temporary disk no more than the [permissions it needs](#granting-permissions), and only allow your own origin in the bucket's [CORS rules](#configuring-cors).
+
+### The doctor route
+
+The `fluppy/doctor` route only responds to a URL that the `fluppy:doctor` command signed within the last five minutes, and only returns PHP's two upload limits and the chunk size.
 
 To report a vulnerability, see [Security Vulnerabilities](#security-vulnerabilities).
 
-# Styling
+## Styling
 
-The field is styled with your panel's `gray`, `primary`, `danger` and `success` colors and follows its light and dark mode.
+The field uses your panel's `gray`, `primary`, `danger` and `success` colors, and follows its light and dark mode.
 
-Everything the package draws has a class that starts with `fi-fluppy`, to style from your theme. Uppy's own elements keep their `uppy-` classes, which you can style inside `.fi-fluppy`:
+Every element that Fluppy renders has a class that starts with `fi-fluppy`, which you may target from your theme. Uppy's own elements keep their `uppy-` classes, which you may style inside `.fi-fluppy`:
 
 ```css
 .fi-fluppy .uppy-Dashboard-inner {
@@ -662,56 +914,58 @@ Everything the package draws has a class that starts with `fi-fluppy`, to style 
 
 | Class | Element |
 | ----- | ------- |
-| `.fi-fluppy` | The field. |
-| `.fi-fluppy-reorderable` | The field, when its files can be put in order. |
-| `.fi-fluppy-summary` | What a field shown as a modal has in the form: its button and its files. |
-| `.fi-fluppy-summary-files`, `.fi-fluppy-summary-file` | The list of files, and one of them. |
-| `.fi-fluppy-summary-file-name`, `.fi-fluppy-summary-file-status` | The name of a file, and its size, progress or error. |
-| `.fi-fluppy-summary-file-failed` | A file that could not be uploaded. |
-| `.fi-fluppy-modal` | The element at the end of the page that holds Uppy for a field shown as a modal. It also has `.fi-fluppy`. |
+| `.fi-fluppy` | The field |
+| `.fi-fluppy-reorderable` | The field, when its files can be reordered |
+| `.fi-fluppy-summary` | The button and the list of files that a field using `modal()` shows in the form |
+| `.fi-fluppy-summary-files`, `.fi-fluppy-summary-file` | The list of files, and a single file in it |
+| `.fi-fluppy-summary-file-name`, `.fi-fluppy-summary-file-status` | The name of a file, and its size, progress or error |
+| `.fi-fluppy-summary-file-failed` | A file that could not be uploaded |
+| `.fi-fluppy-modal` | The element at the end of the page that contains the uploader of a field using `modal()`. It also has the `.fi-fluppy` class |
 
-# Translations
+## Translations
 
-The field speaks your app's locale. Uppy's interface comes from its own [locale packs](https://uppy.io/docs/locales/), and the one that matches `app()->getLocale()` is loaded when the field is shown: `pt_BR` and `pt-BR` load Brazilian Portuguese, `pt` the first Portuguese pack, and a locale Uppy has no pack for falls back to English.
+The field uses your app's locale. Uppy's interface is translated by its own [locale packs](https://uppy.io/docs/locales/), and the one that matches `app()->getLocale()` is loaded when the field is rendered. For example, `pt_BR` and `pt-BR` load Brazilian Portuguese, `pt` loads the first Portuguese pack, and a locale that Uppy has no pack for falls back to English.
 
-The messages the package adds itself are in its translation files. To change them, or to add a language, publish them:
+The messages that Fluppy adds are in its own translation files. To change them, or to add a language, you may publish them:
 
 ```bash
 php artisan vendor:publish --tag="fluppy-translations"
 ```
 
-# Testing
+## Testing
+
+You can run the package's tests using Composer:
 
 ```bash
 composer test
 ```
 
-Some of the tests drive a real browser, which has to be installed once:
+Some of the tests use a real browser, which must be installed once:
 
 ```bash
 npm install
 npx playwright install chromium
 ```
 
-To run only the others: `vendor/bin/pest --testsuite=Feature`.
+To only run the tests that do not need a browser, use `vendor/bin/pest --testsuite=Feature`.
 
-# Changelog
+## Changelog
 
 Please see [CHANGELOG](CHANGELOG.md) for more information on what has changed recently.
 
-# Contributing
+## Contributing
 
 Please see [CONTRIBUTING](.github/CONTRIBUTING.md) for details.
 
-# Security Vulnerabilities
+## Security Vulnerabilities
 
 Please review [our security policy](../../security/policy) on how to report security vulnerabilities.
 
-# Credits
+## Credits
 
 - [Saade](https://github.com/saade)
 - [All Contributors](../../contributors)
 
-# License
+## License
 
 The MIT License (MIT). Please see [License File](LICENSE.md) for more information.
