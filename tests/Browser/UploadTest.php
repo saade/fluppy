@@ -446,8 +446,13 @@ it('opens over the page as a modal, and lists its files in the form', function (
     $page = visit('/fluppy-tests')
         ->assertSee('Choose files')
         ->assertDontSee('browse files')
-        ->assertScript('document.querySelectorAll(".fi-fluppy:not(.fi-fluppy-modal) .uppy-Dashboard").length', 0)
-        ->press('Choose files');
+        ->assertScript('document.querySelectorAll(".fi-fluppy:not(.fi-fluppy-modal) .uppy-Dashboard").length', 0);
+
+    // The button is in the page before the field's script has loaded, and
+    // does nothing until it has.
+    waitUntil($page, 'document.querySelectorAll("body > .fi-fluppy-modal").length === 1');
+
+    $page->press('Choose files');
 
     chooseFiles($page, ['a.txt' => 'a', 'b.txt' => 'b'])
         ->assertSee('Upload complete')
