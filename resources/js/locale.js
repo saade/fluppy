@@ -1,5 +1,5 @@
-// One chunk per locale pack in `@uppy/locales`, loaded when asked for.
-// English is built into Uppy, so its pack is left out.
+// Every locale pack in `@uppy/locales`. English is built into Uppy, so its
+// pack is left out.
 const packs = Object.fromEntries(
     Object.entries(
         import.meta.glob(

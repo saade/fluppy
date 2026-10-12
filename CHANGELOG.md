@@ -32,4 +32,4 @@ All notable changes to `fluppy` will be documented in this file.
 - `reorderable()` lets files be put in order by dragging one onto another.
 - The field no longer leaves a listener behind when it is removed from the page, which raised an error on the next theme change.
 - A file that was uploaded but not saved yet is still shown when the field is drawn again, for instance after being hidden and shown.
-- The upload field is shown in the app's locale, loading the matching Uppy locale pack on demand.
+- The upload field is shown in the app's locale, with the matching Uppy locale pack.

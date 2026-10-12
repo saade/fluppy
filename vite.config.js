@@ -39,9 +39,10 @@ function uppyStyles() {
     }
 }
 
-// The output mirrors where Filament publishes assets (Alpine components in
-// `components/`, scripts one level up) so relative imports between a
-// component and the chunks it loads on demand still resolve once published.
+// One file, as Filament's own components are: what the field loads on demand
+// is built into it. Chunks would each be published into the application's
+// `public` folder under a name with a hash in it, and the ones an upgrade
+// replaces would be left there.
 export default defineConfig({
     plugins: [uppyStyles()],
     define: {
@@ -59,7 +60,7 @@ export default defineConfig({
         rollupOptions: {
             output: {
                 entryFileNames: 'components/fluppy.js',
-                chunkFileNames: 'fluppy-[name]-[hash].js',
+                inlineDynamicImports: true,
             },
         },
     },

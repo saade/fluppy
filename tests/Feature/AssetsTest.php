@@ -1,7 +1,6 @@
 <?php
 
 use Filament\Support\Assets\AlpineComponent;
-use Filament\Support\Assets\Js;
 use Filament\Support\Facades\FilamentAsset;
 
 const ASSET_PACKAGE = 'saade/fluppy';
@@ -11,25 +10,17 @@ function fluppyComponentAsset(): AlpineComponent
     return collect(FilamentAsset::getAlpineComponents([ASSET_PACKAGE]))->sole();
 }
 
-it('registers the component and every file it can load', function () {
-    $scripts = collect(FilamentAsset::getScripts([ASSET_PACKAGE]))
-        ->map(fn (Js $asset): string => $asset->getId())
-        ->sort()
-        ->values()
-        ->all();
-
-    $built = collect(glob(realpath(__DIR__ . '/../../resources/dist') . '/*.js'))
-        ->map(fn (string $path): string => basename($path, '.js'))
-        ->sort()
-        ->values()
-        ->all();
-
+it('registers the component', function () {
     expect(fluppyComponentAsset()->getId())->toBe('fluppy')
-        ->and(file_exists(fluppyComponentAsset()->getPath()))->toBeTrue()
-        ->and($scripts)->toBe($built);
+        ->and(file_exists(fluppyComponentAsset()->getPath()))->toBeTrue();
 });
 
-it('does not put the on-demand files on every page', function () {
-    expect(collect(FilamentAsset::getScripts([ASSET_PACKAGE]))->every(fn (Js $asset): bool => $asset->isLoadedOnRequest()))
-        ->toBeTrue();
+it('is built as one file and publishes nothing else', function () {
+    $built = collect(new RecursiveIteratorIterator(new RecursiveDirectoryIterator(realpath(__DIR__ . '/../../resources/dist'), FilesystemIterator::SKIP_DOTS)))
+        ->map(fn (SplFileInfo $file): string => $file->getRealPath())
+        ->values()
+        ->all();
+
+    expect($built)->toBe([realpath(fluppyComponentAsset()->getPath())])
+        ->and(FilamentAsset::getScripts([ASSET_PACKAGE]))->toBeEmpty();
 });
