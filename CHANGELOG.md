@@ -2,6 +2,56 @@
 
 All notable changes to `fluppy` will be documented in this file.
 
+## v1.0.0 - 2026-10-12
+
+<p align="center">
+    <img src="https://raw.githubusercontent.com/saade/fluppy/1.x/art/cover.png" alt="Fluppy: the last upload field your Filament app will need" width="800" />
+</p>
+This is the first release of Fluppy 🎉
+
+Fluppy is [Uppy](https://uppy.io) as a Filament form field. It extends Filament's own `FileUpload`, so your validation rules, disks and options keep working the way you already know them. You change one word:
+
+```php
+use Saade\Fluppy\Forms\Components\FluppyField;
+
+FluppyField::make('attachments')
+    ->disk('public')
+    ->directory('attachments')
+    ->multiple()
+
+```
+### What you get
+
+- **Large files.** A file that is bigger than your server accepts in one request is uploaded in chunks, and can be paused, resumed and retried. If the tab is reloaded, selecting the same file again continues from where it stopped.
+- **Straight to S3.** With S3 as Livewire's temporary disk, large files go to the bucket as multipart uploads, with the same pause and resume.
+- **More places to get a file from.** The camera, the microphone, the screen, a URL, your application's own disks, Google Drive, Google Photos, Dropbox, OneDrive, Box, Zoom and Facebook. There's no Companion server to run: your Laravel app does the work.
+- **Still a Filament field.** It follows your panel's colors, dark mode and locale, and works in modals, slide-overs, repeaters, builders, relation managers and table actions. `imageEditor()`, `reorderable()`, `openable()` and `downloadable()` do what you'd expect, and there's a `SpatieMediaLibraryFluppyField` for the media library plugin.
+- **Two commands for the boring parts.** `php artisan fluppy:doctor` checks everything a large upload passes through (Livewire, PHP, your web server, the bucket's CORS rules), and `php artisan fluppy:prune` removes what unfinished uploads leave behind.
+
+### Installing
+
+Fluppy needs PHP 8.2 or later and Filament 4 or 5:
+
+```bash
+composer require saade/fluppy:"^1.0"
+
+```
+Its styles are compiled by your panel's custom theme, so add these lines to the theme's CSS file and rebuild your assets:
+
+```css
+@import '../../../../vendor/saade/fluppy/resources/css/fluppy.css';
+
+@source '../../../../vendor/saade/fluppy/resources/views/**/*.blade.php';
+
+```
+Everything else is in the [README](https://github.com/saade/fluppy#readme), including how to set up each source and what to check before allowing large uploads.
+
+### Fluppy Pro
+
+Fluppy is free and MIT licensed. [Fluppy Pro](https://github.com/saade/fluppy-pro) is a paid package that builds on it, with AI image generation, sources you write yourself as a class and a Blade view, and ready-made ones for AI image editing, stock photos, icons, GIFs, signatures, QR codes, maps, templates and text to speech.
+
+That's it. Try it, break it, and tell me what you find 💛
+
 ## 1.x
 
 ### Added
