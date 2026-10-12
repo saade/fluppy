@@ -15,14 +15,14 @@ Fluppy is an upload field for [Filament](https://filamentphp.com) forms, built o
 - Uploads from the camera, the microphone and the screen
 - Imports from a URL, your application's own disks, Google Drive, Google Photos, Dropbox, OneDrive, Box, Zoom and Facebook, without [Companion](https://uppy.io/docs/companion/)
 
-[Fluppy Pro](https://github.com/saade/fluppy-pro) is a paid package that builds on Fluppy. It adds:
+[Fluppy Pro](https://filamentphp.com/plugins/saade-fluppy-pro) is a paid package that builds on Fluppy. It adds:
 
 - AI image generation, using the Laravel AI SDK or your own generator
 - Custom sources, written as a class and a Blade view
 - Ready-made sources for AI image editing, stock photos, icons, GIFs, signatures, QR codes, maps, templates and text to speech
 
 <p align="center">
-    <a href="https://github.com/saade/fluppy-pro"><img src="art/pro.png" alt="Fluppy Pro: AI image generation, ready-made sources and your own" style="width: 100%; max-width: 800px; border-radius: 10px" /></a>
+    <a href="https://filamentphp.com/plugins/saade-fluppy-pro"><img src="art/pro.png" alt="Fluppy Pro: AI image generation, ready-made sources and your own" style="width: 100%; max-width: 800px; border-radius: 10px" /></a>
 </p>
 
 ## Version compatibility
@@ -685,7 +685,7 @@ There is one difference. The plugin's field reads each uploaded file into memory
 
 ## Fluppy Pro
 
-[Fluppy Pro](https://github.com/saade/fluppy-pro) is a paid package that builds on this one. It installs this package with it, and its field extends `FluppyField`, so everything in this documentation applies to it. What it adds is covered in [its own documentation](https://github.com/saade/fluppy-pro#readme).
+[Fluppy Pro](https://filamentphp.com/plugins/saade-fluppy-pro) is a paid package that builds on this one. It installs this package with it, and its field extends `FluppyField`, so everything in this documentation applies to it. What it adds is covered in [its own documentation](https://filamentphp.com/plugins/saade-fluppy-pro).
 
 ## Uploading large files
 
