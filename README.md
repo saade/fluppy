@@ -8,8 +8,6 @@
     <img src="art/cover.png" alt="Fluppy: the last upload field your Filament app will need" style="width: 100%; max-width: 800px; border-radius: 10px" />
 </p>
 
-<video src="https://github.com/user-attachments/assets/87e822ef-f47d-4a8d-87bd-9d55d988cb38" controls></video>
-
 Fluppy is an upload field for [Filament](https://filamentphp.com) forms, built on [Uppy](https://uppy.io). It extends Filament's own `FileUpload` field, so files are validated, stored and configured in the same way, and it adds:
 
 - Chunked uploads for large files, which can be paused, resumed and retried
