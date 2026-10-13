@@ -3,6 +3,7 @@
 [![Latest Version on Packagist](https://img.shields.io/packagist/v/saade/fluppy.svg?style=flat-square)](https://packagist.org/packages/saade/fluppy)
 [![Total Downloads](https://img.shields.io/packagist/dt/saade/fluppy.svg?style=flat-square)](https://packagist.org/packages/saade/fluppy)
 [![Tests](https://img.shields.io/github/actions/workflow/status/saade/fluppy/run-tests.yml?branch=1.x&label=tests&style=flat-square)](https://github.com/saade/fluppy/actions/workflows/run-tests.yml)
+[![Plumb score](https://plumbphp.dev/badges/saade/fluppy/composite.svg)](https://plumbphp.dev/saade/fluppy)
 
 <p align="center">
     <img src="art/cover.png" alt="Fluppy: the last upload field your Filament app will need" style="width: 100%; max-width: 800px; border-radius: 10px" />
