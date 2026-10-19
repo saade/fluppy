@@ -27,7 +27,7 @@
         "playwright": "^1.63.0",
         "preact": "^10.29.8",
         "prettier": "^3.9.9",
-        "vite": "^8.3.2"
+        "vite": "^8.3.4"
     },
     "overrides": {
         "postcss-selector-parser": "^7.1.6"
